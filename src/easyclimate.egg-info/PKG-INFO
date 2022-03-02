@@ -1,139 +1,23 @@
 Metadata-Version: 2.1
 Name: easyclimate
-Version: 0.0.2
-Summary: A small example package
-Home-page: https://github.com/pypa/sampleproject
-Author: Shen yulu
-Author-email: author@example.com
+Version: 0.0.1
+Summary: understand climate more easily
+Home-page: https://github.com/shenyulu/easyclimate
+Author: shenyulu
 License: UNKNOWN
-Project-URL: Bug Tracker, https://github.com/pypa/sampleproject/issues
+Project-URL: Bug Tracker, https://github.com/shenyulu/easyclimate/issues
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.7
+Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
+# Easy Climate
 
-# Make sure you have upgraded version of pip
-Windows
-```
-py -m pip install --upgrade pip
-```
+Understand climate more easily.# easyclimate
+"# easyclimate" 
+"# easyclimate" 
 
-Linux/MAC OS
-```
-python3 -m pip install --upgrade pip
-```
-
-## Create a project with the following structure
-```
-packaging_tutorial/
-├── LICENSE
-├── pyproject.toml
-├── README.md
-├── setup.cfg
-├── src/
-│   └── example_package/
-│       ├── __init__.py
-│       └── example.py
-└── tests/
-touch LICENSE
-touch pyproject.toml
-touch setup.cfg
-mkdir src/easyclimate
-touch src/easyclimate/__init__.py
-touch src/easyclimate/main.py
-mkdir tests
-```
-
-## pyproject.toml 
-
-This file tells tools like pip and build how to create your project
-
-```
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
-```
-build-system.requires gives a list of packages that are needed to build your package. Listing something here will only make it available during the build, not after it is installed.
-
-build-system.build-backend is the name of Python object that will be used to perform the build. If you were to use a different build system, such as flit or poetry, those would go here, and the configuration details would be completely different than the setuptools configuration described below.
-
-
-# Setup.cfg setup
-Using setup.cfg is a best practice, but you could have a dynamic setup file using setup.py
-
-```
-[metadata]
-name = example-pkg-YOUR-USERNAME-HERE
-version = 0.0.1
-author = Example Author
-author_email = author@example.com
-description = A small example package
-long_description = file: README.md
-long_description_content_type = text/markdown
-url = https://github.com/pypa/sampleproject
-project_urls =
-    Bug Tracker = https://github.com/pypa/sampleproject/issues
-classifiers =
-    Programming Language :: Python :: 3
-    License :: OSI Approved :: MIT License
-    Operating System :: OS Independent
-
-[options]
-package_dir =
-    = src
-packages = find:
-python_requires = >=3.6
-
-[options.packages.find]
-where = src
-
-```
-# Running the build
-### Make sure your build tool is up to date
-Windows
-```
-py -m pip install --upgrade build
-```
-Linux/MAC OS
-```
-python3 -m pip install --upgrade build
-```
-
-
-### Create the build
-```
-py -m build
-```
-
-
-### Uploading the distribution archives
-
-```
-py -m pip install --upgrade twine
-```
-
-```
-py -m twine upload --repository testpypi dist/*
-py -m twine upload --repository pypi dist/*
-```
-
-
-### 升级
-需重新build
-```
-py -m build
-```
-
-
-
-
-### References
-https://packaging.python.org/tutorials/packaging-projects/
 

@@ -3,8 +3,10 @@ README.md
 pyproject.toml
 setup.cfg
 src/easyclimate/__init__.py
-src/easyclimate/main.py
 src/easyclimate.egg-info/PKG-INFO
 src/easyclimate.egg-info/SOURCES.txt
 src/easyclimate.egg-info/dependency_links.txt
+src/easyclimate.egg-info/requires.txt
 src/easyclimate.egg-info/top_level.txt
+src/easyclimate/core/__init__.py
+src/easyclimate/core/stat.py
