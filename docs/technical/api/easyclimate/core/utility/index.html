@@ -1,0 +1,891 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>easyclimate.core.utility &#8212; Easy climate v2023.03.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/tabs.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/core/utility/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery/plot_1_geographic_finite_difference.html">Geographic finite difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/time_conversion.html">Time conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/climate_variability_analysis.html">Climate variability analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/regression_analysis.html">Regression analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/temporal_decomposition.html">Temporal decomposition</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/geophysics_coordinates.html">Geophysics coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/significance_testing.html">Significance testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/taylor_diagram.html">Taylor diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/projections.html">Projections</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Indices:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/air_sea_interaction.html">Air-sea interaction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/monsoon.html">Monsoon</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/master/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api/index.html">List of functions and classes (API)</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.enso.html">easyclimate.index.enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.oceanic_front.html">easyclimate.index.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.pna.html">easyclimate.index.pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.interpolation.point2mesh.html">easyclimate.interpolation.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.mixlayer.html">easyclimate.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.stability.html">easyclimate.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.thermal.html">easyclimate.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.windspharm.top.html">easyclimate.windspharm.top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.windspharm.xarray.html">easyclimate.windspharm.xarray</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/core/utility/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/core/utility/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.core.utility</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.assert_compared_version"><code class="docutils literal notranslate"><span class="pre">assert_compared_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.find_dims_axis"><code class="docutils literal notranslate"><span class="pre">find_dims_axis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_int2datetime"><code class="docutils literal notranslate"><span class="pre">transfer_int2datetime()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_datetime2int"><code class="docutils literal notranslate"><span class="pre">transfer_datetime2int()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_deg2rad"><code class="docutils literal notranslate"><span class="pre">transfer_deg2rad()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_inf2nan"><code class="docutils literal notranslate"><span class="pre">transfer_inf2nan()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_monmean2everymonthmean"><code class="docutils literal notranslate"><span class="pre">transfer_monmean2everymonthmean()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_weighted_spatial_data"><code class="docutils literal notranslate"><span class="pre">get_weighted_spatial_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_compress_xarraydata"><code class="docutils literal notranslate"><span class="pre">get_compress_xarraydata()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_dFdp2dFdz"><code class="docutils literal notranslate"><span class="pre">transfer_dFdp2dFdz()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.sort_ascending_latlon_coordinates"><code class="docutils literal notranslate"><span class="pre">sort_ascending_latlon_coordinates()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_units_coeff"><code class="docutils literal notranslate"><span class="pre">transfer_units_coeff()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_data_units"><code class="docutils literal notranslate"><span class="pre">transfer_data_units()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_dataset_dispatcher"><code class="docutils literal notranslate"><span class="pre">generate_dataset_dispatcher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_datatree_dispatcher"><code class="docutils literal notranslate"><span class="pre">generate_datatree_dispatcher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.assert_compared_version">assert_compared_version</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.find_dims_axis">find_dims_axis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_int2datetime">transfer_int2datetime</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_datetime2int">transfer_datetime2int</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_deg2rad">transfer_deg2rad</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_inf2nan">transfer_inf2nan</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_monmean2everymonthmean">transfer_monmean2everymonthmean</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_weighted_spatial_data">get_weighted_spatial_data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_compress_xarraydata">get_compress_xarraydata</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_dFdp2dFdz">transfer_dFdp2dFdz</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.sort_ascending_latlon_coordinates">sort_ascending_latlon_coordinates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_units_coeff">transfer_units_coeff</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_data_units">transfer_data_units</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_dataset_dispatcher">generate_dataset_dispatcher</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_datatree_dispatcher">generate_datatree_dispatcher</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-easyclimate.core.utility">
+<span id="easyclimate-core-utility"></span><h1><a class="reference internal" href="#module-easyclimate.core.utility" title="easyclimate.core.utility"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate.core.utility</span></code></a><a class="headerlink" href="#module-easyclimate.core.utility" title="Permalink to this heading">#</a></h1>
+<p>Functions for package utility.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.assert_compared_version" title="easyclimate.core.utility.assert_compared_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_compared_version</span></code></a>(→ int)</p></td>
+<td><p>Compare python library versions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.find_dims_axis" title="easyclimate.core.utility.find_dims_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_dims_axis</span></code></a>(→ int)</p></td>
+<td><p>Find the index of <cite>dim</cite> in the xarray DataArray.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_int2datetime" title="easyclimate.core.utility.transfer_int2datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_int2datetime</span></code></a>(data)</p></td>
+<td><p>Convert a numpy array of years of type integer to <cite>np.datetime64</cite> type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_datetime2int" title="easyclimate.core.utility.transfer_datetime2int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_datetime2int</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Convert <cite>np.datetime64</cite> type with years and days to <cite>year</cite> and <cite>day</cite> coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_deg2rad" title="easyclimate.core.utility.transfer_deg2rad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_deg2rad</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Convert Degrees to Radians.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_inf2nan" title="easyclimate.core.utility.transfer_inf2nan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_inf2nan</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Convert <cite>np.inf</cite> in <cite>ds</cite> to <cite>np.nan</cite>, respectively.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_monmean2everymonthmean" title="easyclimate.core.utility.transfer_monmean2everymonthmean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_monmean2everymonthmean</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Convert to the month-mean state corresponding to each month.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.get_weighted_spatial_data" title="easyclimate.core.utility.get_weighted_spatial_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_weighted_spatial_data</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Get the area-weighting data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.get_compress_xarraydata" title="easyclimate.core.utility.get_compress_xarraydata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_compress_xarraydata</span></code></a>(→ xr.DataArray | xr.Dataset)</p></td>
+<td><p>Export compressible netCDF files from xarray data (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>, <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_dFdp2dFdz" title="easyclimate.core.utility.transfer_dFdp2dFdz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_dFdp2dFdz</span></code></a>(dFdp_data[, rho_d, g])</p></td>
+<td><p>The transformation relationship between the z coordinate system and the p coordinate system.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.sort_ascending_latlon_coordinates" title="easyclimate.core.utility.sort_ascending_latlon_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_ascending_latlon_coordinates</span></code></a>(data[, lat_dim, lon_dim])</p></td>
+<td><p>Sort the dimensions <cite>lat</cite>, <cite>lon</cite> in ascending order.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_units_coeff" title="easyclimate.core.utility.transfer_units_coeff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_units_coeff</span></code></a>(input_units, output_units)</p></td>
+<td><p>Unit conversion factor</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.transfer_data_units" title="easyclimate.core.utility.transfer_data_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_data_units</span></code></a>(input_data, input_units, output_units)</p></td>
+<td><p>Data unit conversion</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.utility.generate_dataset_dispatcher" title="easyclimate.core.utility.generate_dataset_dispatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_dataset_dispatcher</span></code></a>(func)</p></td>
+<td><p>Function Dispensers: Iterate over the variables in the <cite>xarray.Dataset</cite> data using a function that only supports <cite>xarray.DataArray</cite> data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.utility.generate_datatree_dispatcher" title="easyclimate.core.utility.generate_datatree_dispatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_datatree_dispatcher</span></code></a>(func)</p></td>
+<td><p>Function Dispensers: Iterate over the variables in the <cite>xarray.Dataset</cite> data using a function that only supports <cite>xarray.DataArray</cite> data</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.assert_compared_version">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">assert_compared_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ver1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ver2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.assert_compared_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Compare python library versions.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<ul class="simple">
+<li><p>Only for incoming version numbers without alphabetic characters.</p></li>
+<li><p>Based on this method, the version number comparison should result in the following <cite>“10.12.2.6.5”&gt;”10.12.2.6”</cite>.</p></li>
+</ul>
+</div>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>ver1: Version number 1</p></li>
+<li><p>ver2: Version number 2</p></li>
+</ul>
+</section>
+<section id="returns">
+<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h4>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <cite>ver1&lt;ver2</cite>, return <cite>-1</cite>; If <cite>ver1=ver2</cite>, return <cite>0</cite>; If <cite>ver1&gt;ver2</cite>, return <cite>1</cite>.</p>
+</div>
+</section>
+<section id="examples">
+<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">easyclimate</span> <span class="k">as</span> <span class="nn">ecl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">ecl</span><span class="o">.</span><span class="n">assert_compared_version</span><span class="p">(</span><span class="s2">&quot;10.12.2.6.5&quot;</span><span class="p">,</span> <span class="s2">&quot;10.12.2.6&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.find_dims_axis">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">find_dims_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.find_dims_axis" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the index of <cite>dim</cite> in the xarray DataArray.</p>
+<section id="id1">
+<h4>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><dl class="simple">
+<dt>data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> to be calculated.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>dim<span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></dt><dd><p>Dimension(s) over which to find axis.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id2">
+<h4>Returns<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_int2datetime">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_int2datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.transfer_int2datetime" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a numpy array of years of type integer to <cite>np.datetime64</cite> type.</p>
+<section id="id3">
+<h4>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> to be calculated.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id4">
+<h4>Examples<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">easyclimate</span> <span class="k">as</span> <span class="nn">ecl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">intyear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2054</span><span class="p">,</span> <span class="mi">2061</span><span class="p">,</span> <span class="mi">2062</span><span class="p">,</span> <span class="mi">2067</span><span class="p">,</span> <span class="mi">2071</span><span class="p">,</span> <span class="mi">2075</span><span class="p">,</span> <span class="mi">2076</span><span class="p">,</span> <span class="mi">2078</span><span class="p">,</span> <span class="mi">2085</span><span class="p">,</span> <span class="mi">2089</span><span class="p">,</span> <span class="mi">2096</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecl</span><span class="o">.</span><span class="n">transfer_int2datetime</span><span class="p">(</span><span class="n">intyear</span><span class="p">)</span>
+<span class="go">array([&#39;2054-01-01T00:00:00.000000000&#39;, &#39;2061-01-01T00:00:00.000000000&#39;,</span>
+<span class="go">       &#39;2062-01-01T00:00:00.000000000&#39;, &#39;2067-01-01T00:00:00.000000000&#39;,</span>
+<span class="go">       &#39;2071-01-01T00:00:00.000000000&#39;, &#39;2075-01-01T00:00:00.000000000&#39;,</span>
+<span class="go">       &#39;2076-01-01T00:00:00.000000000&#39;, &#39;2078-01-01T00:00:00.000000000&#39;,</span>
+<span class="go">       &#39;2085-01-01T00:00:00.000000000&#39;, &#39;2089-01-01T00:00:00.000000000&#39;,</span>
+<span class="go">       &#39;2096-01-01T00:00:00.000000000&#39;], dtype=&#39;datetime64[ns]&#39;)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://www.jianshu.com/p/d12d95fbc90c">Python(pandas)整数类型数据转换为时间类型</a>.</p>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_datetime2int">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_datetime2int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.transfer_datetime2int" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert <cite>np.datetime64</cite> type with years and days to <cite>year</cite> and <cite>day</cite> coordinates.</p>
+<section id="id5">
+<h4>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> to be calculated.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://github.com/pydata/xarray/discussions/5119">Function in xarray to regroup monthly data into months and # of years</a>.</p>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_deg2rad">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_deg2rad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.transfer_deg2rad" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert Degrees to Radians.</p>
+<section id="id6">
+<h4>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>ds: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Degrees data.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id7">
+<h4>Returns<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Radians data.: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_inf2nan">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_inf2nan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.transfer_inf2nan" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert <cite>np.inf</cite> in <cite>ds</cite> to <cite>np.nan</cite>, respectively.</p>
+<section id="id8">
+<h4>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>ds: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Data include <cite>np.inf</cite>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id9">
+<h4>Returns<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Data include <cite>np.nan</cite>.: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_monmean2everymonthmean">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_monmean2everymonthmean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'time'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.transfer_monmean2everymonthmean" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert to the month-mean state corresponding to each month.</p>
+<section id="id10">
+<h4>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>data_input: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> to be calculated.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.get_weighted_spatial_data">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">get_weighted_spatial_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cos_lat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.utility.get_weighted_spatial_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the area-weighting data.</p>
+<section id="id11">
+<h4>Parameters<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>data_input: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> to be calculated.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>lat_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</dt><dd><p>Latitude dimension over which to apply. By default is applied over the <cite>lat</cite> dimension.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>lon_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</dt><dd><p>Longitude dimension over which to apply. By default is applied over the <cite>lon</cite> dimension.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>method: {<cite>‘cos_lat’</cite>, <cite>‘area’</cite>}.</dt><dd><p>area-weighting methods.</p>
+<ol class="arabic simple">
+<li><p><cite>‘cos_lat’</cite>: weighting data by the cosine of latitude.</p></li>
+<li><p><cite>‘area’</cite>: weighting data by area, where you weight each data point by the area of each grid cell.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<ul class="simple">
+<li><p><cite>data_input</cite> must be <strong>regular lonlat grid</strong>.</p></li>
+<li><p>If you are calculating global average temperature just on land,
+then you need to mask out the ocean in your area dataset at first.</p></li>
+</ul>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://towardsdatascience.com/the-correct-way-to-average-the-globe-92ceecd172b7">The Correct Way to Average the Globe (Why area-weighting your data is important)</a>.</p></li>
+<li><p>Kevin Cowtan, Peter Jacobs, Peter Thorne, Richard Wilkinson,
+Statistical analysis of coverage error in simple global temperature estimators,
+Dynamics and Statistics of the Climate System, Volume 3, Issue 1, 2018, dzy003, <a class="reference external" href="https://doi.org/10.1093/climsys/dzy003">https://doi.org/10.1093/climsys/dzy003</a>.</p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.get_compress_xarraydata">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">get_compress_xarraydata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complevel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></span><a class="headerlink" href="#easyclimate.core.utility.get_compress_xarraydata" title="Permalink to this definition">#</a></dt>
+<dd><p>Export compressible netCDF files from xarray data (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>, <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.8.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_dFdp2dFdz">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_dFdp2dFdz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dFdp_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho_d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1292.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.transfer_dFdp2dFdz" title="Permalink to this definition">#</a></dt>
+<dd><p>The transformation relationship between the z coordinate system and the p coordinate system.</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}\]</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.sort_ascending_latlon_coordinates">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">sort_ascending_latlon_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.sort_ascending_latlon_coordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort the dimensions <cite>lat</cite>, <cite>lon</cite> in ascending order.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_units_coeff">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_units_coeff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.transfer_units_coeff" title="Permalink to this definition">#</a></dt>
+<dd><p>Unit conversion factor</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.transfer_data_units">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">transfer_data_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.transfer_data_units" title="Permalink to this definition">#</a></dt>
+<dd><p>Data unit conversion</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.generate_dataset_dispatcher">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">generate_dataset_dispatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.generate_dataset_dispatcher" title="Permalink to this definition">#</a></dt>
+<dd><p>Function Dispensers: Iterate over the variables in the <cite>xarray.Dataset</cite> data using a function that only supports <cite>xarray.DataArray</cite> data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.utility.generate_datatree_dispatcher">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.utility.</span></span><span class="sig-name descname"><span class="pre">generate_datatree_dispatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.utility.generate_datatree_dispatcher" title="Permalink to this definition">#</a></dt>
+<dd><p>Function Dispensers: Iterate over the variables in the <cite>xarray.Dataset</cite> data using a function that only supports <cite>xarray.DataArray</cite> data</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.assert_compared_version"><code class="docutils literal notranslate"><span class="pre">assert_compared_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.find_dims_axis"><code class="docutils literal notranslate"><span class="pre">find_dims_axis()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_int2datetime"><code class="docutils literal notranslate"><span class="pre">transfer_int2datetime()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_datetime2int"><code class="docutils literal notranslate"><span class="pre">transfer_datetime2int()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_deg2rad"><code class="docutils literal notranslate"><span class="pre">transfer_deg2rad()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_inf2nan"><code class="docutils literal notranslate"><span class="pre">transfer_inf2nan()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_monmean2everymonthmean"><code class="docutils literal notranslate"><span class="pre">transfer_monmean2everymonthmean()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_weighted_spatial_data"><code class="docutils literal notranslate"><span class="pre">get_weighted_spatial_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_compress_xarraydata"><code class="docutils literal notranslate"><span class="pre">get_compress_xarraydata()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_dFdp2dFdz"><code class="docutils literal notranslate"><span class="pre">transfer_dFdp2dFdz()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.sort_ascending_latlon_coordinates"><code class="docutils literal notranslate"><span class="pre">sort_ascending_latlon_coordinates()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_units_coeff"><code class="docutils literal notranslate"><span class="pre">transfer_units_coeff()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_data_units"><code class="docutils literal notranslate"><span class="pre">transfer_data_units()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_dataset_dispatcher"><code class="docutils literal notranslate"><span class="pre">generate_dataset_dispatcher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_datatree_dispatcher"><code class="docutils literal notranslate"><span class="pre">generate_datatree_dispatcher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.assert_compared_version">assert_compared_version</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.find_dims_axis">find_dims_axis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_int2datetime">transfer_int2datetime</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_datetime2int">transfer_datetime2int</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_deg2rad">transfer_deg2rad</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_inf2nan">transfer_inf2nan</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_monmean2everymonthmean">transfer_monmean2everymonthmean</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_weighted_spatial_data">get_weighted_spatial_data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.get_compress_xarraydata">get_compress_xarraydata</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_dFdp2dFdz">transfer_dFdp2dFdz</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.sort_ascending_latlon_coordinates">sort_ascending_latlon_coordinates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_units_coeff">transfer_units_coeff</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.transfer_data_units">transfer_data_units</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_dataset_dispatcher">generate_dataset_dispatcher</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.utility.generate_datatree_dispatcher">generate_datatree_dispatcher</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Shen yulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

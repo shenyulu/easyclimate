@@ -1,0 +1,1128 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>easyclimate.windspharm.xarray &#8212; Easy climate v2023.03.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/tabs.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/windspharm/xarray/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery/plot_1_geographic_finite_difference.html">Geographic finite difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/time_conversion.html">Time conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/climate_variability_analysis.html">Climate variability analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/regression_analysis.html">Regression analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/temporal_decomposition.html">Temporal decomposition</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/geophysics_coordinates.html">Geophysics coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/significance_testing.html">Significance testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/taylor_diagram.html">Taylor diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/projections.html">Projections</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Indices:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/air_sea_interaction.html">Air-sea interaction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/monsoon.html">Monsoon</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/master/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api/index.html">List of functions and classes (API)</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.enso.html">easyclimate.index.enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.oceanic_front.html">easyclimate.index.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.pna.html">easyclimate.index.pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.interpolation.point2mesh.html">easyclimate.interpolation.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.mixlayer.html">easyclimate.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.stability.html">easyclimate.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.thermal.html">easyclimate.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.windspharm.top.html">easyclimate.windspharm.top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.windspharm.xarray.html">easyclimate.windspharm.xarray</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/windspharm/xarray/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/windspharm/xarray/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.windspharm.xarray</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind"><code class="docutils literal notranslate"><span class="pre">VectorWind</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind._metadata"><code class="docutils literal notranslate"><span class="pre">VectorWind._metadata()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.u"><code class="docutils literal notranslate"><span class="pre">VectorWind.u()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.v"><code class="docutils literal notranslate"><span class="pre">VectorWind.v()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.magnitude"><code class="docutils literal notranslate"><span class="pre">VectorWind.magnitude()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vrtdiv"><code class="docutils literal notranslate"><span class="pre">VectorWind.vrtdiv()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vorticity"><code class="docutils literal notranslate"><span class="pre">VectorWind.vorticity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.divergence"><code class="docutils literal notranslate"><span class="pre">VectorWind.divergence()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.planetaryvorticity"><code class="docutils literal notranslate"><span class="pre">VectorWind.planetaryvorticity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.absolutevorticity"><code class="docutils literal notranslate"><span class="pre">VectorWind.absolutevorticity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.sfvp"><code class="docutils literal notranslate"><span class="pre">VectorWind.sfvp()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.streamfunction"><code class="docutils literal notranslate"><span class="pre">VectorWind.streamfunction()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.velocitypotential"><code class="docutils literal notranslate"><span class="pre">VectorWind.velocitypotential()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.helmholtz"><code class="docutils literal notranslate"><span class="pre">VectorWind.helmholtz()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.irrotationalcomponent"><code class="docutils literal notranslate"><span class="pre">VectorWind.irrotationalcomponent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.nondivergentcomponent"><code class="docutils literal notranslate"><span class="pre">VectorWind.nondivergentcomponent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.gradient"><code class="docutils literal notranslate"><span class="pre">VectorWind.gradient()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.truncate"><code class="docutils literal notranslate"><span class="pre">VectorWind.truncate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._reverse"><code class="docutils literal notranslate"><span class="pre">_reverse()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_coord_and_dim"><code class="docutils literal notranslate"><span class="pre">_find_coord_and_dim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_latitude_coordinate"><code class="docutils literal notranslate"><span class="pre">_find_latitude_coordinate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_longitude_coordinate"><code class="docutils literal notranslate"><span class="pre">_find_longitude_coordinate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind">VectorWind</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind._metadata">_metadata</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.u">u</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.v">v</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.magnitude">magnitude</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vrtdiv">vrtdiv</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vorticity">vorticity</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.divergence">divergence</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.planetaryvorticity">planetaryvorticity</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.absolutevorticity">absolutevorticity</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.sfvp">sfvp</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.streamfunction">streamfunction</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.velocitypotential">velocitypotential</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.helmholtz">helmholtz</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.irrotationalcomponent">irrotationalcomponent</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.nondivergentcomponent">nondivergentcomponent</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.gradient">gradient</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.truncate">truncate</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._reverse">_reverse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_coord_and_dim">_find_coord_and_dim</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_latitude_coordinate">_find_latitude_coordinate</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_longitude_coordinate">_find_longitude_coordinate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-easyclimate.windspharm.xarray">
+<span id="easyclimate-windspharm-xarray"></span><h1><a class="reference internal" href="#module-easyclimate.windspharm.xarray" title="easyclimate.windspharm.xarray"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate.windspharm.xarray</span></code></a><a class="headerlink" href="#module-easyclimate.windspharm.xarray" title="Permalink to this heading">#</a></h1>
+<p>Spherical harmonic vector wind computations (<cite>xarray</cite> interface).</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.xarray.VectorWind" title="easyclimate.windspharm.xarray.VectorWind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VectorWind</span></code></a></p></td>
+<td><p>Vector wind computations (<cite>xarray</cite> interface).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.xarray._reverse" title="easyclimate.windspharm.xarray._reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_reverse</span></code></a>(array, dim)</p></td>
+<td><p>Reverse an <cite>xarray.DataArray</cite> along a given dimension.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.windspharm.xarray._find_coord_and_dim" title="easyclimate.windspharm.xarray._find_coord_and_dim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_find_coord_and_dim</span></code></a>(array, predicate, name)</p></td>
+<td><p>Find a dimension coordinate in an <cite>xarray.DataArray</cite> that satisfies</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.xarray._find_latitude_coordinate" title="easyclimate.windspharm.xarray._find_latitude_coordinate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_find_latitude_coordinate</span></code></a>(array)</p></td>
+<td><p>Find a latitude dimension coordinate in an <cite>xarray.DataArray</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.windspharm.xarray._find_longitude_coordinate" title="easyclimate.windspharm.xarray._find_longitude_coordinate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_find_longitude_coordinate</span></code></a>(array)</p></td>
+<td><p>Find a longitude dimension coordinate in an <cite>xarray.DataArray</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.xarray.</span></span><span class="sig-name descname"><span class="pre">VectorWind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsphere</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6371200.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legfunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'stored'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Vector wind computations (<cite>xarray</cite> interface).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind._metadata">
+<span class="sig-name descname"><span class="pre">_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">attributes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind._metadata" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.u">
+<span class="sig-name descname"><span class="pre">u</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.u" title="Permalink to this definition">#</a></dt>
+<dd><p>Zonal component of vector wind.</p>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>u</em></dt><dd><p>The zonal component of the wind.</p>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<p>Get the zonal component of the vector wind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">u</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.v">
+<span class="sig-name descname"><span class="pre">v</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.v" title="Permalink to this definition">#</a></dt>
+<dd><p>Meridional component of vector wind.</p>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>v</em></dt><dd><p>The meridional component of the wind.</p>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<p>Get the meridional component of the vector wind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">v</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.magnitude">
+<span class="sig-name descname"><span class="pre">magnitude</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.magnitude" title="Permalink to this definition">#</a></dt>
+<dd><p>Wind speed (magnitude of vector wind).</p>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>speed</em></dt><dd><p>The wind speed.</p>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<p>Get the magnitude of the vector wind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spd</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.vrtdiv">
+<span class="sig-name descname"><span class="pre">vrtdiv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.vrtdiv" title="Permalink to this definition">#</a></dt>
+<dd><p>Relative vorticity and horizontal divergence.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>vrt</em>, <em>div</em></dt><dd><p>The relative vorticity and divergence respectively.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.vorticity</cite>, <cite>~VectorWind.divergence</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute the relative vorticity and divergence:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrt</span><span class="p">,</span> <span class="n">div</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">vrtdiv</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute the relative vorticity and divergence and apply spectral
+truncation at triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrtT13</span><span class="p">,</span> <span class="n">divT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">vrtdiv</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.vorticity">
+<span class="sig-name descname"><span class="pre">vorticity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.vorticity" title="Permalink to this definition">#</a></dt>
+<dd><p>Relative vorticity.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>vrt</em></dt><dd><p>The relative vorticity.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.vrtdiv</cite>, <cite>~VectorWind.absolutevorticity</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute the relative vorticity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">vorticity</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute the relative vorticity and apply spectral truncation at
+triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrtT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">vorticity</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.divergence">
+<span class="sig-name descname"><span class="pre">divergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.divergence" title="Permalink to this definition">#</a></dt>
+<dd><p>Horizontal divergence.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>div</em></dt><dd><p>The divergence.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.vrtdiv</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute the divergence:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">div</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">divergence</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute the divergence and apply spectral truncation at
+triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">divT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.planetaryvorticity">
+<span class="sig-name descname"><span class="pre">planetaryvorticity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.planetaryvorticity" title="Permalink to this definition">#</a></dt>
+<dd><p>Planetary vorticity (Coriolis parameter).</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>omega</em></dt><dd><p>Earth’s angular velocity. The default value if not specified
+is 7.292x10**-5 s**-1.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>pvorticity</em></dt><dd><p>The planetary vorticity.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.absolutevorticity</cite>.</p>
+<p><strong>Example:</strong></p>
+<p>Compute planetary vorticity using default values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pvrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">planetaryvorticity</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Override the default value for Earth’s angular velocity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pvrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">planetaryvorticity</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mf">7.2921150</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.absolutevorticity">
+<span class="sig-name descname"><span class="pre">absolutevorticity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.absolutevorticity" title="Permalink to this definition">#</a></dt>
+<dd><p>Absolute vorticity (sum of relative and planetary vorticity).</p>
+<p><strong>Optional arguments:</strong></p>
+<dl class="simple">
+<dt><em>omega</em></dt><dd><p>Earth’s angular velocity. The default value if not specified
+is 7.292x10**-5 s**-1.</p>
+</dd>
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>avorticity</em></dt><dd><p>The absolute (relative + planetary) vorticity.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.vorticity</cite>, <cite>~VectorWind.planetaryvorticity</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute absolute vorticity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">avrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">absolutevorticity</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute absolute vorticity and apply spectral truncation at
+triangular T13, also override the default value for Earth’s
+angular velocity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">avrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">absolutevorticity</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="mf">7.2921150</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.sfvp">
+<span class="sig-name descname"><span class="pre">sfvp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.sfvp" title="Permalink to this definition">#</a></dt>
+<dd><p>Streamfunction and velocity potential.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>sf</em>, <em>vp</em></dt><dd><p>The streamfunction and velocity potential respectively.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.streamfunction</cite>, <cite>~VectorWind.velocitypotential</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute streamfunction and velocity potential:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span><span class="p">,</span> <span class="n">vp</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sfvp</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute streamfunction and velocity potential and apply spectral
+truncation at triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sfT13</span><span class="p">,</span> <span class="n">vpT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sfvp</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.streamfunction">
+<span class="sig-name descname"><span class="pre">streamfunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.streamfunction" title="Permalink to this definition">#</a></dt>
+<dd><p>Streamfunction.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>sf</em></dt><dd><p>The streamfunction.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.sfvp</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute streamfunction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">streamfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute streamfunction and apply spectral truncation at
+triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sfT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">streamfunction</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.velocitypotential">
+<span class="sig-name descname"><span class="pre">velocitypotential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.velocitypotential" title="Permalink to this definition">#</a></dt>
+<dd><p>Velocity potential.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>vp</em></dt><dd><p>The velocity potential.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.sfvp</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute velocity potential:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vp</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">velocity</span> <span class="n">potential</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute velocity potential and apply spectral truncation at
+triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vpT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">velocity</span> <span class="n">potential</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.helmholtz">
+<span class="sig-name descname"><span class="pre">helmholtz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.helmholtz" title="Permalink to this definition">#</a></dt>
+<dd><p>Irrotational and non-divergent components of the vector wind.</p>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>uchi</em>, <em>vchi</em>, <em>upsi</em>, <em>vpsi</em></dt><dd><p>Zonal and meridional components of irrotational and
+non-divergent wind components respectively.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.irrotationalcomponent</cite>,
+<cite>~VectorWind.nondivergentcomponent</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute the irrotational and non-divergent components of the
+vector wind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uchi</span><span class="p">,</span> <span class="n">vchi</span><span class="p">,</span> <span class="n">upsi</span><span class="p">,</span> <span class="n">vpsi</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">helmholtz</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute the irrotational and non-divergent components of the
+vector wind and apply spectral truncation at triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uchiT13</span><span class="p">,</span> <span class="n">vchiT13</span><span class="p">,</span> <span class="n">upsiT13</span><span class="p">,</span> <span class="n">vpsiT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">helmholtz</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.irrotationalcomponent">
+<span class="sig-name descname"><span class="pre">irrotationalcomponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.irrotationalcomponent" title="Permalink to this definition">#</a></dt>
+<dd><p>Irrotational (divergent) component of the vector wind.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If both the irrotational and non-divergent components are
+required then <cite>~VectorWind.helmholtz</cite> should be used instead.</p>
+</div>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>uchi</em>, <em>vchi</em></dt><dd><p>The zonal and meridional components of the irrotational wind
+respectively.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.helmholtz</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute the irrotational component of the vector wind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uchi</span><span class="p">,</span> <span class="n">vchi</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">irrotationalcomponent</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute the irrotational component of the vector wind and apply
+spectral truncation at triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uchiT13</span><span class="p">,</span> <span class="n">vchiT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">irrotationalcomponent</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.nondivergentcomponent">
+<span class="sig-name descname"><span class="pre">nondivergentcomponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.nondivergentcomponent" title="Permalink to this definition">#</a></dt>
+<dd><p>Non-divergent (rotational) component of the vector wind.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If both the non-divergent and irrotational components are
+required then <cite>~VectorWind.helmholtz</cite> should be used instead.</p>
+</div>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>upsi</em>, <em>vpsi</em></dt><dd><p>The zonal and meridional components of the non-divergent
+wind respectively.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>~VectorWind.helmholtz</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Compute the non-divergent component of the vector wind:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">upsi</span><span class="p">,</span> <span class="n">vpsi</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">nondivergentcomponent</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compute the non-divergent component of the vector wind and apply
+spectral truncation at triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">upsiT13</span><span class="p">,</span> <span class="n">vpsiT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">nondivergentcomponent</span><span class="p">(</span><span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.gradient">
+<span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.gradient" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes the vector gradient of a scalar field on the sphere.</p>
+<p><strong>Argument:</strong></p>
+<dl class="simple">
+<dt><em>chi</em></dt><dd><p>A scalar field. It must be a <cite>~xarray.DataArray</cite> with the
+same latitude and longitude dimensions as the vector wind
+components that initialized the <cite>VectorWind</cite> instance.</p>
+</dd>
+</dl>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>uchi</em>, <em>vchi</em></dt><dd><p>The zonal and meridional components of the vector gradient
+respectively.</p>
+</dd>
+</dl>
+<p><strong>Examples:</strong></p>
+<p>Compute the vector gradient of absolute vorticity:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">avrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">absolutevorticity</span><span class="p">()</span>
+<span class="n">avrt_zonal</span><span class="p">,</span> <span class="n">avrt_meridional</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">avrt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compute the vector gradient of absolute vorticity and apply
+spectral truncation at triangular T13:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">avrt</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">absolutevorticity</span><span class="p">()</span>
+<span class="n">avrt_zonalT13</span><span class="p">,</span> <span class="n">avrt_meridionalT13</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">avrt</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray.VectorWind.truncate">
+<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray.VectorWind.truncate" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply spectral truncation to a scalar field.</p>
+<p>This is useful to represent other fields in a way consistent
+with the output of other <cite>VectorWind</cite> methods.</p>
+<p><strong>Argument:</strong></p>
+<dl class="simple">
+<dt><em>field</em></dt><dd><p>A scalar field. It must be a <cite>~xarray.DataArray</cite> with the
+same latitude and longitude dimensions as the vector wind
+components that initialized the <cite>VectorWind</cite> instance.</p>
+</dd>
+</dl>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>truncation</em></dt><dd><p>Truncation limit (triangular truncation) for the spherical
+harmonic computation. If not specified it will default to
+<em>nlats - 1</em> where <em>nlats</em> is the number of latitudes.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>truncated_field</em></dt><dd><p>The field with spectral truncation applied.</p>
+</dd>
+</dl>
+<p><strong>Examples:</strong></p>
+<p>Truncate a scalar field to the computational resolution of the
+<cite>VectorWind</cite> instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scalar_field_truncated</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="n">scalar_field</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Truncate a scalar field to T21:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scalar_field_T21</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="n">scalar_field</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray._reverse">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.xarray.</span></span><span class="sig-name descname"><span class="pre">_reverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray._reverse" title="Permalink to this definition">#</a></dt>
+<dd><p>Reverse an <cite>xarray.DataArray</cite> along a given dimension.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray._find_coord_and_dim">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.xarray.</span></span><span class="sig-name descname"><span class="pre">_find_coord_and_dim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray._find_coord_and_dim" title="Permalink to this definition">#</a></dt>
+<dd><p>Find a dimension coordinate in an <cite>xarray.DataArray</cite> that satisfies
+a predicate function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray._find_latitude_coordinate">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.xarray.</span></span><span class="sig-name descname"><span class="pre">_find_latitude_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray._find_latitude_coordinate" title="Permalink to this definition">#</a></dt>
+<dd><p>Find a latitude dimension coordinate in an <cite>xarray.DataArray</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.xarray._find_longitude_coordinate">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.xarray.</span></span><span class="sig-name descname"><span class="pre">_find_longitude_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.xarray._find_longitude_coordinate" title="Permalink to this definition">#</a></dt>
+<dd><p>Find a longitude dimension coordinate in an <cite>xarray.DataArray</cite>.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind"><code class="docutils literal notranslate"><span class="pre">VectorWind</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind._metadata"><code class="docutils literal notranslate"><span class="pre">VectorWind._metadata()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.u"><code class="docutils literal notranslate"><span class="pre">VectorWind.u()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.v"><code class="docutils literal notranslate"><span class="pre">VectorWind.v()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.magnitude"><code class="docutils literal notranslate"><span class="pre">VectorWind.magnitude()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vrtdiv"><code class="docutils literal notranslate"><span class="pre">VectorWind.vrtdiv()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vorticity"><code class="docutils literal notranslate"><span class="pre">VectorWind.vorticity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.divergence"><code class="docutils literal notranslate"><span class="pre">VectorWind.divergence()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.planetaryvorticity"><code class="docutils literal notranslate"><span class="pre">VectorWind.planetaryvorticity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.absolutevorticity"><code class="docutils literal notranslate"><span class="pre">VectorWind.absolutevorticity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.sfvp"><code class="docutils literal notranslate"><span class="pre">VectorWind.sfvp()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.streamfunction"><code class="docutils literal notranslate"><span class="pre">VectorWind.streamfunction()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.velocitypotential"><code class="docutils literal notranslate"><span class="pre">VectorWind.velocitypotential()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.helmholtz"><code class="docutils literal notranslate"><span class="pre">VectorWind.helmholtz()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.irrotationalcomponent"><code class="docutils literal notranslate"><span class="pre">VectorWind.irrotationalcomponent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.nondivergentcomponent"><code class="docutils literal notranslate"><span class="pre">VectorWind.nondivergentcomponent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.gradient"><code class="docutils literal notranslate"><span class="pre">VectorWind.gradient()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.truncate"><code class="docutils literal notranslate"><span class="pre">VectorWind.truncate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._reverse"><code class="docutils literal notranslate"><span class="pre">_reverse()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_coord_and_dim"><code class="docutils literal notranslate"><span class="pre">_find_coord_and_dim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_latitude_coordinate"><code class="docutils literal notranslate"><span class="pre">_find_latitude_coordinate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_longitude_coordinate"><code class="docutils literal notranslate"><span class="pre">_find_longitude_coordinate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind">VectorWind</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind._metadata">_metadata</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.u">u</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.v">v</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.magnitude">magnitude</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vrtdiv">vrtdiv</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.vorticity">vorticity</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.divergence">divergence</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.planetaryvorticity">planetaryvorticity</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.absolutevorticity">absolutevorticity</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.sfvp">sfvp</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.streamfunction">streamfunction</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.velocitypotential">velocitypotential</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.helmholtz">helmholtz</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.irrotationalcomponent">irrotationalcomponent</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.nondivergentcomponent">nondivergentcomponent</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.gradient">gradient</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray.VectorWind.truncate">truncate</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._reverse">_reverse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_coord_and_dim">_find_coord_and_dim</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_latitude_coordinate">_find_latitude_coordinate</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.xarray._find_longitude_coordinate">_find_longitude_coordinate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Shen yulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

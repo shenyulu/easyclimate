@@ -1,0 +1,1 @@
+xcopy .\build\html ..\docs /E /Y

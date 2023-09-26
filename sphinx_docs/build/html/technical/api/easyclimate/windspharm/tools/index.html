@@ -1,0 +1,794 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>easyclimate.windspharm.tools &#8212; Easy climate v2023.03.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/tabs.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/windspharm/tools/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery/plot_1_geographic_finite_difference.html">Geographic finite difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/time_conversion.html">Time conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/climate_variability_analysis.html">Climate variability analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/regression_analysis.html">Regression analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/temporal_decomposition.html">Temporal decomposition</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/geophysics_coordinates.html">Geophysics coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/significance_testing.html">Significance testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/taylor_diagram.html">Taylor diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/projections.html">Projections</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Indices:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/air_sea_interaction.html">Air-sea interaction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials_src/monsoon.html">Monsoon</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/master/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api/index.html">List of functions and classes (API)</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.enso.html">easyclimate.index.enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.oceanic_front.html">easyclimate.index.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.index.pna.html">easyclimate.index.pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.interpolation.point2mesh.html">easyclimate.interpolation.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.mixlayer.html">easyclimate.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.stability.html">easyclimate.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.ocean.thermal.html">easyclimate.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.windspharm.top.html">easyclimate.windspharm.top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api/generated/easyclimate.windspharm.xarray.html">easyclimate.windspharm.xarray</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/windspharm/tools/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/windspharm/tools/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.windspharm.tools</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__order_dims"><code class="docutils literal notranslate"><span class="pre">__order_dims()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__reshape"><code class="docutils literal notranslate"><span class="pre">__reshape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.prep_data"><code class="docutils literal notranslate"><span class="pre">prep_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.recover_data"><code class="docutils literal notranslate"><span class="pre">recover_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__recover_docstring_template"><code class="docutils literal notranslate"><span class="pre">__recover_docstring_template</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.get_recovery"><code class="docutils literal notranslate"><span class="pre">get_recovery()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.reverse_latdim"><code class="docutils literal notranslate"><span class="pre">reverse_latdim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.order_latdim"><code class="docutils literal notranslate"><span class="pre">order_latdim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__order_dims">__order_dims</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__reshape">__reshape</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.prep_data">prep_data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.recover_data">recover_data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__recover_docstring_template">__recover_docstring_template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.get_recovery">get_recovery</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.reverse_latdim">reverse_latdim</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.order_latdim">order_latdim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-easyclimate.windspharm.tools">
+<span id="easyclimate-windspharm-tools"></span><h1><a class="reference internal" href="#module-easyclimate.windspharm.tools" title="easyclimate.windspharm.tools"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate.windspharm.tools</span></code></a><a class="headerlink" href="#module-easyclimate.windspharm.tools" title="Permalink to this heading">#</a></h1>
+<p>Tools for managing data for use with <cite>~windspharm.standard.VectorWind</cite>
+(or indeed <cite>spharm.Spharmt</cite>).</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.__order_dims" title="easyclimate.windspharm.tools.__order_dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__order_dims</span></code></a>(d, inorder)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.__reshape" title="easyclimate.windspharm.tools.__reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__reshape</span></code></a>(d)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.prep_data" title="easyclimate.windspharm.tools.prep_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prep_data</span></code></a>(data, dimorder)</p></td>
+<td><p>Prepare data for input to <cite>~windspharm.standard.VectorWind</cite> (or to</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.recover_data" title="easyclimate.windspharm.tools.recover_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recover_data</span></code></a>(pdata, info)</p></td>
+<td><p>Recover the shape and dimension order of an array output from</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.get_recovery" title="easyclimate.windspharm.tools.get_recovery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_recovery</span></code></a>(info)</p></td>
+<td><p>Return a function that can be used to recover the shape and</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.reverse_latdim" title="easyclimate.windspharm.tools.reverse_latdim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse_latdim</span></code></a>(u, v[, axis])</p></td>
+<td><p>Reverse the order of the latitude dimension of zonal and meridional</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.order_latdim" title="easyclimate.windspharm.tools.order_latdim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order_latdim</span></code></a>(latdim, u, v[, axis])</p></td>
+<td><p>Ensure the latitude dimension is north-to-south.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.windspharm.tools.__recover_docstring_template" title="easyclimate.windspharm.tools.__recover_docstring_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__recover_docstring_template</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.__order_dims">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">__order_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inorder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.__order_dims" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.__reshape">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">__reshape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.__reshape" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.prep_data">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">prep_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimorder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.prep_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Prepare data for input to <cite>~windspharm.standard.VectorWind</cite> (or to
+<cite>spharm.Spharmt</cite> method calls).</p>
+<p>Returns a dictionary of intermediate information that can be passed
+to <cite>recover_data</cite> or <cite>get_recovery</cite> to recover the original shape
+and order of the data.</p>
+<p><strong>Arguments:</strong></p>
+<dl class="simple">
+<dt><em>data</em></dt><dd><p>Data array. The array must be at least 2D.</p>
+</dd>
+<dt><em>dimorder</em></dt><dd><p>String specifying the order of dimensions in the data array. The
+characters ‘x’ and ‘y’ represent longitude and latitude
+respectively. Any other characters can be used to represent
+other dimensions.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>pdata</em></dt><dd><p><em>data</em> reshaped/reordered to (latitude, longitude, other).</p>
+</dd>
+<dt><em>info</em></dt><dd><p>A dictionary of information required to recover <em>data</em>.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>recover_data</cite>, <cite>get_recovery</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Prepare an array with dimensions (12, 17, 73, 144) where the
+dimensions are (time, level, latitude, longitude):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pdata</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">prep_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;tzyx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Prepare an array with dimensions (144, 16, 73, 21) where the first
+dimension is longitude and the third dimension is latitude. The
+characters used to represent the other dimensions are arbitrary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pdata</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">prep_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;xayb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.recover_data">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">recover_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.recover_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Recover the shape and dimension order of an array output from
+<cite>~windspharm.standard.VectorWind</cite> methods (or from <cite>spharm.Spharmt</cite>
+methods).</p>
+<p>This function performs the opposite of <cite>prep_data</cite>.</p>
+<p>For recovering the shape of multiple variables, see <cite>get_recovery</cite>.</p>
+<p><strong>Arguments:</strong></p>
+<dl class="simple">
+<dt><em>pdata</em></dt><dd><p>Data array with either 2 or 3 dimensions. The first two
+dimensions are latitude and longitude respectively.</p>
+</dd>
+<dt><em>info</em></dt><dd><p>Information dictionary output from <cite>prep_data</cite>.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>data</em></dt><dd><p>The data reshaped/reordered.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>prep_data</cite>, <cite>get_recovery</cite>.</p>
+<p><strong>Example:</strong></p>
+<p>Recover the original input shape and dimension order of an array
+processed with <cite>prep_data</cite> or an output of
+<cite>~windspharm.standard.VectorWind</cite> or <cite>sparm.Spharmt</cite> method calls on
+such data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">recover_data</span><span class="p">(</span><span class="n">pdata</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.__recover_docstring_template">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">__recover_docstring_template</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Multiline-String</span></em><a class="headerlink" href="#easyclimate.windspharm.tools.__recover_docstring_template" title="Permalink to this definition">#</a></dt>
+<dd><blockquote>
+<div><details><summary>Show Value</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Shape/dimension recovery.</span>
+
+<span class="sd">Recovers variable shape/dimension according to:</span>
+
+<span class="sd">{!s}</span>
+
+<span class="sd">Returns a `list` of variables.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</details></div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.get_recovery">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">get_recovery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.get_recovery" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a function that can be used to recover the shape and
+dimension order of multiple arrays output from
+<cite>~windspharm.standard.VectorWind</cite> methods (or from <cite>spharm.Spharmt</cite>
+methods) according to a single dictionary of recovery information.</p>
+<p><strong>Argument:</strong></p>
+<dl class="simple">
+<dt><em>info</em></dt><dd><p>Information dictionary output from <cite>prep_data</cite>.</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>recover</em></dt><dd><p>A function used to recover arrays.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>recover_data</cite>, <cite>prep_data</cite>.</p>
+<p><strong>Example:</strong></p>
+<p>Generate a function to recover the original input shape and
+dimension order of arrays processed with <cite>prep_data</cite> and outputs of
+<cite>~windspharm.standard.VectorWind</cite> method calls on this data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">prep_data</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s1">&#39;tzyx&#39;</span><span class="p">)</span>
+<span class="n">v</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">prep_data</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;tzyx&#39;</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">VectorWind</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">sf</span><span class="p">,</span> <span class="n">vp</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sfvp</span><span class="p">()</span>
+<span class="n">recover</span> <span class="o">=</span> <span class="n">get_recovery</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">vp</span> <span class="o">=</span> <span class="n">recover</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">vp</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.reverse_latdim">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">reverse_latdim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.reverse_latdim" title="Permalink to this definition">#</a></dt>
+<dd><p>Reverse the order of the latitude dimension of zonal and meridional
+wind components.</p>
+<p><strong>Arguments:</strong></p>
+<dl class="simple">
+<dt><em>u</em>, <em>v</em></dt><dd><p>Zonal and meridional wind components respectively.</p>
+</dd>
+</dl>
+<p><strong>Optional argument:</strong></p>
+<dl class="simple">
+<dt><em>axis</em></dt><dd><p>Index of the latitude dimension. This dimension will be reversed
+in the input arrays. Defaults to 0 (the first dimension).</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>ur</em>, <em>vr</em></dt><dd><p>Zonal and meridional wind components with the latitude dimensions
+reversed. These are always copies of the input.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>order_latdim</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Reverse the dimension corresponding to latitude when it is the first
+dimension of the inputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">reverse_latdim</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Reverse the dimension corresponding to latitude when it is the third
+dimension of the inputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">reverse_latdim</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.windspharm.tools.order_latdim">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.windspharm.tools.</span></span><span class="sig-name descname"><span class="pre">order_latdim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latdim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.windspharm.tools.order_latdim" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure the latitude dimension is north-to-south.</p>
+<p>Returns copies of the latitude dimension and wind components
+with the latitude dimension going from north to south. If the
+latitude dimension is already in this order then the output will
+just be copies of the input.</p>
+<p><strong>Arguments:</strong></p>
+<dl class="simple">
+<dt><em>latdim</em></dt><dd><p>Array of latitude values.</p>
+</dd>
+<dt><em>u</em>, <em>v</em></dt><dd><p>Zonal and meridional wind components respectively.</p>
+</dd>
+</dl>
+<p><strong>Keyword argument:</strong></p>
+<dl class="simple">
+<dt><em>axis</em></dt><dd><p>Index of the latitude dimension in the zonal and meridional wind
+components. Defaults to 0 (the first dimension).</p>
+</dd>
+</dl>
+<p><strong>Returns:</strong></p>
+<dl class="simple">
+<dt><em>latdimr</em></dt><dd><p>Possibly reversed <em>latdim</em>, always a copy of <em>latdim</em>.</p>
+</dd>
+<dt><em>ur</em>, <em>vr</em></dt><dd><p>Possibly reversed <em>u</em> and <em>v</em> respectively. Always copies of <em>u</em>
+and <em>v</em> respectively.</p>
+</dd>
+</dl>
+<p><strong>See also:</strong></p>
+<p><cite>reverse_latdim</cite>.</p>
+<p><strong>Examples:</strong></p>
+<p>Order the latitude dimension when latitude is the first dimension of
+the wind components:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latdim</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">order_latdim</span><span class="p">(</span><span class="n">latdim</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Order the latitude dimension when latitude is the third dimension of
+the wind components:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">latdim</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">order_latdim</span><span class="p">(</span><span class="n">latdim</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__order_dims"><code class="docutils literal notranslate"><span class="pre">__order_dims()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__reshape"><code class="docutils literal notranslate"><span class="pre">__reshape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.prep_data"><code class="docutils literal notranslate"><span class="pre">prep_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.recover_data"><code class="docutils literal notranslate"><span class="pre">recover_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__recover_docstring_template"><code class="docutils literal notranslate"><span class="pre">__recover_docstring_template</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.get_recovery"><code class="docutils literal notranslate"><span class="pre">get_recovery()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.reverse_latdim"><code class="docutils literal notranslate"><span class="pre">reverse_latdim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.order_latdim"><code class="docutils literal notranslate"><span class="pre">order_latdim()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__order_dims">__order_dims</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__reshape">__reshape</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.prep_data">prep_data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.recover_data">recover_data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.__recover_docstring_template">__recover_docstring_template</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.get_recovery">get_recovery</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.reverse_latdim">reverse_latdim</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.windspharm.tools.order_latdim">order_latdim</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Shen yulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
