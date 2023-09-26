@@ -1,0 +1,462 @@
+"""
+Functions for package utility.
+"""
+from __future__ import annotations
+# from typing import Union
+from datatree import DataTree
+import numpy as np
+import xarray as xr
+import warnings
+
+def assert_compared_version(ver1: float, ver2: float) -> int:
+    """
+    Compare python library versions.
+
+    .. attention::
+        - Only for incoming version numbers without alphabetic characters.
+        - Based on this method, the version number comparison should result in the following `"10.12.2.6.5">"10.12.2.6"`.
+
+    Parameters
+    ----------
+    - ver1: Version number 1
+    - ver2: Version number 2
+
+    Returns
+    -------
+    :py:class:`int<python.int>`.
+
+    .. note::
+        If `ver1<ver2`, return `-1`; If `ver1=ver2`, return `0`; If `ver1>ver2`, return `1`.
+
+    Examples
+    --------
+
+    .. code:: python
+
+        >>> import easyclimate as ecl
+        >>> result = ecl.assert_compared_version("10.12.2.6.5", "10.12.2.6")
+        >>> print(result)
+        1
+    """
+    list1 = str(ver1).split(".")
+    list2 = str(ver2).split(".")
+    # print(list1)
+    # print(list2)
+    # `len` of a list with a short loop count.
+    for i in range(len(list1)) if len(list1) < len(list2) else range(len(list2)):
+        if int(list1[i]) == int(list2[i]):
+            pass
+        elif int(list1[i]) < int(list2[i]):
+            return -1
+        else:
+            return 1
+    # End of loop, which list is long which version number is high.
+    if len(list1) == len(list2):
+        return 0
+    elif len(list1) < len(list2):
+        return -1
+    else:
+        return 1
+    
+def find_dims_axis(data: xr.DataArray, dim: str) -> int:
+    '''
+    Find the index of `dim` in the xarray DataArray.
+
+    Parameters
+    ----------
+    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    - dim : :py:class:`str<python.str>`
+        Dimension(s) over which to find axis.
+    
+    Returns
+    -------
+    :py:class:`int<python.int>`.
+    '''
+    return data.dims.index(dim)
+
+def transfer_int2datetime(data):
+    """
+    Convert a numpy array of years of type integer to `np.datetime64` type.
+
+    Parameters
+    ----------
+    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+    Examples
+    --------
+    
+    .. code:: python
+
+        >>> import easyclimate as ecl
+        >>> import numpy as np
+        >>> intyear = np.array([2054, 2061, 2062, 2067, 2071, 2075, 2076, 2078, 2085, 2089, 2096])
+        >>> ecl.transfer_int2datetime(intyear)
+        array(['2054-01-01T00:00:00.000000000', '2061-01-01T00:00:00.000000000',
+               '2062-01-01T00:00:00.000000000', '2067-01-01T00:00:00.000000000',
+               '2071-01-01T00:00:00.000000000', '2075-01-01T00:00:00.000000000',
+               '2076-01-01T00:00:00.000000000', '2078-01-01T00:00:00.000000000',
+               '2085-01-01T00:00:00.000000000', '2089-01-01T00:00:00.000000000',
+               '2096-01-01T00:00:00.000000000'], dtype='datetime64[ns]')
+
+    .. seealso::
+        `Python(pandas)整数类型数据转换为时间类型 <https://www.jianshu.com/p/d12d95fbc90c>`__.
+    """
+    import pandas as pd
+    # xarray coordinate axis does not accept DatetimeIndex, so use `.to_numpy()` to convert it to numpy array.
+    return pd.to_datetime(data, format = "%Y").to_numpy()
+
+def transfer_datetime2int(ds: xr.DataArray) -> xr.DataArray:
+    """
+    Convert `np.datetime64` type with years and days to `year` and `day` coordinates.
+
+    Parameters
+    ----------
+    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+    .. seealso::
+        `Function in xarray to regroup monthly data into months and # of years <https://github.com/pydata/xarray/discussions/5119>`__.
+    """
+    year = ds.time.dt.year
+    month = ds.time.dt.month
+
+    # assign new coords
+    ds = ds.assign_coords(year=("time", year.data), month=("time", month.data))
+
+    # reshape the array to (..., "month", "year")
+    return ds.set_index(time=("year", "month")).unstack("time")
+
+def transfer_deg2rad(ds: xr.DataArray) -> xr.DataArray:
+    """
+    Convert Degrees to Radians.
+
+    Parameters
+    ----------
+    - ds: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Degrees data.
+
+    Returns
+    -------
+    - Radians data.: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    """
+    return ds *np.pi /180
+
+def transfer_inf2nan(ds: xr.DataArray) -> xr.DataArray:
+    """
+    Convert `np.inf` in `ds` to `np.nan`, respectively.
+
+    Parameters
+    ----------
+    - ds: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Data include `np.inf`.
+    
+    Returns
+    -------
+    - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    """
+    return ds.where(np.isfinite(ds), np.nan)
+
+def transfer_monmean2everymonthmean(data_input: xr.DataArray, time_dim: str = 'time') -> xr.DataArray:
+    """
+    Convert to the month-mean state corresponding to each month.
+
+    Parameters
+    ----------
+    - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.    
+    """
+    time_step_all = data_input[time_dim].shape[0]
+    month_int = data_input.time.dt.month
+    month_climate = data_input.groupby(time_dim + '.month').mean(dim = time_dim)
+    data_input_empty = xr.full_like(data_input, fill_value = np.nan)
+
+    for time_step in np.arange(0, time_step_all):
+        time_step_month = month_int.isel(time = time_step).data
+        data_input_empty[{time_dim: time_step}] = month_climate.sel(month = time_step_month)
+
+    return data_input_empty
+
+def get_weighted_spatial_data(data_input: xr.DataArray, lat_dim: str = 'lat', lon_dim: str = 'lon', method: str = 'cos_lat') -> xr.DataArray:
+    """
+    Get the area-weighting data.
+
+    Parameters
+    ----------
+    - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    - lat_dim: :py:class:`str<python.str>`.
+        Latitude dimension over which to apply. By default is applied over the `lat` dimension.
+    - lon_dim: :py:class:`str<python.str>`.
+        Longitude dimension over which to apply. By default is applied over the `lon` dimension.
+    - method: {`'cos_lat'`, `'area'`}.
+        area-weighting methods.
+
+        1. `'cos_lat'`: weighting data by the cosine of latitude.
+        2. `'area'`: weighting data by area, where you weight each data point by the area of each grid cell.
+
+    .. Caution:: 
+        - `data_input` must be **regular lonlat grid**.
+        - If you are calculating global average temperature just on land, 
+          then you need to mask out the ocean in your area dataset at first.
+
+    .. seealso::
+        - `The Correct Way to Average the Globe (Why area-weighting your data is important) <https://towardsdatascience.com/the-correct-way-to-average-the-globe-92ceecd172b7>`__.
+        - Kevin Cowtan, Peter Jacobs, Peter Thorne, Richard Wilkinson, 
+          Statistical analysis of coverage error in simple global temperature estimators, 
+          Dynamics and Statistics of the Climate System, Volume 3, Issue 1, 2018, dzy003, https://doi.org/10.1093/climsys/dzy003.
+    """
+    if method == 'cos_lat':
+        weights = np.cos(np.deg2rad(data_input[lat_dim]))
+        return data_input.weighted(weights)
+    elif method == 'area':
+        # Source: https://towardsdatascience.com/the-correct-way-to-average-the-globe-92ceecd172b7
+        # Author: Luke Gloege
+        def earth_radius(lat):
+            '''
+            # Source: https://gist.githubusercontent.com/lgloege/6377b0d418982d2ec1c19d17c251f90e/raw/4742b104a250bfd9114436f6ef7135fe76a8ab3f/earth_radius.py
+
+            calculate radius of Earth assuming oblate spheroid
+            defined by WGS84
+            
+            Input
+            ---------
+            lat: vector or latitudes in degrees  
+            
+            Output
+            ----------
+            r: vector of radius in meters
+            
+            Notes
+            -----------
+            WGS84: https://earth-info.nga.mil/GandG/publications/tr8350.2/tr8350.2-a/Chapter%203.pdf
+            '''
+            # define oblate spheroid from WGS84
+            a = 6378137
+            b = 6356752.3142
+            e2 = 1 - (b**2/a**2)
+            
+            # convert from geodecic to geocentric
+            # see equation 3-110 in WGS84
+            lat = np.deg2rad(lat)
+            lat_gc = np.arctan( (1-e2)*np.tan(lat) )
+
+            # radius equation
+            # see equation 3-107 in WGS84
+            r = ( (a * (1 - e2)**0.5)/ (1 - (e2 * np.cos(lat_gc)**2))**0.5)
+            return r
+        
+        def area_grid(lat, lon, lat_dim, lon_dim):
+            """
+            # Source: https://gist.githubusercontent.com/lgloege/6377b0d418982d2ec1c19d17c251f90e/raw/4742b104a250bfd9114436f6ef7135fe76a8ab3f/area_grid.py
+            
+            Calculate the area of each grid cell
+            Area is in square meters
+            
+            Input
+            -----------
+            lat: vector of latitude in degrees
+            lon: vector of longitude in degrees
+            
+            Output
+            -----------
+            area: grid-cell area in square-meters with dimensions, [lat,lon]
+            
+            Notes
+            -----------
+            Based on the function in
+            https://github.com/chadagreene/CDT/blob/master/cdt/cdtarea.m
+            """
+            xlon, ylat = np.meshgrid(lon, lat)
+            R = earth_radius(ylat)
+
+            dlat = np.deg2rad(np.gradient(ylat, axis=0))
+            dlon = np.deg2rad(np.gradient(xlon, axis=1))
+
+            dy = dlat * R
+            dx = dlon * R * np.cos(np.deg2rad(ylat))
+            area = dy * dx
+
+            xda = xr.DataArray(
+                area,
+                dims=[lat_dim, lon_dim],
+                coords={lat_dim: lat, lon_dim: lon},
+                attrs={
+                    "long_name": "area_per_pixel",
+                    "description": "area per pixel",
+                    "units": "m^2",
+                },
+            )
+            return xda
+        
+        # area dataArray
+        da_area = area_grid(data_input[lat_dim].data, data_input[lon_dim].data, lat_dim, lon_dim)
+        # total area
+        total_area = da_area.sum(dim = (lat_dim, lon_dim))
+        weights = da_area / total_area
+        return data_input.weighted(weights)
+
+def get_compress_xarraydata(data: xr.DataArray | xr.Dataset, complevel: int) -> xr.DataArray | xr.Dataset:
+    """
+    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
+    """
+    comp = dict(zlib = True, complevel = complevel)
+    if type(data) is xr.Dataset:
+        for var in data: 
+            data[var].encoding.update(comp)
+    if type(data) is xr.DataArray:
+        data.encoding.update(comp)
+    return data
+
+def transfer_dFdp2dFdz(dFdp_data, rho_d = 1.2928e3, g = 9.8):
+    """
+    
+    The transformation relationship between the z coordinate system and the p coordinate system.
+
+    .. math::
+        \\frac{\\partial F}{\\partial z} = \\frac{\\partial F}{\\partial p} \\frac{\\partial p}{\\partial z} = - \\rho g \\frac{\\partial F}{\\partial p}
+    """
+    return - rho_d *g *dFdp_data
+
+def sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon'):
+    """
+    Sort the dimensions `lat`, `lon` in ascending order.
+    """
+    return data.sortby([lat_dim, lon_dim], ascending = True)
+
+def transfer_units_coeff(input_units, output_units):
+    """
+    Unit conversion factor
+    """
+    from pint import UnitRegistry
+    ureg = UnitRegistry()
+
+    base_unitmul = ureg(input_units).to(output_units).to_tuple()
+    base = base_unitmul[0]
+    return base
+
+def transfer_data_units(input_data, input_units, output_units):
+    """
+    Data unit conversion
+    """
+    base = transfer_units_coeff(input_units, output_units)
+    output_data = input_data *base
+    output_data.attrs['units'] = output_units
+    return output_data
+
+def generate_dataset_dispatcher(func):
+    """
+    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+    """
+    def apply_to_dataset(data, func, *args, **kwargs):
+        # Apply the function to each variable in `xarray.Dataset`.
+        result = {}
+        for var_name, data_array in data.data_vars.items():
+            try:
+                result[var_name] = func(data_array, *args, **kwargs)
+            except Exception as e:
+                warnings.warn(f"Variable '{var_name}' cannot be processed with the provided function. Ignoring.")
+        return xr.Dataset(result)
+
+    def wrapper(data, *args, **kwargs):
+        # Type determination
+        if isinstance(data, xr.Dataset):
+            return apply_to_dataset(data, func, *args, **kwargs)
+        elif isinstance(data, xr.DataArray):
+            return func(data, *args, **kwargs)
+        else:
+            raise ValueError("Unsupported input type. Expected DataArray or Dataset.")
+    return wrapper
+
+def generate_datatree_dispatcher(func):
+    """
+    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+    """
+    
+    def apply_to_dataset(data, func, returns_type, *args, **kwargs):
+        # Apply the function to each variable in `xarray.Dataset`.
+        result = {}
+        for var_name, data_array in data.data_vars.items():
+            try:
+                result[var_name] = func(data_array, *args, **kwargs)
+            except Exception as e:
+                warnings.warn(f"Variable '{var_name}' cannot be processed with the provided function. Ignoring.")
+        
+        if returns_type == 'dataset_returns':
+            return sort_datatree_by_dataset_returns(result)
+        elif returns_type == 'dataset_vars':
+            return sort_datatree_by_dataset_vars(result)
+        raise ValueError("Unsupported input type. Expected 'dataset_returns' or 'dataset_vars'.")
+
+    def sort_datatree_by_dataset_returns(dataset_list):
+        """
+        The dictionary containing `xarray.Dataset` data is returned as a Datatree according to the returns.
+        """
+        def are_sets_equal(lists):
+            """
+            Check that multiple lists that do not depend on order are identical
+            """
+            if len(lists) < 2:
+                return True
+
+            first_list = lists[0]
+            for i in range(1, len(lists)):
+                if len(first_list) != len(lists[i]):
+                    return False
+                
+                if (set(first_list) == set(lists[i])) == False:
+                    return False
+                else:
+                    return True
+                    
+        # dataset var list
+        key_var_list = list(dataset_list.keys())
+
+        # dataset returns list
+        key_type_list = []
+        for type_out in list(dataset_list.keys()):
+            tmp = list(dataset_list[type_out].keys())
+            key_type_list.append(tmp)
+
+        # Checking dimensional consistency
+        if are_sets_equal(key_type_list) == False:
+            raise ValueError('Make sure that the Dataset for each key contains the exact same variables!')
+        
+        dt = DataTree(name="root")
+        for key_type, _ in dataset_list[key_var_list[0]].items():
+            # Get data for each returns about all `xarray.Dataset` variables
+            tmp = xr.Dataset()
+            for key_var, _ in dataset_list.items(): 
+                tmp[key_var] = dataset_list[key_var][key_type]
+            
+            # Add each returns to Datatree
+            dt[key_type] = DataTree(name = key_type, data = tmp)
+
+        return dt
+    
+    def sort_datatree_by_dataset_vars(dataset_list):
+        """
+        The dictionary containing `xarray.Dataset` data is returned as a Datatree according to the variable name.
+        """
+        # Create DataTree object
+        dt = DataTree(name="root")
+        # Add items to the object
+        for key, value in dataset_list.items():
+            dt[key] = DataTree(name = key, data = value)
+
+        return dt
+    
+    def wrapper(data, returns_type = 'dataset_returns', *args, **kwargs):
+        """
+        Closure core functions
+        """
+        # Type determination
+        if isinstance(data, xr.Dataset):
+            return apply_to_dataset(data, func, returns_type, *args, **kwargs)
+        elif isinstance(data, xr.DataArray):
+            return func(data, *args, **kwargs)
+        else:
+            raise ValueError("Unsupported input type. Expected DataArray or Dataset.")
+          
+    return wrapper
