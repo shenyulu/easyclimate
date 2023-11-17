@@ -3,16 +3,16 @@
 <h2 align="center">A line of code to analyze climate</h2>
 
 <p align="center">
-<a href="https://www.fatiando.org/verde"><strong>Documentation</strong> (latest)</a> •
-<a href="https://www.fatiando.org/verde/dev"><strong>Documentation</strong> (main branch)</a> •
-<a href="https://github.com/fatiando/verde/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a> •
+<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (latest)</a> •
+<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (main branch)</a> •
+<a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a> •
 <a href="https://www.fatiando.org/contact/"><strong>Contact</strong></a>
 </p>
 
 
 ## About
 
-**Easy Climate** is a Python..
+**Easy Climate** is a Python package, aiming to use a line of code to analyze climate.
 
 ## Project goals
 
@@ -22,18 +22,14 @@
 
 ## Getting involved
 
-🗨️ **Contact us:**
-Find out more about how to reach us at
-[fatiando.org/contact](https://www.fatiando.org/contact/).
-
 👩🏾‍💻 **Contributing to project development:**
 Please read our
-[Contributing Guide](https://github.com/fatiando/verde/blob/main/CONTRIBUTING.md)
+[Contributing Guide](https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md)
 to see how you can help and give feedback.
 
 🧑🏾‍🤝‍🧑🏼 **Code of conduct:**
 This project is released with a
-[Code of Conduct](https://github.com/fatiando/community/blob/main/CODE_OF_CONDUCT.md).
+[Code of Conduct](https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
 > **Imposter syndrome disclaimer:**
