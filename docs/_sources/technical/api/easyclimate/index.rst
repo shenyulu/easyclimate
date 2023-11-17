@@ -13,7 +13,7 @@ Subpackages
    core/index.rst
    filter/index.rst
    index/index.rst
-   interpolation/index.rst
+   interp/index.rst
    ocean/index.rst
    plot/index.rst
    windspharm/index.rst
@@ -36,6 +36,7 @@ Functions
 
 .. autoapisummary::
 
+   easyclimate.open_tutorial_dataset
    easyclimate.calc_gradient
    easyclimate.calc_p_gradient
    easyclimate.transfer_deg2rad
@@ -90,6 +91,8 @@ Functions
    easyclimate.get_specific_nanoseconds_data
    easyclimate.get_specific_dayofweek_data
    easyclimate.get_yearmean_for_specific_months_data
+   easyclimate.get_year_exceed_index_upper_bound
+   easyclimate.get_year_exceed_index_lower_bound
    easyclimate.calc_yearmean
    easyclimate.calc_yearsum
    easyclimate.calc_yearstd
@@ -103,6 +106,9 @@ Functions
    easyclimate.get_compress_xarraydata
    easyclimate.sort_ascending_latlon_coordinates
    easyclimate.generate_datatree_dispatcher
+   easyclimate.transfer_xarray_lon_from180TO360
+   easyclimate.transfer_xarray_lon_from360TO180
+   easyclimate.module_available
    easyclimate.open_muliti_dataset
    easyclimate.calc_linregress_spatial
    easyclimate.calc_detrend_data
@@ -129,9 +135,9 @@ Functions
    easyclimate.save_MCA_model
    easyclimate.load_MCA_model
    easyclimate.calc_index_NPWI
-   easyclimate.monsoon_onsetdate_cal
-   easyclimate.monsoon_detreatdate_cal
-   easyclimate.monsoonregion
+   easyclimate.find_PW_monsoon_region
+   easyclimate.cal_NPWI_monsoon_onset
+   easyclimate.cal_NPWI_monsoon_detreat
    easyclimate.get_weighted_spatial_data
    easyclimate.sort_ascending_latlon_coordinates
    easyclimate.calc_intensity_STFZ
@@ -140,14 +146,59 @@ Functions
    easyclimate.calc_location_SAFZ
    easyclimate.calc_location_line_STFZ
    easyclimate.calc_location_line_SAFZ
-   easyclimate.remove_seasonal_cycle_mean
-   easyclimate.calc_index_PNA
+   easyclimate.interp_point2mesh
+   easyclimate.interp_point2mesh_S2
    easyclimate.field_grids
    easyclimate.find_dims_axis
    easyclimate.calc_butter_bandpass
    easyclimate.calc_butter_lowpass
    easyclimate.calc_butter_highpass
 
+
+
+.. py:function:: open_tutorial_dataset(name: str, cache: bool = True, cache_dir: None | str | os.PathLike = None, *, engine: xarray.backends.api.T_Engine = None, **kws) -> xarray.Dataset
+
+   Open a dataset from the online repository (requires internet).
+
+   If a local copy is found then always use that to avoid network traffic.
+
+   Available datasets:
+
+   * ``"air_202201_mon_mean"``: 2m air temperature of the NCEP reanalysis subset
+   * ``"hgt_202201_mon_mean"``: Geopotential height of the NCEP reanalysis subset
+   * ``"precip_202201_mon_mean"``: Precipitation of the NCEP reanalysis subset
+   * ``"pressfc_202201_mon_mean"``: Mean sea surface pressure of the NCEP reanalysis subset
+   * ``"shum_202201_mon_mean"``: Absolute humidity of the NCEP reanalysis subset
+   * ``"uwnd_202201_mon_mean"``: Zonal wind of the NCEP reanalysis subset
+   * ``"vwnd_202201_mon_mean"``: Meridional wind of the NCEP reanalysis subset
+   * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
+
+
+   Parameters
+   ----------
+   name : str
+       Name of the file containing the dataset.
+       e.g. 'air_202201_mon_mean'
+   cache_dir : path-like, optional
+       The directory in which to search for and write cached data.
+   cache : bool, optional
+       If True, then cache data locally for use on subsequent calls
+   **kws : dict, optional
+       Passed to xarray.open_dataset
+
+   Returns
+   -------
+   :py:class:`xarray.Dataset<xarray.Dataset>`
+
+   Reference
+   --------------
+   - Kalnay et al.,The NCEP/NCAR 40-year reanalysis project, Bull. Amer. Meteor. Soc., 77, 437-470, 1996
+   - Rayner, N. A.; Parker, D. E.; Horton, E. B.; Folland, C. K.; Alexander, L. V.; Rowell, D. P.; Kent, E. C.; Kaplan, A. (2003) Global analyses of sea surface temperature, sea ice, and night marine air temperature since the late nineteenth century J. Geophys. Res.Vol. 108, No. D14, 4407 10.1029/2002JD002670  (pdf ~9Mb)
+
+   .. seealso::
+       - :py:func:`xarray.tutorial.load_dataset<xarray.tutorial.load_dataset>`
+       - :py:func:`xarray.open_dataset<xarray.open_dataset>`
+       - :py:func:`xarray.load_dataset<xarray.load_dataset>`
 
 
 .. py:function:: calc_gradient(data_input: xr.DataArray | xr.Dataset, dim: str, varargs=1, edge_order=2) -> xr.DataArray | xr.Dataset
@@ -222,7 +273,7 @@ Functions
    - Radians data.: :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
@@ -387,7 +438,7 @@ Functions
    - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -1097,7 +1148,7 @@ Functions
    The vertical temperature transport. (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -1629,6 +1680,42 @@ Functions
    :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
+.. py:function:: get_year_exceed_index_upper_bound(data_input: easyclimate.core.yearstat.xr.DataArray, thresh: float, time_dim: str = 'time') -> easyclimate.core.yearstat.np.array
+
+   Extract the years under the specified threshold (upper bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+       The one-dimensional data with only a `time` dimension.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   :py:class:`numpy.array <numpy:numpy.array>`.
+
+
+.. py:function:: get_year_exceed_index_lower_bound(data_input: easyclimate.core.yearstat.xr.DataArray, thresh: float, time_dim: str = 'time') -> easyclimate.core.yearstat.np.array
+
+   Extract the years under the specified threshold (lower bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+       The one-dimensional data with only a `time` dimension.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   :py:class:`numpy.array <numpy:numpy.array>`.
+
+
 .. py:function:: calc_yearmean(data_input, dim='time', **kwargs)
 
    Calculate yearly mean.
@@ -1878,7 +1965,7 @@ Functions
        1
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: transfer_int2datetime(data: numpy.array) -> numpy.datetime64
 
    Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -1935,7 +2022,7 @@ Functions
    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
@@ -1943,6 +2030,61 @@ Functions
 .. py:function:: generate_datatree_dispatcher(func)
 
    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+
+
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion -180-180 to 0-360.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+
+
+.. py:function:: transfer_xarray_lon_from360TO180(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion 0-360 to -180-180.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+
+
+.. py:function:: module_available(module: str) -> bool
+
+   Checks whether a module is installed without importing it.
+
+   Use this for a lightweight check and lazy imports.
+
+   Parameters
+   ----------
+   module : str
+       Name of the module.
+
+   Returns
+   -------
+   available : bool
+       Whether the module is installed.
 
 
 .. py:function:: open_muliti_dataset(files: str, dim: str, **kwargs) -> xarray.Dataset
@@ -1973,6 +2115,10 @@ Functions
        >>> result = assert_compared_version("10.12.2.6.5", "10.12.2.6")
        >>> print(result)
        1
+
+   .. todo::
+       - https://medium.com/pangeo/accessing-netcdf-and-grib-file-collections-as-cloud-native-virtual-datasets-using-kerchunk-625a2d0a9191
+       - https://github.com/fsspec/kerchunk/issues/240
 
 
 .. py:function:: calc_linregress_spatial(data_input, dim='time', x=None, alternative='two-sided', returns_type='dataset_returns', engine='scipy_linregress')
@@ -2054,7 +2200,7 @@ Functions
 
    Returns
    -------
-   - statistic, p: :py:class:`xarray.Dataset<xarray.Dataset>`.
+   - statistic, pvalue: :py:class:`xarray.Dataset<xarray.Dataset>`.
 
    .. seealso::
        :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.
@@ -2417,22 +2563,140 @@ Functions
        
 
 
-.. py:function:: calc_index_NPWI(precipitable_water_data)
+.. py:function:: calc_index_NPWI(precipitable_water_daily: xarray.DataArray, time_dim='time') -> xarray.DataArray
 
-   https://journals.ametsoc.org/view/journals/clim/17/11/1520-0442_2004_017_2241_gumoar_2.0.co_2.xml
+   Calculate the normalized precipitable water index (NPWI).
+
+   .. math::
+       \mathrm{NPWI} = \frac{\mathrm{PW} - \mathrm{PW_{min}}}{\mathrm{PW_{max}} - \mathrm{PW_{min}}}
+
+   Parameters
+   ----------
+   precipitable_water_daily: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       Daily precipitable water data. 
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   Normalized precipitable water index (NPWI).
+
+   Reference
+   --------------
+   Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
 
 
-.. py:function:: monsoon_onsetdate_cal(NPWI, thresh=0.618, rollingday=3, n=7)
+.. py:function:: find_PW_monsoon_region(precipitable_water_daily: xarray.DataArray, time_dim='time') -> xarray.DataArray
 
-   NPWI: 三维数组
+   The refined monsoon regions.
+
+   .. note::
+       To refine the definition of monsoon regions on a grid- cell-by-cell basis, 
+       we first compute the 10-yr-averaged monthly PW over each cell. 
+       Then we obtain the maximum monthly PW during the three summer months [e.g., June–August in the Northern Hemisphere (NH), denoted as PWw], 
+       and the maximum monthly PW during the three winter months (e.g., December–February for the NH, denoted as PWc). 
+       The refined monsoon regions are simply defined as grid cells that are within the monsoon 
+       regions given in the above studies and have a difference between PWw and PWc greater than 12 mm. 
+       Initially we have also tried to use the annual maximum and minimum monthly PW values.
+
+   Parameters
+   ----------
+   precipitable_water_daily: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       Daily precipitable water data.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Reference
+   --------------
+   Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
 
 
-.. py:function:: monsoon_detreatdate_cal(data, monsoon_onset, thresh=0.618, rollingday=3, n=7)
+.. py:function:: cal_NPWI_monsoon_onset(NPWI, thresh=0.618, consecutive_days=3, n=7, lon_dim='lon', lat_dim='lat', time_dim='time') -> xarray.DataArray
 
-   NPWI: 三维数组
+   Calculate the summer monsoon onset date.
+
+   The summer monsoon onset date for grid cell G is defined as the first day (:math:`d`) 
+   when NWPI is greater than the Golden Ratio (0.618) for three consecutive days
+   in seven of the nine cells centered at cell G in day :math:`d` or (:math:`d \pm 1`).
+
+   .. note::
+       If one or more of the nine grids are undefined, for example, at the edge of monsoon regions, 
+       the required number of seven is correspondingly reduced. 
+       For instance, if only seven grid cells are defined, the required number is five.
+
+   Parameters
+   ----------
+   NPWI: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       Normalized precipitable water index (NPWI). 
+
+       .. attention::
+           It must include three dimensions: `time`, `longitude`, and `latitude`.
+
+   thresh: :py:class:`float<python.float>`, default: `0.618`.
+       Golden Ratio value for the threshold value.
+   consecutive_days: :py:class:`int<python.int>`, default: `3`.
+       Consecutive days values.
+   n: :py:class:`int<python.int>`, default: `7`.
+       :math:`n` of the nine cells centered at cell G in day :math:`d` or (:math:`d \pm 1`).
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   Summer monsoon onset date.
+
+   Reference
+   --------------
+   Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
 
 
-.. py:function:: monsoonregion(PW)
+.. py:function:: cal_NPWI_monsoon_detreat(NPWI, monsoon_onset_date, thresh=0.618, consecutive_days=3, n=7, lon_dim='lon', lat_dim='lat', time_dim='time') -> xarray.DataArray
+
+   Calculate the summer monsoon retreat date.
+
+   The summer monsoon retreat date for grid cell G is defined as the first day (:math:`d`) 
+   when NWPI is less than the Golden Ratio (0.618) for three consecutive days
+   in seven of the nine cells centered at cell G in day :math:`d` or (:math:`d \pm 1`).
+
+   .. note::
+       If one or more of the nine grids are undefined, for example, at the edge of monsoon regions, 
+       the required number of seven is correspondingly reduced.
+       For instance, if only seven grid cells are defined, the required number is five.
+
+   Parameters
+   ----------
+   NPWI: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       Normalized precipitable water index (NPWI). 
+
+       .. attention::
+           It must include three dimensions: `time`, `longitude`, and `latitude`.
+
+   monsoon_onset_date: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       Summer monsoon onset date. The results is generated by :py:func:`easyclimate.index.cal_NPWI_monsoon_onset <easyclimate.index.cal_NPWI_monsoon_onset>`.
+   thresh: :py:class:`float<python.float>`, default: `0.618`.
+       Golden Ratio value for the threshold value.
+   consecutive_days: :py:class:`int<python.int>`, default: `3`.
+       Consecutive days values.
+   n: :py:class:`int<python.int>`, default: `7`.
+       :math:`n` of the nine cells centered at cell G in day :math:`d` or (:math:`d \pm 1`).
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   Summer monsoon retreat date.
+
+   Reference
+   --------------
+   Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
 
 
 .. py:function:: get_weighted_spatial_data(data_input: xarray.DataArray, lat_dim: str = 'lat', lon_dim: str = 'lon', method: str = 'cos_lat') -> xarray.DataArray
@@ -2465,55 +2729,401 @@ Functions
          Dynamics and Statistics of the Climate System, Volume 3, Issue 1, 2018, dzy003, https://doi.org/10.1093/climsys/dzy003.
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
 
-.. py:function:: calc_intensity_STFZ(data_sst_DtDy: xarray.DataArray, criteria=0.45 * 1e-05, lat_range=[24, 32], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: calc_intensity_STFZ(data_sst_DtDy: xarray.DataArray, criteria=0.45 * 1e-05, lat_range=[24, 32], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon') -> xarray.DataArray
 
+   Calculate the intensity of the subtropical frontal zone (STFZ). 
+   The intensity index defined reflects an average of the SST meridional gradient within a frontal zone.
 
-.. py:function:: calc_intensity_SAFZ(data_sst_DtDy: xarray.DataArray, criteria=0.8 * 1e-05, lat_range=[36, 44], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon')
+   .. math::
+       \mathrm{ITS} = \sum_{i=1}^{N} \frac{G_i}{N}
 
-
-.. py:function:: calc_location_STFZ(data_sst_DtDy: xarray.DataArray, criteria=0.45 * 1e-05, lat_range=[24, 32], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon')
-
-
-.. py:function:: calc_location_SAFZ(data_sst_DtDy: xarray.DataArray, criteria=0.8 * 1e-05, lat_range=[36, 44], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon')
-
-
-.. py:function:: calc_location_line_STFZ(data_sst_DtDy: xarray.DataArray, criteria=0.45 * 1e-05, lat_range=[24, 32], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon')
-
-
-.. py:function:: calc_location_line_SAFZ(data_sst_DtDy: xarray.DataArray, criteria=0.8 * 1e-05, lat_range=[36, 44], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon')
-
-
-.. py:function:: remove_seasonal_cycle_mean(data_input: xarray.DataArray, dim='time', **kwargs) -> xarray.DataArray
-
-   Remove of the seasonal cycle means over the entire time range.
+   where :math:`G_i` is the value of zonally-averaged SST meridional gradient that is no less than 
+   an empirically-given critical value (here, :math:`0.45 \times 10^{-5} \mathrm{km^{-1}}` for STFZ) at the :math:`i`-th latitudinal grid point within the zone, 
+   and :math:`N` is the number of total grid points that satisfy the criteria above.
 
    Parameters
    ----------
-   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
-        The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+   data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+       The SST meridional gradient data.
+   criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
+       Empirically-given critical value.
+   lat_range: :py:class:`list<python.list>`, default: `[24, 32]`.
+       The latitude range of the oceanic frontal zone.
+   lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
+       The longitude range of the oceanic frontal zone.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
-   .. caution:: `data_input` must be **monthly** data.
+   Returns
+   -------
+   The intensity of the STFZ (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-   dim : :py:class:`str<python.str>`
-       Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
-   **kwargs:
-       Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data. 
-       These could include dask-specific kwargs like split_every.
+   Reference
+   --------------
+   Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), 
+   Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
+   and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+
+.. py:function:: calc_intensity_SAFZ(data_sst_DtDy: xarray.DataArray, criteria=0.8 * 1e-05, lat_range=[36, 44], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon') -> xarray.DataArray
+
+   Calculate the intensity of the subarctic frontal zone (SAFZ). 
+   The intensity index defined reflects an average of the SST meridional gradient within a frontal zone.
+
+   .. math::
+       \mathrm{ITS} = \sum_{i=1}^{N} \frac{G_i}{N}
+
+   where :math:`G_i` is the value of zonally-averaged SST meridional gradient that is no less than 
+   an empirically-given critical value (here, :math:`0.80 \times 10^{-5} \mathrm{km^{-1}}` for SAFZ) at the :math:`i`-th latitudinal grid point within the zone, 
+   and :math:`N` is the number of total grid points that satisfy the criteria above.
+
+   Parameters
+   ----------
+   data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+       The SST meridional gradient data.
+   criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
+       Empirically-given critical value.
+   lat_range: :py:class:`list<python.list>`, default: `[36, 44]`.
+       The latitude range of the oceanic frontal zone.
+   lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
+       The longitude range of the oceanic frontal zone.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   The intensity of the SAFZ (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   Reference
+   --------------
+   Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), 
+   Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
+   and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+
+.. py:function:: calc_location_STFZ(data_sst_DtDy: xarray.DataArray, criteria=0.45 * 1e-05, lat_range=[24, 32], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon') -> xarray.DataArray
+
+   Calculate the location index of the subtropical frontal zone (STFZ). 
+   The intensity index defined reflects an average of the SST meridional gradient within a frontal zone.
+
+   .. math::
+       \mathrm{LCT} = \sum_{i=1}^{N} (G_i \times \mathrm{LAT}_i) / \sum_{i=1}^{N} G_i
+
+   where :math:`\mathrm{LAT}_i` is the latitude at the :math:`i`-th grid point within the front zone. 
+   Obviously, this definition reflects a weighted-average of :math:`\mathrm{LAT}_i` with respect to :math:`G_i`, 
+   indicating that the location of a front is mainly determined by larger SST meridional gradients within the frontal zone.
+
+   Parameters
+   ----------
+   data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+       The SST meridional gradient data.
+   criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
+       Empirically-given critical value.
+   lat_range: :py:class:`list<python.list>`, default: `[24, 32]`.
+       The latitude range of the oceanic frontal zone.
+   lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
+       The longitude range of the oceanic frontal zone.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   The location index of the STFZ (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   Reference
+   --------------
+   Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), 
+   Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
+   and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+
+.. py:function:: calc_location_SAFZ(data_sst_DtDy: xarray.DataArray, criteria=0.8 * 1e-05, lat_range=[36, 44], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon') -> xarray.DataArray
+
+   Calculate the location index of the subarctic frontal zone (SAFZ).
+   The intensity index defined reflects an average of the SST meridional gradient within a frontal zone.
+
+   .. math::
+       \mathrm{LCT} = \sum_{i=1}^{N} (G_i \times \mathrm{LAT}_i) / \sum_{i=1}^{N} G_i
+
+   where :math:`\mathrm{LAT}_i` is the latitude at the :math:`i`-th grid point within the front zone. 
+   Obviously, this definition reflects a weighted-average of :math:`\mathrm{LAT}_i` with respect to :math:`G_i`, 
+   indicating that the location of a front is mainly determined by larger SST meridional gradients within the frontal zone.
+
+   Parameters
+   ----------
+   data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+       The SST meridional gradient data.
+   criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
+       Empirically-given critical value.
+   lat_range: :py:class:`list<python.list>`, default: `[36, 44]`.
+       The latitude range of the oceanic frontal zone.
+   lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
+       The longitude range of the oceanic frontal zone.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   The location index of the SAFZ (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   Reference
+   --------------
+   Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), 
+   Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
+   and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+
+.. py:function:: calc_location_line_STFZ(data_sst_DtDy: xarray.DataArray, criteria=0.45 * 1e-05, lat_range=[24, 32], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon') -> xarray.DataArray
+
+   Calculate the location of the subtropical frontal zone (STFZ). 
+   The intensity index defined reflects an average of the SST meridional gradient within a frontal zone.
+
+   .. math::
+       \mathrm{LCT} = (\sum_{i=1}^{N} (G_i \times \mathrm{LAT}_i)) / G_i
+
+   where :math:`\mathrm{LAT}_i` is the latitude at the :math:`i`-th grid point within the front zone. 
+   Obviously, this definition reflects a weighted-average of :math:`\mathrm{LAT}_i` with respect to :math:`G_i`, 
+   indicating that the location of a front is mainly determined by larger SST meridional gradients within the frontal zone.
+
+   Parameters
+   ----------
+   data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+       The SST meridional gradient data.
+   criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
+       Empirically-given critical value.
+   lat_range: :py:class:`list<python.list>`, default: `[24, 32]`.
+       The latitude range of the oceanic frontal zone.
+   lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
+       The longitude range of the oceanic frontal zone.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   The location of the STFZ (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   Reference
+   --------------
+   Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), 
+   Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
+   and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766    
+
+
+.. py:function:: calc_location_line_SAFZ(data_sst_DtDy: xarray.DataArray, criteria=0.8 * 1e-05, lat_range=[36, 44], lon_range=[145, 215], lat_dim: str = 'lat', lon_dim: str = 'lon') -> xarray.DataArray
+
+   Calculate the location of the subarctic frontal zone (SAFZ).
+   The intensity index defined reflects an average of the SST meridional gradient within a frontal zone.
+
+   .. math::
+       \mathrm{LCT} = (\sum_{i=1}^{N} (G_i \times \mathrm{LAT}_i)) / G_i
+
+   where :math:`\mathrm{LAT}_i` is the latitude at the :math:`i`-th grid point within the front zone. 
+   Obviously, this definition reflects a weighted-average of :math:`\mathrm{LAT}_i` with respect to :math:`G_i`, 
+   indicating that the location of a front is mainly determined by larger SST meridional gradients within the frontal zone.
+
+   Parameters
+   ----------
+   data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+       The SST meridional gradient data.
+   criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
+       Empirically-given critical value.
+   lat_range: :py:class:`list<python.list>`, default: `[36, 44]`.
+       The latitude range of the oceanic frontal zone.
+   lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
+       The longitude range of the oceanic frontal zone.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   The location of the SAFZ (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   Reference
+   --------------
+   Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), 
+   Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
+   and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766    
+
+
+.. py:function:: interp_point2mesh(data, var_name, lon_dim_name='lon', lat_dim_name='lat', point=[-9.0, 47.0], grid_x=12, grid_y=12, resolution=32.0, sigma=1.0, method='optimized_convolution', num_iter=4, min_weight=0.001)
+
+   Computes the Barnes interpolation for observation values `var_name` taken at sample
+   points `data` using Gaussian weights for the width parameter `sigma`.
+   The underlying grid embedded in a Euclidean space is given with start point
+   `point`, regular x-direction length `grid_x` (degree), regular y-direction length `grid_y` (degree),
+   and resolution `resolution`.
+
+   Barnes interpolation is a method that is widely used in geospatial sciences like meteorology 
+   to remodel data values recorded at irregularly distributed points into a representative 
+   analytical field. It is defined as
+
+   .. math::
+       f(\boldsymbol{x})=\frac{\sum_{k=1}^N f_k\cdot w_k(\boldsymbol{x})}{\sum_{k=1}^N w_k(\boldsymbol{x})}
+
+   with Gaussian weights
+
+   .. math::
+       w_k(\boldsymbol{x})=\text{e}^{-\frac{1}{2\sigma^2}\left\|x-\boldsymbol{x}_k\right\|^2}
+
+   Naive computation of Barnes interpolation leads to an algorithmic complexity of O(N x W x H), 
+   where N is the number of sample points and W x H the size of the underlying grid.
+
+   For sufficiently large n (in general in the range from 3 to 6) a good approximation of 
+   Barnes interpolation with a reduced complexity O(N + W x H) can be obtained by the convolutional expression
+
+   .. math::
+       f(\boldsymbol{x})\approx \frac{ (\sum_{k=1}^{N}f_k\cdot\delta_{\boldsymbol{x}_k}) *  ( r_n^{*n[x]}(x)\cdot r_n^{*n[y]}(y) )   }{ ( \sum_{k=1}^{N} \delta_{\boldsymbol{x}_k}  ) *  (  r_{n}^{*n[x]}(x)\cdot r_{n}^{*n[y]}(y)  )   }
+
+   where :math:`\delta` is the Dirac impulse function and :math:`r(.)` an elementary rectangular function of a specific length that depends on :math:`\sigma` and :math:`n`.
+
+   - data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
+       Longitude and latitude grid point discrete data. There should be a similar structure as follows
+
+       +------------+------------+-----------+
+       |    lon     |    lat     |    qff    |
+       +============+============+===========+
+       |   -3.73    |   56.33    |   995.1   |
+       +------------+------------+-----------+
+       |    2.64    |   47.05    |  1012.5   |
+       +------------+------------+-----------+
+       |    ...     |   ...      |   ...     |
+       +------------+------------+-----------+
+
+       .. note:: 
+           Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
+
+   - var_name: :py:class:`str<python.str>`
+       The name of the data variable. This should match the one in the parameter `data`.
+   - lat_dim_name: :py:class:`str<python.str>`.
+       Latitude dimension name. This should match the one in the parameter `data`. By default is `lat`.
+   - lon_dim_name: :py:class:`str<python.str>`.
+       Longitude dimension name. This should match the one in the parameter `data`. By default is `lon`.
+   - point : numpy ndarray
+       A 1-dimensional array of size 2 containing the coordinates of the
+       start point of the grid to be used.
+   - grid_x : :py:class:`int<python.int>`.
+       Length in degrees in the x-direction of the interpolated rectangular grid.
+   - grid_y : :py:class:`int<python.int>`.
+       Length in degrees in the y-direction of the interpolated rectangular grid.
+   - resolution: float
+       Grid resolution. The distance between regular grid points is the reciprocal of the value.
+   - sigma : float
+       The Gaussian width parameter to be used.
+   - method : {'optimized_convolution', 'convolution', 'radius', 'naive'}
+       Designates the Barnes interpolation method to be used. The possible
+       implementations that can be chosen are 'naive' for the straightforward
+       implementation (algorithm A from paper), 'radius' to consider only sample
+       points within a specific radius of influence, both with an algorithmic
+       complexity of O(N x W x H).
+       The choice 'convolution' implements algorithm B specified in the paper
+       and 'optimized_convolution' is its optimization by appending tail values
+       to the rectangular kernel. The latter two algorithms reduce the complexity
+       down to O(N + W x H).
+       The default is 'optimized_convolution'.
+   - num_iter : int, optional
+       The number of performed self-convolutions of the underlying rect-kernel.
+       Applies only if method is 'optimized_convolution' or 'convolution'.
+       The default is 4.
+   - min_weight : float, optional
+       Choose radius of influence such that Gaussian weight of considered sample
+       points is greater than `min_weight`.
+       Applies only if method is 'radius'. Recommended values are 0.001 and less.
+       The default is 0.001, which corresponds to a radius of 3.717 * sigma.
 
    Returns
    -------
    :py:class:`xarray.DataArray<xarray.DataArray>`.
 
+   .. seealso::   
+       - `fast-barnes-py <https://github.com/MeteoSwiss/fast-barnes-py>`__
 
-.. py:function:: calc_index_PNA(z500_monthly_data, time_dim, lat_dim='lat', remove_seasonal_cycle=True, save_analysis_path=None, load_analysis_path=None)
 
-       
-       
+.. py:function:: interp_point2mesh_S2(data, var_name, lon_dim_name='lon', lat_dim_name='lat', point=[-9.0, 47.0], grid_x=12, grid_y=12, resolution=32.0, sigma=1.0, method='optimized_convolution_S2', num_iter=4, resample=True)
+
+   Computes the Barnes interpolation for observation values `var_name` taken at sample
+   points `data` using Gaussian weights for the width parameter `sigma`.
+
+   The underlying grid embedded on the unit sphere S^2 and thus inherits the
+   spherical distance measure (taken in degrees). The grid is given by the start
+   point `point`, regular x-direction length `grid_x` (degree), regular y-direction length `grid_y` (degree),
+   and resolution `resolution`.
+
+   Parameters
+   ----------
+   - data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
+       Longitude and latitude grid point discrete data. There should be a similar structure as follows
+
+       +------------+------------+-----------+
+       |    lon     |    lat     |    qff    |
+       +============+============+===========+
+       |   -3.73    |   56.33    |   995.1   |
+       +------------+------------+-----------+
+       |    2.64    |   47.05    |  1012.5   |
+       +------------+------------+-----------+
+       |    ...     |   ...      |   ...     |
+       +------------+------------+-----------+
+
+       .. note:: 
+           Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
+
+   - var_name: :py:class:`str<python.str>`
+       The name of the data variable. This should match the one in the parameter `data`.
+   - lat_dim_name: :py:class:`str<python.str>`.
+       Latitude dimension name. This should match the one in the parameter `data`. By default is `lat`.
+   - lon_dim_name: :py:class:`str<python.str>`.
+       Longitude dimension name. This should match the one in the parameter `data`. By default is `lon`.
+   - point : numpy ndarray
+       A 1-dimensional array of size 2 containing the coordinates of the
+       start point of the grid to be used.
+   - grid_x : :py:class:`int<python.int>`.
+       Length in degrees in the x-direction of the interpolated rectangular grid.
+   - grid_y : :py:class:`int<python.int>`.
+       Length in degrees in the y-direction of the interpolated rectangular grid.
+   - resolution: float
+       Grid resolution. The distance between regular grid points is the reciprocal of the value.
+   - sigma : float
+       The Gaussian width parameter to be used.
+   - method : {'optimized_convolution_S2', 'naive_S2'}
+       Designates the Barnes interpolation method to be used. The possible
+       implementations that can be chosen are 'naive_S2' for the straightforward
+       implementation (algorithm A from the paper) with an algorithmic complexity
+       of O(N x W x H).
+       The choice 'optimized_convolution_S2' implements the optimized algorithm B
+       specified in the paper by appending tail values to the rectangular kernel.
+       The latter algorithm has a reduced complexity of O(N + W x H).
+       The default is 'optimized_convolution_S2'.
+   - num_iter : int, optional
+       The number of performed self-convolutions of the underlying rect-kernel.
+       Applies only if method is 'optimized_convolution_S2'.
+       The default is 4.
+   - resample : bool, optional
+       Specifies whether to resample Lambert grid field to lonlat grid.
+       Applies only if method is 'optimized_convolution_S2'.
+       The default is True.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`.
+
+   .. seealso::   
+       - `fast-barnes-py <https://github.com/MeteoSwiss/fast-barnes-py>`__
 
 
 .. py:function:: field_grids(data, grids)

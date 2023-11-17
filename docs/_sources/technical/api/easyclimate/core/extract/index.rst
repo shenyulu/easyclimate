@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   This module gets specific data
+   Obtain data within a specified time period
 
 
 
@@ -28,6 +28,8 @@ Functions
    easyclimate.core.extract.get_specific_nanoseconds_data
    easyclimate.core.extract.get_specific_dayofweek_data
    easyclimate.core.extract.get_yearmean_for_specific_months_data
+   easyclimate.core.extract.get_year_exceed_index_upper_bound
+   easyclimate.core.extract.get_year_exceed_index_lower_bound
 
 
 
@@ -233,5 +235,41 @@ Functions
    Returns
    -------
    :py:class:`xarray.DataArray<xarray.DataArray>`.
+
+
+.. py:function:: get_year_exceed_index_upper_bound(data_input: easyclimate.core.yearstat.xr.DataArray, thresh: float, time_dim: str = 'time') -> easyclimate.core.yearstat.np.array
+
+   Extract the years under the specified threshold (upper bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+       The one-dimensional data with only a `time` dimension.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   :py:class:`numpy.array <numpy:numpy.array>`.
+
+
+.. py:function:: get_year_exceed_index_lower_bound(data_input: easyclimate.core.yearstat.xr.DataArray, thresh: float, time_dim: str = 'time') -> easyclimate.core.yearstat.np.array
+
+   Extract the years under the specified threshold (lower bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+       The one-dimensional data with only a `time` dimension.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   :py:class:`numpy.array <numpy:numpy.array>`.
 
 

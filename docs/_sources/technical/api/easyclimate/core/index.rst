@@ -18,7 +18,7 @@ Submodules
    mk_test/index.rst
    read/index.rst
    stat/index.rst
-   tuturial/index.rst
+   tutorial/index.rst
    utility/index.rst
    variability/index.rst
    yearstat/index.rst
@@ -102,6 +102,8 @@ Functions
    easyclimate.core.get_specific_nanoseconds_data
    easyclimate.core.get_specific_dayofweek_data
    easyclimate.core.get_yearmean_for_specific_months_data
+   easyclimate.core.get_year_exceed_index_upper_bound
+   easyclimate.core.get_year_exceed_index_lower_bound
    easyclimate.core.calc_yearmean
    easyclimate.core.calc_yearsum
    easyclimate.core.calc_yearstd
@@ -123,6 +125,9 @@ Functions
    easyclimate.core.transfer_data_units
    easyclimate.core.generate_dataset_dispatcher
    easyclimate.core.generate_datatree_dispatcher
+   easyclimate.core.transfer_xarray_lon_from180TO360
+   easyclimate.core.transfer_xarray_lon_from360TO180
+   easyclimate.core.module_available
    easyclimate.core.open_muliti_dataset
    easyclimate.core.generate_datatree_dispatcher
    easyclimate.core.calc_linregress_spatial
@@ -144,6 +149,9 @@ Functions
    easyclimate.core.transfer_units_coeff
    easyclimate.core.transfer_data_units
    easyclimate.core.generate_dataset_dispatcher
+   easyclimate.core.transfer_xarray_lon_from180TO360
+   easyclimate.core.transfer_xarray_lon_from360TO180
+   easyclimate.core.module_available
    easyclimate.core.assert_compared_version
    easyclimate.core.find_dims_axis
    easyclimate.core.transfer_int2datetime
@@ -159,6 +167,9 @@ Functions
    easyclimate.core.transfer_data_units
    easyclimate.core.generate_dataset_dispatcher
    easyclimate.core.generate_datatree_dispatcher
+   easyclimate.core.transfer_xarray_lon_from180TO360
+   easyclimate.core.transfer_xarray_lon_from360TO180
+   easyclimate.core.module_available
    easyclimate.core.calc_climatological_mean
    easyclimate.core.calc_climatological_seasonal_mean
    easyclimate.core.calc_seasonal_cycle_mean
@@ -189,6 +200,9 @@ Functions
    easyclimate.core.transfer_data_units
    easyclimate.core.generate_dataset_dispatcher
    easyclimate.core.generate_datatree_dispatcher
+   easyclimate.core.transfer_xarray_lon_from180TO360
+   easyclimate.core.transfer_xarray_lon_from360TO180
+   easyclimate.core.module_available
    easyclimate.core.get_EOF_model
    easyclimate.core.calc_EOF_analysis
    easyclimate.core.get_EOF_projection
@@ -199,6 +213,7 @@ Functions
    easyclimate.core.get_MCA_projection
    easyclimate.core.save_MCA_model
    easyclimate.core.load_MCA_model
+   easyclimate.core.open_tutorial_dataset
 
 
 
@@ -274,7 +289,7 @@ Functions
    - Radians data.: :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
@@ -453,12 +468,12 @@ Functions
    - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -1482,12 +1497,12 @@ Functions
        :py:func:`calc_gradient <calc_gradient>` 
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
@@ -1506,7 +1521,7 @@ Functions
    - Radians data.: :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -2038,6 +2053,42 @@ Functions
    :py:class:`xarray.DataArray<xarray.DataArray>`.
 
 
+.. py:function:: get_year_exceed_index_upper_bound(data_input: easyclimate.core.yearstat.xr.DataArray, thresh: float, time_dim: str = 'time') -> easyclimate.core.yearstat.np.array
+
+   Extract the years under the specified threshold (upper bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+       The one-dimensional data with only a `time` dimension.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   :py:class:`numpy.array <numpy:numpy.array>`.
+
+
+.. py:function:: get_year_exceed_index_lower_bound(data_input: easyclimate.core.yearstat.xr.DataArray, thresh: float, time_dim: str = 'time') -> easyclimate.core.yearstat.np.array
+
+   Extract the years under the specified threshold (lower bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+       The one-dimensional data with only a `time` dimension.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   time_dim: :py:class:`str<python.str>`.
+       The time coordinate dimension name.
+
+   Returns
+   -------
+   :py:class:`numpy.array <numpy:numpy.array>`.
+
+
 .. py:function:: calc_yearmean(data_input, dim='time', **kwargs)
 
    Calculate yearly mean.
@@ -2303,7 +2354,7 @@ Functions
    :py:class:`int<python.int>`.
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: transfer_int2datetime(data: numpy.array) -> numpy.datetime64
 
    Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -2418,7 +2469,7 @@ Functions
    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -2426,17 +2477,17 @@ Functions
        \frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -2449,6 +2500,61 @@ Functions
 .. py:function:: generate_datatree_dispatcher(func)
 
    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+
+
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion -180-180 to 0-360.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+
+
+.. py:function:: transfer_xarray_lon_from360TO180(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion 0-360 to -180-180.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+
+
+.. py:function:: module_available(module: str) -> bool
+
+   Checks whether a module is installed without importing it.
+
+   Use this for a lightweight check and lazy imports.
+
+   Parameters
+   ----------
+   module : str
+       Name of the module.
+
+   Returns
+   -------
+   available : bool
+       Whether the module is installed.
 
 
 .. py:function:: open_muliti_dataset(files: str, dim: str, **kwargs) -> xarray.Dataset
@@ -2479,6 +2585,10 @@ Functions
        >>> result = assert_compared_version("10.12.2.6.5", "10.12.2.6")
        >>> print(result)
        1
+
+   .. todo::
+       - https://medium.com/pangeo/accessing-netcdf-and-grib-file-collections-as-cloud-native-virtual-datasets-using-kerchunk-625a2d0a9191
+       - https://github.com/fsspec/kerchunk/issues/240
 
 
 .. py:function:: generate_datatree_dispatcher(func)
@@ -2565,7 +2675,7 @@ Functions
 
    Returns
    -------
-   - statistic, p: :py:class:`xarray.Dataset<xarray.Dataset>`.
+   - statistic, pvalue: :py:class:`xarray.Dataset<xarray.Dataset>`.
 
    .. seealso::
        :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.
@@ -2709,7 +2819,7 @@ Functions
    :py:class:`int<python.int>`.
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: transfer_int2datetime(data: numpy.array) -> numpy.datetime64
 
    Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -2824,7 +2934,7 @@ Functions
    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -2832,17 +2942,17 @@ Functions
        \frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -2850,6 +2960,61 @@ Functions
 .. py:function:: generate_dataset_dispatcher(func)
 
    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+
+
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion -180-180 to 0-360.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+
+
+.. py:function:: transfer_xarray_lon_from360TO180(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion 0-360 to -180-180.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+
+
+.. py:function:: module_available(module: str) -> bool
+
+   Checks whether a module is installed without importing it.
+
+   Use this for a lightweight check and lazy imports.
+
+   Parameters
+   ----------
+   module : str
+       Name of the module.
+
+   Returns
+   -------
+   available : bool
+       Whether the module is installed.
 
 
 .. py:function:: assert_compared_version(ver1: float, ver2: float) -> int
@@ -2899,7 +3064,7 @@ Functions
    :py:class:`int<python.int>`.
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: transfer_int2datetime(data: numpy.array) -> numpy.datetime64
 
    Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -3014,7 +3179,7 @@ Functions
    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -3022,17 +3187,17 @@ Functions
        \frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -3045,6 +3210,61 @@ Functions
 .. py:function:: generate_datatree_dispatcher(func)
 
    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+
+
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion -180-180 to 0-360.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+
+
+.. py:function:: transfer_xarray_lon_from360TO180(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion 0-360 to -180-180.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+
+
+.. py:function:: module_available(module: str) -> bool
+
+   Checks whether a module is installed without importing it.
+
+   Use this for a lightweight check and lazy imports.
+
+   Parameters
+   ----------
+   module : str
+       Name of the module.
+
+   Returns
+   -------
+   available : bool
+       Whether the module is installed.
 
 
 .. py:function:: calc_climatological_mean(data_input: xarray.DataArray, dim='time', **kwargs) -> xarray.DataArray
@@ -3527,7 +3747,7 @@ Functions
    :py:class:`int<python.int>`.
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: transfer_int2datetime(data: numpy.array) -> numpy.datetime64
 
    Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -3642,7 +3862,7 @@ Functions
    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -3650,17 +3870,17 @@ Functions
        \frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -3673,6 +3893,61 @@ Functions
 .. py:function:: generate_datatree_dispatcher(func)
 
    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+
+
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion -180-180 to 0-360.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+
+
+.. py:function:: transfer_xarray_lon_from360TO180(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion 0-360 to -180-180.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+
+
+.. py:function:: module_available(module: str) -> bool
+
+   Checks whether a module is installed without importing it.
+
+   Use this for a lightweight check and lazy imports.
+
+   Parameters
+   ----------
+   module : str
+       Name of the module.
+
+   Returns
+   -------
+   available : bool
+       Whether the module is installed.
 
 
 .. py:function:: get_EOF_model(data_input: xarray.DataArray, time_dim: str = 'time', n_modes=10, standardize=False, use_coslat=False, use_weights=False, weights=None, solver='auto', **solver_kwargs)
@@ -3724,5 +3999,50 @@ Functions
 
        
        
+
+
+.. py:function:: open_tutorial_dataset(name: str, cache: bool = True, cache_dir: None | str | os.PathLike = None, *, engine: xarray.backends.api.T_Engine = None, **kws) -> xarray.Dataset
+
+   Open a dataset from the online repository (requires internet).
+
+   If a local copy is found then always use that to avoid network traffic.
+
+   Available datasets:
+
+   * ``"air_202201_mon_mean"``: 2m air temperature of the NCEP reanalysis subset
+   * ``"hgt_202201_mon_mean"``: Geopotential height of the NCEP reanalysis subset
+   * ``"precip_202201_mon_mean"``: Precipitation of the NCEP reanalysis subset
+   * ``"pressfc_202201_mon_mean"``: Mean sea surface pressure of the NCEP reanalysis subset
+   * ``"shum_202201_mon_mean"``: Absolute humidity of the NCEP reanalysis subset
+   * ``"uwnd_202201_mon_mean"``: Zonal wind of the NCEP reanalysis subset
+   * ``"vwnd_202201_mon_mean"``: Meridional wind of the NCEP reanalysis subset
+   * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
+
+
+   Parameters
+   ----------
+   name : str
+       Name of the file containing the dataset.
+       e.g. 'air_202201_mon_mean'
+   cache_dir : path-like, optional
+       The directory in which to search for and write cached data.
+   cache : bool, optional
+       If True, then cache data locally for use on subsequent calls
+   **kws : dict, optional
+       Passed to xarray.open_dataset
+
+   Returns
+   -------
+   :py:class:`xarray.Dataset<xarray.Dataset>`
+
+   Reference
+   --------------
+   - Kalnay et al.,The NCEP/NCAR 40-year reanalysis project, Bull. Amer. Meteor. Soc., 77, 437-470, 1996
+   - Rayner, N. A.; Parker, D. E.; Horton, E. B.; Folland, C. K.; Alexander, L. V.; Rowell, D. P.; Kent, E. C.; Kaplan, A. (2003) Global analyses of sea surface temperature, sea ice, and night marine air temperature since the late nineteenth century J. Geophys. Res.Vol. 108, No. D14, 4407 10.1029/2002JD002670  (pdf ~9Mb)
+
+   .. seealso::
+       - :py:func:`xarray.tutorial.load_dataset<xarray.tutorial.load_dataset>`
+       - :py:func:`xarray.open_dataset<xarray.open_dataset>`
+       - :py:func:`xarray.load_dataset<xarray.load_dataset>`
 
 

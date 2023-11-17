@@ -5,9 +5,10 @@
 
 .. autoapi-nested-parse::
 
-   EOF MCA
+   The analysis of the EOF and MCA
 
-   https://xeofs.readthedocs.io/en/latest/
+   .. seealso::
+       `xeofs`: https://xeofs.readthedocs.io/en/latest/
 
 
 

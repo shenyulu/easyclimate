@@ -1,5 +1,5 @@
 """
-top interface
+easy cliamte top interface for the windspharm
 
 https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html
 """

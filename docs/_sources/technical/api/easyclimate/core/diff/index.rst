@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Functions for finite difference.
+   The calculation of geographic finite difference
 
 
 

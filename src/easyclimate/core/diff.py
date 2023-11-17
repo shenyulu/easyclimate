@@ -1,5 +1,5 @@
 """
-Functions for finite difference.
+The calculation of geographic finite difference
 """
 from __future__ import annotations
 

@@ -8,7 +8,10 @@ import numpy as np
 import xarray as xr
 import warnings
 
-def assert_compared_version(ver1: float, ver2: float) -> int:
+def assert_compared_version(
+    ver1: float, 
+    ver2: float
+) -> int:
     """
     Compare python library versions.
 
@@ -58,7 +61,10 @@ def assert_compared_version(ver1: float, ver2: float) -> int:
     else:
         return 1
     
-def find_dims_axis(data: xr.DataArray, dim: str) -> int:
+def find_dims_axis(
+    data: xr.DataArray, 
+    dim: str
+) -> int:
     '''
     Find the index of `dim` in the xarray DataArray.
 
@@ -75,7 +81,9 @@ def find_dims_axis(data: xr.DataArray, dim: str) -> int:
     '''
     return data.dims.index(dim)
 
-def transfer_int2datetime(data):
+def transfer_int2datetime(
+    data: np.array
+) -> np.datetime64:
     """
     Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -107,7 +115,9 @@ def transfer_int2datetime(data):
     # xarray coordinate axis does not accept DatetimeIndex, so use `.to_numpy()` to convert it to numpy array.
     return pd.to_datetime(data, format = "%Y").to_numpy()
 
-def transfer_datetime2int(ds: xr.DataArray) -> xr.DataArray:
+def transfer_datetime2int(
+    ds: xr.DataArray
+) -> xr.DataArray:
     """
     Convert `np.datetime64` type with years and days to `year` and `day` coordinates.
 
@@ -128,7 +138,9 @@ def transfer_datetime2int(ds: xr.DataArray) -> xr.DataArray:
     # reshape the array to (..., "month", "year")
     return ds.set_index(time=("year", "month")).unstack("time")
 
-def transfer_deg2rad(ds: xr.DataArray) -> xr.DataArray:
+def transfer_deg2rad(
+    ds: xr.DataArray
+) -> xr.DataArray:
     """
     Convert Degrees to Radians.
 
@@ -143,7 +155,9 @@ def transfer_deg2rad(ds: xr.DataArray) -> xr.DataArray:
     """
     return ds *np.pi /180
 
-def transfer_inf2nan(ds: xr.DataArray) -> xr.DataArray:
+def transfer_inf2nan(
+    ds: xr.DataArray
+) -> xr.DataArray:
     """
     Convert `np.inf` in `ds` to `np.nan`, respectively.
 
@@ -158,7 +172,10 @@ def transfer_inf2nan(ds: xr.DataArray) -> xr.DataArray:
     """
     return ds.where(np.isfinite(ds), np.nan)
 
-def transfer_monmean2everymonthmean(data_input: xr.DataArray, time_dim: str = 'time') -> xr.DataArray:
+def transfer_monmean2everymonthmean(
+    data_input: xr.DataArray, 
+    time_dim: str = 'time'
+) -> xr.DataArray:
     """
     Convert to the month-mean state corresponding to each month.
 
@@ -178,7 +195,12 @@ def transfer_monmean2everymonthmean(data_input: xr.DataArray, time_dim: str = 't
 
     return data_input_empty
 
-def get_weighted_spatial_data(data_input: xr.DataArray, lat_dim: str = 'lat', lon_dim: str = 'lon', method: str = 'cos_lat') -> xr.DataArray:
+def get_weighted_spatial_data(
+    data_input: xr.DataArray, 
+    lat_dim: str = 'lat', 
+    lon_dim: str = 'lon', 
+    method: str = 'cos_lat'
+) -> xr.DataArray:
     """
     Get the area-weighting data.
 
@@ -297,7 +319,10 @@ def get_weighted_spatial_data(data_input: xr.DataArray, lat_dim: str = 'lat', lo
         weights = da_area / total_area
         return data_input.weighted(weights)
 
-def get_compress_xarraydata(data: xr.DataArray | xr.Dataset, complevel: int) -> xr.DataArray | xr.Dataset:
+def get_compress_xarraydata(
+    data: xr.DataArray | xr.Dataset, 
+    complevel: int
+) -> xr.DataArray | xr.Dataset:
     """
     Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
     """
@@ -309,7 +334,11 @@ def get_compress_xarraydata(data: xr.DataArray | xr.Dataset, complevel: int) -> 
         data.encoding.update(comp)
     return data
 
-def transfer_dFdp2dFdz(dFdp_data, rho_d = 1.2928e3, g = 9.8):
+def transfer_dFdp2dFdz(
+    dFdp_data: xr.DataArray | xr.Dataset, 
+    rho_d: float = 1.2928e3, 
+    g: float = 9.8
+):
     """
     
     The transformation relationship between the z coordinate system and the p coordinate system.
@@ -319,13 +348,20 @@ def transfer_dFdp2dFdz(dFdp_data, rho_d = 1.2928e3, g = 9.8):
     """
     return - rho_d *g *dFdp_data
 
-def sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon'):
+def sort_ascending_latlon_coordinates(
+    data: xr.DataArray | xr.Dataset, 
+    lat_dim: str = 'lat', 
+    lon_dim: str = 'lon'
+) -> xr.DataArray | xr.Dataset:
     """
     Sort the dimensions `lat`, `lon` in ascending order.
     """
     return data.sortby([lat_dim, lon_dim], ascending = True)
 
-def transfer_units_coeff(input_units, output_units):
+def transfer_units_coeff(
+    input_units: str, 
+    output_units: str
+) -> float:
     """
     Unit conversion factor
     """
@@ -336,7 +372,11 @@ def transfer_units_coeff(input_units, output_units):
     base = base_unitmul[0]
     return base
 
-def transfer_data_units(input_data, input_units, output_units):
+def transfer_data_units(
+    input_data: xr.DataArray | xr.Dataset, 
+    input_units: str, 
+    output_units: str
+) -> xr.DataArray | xr.Dataset:
     """
     Data unit conversion
     """
@@ -460,3 +500,89 @@ def generate_datatree_dispatcher(func):
             raise ValueError("Unsupported input type. Expected DataArray or Dataset.")
           
     return wrapper
+
+@generate_dataset_dispatcher
+def transfer_xarray_lon_from180TO360(
+    data_input: xr.DataArray | xr.Dataset,
+    lon_dim: str = 'lon'
+) -> xr.DataArray | xr.Dataset:
+    """
+    Longitude conversion -180-180 to 0-360.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+         The spatio-temporal data to be calculated.
+    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+    .. seealso::
+        :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+    """
+    def transfer_lon_180TO360(lon_array):
+        return (lon_array + 360) % 360
+
+    lon_array = data_input[lon_dim].data
+
+    if (lon_array > 180).any():
+        raise ValueError('It seems that the input data longitude range is not from -180° to 180°. Please carefully check your data.')
+
+    lon_array = transfer_lon_180TO360(lon_array)
+    tmp = data_input.assign_coords({lon_dim: lon_array}).sortby(lon_dim)
+    return tmp
+
+@generate_dataset_dispatcher
+def transfer_xarray_lon_from360TO180(
+    data_input: xr.DataArray | xr.Dataset,
+    lon_dim: str = 'lon'
+) -> xr.DataArray | xr.Dataset:
+    """
+    Longitude conversion 0-360 to -180-180.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+         The spatio-temporal data to be calculated.
+    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+    .. seealso::
+        :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+    """
+    def transfer_lon_360TO180(lon_array):
+        return (lon_array + 180) % 360 - 180
+
+    lon_array = data_input[lon_dim].data
+
+    if (lon_array < 0).any():
+        raise ValueError('It seems that the input data longitude range is not from 0° to 360°. Please carefully check your data.')
+    
+    lon_array = transfer_lon_360TO180(lon_array)
+    tmp = data_input.assign_coords({lon_dim: lon_array}).sortby(lon_dim)
+    return tmp
+
+def module_available(module: str) -> bool:
+    """Checks whether a module is installed without importing it.
+
+    Use this for a lightweight check and lazy imports.
+
+    Parameters
+    ----------
+    module : str
+        Name of the module.
+
+    Returns
+    -------
+    available : bool
+        Whether the module is installed.
+    """
+    import importlib
+    return importlib.util.find_spec(module) is not None

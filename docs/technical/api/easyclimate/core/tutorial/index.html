@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>easyclimate.core.tutorial &#8212; Easy Climate v2023.11.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/tabs.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/core/tutorial/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Indices:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/air_sea_interaction.html">Air-sea interaction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/monsoon.html">Monsoon</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api_index/index.html">List of functions and classes (API)</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.ocean.mixlayer.html">easyclimate.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.ocean.stability.html">easyclimate.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.ocean.thermal.html">easyclimate.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.windspharm.top.html">easyclimate.windspharm.top</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.index.enso.html">easyclimate.index.enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.index.oceanic_front.html">easyclimate.index.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.index.pna.html">easyclimate.index.pna</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/core/tutorial/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/core/tutorial/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.core.tutorial</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._default_cache_dir_name"><code class="docutils literal notranslate"><span class="pre">_default_cache_dir_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.base_url"><code class="docutils literal notranslate"><span class="pre">base_url</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.version"><code class="docutils literal notranslate"><span class="pre">version</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._construct_cache_dir"><code class="docutils literal notranslate"><span class="pre">_construct_cache_dir()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.external_urls"><code class="docutils literal notranslate"><span class="pre">external_urls</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.file_formats"><code class="docutils literal notranslate"><span class="pre">file_formats</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._check_netcdf_engine_installed"><code class="docutils literal notranslate"><span class="pre">_check_netcdf_engine_installed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.open_tutorial_dataset"><code class="docutils literal notranslate"><span class="pre">open_tutorial_dataset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._default_cache_dir_name">_default_cache_dir_name</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.base_url">base_url</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.version">version</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._construct_cache_dir">_construct_cache_dir</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.external_urls">external_urls</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.file_formats">file_formats</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._check_netcdf_engine_installed">_check_netcdf_engine_installed</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.open_tutorial_dataset">open_tutorial_dataset</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-easyclimate.core.tutorial">
+<span id="easyclimate-core-tutorial"></span><h1><a class="reference internal" href="#module-easyclimate.core.tutorial" title="easyclimate.core.tutorial"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate.core.tutorial</span></code></a><a class="headerlink" href="#module-easyclimate.core.tutorial" title="Permalink to this heading">#</a></h1>
+<p>Useful for:</p>
+<ul class="simple">
+<li><p>users learning easyclimate</p></li>
+<li><p>building tutorials in the documentation.</p></li>
+</ul>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.tutorial._construct_cache_dir" title="easyclimate.core.tutorial._construct_cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_construct_cache_dir</span></code></a>(path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.tutorial._check_netcdf_engine_installed" title="easyclimate.core.tutorial._check_netcdf_engine_installed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_check_netcdf_engine_installed</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.tutorial.open_tutorial_dataset" title="easyclimate.core.tutorial.open_tutorial_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_tutorial_dataset</span></code></a>(→ xarray.Dataset)</p></td>
+<td><p>Open a dataset from the online repository (requires internet).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.tutorial._default_cache_dir_name" title="easyclimate.core.tutorial._default_cache_dir_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_default_cache_dir_name</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.tutorial.base_url" title="easyclimate.core.tutorial.base_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_url</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.tutorial.version" title="easyclimate.core.tutorial.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.tutorial.external_urls" title="easyclimate.core.tutorial.external_urls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">external_urls</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.tutorial.file_formats" title="easyclimate.core.tutorial.file_formats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_formats</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial._default_cache_dir_name">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">_default_cache_dir_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'easylimate_tutorial_data'</span></em><a class="headerlink" href="#easyclimate.core.tutorial._default_cache_dir_name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial.base_url">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">base_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://github.com/shenyulu/easyclimate-data'</span></em><a class="headerlink" href="#easyclimate.core.tutorial.base_url" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial.version">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'main'</span></em><a class="headerlink" href="#easyclimate.core.tutorial.version" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial._construct_cache_dir">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">_construct_cache_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.tutorial._construct_cache_dir" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial.external_urls">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">external_urls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></em><a class="headerlink" href="#easyclimate.core.tutorial.external_urls" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial.file_formats">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">file_formats</span></span><a class="headerlink" href="#easyclimate.core.tutorial.file_formats" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial._check_netcdf_engine_installed">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">_check_netcdf_engine_installed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.tutorial._check_netcdf_engine_installed" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.tutorial.open_tutorial_dataset">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.tutorial.</span></span><span class="sig-name descname"><span class="pre">open_tutorial_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.12)"><span class="pre">os.PathLike</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xarray.backends.api.T_Engine</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.10.2.dev0)"><span class="pre">xarray.Dataset</span></a></span></span><a class="headerlink" href="#easyclimate.core.tutorial.open_tutorial_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Open a dataset from the online repository (requires internet).</p>
+<p>If a local copy is found then always use that to avoid network traffic.</p>
+<p>Available datasets:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;air_202201_mon_mean&quot;</span></code>: 2m air temperature of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;hgt_202201_mon_mean&quot;</span></code>: Geopotential height of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;precip_202201_mon_mean&quot;</span></code>: Precipitation of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;pressfc_202201_mon_mean&quot;</span></code>: Mean sea surface pressure of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;shum_202201_mon_mean&quot;</span></code>: Absolute humidity of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;uwnd_202201_mon_mean&quot;</span></code>: Zonal wind of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;vwnd_202201_mon_mean&quot;</span></code>: Meridional wind of the NCEP reanalysis subset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;mini_HadISST_ice&quot;</span></code>: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset</p></li>
+</ul>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>Name of the file containing the dataset.
+e.g. ‘air_202201_mon_mean’</p>
+</dd>
+<dt>cache_dir<span class="classifier">path-like, optional</span></dt><dd><p>The directory in which to search for and write cached data.</p>
+</dd>
+<dt>cache<span class="classifier">bool, optional</span></dt><dd><p>If True, then cache data locally for use on subsequent calls</p>
+</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kws<span class="classifier">dict, optional</span></dt><dd><p>Passed to xarray.open_dataset</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h4>
+<p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.10.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
+</section>
+<section id="reference">
+<h4>Reference<a class="headerlink" href="#reference" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Kalnay et al.,The NCEP/NCAR 40-year reanalysis project, Bull. Amer. Meteor. Soc., 77, 437-470, 1996</p></li>
+<li><p>Rayner, N. A.; Parker, D. E.; Horton, E. B.; Folland, C. K.; Alexander, L. V.; Rowell, D. P.; Kent, E. C.; Kaplan, A. (2003) Global analyses of sea surface temperature, sea ice, and night marine air temperature since the late nineteenth century J. Geophys. Res.Vol. 108, No. D14, 4407 10.1029/2002JD002670  (pdf ~9Mb)</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.tutorial.load_dataset.html#xarray.tutorial.load_dataset" title="(in xarray v2023.10.2.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.tutorial.load_dataset</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.open_dataset.html#xarray.open_dataset" title="(in xarray v2023.10.2.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.open_dataset</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.load_dataset.html#xarray.load_dataset" title="(in xarray v2023.10.2.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.load_dataset</span></code></a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._default_cache_dir_name"><code class="docutils literal notranslate"><span class="pre">_default_cache_dir_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.base_url"><code class="docutils literal notranslate"><span class="pre">base_url</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.version"><code class="docutils literal notranslate"><span class="pre">version</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._construct_cache_dir"><code class="docutils literal notranslate"><span class="pre">_construct_cache_dir()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.external_urls"><code class="docutils literal notranslate"><span class="pre">external_urls</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.file_formats"><code class="docutils literal notranslate"><span class="pre">file_formats</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._check_netcdf_engine_installed"><code class="docutils literal notranslate"><span class="pre">_check_netcdf_engine_installed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.open_tutorial_dataset"><code class="docutils literal notranslate"><span class="pre">open_tutorial_dataset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._default_cache_dir_name">_default_cache_dir_name</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.base_url">base_url</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.version">version</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._construct_cache_dir">_construct_cache_dir</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.external_urls">external_urls</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.file_formats">file_formats</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial._check_netcdf_engine_installed">_check_netcdf_engine_installed</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.tutorial.open_tutorial_dataset">open_tutorial_dataset</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

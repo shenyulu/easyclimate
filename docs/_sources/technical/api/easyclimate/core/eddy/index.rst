@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Functions for transient eddy.
+   The calculation of transient eddy
 
 
 

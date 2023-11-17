@@ -51,4 +51,8 @@ Functions
        >>> print(result)
        1
 
+   .. todo::
+       - https://medium.com/pangeo/accessing-netcdf-and-grib-file-collections-as-cloud-native-virtual-datasets-using-kerchunk-625a2d0a9191
+       - https://github.com/fsspec/kerchunk/issues/240
+
 

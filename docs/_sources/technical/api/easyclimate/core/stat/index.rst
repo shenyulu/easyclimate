@@ -100,7 +100,7 @@ Functions
 
    Returns
    -------
-   - statistic, p: :py:class:`xarray.Dataset<xarray.Dataset>`.
+   - statistic, pvalue: :py:class:`xarray.Dataset<xarray.Dataset>`.
 
    .. seealso::
        :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.

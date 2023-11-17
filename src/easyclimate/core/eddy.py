@@ -1,5 +1,5 @@
 """
-Functions for transient eddy.
+The calculation of transient eddy
 """
 from __future__ import annotations
 import xarray as xr

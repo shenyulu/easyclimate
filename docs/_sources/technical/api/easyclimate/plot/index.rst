@@ -26,25 +26,13 @@ Functions
 
 .. autoapisummary::
 
-   easyclimate.plot.draw_Circlemap_PolarStereo
-   easyclimate.plot.add_cyclic
+   easyclimate.plot.transfer_xarray_lon_from180TO360
    easyclimate.plot.assert_compared_version
-   easyclimate.plot.find_dims_axis
-   easyclimate.plot.transfer_int2datetime
-   easyclimate.plot.transfer_datetime2int
-   easyclimate.plot.transfer_deg2rad
-   easyclimate.plot.transfer_inf2nan
-   easyclimate.plot.transfer_monmean2everymonthmean
-   easyclimate.plot.get_weighted_spatial_data
-   easyclimate.plot.get_compress_xarraydata
-   easyclimate.plot.transfer_dFdp2dFdz
-   easyclimate.plot.sort_ascending_latlon_coordinates
-   easyclimate.plot.transfer_units_coeff
-   easyclimate.plot.transfer_data_units
-   easyclimate.plot.generate_dataset_dispatcher
-   easyclimate.plot.generate_datatree_dispatcher
-   easyclimate.plot.draw_significant_area
+   easyclimate.plot.draw_Circlemap_PolarStereo
+   easyclimate.plot.add_lon_cyclic
+   easyclimate.plot.draw_significant_area_contourf
    easyclimate.plot.get_significance_point
+   easyclimate.plot.draw_significant_area_scatter
    easyclimate.plot.calc_correlation_coefficient
    easyclimate.plot.calc_standard_deviation
    easyclimate.plot.calc_centeredRMS
@@ -53,6 +41,9 @@ Functions
    easyclimate.plot.calc_TaylorDiagrams_metadata
    easyclimate.plot.draw_TaylorDiagrams_base
    easyclimate.plot.draw_TaylorDiagrams_metadata
+   easyclimate.plot.set_lon_format_axis
+   easyclimate.plot.set_lat_format_axis
+   easyclimate.plot.set_p_format_axis
 
 
 
@@ -64,14 +55,23 @@ Attributes
    easyclimate.plot.check_return
 
 
-.. py:data:: check_return
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
-   
+   Longitude conversion -180-180 to 0-360.
 
-.. py:function:: draw_Circlemap_PolarStereo(*, ax=None, lonstep=30, latstep=20, lat_range=[0, 40], gridcolor='black', linestyle='--', x_inline=False, y_inline=True, xlabel_style={}, ylabel_style={}, draw_labels=True, correct_pad={})
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
 
-.. py:function:: add_cyclic(data2d, inter=1.125)
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
 
 
 .. py:function:: assert_compared_version(ver1: float, ver2: float) -> int
@@ -105,183 +105,129 @@ Attributes
        1
 
 
-.. py:function:: find_dims_axis(data: xarray.DataArray, dim: str) -> int
+.. py:data:: check_return
 
-   Find the index of `dim` in the xarray DataArray.
+   
+
+.. py:function:: draw_Circlemap_PolarStereo(*, lat_range: tuple | list, add_gridlines: bool = True, lon_step: float = None, lat_step: float = None, ax: matplotlib.axes.Axes = None, draw_labels: bool = True, set_map_boundary_kwargs: dict = {}, gridlines_kwargs: dict = {})
+
+   Utility function to set the boundary of ax to a path that surrounds a
+   given region specified by latitude and longitude coordinates. This boundary
+   is drawn in the projection coordinates and therefore follows any curves
+   created by the projection. As of now, this works consistently for the
+   North/South Polar Stereographic Projections.
 
    Parameters
    ----------
-   - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-   - dim : :py:class:`str<python.str>`
-       Dimension(s) over which to find axis.
+   lat_range : :py:class:`tuple`, :py:class:`list`.
+       The two-tuple containing the start and end of the desired range of
+       latitudes. The first entry must be smaller than the second entry.
+       Both entries must be between [-90 , 90].
+   add_gridlines: :py:class:`bool`.
+       whether or not add gridlines and tick labels to a map.
+   lon_step: :py:class:`float`.
+       The step of grid lines in longitude.
+   lat_step: :py:class:`float`.
+       The step of grid lines in latitude.
+   ax : :py:class:`matplotlib.axes.Axes`
+       The axes to which the boundary will be applied.
+   draw_labels: :py:class:`bool`.
+       Whether to draw labels. Defaults to `True`.
+   **set_map_boundary_kwargs: :py:class:`dict`.
+       Additional keyword arguments to wrapped :py:func:`geocat.viz.util.set_map_boundary <geocat.viz:geocat.viz.util.set_map_boundary>`.
+   **gridlines_kwargs: :py:class:`dict`.
+       Additional keyword arguments to wrapped :py:class:`cartopy.mpl.gridliner.Gridliner <cartopy:cartopy.mpl.gridliner.Gridliner>`.
+   .. seealso
+       :py:func:`geocat.viz.util.set_map_boundary <geocat.viz:geocat.viz.util.set_map_boundary>`, :py:class:`cartopy.mpl.gridliner.Gridliner <cartopy:cartopy.mpl.gridliner.Gridliner>`.
+
+
+.. py:function:: add_lon_cyclic(data_input: xarray.DataArray, inter: float, lon_dim: str = 'lon')
+
+   Add a cyclic point to an array and optionally a corresponding coordinate.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+       The spatio-temporal data to be calculated.
+   inter: :py:class:`float<float>`
+       Longitude interval (assuming longitude is arranged in a sequence of equal differences).
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   .. seealso
+       :py:func:`xarray.DataArray.pad <xarray:xarray.DataArray.pad>`, :py:func:`cartopy.util.add_cyclic_point <cartopy:cartopy.util.add_cyclic_point>`
+
+
+.. py:function:: draw_significant_area_contourf(p_value: xarray.DataArray, thresh: float = 0.05, lon_dim: str = 'lon', lat_dim: str = 'lat', ax: matplotlib.axes.Axes = None, hatches: str = '...', hatch_colors: str = 'k', reverse_level_plot: bool = False, **kwargs) -> matplotlib.contour.QuadContourSet
+
+   Draw significant area by :py:func:`matplotlib.axes.Axes.contourf<matplotlib.axes.Axes.contourf>`.
+
+   Parameters
+   ----------
+   p_value: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The p value data.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   ax : :py:class:`matplotlib.axes.Axes`, optional.
+       Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
+   hatches: `list[str]`, default: `...`
+       A list of cross hatch patterns to use on the filled areas. If None, no hatching will be added to the contour. Hatching is supported in the PostScript, PDF, SVG and Agg backends only.
+   hatch_colors, default: `k`.
+       The colors of the hatches.
+   reverse_level_plot: :py:class:`bool<python.bool>`, default: `False`.
+       Whether to reverse the drawing area.
+   **kwargs, optional:
+       Additional keyword arguments to :py:func:`xarray.plot.contourf<xarray.plot.contourf>`.
+
+       .. attention::
+           You must specify `transform = ccrs.PlateCarree()` (`import cartopy.crs as ccrs`) in the cartopy `GeoAxes` or `GeoAxesSubplot`, otherwise projection errors may occur.
 
    Returns
    -------
-   :py:class:`int<python.int>`.
+   :py:class:`matplotlib.contour.QuadContourSet<matplotlib.contour.QuadContourSet>`.
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: get_significance_point(p_value: xarray.DataArray, thresh: float = 0.05, lon_dim: str = 'lon', lat_dim: str = 'lat') -> (numpy.array, numpy.array)
 
-   Convert a numpy array of years of type integer to `np.datetime64` type.
-
-   Parameters
-   ----------
-   - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-
-   Examples
-   --------
-
-   .. code:: python
-
-       >>> import easyclimate as ecl
-       >>> import numpy as np
-       >>> intyear = np.array([2054, 2061, 2062, 2067, 2071, 2075, 2076, 2078, 2085, 2089, 2096])
-       >>> ecl.transfer_int2datetime(intyear)
-       array(['2054-01-01T00:00:00.000000000', '2061-01-01T00:00:00.000000000',
-              '2062-01-01T00:00:00.000000000', '2067-01-01T00:00:00.000000000',
-              '2071-01-01T00:00:00.000000000', '2075-01-01T00:00:00.000000000',
-              '2076-01-01T00:00:00.000000000', '2078-01-01T00:00:00.000000000',
-              '2085-01-01T00:00:00.000000000', '2089-01-01T00:00:00.000000000',
-              '2096-01-01T00:00:00.000000000'], dtype='datetime64[ns]')
-
-   .. seealso::
-       `Python(pandas)整数类型数据转换为时间类型 <https://www.jianshu.com/p/d12d95fbc90c>`__.
-
-
-.. py:function:: transfer_datetime2int(ds: xarray.DataArray) -> xarray.DataArray
-
-   Convert `np.datetime64` type with years and days to `year` and `day` coordinates.
+   Obtain longitude and latitude array values that meet the conditions within the threshold from a two-dimensional array of p-values
 
    Parameters
    ----------
-   - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-
-   .. seealso::
-       `Function in xarray to regroup monthly data into months and # of years <https://github.com/pydata/xarray/discussions/5119>`__.
-
-
-.. py:function:: transfer_deg2rad(ds: xarray.DataArray) -> xarray.DataArray
-
-   Convert Degrees to Radians.
-
-   Parameters
-   ----------
-   - ds: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       Degrees data.
+   p_value: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The p value data.
+   thresh: :py:class:`float<python.float>`.
+       The threshold value.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+   lat_dim: :py:class:`str<python.str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.    
 
    Returns
    -------
-   - Radians data.: :py:class:`xarray.DataArray<xarray.DataArray>`.
+   :py:class:`matplotlib.contour.QuadContourSet<matplotlib.contour.QuadContourSet>`.
 
 
-.. py:function:: transfer_inf2nan(ds: xarray.DataArray) -> xarray.DataArray
+.. py:function:: draw_significant_area_scatter(point_lon: numpy.array, point_lat: numpy.array, ax: matplotlib.axes.Axes = None, **kwargs)
 
-   Convert `np.inf` in `ds` to `np.nan`, respectively.
-
-   Parameters
-   ----------
-   - ds: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       Data include `np.inf`.
-
-   Returns
-   -------
-   - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
-
-
-.. py:function:: transfer_monmean2everymonthmean(data_input: xarray.DataArray, time_dim: str = 'time') -> xarray.DataArray
-
-   Convert to the month-mean state corresponding to each month.
+   Draw significant area by :py:func:`matplotlib.axes.Axes.scatter<matplotlib.axes.Axes.scatter>`.
 
    Parameters
    ----------
-   - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.    
+   point_lon: :py:class:`numpy.array<numpy.array>`.
+       The longitude of significant points.
+   point_lat: :py:class:`numpy.array<numpy.array>`.
+       The latitude of significant points.
+   ax : :py:class:`matplotlib.axes.Axes`, optional
+       Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
+   **kwargs, optional:
+       Additional keyword arguments to :py:func:`matplotlib.axes.Axes.scatter<matplotlib.axes.Axes.scatter>`.
 
-
-.. py:function:: get_weighted_spatial_data(data_input: xarray.DataArray, lat_dim: str = 'lat', lon_dim: str = 'lon', method: str = 'cos_lat') -> xarray.DataArray
-
-   Get the area-weighting data.
-
-   Parameters
-   ----------
-   - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
-       :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-   - lat_dim: :py:class:`str<python.str>`.
-       Latitude dimension over which to apply. By default is applied over the `lat` dimension.
-   - lon_dim: :py:class:`str<python.str>`.
-       Longitude dimension over which to apply. By default is applied over the `lon` dimension.
-   - method: {`'cos_lat'`, `'area'`}.
-       area-weighting methods.
-
-       1. `'cos_lat'`: weighting data by the cosine of latitude.
-       2. `'area'`: weighting data by area, where you weight each data point by the area of each grid cell.
-
-   .. Caution:: 
-       - `data_input` must be **regular lonlat grid**.
-       - If you are calculating global average temperature just on land, 
-         then you need to mask out the ocean in your area dataset at first.
-
-   .. seealso::
-       - `The Correct Way to Average the Globe (Why area-weighting your data is important) <https://towardsdatascience.com/the-correct-way-to-average-the-globe-92ceecd172b7>`__.
-       - Kevin Cowtan, Peter Jacobs, Peter Thorne, Richard Wilkinson, 
-         Statistical analysis of coverage error in simple global temperature estimators, 
-         Dynamics and Statistics of the Climate System, Volume 3, Issue 1, 2018, dzy003, https://doi.org/10.1093/climsys/dzy003.
-
-
-.. py:function:: get_compress_xarraydata(data: xr.DataArray | xr.Dataset, complevel: int) -> xr.DataArray | xr.Dataset
-
-   Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
-
-
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
-
-   The transformation relationship between the z coordinate system and the p coordinate system.
-
-   .. math::
-       \frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}
-
-
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
-
-   Sort the dimensions `lat`, `lon` in ascending order.
-
-
-.. py:function:: transfer_units_coeff(input_units, output_units)
-
-   Unit conversion factor
-
-
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
-
-   Data unit conversion
-
-
-.. py:function:: generate_dataset_dispatcher(func)
-
-   Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
-
-
-.. py:function:: generate_datatree_dispatcher(func)
-
-   Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
-
-
-.. py:function:: draw_significant_area(p_value_data, threshold=0.05, lon_dim='lon', lat_dim='lat', ax=None, hatch_colors='k', point_density='...', reverse_level_plot=False)
-
-   绘制显著性区域（contourf hatch 方法）
-   data: 包含 p 值的 DataArray
-   ax: 绘制的 axes
-   hatch_colors: 更改 hatch 图案颜色，类似于 hatch_colors = ['maroon', 'red', 'darkorange']
-   point_density: 点密度或者点的绘制类型，可选值有 '.', '..', '...'
-
-
-.. py:function:: get_significance_point(p_value_data, threshold=0.05, lon_dim='lon', lat_dim='lat')
-
-       
-       
+       .. attention::
+           You must specify `transform = ccrs.PlateCarree()` (`import cartopy.crs as ccrs`) in the cartopy `GeoAxes` or `GeoAxesSubplot`, otherwise projection errors may occur.
 
 
 .. py:function:: calc_correlation_coefficient(f: xarray.DataArray, r: xarray.DataArray) -> xarray.DataArray
@@ -593,5 +539,50 @@ Attributes
    Returns
    -------
    `matplotlib.collections.Collection`
+
+
+.. py:function:: set_lon_format_axis(ax: matplotlib.axes.Axes, axis: str = 'x', **kwargs)
+
+   Setting the axes in longitude format.
+
+   Parameters
+   ----------
+   ax : :py:class:`matplotlib.axes.Axes`
+       The axes to which the boundary will be applied.
+   axis: {'x', 'y'}, default: 'x'
+       The axis to which the parameters are applied.
+   **kwargs
+       Additional keyword arguments to wrapped :py:func:`matplotlib.axis.Axis.set_major_formatter <matplotlib:matplotlib.axis.Axis.set_major_formatter>`.
+
+
+.. py:function:: set_lat_format_axis(ax: matplotlib.axes.Axes, axis: str = 'y', **kwargs)
+
+   Setting the axes in latitude format.
+
+   Parameters
+   ----------
+   ax : :py:class:`matplotlib.axes.Axes`
+       The axes to which the boundary will be applied.
+   axis: {'x', 'y'}, default: 'y'
+       The axis to which the parameters are applied.
+   **kwargs
+       Additional keyword arguments to wrapped :py:func:`matplotlib.axis.Axis.set_major_formatter <matplotlib:matplotlib.axis.Axis.set_major_formatter>`.
+
+
+.. py:function:: set_p_format_axis(ax: matplotlib.axes.Axes, axis: str = 'y', axis_limits: tuple = (1000, 100), ticker_step: float = 100)
+
+   Setting the axes in logarithmic vertical barometric pressure format.
+
+   Parameters
+   ----------
+   ax : :py:class:`matplotlib.axes.Axes`
+       The axes to which the boundary will be applied.
+   axis: {'x', 'y'}, default: 'y'
+       The axis to which the parameters are applied.
+   axis_limits: :py:class:`tuple`, default `(1000, 100)`.
+       Assuming that the distribution of coordinates exhibits an isotropic series distribution, 
+       this item sets the maximum value (near surface air pressure) and the minimum value (near overhead air pressure).
+   ticker_step: :py:class:`float`, default `100`.
+       Assuming an isotropic series of coordinate distributions, the term sets the tolerance.
 
 

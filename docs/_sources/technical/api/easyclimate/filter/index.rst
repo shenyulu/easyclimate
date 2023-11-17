@@ -11,7 +11,7 @@ Submodules
    :maxdepth: 1
 
    barnes_filter/index.rst
-   filter/index.rst
+   butter_filter/index.rst
 
 
 Package Contents

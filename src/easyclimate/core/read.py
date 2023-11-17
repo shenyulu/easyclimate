@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from glob import glob
 import xarray as xr
+import pooch
 
 def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
     """
@@ -34,6 +35,10 @@ def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
         >>> result = assert_compared_version("10.12.2.6.5", "10.12.2.6")
         >>> print(result)
         1
+
+    .. todo::
+        - https://medium.com/pangeo/accessing-netcdf-and-grib-file-collections-as-cloud-native-virtual-datasets-using-kerchunk-625a2d0a9191
+        - https://github.com/fsspec/kerchunk/issues/240
     """
 
     # Dask is used by default for multi-data file reads for lazy computation
@@ -44,8 +49,3 @@ def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
     datasets = [xr.open_dataset(p, **kwargs) for p in paths]
     combined = xr.concat(datasets, dim)
     return combined
-
-
-
-## To do: https://medium.com/pangeo/accessing-netcdf-and-grib-file-collections-as-cloud-native-virtual-datasets-using-kerchunk-625a2d0a9191
-# https://github.com/fsspec/kerchunk/issues/240

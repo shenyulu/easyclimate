@@ -111,7 +111,12 @@ def calc_linregress_spatial(data_input, dim = 'time', x = None, alternative = 't
         return result
 
     def _calc_linregress_spatial_scipy_linregress(data_input, dim, x, alternative):
-        data_input = data_input.chunk({dim: -1})
+        
+        if data_input.chunks is not None:
+            # Dask routine
+            data_input = data_input.chunk({dim: -1})
+        else:
+            pass
                                     
         # y shape
         n = data_input[dim].shape[0]
@@ -224,7 +229,7 @@ def calc_ttestSpatialPattern_spatial(data_input1, data_input2, dim = 'time'):
 
     Returns
     -------
-    - statistic, p: :py:class:`xarray.Dataset<xarray.Dataset>`.
+    - statistic, pvalue: :py:class:`xarray.Dataset<xarray.Dataset>`.
 
     .. seealso::
         :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.
@@ -253,7 +258,7 @@ def calc_ttestSpatialPattern_spatial(data_input1, data_input2, dim = 'time'):
 
     return xr.Dataset(
         data_vars = {'statistic': ttest_ind_dataarray[...,0],
-                     'p':  ttest_ind_dataarray[...,1],
+                     'pvalue':  ttest_ind_dataarray[...,1],
         }
     )
 

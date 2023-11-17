@@ -27,12 +27,11 @@
 .. raw:: html
 
     <p class="lead centered front-page-callout">
-        Just want to write only a  line of code to 
-        finish the analysis of climatology?
+        A line of code to finish the analysis of climatology
         <br>
         Trying to make it easily without complicated writing code?
         <br>
-        <strong>Easy-climate is just here to help you!</strong>
+        <strong>Easy Climate is just here to help you!</strong>
     </p>
 
 Installation
@@ -57,43 +56,31 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
     
     overview.rst
     install.rst
-    .. ./auto_gallery/plot_2_quick_start
-    .. ./auto_gallery/plot_3_new
-    .. ./auto_gallery/plot_0_sin
-    .. ./auto_gallery/test1
-    .. ./auto_gallery/local_test
-
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Data Processing
 
-   ./auto_gallery/plot_1_geographic_finite_difference
-   ./tutorials_src/time_conversion
-   ./tutorials_src/climate_variability_analysis
-   ./tutorials_src/regression_analysis
-   ./tutorials_src/temporal_decomposition
-   
+   ./auto_gallery_output/plot_basic_statistical_analysis
+   ./auto_gallery_output/plot_time_scale_average
+   ./auto_gallery_output/plot_geographic_finite_difference   
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Plotting
 
-   ./tutorials_src/geophysics_coordinates.md
-   ./tutorials_src/significance_testing.md
-   ./tutorials_src/taylor_diagram.md
-   ./tutorials_src/projections.md
-
+   ./auto_gallery_output/plot_formatting_coordinates
+   ./auto_gallery_output/plot_taylor_diagram
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Indices:
 
-   ./tutorials_src/air_sea_interaction.md
-   ./tutorials_src/monsoon.md
+   ./static_docs/air_sea_interaction.md
+   ./static_docs/monsoon.md
 
    
 .. toctree::
@@ -101,7 +88,7 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
     :hidden:
     :caption: Community
 
-    How to contribute <https://github.com/shenyulu/easyclimate/blob/master/CONTRIBUTING.md>
+    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
     Source code on GitHub <https://github.com/shenyulu/easyclimate>
 
 .. toctree::
@@ -109,14 +96,8 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
     :hidden:
     :caption: Reference documentation
 
-    api/index.rst
+    ./api_index/index.rst
     changes.rst
-..  ./_autosummary/easyclimate.rst
-   ..  ./technical/api/index.html
-
-   ..  ...
-   ..  changes
-   ..  autoapi/index
     
 
 Indices and tables

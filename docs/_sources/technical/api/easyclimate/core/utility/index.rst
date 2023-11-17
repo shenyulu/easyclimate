@@ -33,6 +33,9 @@ Functions
    easyclimate.core.utility.transfer_data_units
    easyclimate.core.utility.generate_dataset_dispatcher
    easyclimate.core.utility.generate_datatree_dispatcher
+   easyclimate.core.utility.transfer_xarray_lon_from180TO360
+   easyclimate.core.utility.transfer_xarray_lon_from360TO180
+   easyclimate.core.utility.module_available
 
 
 
@@ -83,7 +86,7 @@ Functions
    :py:class:`int<python.int>`.
 
 
-.. py:function:: transfer_int2datetime(data)
+.. py:function:: transfer_int2datetime(data: numpy.array) -> numpy.datetime64
 
    Convert a numpy array of years of type integer to `np.datetime64` type.
 
@@ -198,7 +201,7 @@ Functions
    Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
 
 
-.. py:function:: transfer_dFdp2dFdz(dFdp_data, rho_d=1292.8, g=9.8)
+.. py:function:: transfer_dFdp2dFdz(dFdp_data: xr.DataArray | xr.Dataset, rho_d: float = 1292.8, g: float = 9.8)
 
    The transformation relationship between the z coordinate system and the p coordinate system.
 
@@ -206,17 +209,17 @@ Functions
        \frac{\partial F}{\partial z} = \frac{\partial F}{\partial p} \frac{\partial p}{\partial z} = - \rho g \frac{\partial F}{\partial p}
 
 
-.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon')
+.. py:function:: sort_ascending_latlon_coordinates(data: xr.DataArray | xr.Dataset, lat_dim: str = 'lat', lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
 
    Sort the dimensions `lat`, `lon` in ascending order.
 
 
-.. py:function:: transfer_units_coeff(input_units, output_units)
+.. py:function:: transfer_units_coeff(input_units: str, output_units: str) -> float
 
    Unit conversion factor
 
 
-.. py:function:: transfer_data_units(input_data, input_units, output_units)
+.. py:function:: transfer_data_units(input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str) -> xr.DataArray | xr.Dataset
 
    Data unit conversion
 
@@ -229,5 +232,60 @@ Functions
 .. py:function:: generate_datatree_dispatcher(func)
 
    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+
+
+.. py:function:: transfer_xarray_lon_from180TO360(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion -180-180 to 0-360.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from360TO180 <transfer_xarray_lon_from360TO180>`
+
+
+.. py:function:: transfer_xarray_lon_from360TO180(data_input: xr.DataArray | xr.Dataset, lon_dim: str = 'lon') -> xr.DataArray | xr.Dataset
+
+   Longitude conversion 0-360 to -180-180.
+
+   Parameters
+   ----------
+   data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+   lon_dim: :py:class:`str<python.str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+   .. seealso::
+       :py:func:`transfer_xarray_lon_from180TO360 <transfer_xarray_lon_from180TO360>`
+
+
+.. py:function:: module_available(module: str) -> bool
+
+   Checks whether a module is installed without importing it.
+
+   Use this for a lightweight check and lazy imports.
+
+   Parameters
+   ----------
+   module : str
+       Name of the module.
+
+   Returns
+   -------
+   available : bool
+       Whether the module is installed.
 
 
