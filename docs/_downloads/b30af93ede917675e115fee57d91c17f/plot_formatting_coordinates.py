@@ -32,8 +32,8 @@ draw_data1.plot.pcolormesh(
 )
 
 #%%
-# py:func:`easyclimate.plot.set_lon_format_axis <easyclimate.plot.set_lon_format_axis>`, 
-# py:func:`easyclimate.plot.set_lat_format_axis <easyclimate.plot.set_lat_format_axis>` can help us quickly 
+# :py:func:`easyclimate.plot.set_lon_format_axis <easyclimate.plot.set_lon_format_axis>`, 
+# :py:func:`easyclimate.plot.set_lat_format_axis <easyclimate.plot.set_lat_format_axis>` can help us quickly 
 # format the coordinates on the x-axis and y-axis, respectively, into a geographic coordinate format.
 fig, ax  = plt.subplots(1, 1)
 
@@ -45,8 +45,8 @@ ecl.plot.set_lon_format_axis(ax, axis = 'x')
 ecl.plot.set_lat_format_axis(ax, axis = 'y')
 
 #%%
-# It is worth mentioning that the py:func:`easyclimate.plot.set_lon_format_axis <easyclimate.plot.set_lon_format_axis>`, 
-# py:func:`easyclimate.plot.set_lat_format_axis <easyclimate.plot.set_lat_format_axis>` methods contain a parameter `dmi` 
+# It is worth mentioning that the :py:func:`easyclimate.plot.set_lon_format_axis <easyclimate.plot.set_lon_format_axis>`, 
+# :py:func:`easyclimate.plot.set_lat_format_axis <easyclimate.plot.set_lat_format_axis>` methods contain a parameter `dmi` 
 # which helps us to convert DD (Decimal Degrees) format to DMS (Degrees Minutes Seconds) format.
 # 
 # Now let's start by selecting a smaller area
@@ -89,8 +89,8 @@ draw_data2.plot.contourf(
 )
 
 #%%
-# py:func:`easyclimate.plot.set_p_format_axis <easyclimate.plot.set_p_format_axis>` can help us format barometric vertical labels 
-# and similarly py:func:`easyclimate.plot.set_lat_format_axis <easyclimate.plot.set_lat_format_axis>` can help us format latitude labels.
+# :py:func:`easyclimate.plot.set_p_format_axis <easyclimate.plot.set_p_format_axis>` can help us format barometric vertical labels 
+# and similarly :py:func:`easyclimate.plot.set_lat_format_axis <easyclimate.plot.set_lat_format_axis>` can help us format latitude labels.
 fig, ax  = plt.subplots(1, 1)
 
 draw_data2.plot.contourf(
@@ -114,7 +114,7 @@ sic_data.plot.contourf(
 )
 
 #%%
-# py:func:`easyclimate.plot.draw_Circlemap_PolarStereo <easyclimate.plot.draw_Circlemap_PolarStereo>` helps us to easily 
+# :py:func:`easyclimate.plot.draw_Circlemap_PolarStereo <easyclimate.plot.draw_Circlemap_PolarStereo>` helps us to easily 
 # establish the boundary of the circle under the projection of the polar stereo.
 fig, ax = plt.subplots(subplot_kw = {'projection': ccrs.NorthPolarStereo()})
 
