@@ -85,6 +85,7 @@ Attributes
    * ``"uwnd_202201_mon_mean"``: Zonal wind of the NCEP reanalysis subset
    * ``"vwnd_202201_mon_mean"``: Meridional wind of the NCEP reanalysis subset
    * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
+   * ``"PressQFF_202007271200_872"``: Observational data from European stations (from https://github.com/EXCITED-CO2/xarray-regrid)
 
 
    Parameters

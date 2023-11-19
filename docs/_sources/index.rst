@@ -64,7 +64,8 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
 
    ./auto_gallery_output/plot_basic_statistical_analysis
    ./auto_gallery_output/plot_time_scale_average
-   ./auto_gallery_output/plot_geographic_finite_difference   
+   ./auto_gallery_output/plot_geographic_finite_difference
+   ./auto_gallery_output/plot_interp
 
 .. toctree::
    :maxdepth: 1

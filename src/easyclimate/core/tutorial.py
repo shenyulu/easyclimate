@@ -14,6 +14,8 @@ import pathlib
 from typing import TYPE_CHECKING
 from glob import glob
 import xarray as xr
+from pathlib import Path
+import pandas as pd
 
 if TYPE_CHECKING:
     from xarray.backends.api import T_Engine
@@ -42,6 +44,7 @@ file_formats = {
     "uwnd_202201_mon_mean": 4,
     "vwnd_202201_mon_mean": 4,
     "mini_HadISST_ice": 4,
+    "PressQFF_202007271200_872": 'csv',
 }
 
 def _check_netcdf_engine_installed(name):
@@ -68,6 +71,14 @@ def _check_netcdf_engine_installed(name):
                     f"opening tutorial dataset {name} requires either h5netcdf "
                     "or netCDF4 to be installed."
                 )
+    if version == 'csv':
+        try:
+            import pandas  # noqa
+        except ImportError:
+            raise ImportError(
+                f"opening tutorial dataset {name} requires pandas "
+                " to be installed."
+            )
 
 def open_tutorial_dataset(
     name: str,
@@ -92,6 +103,7 @@ def open_tutorial_dataset(
     * ``"uwnd_202201_mon_mean"``: Zonal wind of the NCEP reanalysis subset
     * ``"vwnd_202201_mon_mean"``: Meridional wind of the NCEP reanalysis subset
     * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
+    * ``"PressQFF_202007271200_872"``: Observational data from European stations (from https://github.com/EXCITED-CO2/xarray-regrid)
 
 
     Parameters
@@ -157,9 +169,13 @@ def open_tutorial_dataset(
 
     # retrieve the file
     filepath = pooch.retrieve(url=url, known_hash=None, path=cache_dir, progressbar=True)
-    ds = xr.open_dataset(filepath, engine=engine, **kws)
-    if not cache:
-        ds = ds.load()
-        pathlib.Path(filepath).unlink()
+
+    if Path(filepath).suffix == '.nc' or Path(filepath).suffix == '.grib':
+        ds = xr.open_dataset(filepath, engine=engine, **kws)
+        if not cache:
+            ds = ds.load()
+            pathlib.Path(filepath).unlink()
+    elif Path(filepath).suffix == '.csv' or Path(filepath).suffix == '.CSV':
+        ds = pd.read_csv(filepath)
 
     return ds

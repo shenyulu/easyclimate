@@ -23,7 +23,7 @@ draw_data1 = u_data.isel(time = 0).sel(level = 500)
 draw_data1
 
 #%%
-# Now we call py:func:`xarray.plot.pcolormesh <xarray.plot.pcolormesh>` to plot the latitudinal wind field on the 500hPa isobaric surface.
+# Now we call :py:func:`xarray.plot.pcolormesh <xarray.plot.pcolormesh>` to plot the latitudinal wind field on the 500hPa isobaric surface.
 # Noting that the x-axis and y-axis are not in standard geographic coordinate format, our next step is to format these coordinates.
 fig, ax  = plt.subplots(1, 1)
 

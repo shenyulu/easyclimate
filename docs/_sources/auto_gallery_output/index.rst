@@ -36,6 +36,23 @@ Below is a gallery of examples
 
 .. only:: html
 
+  .. image:: /auto_gallery_output/images/thumb/sphx_glr_plot_interp_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_output_plot_interp.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Interpolation and Regriding</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Before proceeding with all the steps, first import some necessary libraries and packages">
+
+.. only:: html
+
   .. image:: /auto_gallery_output/images/thumb/sphx_glr_plot_formatting_coordinates_thumb.png
     :alt:
 
@@ -107,6 +124,7 @@ Below is a gallery of examples
    :hidden:
 
    /auto_gallery_output/plot_time_scale_average
+   /auto_gallery_output/plot_interp
    /auto_gallery_output/plot_formatting_coordinates
    /auto_gallery_output/plot_taylor_diagram
    /auto_gallery_output/plot_geographic_finite_difference

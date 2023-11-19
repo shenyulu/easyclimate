@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>easyclimate.interp &#8212; Easy Climate v2023.11.0 documentation</title>
+    <title>easyclimate.interp &#8212; easyclimate v2023.11.0 documentation</title>
   
   
   
@@ -146,6 +146,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../auto_gallery_output/plot_interp.html">Interpolation and Regriding</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
 <ul class="nav bd-sidenav">
@@ -389,8 +390,14 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.transfer_xarray_lon_from180TO360"><code class="docutils literal notranslate"><span class="pre">transfer_xarray_lon_from180TO360()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.generate_dataset_dispatcher"><code class="docutils literal notranslate"><span class="pre">generate_dataset_dispatcher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_mesh2mesh"><code class="docutils literal notranslate"><span class="pre">interp_mesh2mesh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh"><code class="docutils literal notranslate"><span class="pre">interp_point2mesh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh_S2"><code class="docutils literal notranslate"><span class="pre">interp_point2mesh_S2()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.transfer_xarray_lon_from180TO360">transfer_xarray_lon_from180TO360</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.generate_dataset_dispatcher">generate_dataset_dispatcher</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_mesh2mesh">interp_mesh2mesh</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh">interp_point2mesh</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh_S2">interp_point2mesh_S2</a></li>
 </ul>
@@ -425,17 +432,99 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.interp.interp_point2mesh" title="easyclimate.interp.interp_point2mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_point2mesh</span></code></a>(data, var_name[, lon_dim_name, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.interp.transfer_xarray_lon_from180TO360" title="easyclimate.interp.transfer_xarray_lon_from180TO360"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_xarray_lon_from180TO360</span></code></a>(...)</p></td>
+<td><p>Longitude conversion -180-180 to 0-360.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.interp.generate_dataset_dispatcher" title="easyclimate.interp.generate_dataset_dispatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_dataset_dispatcher</span></code></a>(func)</p></td>
+<td><p>Function Dispensers: Iterate over the variables in the <cite>xarray.Dataset</cite> data using a function that only supports <cite>xarray.DataArray</cite> data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.interp.interp_mesh2mesh" title="easyclimate.interp.interp_mesh2mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_mesh2mesh</span></code></a>(data_input, target_grid[, lon_dim, ...])</p></td>
+<td><p>Regridding regular or lat-lon grid data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.interp.interp_point2mesh" title="easyclimate.interp.interp_point2mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_point2mesh</span></code></a>(→ xarray.DataArray)</p></td>
 <td><p>Computes the Barnes interpolation for observation values <cite>var_name</cite> taken at sample</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.interp.interp_point2mesh_S2" title="easyclimate.interp.interp_point2mesh_S2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_point2mesh_S2</span></code></a>(data, var_name[, lon_dim_name, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.interp.interp_point2mesh_S2" title="easyclimate.interp.interp_point2mesh_S2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_point2mesh_S2</span></code></a>(→ xarray.DataArray)</p></td>
 <td><p>Computes the Barnes interpolation for observation values <cite>var_name</cite> taken at sample</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.interp.transfer_xarray_lon_from180TO360">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">transfer_xarray_lon_from180TO360</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></span><a class="headerlink" href="#easyclimate.interp.transfer_xarray_lon_from180TO360" title="Permalink to this definition">#</a></dt>
+<dd><p>Longitude conversion -180-180 to 0-360.</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>lon_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, default: <cite>lon</cite>.</dt><dd><p>Longitude coordinate dimension name. By default extracting is applied over the <cite>lon</cite> dimension.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h4>
+<p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">transfer_xarray_lon_from360TO180</span></code></p>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.interp.generate_dataset_dispatcher">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">generate_dataset_dispatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.interp.generate_dataset_dispatcher" title="Permalink to this definition">#</a></dt>
+<dd><p>Function Dispensers: Iterate over the variables in the <cite>xarray.Dataset</cite> data using a function that only supports <cite>xarray.DataArray</cite> data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.interp.interp_mesh2mesh">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">interp_mesh2mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.interp.interp_mesh2mesh" title="Permalink to this definition">#</a></dt>
+<dd><p>Regridding regular or lat-lon grid data.</p>
+<section id="id1">
+<h4>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>target_grid: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></dt><dd><p>Target grid to be regridding.</p>
+<p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> version sample</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">target_grid</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">),</span>
+    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">89</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1.0</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> version sample</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">target_grid</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+<span class="n">target_grid</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">89</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1.0</span>
+<span class="n">target_grid</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</dd>
+<dt>lon_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, default: <cite>lon</cite>.</dt><dd><p>Longitude coordinate dimension name. By default extracting is applied over the <cite>lon</cite> dimension.</p>
+</dd>
+<dt>lat_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, default: <cite>lat</cite>.</dt><dd><p>Latitude coordinate dimension name. By default extracting is applied over the <cite>lat</cite> dimension.</p>
+</dd>
+<dt>method: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, default: <cite>linear</cite>.</dt><dd><p>The methods of regridding.</p>
+<ul class="simple">
+<li><p><cite>linear</cite>: linear, bilinear, or higher dimensional linear interpolation.</p></li>
+<li><p><cite>nearest</cite>: nearest-neighbor regridding.</p></li>
+<li><p><cite>cubic</cite>: cubic spline regridding.</p></li>
+<li><p><cite>conservative</cite>: conservative regridding.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="reference">
+<h4>Reference<a class="headerlink" href="#reference" title="Permalink to this heading">#</a></h4>
+<p><a class="github reference external" href="https://github.com/EXCITED-CO2/xarray-regrid">EXCITED-CO2/xarray-regrid</a></p>
+</section>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.interp.interp_point2mesh">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">interp_point2mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-9.0,</span> <span class="pre">47.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'optimized_convolution'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.interp.interp_point2mesh" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">interp_point2mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.3)"><span class="pre">pandas.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'optimized_convolution'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.interp.interp_point2mesh" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes the Barnes interpolation for observation values <cite>var_name</cite> taken at sample
 points <cite>data</cite> using Gaussian weights for the width parameter <cite>sigma</cite>.
 The underlying grid embedded in a Euclidean space is given with start point
@@ -449,10 +538,10 @@ analytical field. It is defined as</p>
 <p>with Gaussian weights</p>
 <div class="math notranslate nohighlight">
 \[w_k(\boldsymbol{x})=\text{e}^{-\frac{1}{2\sigma^2}\left\|x-\boldsymbol{x}_k\right\|^2}\]</div>
-<p>Naive computation of Barnes interpolation leads to an algorithmic complexity of O(N x W x H),
-where N is the number of sample points and W x H the size of the underlying grid.</p>
-<p>For sufficiently large n (in general in the range from 3 to 6) a good approximation of
-Barnes interpolation with a reduced complexity O(N + W x H) can be obtained by the convolutional expression</p>
+<p>Naive computation of Barnes interpolation leads to an algorithmic complexity of <span class="math notranslate nohighlight">\(O(N \times W \times H)\)</span>,
+where <span class="math notranslate nohighlight">\(N\)</span> is the number of sample points and <span class="math notranslate nohighlight">\(W \times H\)</span> the size of the underlying grid.</p>
+<p>For sufficiently large <span class="math notranslate nohighlight">\(n\)</span> (in general in the range from 3 to 6) a good approximation of
+Barnes interpolation with a reduced complexity <span class="math notranslate nohighlight">\(O(N + W \times H)\)</span> can be obtained by the convolutional expression</p>
 <div class="math notranslate nohighlight">
 \[f(\boldsymbol{x})\approx \frac{ (\sum_{k=1}^{N}f_k\cdot\delta_{\boldsymbol{x}_k}) *  ( r_n^{*n[x]}(x)\cdot r_n^{*n[y]}(y) )   }{ ( \sum_{k=1}^{N} \delta_{\boldsymbol{x}_k}  ) *  (  r_{n}^{*n[x]}(x)\cdot r_{n}^{*n[y]}(y)  )   }\]</div>
 <p>where <span class="math notranslate nohighlight">\(\delta\)</span> is the Dirac impulse function and <span class="math notranslate nohighlight">\(r(.)\)</span> an elementary rectangular function of a specific length that depends on <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(n\)</span>.</p>
@@ -520,25 +609,25 @@ start point of the grid to be used.</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>resolution: float</dt><dd><p>Grid resolution. The distance between regular grid points is the reciprocal of the value.</p>
+<dt>resolution: float</dt><dd><p>Grid resolution. The distance between regular grid points is the reciprocal of the value. Common values: 4.0, 8.0, 16.0, 32.0, 64.0.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>sigma<span class="classifier">float</span></dt><dd><p>The Gaussian width parameter to be used.</p>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>The Gaussian width parameter to be used. Common values: 0.25, 0.5, 1.0, 2.0, 4.0.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>method<span class="classifier">{‘optimized_convolution’, ‘convolution’, ‘radius’, ‘naive’}</span></dt><dd><p>Designates the Barnes interpolation method to be used. The possible
+<dt>method<span class="classifier">{‘optimized_convolution’, ‘convolution’, ‘radius’, ‘naive’}, default: ‘optimized_convolution’.</span></dt><dd><p>Designates the Barnes interpolation method to be used. The possible
 implementations that can be chosen are ‘naive’ for the straightforward
 implementation (algorithm A from paper), ‘radius’ to consider only sample
 points within a specific radius of influence, both with an algorithmic
-complexity of O(N x W x H).
+complexity of <span class="math notranslate nohighlight">\(O(N \times W \times H)\)</span>.
 The choice ‘convolution’ implements algorithm B specified in the paper
 and ‘optimized_convolution’ is its optimization by appending tail values
 to the rectangular kernel. The latter two algorithms reduce the complexity
-down to O(N + W x H).
+down to <span class="math notranslate nohighlight">\(O(N + W \times H)\)</span>.
 The default is ‘optimized_convolution’.</p>
 </dd>
 </dl>
@@ -546,7 +635,7 @@ The default is ‘optimized_convolution’.</p>
 <li><dl class="simple">
 <dt>num_iter<span class="classifier">int, optional</span></dt><dd><p>The number of performed self-convolutions of the underlying rect-kernel.
 Applies only if method is ‘optimized_convolution’ or ‘convolution’.
-The default is 4.</p>
+The default is 4. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.</p>
 </dd>
 </dl>
 </li>
@@ -559,13 +648,14 @@ The default is 0.001, which corresponds to a radius of 3.717 * sigma.</p>
 </dl>
 </li>
 </ul>
-<section id="returns">
-<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h4>
+<section id="id2">
+<h4>Returns<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
 <p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/MeteoSwiss/fast-barnes-py">fast-barnes-py</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/MeteoSwiss/fast-barnes-py">MeteoSwiss/fast-barnes-py</a></p></li>
+<li><p>Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, <a class="reference external" href="https://doi.org/10.5194/gmd-16-1697-2023">https://doi.org/10.5194/gmd-16-1697-2023</a>, 2023.</p></li>
 </ul>
 </div>
 </section>
@@ -573,15 +663,15 @@ The default is 0.001, which corresponds to a radius of 3.717 * sigma.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.interp.interp_point2mesh_S2">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">interp_point2mesh_S2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-9.0,</span> <span class="pre">47.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'optimized_convolution_S2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.interp.interp_point2mesh_S2" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.interp.</span></span><span class="sig-name descname"><span class="pre">interp_point2mesh_S2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.3)"><span class="pre">pandas.DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'optimized_convolution_S2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.interp.interp_point2mesh_S2" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes the Barnes interpolation for observation values <cite>var_name</cite> taken at sample
 points <cite>data</cite> using Gaussian weights for the width parameter <cite>sigma</cite>.</p>
-<p>The underlying grid embedded on the unit sphere S^2 and thus inherits the
+<p>The underlying grid embedded on the unit sphere <span class="math notranslate nohighlight">\(S^2\)</span> and thus inherits the
 spherical distance measure (taken in degrees). The grid is given by the start
 point <cite>point</cite>, regular x-direction length <cite>grid_x</cite> (degree), regular y-direction length <cite>grid_y</cite> (degree),
 and resolution <cite>resolution</cite>.</p>
-<section id="parameters">
-<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
+<section id="id3">
+<h4>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
 <ul>
 <li><dl>
 <dt>data<span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>Longitude and latitude grid point discrete data. There should be a similar structure as follows</p>
@@ -646,36 +736,36 @@ start point of the grid to be used.</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>resolution: float</dt><dd><p>Grid resolution. The distance between regular grid points is the reciprocal of the value.</p>
+<dt>resolution: float</dt><dd><p>Grid resolution. The distance between regular grid points is the reciprocal of the value. Common values: 4.0, 8.0, 16.0, 32.0, 64.0.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>sigma<span class="classifier">float</span></dt><dd><p>The Gaussian width parameter to be used.</p>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>The Gaussian width parameter to be used. Common values: 0.25, 0.5, 1.0, 2.0, 4.0.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>method<span class="classifier">{‘optimized_convolution_S2’, ‘naive_S2’}</span></dt><dd><p>Designates the Barnes interpolation method to be used. The possible
+<dt>method<span class="classifier">{‘optimized_convolution_S2’, ‘naive_S2’}, default: ‘optimized_convolution_S2’.</span></dt><dd><p>Designates the Barnes interpolation method to be used. The possible
 implementations that can be chosen are ‘naive_S2’ for the straightforward
 implementation (algorithm A from the paper) with an algorithmic complexity
-of O(N x W x H).
+of <span class="math notranslate nohighlight">\(O(N \times W \times H)\)</span>.
 The choice ‘optimized_convolution_S2’ implements the optimized algorithm B
 specified in the paper by appending tail values to the rectangular kernel.
-The latter algorithm has a reduced complexity of O(N + W x H).
+The latter algorithm has a reduced complexity of <span class="math notranslate nohighlight">\(O(N + W \times H)\)</span>.
 The default is ‘optimized_convolution_S2’.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>num_iter<span class="classifier">int, optional</span></dt><dd><p>The number of performed self-convolutions of the underlying rect-kernel.
+<dt>num_iter<span class="classifier">int, optional, default: 4.</span></dt><dd><p>The number of performed self-convolutions of the underlying rect-kernel.
 Applies only if method is ‘optimized_convolution_S2’.
-The default is 4.</p>
+The default is 4. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.</p>
 </dd>
 </dl>
 </li>
-<li><dl class="simple">
-<dt>resample<span class="classifier">bool, optional</span></dt><dd><p>Specifies whether to resample Lambert grid field to lonlat grid.
+<li><dl>
+<dt>resample<span class="classifier">bool, optional, default: <cite>True</cite>.</span></dt><dd><p>Specifies whether to resample Lambert grid field to lonlat grid.
 Applies only if method is ‘optimized_convolution_S2’.
 The default is True.</p>
 </dd>
@@ -683,13 +773,14 @@ The default is True.</p>
 </li>
 </ul>
 </section>
-<section id="id1">
-<h4>Returns<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<section id="id4">
+<h4>Returns<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
 <p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/MeteoSwiss/fast-barnes-py">fast-barnes-py</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/MeteoSwiss/fast-barnes-py">MeteoSwiss/fast-barnes-py</a></p></li>
+<li><p>Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, <a class="reference external" href="https://doi.org/10.5194/gmd-16-1697-2023">https://doi.org/10.5194/gmd-16-1697-2023</a>, 2023.</p></li>
 </ul>
 </div>
 </section>
@@ -732,8 +823,14 @@ The default is True.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.transfer_xarray_lon_from180TO360"><code class="docutils literal notranslate"><span class="pre">transfer_xarray_lon_from180TO360()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.generate_dataset_dispatcher"><code class="docutils literal notranslate"><span class="pre">generate_dataset_dispatcher()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_mesh2mesh"><code class="docutils literal notranslate"><span class="pre">interp_mesh2mesh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh"><code class="docutils literal notranslate"><span class="pre">interp_point2mesh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh_S2"><code class="docutils literal notranslate"><span class="pre">interp_point2mesh_S2()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.transfer_xarray_lon_from180TO360">transfer_xarray_lon_from180TO360</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.generate_dataset_dispatcher">generate_dataset_dispatcher</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_mesh2mesh">interp_mesh2mesh</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh">interp_point2mesh</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.interp.interp_point2mesh_S2">interp_point2mesh_S2</a></li>
 </ul>
@@ -763,7 +860,7 @@ By shenyulu
     
   <p class="copyright">
     
-      © Copyright 2023, shenyulu（深雨露）.
+      © Copyright 2022-2023, shenyulu（深雨露）.
       <br/>
     
   </p>
@@ -771,7 +868,10 @@ By shenyulu
   </div>
   
   <div class="footer-item">
-    
+    <p class="last-updated">
+  Last updated on 2023-11-19.
+  <br/>
+</p>
   </div>
   
   <div class="footer-item">
