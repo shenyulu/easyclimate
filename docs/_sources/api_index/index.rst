@@ -25,8 +25,10 @@ Core
     easyclimate.core.eddy
     easyclimate.core.eof
     easyclimate.core.extract
+    easyclimate.core.mk_test
     easyclimate.core.read
     easyclimate.core.stat
+    easyclimate.core.tutorial
     easyclimate.core.utility
     easyclimate.core.variability
     easyclimate.core.yearstat
@@ -37,8 +39,8 @@ Filter
 .. autosummary::
     :toctree: generated/
 
+    easyclimate.filter.butter_filter
     .. easyclimate.filter.barnes_filter
-    .. easyclimate.filter.filter
 
 Interpolation
 ----
@@ -69,7 +71,7 @@ Plot
     easyclimate.plot.projection
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
-    easyclimate.plot.wind
+    easyclimate.plot. wind
 
 Spherical harmonics of wind fields
 ----

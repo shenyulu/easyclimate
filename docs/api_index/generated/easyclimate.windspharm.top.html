@@ -54,7 +54,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="easyclimate.index.enso" href="easyclimate.index.enso.html" />
-    <link rel="prev" title="easyclimate.plot.wind" href="easyclimate.plot.wind.html" />
+    <link rel="prev" title="easyclimate.plot.taylor_diagram" href="easyclimate.plot.taylor_diagram.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -172,11 +172,14 @@
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.eof.html">easyclimate.core.eof</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.read.html">easyclimate.core.read</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.utility.html">easyclimate.core.utility</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.variability.html">easyclimate.core.variability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.ocean.mixlayer.html">easyclimate.ocean.mixlayer</a></li>
@@ -186,7 +189,6 @@
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">easyclimate.windspharm.top</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.index.enso.html">easyclimate.index.enso</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
@@ -393,51 +395,59 @@ document.write(`
   <section id="module-easyclimate.windspharm.top">
 <span id="easyclimate-windspharm-top"></span><h1>easyclimate.windspharm.top<a class="headerlink" href="#module-easyclimate.windspharm.top" title="Permalink to this heading">#</a></h1>
 <p>easy cliamte top interface for the windspharm</p>
-<p><a class="reference external" href="https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html">https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html</a></p>
+<p>This is the top layer of packaging for the windspharm package.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html">Spherical harmonic vector wind computations (xarray interface)</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/ajdawson/windspharm">ajdawson/windspharm</a></p></li>
+<li><p>Dawson, A. (2016). Windspharm: A High-Level Library for Global Wind Field Computations Using Spherical Harmonics. Journal of Open Research Software, 4(1), e31.DOI: <a class="reference external" href="https://doi.org/10.5334/jors.129">https://doi.org/10.5334/jors.129</a></p></li>
+</ul>
+</div>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_absolute_vorticity" title="easyclimate.windspharm.top.calc_absolute_vorticity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_absolute_vorticity</span></code></a>(u, v[, truncation, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_absolute_vorticity" title="easyclimate.windspharm.top.calc_absolute_vorticity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_absolute_vorticity</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate absolute vorticity (sum of relative and planetary vorticity).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_divergence" title="easyclimate.windspharm.top.calc_divergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_divergence</span></code></a>(u, v[, truncation, R, legfunc])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_divergence" title="easyclimate.windspharm.top.calc_divergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_divergence</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate horizontal divergence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_gradient" title="easyclimate.windspharm.top.calc_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_gradient</span></code></a>(data[, truncation, R, legfunc])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_gradient" title="easyclimate.windspharm.top.calc_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_gradient</span></code></a>(data_input[, truncation, R, ...])</p></td>
+<td><p>Computes the vector gradient of a scalar field on the sphere.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_helmholtz" title="easyclimate.windspharm.top.calc_helmholtz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_helmholtz</span></code></a>(u, v[, truncation, R, legfunc])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_helmholtz" title="easyclimate.windspharm.top.calc_helmholtz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_helmholtz</span></code></a>(u_data, v_data[, truncation, ...])</p></td>
+<td><p>Calculate irrotational and non-divergent components of the vector wind.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_irrotational_component" title="easyclimate.windspharm.top.calc_irrotational_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_irrotational_component</span></code></a>(u, v[, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_irrotational_component" title="easyclimate.windspharm.top.calc_irrotational_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_irrotational_component</span></code></a>(u_data, v_data)</p></td>
+<td><p>Calculate irrotational (divergent) component of the vector wind.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_nondivergent_component" title="easyclimate.windspharm.top.calc_nondivergent_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_nondivergent_component</span></code></a>(u, v[, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_nondivergent_component" title="easyclimate.windspharm.top.calc_nondivergent_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_nondivergent_component</span></code></a>(u_data, v_data)</p></td>
+<td><p>Calculate non-divergent (rotational) component of the vector wind.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_planetary_vorticity" title="easyclimate.windspharm.top.calc_planetary_vorticity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_planetary_vorticity</span></code></a>(u, v[, omega, R, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_planetary_vorticity" title="easyclimate.windspharm.top.calc_planetary_vorticity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_planetary_vorticity</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate planetary vorticity (Coriolis parameter).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_relative_vorticity" title="easyclimate.windspharm.top.calc_relative_vorticity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_relative_vorticity</span></code></a>(u, v[, truncation, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_relative_vorticity" title="easyclimate.windspharm.top.calc_relative_vorticity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_relative_vorticity</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate relative vorticity.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_relative_vorticity_and_horizontal_divergence" title="easyclimate.windspharm.top.calc_relative_vorticity_and_horizontal_divergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_relative_vorticity_and_horizontal_divergence</span></code></a>(u, v)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_relative_vorticity_and_horizontal_divergence" title="easyclimate.windspharm.top.calc_relative_vorticity_and_horizontal_divergence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_relative_vorticity_and_horizontal_divergence</span></code></a>(...)</p></td>
+<td><p>Calculate relative vorticity and horizontal divergence.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_rossby_wave_source" title="easyclimate.windspharm.top.calc_rossby_wave_source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_rossby_wave_source</span></code></a>(u, v[, truncation, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_rossby_wave_source" title="easyclimate.windspharm.top.calc_rossby_wave_source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_rossby_wave_source</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate Rossby wave sources (RWS).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_streamfunction" title="easyclimate.windspharm.top.calc_streamfunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_streamfunction</span></code></a>(u, v[, truncation, R, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_streamfunction" title="easyclimate.windspharm.top.calc_streamfunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_streamfunction</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate stream function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_streamfunction_and_velocity_potential" title="easyclimate.windspharm.top.calc_streamfunction_and_velocity_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_streamfunction_and_velocity_potential</span></code></a>(u, v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_streamfunction_and_velocity_potential" title="easyclimate.windspharm.top.calc_streamfunction_and_velocity_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_streamfunction_and_velocity_potential</span></code></a>(...)</p></td>
+<td><p>Calculate stream function and velocity potential.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_velocity_potential" title="easyclimate.windspharm.top.calc_velocity_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_velocity_potential</span></code></a>(u, v[, truncation, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_velocity_potential" title="easyclimate.windspharm.top.calc_velocity_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_velocity_potential</span></code></a>(u_data, v_data[, ...])</p></td>
+<td><p>Calculate velocity potential.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_wind_speed" title="easyclimate.windspharm.top.calc_wind_speed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_wind_speed</span></code></a>(u, v[, R, legfunc])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../technical/api/easyclimate/windspharm/top/index.html#easyclimate.windspharm.top.calc_wind_speed" title="easyclimate.windspharm.top.calc_wind_speed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_wind_speed</span></code></a>(u_data, v_data[, R, ...])</p></td>
+<td><p>Calculate the wind speed (magnitude of vector wind).</p></td>
 </tr>
 </tbody>
 </table>
@@ -456,12 +466,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="easyclimate.plot.wind.html"
+       href="easyclimate.plot.taylor_diagram.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">easyclimate.plot.wind</p>
+        <p class="prev-next-title">easyclimate.plot.taylor_diagram</p>
       </div>
     </a>
     <a class="right-next"
@@ -510,7 +520,7 @@ By shenyulu
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2023-11-19.
+  Last updated on 2023-11-20.
   <br/>
 </p>
   </div>

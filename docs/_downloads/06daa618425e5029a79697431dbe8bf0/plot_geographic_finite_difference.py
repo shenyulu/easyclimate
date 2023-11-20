@@ -277,8 +277,8 @@ div_data_500_202201.sel(lat = slice(20, 80)).plot.contourf(levels = 21)
 # - :py:func:`easyclimate.windspharm.calc_divergence <easyclimate.windspharm.top.calc_divergence>`: calculate the horizontal divergence term with the spherical harmonic function mothod.
 
 vor_data_500_202201_windspharm = ecl.windspharm.calc_relative_vorticity(
-    u = uvdata_500_202201['uwnd'],
-    v = uvdata_500_202201['vwnd'],
+    u_data = uvdata_500_202201['uwnd'],
+    v_data = uvdata_500_202201['vwnd'],
 )
 
 vor_data_500_202201_windspharm.sortby('lat').sel(lat = slice(20, 80)).plot.contourf(levels = 21)
@@ -286,8 +286,8 @@ vor_data_500_202201_windspharm.sortby('lat').sel(lat = slice(20, 80)).plot.conto
 #%%
 
 div_data_500_202201_windspharm = ecl.windspharm.calc_divergence(
-    u = uvdata_500_202201['uwnd'],
-    v = uvdata_500_202201['vwnd'],
+    u_data = uvdata_500_202201['uwnd'],
+    v_data = uvdata_500_202201['vwnd'],
 )
 
 div_data_500_202201_windspharm.sortby('lat').sel(lat = slice(20, 80)).plot.contourf(levels = 21)
