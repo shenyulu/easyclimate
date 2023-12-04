@@ -7,18 +7,32 @@
 <a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (main branch)</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
-
-
+![PyPI - License](https://img.shields.io/pypi/l/easyclimate) ![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
 
 ## About
 
 **Easy Climate** is a Python package, aiming to use a line of code to analyze climate.
 
+
+We support Python >= 3.10.
+
+
 ## Project goals
 
-* Provide a m
-* Integration w
+* Eliminate lengthy code for data and plot handling.
+* Use numpy and xarray syntax for optimal computational speed.
+* Dask for scalable parallel processing support extends climate data processing to TBs or PBs.
+* Open-source software for increased application flexibility.
 
+## How to install?
+
+If you use [pip](https://pypi.org/project/pip/), you can install `easyclimate` with:
+
+```bash
+pip install easyclimate
+```
+
+For more information about installation, please chech the documentation.
 
 ## Getting involved
 
@@ -41,13 +55,6 @@ By participating in this project you agree to abide by its terms.
 >
 > *This disclaimer was adapted from the*
 > [MetPy project](https://github.com/Unidata/MetPy).
-
-## Acknowledgement
-
-- point2mesh: [fast-barnes-py](https://github.com/MeteoSwiss/fast-barnes-py) by [MeteoSwiss](https://github.com/MeteoSwiss)
-- windspharm: [windspharm](https://github.com/ajdawson/windspharm) by [ajdawson](https://github.com/ajdawson)
-- wavelets: [wavelets](https://github.com/ct6502/wavelets) by [ct6502](https://github.com/ct6502), [A Practical Guide to Wavelet Analysis](http://paos.colorado.edu/research/wavelets/)
-- [pybarnes](https://github.com/LinOuyang/pybarnes) by [LinOuyang](https://github.com/LinOuyang)
 
 ## License
 
