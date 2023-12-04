@@ -189,6 +189,8 @@
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easyclimate.wavelet.wavelet.html">easyclimate.wavelet.wavelet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.windspharm.top.html">easyclimate.windspharm.top</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.index.enso.html">easyclimate.index.enso</a></li>
 <li class="toctree-l2"><a class="reference internal" href="easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
@@ -395,6 +397,14 @@ document.write(`
   <section id="module-easyclimate.core.mk_test">
 <span id="easyclimate-core-mk-test"></span><h1>easyclimate.core.mk_test<a class="headerlink" href="#module-easyclimate.core.mk_test" title="Permalink to this heading">#</a></h1>
 <p>Mann-Kendall Test</p>
+<p>The Mann-Kendall Trend Test (sometimes called the MK test) is used to analyze time series data for consistently increasing or decreasing trends (monotonic trends). It is a non-parametric test, which means it works for all distributions (i.e. data doesn’t have to meet the assumption of normality), but data should have no serial correlation. If the data has a serial correlation, it could affect in significant level (p-value). It could lead to misinterpretation. To overcome this problem, researchers proposed several modified Mann-Kendall tests (Hamed and Rao Modified MK Test, Yue and Wang Modified MK Test, Modified MK test using Pre-Whitening method, etc.). Seasonal Mann-Kendall test also developed to remove the effect of seasonality.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/mmhs013/pymannkendall">mmhs013/pymannkendall</a></p></li>
+<li><p>Hussain et al., (2019). pyMannKendall: a python package for non parametric Mann Kendall family of trend tests.. Journal of Open Source Software, 4(39), 1556, <a class="reference external" href="https://doi.org/10.21105/joss.01556">https://doi.org/10.21105/joss.01556</a></p></li>
+</ul>
+</div>
 </section>
 
 
@@ -464,7 +474,7 @@ By shenyulu
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2023-11-20.
+  Last updated on 2023-12-04.
   <br/>
 </p>
   </div>

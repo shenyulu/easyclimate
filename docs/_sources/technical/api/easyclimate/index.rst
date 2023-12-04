@@ -16,6 +16,7 @@ Subpackages
    interp/index.rst
    ocean/index.rst
    plot/index.rst
+   wavelet/index.rst
    windspharm/index.rst
 
 

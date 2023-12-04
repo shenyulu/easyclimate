@@ -187,6 +187,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.wind.html">easyclimate.plot.wind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.wavelet.wavelet.html">easyclimate.wavelet.wavelet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.windspharm.top.html">easyclimate.windspharm.top</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.index.enso.html">easyclimate.index.enso</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.index.npwi.html">easyclimate.index.npwi</a></li>
@@ -430,101 +432,477 @@ document.write(`
   <section id="module-easyclimate.core.mk_test">
 <span id="easyclimate-core-mk-test"></span><h1><a class="reference internal" href="#module-easyclimate.core.mk_test" title="easyclimate.core.mk_test"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate.core.mk_test</span></code></a><a class="headerlink" href="#module-easyclimate.core.mk_test" title="Permalink to this heading">#</a></h1>
 <p>Mann-Kendall Test</p>
+<p>The Mann-Kendall Trend Test (sometimes called the MK test) is used to analyze time series data for consistently increasing or decreasing trends (monotonic trends). It is a non-parametric test, which means it works for all distributions (i.e. data doesn’t have to meet the assumption of normality), but data should have no serial correlation. If the data has a serial correlation, it could affect in significant level (p-value). It could lead to misinterpretation. To overcome this problem, researchers proposed several modified Mann-Kendall tests (Hamed and Rao Modified MK Test, Yue and Wang Modified MK Test, Modified MK test using Pre-Whitening method, etc.). Seasonal Mann-Kendall test also developed to remove the effect of seasonality.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/mmhs013/pymannkendall">mmhs013/pymannkendall</a></p></li>
+<li><p>Hussain et al., (2019). pyMannKendall: a python package for non parametric Mann Kendall family of trend tests.. Journal of Open Source Software, 4(39), 1556, <a class="reference external" href="https://doi.org/10.21105/joss.01556">https://doi.org/10.21105/joss.01556</a></p></li>
+</ul>
+</div>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.original_test" title="easyclimate.core.mk_test.original_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">original_test</span></code></a>(data_input, dim[, alpha, returns_type])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.original_test" title="easyclimate.core.mk_test.original_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">original_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>Original Mann-Kendall test is a nonparametric test, which does not consider serial correlation or seasonal effects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.hamed_rao_modification_test" title="easyclimate.core.mk_test.hamed_rao_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hamed_rao_modification_test</span></code></a>(data_input, dim[, alpha, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.hamed_rao_modification_test" title="easyclimate.core.mk_test.hamed_rao_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hamed_rao_modification_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>This modified MK test proposed by Hamed and Rao (1998) to address serial autocorrelation issues. They suggested a variance correction approach to improve trend analysis. User can consider first n significant lag by insert lag number in this function. By default, it considered all significant lags.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.yue_wang_modification_test" title="easyclimate.core.mk_test.yue_wang_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yue_wang_modification_test</span></code></a>(data_input, dim[, alpha, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.yue_wang_modification_test" title="easyclimate.core.mk_test.yue_wang_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yue_wang_modification_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>This is also a variance correction method for considered serial autocorrelation proposed by Yue, S., &amp; Wang, C. Y. (2004). User can also set their desired significant n lags for the calculation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.pre_whitening_modification_test" title="easyclimate.core.mk_test.pre_whitening_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_whitening_modification_test</span></code></a>(data_input, dim[, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.pre_whitening_modification_test" title="easyclimate.core.mk_test.pre_whitening_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_whitening_modification_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>This test suggested by Yue and Wang (2002) to using Pre-Whitening the time series before the application of trend test.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test" title="easyclimate.core.mk_test.trend_free_pre_whitening_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trend_free_pre_whitening_modification_test</span></code></a>(data_input, dim)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test" title="easyclimate.core.mk_test.trend_free_pre_whitening_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trend_free_pre_whitening_modification_test</span></code></a>(...)</p></td>
+<td><p>This test also proposed by Yue and Wang (2002) to remove trend component and then Pre-Whitening the time series before application of trend test.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.seasonal_test" title="easyclimate.core.mk_test.seasonal_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seasonal_test</span></code></a>(data_input, dim[, alpha, period, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.seasonal_test" title="easyclimate.core.mk_test.seasonal_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seasonal_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>For seasonal time series data, Hirsch, R.M., Slack, J.R. and Smith, R.A. (1982) proposed this test to calculate the seasonal trend.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.regional_test" title="easyclimate.core.mk_test.regional_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">regional_test</span></code></a>(data_input, dim[, alpha, returns_type])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.regional_test" title="easyclimate.core.mk_test.regional_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">regional_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>Based on Hirsch (1982) proposed seasonal mk test, Helsel, D.R. and Frans, L.M., (2006) suggest regional mk test to calculate the overall trend in a regional scale.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.correlated_seasonal_test" title="easyclimate.core.mk_test.correlated_seasonal_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlated_seasonal_test</span></code></a>(data_input, dim[, alpha, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.correlated_seasonal_test" title="easyclimate.core.mk_test.correlated_seasonal_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlated_seasonal_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>This method proposed by Hipel (1994) used, when time series significantly correlated with the preceding one or more months/seasons.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.partial_test" title="easyclimate.core.mk_test.partial_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partial_test</span></code></a>(data_input, dim[, alpha, returns_type])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.partial_test" title="easyclimate.core.mk_test.partial_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partial_test</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>In a real event, many factors are affecting the main studied response parameter, which can bias the trend results. To overcome this problem, Libiseller (2002) proposed this partial mk test. It required two parameters as input, where, one is response parameter and other is an independent parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.sens_slope" title="easyclimate.core.mk_test.sens_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sens_slope</span></code></a>(data_input, dim[, alpha, returns_type])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.sens_slope" title="easyclimate.core.mk_test.sens_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sens_slope</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>This method proposed by Theil (1950) and Sen (1968) to estimate the magnitude of the monotonic trend. Intercept is calculate using Conover, W.J. (1980) method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.seasonal_sens_slope" title="easyclimate.core.mk_test.seasonal_sens_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seasonal_sens_slope</span></code></a>(data_input, dim[, alpha, period, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.seasonal_sens_slope" title="easyclimate.core.mk_test.seasonal_sens_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seasonal_sens_slope</span></code></a>(→ xr.Dataset | DataTree)</p></td>
+<td><p>This method proposed by Hipel (1994) to estimate the magnitude of the monotonic trend, when data has seasonal effects. Intercept is calculate using Conover, W.J. (1980) method.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.original_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">original_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.original_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">original_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.original_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Original Mann-Kendall test is a nonparametric test, which does not consider serial correlation or seasonal effects.</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.hamed_rao_modification_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">hamed_rao_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.hamed_rao_modification_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">hamed_rao_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.hamed_rao_modification_test" title="Permalink to this definition">#</a></dt>
+<dd><p>This modified MK test proposed by Hamed and Rao (1998) to address serial autocorrelation issues. They suggested a variance correction approach to improve trend analysis. User can consider first n significant lag by insert lag number in this function. By default, it considered all significant lags.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hamed, K. H., &amp; Rao, A. R. (1998). A modified Mann-Kendall trend test for autocorrelated data. Journal of hydrology, 204(1-4), 182-196. doi: <a class="reference external" href="http://doi.org/10.1016/S0022-1694(97)00125-X">http://doi.org/10.1016/S0022-1694(97)00125-X</a></p>
+</div>
+<section id="id1">
+<h4>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>lag: int.</dt><dd><p>No. of First Significant Lags</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h4>Returns<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.yue_wang_modification_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">yue_wang_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.yue_wang_modification_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">yue_wang_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.yue_wang_modification_test" title="Permalink to this definition">#</a></dt>
+<dd><p>This is also a variance correction method for considered serial autocorrelation proposed by Yue, S., &amp; Wang, C. Y. (2004). User can also set their desired significant n lags for the calculation.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Yue, S., &amp; Wang, C. (2004). The Mann-Kendall test modified by effective sample size to detect trend in serially correlated hydrological series. Water resources management, 18(3), 201-218. doi: <a class="reference external" href="http://doi.org/10.1023/B:WARM.0000043140.61082.60">http://doi.org/10.1023/B:WARM.0000043140.61082.60</a></p>
+</div>
+<section id="id3">
+<h4>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>lag: int.</dt><dd><p>No. of First Significant Lags</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h4>Returns<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.pre_whitening_modification_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">pre_whitening_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.pre_whitening_modification_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">pre_whitening_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.pre_whitening_modification_test" title="Permalink to this definition">#</a></dt>
+<dd><p>This test suggested by Yue and Wang (2002) to using Pre-Whitening the time series before the application of trend test.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Yue, S., &amp; Wang, C. Y. (2002). Applicability of prewhitening to eliminate the influence of serial correlation on the Mann-Kendall test. Water resources research, 38(6), 4-1. doi: <a class="reference external" href="http://doi.org/10.1029/2001WR000861">http://doi.org/10.1029/2001WR000861</a></p>
+</div>
+<section id="id5">
+<h4>Parameters<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h4>Returns<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.trend_free_pre_whitening_modification_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">trend_free_pre_whitening_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">trend_free_pre_whitening_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test" title="Permalink to this definition">#</a></dt>
+<dd><p>This test also proposed by Yue and Wang (2002) to remove trend component and then Pre-Whitening the time series before application of trend test.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Yue, S., &amp; Wang, C. Y. (2002). Applicability of prewhitening to eliminate the influence of serial correlation on the Mann-Kendall test. Water resources research, 38(6), 4-1. doi: <a class="reference external" href="http://doi.org/10.1029/2001WR000861">http://doi.org/10.1029/2001WR000861</a></p>
+</div>
+<section id="id7">
+<h4>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h4>Returns<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.seasonal_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">seasonal_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.seasonal_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">seasonal_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.seasonal_test" title="Permalink to this definition">#</a></dt>
+<dd><p>For seasonal time series data, Hirsch, R.M., Slack, J.R. and Smith, R.A. (1982) proposed this test to calculate the seasonal trend.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hirsch, R. M., Slack, J. R., &amp; Smith, R. A. (1982). Techniques of trend analysis for monthly water quality data. Water resources research, 18(1), 107-121. doi: <a class="reference external" href="http://doi.org/10.1029/WR018i001p00107">http://doi.org/10.1029/WR018i001p00107</a></p>
+</div>
+<section id="id9">
+<h4>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>Significance level (0.05 is the default).</p>
+</dd>
+<dt>period: int, default 12.</dt><dd><p>Seasonal cycle. For monthly data it is 12, weekly data it is 52.</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h4>Returns<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.regional_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">regional_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.regional_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">regional_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.regional_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Based on Hirsch (1982) proposed seasonal mk test, Helsel, D.R. and Frans, L.M., (2006) suggest regional mk test to calculate the overall trend in a regional scale.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hirsch, R. M., Slack, J. R., &amp; Smith, R. A. (1982). Techniques of trend analysis for monthly water quality data. Water resources research, 18(1), 107-121. doi: <a class="reference external" href="http://doi.org/10.1029/WR018i001p00107">http://doi.org/10.1029/WR018i001p00107</a></p>
+</div>
+<section id="id11">
+<h4>Parameters<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h4>Returns<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.correlated_seasonal_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">correlated_seasonal_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.correlated_seasonal_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">correlated_seasonal_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.correlated_seasonal_test" title="Permalink to this definition">#</a></dt>
+<dd><p>This method proposed by Hipel (1994) used, when time series significantly correlated with the preceding one or more months/seasons.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hipel, K. W., &amp; McLeod, A. I. (1994). Time series modelling of water resources and environmental systems (Vol. 45). Elsevier.</p>
+</div>
+<section id="id13">
+<h4>Parameters<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h4>Returns<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.partial_test">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">partial_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.partial_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">partial_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.partial_test" title="Permalink to this definition">#</a></dt>
+<dd><p>In a real event, many factors are affecting the main studied response parameter, which can bias the trend results. To overcome this problem, Libiseller (2002) proposed this partial mk test. It required two parameters as input, where, one is response parameter and other is an independent parameter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Libiseller, C., &amp; Grimvall, A. (2002). Performance of partial Mann-Kendall tests for trend detection in the presence of covariates. Environmetrics: The official journal of the International Environmetrics Society, 13(1), 71-84. doi: <a class="reference external" href="http://doi.org/10.1002/env.507">http://doi.org/10.1002/env.507</a></p>
+</div>
+<section id="id15">
+<h4>Parameters<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h4>Returns<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.sens_slope">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">sens_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.sens_slope" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">sens_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.sens_slope" title="Permalink to this definition">#</a></dt>
+<dd><p>This method proposed by Theil (1950) and Sen (1968) to estimate the magnitude of the monotonic trend. Intercept is calculate using Conover, W.J. (1980) method.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>Theil, H. (1950). A rank-invariant method of linear and polynominal regression analysis (parts 1-3). In Ned. Akad. Wetensch. Proc. Ser. A (Vol. 53, pp. 1397-1412).</p></li>
+<li><p>Sen, P. K. (1968). Estimates of the regression coefficient based on Kendall’s tau. Journal of the American statistical association, 63(324), 1379-1389. doi: <a class="reference external" href="http://doi.org/10.1080/01621459.1968.10480934">http://doi.org/10.1080/01621459.1968.10480934</a></p></li>
+</ul>
+</div>
+<section id="id17">
+<h4>Parameters<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h4>Returns<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="easyclimate.core.mk_test.seasonal_sens_slope">
-<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">seasonal_sens_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.mk_test.seasonal_sens_slope" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">seasonal_sens_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xr.DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xr.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.Dataset</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataTree</span></span></span><a class="headerlink" href="#easyclimate.core.mk_test.seasonal_sens_slope" title="Permalink to this definition">#</a></dt>
+<dd><p>This method proposed by Hipel (1994) to estimate the magnitude of the monotonic trend, when data has seasonal effects. Intercept is calculate using Conover, W.J. (1980) method.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hipel, K. W., &amp; McLeod, A. I. (1994). Time series modelling of water resources and environmental systems (Vol. 45). Elsevier.</p>
+</div>
+<section id="id19">
+<h4>Parameters<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h4>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: str</dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: float, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: str, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h4>Returns<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h4>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>).</p>
+<ul class="simple">
+<li><p>trend: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p>h: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p>p: p-value of the significance test</p></li>
+<li><p>z: normalized test statistics</p></li>
+<li><p>Tau: Kendall Tau</p></li>
+<li><p>s: Mann-Kendal’s score</p></li>
+<li><p>var_s: Variance S</p></li>
+<li><p>slope: Theil-Sen estimator/slope</p></li>
+<li><p>intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
 
 </section>
 </section>
@@ -620,7 +998,7 @@ By shenyulu
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2023-11-20.
+  Last updated on 2023-12-04.
   <br/>
 </p>
   </div>

@@ -15,7 +15,7 @@ List of functions and classes (API)
 .. automodule:: easyclimate
 
 Core
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/
@@ -34,7 +34,7 @@ Core
     easyclimate.core.yearstat
 
 Filter
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/
@@ -43,7 +43,7 @@ Filter
     .. easyclimate.filter.barnes_filter
 
 Interpolation
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/
@@ -52,7 +52,7 @@ Interpolation
     easyclimate.interp.mesh2mesh
 
 Ocean
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/
@@ -62,7 +62,7 @@ Ocean
     easyclimate.ocean.thermal
 
 Plot
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/
@@ -71,10 +71,19 @@ Plot
     easyclimate.plot.projection
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
-    easyclimate.plot. wind
+    easyclimate.plot.wind
+
+Wavelet transform
+----------------------------------------
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.wavelet.wavelet
+
 
 Spherical harmonics of wind fields
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/
@@ -82,7 +91,7 @@ Spherical harmonics of wind fields
     easyclimate.windspharm.top
 
 Index
-----
+----------------------------------------
 
 .. autosummary::
     :toctree: generated/

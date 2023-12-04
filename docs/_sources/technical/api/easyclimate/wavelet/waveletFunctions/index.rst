@@ -1,7 +1,7 @@
-:py:mod:`waveletFunctions`
-==========================
+:py:mod:`easyclimate.wavelet.waveletFunctions`
+==============================================
 
-.. py:module:: waveletFunctions
+.. py:module:: easyclimate.wavelet.waveletFunctions
 
 
 Module Contents
@@ -13,11 +13,11 @@ Functions
 
 .. autoapisummary::
 
-   waveletFunctions.wavelet
-   waveletFunctions.wave_bases
-   waveletFunctions.wave_signif
-   waveletFunctions.chisquare_inv
-   waveletFunctions.chisquare_solve
+   easyclimate.wavelet.waveletFunctions.wavelet
+   easyclimate.wavelet.waveletFunctions.wave_bases
+   easyclimate.wavelet.waveletFunctions.wave_signif
+   easyclimate.wavelet.waveletFunctions.chisquare_inv
+   easyclimate.wavelet.waveletFunctions.chisquare_solve
 
 
 
@@ -26,7 +26,7 @@ Attributes
 
 .. autoapisummary::
 
-   waveletFunctions.__author__
+   easyclimate.wavelet.waveletFunctions.__author__
 
 
 .. py:data:: __author__

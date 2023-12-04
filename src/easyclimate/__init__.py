@@ -15,3 +15,4 @@ from .filter import *
 from . import windspharm
 from . import interp
 from . import plot
+from . import wavelet

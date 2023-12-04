@@ -5,9 +5,9 @@
 <p align="center">
 <a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (latest)</a> •
 <a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (main branch)</a> •
-<a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a> •
-<a href="https://www.fatiando.org/contact/"><strong>Contact</strong></a>
+<a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
+
 
 
 ## About

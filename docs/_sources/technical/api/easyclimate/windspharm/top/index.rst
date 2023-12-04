@@ -480,7 +480,7 @@ Functions
    --------------
    - Sardeshmukh, P. D., & Hoskins, B. J. (1988). The Generation of Global Rotational Flow by Steady Idealized Tropical Divergence. Journal of Atmospheric Sciences, 45(7), 1228-1251. https://doi.org/10.1175/1520-0469(1988)045<1228:TGOGRF>2.0.CO;2
    - James IN (1994) Low frequency variability of the circulation. Introduction to Circulating Atmospheres. Cambridge University Press, Cambridge, UK, pp 255–301
-   - Trenberth, K. E., Branstator, G. W., Karoly, D., Kumar, A., Lau, N.-C., and Ropelewski, C. (1998), Progress during TOGA in understanding and modeling global teleconnections associated with tropical sea surface temperatures, J. Geophys. Res., 103(C7), 14291–14324, doi:https://doi.org/10.1029/97JC01444.
+   - Trenberth, K. E., Branstator, G. W., Karoly, D., Kumar, A., Lau, N.-C., and Ropelewski, C. (1998), Progress during TOGA in understanding and modeling global teleconnections associated with tropical sea surface temperatures, J. Geophys. Res., 103(C7), 14291–14324, doi: https://doi.org/10.1029/97JC01444.
    - Nie, Y., Zhang, Y., Yang, X.-Q., & Ren, H.-L. (2019). Winter and summer Rossby wave sources in the CMIP5 models. Earth and Space Science, 6, 1831–1846. https://doi.org/10.1029/2019EA000674
    - Fuentes-Franco, R., Koenigk, T., Docquier, D. et al. Exploring the influence of the North Pacific Rossby wave sources on the variability of summer atmospheric circulation and precipitation over the Northern Hemisphere. Clim Dyn 59, 2025–2039 (2022). https://doi.org/10.1007/s00382-022-06194-4
 
