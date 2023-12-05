@@ -1,0 +1,19 @@
+numpy >= 1.24.3
+xarray >= 0.17.0
+geocat.viz <= 2023.09.0
+cartopy >= 0.20
+xeofs >= 1.1.0
+matplotlib
+fast-barnes-py
+oceans
+intel-fortran-rt
+scipy
+statsmodels
+geocat-comp
+pyspharm-syl
+dask
+pandas
+pymannkendall
+flox
+xarray-datatree
+xarray_regrid 
