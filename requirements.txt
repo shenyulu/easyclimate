@@ -16,4 +16,5 @@ pandas
 pymannkendall
 flox
 xarray-datatree
-xarray_regrid 
+xarray_regrid
+pytest
