@@ -18,3 +18,4 @@ flox
 xarray-datatree
 xarray_regrid
 pytest
+pytest-cov
