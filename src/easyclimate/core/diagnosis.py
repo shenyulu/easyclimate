@@ -8,7 +8,12 @@ from .diff import calc_gradient, calc_p_gradient
 from .utility import transfer_deg2rad, transfer_units_coeff
 
 
-def calc_brunt_vaisala_frequency_atm(potential_temperature_data: xr.DataArray, z_data: xr.DataArray, vertical_dim: str, g = 9.8) -> xr.DataArray:
+def calc_brunt_vaisala_frequency_atm(
+    potential_temperature_data: xr.DataArray, 
+    z_data: xr.DataArray, 
+    vertical_dim: str, 
+    g: float = 9.8
+) -> xr.DataArray:
     """
     Calculation of the Brunt-väisälä frequency for the vertical atmosphere.
 
@@ -48,7 +53,10 @@ def calc_brunt_vaisala_frequency_atm(potential_temperature_data: xr.DataArray, z
     N = np.sqrt((g /potential_temperature_data) *(dtheta_dp/ dz_dp) )
     return N
 
-def get_coriolis_parameter(lat_data, omega = 7.292e-5) -> xr.DataArray:
+def get_coriolis_parameter(
+    lat_data: xr.DataArray | np.array, 
+    omega: float = 7.292e-5
+) -> xr.DataArray | np.array:
     """
     Calculate the Coriolis parameter at each point.
 
@@ -57,14 +65,14 @@ def get_coriolis_parameter(lat_data, omega = 7.292e-5) -> xr.DataArray:
 
     Parameters
     ----------
-    lat_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    lat_data: :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.array <numpy.array>`.
         Latitude at each point.
     omega: :py:class:`float<python.float>`, default: `7.292e-5`.
         The angular speed of the earth.
 
     Returns
     -------
-    Corresponding Coriolis force at each point (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Corresponding Coriolis force at each point (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.array <numpy.array>`).
 
     Reference
     --------------
@@ -78,7 +86,12 @@ def get_coriolis_parameter(lat_data, omega = 7.292e-5) -> xr.DataArray:
     return 2 *omega *np.sin(transfer_deg2rad(lat_data))
 
 
-def get_potential_temperature(temper_data: xr.DataArray, vertical_dim: str, vertical_units: str, kappa = 287/1005.7) -> xr.DataArray:
+def get_potential_temperature(
+    temper_data: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: str,
+    kappa: float = 287/1005.7
+) -> xr.DataArray:
     """
     Calculate the potential temperature.
 
@@ -93,7 +106,7 @@ def get_potential_temperature(temper_data: xr.DataArray, vertical_dim: str, vert
         Air temperature.
     vertical_dim: :py:class:`str<python.str>`.
         Vertical coordinate dimension name.
-    vertical_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str<python.str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
     kappa: :py:class:`float<python.float>`, default: `287/1005.7`.
         Poisson constant :math:`\\kappa`.
@@ -115,17 +128,21 @@ def get_potential_temperature(temper_data: xr.DataArray, vertical_dim: str, vert
         - `potential_temperature — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.potential_temperature.html>`__
         - `pot_temp - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/pot_temp.shtml>`__
     """
-    p_base = transfer_units_coeff(vertical_units, 'Pa')
+    p_base = transfer_units_coeff(vertical_dim_units, 'Pa')
     if p_base == 1.:
         P_0 = 1000e2
     elif p_base == 100.0:
         P_0 = 1000
     else:
-        raise ValueError('`vertical_units` be `Pa`, `hPa`, `mbar`.')
+        raise ValueError('`vertical_dim_units` be `Pa`, `hPa`, `mbar`.')
     
     return temper_data *(P_0/ temper_data[vertical_dim]) **(kappa)
 
-def calc_static_stability(temper_data: xr.DataArray, vertical_dim: str, vertical_units: str) -> xr.DataArray:
+def calc_static_stability(
+    temper_data: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: str
+) -> xr.DataArray:
     """
     Calculate the static stability within a vertical profile.
     
@@ -138,7 +155,7 @@ def calc_static_stability(temper_data: xr.DataArray, vertical_dim: str, vertical
         Air temperature.
     vertical_dim: :py:class:`str<python.str>`.
         Vertical coordinate dimension name.
-    vertical_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str<python.str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
 
     Returns
@@ -154,7 +171,7 @@ def calc_static_stability(temper_data: xr.DataArray, vertical_dim: str, vertical
         - `static_stability — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.static_stability.html>`__
         - `Static stability parameters · Issue #2535 · Unidata/MetPy <https://github.com/Unidata/MetPy/issues/2535>`__
     """
-    theta = get_potential_temperature(temper_data, vertical_dim = vertical_dim, vertical_units = vertical_units)
+    theta = get_potential_temperature(temper_data, vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units)
     ln_theta = np.log(theta)
-    part = calc_p_gradient(ln_theta, vertical_dim = vertical_dim, vertical_units = vertical_units)
+    part = calc_p_gradient(ln_theta, vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units)
     return -temper_data *part

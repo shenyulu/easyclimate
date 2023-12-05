@@ -9,6 +9,7 @@ from .utility import (find_dims_axis, transfer_deg2rad,
                       transfer_data_units, get_weighted_spatial_data,
                       generate_dataset_dispatcher)
 import xarray as xr
+import dask
 
 @generate_dataset_dispatcher
 def calc_gradient(data_input: xr.DataArray | xr.Dataset, dim: str, varargs = 1, edge_order = 2) -> xr.DataArray | xr.Dataset: 
@@ -317,8 +318,10 @@ def calc_p_gradient(data_input: xr.DataArray, vertical_dim: str, vertical_dim_un
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
     """
-    # The vertical coordinate dimension is set to no chunking
-    data_input = data_input.chunk({vertical_dim: -1})
+    if isinstance(data_input.data, dask.array.core.Array):
+        # The vertical coordinate dimension is set to no chunking
+        data_input = data_input.chunk({vertical_dim: -1})
+
     # Convert the pressure unit to Pascal 
     dp_base = transfer_units_coeff(vertical_dim_units, 'Pa')
 
@@ -351,6 +354,10 @@ def calc_time_gradient(data_input: xr.DataArray, time_units: str, time_dim = 'ti
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
     """
+    if isinstance(data_input.data, dask.array.core.Array):
+        # The vertical coordinate dimension is set to no chunking
+        data_input = data_input.chunk({time_dim: -1})
+    
     # Convert time units to seconds
     dt = transfer_units_coeff(time_units, 'seconds')
     dFdt = calc_gradient(data_input, dim = time_dim) /dt
