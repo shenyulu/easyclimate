@@ -2,3 +2,4 @@
 **/.vscode
 dist
 **/.pytest_cache
+.coverage
