@@ -7,7 +7,12 @@
 <a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (main branch)</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
-![PyPI - License](https://img.shields.io/pypi/l/easyclimate) ![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
+
+![PyPI - License](https://img.shields.io/pypi/l/easyclimate)
+![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
+[![codecov](https://codecov.io/gh/shenyulu/easyclimate/graph/badge.svg?token=CBG3IO5A5A)](https://codecov.io/gh/shenyulu/easyclimate)
 
 ## About
 
