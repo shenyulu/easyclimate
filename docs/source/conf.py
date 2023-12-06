@@ -12,7 +12,8 @@ import time
 import datetime
 
 # autodoc required
-sys.path.insert(0, os.path.abspath('.'))  # Source code dir relative to this file
+sys.path.insert(0, os.path.abspath('../src'))  # Source code dir relative to this file
+sys.path.insert(0, os.path.abspath('.'))
 
 # get year
 localtime = time.localtime(time.time())
