@@ -5,7 +5,7 @@ build:
   tools:
     python: "3.10"
   apt_packages:
-    optipng
+    - optipng
 
 python:
   install:
