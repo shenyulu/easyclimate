@@ -64,7 +64,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'changes/*.rst']
 
 # -- Options for AutoAPI extension -------------------------------------------
 autoapi_type = 'python'
-autoapi_dirs = ['../../easyclimate/src']
+autoapi_dirs = ['../src']
 autoapi_add_toctree_entry = False
 autoapi_root = 'technical/api'
 
