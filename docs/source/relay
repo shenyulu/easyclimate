@@ -1,0 +1,2 @@
+conda create --name=='sbook' python=3.10
+

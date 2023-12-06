@@ -31,12 +31,13 @@ def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
     --------
 
     .. code:: python
+
         >>> import easyclimate as ecl
         >>> result = assert_compared_version("10.12.2.6.5", "10.12.2.6")
         >>> print(result)
         1
 
-    .. todo::
+    .. note::
         - https://medium.com/pangeo/accessing-netcdf-and-grib-file-collections-as-cloud-native-virtual-datasets-using-kerchunk-625a2d0a9191
         - https://github.com/fsspec/kerchunk/issues/240
     """

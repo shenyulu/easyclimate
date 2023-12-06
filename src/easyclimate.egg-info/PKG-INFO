@@ -1,0 +1,144 @@
+Metadata-Version: 2.1
+Name: easyclimate
+Version: 2023.12.1
+Summary: A line of code to analyze climate
+Author-email: shenyulu <shenyulu2020@gmail.com>
+License: BSD 3-Clause "New" or "Revised" License
+        
+        Copyright (c) 2022--, Shen yulu.
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without modification,
+        are permitted provided that the following conditions are met:
+        
+        * Redistributions of source code must retain the above copyright notice, this
+          list of conditions and the following disclaimer.
+        
+        * Redistributions in binary form must reproduce the above copyright notice, this
+          list of conditions and the following disclaimer in the documentation and/or
+          other materials provided with the distribution.
+        
+        * Neither the names scikit-bio, skbio, or biocore nor the names of its
+          contributors may be used to endorse or promote products derived from
+          this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+        ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+        ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+        (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+        LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+        ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+        (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Project-URL: homepage, https://github.com/shenyulu/easyclimate
+Project-URL: documentation, https://numpy.org/doc/
+Project-URL: source, https://github.com/shenyulu/easyclimate
+Project-URL: download, https://pypi.org/project/easyclimate/#files
+Project-URL: tracker, https://github.com/shenyulu/easyclimate/issues
+Keywords: climate,atmosphere,weather,meteorology
+Classifier: License :: OSI Approved :: BSD 3-Clause "New" or "Revised" License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.24.3
+Requires-Dist: xarray>=0.17.0
+Requires-Dist: geocat.viz<=2023.10.0
+Requires-Dist: cartopy>=0.20
+Requires-Dist: xeofs>=1.1.0
+Requires-Dist: matplotlib
+Requires-Dist: fast-barnes-py
+Requires-Dist: oceans
+Requires-Dist: intel-fortran-rt
+Requires-Dist: scipy
+Requires-Dist: statsmodels
+Requires-Dist: geocat-comp
+Requires-Dist: pyspharm-syl
+Requires-Dist: dask
+Requires-Dist: pandas
+Requires-Dist: pymannkendall
+Requires-Dist: flox
+Requires-Dist: xarray-datatree
+Requires-Dist: xarray_regrid
+
+<img src="https://github.com/shenyulu/easyclimate-sphinx_docs/blob/main/source/_static/easyclimate-logo.svg?raw=true" alt="easyclimate">
+
+<h2 align="center">A line of code to analyze climate</h2>
+
+<p align="center">
+<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (latest)</a> •
+<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (main branch)</a> •
+<a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
+</p>
+
+![PyPI - License](https://img.shields.io/pypi/l/easyclimate)
+![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
+[![codecov](https://codecov.io/gh/shenyulu/easyclimate/graph/badge.svg?token=CBG3IO5A5A)](https://codecov.io/gh/shenyulu/easyclimate)
+
+## About
+
+**Easy Climate** is a Python package, aiming to use a line of code to analyze climate.
+
+
+We support Python >= 3.10.
+
+
+## Project goals
+
+* Eliminate lengthy code for data and plot handling.
+* Use numpy and xarray syntax for optimal computational speed.
+* Dask for scalable parallel processing support extends climate data processing to TBs or PBs.
+* Open-source software for increased application flexibility.
+
+## How to install?
+
+If you use [pip](https://pypi.org/project/pip/), you can install `easyclimate` with:
+
+```bash
+pip install easyclimate
+```
+
+For more information about installation, please chech the documentation.
+
+## Getting involved
+
+👩🏾‍💻 **Contributing to project development:**
+Please read our
+[Contributing Guide](https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md)
+to see how you can help and give feedback.
+
+🧑🏾‍🤝‍🧑🏼 **Code of conduct:**
+This project is released with a
+[Code of Conduct](https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
+
+> **Imposter syndrome disclaimer:**
+> We want your help. **No, really.** There may be a little voice inside your
+> head that is telling you that you're not ready, that you aren't skilled
+> enough to contribute. We assure you that the little voice in your head is
+> wrong. Most importantly, **there are many valuable ways to contribute besides
+> writing code**.
+>
+> *This disclaimer was adapted from the*
+> [MetPy project](https://github.com/Unidata/MetPy).
+
+## License
+
+This is free software: you can redistribute it and/or modify it under the terms
+of the **BSD 3-clause License**. A copy of this license is provided in
+[`LICENSE.txt`](https://github.com/fatiando/verde/blob/main/LICENSE.txt).

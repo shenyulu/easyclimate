@@ -1,6 +1,48 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
+requires = ["setuptools>=64", "wheel", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "easyclimate"
+
+license = {file = "LICENSE"}
+
+description = "A line of code to analyze climate"
+keywords = ["climate", "atmosphere", "weather", "meteorology"]
+authors = [
+    {name = "shenyulu", email = "shenyulu2020@gmail.com"},
+]
+requires-python = ">=3.10"
+readme = "README.md"
+classifiers = [
+    'License :: OSI Approved :: BSD 3-Clause "New" or "Revised" License',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3 :: Only',
+    'Topic :: Scientific/Engineering',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+]
+dynamic = ["dependencies", "version"]
+
+[project.urls]
+homepage = "https://github.com/shenyulu/easyclimate"
+documentation = "https://numpy.org/doc/"
+source = "https://github.com/shenyulu/easyclimate"
+download = "https://pypi.org/project/easyclimate/#files"
+tracker = "https://github.com/shenyulu/easyclimate/issues"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["release_requirements.txt"]}
+version = {attr = "easyclimate.__version__"}
+
+[tool.setuptools_scm]
+
+[tool.setuptools.packages.find]
+where = ["src"]

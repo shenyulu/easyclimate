@@ -53,6 +53,7 @@ t_data_delta_pressure = xr.DataArray(
             'lon': np.array([0.0, 2.5])
             }
 )
+
 msl_data_delta_pressure = xr.DataArray(
     np.array(np.array([1012.017 , 1011.9201])),
     dims = ('lon'),
@@ -66,12 +67,29 @@ u_data_500hpa = xr.DataArray(
     dims = ('lat', 'lon'),
     coords = {'lat': np.array([5.0, 2.5, 0.0]), 'lon': np.array([0.0, 2.5, 5.0])}
 )
+
 v_data_500hpa = xr.DataArray(
     np.array([[ 0.13, -0.1 , -0.18],
        [-0.67, -0.79, -0.62],
        [-0.76, -0.99, -0.87]]),
     dims = ('lat', 'lon'),
     coords = {'lat': np.array([5.0, 2.5, 0.0]), 'lon': np.array([0.0, 2.5, 5.0])}
+)
+
+z_data_500hpa = xr.DataArray(
+    np.array([[5868.7583, 5869.121 , 5869.4756],
+       [5868.121 , 5868.113 , 5868.2095],
+       [5867.411 , 5867.4355, 5867.5806]]),
+    dims = ('lat', 'lon'),
+    coords = {'lat': np.array([5.0, 2.5, 0.0]), 'lon': np.array([0.0, 2.5, 5.0])}    
+)
+
+q_data_500hpa = xr.DataArray(
+    np.array([[1.24     , 1.2658951, 1.5115161],
+       [1.326887 , 1.5464114, 1.8371367],
+       [1.5063628, 1.7480158, 2.0217905]]),
+    dims = ('lat', 'lon'),
+    coords = {'lat': np.array([5.0, 2.5, 0.0]), 'lon': np.array([0.0, 2.5, 5.0])}    
 )
 
 def test_calc_gradient():
@@ -175,14 +193,34 @@ def test_calc_divergence():
         1.76294706e-06])
     assert np.isclose(result_data, refer_data).all()
 
-def test_calc_divergence():
+def test_calc_vorticity():
     result_data = ecl.calc_vorticity(u_data_500hpa, v_data_500hpa).data.flatten()
     refer_data = np.array([-1.34943568e-05, -1.27753346e-05, -1.19427458e-05, -8.15868318e-06,
        -6.57525154e-06, -5.45707305e-06, -3.43594785e-06, -1.27723716e-06,
        -1.61903302e-07])
     assert np.isclose(result_data, refer_data).all()
 
+def test_calc_geostrophic_wind():
+    result_data = ecl.calc_geostrophic_wind(z_data_500hpa)
+    result_data1 = result_data['ug'].data.flatten()[:3]
+    result_data2 = result_data['vg'].data.flatten()[:3]
+    refer_data1 = np.array([-1.66699748, -3.25452166, -4.39585806])
+    refer_data2 = np.array([1.0212275 , 0.99867278, 0.97611806])
+    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(result_data2, refer_data2).all()
 
+def test_calc_horizontal_water_flux():
+    result_data = ecl.calc_horizontal_water_flux(specific_humidity_data = q_data_500hpa, u_data = u_data_500hpa, v_data = v_data_500hpa)
+    result_data1 = result_data['qu'].data
+    result_data2 = result_data['qv'].data
+    refer_data1 = np.array([[-0.48081633, -0.51540015, -0.58147099],
+       [-0.88143208, -1.04146074, -1.18664034],
+       [-1.19586761, -1.36808992, -1.52872118]])
+    refer_data2 = np.array([[ 0.01644898, -0.0129173 , -0.02776254],
+       [-0.09071574, -0.12465969, -0.11622702],
+       [-0.11681997, -0.17658527, -0.17948548]])
+    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(result_data2, refer_data2).all()
 
 
 def test_calc_u_advection():

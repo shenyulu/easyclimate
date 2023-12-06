@@ -1,1 +1,1 @@
-from .wavelet import *
+from .wavelet_top import *
