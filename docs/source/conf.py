@@ -12,7 +12,7 @@ import time
 import datetime
 
 # autodoc required
-sys.path.insert(0, os.path.abspath('../src'))  # Source code dir relative to this file
+sys.path.insert(0, os.path.abspath('.'))  # Source code dir relative to this file
 
 # get year
 localtime = time.localtime(time.time())
@@ -64,7 +64,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'changes/*.rst']
 
 # -- Options for AutoAPI extension -------------------------------------------
 autoapi_type = 'python'
-autoapi_dirs = ['../src']
+autoapi_dirs = ['../src/easyclimate']
 autoapi_add_toctree_entry = False
 autoapi_root = 'technical/api'
 
