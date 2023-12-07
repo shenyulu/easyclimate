@@ -1,0 +1,59 @@
+name: Push rapid_videocr to pypi
+
+on:
+  push:
+    # branches: [ main ]
+    tags:
+      # - v*
+      - TEST*
+    # paths:
+    #   - 'rapid_videocr/**'
+    #   - 'docs/doc_whl.md'
+    #   - 'setup.py'
+    #   - '.github/workflows/AutoPushToPypi.yml'
+
+jobs:
+  UnitTesting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull latest code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          architecture: 'x64'
+
+      - name: Unit testings
+        run: |
+          pip install -r test_requirements.txt
+          pytest -s test/test_*.py
+
+  GenerateWHL_PushPyPi:
+    needs: UnitTesting
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run setup.py
+        run: |
+          pip install --upgrade build
+          python -m pip install --upgrade pip
+          python -m build
+
+      - name: Publish distribution 📦 to TEST-PyPI
+        uses: pypa/gh-action-pypi-publish@v1.5.0
+        with:
+          # For test
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
+          packages_dir: dist/
+        
+      # - name: Publish distribution 📦 to PyPI
+      #   uses: pypa/gh-action-pypi-publish@v1.5.0
+      #   with:
+      #     # For real release
+      #     password: ${{ secrets.PYPI_API_TOKEN }}
+      #     packages_dir: dist/

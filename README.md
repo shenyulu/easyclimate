@@ -3,8 +3,8 @@
 <h2 align="center">A line of code to analyze climate</h2>
 
 <p align="center">
-<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (latest)</a> •
-<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (main branch)</a> •
+<a href="https://easyclimate.readthedocs.io/en/latest/"><strong>Documentation</strong> (latest)</a> •
+<a href="https://easyclimate.readthedocs.io/en/main/"><strong>Documentation</strong> (main branch)</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
@@ -13,6 +13,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
 [![codecov](https://codecov.io/gh/shenyulu/easyclimate/graph/badge.svg?token=CBG3IO5A5A)](https://codecov.io/gh/shenyulu/easyclimate)
+[![Documentation Status](https://readthedocs.org/projects/easyclimate/badge/?version=latest)](https://easyclimate.readthedocs.io/en/latest/?badge=latest)
 
 ## About
 
@@ -58,8 +59,6 @@ By participating in this project you agree to abide by its terms.
 > wrong. Most importantly, **there are many valuable ways to contribute besides
 > writing code**.
 >
-> *This disclaimer was adapted from the*
-> [MetPy project](https://github.com/Unidata/MetPy).
 
 ## License
 
