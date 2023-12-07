@@ -1,4 +1,4 @@
-name: published easyclimate to TestPyPI
+name: Publish Python 🐍 distributions 📦 to TestPyPI
 
 on:
   push:
@@ -6,8 +6,6 @@ on:
       - dev
     tags:
       - TEST*
-  release:
-    types: [published, prereleased]
 
 jobs:
   UnitTesting:
