@@ -7,13 +7,13 @@
 <a href="https://easyclimate.readthedocs.io/en/main/"><strong>Documentation</strong> (main branch)</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
-
 ![PyPI - License](https://img.shields.io/pypi/l/easyclimate)
 ![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
 [![codecov](https://codecov.io/gh/shenyulu/easyclimate/graph/badge.svg?token=CBG3IO5A5A)](https://codecov.io/gh/shenyulu/easyclimate)
 [![Documentation Status](https://readthedocs.org/projects/easyclimate/badge/?version=latest)](https://easyclimate.readthedocs.io/en/latest/?badge=latest)
+[![DOI](https://zenodo.org/badge/465206111.svg)](https://zenodo.org/doi/10.5281/zenodo.10279567)
 
 ## About
 

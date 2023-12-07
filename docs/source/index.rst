@@ -46,7 +46,10 @@ You can do a direct install via `pip` by using:
 
 How to cite
 -----------
-If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit <https://zenodo.org/>`__.
+If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit <https://zenodo.org/doi/10.5281/zenodo.10279567>`__.
+
+.. image:: https://zenodo.org/badge/465206111.svg
+  :target: https://zenodo.org/doi/10.5281/zenodo.10279567
 
 
 .. toctree::
