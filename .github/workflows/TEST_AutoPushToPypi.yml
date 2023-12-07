@@ -28,7 +28,7 @@ jobs:
       - name: Unit testings
         run: |
           pip install -r test_requirements.txt
-          pytest -s test/test_*.py
+          pytest --cov src
 
   GenerateWHL_PushPyPi:
     needs: UnitTesting
