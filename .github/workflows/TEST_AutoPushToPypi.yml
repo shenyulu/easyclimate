@@ -1,16 +1,13 @@
-name: Push easyclimate to TestPyPI
+name: published easyclimate to TestPyPI
 
 on:
   push:
-    branches: [ dev ]
+    branches:
+      - dev
     tags:
-      # - v*
       - TEST*
-    # paths:
-    #   - 'rapid_videocr/**'
-    #   - 'docs/doc_whl.md'
-    #   - 'setup.py'
-    #   - '.github/workflows/AutoPushToPypi.yml'
+  release:
+    types: [published, prereleased]
 
 jobs:
   UnitTesting:

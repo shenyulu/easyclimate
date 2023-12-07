@@ -1,7 +1,8 @@
-name: Push easyclimate to pypi
+name: published easyclimate to pypi
 
 on:
-  push:
+  release:
+    types: [published]
     branches: [ main ]
     tags:
       - v*
