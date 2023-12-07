@@ -32,7 +32,7 @@ dynamic = ["dependencies", "version"]
 
 [project.urls]
 homepage = "https://github.com/shenyulu/easyclimate"
-documentation = "https://numpy.org/doc/"
+documentation = "https://easyclimate.readthedocs.io/en/latest/"
 source = "https://github.com/shenyulu/easyclimate"
 download = "https://pypi.org/project/easyclimate/#files"
 tracker = "https://github.com/shenyulu/easyclimate/issues"

@@ -28,7 +28,7 @@ jobs:
       - name: Unit testings
         run: |
           pip install -r test_requirements.txt
-          pytest -s test/test_*.py
+          pytest --cov src
 
   GenerateWHL_PushPyPi:
     needs: UnitTesting
@@ -42,18 +42,11 @@ jobs:
           pip install --upgrade build
           python -m pip install --upgrade pip
           python -m build
-
-      # - name: Publish distribution 📦 to TEST-PyPI
-      #   uses: pypa/gh-action-pypi-publish@v1.5.0
-      #   with:
-      #     # For test
-      #     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-      #     repository-url: https://test.pypi.org/legacy/
-      #     packages_dir: dist/
         
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@v1.5.0
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           # For real release
           password: ${{ secrets.PYPI_API_TOKEN }}
-          packages_dir: dist/
+          repository-url: https://pypi.org/legacy/
+          packages-dir: dist/

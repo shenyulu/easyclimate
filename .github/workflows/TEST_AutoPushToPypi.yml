@@ -49,11 +49,4 @@ jobs:
           # For test
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository-url: https://test.pypi.org/legacy/
-          packages_dir: dist/
-        
-      # - name: Publish distribution 📦 to PyPI
-      #   uses: pypa/gh-action-pypi-publish@v1.5.0
-      #   with:
-      #     # For real release
-      #     password: ${{ secrets.PYPI_API_TOKEN }}
-      #     packages_dir: dist/
+          packages-dir: dist/
