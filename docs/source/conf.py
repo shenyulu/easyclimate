@@ -12,8 +12,8 @@ import time
 import datetime
 
 # autodoc required
-sys.path.insert(0, os.path.join(os.path.dirname((os.path.abspath('.')), 'src', 'easyclimate')))
-sys.path.insert(0, os.path.join(os.path.dirname((os.path.abspath('.')), 'src')))
+sys.path.insert(0, os.path.abspath('../../src'))  # Source code dir relative to this file
+import easyclimate as ecl
 
 # get year
 localtime = time.localtime(time.time())
@@ -22,7 +22,7 @@ str_year = str(localtime[0])
 project = 'easyclimate'
 copyright = f"2022-{datetime.datetime.now().year}, shenyulu（深雨露）"
 author = 'shenyulu'
-release = 'v2023.11.0'
+release = 'v' + ecl.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -65,7 +65,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'changes/*.rst']
 
 # -- Options for AutoAPI extension -------------------------------------------
 autoapi_type = 'python'
-autoapi_dirs = ['../src/easyclimate']
+autoapi_dirs = ['../../src']
 autoapi_add_toctree_entry = False
 autoapi_root = 'technical/api'
 
