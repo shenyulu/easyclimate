@@ -19,7 +19,7 @@ xarray-datatree
 xarray_regrid
 gsw_xarray
 
-sphinx == 6.2.1
+sphinx == 7.2.6
 recommonmark
 sphinx-markdown-tables
 sphinxcontrib-jupyter
