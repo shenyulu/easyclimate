@@ -101,7 +101,7 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
     :caption: Reference documentation
 
     ./api_index/index.rst
-    changes.rst
+    changes.md
     
 
 Indices and tables
