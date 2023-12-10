@@ -889,7 +889,7 @@ def calc_vertical_water_flux(
     specific_humidity_data: xr.DataArray, 
     omega_data: xr.DataArray, 
     g = 9.8
-) -> xr.Dataset:
+) -> xr.DataArray:
     """
     Calculate vertical water vapor flux.
 
@@ -903,7 +903,11 @@ def calc_vertical_water_flux(
     omega_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The vertical velocity data (:math:`\\frac{\\mathrm{d} p}{\\mathrm{d} t}`).
     g: :py:class:`float<python.float>`, default: `9.8`.
-        The acceleration of gravity.  
+        The acceleration of gravity.
+    
+    Returns
+    -------
+    The vertical water flux. (:py:class:`xarray.DataArray <xarray.DataArray>`).
     """
     water_flux = -omega_data *specific_humidity_data /g
     return water_flux

@@ -4,6 +4,7 @@ geocat.viz <= 2023.10.0
 cartopy >= 0.20
 xeofs >= 1.1.0
 matplotlib
+pandas
 fast-barnes-py
 oceans
 intel-fortran-rt
@@ -18,3 +19,5 @@ flox
 xarray-datatree
 xarray_regrid
 gsw_xarray
+pooch
+tqdm
