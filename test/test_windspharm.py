@@ -9,7 +9,7 @@ import xarray as xr
 import pandas as pd
 import os
 from .const_define import TEST_DATA_PATH
-from .util import round_sf_np_new
+from .util import round_sf_np_new # Intel fortran outputs for Windows and linux are quit different
 
 u_data_sample = ecl.open_tutorial_dataset('uwnd_202201_mon_mean').uwnd.isel(time = 0).sel(level = 500)
 v_data_sample = ecl.open_tutorial_dataset('vwnd_202201_mon_mean').vwnd.isel(time = 0).sel(level = 500)
@@ -114,22 +114,22 @@ def test_calc_helmholtz():
         u_data = u_data_sample,
         v_data = v_data_sample,
     )
-    result_data1 = result_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    result_data1 = result_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     result_data1 = round_sf_np_new(result_data1)
-    result_data2 = result_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    result_data2 = result_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     result_data2 = round_sf_np_new(result_data2)
-    result_data3 = result_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    result_data3 = result_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     result_data3 = round_sf_np_new(result_data3)
-    result_data4 = result_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    result_data4 = result_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     result_data4 = round_sf_np_new(result_data4)
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_helmholtz.nc'))
-    refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     refer_data1 = round_sf_np_new(refer_data1)
-    refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     refer_data2 = round_sf_np_new(refer_data2)
-    refer_data3 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()[0:6]
+    refer_data3 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     refer_data3 = round_sf_np_new(refer_data3)
-    refer_data4 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data .flatten()[0:6]
+    refer_data4 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data .flatten()
     refer_data4 = round_sf_np_new(refer_data4)
     assert np.isclose(result_data1, refer_data1).all()
     assert np.isclose(result_data2, refer_data2).all()

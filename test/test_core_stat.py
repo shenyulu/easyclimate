@@ -119,15 +119,13 @@ def test_calc_linregress_spatial2():
 def test_calc_detrend_data():
     result_data = ecl.calc_detrend_data(sic_data_Barents_Sea_12.sel(lon = slice(34.5, 36.5), lat = slice(78.5, 80.5)), time_dim = 'time').mean(dim = ('lat', 'lon')).data
     result_data = round_sf_np_new(result_data)
-    refer_data = np.array([-5.899e-02, -4.946e-02, -4.549e-02, -4.948e-01, -2.198e-02,
-       -4.670e-03,  2.042e-02,  3.328e-02,  1.281e-02,  2.901e-02,
-       -3.457e-04,  2.474e-02,  5.316e-02,  3.047e-02,  5.556e-02,
-        1.495e-01,  5.795e-02,  1.486e-01,  1.537e-01,  1.532e-01,
-        2.164e-02,  1.212e-01,  1.796e-01,  1.502e-01,  1.153e-01,
-       -3.252e-01, -9.784e-02,  1.572e-01, -1.243e-01,  2.941e-01,
-        1.325e-01, -4.224e-01,  1.760e-01,  2.689e-01, -2.038e-01,
-       -6.221e-01, -2.347e-01, -6.008e-01,  3.943e-01,  5.829e-02,
-        3.934e-01, -7.820e-02])
+    refer_data = np.array([-5.9e-02, -4.9e-02, -4.5e-02, -4.9e-01, -2.2e-02, -4.7e-03,
+        2.0e-02,  3.3e-02,  1.3e-02,  2.9e-02, -3.5e-04,  2.5e-02,
+        5.3e-02,  3.0e-02,  5.6e-02,  1.5e-01,  5.8e-02,  1.5e-01,
+        1.5e-01,  1.5e-01,  2.2e-02,  1.2e-01,  1.8e-01,  1.5e-01,
+        1.2e-01, -3.3e-01, -9.8e-02,  1.6e-01, -1.2e-01,  2.9e-01,
+        1.3e-01, -4.2e-01,  1.8e-01,  2.7e-01, -2.0e-01, -6.2e-01,
+       -2.3e-01, -6.0e-01,  3.9e-01,  5.8e-02,  3.9e-01, -7.8e-02])
     assert np.isclose(result_data, refer_data).all()
 
 def test_calc_ttestSpatialPattern_spatial():
