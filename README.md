@@ -8,7 +8,6 @@
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-![PyPI - License](https://img.shields.io/pypi/l/easyclimate)
 ![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
