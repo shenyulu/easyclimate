@@ -15,6 +15,6 @@ def round_sf_np_new(
     arr: np.array,
 ) -> np.array:
     """
-    Take four significant figures (NEW)
+    Take Two significant figures (NEW)
     """
-    return np.array(["{:.4g}".format(num) for num in arr], dtype=float)
+    return np.array(["{:.2g}".format(num) for num in arr], dtype=float)
