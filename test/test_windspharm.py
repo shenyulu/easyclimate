@@ -114,15 +114,15 @@ def test_calc_helmholtz():
         u_data = u_data_sample,
         v_data = v_data_sample,
     )
-    result_data1 = result_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    result_data2 = result_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    result_data3 = result_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    result_data4 = result_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
+    result_data1 = result_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    result_data2 = result_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    result_data3 = result_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    result_data4 = result_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_helmholtz.nc'))
-    refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data3 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data4 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data  
+    refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data3 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data4 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data .flatten() 
     assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
     assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
     assert np.isclose(round_sf_np_new(result_data3.flatten()), round_sf_np_new(refer_data3.flatten())).all()
@@ -133,11 +133,11 @@ def test_calc_irrotational_component():
         u_data = u_data_sample,
         v_data = v_data_sample,
     )
-    result_data1 = result_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    result_data2 = result_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_helmholtz.nc'))
-    refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
+    result_data1 = result_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    result_data2 = result_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_irrotational_component.nc'))
+    refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()  
     assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
     assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
 
@@ -146,11 +146,11 @@ def test_calc_nondivergent_component():
         u_data = u_data_sample,
         v_data = v_data_sample,
     )
-    result_data1 = result_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    result_data2 = result_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_helmholtz.nc'))
-    refer_data1 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    refer_data2 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
+    result_data1 = result_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    result_data2 = result_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_nondivergent_component.nc'))
+    refer_data1 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
+    refer_data2 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data.flatten()
     assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
     assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
 

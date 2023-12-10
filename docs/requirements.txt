@@ -19,6 +19,8 @@ flox
 xarray-datatree
 xarray_regrid
 gsw_xarray
+pooch
+tqdm
 
 sphinx == 6.2.1
 recommonmark == 0.7.1

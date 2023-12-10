@@ -19,3 +19,5 @@ flox
 xarray-datatree
 xarray_regrid
 gsw_xarray
+pooch
+tqdm
