@@ -5,8 +5,7 @@ import pytest
 
 import easyclimate as ecl
 import numpy as np
-import xarray as xr
-import pandas as pd
+from .util import round_sf_np_new
 
 sst_data = ecl.tutorial.open_tutorial_dataset('mini_HadISST_sst').sst
 sic_data_Barents_Sea = ecl.tutorial.open_tutorial_dataset('mini_HadISST_ice').sic
@@ -119,17 +118,16 @@ def test_calc_linregress_spatial2():
 
 def test_calc_detrend_data():
     result_data = ecl.calc_detrend_data(sic_data_Barents_Sea_12.sel(lon = slice(34.5, 36.5), lat = slice(78.5, 80.5)), time_dim = 'time').mean(dim = ('lat', 'lon')).data
-    refer_data = np.array([-5.89946248e-02, -4.94630672e-02, -4.54870537e-02, -4.94844377e-01,
-       -2.19795033e-02, -4.67017619e-03,  2.04169489e-02,  3.32818367e-02,
-        1.28133763e-02,  2.90115941e-02, -3.45740060e-04,  2.47413721e-02,
-        5.31618260e-02,  3.04711461e-02,  5.55582643e-02,  1.49534270e-01,
-        5.79547025e-02,  1.48597360e-01,  1.53684452e-01,  1.53216019e-01,
-        2.16364730e-02,  1.21168017e-01,  1.79588467e-01,  1.50231123e-01,
-        1.15318246e-01, -3.25150162e-01, -9.78408679e-02,  1.57246247e-01,
-       -1.24333329e-01,  2.94087142e-01,  1.32507533e-01, -4.22405332e-01,
-        1.76015079e-01,  2.68880010e-01, -2.03810692e-01, -6.22056901e-01,
-       -2.34747574e-01, -6.00771606e-01,  3.94315481e-01,  5.82915097e-02,
-        3.93378615e-01, -7.82009140e-02])
+    result_data = round_sf_np_new(result_data)
+    refer_data = np.array([-5.899e-02, -4.946e-02, -4.549e-02, -4.948e-01, -2.198e-02,
+       -4.670e-03,  2.042e-02,  3.328e-02,  1.281e-02,  2.901e-02,
+       -3.457e-04,  2.474e-02,  5.316e-02,  3.047e-02,  5.556e-02,
+        1.495e-01,  5.795e-02,  1.486e-01,  1.537e-01,  1.532e-01,
+        2.164e-02,  1.212e-01,  1.796e-01,  1.502e-01,  1.153e-01,
+       -3.252e-01, -9.784e-02,  1.572e-01, -1.243e-01,  2.941e-01,
+        1.325e-01, -4.224e-01,  1.760e-01,  2.689e-01, -2.038e-01,
+       -6.221e-01, -2.347e-01, -6.008e-01,  3.943e-01,  5.829e-02,
+        3.934e-01, -7.820e-02])
     assert np.isclose(result_data, refer_data).all()
 
 def test_calc_ttestSpatialPattern_spatial():

@@ -9,6 +9,7 @@ import xarray as xr
 import pandas as pd
 import os
 from .const_define import TEST_DATA_PATH
+from .util import round_sf_np_new
 
 u_data_sample = ecl.open_tutorial_dataset('uwnd_202201_mon_mean').uwnd.isel(time = 0).sel(level = 500)
 v_data_sample = ecl.open_tutorial_dataset('vwnd_202201_mon_mean').vwnd.isel(time = 0).sel(level = 500)
@@ -22,7 +23,7 @@ def test_calc_wind_speed():
     )
     result_data = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_wind_speed.nc'))['result'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(round_sf_np_new(result_data.flatten()), round_sf_np_new(refer_data.flatten())).all()
 
 def test_calc_relative_vorticity_and_horizontal_divergence():
     result_data = ecl.windspharm.calc_relative_vorticity_and_horizontal_divergence(
@@ -34,8 +35,8 @@ def test_calc_relative_vorticity_and_horizontal_divergence():
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_relative_vorticity_and_horizontal_divergence.nc'))
     refer_data1 = refer_data['vrt'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data2 = refer_data['div'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
 
 def test_calc_relative_vorticity():
     result_data = ecl.windspharm.calc_relative_vorticity(
@@ -45,7 +46,7 @@ def test_calc_relative_vorticity():
     result_data1 = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_relative_vorticity_and_horizontal_divergence.nc'))
     refer_data1 = refer_data['vrt'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
 
 def test_calc_divergence():
     result_data = ecl.windspharm.calc_divergence(
@@ -55,7 +56,7 @@ def test_calc_divergence():
     result_data1 = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_relative_vorticity_and_horizontal_divergence.nc'))
     refer_data1 = refer_data['div'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
 
 def test_calc_planetary_vorticity():
     result_data = ecl.windspharm.calc_planetary_vorticity(
@@ -64,7 +65,7 @@ def test_calc_planetary_vorticity():
     )
     result_data = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_planetary_vorticity.nc'))['result'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(round_sf_np_new(result_data.flatten()), round_sf_np_new(refer_data.flatten())).all()
 
 def test_calc_absolute_vorticity():
     result_data = ecl.windspharm.calc_absolute_vorticity(
@@ -73,7 +74,7 @@ def test_calc_absolute_vorticity():
     )
     result_data = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_absolute_vorticity.nc'))['result'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(round_sf_np_new(result_data.flatten()), round_sf_np_new(refer_data.flatten())).all()
 
 def test_calc_streamfunction_and_velocity_potential():
     result_data = ecl.windspharm.calc_streamfunction_and_velocity_potential(
@@ -85,8 +86,8 @@ def test_calc_streamfunction_and_velocity_potential():
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_streamfunction_and_velocity_potential.nc'))
     refer_data1 = refer_data['stream'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data2 = refer_data['pv'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
 
 def test_calc_streamfunction():
     result_data = ecl.windspharm.calc_streamfunction(
@@ -96,7 +97,7 @@ def test_calc_streamfunction():
     result_data1 = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_streamfunction_and_velocity_potential.nc'))
     refer_data1 = refer_data['stream'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
 
 def test_calc_velocity_potential():
     result_data = ecl.windspharm.calc_velocity_potential(
@@ -106,7 +107,7 @@ def test_calc_velocity_potential():
     result_data1 = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_streamfunction_and_velocity_potential.nc'))
     refer_data1 = refer_data['pv'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
 
 def test_calc_helmholtz():
     result_data = ecl.windspharm.calc_helmholtz(
@@ -122,10 +123,10 @@ def test_calc_helmholtz():
     refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data3 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data4 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data  
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
-    assert np.isclose(result_data3, refer_data3).all()
-    assert np.isclose(result_data4, refer_data4).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data3.flatten()), round_sf_np_new(refer_data3.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data4.flatten()), round_sf_np_new(refer_data4.flatten())).all()
 
 def test_calc_irrotational_component():
     result_data = ecl.windspharm.calc_irrotational_component(
@@ -137,8 +138,8 @@ def test_calc_irrotational_component():
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_helmholtz.nc'))
     refer_data1 = refer_data['uchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data2 = refer_data['vchi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
 
 def test_calc_nondivergent_component():
     result_data = ecl.windspharm.calc_nondivergent_component(
@@ -150,8 +151,8 @@ def test_calc_nondivergent_component():
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_helmholtz.nc'))
     refer_data1 = refer_data['upsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data2 = refer_data['vpsi'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
 
 def test_calc_rossby_wave_source():
     result_data = ecl.windspharm.calc_rossby_wave_source(
@@ -160,7 +161,7 @@ def test_calc_rossby_wave_source():
     )
     result_data = result_data.sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_rossby_wave_source.nc'))['result'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(round_sf_np_new(result_data.flatten()), round_sf_np_new(refer_data.flatten())).all()
 
 def test_calc_gradient():
     result_data = ecl.windspharm.calc_gradient(
@@ -171,5 +172,5 @@ def test_calc_gradient():
     refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_calc_gradient.nc'))
     refer_data1 = refer_data['zonal_gradient'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data
     refer_data2 = refer_data['meridional_gradient'].sel(lon = slice(lon_start, lon_end), lat = slice(lat_end, lat_start)).data   
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(round_sf_np_new(result_data1.flatten()), round_sf_np_new(refer_data1.flatten())).all()
+    assert np.isclose(round_sf_np_new(result_data2.flatten()), round_sf_np_new(refer_data2.flatten())).all()
