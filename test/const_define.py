@@ -1,0 +1,1 @@
+TEST_DATA_PATH = 'test/data'

@@ -22,7 +22,7 @@ def calc_climatological_mean(data_input: xr.DataArray, dim = 'time', **kwargs) -
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
-    return data_input.mean(dim = dim)
+    return data_input.mean(dim = dim, **kwargs)
 
 def calc_climatological_seasonal_mean(data_input: xr.DataArray, dim = 'time', **kwargs) -> xr.DataArray:
     """

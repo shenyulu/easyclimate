@@ -2,16 +2,11 @@ name: published easyclimate to pypi
 
 on:
   release:
-    types: [published]
-    branches: [ main ]
+    types:
+      - published
+  push:
     tags:
-      - v*
-      # - TEST*
-    # paths:
-    #   - 'rapid_videocr/**'
-    #   - 'docs/doc_whl.md'
-    #   - 'setup.py'
-    #   - '.github/workflows/AutoPushToPypi.yml'
+      - 'v*'
 
 jobs:
   UnitTesting:

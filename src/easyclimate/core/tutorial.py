@@ -43,6 +43,7 @@ file_formats = {
     "shum_202201_mon_mean": 4,
     "uwnd_202201_mon_mean": 4,
     "vwnd_202201_mon_mean": 4,
+    "omega_202201_mon_mean": 4,
     "mini_HadISST_ice": 4,
     "PressQFF_202007271200_872": 'csv',
 }
@@ -102,6 +103,7 @@ def open_tutorial_dataset(
     * ``"shum_202201_mon_mean"``: Absolute humidity of the NCEP reanalysis subset
     * ``"uwnd_202201_mon_mean"``: Zonal wind of the NCEP reanalysis subset
     * ``"vwnd_202201_mon_mean"``: Meridional wind of the NCEP reanalysis subset
+    * ``"omega_202201_mon_mean"``: Vertical velocity of the NCEP reanalysis subset
     * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
     * ``"PressQFF_202007271200_872"``: Observational data from European stations (from https://github.com/EXCITED-CO2/xarray-regrid)
 
