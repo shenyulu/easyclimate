@@ -22,7 +22,7 @@ gsw_xarray
 pooch
 tqdm
 
-sphinx == 6.2.1
+sphinx == 7.2.6
 recommonmark == 0.7.1
 sphinx-markdown-tables == 0.0.17
 sphinxcontrib-jupyter == 0.5.10
