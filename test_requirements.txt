@@ -2,7 +2,7 @@ numpy >= 1.24.3
 xarray >= 0.17.0
 geocat.viz <= 2023.10.0
 cartopy >= 0.20
-xeofs >= 1.1.0
+xeofs >= 2.2.2
 matplotlib
 pandas
 fast-barnes-py

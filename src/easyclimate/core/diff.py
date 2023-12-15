@@ -6,7 +6,7 @@ from __future__ import annotations
 import numpy as np
 from .utility import (find_dims_axis, transfer_deg2rad, 
                       transfer_inf2nan, transfer_units_coeff, 
-                      transfer_data_units, get_weighted_spatial_data,
+                      transfer_data_units,
                       generate_dataset_dispatcher)
 import xarray as xr
 import dask

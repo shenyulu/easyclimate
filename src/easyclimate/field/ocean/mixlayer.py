@@ -4,7 +4,7 @@ Functions for calculation of ocean mixed layer variables.
 from __future__ import annotations
 import xarray as xr
 import numpy as np
-from ..core.diff import calc_gradient
+from ...core.diff import calc_gradient
 
 def calc_MLD():
     pass

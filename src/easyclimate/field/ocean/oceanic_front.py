@@ -3,8 +3,8 @@ Quantify the intensity and location of two basin-scale oceanic frontal zones
 in the wintertime North Pacific, i.e. the subtropical and subarctic frontal zones (STFZ, SAFZ).
 """
 
-from ..core.utility import get_weighted_spatial_data
-from ..core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import get_weighted_spatial_data
+from ...core.utility import sort_ascending_latlon_coordinates
 import xarray as xr
 
 def calc_intensity_STFZ(

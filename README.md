@@ -65,4 +65,4 @@ By participating in this project you agree to abide by its terms.
 
 This is free software: you can redistribute it and/or modify it under the terms
 of the **BSD 3-clause License**. A copy of this license is provided in
-[`LICENSE.txt`](https://github.com/fatiando/verde/blob/main/LICENSE.txt).
+[`LICENSE.txt`](https://github.com/shenyulu/easyclimate/blob/main/LICENSE.txt).

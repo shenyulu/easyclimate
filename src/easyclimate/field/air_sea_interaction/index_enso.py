@@ -1,7 +1,7 @@
 """
 ENSO Indices
 """
-from ..core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import sort_ascending_latlon_coordinates
 import xarray as xr
 
 def calc_index_nino1and2(

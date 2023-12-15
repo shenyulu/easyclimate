@@ -9,8 +9,16 @@ from scipy.stats import t
 from .utility import *
 from .utility import generate_datatree_dispatcher
 
+from datatree import DataTree
+
 @generate_datatree_dispatcher
-def calc_linregress_spatial(data_input, dim = 'time', x = None, alternative = 'two-sided', returns_type = 'dataset_returns', engine = 'scipy_linregress'):
+def calc_linregress_spatial(
+    data_input, 
+    dim = 'time', 
+    x = None, 
+    alternative = 'two-sided', 
+    returns_type = 'dataset_returns',
+) -> xr.DataArray | DataTree:
     """
     Calculate a linear least-squares regression for spatial data of time.
 
@@ -50,66 +58,6 @@ def calc_linregress_spatial(data_input, dim = 'time', x = None, alternative = 't
     .. seealso::
         :py:func:`scipy.stats.linregress <scipy:scipy.stats.linregress>`.
     """
-    def _calc_linregress_spatial(x, y, dim, alternative):
-        # y shape
-        n = y[dim].shape[0]
-
-        if x is None:
-            # Regression parameter x
-            x_data = np.arange(0, y[dim].shape[0])
-            x = xr.DataArray(x_data, dims = dim, coords = {dim: y[dim].data})
-
-        x_shape = x.shape[0]
-        if x_shape != n:
-            raise ValueError('`data_input` array size along dimension `dim` should be the same as the `x` array size, but data_input[dim]: ' + n + '; x: ' + x_shape + '.')
-        
-        if isinstance(x, np.ndarray):
-            warnings.warn(f"Assuming that the coordinate value of '{dim}' in `data_input` and `x` is same. Ignoring.")
-            x = xr.DataArray(x, dims = dim, coords = {dim: y[dim].data})
-        if isinstance(x, xr.DataArray):
-            if x.dims[0] != y[dim].dims[0]:
-                raise ValueError('The coordinate name of `data_input` array along dimension `dim` should be the same as the `x`.')
-            if (x[dim].data == y[dim].data).all() == False:
-                warnings.warn(f"Coordinate value of '{dim}' in `data_input` and `x` is not same. If you are sure that the `x` dimension '{dim}' is the same as the value of the dimension in `data_input`, pass in the numpy array corresponding to `x`, e.g. `x.data`. Ignoring.")
-        else:
-            raise ValueError("Unsupported input type. Expected numpy.ndarray or xarray.DataArray.")
-
-        x_mean = np.mean(x)
-        x_diff = x - x_mean
-
-        slope = (x_diff * y).sum(dim = dim, skipna = False) / (x_diff ** 2).sum(skipna = False)
-        intercept = y.mean(dim = dim) - slope * x_mean
-        residuals = y - slope *x + intercept
-
-        dof = n - 2  # Degree of freedom
-        mse = (residuals **2).sum(dim = dim, skipna = False) / dof  # Mean Square Error
-        std_err_unnormalized = np.sqrt(mse)
-        std_err = np.sqrt(mse / (x_diff ** 2).sum(skipna = False))
-
-        t_value = slope / std_err
-        r_value = xr.corr(x, y, dim = dim)
-        intercept_stderr = std_err_unnormalized * np.sqrt(np.mean(x ** 2) / (x_diff ** 2).sum(skipna = False))
-
-        if alternative == 'two-sided':
-            p_value_numpy = 2 * (1 - t.cdf(np.abs(t_value), dof))  # Two-sided hypothesis testing
-        elif alternative == 'less':
-            p_value_numpy = t.cdf(t_value, dof)  # Left-sided hypothesis testing
-        elif alternative == 'greater':
-            p_value_numpy = 1 - t.cdf(t_value, dof)  # Right-hand side hypothesis testing
-        else:
-            raise ValueError("Invalid alternative hypothesis. Valid options are 'two-sided', 'less', or 'greater'.")
-
-        p_value = t_value.copy(data = p_value_numpy, deep = True)
-
-        result = xr.Dataset()
-        result['slope'] = slope
-        result['intercept'] = intercept
-        result['rvalue'] = r_value
-        result['pvalue'] = p_value
-        result['stderr'] = std_err
-        result['intercept_stderr'] = intercept_stderr
-        return result
-
     def _calc_linregress_spatial_scipy_linregress(data_input, dim, x, alternative):
         
         if data_input.chunks is not None:
@@ -178,13 +126,15 @@ def calc_linregress_spatial(data_input, dim = 'time', x = None, alternative = 't
             }
         )
     
-    if engine == 'scipy_linregress':
-        return _calc_linregress_spatial_scipy_linregress(data_input, dim, x, alternative)
-    elif engine == 'xarray':
-        return _calc_linregress_spatial(x, data_input, dim, alternative)
+    return _calc_linregress_spatial_scipy_linregress(data_input, dim, x, alternative)
 
-def calc_detrend_data(data_input, time_dim = 'time'):
-    """Remove linear trend along axis from data.
+@generate_datatree_dispatcher
+def calc_detrend_data(
+    data_input: xr.DataArray | xr.Dataset, 
+    time_dim: str = 'time'
+) -> xr.DataArray | DataTree:
+    """
+    Remove linear trend along axis from data.
 
     Parameters
     ----------
@@ -211,8 +161,13 @@ def calc_detrend_data(data_input, time_dim = 'time'):
     result = detrenddata_withoutmask.where(mask_float < 0.5)
     return result
 
-def calc_ttestSpatialPattern_spatial(data_input1, data_input2, dim = 'time'):
-    """Calculate the T-test for the means of two independent sptial samples along with other axis (i.e. 'time') of scores.
+def calc_ttestSpatialPattern_spatial(
+    data_input1: xr.DataArray,
+    data_input2: xr.DataArray,
+    dim: str = 'time'
+) -> xr.Dataset:
+    """
+    Calculate the T-test for the means of two independent sptial samples along with other axis (i.e. 'time') of scores.
 
     Parameters
     ----------
@@ -262,8 +217,13 @@ def calc_ttestSpatialPattern_spatial(data_input1, data_input2, dim = 'time'):
         }
     )
 
-def calc_skewness_spatial(data_input, dim = 'time'):
-    """Calculate the skewness of the spatial field on the time axis and its significance test.
+@generate_datatree_dispatcher
+def calc_skewness_spatial(
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str = 'time',
+) -> xr.Dataset | DataTree:
+    """
+    Calculate the skewness of the spatial field on the time axis and its significance test.
 
     The :math:`k` th statistical moment about the mean is given by
 
@@ -324,8 +284,13 @@ def calc_skewness_spatial(data_input, dim = 'time'):
 
     return dateset
 
-def calc_kurtosis_spatial(data_input, dim = 'time'):
-    """Calculate the kurtosis of the spatial field on the time axis and its significance test.
+@generate_datatree_dispatcher
+def calc_kurtosis_spatial(
+    data_input: xr.DataArray | DataTree,
+    dim: str = 'time',
+) -> xr.DataArray | DataTree:
+    """
+    Calculate the kurtosis of the spatial field on the time axis and its significance test.
 
     The :math:`k` th statistical moment about the mean is given by
 

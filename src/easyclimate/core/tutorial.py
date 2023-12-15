@@ -46,6 +46,7 @@ file_formats = {
     "omega_202201_mon_mean": 4,
     "mini_HadISST_ice": 4,
     "PressQFF_202007271200_872": 'csv',
+    "pr_wtr_eatm_2022": 4,
 }
 
 def _check_netcdf_engine_installed(name):
@@ -106,7 +107,7 @@ def open_tutorial_dataset(
     * ``"omega_202201_mon_mean"``: Vertical velocity of the NCEP reanalysis subset
     * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
     * ``"PressQFF_202007271200_872"``: Observational data from European stations (from https://github.com/EXCITED-CO2/xarray-regrid)
-
+    * ``"pr_wtr_eatm_2022"``: Precipitable water of the NCEP reanalysis subset in the 2022
 
     Parameters
     ----------

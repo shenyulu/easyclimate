@@ -148,4 +148,6 @@ intersphinx_mapping = {'scipy': ('https://docs.scipy.org/doc/scipy/', None),
                        'pandas': ('https://pandas.pydata.org/pandas-docs/stable', None),
                        'matplotlib': ('https://matplotlib.org/stable', None),
                        'statsmodels': ('https://www.statsmodels.org/stable', None),
+                       'xarray-datatree': ('https://xarray-datatree.readthedocs.io/en/latest/', None),
+                       'xeofs': ('https://xeofs.readthedocs.io/en/latest/', None),
 }

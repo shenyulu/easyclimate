@@ -51,16 +51,6 @@ Interpolation
     easyclimate.interp.point2mesh
     easyclimate.interp.mesh2mesh
 
-Ocean
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.ocean.mixlayer
-    easyclimate.ocean.stability
-    easyclimate.ocean.thermal
-
 Plot
 ----------------------------------------
 
@@ -73,7 +63,7 @@ Plot
     easyclimate.plot.taylor_diagram
     easyclimate.plot.wind
 
-Wavelet transform
+Wavelet Transform
 ----------------------------------------
 
 .. autosummary::
@@ -82,7 +72,7 @@ Wavelet transform
     easyclimate.wavelet.wavelet
 
 
-Spherical harmonics of wind fields
+Spherical Harmonics of Wind Fields
 ----------------------------------------
 
 .. autosummary::
@@ -90,13 +80,48 @@ Spherical harmonics of wind fields
 
     easyclimate.windspharm.top
 
-Index
+Climate Field
 ----------------------------------------
+
+Air–Sea Interaction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.index.enso
-    easyclimate.index.npwi
-    easyclimate.index.oceanic_front
-    easyclimate.index.pna
+    easyclimate.field.air_sea_interaction.index_enso
+
+Atmosphere
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.atm.index_PNA
+
+Land–Atmosphere Interactions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.land_atm_interaction
+
+Monsoon
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.monsoon.index_npwi
+
+Ocean
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.ocean.mixlayer
+    easyclimate.field.ocean.oceanic_front
+    easyclimate.field.ocean.stability
+    easyclimate.field.ocean.thermal

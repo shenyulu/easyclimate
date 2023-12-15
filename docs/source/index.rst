@@ -46,10 +46,25 @@ You can do a direct install via `pip` by using:
 
 How to cite
 -----------
-If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit <https://zenodo.org/doi/10.5281/zenodo.10279567>`__.
+
+If you are using xarray and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
+We provide a `Zenodo citation and DOI <https://zenodo.org/doi/10.5281/zenodo.10279567>`__ for this purpose:
 
 .. image:: https://zenodo.org/badge/465206111.svg
   :target: https://zenodo.org/doi/10.5281/zenodo.10279567
+
+An example BibTeX entry:
+
+.. code:: BibTeX
+
+    @misc{easyclimate_v2023_12_1,
+        author = {Yulu Shen},
+        title  = {easyclimate: v2023.12.1},
+        month  = dec,
+        year   = 2023,
+        doi    = {10.5281/zenodo.10279567},
+        url    = {https://doi.org/10.5281/zenodo.10279567}
+        }
 
 
 .. toctree::
@@ -81,7 +96,7 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Indices:
+   :caption: Climate Field
 
    ./static_docs/air_sea_interaction.md
    ./static_docs/monsoon.md

@@ -173,11 +173,11 @@ ax.coastlines(edgecolor = 'black', linewidths = 0.5)
 
 #%%
 # The Niño3.4 index is commonly used as an indicator for detecting ENSO, 
-# and `easyclimate` provides :py:func:`easyclimate.index.enso.calc_index_nino34 <easyclimate.index.enso.calc_index_nino34>` to calculate the index using SST anomalies.
+# and `easyclimate` provides :py:func:`easyclimate.field.air_sea_interaction.calc_index_nino34 <easyclimate.field.air_sea_interaction.calc_index_nino34>` to calculate the index using SST anomalies.
 # 
 # .. seealso::
 #   Anthony G. Bamston, Muthuvel Chelliah & Stanley B. Goldenberg (1997) Documentation of a highly ENSO‐related sst region in the equatorial pacific: Research note, Atmosphere-Ocean, 35:3, 367-383, DOI: https://doi.org/10.1080/07055900.1997.9649597
-nino34_monthly_index = ecl.index.enso.calc_index_nino34(sst_data_anormaly)
+nino34_monthly_index = ecl.field.air_sea_interaction.calc_index_nino34(sst_data_anormaly)
 
 nino34_monthly_index.plot(
     figsize = (8, 3),

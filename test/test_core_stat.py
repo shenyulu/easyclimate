@@ -81,41 +81,6 @@ def test_calc_linregress_spatial():
     assert np.isclose(result_data5, refer_data5).all()
     assert np.isclose(result_data6, refer_data6).all()
 
-def test_calc_linregress_spatial2():
-    result_data = ecl.calc_linregress_spatial(sic_data_Barents_Sea_12.sel(lon = slice(34.5, 36.5), lat = slice(78.5, 80.5)), dim = 'time', engine = 'xarray').compute()
-    result_data1 = result_data['slope'].data
-    result_data2 = result_data['intercept'].data
-    result_data3 = result_data['rvalue'].data
-    result_data4 = result_data['pvalue'].data
-    result_data5 = result_data['stderr'].data
-    result_data6 = result_data['intercept_stderr'].data
-
-    refer_data1 = np.array([[-0.01689814, -0.01618345, -0.01640629],
-       [-0.01011993, -0.00922373, -0.0091192 ],
-       [-0.00641115, -0.0054169 , -0.00600519]])
-    refer_data2 = np.array([[1.0559357 , 1.04461782, 1.04132889],
-       [1.01817267, 1.01218159, 1.01741975],
-       [0.89857135, 0.91509404, 0.94763007]])
-    refer_data3 = np.array([[-0.5833921 , -0.57217977, -0.57376993],
-       [-0.47457306, -0.4485609 , -0.45343254],
-       [-0.32601492, -0.2847003 , -0.33127695]])
-    refer_data4 = np.array([[0.54670677, 0.55950058, 0.55297443],
-       [0.70697605, 0.73026712, 0.73443278],
-       [0.78751658, 0.82292746, 0.81043421]])
-    refer_data5 = np.array([[0.02779874, 0.02749916, 0.02741885],
-       [0.02672881, 0.02656663, 0.02669478],
-       [0.02362677, 0.02404782, 0.02487059]])
-    refer_data6 = np.array([[0.66203424, 0.6548997 , 0.65298707],
-       [0.63655362, 0.63269127, 0.63574306],
-       [0.5626778 , 0.57270522, 0.59229961]])
-
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
-    assert np.isclose(result_data3, refer_data3).all()
-    assert np.isclose(result_data4, refer_data4).all()
-    assert np.isclose(result_data5, refer_data5).all()
-    assert np.isclose(result_data6, refer_data6).all()
-
 def test_calc_detrend_data():
     result_data = ecl.calc_detrend_data(sic_data_Barents_Sea_12.sel(lon = slice(34.5, 36.5), lat = slice(78.5, 80.5)), time_dim = 'time').mean(dim = ('lat', 'lon')).data
     result_data = round_sf_np_new(result_data)
