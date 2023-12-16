@@ -570,7 +570,7 @@ def seasonal_test(
     - slope: Theil-Sen estimator/slope
     - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
-    def _top_test(data_input, dim, alpha):
+    def _top_test(data_input, dim, alpha, period):
         def mk_test(data):
             mk_test_result = mk.seasonal_test(data, alpha = alpha, period = period)
 
@@ -776,7 +776,7 @@ def correlated_seasonal_test(
     - slope: Theil-Sen estimator/slope
     - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
-    def _top_test(data_input, dim, alpha):
+    def _top_test(data_input, dim, alpha, period):
         def mk_test(data):
             mk_test_result = mk.correlated_seasonal_test(data, alpha = alpha, period = period)
 
@@ -841,112 +841,9 @@ def correlated_seasonal_test(
     return _top_test(data_input, dim, alpha, period)
 
 @generate_datatree_dispatcher
-def partial_test(
-    data_input: xr.DataArray | xr.Dataset, 
-    dim: str, 
-    alpha: float = 0.05, 
-    returns_type: str = 'dataset_returns'
-) -> xr.Dataset | DataTree:
-    """
-    In a real event, many factors are affecting the main studied response parameter, which can bias the trend results. To overcome this problem, Libiseller (2002) proposed this partial mk test. It required two parameters as input, where, one is response parameter and other is an independent parameter.
-
-    .. seealso::
-        Libiseller, C., & Grimvall, A. (2002). Performance of partial Mann-Kendall tests for trend detection in the presence of covariates. Environmetrics: The official journal of the International Environmetrics Society, 13(1), 71-84. doi: http://doi.org/10.1002/env.507
-
-    Parameters
-    ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-         The spatio-temporal data to be calculated.
-    dim: str
-        Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
-        significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
-        Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
-
-    Returns
-    -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
-
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
-    """
-    def _top_test(data_input, dim, alpha):
-        def mk_test(data):
-            mk_test_result = mk.partial_test(data, alpha = alpha)
-
-            trend = mk_test_result.trend
-            if trend == 'increasing':
-                trend = 1
-            elif trend == 'decreasing':
-                trend = -1
-            elif trend == 'no trend':
-                trend = 0
-            else:
-                raise ValueError('Error `trend` type.')
-            
-            h = mk_test_result.h
-            p = mk_test_result.p
-            z = mk_test_result.z
-            Tau = mk_test_result.Tau
-            s = mk_test_result.s
-            var_s = mk_test_result.var_s
-            slope = mk_test_result.slope
-            intercept = mk_test_result.intercept
-            return np.array([trend, h, p, z, Tau, s, var_s, slope, intercept])
-
-        # Use xarray apply_ufunc to create DataArray
-        mk_test_dataarray = xr.apply_ufunc(
-            mk_test,
-            data_input,
-            input_core_dims=[[dim]],
-            output_core_dims = [["parameter"]],
-            output_dtypes=["float64"],
-            dask = "parallelized",
-            vectorize=True,
-            dask_gufunc_kwargs = {"output_sizes": {"parameter": 1}},
-        )
-
-        # Transform DataArray to Dataset
-        mk_test_dataset = xr.Dataset(
-            data_vars = {'trend': mk_test_dataarray[...,0],
-                        'h':  mk_test_dataarray[...,1],
-                        'p':  mk_test_dataarray[...,2],
-                        'z':  mk_test_dataarray[...,3],
-                        'Tau':  mk_test_dataarray[...,4],
-                        's':  mk_test_dataarray[...,5],
-                        'var_s':  mk_test_dataarray[...,6],
-                        'slope':  mk_test_dataarray[...,7],
-                        'intercept':  mk_test_dataarray[...,8],
-            }
-        )
-
-        mk_test_dataset['trend'].attrs['Description'] = "tells the trend (increasing: 1, decreasing: -1 or no trend: 0)."
-        mk_test_dataset['h'].attrs['Description'] = "True (if trend is present) or False (if the trend is absence)."
-        mk_test_dataset['p'].attrs['Description'] = "p-value of the significance test"
-        mk_test_dataset['z'].attrs['Description'] = "normalized test statistics"
-        mk_test_dataset['Tau'].attrs['Description'] = "Kendall Tau"
-        mk_test_dataset['s'].attrs['Description'] = "Mann-Kendal's score"
-        mk_test_dataset['var_s'].attrs['Description'] = "Variance S"
-        mk_test_dataset['slope'].attrs['Description'] = "Theil-Sen estimator/slope"
-        mk_test_dataset['intercept'].attrs['Description'] = "intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step"
-        mk_test_dataset.attrs['Description'] = "partial_test"
-        return mk_test_dataset
-    
-    return _top_test(data_input, dim, alpha)
-
-@generate_datatree_dispatcher
 def sens_slope(
     data_input: xr.DataArray | xr.Dataset, 
     dim: str, 
-    alpha: float = 0.05, 
     returns_type: str = 'dataset_returns'
 ) -> xr.Dataset | DataTree:
     """
@@ -971,40 +868,17 @@ def sens_slope(
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
     - slope: Theil-Sen estimator/slope
     - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
-    def _top_test(data_input, dim, alpha):
+    def _top_test(data_input, dim):
         def mk_test(data):
-            mk_test_result = mk.sens_slope(data, alpha = alpha)
+            mk_test_result = mk.sens_slope(data)
 
-            trend = mk_test_result.trend
-            if trend == 'increasing':
-                trend = 1
-            elif trend == 'decreasing':
-                trend = -1
-            elif trend == 'no trend':
-                trend = 0
-            else:
-                raise ValueError('Error `trend` type.')
-            
-            h = mk_test_result.h
-            p = mk_test_result.p
-            z = mk_test_result.z
-            Tau = mk_test_result.Tau
-            s = mk_test_result.s
-            var_s = mk_test_result.var_s
             slope = mk_test_result.slope
             intercept = mk_test_result.intercept
-            return np.array([trend, h, p, z, Tau, s, var_s, slope, intercept])
+            return np.array([slope, intercept])
 
         # Use xarray apply_ufunc to create DataArray
         mk_test_dataarray = xr.apply_ufunc(
@@ -1020,37 +894,22 @@ def sens_slope(
 
         # Transform DataArray to Dataset
         mk_test_dataset = xr.Dataset(
-            data_vars = {'trend': mk_test_dataarray[...,0],
-                        'h':  mk_test_dataarray[...,1],
-                        'p':  mk_test_dataarray[...,2],
-                        'z':  mk_test_dataarray[...,3],
-                        'Tau':  mk_test_dataarray[...,4],
-                        's':  mk_test_dataarray[...,5],
-                        'var_s':  mk_test_dataarray[...,6],
-                        'slope':  mk_test_dataarray[...,7],
-                        'intercept':  mk_test_dataarray[...,8],
+            data_vars = {'slope':  mk_test_dataarray[...,0],
+                         'intercept':  mk_test_dataarray[...,1],
             }
         )
 
-        mk_test_dataset['trend'].attrs['Description'] = "tells the trend (increasing: 1, decreasing: -1 or no trend: 0)."
-        mk_test_dataset['h'].attrs['Description'] = "True (if trend is present) or False (if the trend is absence)."
-        mk_test_dataset['p'].attrs['Description'] = "p-value of the significance test"
-        mk_test_dataset['z'].attrs['Description'] = "normalized test statistics"
-        mk_test_dataset['Tau'].attrs['Description'] = "Kendall Tau"
-        mk_test_dataset['s'].attrs['Description'] = "Mann-Kendal's score"
-        mk_test_dataset['var_s'].attrs['Description'] = "Variance S"
         mk_test_dataset['slope'].attrs['Description'] = "Theil-Sen estimator/slope"
         mk_test_dataset['intercept'].attrs['Description'] = "intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step"
         mk_test_dataset.attrs['Description'] = "sens_slope"
         return mk_test_dataset
     
-    return _top_test(data_input, dim, alpha)
+    return _top_test(data_input, dim)
 
 @generate_datatree_dispatcher
 def seasonal_sens_slope(
     data_input: xr.DataArray | xr.Dataset, 
     dim: str, 
-    alpha: float = 0.05, 
     period: int = 12, 
     returns_type: str = 'dataset_returns'
 ) -> xr.Dataset | DataTree:
@@ -1086,29 +945,13 @@ def seasonal_sens_slope(
     - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
-    def _top_test(data_input, dim, alpha):
+    def _top_test(data_input, dim, period):
         def mk_test(data):
-            mk_test_result = mk.seasonal_sens_slope(data, alpha = alpha, period = period)
+            mk_test_result = mk.seasonal_sens_slope(data, period = period)
 
-            trend = mk_test_result.trend
-            if trend == 'increasing':
-                trend = 1
-            elif trend == 'decreasing':
-                trend = -1
-            elif trend == 'no trend':
-                trend = 0
-            else:
-                raise ValueError('Error `trend` type.')
-            
-            h = mk_test_result.h
-            p = mk_test_result.p
-            z = mk_test_result.z
-            Tau = mk_test_result.Tau
-            s = mk_test_result.s
-            var_s = mk_test_result.var_s
             slope = mk_test_result.slope
             intercept = mk_test_result.intercept
-            return np.array([trend, h, p, z, Tau, s, var_s, slope, intercept])
+            return np.array([slope, intercept])
 
         # Use xarray apply_ufunc to create DataArray
         mk_test_dataarray = xr.apply_ufunc(
@@ -1124,28 +967,14 @@ def seasonal_sens_slope(
 
         # Transform DataArray to Dataset
         mk_test_dataset = xr.Dataset(
-            data_vars = {'trend': mk_test_dataarray[...,0],
-                        'h':  mk_test_dataarray[...,1],
-                        'p':  mk_test_dataarray[...,2],
-                        'z':  mk_test_dataarray[...,3],
-                        'Tau':  mk_test_dataarray[...,4],
-                        's':  mk_test_dataarray[...,5],
-                        'var_s':  mk_test_dataarray[...,6],
-                        'slope':  mk_test_dataarray[...,7],
-                        'intercept':  mk_test_dataarray[...,8],
+            data_vars = {'slope':  mk_test_dataarray[...,0],
+                         'intercept':  mk_test_dataarray[...,1],
             }
         )
 
-        mk_test_dataset['trend'].attrs['Description'] = "tells the trend (increasing: 1, decreasing: -1 or no trend: 0)."
-        mk_test_dataset['h'].attrs['Description'] = "True (if trend is present) or False (if the trend is absence)."
-        mk_test_dataset['p'].attrs['Description'] = "p-value of the significance test"
-        mk_test_dataset['z'].attrs['Description'] = "normalized test statistics"
-        mk_test_dataset['Tau'].attrs['Description'] = "Kendall Tau"
-        mk_test_dataset['s'].attrs['Description'] = "Mann-Kendal's score"
-        mk_test_dataset['var_s'].attrs['Description'] = "Variance S"
         mk_test_dataset['slope'].attrs['Description'] = "Theil-Sen estimator/slope"
         mk_test_dataset['intercept'].attrs['Description'] = "intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step"
         mk_test_dataset.attrs['Description'] = "seasonal_sens_slope"
         return mk_test_dataset
     
-    return _top_test(data_input, dim, alpha, period)
+    return _top_test(data_input, dim, period)

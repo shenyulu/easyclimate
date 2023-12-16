@@ -458,7 +458,7 @@ def calc_p_integral(
     else:
         raise ValueError('The parameter `normalize` should be `True` or `False`.')
 
-    return data_input.isel({vertical_dim: 0}).drop(vertical_dim).copy(data = data_trapz_normalized, deep = True)
+    return data_input.isel({vertical_dim: 0}).drop_vars(vertical_dim).copy(data = data_trapz_normalized, deep = True)
 
 def calc_top2surface_integral(
     data_input: xr.DataArray, 

@@ -2,7 +2,6 @@
 Functions for package utility.
 """
 from __future__ import annotations
-# from typing import Union
 from datatree import DataTree
 import numpy as np
 import xarray as xr
@@ -115,7 +114,7 @@ def transfer_int2datetime(
     # xarray coordinate axis does not accept DatetimeIndex, so use `.to_numpy()` to convert it to numpy array.
     return pd.to_datetime(data, format = "%Y").to_numpy()
 
-def transfer_datetime2int(
+def split_datetime2yearday(
     ds: xr.DataArray
 ) -> xr.DataArray:
     """
@@ -171,6 +170,24 @@ def transfer_inf2nan(
     - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
     return ds.where(np.isfinite(ds), np.nan)
+
+def transfer_nan2value(
+    ds: xr.DataArray,
+    value: float,
+) -> xr.DataArray:
+    """
+    Convert `np.inf` in `ds` to `np.nan`, respectively.
+
+    Parameters
+    ----------
+    - ds: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Data include `np.inf`.
+    
+    Returns
+    -------
+    - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    """
+    return ds.fillna(value)
 
 def transfer_monmean2everymonthmean(
     data_input: xr.DataArray, 
@@ -313,7 +330,9 @@ def get_weighted_spatial_data(
             return xda
         
         # area dataArray
-        da_area = area_grid(data_input[lat_dim].data, data_input[lon_dim].data, lat_dim, lon_dim)
+        lat_array = data_input[lat_dim].astype('float64').data
+        lon_array = data_input[lon_dim].astype('float64').data
+        da_area = area_grid(lat_array, lon_array, lat_dim, lon_dim)
         # total area
         total_area = da_area.sum(dim = (lat_dim, lon_dim))
         weights = da_area / total_area
@@ -356,7 +375,14 @@ def sort_ascending_latlon_coordinates(
     """
     Sort the dimensions `lat`, `lon` in ascending order.
     """
-    return data.sortby([lat_dim, lon_dim], ascending = True)
+    if (lat_dim is None) and (lon_dim is None):
+        return data
+    elif lat_dim is None:
+        return data.sortby([lon_dim], ascending = True)
+    elif lon_dim is None:
+        return data.sortby([lat_dim], ascending = True)
+    else:
+        return data.sortby([lat_dim, lon_dim], ascending = True)
 
 def transfer_units_coeff(
     input_units: str, 
