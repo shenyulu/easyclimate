@@ -63,6 +63,9 @@ def interp_mesh2mesh(
     if target_grid_dims_len != 2:
         raise ValueError('The dimension should be 2, rather than %s.' %target_grid_dims_len)
     
+    # For the convenience of data processing
+    target_grid = target_grid.transpose(lat_dim, lon_dim)
+    
     for dims_name in target_grid.dims:
         try:
             data_input[dims_name]
@@ -87,4 +90,4 @@ def interp_mesh2mesh(
         case 'cubic':
             return data_input.regrid.cubic(target_grid)
         case 'conservative':
-            return data_input.regrid.cubic(target_grid, latitude_coord = lat_dim)
+            return data_input.regrid.conservative(target_grid, latitude_coord = lat_dim)

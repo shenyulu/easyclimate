@@ -98,7 +98,7 @@ def calc_index_nino34(
     lon_dim: :py:class:`str<python.str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     running_mean: :py:class:`int<python.int>`, default: `5`.
-        Running mean value.
+        Running mean value. If `running_mean` is `None` or `0`, it will not perform running average operation.
 
     Returns
     -------
@@ -111,7 +111,10 @@ def calc_index_nino34(
     """
     sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
     nino34_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(190, 240)})
-    nino34_index = nino34_index.rolling(time = running_mean).mean().mean(dim = (lat_dim, lon_dim))
+    if (running_mean is None) or (running_mean == 0):
+        nino34_index = nino34_index.mean(dim = (lat_dim, lon_dim))
+    else:
+        nino34_index = nino34_index.rolling(time = running_mean).mean().mean(dim = (lat_dim, lon_dim))
     nino34_index.name = 'Nino34_index'
     return nino34_index
 
@@ -138,7 +141,7 @@ def calc_index_OMI(
     lon_dim: :py:class:`str<python.str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     running_mean: :py:class:`int<python.int>`, default: `3`.
-        Running mean value.
+        Running mean value. If `running_mean` is `None` or `0`, it will not perform running average operation.
 
     Returns
     -------
@@ -151,7 +154,10 @@ def calc_index_OMI(
     """
     sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
     omi_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(190, 240)})
-    omi_index = omi_index.rolling(time = running_mean).mean().mean(dim = (lat_dim, lon_dim))
+    if (running_mean is None) or (running_mean == 0):
+        omi_index = omi_index.mean(dim = (lat_dim, lon_dim))
+    else:
+        omi_index = omi_index.rolling(time = running_mean).mean().mean(dim = (lat_dim, lon_dim))
     omi_index.name = 'Oceanic_Nino_Index_index'
     return omi_index
 

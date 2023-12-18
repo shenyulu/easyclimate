@@ -2,8 +2,13 @@
 Obtain data within a specified time period
 """
 from .yearstat import *
+from typing import List
 
-def get_specific_years_data(data_input: xr.DataArray, year_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_years_data(
+    data_input: xr.DataArray | xr.Dataset,
+    year_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer years.
 
@@ -24,7 +29,11 @@ def get_specific_years_data(data_input: xr.DataArray, year_array: np.array, dim 
     year_idx = years.isin(year_array)
     return data_input.isel({dim: year_idx})
 
-def get_specific_months_data(data_input: xr.DataArray, month_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_months_data(
+    data_input: xr.DataArray | xr.Dataset,
+    month_array: np.array,
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer months.
 
@@ -45,7 +54,11 @@ def get_specific_months_data(data_input: xr.DataArray, month_array: np.array, di
     months_idx = months.isin(month_array)
     return data_input.isel({dim: months_idx})
 
-def get_specific_days_data(data_input: xr.DataArray, day_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_days_data(
+    data_input: xr.DataArray | xr.Dataset,
+    day_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer days.
 
@@ -66,7 +79,11 @@ def get_specific_days_data(data_input: xr.DataArray, day_array: np.array, dim = 
     days_idx = days.isin(day_array)
     return data_input.isel({dim: days_idx})
 
-def get_specific_hours_data(data_input: xr.DataArray, hour_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_hours_data(
+    data_input: xr.DataArray | xr.Dataset,
+    hour_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer hours.
 
@@ -87,7 +104,11 @@ def get_specific_hours_data(data_input: xr.DataArray, hour_array: np.array, dim 
     hours_idx = hours.isin(hour_array)
     return data_input.isel({dim: hours_idx})
 
-def get_specific_minutes_data(data_input: xr.DataArray, minute_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_minutes_data(
+    data_input: xr.DataArray | xr.Dataset,
+    minute_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer minutes.
 
@@ -108,7 +129,11 @@ def get_specific_minutes_data(data_input: xr.DataArray, minute_array: np.array, 
     minutes_idx = minutes.isin(minute_array)
     return data_input.isel({dim: minutes_idx})
 
-def get_specific_seconds_data(data_input: xr.DataArray, second_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_seconds_data(
+    data_input: xr.DataArray | xr.Dataset,
+    second_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer seconds.
 
@@ -129,7 +154,11 @@ def get_specific_seconds_data(data_input: xr.DataArray, second_array: np.array, 
     seconds_idx = seconds.isin(second_array)
     return data_input.isel({dim: seconds_idx})
 
-def get_specific_microseconds_data(data_input: xr.DataArray, microsecond_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_microseconds_data(
+    data_input: xr.DataArray | xr.Dataset,
+    microsecond_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer microseconds.
 
@@ -150,7 +179,11 @@ def get_specific_microseconds_data(data_input: xr.DataArray, microsecond_array: 
     microseconds_idx = microseconds.isin(microsecond_array)
     return data_input.isel({dim: microseconds_idx})
 
-def get_specific_nanoseconds_data(data_input: xr.DataArray, nanosecond_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_nanoseconds_data(
+    data_input: xr.DataArray | xr.Dataset,
+    nanosecond_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer nanoseconds.
 
@@ -171,7 +204,11 @@ def get_specific_nanoseconds_data(data_input: xr.DataArray, nanosecond_array: np
     nanoseconds_idx = nanoseconds.isin(nanosecond_array)
     return data_input.isel({dim: nanoseconds_idx})
 
-def get_specific_dayofweek_data(data_input: xr.DataArray, dayofweek_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_dayofweek_data(
+    data_input: xr.DataArray | xr.Dataset,
+    dayofweek_array: np.array(int) | List[int],
+    dim = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer dayofweek.
 
@@ -213,7 +250,12 @@ def get_specific_dayofweek_data(data_input: xr.DataArray, dayofweek_array: np.ar
     dayofweek_idx = dayofweek.isin(dayofweek_array)
     return data_input.isel({dim: dayofweek_idx})
 
-def get_yearmean_for_specific_months_data(data_input: xr.DataArray, month_array: np.array, dim = 'time', kwargs = None) -> xr.DataArray:
+def get_yearmean_for_specific_months_data(
+    data_input: xr.DataArray | xr.Dataset,
+    month_array: np.array(int) | List[int],
+    dim = 'time',
+    **kwargs,
+) -> xr.DataArray | xr.Dataset:
     """
     Get the annual average of certain months.
 
