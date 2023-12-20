@@ -5,7 +5,6 @@ import pytest
 
 import easyclimate as ecl
 import numpy as np
-import xarray as xr
 
 data = ecl.open_tutorial_dataset('PressQFF_202007271200_872.csv')
 

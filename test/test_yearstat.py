@@ -6,10 +6,10 @@ import pytest
 import easyclimate as ecl
 import numpy as np
 import xarray as xr
-import os
+from pathlib import Path
 from .const_define import TEST_DATA_PATH
 
-data_nino34_area = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_input_nino34.nc')).sst
+data_nino34_area = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_input_nino34.nc'))).sst
 
 def test_calc_yearmean():
    result_data = ecl.calc_yearmean(data_nino34_area).data

@@ -8,6 +8,7 @@
 docs/optipng.exe
 docs/build
 dist/
+test/tmpfile
 **/.pytest_cache
 .coverage
 .coverage*

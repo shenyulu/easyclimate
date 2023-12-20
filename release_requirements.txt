@@ -21,3 +21,4 @@ xarray_regrid
 gsw_xarray
 pooch
 tqdm
+zarr

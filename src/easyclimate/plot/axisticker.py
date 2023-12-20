@@ -90,3 +90,5 @@ def set_p_format_axis(
         ax.set_ylim(axis_limits)
         ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
         ax.yaxis.set_major_locator(ticker.MultipleLocator(ticker_step))
+    else:
+        raise ValueError('`axis`  should be `x` or `y`.')

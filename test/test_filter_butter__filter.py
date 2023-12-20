@@ -6,10 +6,10 @@ import pytest
 import easyclimate as ecl
 import numpy as np
 import xarray as xr
-import os
+from pathlib import Path
 from .const_define import TEST_DATA_PATH
 
-data_nino34_area = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_input_nino34.nc')).sst
+data_nino34_area = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_input_nino34.nc'))).sst
 
 def test_calc_butter_bandpass():
     result_data = ecl.filter.calc_butter_bandpass(data_nino34_area, sampling_frequency = 1/12, period = [3, 10])

@@ -181,6 +181,12 @@ def calc_TaylorDiagrams_values(
     centered_RMS = calc_centeredRMS(f, r)
     TSS_value = calc_Taylor_skill_score(correlation_coefficient, standard_deviation_f, standard_deviation_r, r0 = r0)
 
+    correlation_coefficient = float(correlation_coefficient)
+    standard_deviation_f = float(standard_deviation_f)
+    standard_deviation_r = float(standard_deviation_r)
+    centered_RMS = float(centered_RMS)
+    TSS_value = float(TSS_value)
+
     if(normalized == False):
         taylor_diagrams_data = {
             "item" : [model_name],
@@ -411,6 +417,9 @@ def draw_TaylorDiagrams_base(
             raise ValueError("`std_min` should be greater than 0!")
     else:
         raise ValueError("`half_circle` should be Boolean type.")
+
+    if std_max < 0:
+        raise ValueError("`std_max` should be greater than 0!")
 
     # The 'half-circle' version of the Taylor Diagram
     if(half_circle == True):

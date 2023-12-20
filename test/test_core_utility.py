@@ -7,7 +7,7 @@ import easyclimate as ecl
 import xarray as xr
 import numpy as np
 import pandas as pd
-import os
+from pathlib import Path
 from .const_define import TEST_DATA_PATH
 
 data_time_series = xr.DataArray(
@@ -154,7 +154,7 @@ def test_transfer_monmean2everymonthmean():
     assert np.isclose(result_data, refer_data).all()
 
 def test_get_weighted_spatial_data():
-    inputdata = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_input_core_eof.nc')).z.isel(time = 0)
+    inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_input_core_eof.nc'))).z.isel(time = 0)
     result_data1 = ecl.utility.get_weighted_spatial_data(inputdata, method='cos_lat').mean().data
     result_data2 = ecl.utility.get_weighted_spatial_data(inputdata, method='area').mean().data
     refer_data1 = 57410.45244069

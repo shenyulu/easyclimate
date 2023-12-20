@@ -84,6 +84,8 @@ html_theme_options = {
     "sidebar_hide_name": True,
     "top_of_page_button": "edit",
     "last-updated": True,
+    "repository_url": "https://github.com/shenyulu/easyclimate",
+    "use_repository_button": True,
 }
 
 # Logo

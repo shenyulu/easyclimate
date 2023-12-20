@@ -6,12 +6,12 @@ import pytest
 import easyclimate as ecl
 import xarray as xr
 import numpy as np
-import os
+from pathlib import Path
 from .const_define import TEST_DATA_PATH
 
 def test_timeseries_wavelet_transform():
-    inputdata = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_input_waveletpytest.nc')).sst
-    refer_data = xr.open_dataset(os.path.join(TEST_DATA_PATH, 'test_output_waveletpytest.nc'))
+    inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_input_waveletpytest.nc'))).sst
+    refer_data = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_output_waveletpytest.nc')))
 
     result_data = ecl.wavelet.timeseries_wavelet_transform(inputdata, dt = 0.25)
     result_data1 = result_data.power.data.flatten()
