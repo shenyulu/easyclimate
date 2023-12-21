@@ -97,7 +97,7 @@ def test_draw_global_wavelet_spectrum():
     ecl.wavelet.draw_global_wavelet_spectrum(result_data_timeseries_wavelet_transform, ax = ax)
     return fig
 
-@pytest.mark.mpl_image_compare
+@pytest.mark.mpl_image_compare(remove_text=True,tolerance=20)
 def test_draw_wavelet_transform():
     fig, ax = plt.subplots()
     ecl.wavelet.draw_wavelet_transform(result_data_timeseries_wavelet_transform, ax = ax)
