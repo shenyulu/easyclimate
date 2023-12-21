@@ -23,8 +23,8 @@ def timeseries_wavelet_transform(
     lag1: float = None,
     mother: str = 'morlet',
     mother_param = None,
-    sigtest_wavelet: int = 'regular chi-square test',
-    sigtest_global: int = 'time-average test',
+    sigtest_wavelet: str = 'regular chi-square test',
+    sigtest_global: str = 'time-average test',
     significance_level: float = 0.95,
 ) -> xr.Dataset:
     """

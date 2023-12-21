@@ -4,7 +4,7 @@ This module computes statistical values over timesteps of the same year
 from __future__ import annotations
 from .utility import *
 
-def calc_yearmean(data_input, dim = 'time', **kwargs):
+def calc_yearly_climatological_mean(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly mean.
 
@@ -23,6 +23,11 @@ def calc_yearmean(data_input, dim = 'time', **kwargs):
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+        .. note::
+
+            The recommended frequence of the `data_input` is monthly.
+
     dim : str
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
@@ -45,7 +50,7 @@ def calc_yearmean(data_input, dim = 'time', **kwargs):
     yearave_int_time_renamed[dim] = Datatime_time
     return yearave_int_time_renamed
 
-def calc_yearsum(data_input, dim = 'time', **kwargs):
+def calc_yearly_climatological_sum(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly sum.
 
@@ -64,6 +69,11 @@ def calc_yearsum(data_input, dim = 'time', **kwargs):
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+        .. note::
+
+            The recommended frequence of the `data_input` is monthly.
+
     dim : str
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
@@ -86,7 +96,7 @@ def calc_yearsum(data_input, dim = 'time', **kwargs):
     yearsum_int_time_renamed[dim] = Datatime_time
     return yearsum_int_time_renamed
 
-def calc_yearstd(data_input, dim = 'time', **kwargs):
+def calc_yearly_climatological_std(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -105,6 +115,11 @@ def calc_yearstd(data_input, dim = 'time', **kwargs):
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+        .. note::
+
+            The recommended frequence of the `data_input` is monthly.
+
     dim : str
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
@@ -131,7 +146,7 @@ def calc_yearstd(data_input, dim = 'time', **kwargs):
     yearstd_int_time_renamed[dim] = Datatime_time
     return yearstd_int_time_renamed
 
-def calc_yearvar(data_input, dim = 'time', **kwargs):
+def calc_yearly_climatological_var(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -150,6 +165,11 @@ def calc_yearvar(data_input, dim = 'time', **kwargs):
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+        .. note::
+
+            The recommended frequence of the `data_input` is monthly.
+
     dim : str
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
@@ -176,7 +196,7 @@ def calc_yearvar(data_input, dim = 'time', **kwargs):
     yearvar_int_time_renamed[dim] = Datatime_time
     return yearvar_int_time_renamed
 
-def calc_yearmax(data_input, dim = 'time', **kwargs):
+def calc_yearly_climatological_max(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -195,6 +215,11 @@ def calc_yearmax(data_input, dim = 'time', **kwargs):
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+        .. note::
+
+            The recommended frequence of the `data_input` is monthly.
+
     dim : str
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
@@ -217,7 +242,7 @@ def calc_yearmax(data_input, dim = 'time', **kwargs):
     yearmax_int_time_renamed[dim] = Datatime_time
     return yearmax_int_time_renamed
 
-def calc_yearmin(data_input, dim = 'time', **kwargs):
+def calc_yearly_climatological_min(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -236,6 +261,11 @@ def calc_yearmin(data_input, dim = 'time', **kwargs):
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+        .. note::
+
+            The recommended frequence of the `data_input` is monthly.
+
     dim : str
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:

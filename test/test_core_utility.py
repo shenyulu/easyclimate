@@ -139,7 +139,7 @@ def test_transfer_nan2value():
     assert np.isclose(result_data, refer_data).all()
 
 def test_transfer_monmean2everymonthmean():
-    result_data = ecl.utility.transfer_monmean2everymonthmean(
+    result_data = ecl.variability.transfer_monmean2everymonthmean(
         data_time_series.isel(lon = 0),
         time_dim = 'time'
     ).data

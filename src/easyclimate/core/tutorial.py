@@ -47,6 +47,10 @@ file_formats = {
     "mini_HadISST_ice": 4,
     "PressQFF_202007271200_872": 'csv',
     "pr_wtr_eatm_2022": 4,
+    "sst_mnmean_oisst": 4,
+    "hgt_day_ltm_1991_2020_0to6day": 4,
+    "uwnd_day_ltm_1991_2020_0to6day": 4,
+    "vwnd_day_ltm_1991_2020_0to6day": 4,
 }
 
 def _check_netcdf_engine_installed(name):
@@ -108,6 +112,7 @@ def open_tutorial_dataset(
     * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
     * ``"PressQFF_202007271200_872"``: Observational data from European stations (from https://github.com/EXCITED-CO2/xarray-regrid)
     * ``"pr_wtr_eatm_2022"``: Precipitable water of the NCEP reanalysis subset in the 2022
+    * ``"sst_mnmean_oisst"``: NOAA Optimum Interpolation (OI) SST V2 (from https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.html)
 
     Parameters
     ----------

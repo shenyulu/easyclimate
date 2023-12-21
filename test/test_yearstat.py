@@ -11,8 +11,8 @@ from .const_define import TEST_DATA_PATH
 
 data_nino34_area = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_input_nino34.nc'))).sst
 
-def test_calc_yearmean():
-   result_data = ecl.calc_yearmean(data_nino34_area).data
+def test_calc_yearly_climatological_mean():
+   result_data = ecl.calc_yearly_climatological_mean(data_nino34_area).data
    refer_data = np.array([28.05561 , 27.54706 , 26.360346, 26.331762, 27.150057, 28.361261,
       25.931389, 26.22251 , 27.185822, 27.675474, 27.68206 , 27.405327,
       27.438723, 26.833366, 26.55396 , 28.280241, 26.888123, 25.850866,
@@ -22,8 +22,8 @@ def test_calc_yearmean():
       27.125938, 27.583597, 26.687197, 26.497004, 26.133987])
    assert np.isclose(result_data, refer_data).all()
 
-def test_calc_yearsum():
-   result_data = ecl.calc_yearsum(data_nino34_area).data
+def test_calc_yearly_climatological_sum():
+   result_data = ecl.calc_yearly_climatological_sum(data_nino34_area).data
    refer_data = np.array([336.66733, 330.56473, 316.32416, 315.98114, 325.8007 , 340.33514,
       311.17667, 314.6701 , 326.22986, 332.10568, 332.18472, 328.86392,
       329.26468, 322.0004 , 318.64752, 339.36288, 322.65747, 310.2104 ,
@@ -33,8 +33,8 @@ def test_calc_yearsum():
       325.51126, 331.00317, 320.24637, 317.96405, 313.60785])
    assert np.isclose(result_data, refer_data).all()
 
-def test_calc_yearstd():
-   result_data = ecl.calc_yearstd(data_nino34_area).data
+def test_calc_yearly_climatological_std():
+   result_data = ecl.calc_yearly_climatological_std(data_nino34_area).data
    refer_data = np.array([0.781642  , 1.447736  , 0.71981126, 0.4682538 , 0.6436484 ,
       0.42396465, 1.1429315 , 0.6836834 , 0.47439286, 0.5162975 ,
       1.0556604 , 0.73062456, 0.4938108 , 0.88939285, 0.5717457 ,
@@ -46,8 +46,8 @@ def test_calc_yearstd():
       0.4557853 ])
    assert np.isclose(result_data, refer_data).all()
 
-def test_calc_yearvar():
-   result_data = ecl.calc_yearvar(data_nino34_area).data
+def test_calc_yearly_climatological_var():
+   result_data = ecl.calc_yearly_climatological_var(data_nino34_area).data
    refer_data = np.array([0.61096424, 2.0959396 , 0.5181282 , 0.21926162, 0.41428322,
       0.17974602, 1.3062924 , 0.46742302, 0.22504857, 0.26656312,
       1.1144189 , 0.5338122 , 0.2438491 , 0.7910196 , 0.32689315,
@@ -59,8 +59,8 @@ def test_calc_yearvar():
       0.20774025])
    assert np.isclose(result_data, refer_data).all()
 
-def test_calc_yearmax():
-   result_data = ecl.calc_yearmax(data_nino34_area).data
+def test_calc_yearly_climatological_max():
+   result_data = ecl.calc_yearly_climatological_max(data_nino34_area).data
    refer_data = np.array([29.209   , 29.35432 , 27.386578, 27.1092  , 27.72616 , 29.02186 ,
       27.318258, 27.08392 , 28.05628 , 28.360598, 29.13572 , 28.81692 ,
       28.03586 , 27.926918, 27.36664 , 29.31066 , 29.099718, 26.964699,
@@ -70,8 +70,8 @@ def test_calc_yearmax():
       27.842237, 28.592398, 28.339378, 27.610699, 26.92092])
    assert np.isclose(result_data, refer_data).all()
 
-def test_calc_yearmin():
-   result_data = ecl.calc_yearmin(data_nino34_area).data
+def test_calc_yearly_climatological_min():
+   result_data = ecl.calc_yearly_climatological_min(data_nino34_area).data
    refer_data = np.array([26.69558 , 25.57518 , 24.9959  , 25.427319, 25.7817  , 27.59936 ,
       24.26578 , 24.52396 , 26.54562 , 26.92286 , 26.330418, 26.686317,
       26.584   , 25.563059, 25.733839, 25.954578, 24.78018 , 24.89312 ,

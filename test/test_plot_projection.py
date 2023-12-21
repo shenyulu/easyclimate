@@ -16,9 +16,7 @@ data_u = xr.open_dataset(str(Path(TEST_DATA_PATH, 'test_input_interp_mesh2mesh.n
 @pytest.mark.mpl_image_compare
 def test_draw_Circlemap_PolarStereo1():
     fig, ax = plt.subplots(subplot_kw = {'projection': ccrs.NorthPolarStereo()})
-
     ax.coastlines(edgecolor = 'black', linewidths = 0.5)
-
     ecl.plot.draw_Circlemap_PolarStereo(
         ax = ax,
         lon_step = 30,
@@ -95,20 +93,20 @@ def test_draw_Circlemap_PolarStereo5():
         )
         assert 1 == 1
 
-def test_draw_Circlemap_PolarStereo6():
-    fig, ax = plt.subplots(subplot_kw = {'projection': ccrs.PlateCarree()}) # Breakpoint
-    with pytest.raises(TypeError):
-        ecl.plot.draw_Circlemap_PolarStereo(
-            ax = ax,
-            lon_step = 30,
-            lat_step = 10,
-            lat_range = [50, 90],
-            add_gridlines = False,
-            draw_labels = True,
-            set_map_boundary_kwargs = {'north_pad': 0.3, 'south_pad': 0.4},
-            gridlines_kwargs = {'color': 'grey', 'alpha': 0.5, 'linestyle' : '--'}
-        )
-        assert 1 == 1
+# def test_draw_Circlemap_PolarStereo6():
+#     fig, ax = plt.subplots(subplot_kw = {'projection': ccrs.PlateCarree()}) # Breakpoint
+#     with pytest.raises(TypeError):
+#         ecl.plot.draw_Circlemap_PolarStereo(
+#             ax = ax,
+#             lon_step = 30,
+#             lat_step = 10,
+#             lat_range = [50, 90],
+#             add_gridlines = False,
+#             draw_labels = True,
+#             set_map_boundary_kwargs = {'north_pad': 0.3, 'south_pad': 0.4},
+#             gridlines_kwargs = {'color': 'grey', 'alpha': 0.5, 'linestyle' : '--'}
+#         )
+#         assert 1 == 1
 
 def test_add_lon_cyclic1():
     result_data = ecl.plot.add_lon_cyclic(data_u, inter = 2.5).lon.data

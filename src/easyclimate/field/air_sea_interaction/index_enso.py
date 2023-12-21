@@ -1,11 +1,12 @@
 """
 ENSO Indices
 """
-from ...core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import (sort_ascending_latlon_coordinates, generate_dataset_dispatcher)
 import xarray as xr
 
+@generate_dataset_dispatcher
 def calc_index_nino1and2(
-    sst_monthly_anomaly: xr.DataArray,
+    sst_monthly_anomaly: xr.DataArray | xr.Dataset,
     lat_dim: str = 'lat',
     lon_dim: str = 'lon'
 ) -> xr.DataArray:
@@ -37,10 +38,10 @@ def calc_index_nino1and2(
     sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
     nino1plus2_index = sst_monthly_anomaly.sel({lat_dim: slice(-10, 0), lon_dim: slice(270, 280)}).mean(dim = (lat_dim, lon_dim))
     nino1plus2_index.name = 'Nino1+2_index'
-    return nino1plus2_index
+    return nino1plus2_index.drop_vars('month')
 
 def calc_index_nino3(
-    sst_monthly_anomaly: xr.DataArray,
+    sst_monthly_anomaly: xr.DataArray | xr.Dataset,
     lat_dim: str = 'lat',
     lon_dim: str = 'lon'
 ) -> xr.DataArray:
@@ -73,10 +74,10 @@ def calc_index_nino3(
     sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
     nino3_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(210, 270)}).mean(dim = (lat_dim, lon_dim))
     nino3_index.name = 'Nino3_index'
-    return nino3_index
+    return nino3_index.drop_vars('month')
 
 def calc_index_nino34(
-    sst_monthly_anomaly: xr.DataArray, 
+    sst_monthly_anomaly: xr.DataArray | xr.Dataset, 
     lat_dim: str = 'lat', 
     lon_dim: str = 'lon',
     running_mean = 5,
@@ -116,10 +117,10 @@ def calc_index_nino34(
     else:
         nino34_index = nino34_index.rolling(time = running_mean).mean().mean(dim = (lat_dim, lon_dim))
     nino34_index.name = 'Nino34_index'
-    return nino34_index
+    return nino34_index.drop_vars('month')
 
 def calc_index_OMI(
-    sst_monthly_anomaly: xr.DataArray,
+    sst_monthly_anomaly: xr.DataArray | xr.Dataset,
     lat_dim: str = 'lat',
     lon_dim: str = 'lon',
     running_mean = 3,
@@ -159,10 +160,10 @@ def calc_index_OMI(
     else:
         omi_index = omi_index.rolling(time = running_mean).mean().mean(dim = (lat_dim, lon_dim))
     omi_index.name = 'Oceanic_Nino_Index_index'
-    return omi_index
+    return omi_index.drop_vars('month')
 
 def calc_index_nino4(
-    sst_monthly_anomaly: xr.DataArray, 
+    sst_monthly_anomaly: xr.DataArray | xr.Dataset, 
     lat_dim: str = 'lat', 
     lon_dim: str = 'lon'
 ) -> xr.DataArray:
@@ -193,4 +194,4 @@ def calc_index_nino4(
     sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
     nino4_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(160, 210)}).mean(dim = (lat_dim, lon_dim))
     nino4_index.name = 'Nino4_index'
-    return nino4_index
+    return nino4_index.drop_vars('month')

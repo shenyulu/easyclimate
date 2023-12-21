@@ -276,7 +276,7 @@ def get_yearmean_for_specific_months_data(
     :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
     data_get_specific_months_data = get_specific_months_data(data_input, month_array, dim = dim)
-    return calc_yearmean(data_get_specific_months_data, dim = dim, **kwargs)
+    return calc_yearly_climatological_mean(data_get_specific_months_data, dim = dim, **kwargs)
 
 def get_year_exceed_index_upper_bound(
     data_input: xr.DataArray,

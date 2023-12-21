@@ -189,29 +189,6 @@ def transfer_nan2value(
     """
     return ds.fillna(value)
 
-def transfer_monmean2everymonthmean(
-    data_input: xr.DataArray, 
-    time_dim: str = 'time'
-) -> xr.DataArray:
-    """
-    Convert to the month-mean state corresponding to each month.
-
-    Parameters
-    ----------
-    - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.    
-    """
-    time_step_all = data_input[time_dim].shape[0]
-    month_int = data_input.time.dt.month
-    month_climate = data_input.groupby(time_dim + '.month').mean(dim = time_dim)
-    data_input_empty = xr.full_like(data_input, fill_value = np.nan)
-
-    for time_step in np.arange(0, time_step_all):
-        time_step_month = month_int.isel(time = time_step).data
-        data_input_empty[{time_dim: time_step}] = month_climate.sel(month = time_step_month)
-
-    return data_input_empty
-
 def get_weighted_spatial_data(
     data_input: xr.DataArray, 
     lat_dim: str = 'lat', 
