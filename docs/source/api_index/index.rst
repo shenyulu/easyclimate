@@ -40,6 +40,7 @@ Filter
     :toctree: generated/
 
     easyclimate.filter.butter_filter
+    easyclimate.filter.smooth
     .. easyclimate.filter.barnes_filter
 
 Interpolation
@@ -69,7 +70,7 @@ Wavelet Transform
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.wavelet.wavelet
+    easyclimate.wavelet
 
 
 Spherical Harmonics of Wind Fields

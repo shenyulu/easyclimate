@@ -152,4 +152,5 @@ intersphinx_mapping = {'scipy': ('https://docs.scipy.org/doc/scipy/', None),
                        'statsmodels': ('https://www.statsmodels.org/stable', None),
                        'xarray-datatree': ('https://xarray-datatree.readthedocs.io/en/latest/', None),
                        'xeofs': ('https://xeofs.readthedocs.io/en/latest/', None),
+                       'metpy': ('https://unidata.github.io/MetPy/latest/', None),
 }

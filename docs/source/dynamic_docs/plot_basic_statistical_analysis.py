@@ -184,9 +184,9 @@ nino34_monthly_index.plot(
 )
 
 #%%
-# :py:func:`easyclimate.calc_yearmean <easyclimate.calc_yearmean>` is then used to solve for the annual average of the monthly index data
+# :py:func:`easyclimate.calc_yearly_climatological_mean <easyclimate.calc_yearly_climatological_mean>` is then used to solve for the annual average of the monthly index data
 nino34_12_index = ecl.get_specific_months_data(nino34_monthly_index, 12)
-nino34_dec_yearly_index = ecl.calc_yearmean(nino34_12_index)
+nino34_dec_yearly_index = ecl.calc_yearly_climatological_mean(nino34_12_index)
 nino34_dec_yearly_index
 
 #%%

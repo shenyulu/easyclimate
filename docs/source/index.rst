@@ -50,9 +50,6 @@ How to cite
 If you are using xarray and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
 We provide a `Zenodo citation and DOI <https://zenodo.org/doi/10.5281/zenodo.10279567>`__ for this purpose:
 
-.. image:: https://zenodo.org/badge/465206111.svg
-  :target: https://zenodo.org/doi/10.5281/zenodo.10279567
-
 An example BibTeX entry:
 
 .. code:: BibTeX

@@ -12,7 +12,12 @@ import xarray as xr
 import dask
 
 @generate_dataset_dispatcher
-def calc_gradient(data_input: xr.DataArray | xr.Dataset, dim: str, varargs = 1, edge_order = 2) -> xr.DataArray | xr.Dataset: 
+def calc_gradient(
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str,
+    varargs: int = 1,
+    edge_order: int = 2,
+) -> xr.DataArray | xr.Dataset: 
     """
     Compute the gradient along the coordinate `dim` direction.
 
@@ -54,11 +59,11 @@ def calc_gradient(data_input: xr.DataArray | xr.Dataset, dim: str, varargs = 1, 
 
 def calc_lon_gradient(
     data_input: xr.DataArray | xr.Dataset, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat', 
-    min_dx = 1.0, 
-    edge_order = 2, 
-    R = 6370000
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat', 
+    min_dx: float = 1.0, 
+    edge_order: int = 2, 
+    R: float = 6370000
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the gradient along the longitude.
@@ -104,10 +109,10 @@ def calc_lon_gradient(
 
 def calc_lat_gradient(
     data_input: xr.DataArray | xr.Dataset, 
-    lat_dim = 'lat', 
-    min_dy = 1.0, 
-    edge_order = 2, 
-    R = 6370000
+    lat_dim: str = 'lat', 
+    min_dy: float = 1.0, 
+    edge_order: int = 2, 
+    R: float = 6370000
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the gradient along the latitude.
@@ -148,11 +153,11 @@ def calc_lat_gradient(
 
 def calc_lon_laplacian(
     data_input: xr.DataArray | xr.Dataset, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat', 
-    min_dx2 = 1e9, 
-    edge_order = 2, 
-    R = 6370000
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat', 
+    min_dx2: float = 1e9, 
+    edge_order: int = 2, 
+    R: float = 6370000
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculation of the second-order partial derivative term (Laplace term) along longitude.
@@ -201,10 +206,10 @@ def calc_lon_laplacian(
 
 def calc_lat_laplacian(
     data_input: xr.DataArray | xr.Dataset, 
-    lat_dim = 'lat', 
-    min_dy2 = 1.0, 
-    edge_order = 2, 
-    R = 6370000,
+    lat_dim: str = 'lat', 
+    min_dy2: float = 1.0, 
+    edge_order: int = 2, 
+    R: float = 6370000,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculation of the second-order partial derivative term (Laplace term) along latitude.
@@ -246,11 +251,11 @@ def calc_lat_laplacian(
 
 def calc_lon_lat_mixed_derivatives(
     data_input: xr.DataArray | xr.Dataset, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat', 
-    min_dxdy = 1e10, 
-    edge_order = 2, 
-    R = 6370000,
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat', 
+    min_dxdy: float = 1e10, 
+    edge_order: int = 2, 
+    R: float = 6370000,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculation of second-order mixed partial derivative terms along longitude and latitude.
@@ -295,7 +300,11 @@ def calc_lon_lat_mixed_derivatives(
     d2Fdxy =  d2Fdxy_raw /dxdy
     return d2Fdxy
 
-def calc_p_gradient(data_input: xr.DataArray, vertical_dim: str, vertical_dim_units: str) -> xr.DataArray:
+def calc_p_gradient(
+    data_input: xr.DataArray, 
+    vertical_dim: str,
+    vertical_dim_units: str
+) -> xr.DataArray:
     """
     Calculate the gradient along the barometric pressure direction in the p-coordinate system.
 
@@ -329,7 +338,11 @@ def calc_p_gradient(data_input: xr.DataArray, vertical_dim: str, vertical_dim_un
     dF_dp = calc_gradient(data_input, dim = vertical_dim) /dp
     return dF_dp
 
-def calc_time_gradient(data_input: xr.DataArray, time_units: str, time_dim = 'time') -> xr.DataArray:
+def calc_time_gradient(
+    data_input: xr.DataArray,
+    time_units: str,
+    time_dim: str = 'time',
+) -> xr.DataArray:
     """
     Calculate the gradient along the time direction.
 
@@ -420,7 +433,7 @@ def calc_delta_pressure(
 def calc_p_integral(
     data_input: xr.DataArray, 
     vertical_dim: str,
-    normalize = True
+    normalize: bool = True
 ) -> xr.DataArray:
     """
     Calculate the vertical integral along the barometric pressure direction in the p-coordinate system.
@@ -466,8 +479,8 @@ def calc_top2surface_integral(
     vertical_dim: str,
     surface_pressure_data_units: str, 
     vertical_dim_units: str,
-    method = 'Trenberth-vibeta', 
-    normalize = True,
+    method: str = 'Trenberth-vibeta', 
+    normalize: bool = True,
 ) -> xr.DataArray:
     """
     Calculate the vertical integral in the p-coordinate system from the ground to the zenith along the barometric pressure direction.
@@ -575,10 +588,10 @@ def calc_top2surface_integral(
 
 def calc_laplacian(
     data_input: xr.DataArray, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat', 
-    R = 6370000, 
-    spherical_coord = True
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat', 
+    R: float = 6370000, 
+    spherical_coord: bool = True
 ) -> xr.DataArray:
     """
     Calculate the horizontal Laplace term.
@@ -629,9 +642,9 @@ def calc_laplacian(
 def calc_divergence(
     u_data: xr.DataArray, 
     v_data: xr.DataArray,
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
-    R = 6370000,        
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat',
+    R: float = 6370000,        
     spherical_coord = True,
 ) -> xr.DataArray: 
     """
@@ -689,10 +702,10 @@ def calc_divergence(
 def calc_vorticity(
     u_data: xr.DataArray, 
     v_data: xr.DataArray,
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
-    R = 6370000,        
-    spherical_coord = True,
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat',
+    R: float = 6370000,        
+    spherical_coord: bool = True,
 ) -> xr.DataArray: 
     """
     Calculate the horizontal relative vorticity term.
@@ -748,11 +761,11 @@ def calc_vorticity(
 
 def calc_geostrophic_wind(
     z_data: xr.DataArray, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat', 
-    omega = 7.292e-5, 
-    g = 9.8, 
-    R = 6370000
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat', 
+    omega: float = 7.292e-5, 
+    g: float = 9.8, 
+    R: float = 6370000
 ) -> xr.DataArray:
     """
     Calculate the geostrophic wind.
@@ -804,12 +817,12 @@ def calc_geostrophic_wind(
 
 def calc_geostrophic_wind_vorticity(
     z_data: xr.DataArray, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
-    spherical_coord = True,
-    omega = 7.292e-5, 
-    g = 9.8, 
-    R = 6370000
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat',
+    spherical_coord: bool = True,
+    omega: float = 7.292e-5, 
+    g: float = 9.8, 
+    R: float = 6370000
 ) -> xr.DataArray:
     """
     Calculate the geostrophic vorticity.
@@ -856,7 +869,7 @@ def calc_horizontal_water_flux(
     specific_humidity_data: xr.DataArray, 
     u_data: xr.DataArray, 
     v_data: xr.DataArray, 
-    g = 9.8
+    g: float = 9.8
 ) -> xr.Dataset:
     """
     Calculate horizontal water vapor flux at each vertical level.
@@ -888,7 +901,7 @@ def calc_horizontal_water_flux(
 def calc_vertical_water_flux(
     specific_humidity_data: xr.DataArray, 
     omega_data: xr.DataArray, 
-    g = 9.8
+    g: float = 9.8
 ) -> xr.DataArray:
     """
     Calculate vertical water vapor flux.
@@ -920,8 +933,8 @@ def calc_water_flux_top2surface_integral(
     surface_pressure_data_units: str,
     vertical_dim: str, 
     vertical_dim_units: str,
-    method = 'Trenberth-vibeta',
-    g = 9.8
+    method: str = 'Trenberth-vibeta',
+    g: float = 9.8
 ) -> xr.DataArray:
     """
     Calculate the water vapor flux across the vertical level.
@@ -987,11 +1000,11 @@ def calc_divergence_watervaporflux(
     u_data: xr.DataArray, 
     v_data: xr.DataArray,
     specific_humidity_units: str,
-    spherical_coord = True, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
-    g = 9.8, 
-    R = 6370000
+    spherical_coord: bool = True, 
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat',
+    g: float = 9.8, 
+    R: float = 6370000
 ) -> xr.DataArray:
     """
     Calculate water vapor flux divergence at each vertical level.
@@ -1041,12 +1054,12 @@ def calc_divergence_watervaporflux_top2surface_integral(
     specific_humidity_units: str,
     surface_pressure_data_units: str,
     vertical_dim_units: str,
-    spherical_coord = True, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat', 
-    method = 'Trenberth-vibeta',
-    g = 9.8, 
-    R = 6370000,
+    spherical_coord: bool = True, 
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat', 
+    method: str = 'Trenberth-vibeta',
+    g: float = 9.8, 
+    R: float = 6370000,
 ) -> xr.DataArray:
     """
     Calculate water vapor flux divergence across the vertical level.
@@ -1103,8 +1116,8 @@ def calc_divergence_watervaporflux_top2surface_integral(
 def calc_u_advection(
     u_data: xr.DataArray, 
     temper_data: xr.DataArray, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
+    lon_dim: str = 'lon', 
+    lat_dim: str = 'lat',
 ) -> xr.DataArray:
     """
     Calculate zonal temperature advection at each vertical level.
@@ -1132,8 +1145,7 @@ def calc_u_advection(
 def calc_v_advection(
     v_data: xr.DataArray, 
     temper_data: xr.DataArray, 
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
+    lat_dim: str = 'lat',
 ) -> xr.DataArray:
     """
     Calculate meridional temperature advection at each vertical level.
@@ -1147,8 +1159,6 @@ def calc_v_advection(
         The meridional wind data.
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
-        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 

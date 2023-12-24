@@ -22,3 +22,4 @@ gsw_xarray
 pooch
 tqdm
 zarr
+metpy

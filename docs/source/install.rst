@@ -8,7 +8,7 @@ There are different ways to install **easyclimate**:
 Pypi
 ------------------------------------
 
-Using the `pip <https://pypi.org/project/pip/>`__ package manager:
+Using the `pip <https://pypi.org/project/pip/>`__ package manager to obtain latest version of easyclimate:
 
 .. code:: bash
 
@@ -22,7 +22,7 @@ GitHub (**not recommended** in most situations):
 
 .. code:: bash
 
-    $ pip install --upgrade git+https://github.com/shenyulu/easyclimate
+    $ pip install --upgrade git+https://github.com/shenyulu/easyclimate@dev
 
 .. note::
 

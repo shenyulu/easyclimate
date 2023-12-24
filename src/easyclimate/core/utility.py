@@ -589,3 +589,15 @@ def module_available(module: str) -> bool:
     """
     import importlib
     return importlib.util.find_spec(module) is not None
+
+def dequantify_metpy_xarraydata(
+    data: xr.DataArray
+) -> xr.DataArray:
+    """
+    (Metpy) Return a new DataArray with the data as magnitude and the units as an attribute.
+
+    .. note::
+
+        https://unidata.github.io/MetPy/latest/api/generated/metpy.xarray.html#metpy.xarray.MetPyDataArrayAccessor.dequantify
+    """
+    return data.metpy.dequantify()

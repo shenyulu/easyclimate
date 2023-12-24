@@ -5,10 +5,11 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 import scipy.signal as signal
-from ..core.utility import find_dims_axis
+from ..core.utility import (find_dims_axis, generate_dataset_dispatcher)
 
+@generate_dataset_dispatcher
 def calc_butter_bandpass(
-    data: xr.DataArray,
+    data: xr.DataArray | xr.Dataset,
     sampling_frequency: int, 
     period: list, 
     N = 3, 
@@ -18,7 +19,7 @@ def calc_butter_bandpass(
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    - data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
     - sampling_frequency: int.
         Data sampling frequency. If it is daily data with only one time level record per day, 
@@ -41,8 +42,9 @@ def calc_butter_bandpass(
     filter_data = signal.sosfiltfilt(sos, data.data, axis = time_axis)
     return data.copy(data = filter_data, deep = True)
 
+@generate_dataset_dispatcher
 def calc_butter_lowpass(
-    data: xr.DataArray,
+    data: xr.DataArray | xr.Dataset,
     sampling_frequency: int,
     period: int,
     N = 3,
@@ -52,7 +54,7 @@ def calc_butter_lowpass(
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    - data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
     - sampling_frequency: int.
         Data sampling frequency. If it is daily data with only one time level record per day, 
@@ -75,8 +77,9 @@ def calc_butter_lowpass(
     filter_data = signal.sosfiltfilt(sos, data.data, axis = time_axis)
     return data.copy(data = filter_data, deep = True)
 
+@generate_dataset_dispatcher
 def calc_butter_highpass(
-    data: xr.DataArray,
+    data: xr.DataArray | xr.Dataset,
     sampling_frequency: int,
     period: int,
     N = 3,
@@ -86,7 +89,7 @@ def calc_butter_highpass(
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    - data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
     - sampling_frequency: int.
         Data sampling frequency. If it is daily data with only one time level record per day, 
@@ -108,7 +111,3 @@ def calc_butter_highpass(
     sos = signal.butter(N = N, Wn = Wn_value, btype = 'highpass', output = 'sos')
     filter_data = signal.sosfiltfilt(sos, data.data, axis = time_axis)
     return data.copy(data = filter_data, deep = True)
-
-
-
-
