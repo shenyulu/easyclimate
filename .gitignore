@@ -6,6 +6,8 @@
 **/docs/source/technical/api
 **/src/easyclimate.egg-info
 docs/optipng.exe
+docs/source/sg_execution_times.rst
+docs/source/relay
 docs/build
 dist/
 test/tmpfile

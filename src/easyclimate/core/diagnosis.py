@@ -1,5 +1,5 @@
 """
-Functions for transient eddy.
+Functions for Weather and climate variable diagnosis.
 """
 from __future__ import annotations
 import xarray as xr

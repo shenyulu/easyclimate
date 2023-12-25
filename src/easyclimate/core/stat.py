@@ -1,3 +1,6 @@
+"""
+Basic statistical analysis of weather and climate variables
+"""
 import numpy as np
 import xarray as xr
 import warnings
@@ -13,12 +16,12 @@ from datatree import DataTree
 
 @generate_datatree_dispatcher
 def calc_linregress_spatial(
-    data_input, 
-    dim = 'time', 
+    data_input: xr.DataArray | xr.Dataset, 
+    dim: str = 'time', 
     x = None, 
-    alternative = 'two-sided', 
-    returns_type = 'dataset_returns',
-) -> xr.DataArray | DataTree:
+    alternative: str = 'two-sided', 
+    returns_type: str = 'dataset_returns',
+) -> xr.Dataset | DataTree:
     """
     Calculate a linear least-squares regression for spatial data of time.
 
@@ -286,7 +289,7 @@ def calc_skewness_spatial(
 
 @generate_datatree_dispatcher
 def calc_kurtosis_spatial(
-    data_input: xr.DataArray | DataTree,
+    data_input: xr.DataArray | xr.Dataset,
     dim: str = 'time',
 ) -> xr.DataArray | DataTree:
     """

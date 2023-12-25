@@ -50,7 +50,7 @@ def test_calc_spatial_smooth_5or9_point2():
     
     assert np.isclose(result_data, refer_data).all()
 
-def test_calc_forward_smooth():
+def test_calc_forward_smooth1():
     result_data = ecl.filter.calc_forward_smooth(data_u, n = 5).sel(lon = slice(110, 120), lat = slice(30, 40)).data.flatten()
     refer_data = np.array([ 6.234375 ,  6.3828125,  6.28125  ,  5.9609375,  5.609375 ,
         8.046875 ,  8.671875 ,  8.953125 ,  8.90625  ,  8.7265625,
@@ -59,6 +59,11 @@ def test_calc_forward_smooth():
        11.3203125, 11.4765625, 11.7265625, 11.9453125, 12.140625 ])
     
     assert np.isclose(result_data, refer_data).all()
+
+def test_calc_forward_smooth2():
+    with pytest.raises(ValueError):
+        ecl.filter.calc_forward_smooth(data_u, n = 11111).sel(lon = slice(110, 120), lat = slice(30, 40)).data.flatten()
+        assert 1 == 1
 
 def test_calc_reverse_smooth():
     result_data = ecl.filter.calc_reverse_smooth(data_u, n = 9).sel(lon = slice(110, 120), lat = slice(30, 40)).data.flatten()

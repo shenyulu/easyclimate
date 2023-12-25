@@ -264,11 +264,11 @@ ax[1].legend()
 # regions are weighted according to their actual surface area when calculating 
 # averages or other regional statistical measures.
 # 
-# :py:func:`easyclimate.get_weighted_spatial_data <easyclimate.get_weighted_spatial_data>` can help us create 
+# :py:func:`easyclimate.utility.get_weighted_spatial_data <easyclimate.utility.get_weighted_spatial_data>` can help us create 
 # an :py:class:`xarray.core.weighted.DataArrayWeighted <xarray.core.weighted.DataArrayWeighted>` object. 
 # This object will automatically consider and calculate weights in subsequent area operations, thereby achieving the operation of the weighted spatial average.
 sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(sic_data_Barents_Sea_12, time_dim = 'time')
-grid_detrend_data_weighted_obj = ecl.get_weighted_spatial_data(sic_data_Barents_Sea_12_detrend, lat_dim = 'lat', lon_dim = 'lon')
+grid_detrend_data_weighted_obj = ecl.utility.get_weighted_spatial_data(sic_data_Barents_Sea_12_detrend, lat_dim = 'lat', lon_dim = 'lon')
 print(type(grid_detrend_data_weighted_obj))
 
 #%%

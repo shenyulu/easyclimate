@@ -13,7 +13,6 @@ statsmodels
 geocat-comp
 pyspharm-syl
 dask
-pandas
 pymannkendall
 flox
 xarray-datatree

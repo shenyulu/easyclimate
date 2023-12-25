@@ -9,4 +9,4 @@ from . import wavelet
 from . import field
 
 # Version number
-__version__ = "2023.12.01"
+__version__ = "2024.01.01"
