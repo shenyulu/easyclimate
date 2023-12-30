@@ -8,7 +8,7 @@ from ...core.utility import sort_ascending_latlon_coordinates
 import xarray as xr
 
 def calc_intensity_STFZ(
-    data_sst_DtDy: xr.DataArray,
+    sst_DtDy_data: xr.DataArray,
     criteria = 0.45 *1e-5, 
     lat_range = [24, 32], 
     lon_range = [145, 215],
@@ -28,7 +28,7 @@ def calc_intensity_STFZ(
 
     Parameters
     ----------
-    data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+    sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
     criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
         Empirically-given critical value.
@@ -51,12 +51,12 @@ def calc_intensity_STFZ(
     Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
     and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
     """
-    data_sst_DtDy = sort_ascending_latlon_coordinates(data_sst_DtDy, lat_dim = lat_dim, lon_dim = lon_dim)
-    data = data_sst_DtDy.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
+    sst_DtDy_data = sort_ascending_latlon_coordinates(sst_DtDy_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    data = sst_DtDy_data.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
     return get_weighted_spatial_data(data.where(data > criteria)).mean(dim = lat_dim)
 
 def calc_intensity_SAFZ(
-    data_sst_DtDy: xr.DataArray,
+    sst_DtDy_data: xr.DataArray,
     criteria = 0.80 *1e-5,
     lat_range = [36, 44],
     lon_range = [145, 215],
@@ -76,7 +76,7 @@ def calc_intensity_SAFZ(
 
     Parameters
     ----------
-    data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+    sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
     criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
         Empirically-given critical value.
@@ -99,12 +99,12 @@ def calc_intensity_SAFZ(
     Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
     and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
     """
-    data_sst_DtDy = sort_ascending_latlon_coordinates(data_sst_DtDy, lat_dim = lat_dim, lon_dim = lon_dim)
-    data = data_sst_DtDy.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
+    sst_DtDy_data = sort_ascending_latlon_coordinates(sst_DtDy_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    data = sst_DtDy_data.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
     return get_weighted_spatial_data(data.where(data > criteria)).mean(dim = lat_dim)
 
 def calc_location_STFZ(
-    data_sst_DtDy: xr.DataArray,
+    sst_DtDy_data: xr.DataArray,
     criteria = 0.45 *1e-5,
     lat_range = [24, 32],
     lon_range = [145, 215],
@@ -124,7 +124,7 @@ def calc_location_STFZ(
 
     Parameters
     ----------
-    data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+    sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
     criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
         Empirically-given critical value.
@@ -147,8 +147,8 @@ def calc_location_STFZ(
     Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
     and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
     """
-    data_sst_DtDy = sort_ascending_latlon_coordinates(data_sst_DtDy, lat_dim = lat_dim, lon_dim = lon_dim)
-    data_tmp = data_sst_DtDy.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
+    sst_DtDy_data = sort_ascending_latlon_coordinates(sst_DtDy_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    data_tmp = sst_DtDy_data.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim = lat_dim)
     g_i_times_lat = get_weighted_spatial_data((data_tmp *data_tmp[lat_dim])).sum(dim = lat_dim)
@@ -156,7 +156,7 @@ def calc_location_STFZ(
     return lct
 
 def calc_location_SAFZ(
-    data_sst_DtDy: xr.DataArray, 
+    sst_DtDy_data: xr.DataArray, 
     criteria = 0.80 *1e-5,
     lat_range = [36, 44],
     lon_range = [145, 215],
@@ -176,7 +176,7 @@ def calc_location_SAFZ(
 
     Parameters
     ----------
-    data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+    sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
     criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
         Empirically-given critical value.
@@ -199,8 +199,8 @@ def calc_location_SAFZ(
     Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
     and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
     """
-    data_sst_DtDy = sort_ascending_latlon_coordinates(data_sst_DtDy, lat_dim = lat_dim, lon_dim = lon_dim)
-    data_tmp = data_sst_DtDy.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
+    sst_DtDy_data = sort_ascending_latlon_coordinates(sst_DtDy_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    data_tmp = sst_DtDy_data.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1])).mean(dim = lon_dim)
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim = lat_dim)
     g_i_times_lat = get_weighted_spatial_data((data_tmp *data_tmp[lat_dim])).sum(dim = lat_dim)
@@ -208,7 +208,7 @@ def calc_location_SAFZ(
     return lct
 
 def calc_location_line_STFZ(
-    data_sst_DtDy: xr.DataArray, 
+    sst_DtDy_data: xr.DataArray, 
     criteria = 0.45 *1e-5,
     lat_range = [24, 32],
     lon_range = [145, 215],
@@ -228,7 +228,7 @@ def calc_location_line_STFZ(
 
     Parameters
     ----------
-    data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+    sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
     criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
         Empirically-given critical value.
@@ -251,8 +251,8 @@ def calc_location_line_STFZ(
     Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
     and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766    
     """
-    data_sst_DtDy = sort_ascending_latlon_coordinates(data_sst_DtDy, lat_dim = lat_dim, lon_dim = lon_dim)
-    data_tmp = data_sst_DtDy.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1]))
+    sst_DtDy_data = sort_ascending_latlon_coordinates(sst_DtDy_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    data_tmp = sst_DtDy_data.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1]))
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim = lat_dim)
     g_i_times_lat = get_weighted_spatial_data((data_tmp *data_tmp[lat_dim])).sum(dim = lat_dim)
@@ -260,7 +260,7 @@ def calc_location_line_STFZ(
     return lct
 
 def calc_location_line_SAFZ(
-    data_sst_DtDy: xr.DataArray, 
+    sst_DtDy_data: xr.DataArray, 
     criteria = 0.80 *1e-5,
     lat_range = [36, 44],
     lon_range = [145, 215],
@@ -280,7 +280,7 @@ def calc_location_line_SAFZ(
 
     Parameters
     ----------
-    data_sst_DtDy : :py:class:`xarray.DataArray<xarray.DataArray>` 
+    sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
     criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
         Empirically-given critical value.
@@ -303,8 +303,8 @@ def calc_location_line_SAFZ(
     Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts 
     and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766    
     """
-    data_sst_DtDy = sort_ascending_latlon_coordinates(data_sst_DtDy, lat_dim = lat_dim, lon_dim = lon_dim)
-    data_tmp = data_sst_DtDy.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1]))
+    sst_DtDy_data = sort_ascending_latlon_coordinates(sst_DtDy_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    data_tmp = sst_DtDy_data.sel(lon = slice(lon_range[0], lon_range[1]), lat = slice(lat_range[0], lat_range[1]))
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim = lat_dim)
     g_i_times_lat = get_weighted_spatial_data((data_tmp *data_tmp[lat_dim])).sum(dim = lat_dim)

@@ -71,6 +71,7 @@ An example BibTeX entry:
     
     overview.rst
     install.rst
+    .. ./auto_gallery_output/index
 
 .. toctree::
    :maxdepth: 1
@@ -95,9 +96,10 @@ An example BibTeX entry:
    :hidden:
    :caption: Climate Field
 
-   ./static_docs/air_sea_interaction.md
-   ./static_docs/monsoon.md
-
+   ./static_docs/air_sea_interaction
+   ./static_docs/ocean
+   ./static_docs/monsoon
+   ./static_docs/land_atm_interaction
    
 .. toctree::
     :maxdepth: 1

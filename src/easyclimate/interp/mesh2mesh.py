@@ -8,6 +8,8 @@ import xarray as xr
 import warnings
 from ..core.utility import (transfer_xarray_lon_from180TO360, generate_dataset_dispatcher)
 
+__all__ = ["interp_mesh2mesh"]
+
 @generate_dataset_dispatcher
 def interp_mesh2mesh(
     data_input: xr.DataArray | xr.Dataset,

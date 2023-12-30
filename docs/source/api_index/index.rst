@@ -32,6 +32,7 @@ Core
     easyclimate.core.utility
     easyclimate.core.variability
     easyclimate.core.yearstat
+    easyclimate.core.windspharm
 
 Filter
 ----------------------------------------
@@ -41,6 +42,7 @@ Filter
 
     easyclimate.filter.butter_filter
     easyclimate.filter.smooth
+    easyclimate.filter.wavelet
     .. easyclimate.filter.barnes_filter
 
 Interpolation
@@ -62,46 +64,32 @@ Plot
     easyclimate.plot.projection
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
-    easyclimate.plot.wind
-
-Wavelet Transform
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.wavelet
-
-
-Spherical Harmonics of Wind Fields
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.windspharm.top
+    .. easyclimate.plot.wind
+    
 
 Climate Field
 ----------------------------------------
 
 Air–Sea Interaction
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
+    easyclimate.field.air_sea_interaction
     easyclimate.field.air_sea_interaction.index_enso
 
 Atmosphere
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
+    easyclimate.field.atm
     easyclimate.field.atm.index_PNA
 
 Land–Atmosphere Interactions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
@@ -109,19 +97,21 @@ Land–Atmosphere Interactions
     easyclimate.field.land_atm_interaction
 
 Monsoon
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
+    easyclimate.field.monsoon
     easyclimate.field.monsoon.index_npwi
 
 Ocean
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
+    easyclimate.field.ocean
     easyclimate.field.ocean.mixlayer
     easyclimate.field.ocean.oceanic_front
     easyclimate.field.ocean.stability

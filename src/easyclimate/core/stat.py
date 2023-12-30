@@ -14,6 +14,9 @@ from .utility import generate_datatree_dispatcher
 
 from datatree import DataTree
 
+__all__ =  ["calc_linregress_spatial", "calc_detrend_data", "calc_ttestSpatialPattern_spatial",
+            "calc_skewness_spatial", "calc_kurtosis_spatial"]
+
 @generate_datatree_dispatcher
 def calc_linregress_spatial(
     data_input: xr.DataArray | xr.Dataset, 

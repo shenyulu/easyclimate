@@ -1,5 +1,5 @@
 """
-easy cliamte top interface for the windspharm
+Easy cliamte top interface for the windspharm
 
 This is the top layer of packaging for the windspharm package.
 
@@ -8,9 +8,15 @@ This is the top layer of packaging for the windspharm package.
     - https://github.com/ajdawson/windspharm
     - Dawson, A. (2016). Windspharm: A High-Level Library for Global Wind Field Computations Using Spherical Harmonics. Journal of Open Research Software, 4(1), e31.DOI: https://doi.org/10.5334/jors.129
 """
-
-from .xarray import *
+from windspharm.xarray import VectorWind
 import xarray as xr
+
+__all__ = ["calc_wind_speed", "calc_relative_vorticity_and_horizontal_divergence",
+           "calc_relative_vorticity", "calc_divergence", "calc_planetary_vorticity",
+           "calc_absolute_vorticity", "calc_streamfunction_and_velocity_potential",
+           "calc_streamfunction", "calc_velocity_potential", "calc_helmholtz",
+           "calc_irrotational_component", "calc_nondivergent_component", 
+           "calc_rossby_wave_source", "calc_gradient"]
 
 def calc_wind_speed(
     u_data: xr.DataArray, 

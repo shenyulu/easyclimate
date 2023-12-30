@@ -12,7 +12,9 @@ import matplotlib.ticker as ticker
 import statsmodels.api as sm
 import scipy
 
-def timeseries_wavelet_transform(
+__all__ = ["calc_timeseries_wavelet_transform", "draw_global_wavelet_spectrum", "draw_wavelet_transform"]
+
+def calc_timeseries_wavelet_transform(
     timeseries_data: xr.DataArray,
     dt: float,
     time_dim: str = 'time',

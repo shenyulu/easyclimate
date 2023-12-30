@@ -4,6 +4,10 @@ This module computes statistical values over timesteps of the same year
 from __future__ import annotations
 from .utility import *
 
+__all__ =  ["calc_yearly_climatological_mean", "calc_yearly_climatological_sum",
+            "calc_yearly_climatological_std", "calc_yearly_climatological_var",
+            "calc_yearly_climatological_max", "calc_yearly_climatological_min"]
+
 def calc_yearly_climatological_mean(data_input, dim = 'time', **kwargs):
     """
     Calculate yearly mean.

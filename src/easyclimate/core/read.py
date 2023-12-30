@@ -6,6 +6,8 @@ from __future__ import annotations
 from glob import glob
 import xarray as xr
 
+__all__ = ["open_muliti_dataset"]
+
 def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
     """
     Open multiple netCDF files without the need for xarray's necessary dimension checks

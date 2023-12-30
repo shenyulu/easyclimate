@@ -11,6 +11,16 @@ from .utility import (find_dims_axis, transfer_deg2rad,
 import xarray as xr
 import dask
 
+__all__ =  ["calc_gradient", "calc_lon_gradient", "calc_lat_gradient", 
+            "calc_lon_laplacian", "calc_lat_laplacian", "calc_lon_lat_mixed_derivatives",
+            "calc_p_gradient", "calc_time_gradient", "calc_delta_pressure",
+            "calc_p_integral", "calc_top2surface_integral", "calc_laplacian", 
+            "calc_divergence", "calc_vorticity", "calc_geostrophic_wind",
+            "calc_geostrophic_wind_vorticity", "calc_horizontal_water_flux", "calc_vertical_water_flux",
+            "calc_water_flux_top2surface_integral", "calc_divergence_watervaporflux",
+            "calc_divergence_watervaporflux_top2surface_integral", "calc_u_advection",
+            "calc_v_advection", "calc_p_advection"]
+
 @generate_dataset_dispatcher
 def calc_gradient(
     data_input: xr.DataArray | xr.Dataset,

@@ -8,6 +8,10 @@ import metpy.calc as mpcalc
 from ..core.utility import (dequantify_metpy_xarraydata, generate_dataset_dispatcher)
 from typing import Sequence
 
+__all__ = ["calc_spatial_smooth_gaussian", "calc_spatial_smooth_rectangular", "calc_spatial_smooth_5or9_point", 
+                     "calc_forward_smooth", "calc_reverse_smooth", "calc_spatial_smooth_circular", 
+                     "calc_spatial_smooth_window"]
+
 @generate_dataset_dispatcher
 def calc_spatial_smooth_gaussian(
     data: xr.DataArray | xr.Dataset,

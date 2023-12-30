@@ -5,7 +5,7 @@ import xarray as xr
 import numpy as np
 
 def calc_index_NPWI(
-    precipitable_water_daily: xr.DataArray,
+    precipitable_water_daily_data: xr.DataArray,
     time_dim = 'time', 
 ) -> xr.DataArray:
     """
@@ -16,7 +16,7 @@ def calc_index_NPWI(
 
     Parameters
     ----------
-    precipitable_water_daily: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    precipitable_water_daily_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Daily precipitable water data. 
     time_dim: :py:class:`str<python.str>`.
         The time coordinate dimension name.
@@ -31,15 +31,15 @@ def calc_index_NPWI(
     - Tang Xu, Chen Baode, Liang Ping, Qian Weihong. Definition and features of the north edge of Asian summer monsoon. Acta Meteorologica Sinica (Chinese), 2009, (1): 83-89. doi: http://dx.doi.org/10.11676/qxxb2009.009
     """
     # Calculate the PWmax, PWmin
-    PWmax = precipitable_water_daily.groupby('time.year').max(dim = time_dim).mean(dim = 'year')
-    PWmin = precipitable_water_daily.groupby('time.year').min(dim = time_dim).mean(dim = 'year')
+    PWmax = precipitable_water_daily_data.groupby('time.year').max(dim = time_dim).mean(dim = 'year')
+    PWmin = precipitable_water_daily_data.groupby('time.year').min(dim = time_dim).mean(dim = 'year')
 
     # Calculate the NPWI
-    NPWI = (precipitable_water_daily - PWmin)/(PWmax - PWmin)
+    NPWI = (precipitable_water_daily_data - PWmin)/(PWmax - PWmin)
     return NPWI
 
 def find_PW_monsoon_region(
-    precipitable_water_daily: xr.DataArray,
+    precipitable_water_daily_data: xr.DataArray,
     time_dim = 'time', 
 ) -> xr.DataArray:
     """
@@ -56,7 +56,7 @@ def find_PW_monsoon_region(
 
     Parameters
     ----------
-    precipitable_water_daily: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    precipitable_water_daily_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Daily precipitable water data.
     time_dim: :py:class:`str<python.str>`.
         The time coordinate dimension name.
@@ -66,7 +66,7 @@ def find_PW_monsoon_region(
     - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
     - Tang Xu, Chen Baode, Liang Ping, Qian Weihong. Definition and features of the north edge of Asian summer monsoon. Acta Meteorologica Sinica (Chinese), 2009, (1): 83-89. doi: http://dx.doi.org/10.11676/qxxb2009.009
     """
-    PW_averagemonth = precipitable_water_daily.groupby('time.month').mean(dim = time_dim)
+    PW_averagemonth = precipitable_water_daily_data.groupby('time.month').mean(dim = time_dim)
     PWw = PW_averagemonth.sel(month = [6, 7, 8]).max(dim = 'month')
     PWc = PW_averagemonth.sel(month = [1, 2, 12]).max(dim = 'month')
     monsoonregionmask = ((PWw - PWc) > 12)

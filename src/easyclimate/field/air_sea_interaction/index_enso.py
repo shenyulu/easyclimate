@@ -6,10 +6,10 @@ import xarray as xr
 
 @generate_dataset_dispatcher
 def calc_index_nino1and2(
-    sst_monthly_anomaly: xr.DataArray | xr.Dataset,
+    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
     lat_dim: str = 'lat',
     lon_dim: str = 'lon'
-) -> xr.DataArray:
+) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 1+2 index.
 
@@ -19,7 +19,7 @@ def calc_index_nino1and2(
 
     Parameters
     ----------
-    sst_monthly_anomaly: :py:class:`xarray.DataArray<xarray.DataArray>`
+    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
@@ -35,16 +35,16 @@ def calc_index_nino1and2(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
-    nino1plus2_index = sst_monthly_anomaly.sel({lat_dim: slice(-10, 0), lon_dim: slice(270, 280)}).mean(dim = (lat_dim, lon_dim))
+    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(sst_monthly_anomaly_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    nino1plus2_index = sst_monthly_anomaly_data.sel({lat_dim: slice(-10, 0), lon_dim: slice(270, 280)}).mean(dim = (lat_dim, lon_dim))
     nino1plus2_index.name = 'Nino1+2_index'
     return nino1plus2_index.drop_vars('month')
 
 def calc_index_nino3(
-    sst_monthly_anomaly: xr.DataArray | xr.Dataset,
+    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
     lat_dim: str = 'lat',
     lon_dim: str = 'lon'
-) -> xr.DataArray:
+) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 3 index.
 
@@ -54,7 +54,7 @@ def calc_index_nino3(
 
     Parameters
     ----------
-    sst_monthly_anomaly: :py:class:`xarray.DataArray<xarray.DataArray>`
+    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
@@ -71,17 +71,17 @@ def calc_index_nino3(
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     - Trenberth, K. E., 1997: The Definition of El Niño. Bull. Amer. Meteor. Soc., 78, 2771–2778, https://doi.org/10.1175/1520-0477(1997)078<2771:TDOENO>2.0.CO;2.
     """
-    sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
-    nino3_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(210, 270)}).mean(dim = (lat_dim, lon_dim))
+    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(sst_monthly_anomaly_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    nino3_index = sst_monthly_anomaly_data.sel({lat_dim: slice(-5, 5), lon_dim: slice(210, 270)}).mean(dim = (lat_dim, lon_dim))
     nino3_index.name = 'Nino3_index'
     return nino3_index.drop_vars('month')
 
 def calc_index_nino34(
-    sst_monthly_anomaly: xr.DataArray | xr.Dataset, 
+    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset, 
     lat_dim: str = 'lat', 
     lon_dim: str = 'lon',
     running_mean = 5,
-) -> xr.DataArray:
+) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 3.4 index.
 
@@ -92,7 +92,7 @@ def calc_index_nino34(
 
     Parameters
     ----------
-    sst_monthly_anomaly: :py:class:`xarray.DataArray<xarray.DataArray>`
+    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
@@ -110,8 +110,8 @@ def calc_index_nino34(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
-    nino34_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(190, 240)})
+    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(sst_monthly_anomaly_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    nino34_index = sst_monthly_anomaly_data.sel({lat_dim: slice(-5, 5), lon_dim: slice(190, 240)})
     if (running_mean is None) or (running_mean == 0):
         nino34_index = nino34_index.mean(dim = (lat_dim, lon_dim))
     else:
@@ -120,11 +120,11 @@ def calc_index_nino34(
     return nino34_index.drop_vars('month')
 
 def calc_index_OMI(
-    sst_monthly_anomaly: xr.DataArray | xr.Dataset,
+    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
     lat_dim: str = 'lat',
     lon_dim: str = 'lon',
     running_mean = 3,
-) -> xr.DataArray:
+) -> xr.DataArray | xr.Dataset:
     """
     Calculate the ONI (Oceanic Niño Index) index.
 
@@ -135,7 +135,7 @@ def calc_index_OMI(
 
     Parameters
     ----------
-    sst_monthly_anomaly: :py:class:`xarray.DataArray<xarray.DataArray>`
+    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
@@ -153,8 +153,8 @@ def calc_index_OMI(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
-    omi_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(190, 240)})
+    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(sst_monthly_anomaly_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    omi_index = sst_monthly_anomaly_data.sel({lat_dim: slice(-5, 5), lon_dim: slice(190, 240)})
     if (running_mean is None) or (running_mean == 0):
         omi_index = omi_index.mean(dim = (lat_dim, lon_dim))
     else:
@@ -163,10 +163,10 @@ def calc_index_OMI(
     return omi_index.drop_vars('month')
 
 def calc_index_nino4(
-    sst_monthly_anomaly: xr.DataArray | xr.Dataset, 
+    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset, 
     lat_dim: str = 'lat', 
     lon_dim: str = 'lon'
-) -> xr.DataArray:
+) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 4 index.
 
@@ -175,7 +175,7 @@ def calc_index_nino4(
 
     Parameters
     ----------
-    sst_monthly_anomaly: :py:class:`xarray.DataArray<xarray.DataArray>`
+    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
@@ -191,7 +191,7 @@ def calc_index_nino4(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly = sort_ascending_latlon_coordinates(sst_monthly_anomaly, lat_dim = lat_dim, lon_dim = lon_dim)
-    nino4_index = sst_monthly_anomaly.sel({lat_dim: slice(-5, 5), lon_dim: slice(160, 210)}).mean(dim = (lat_dim, lon_dim))
+    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(sst_monthly_anomaly_data, lat_dim = lat_dim, lon_dim = lon_dim)
+    nino4_index = sst_monthly_anomaly_data.sel({lat_dim: slice(-5, 5), lon_dim: slice(160, 210)}).mean(dim = (lat_dim, lon_dim))
     nino4_index.name = 'Nino4_index'
     return nino4_index.drop_vars('month')

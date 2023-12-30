@@ -9,6 +9,8 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 
+__all__ = ["interp_point2mesh", "interp_point2mesh_S2"]
+
 def interp_point2mesh(
     data: pd.DataFrame,
     var_name: str,

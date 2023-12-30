@@ -20,6 +20,8 @@ import pandas as pd
 if TYPE_CHECKING:
     from xarray.backends.api import T_Engine
 
+__all__ = ["open_tutorial_dataset"]
+
 _default_cache_dir_name = "easylimate_tutorial_data"
 base_url = "https://github.com/shenyulu/easyclimate-data"
 version = "main"

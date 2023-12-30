@@ -7,6 +7,8 @@ import xarray as xr
 import scipy.signal as signal
 from ..core.utility import (find_dims_axis, generate_dataset_dispatcher)
 
+__all__ = ["calc_butter_bandpass", "calc_butter_lowpass", "calc_butter_highpass"]
+
 @generate_dataset_dispatcher
 def calc_butter_bandpass(
     data: xr.DataArray | xr.Dataset,
@@ -46,7 +48,7 @@ def calc_butter_bandpass(
 def calc_butter_lowpass(
     data: xr.DataArray | xr.Dataset,
     sampling_frequency: int,
-    period: int,
+    period: float,
     N = 3,
     dim = 'time'
 ) -> xr.DataArray:
@@ -59,7 +61,7 @@ def calc_butter_lowpass(
     - sampling_frequency: int.
         Data sampling frequency. If it is daily data with only one time level record per day, 
         then the parameter value is 1; If a day contains four time level records, the parameter value is 4.
-    - period: list.
+    - period: float.
         The low-pass filtering time period, above which the signal (low frequency signal) will pass. 
         If you are getting a 10-day low-pass filter, the value of this parameter is `10`. 
         Note that the units of this parameter should be consistent with `sampling_frequency`.
@@ -81,7 +83,7 @@ def calc_butter_lowpass(
 def calc_butter_highpass(
     data: xr.DataArray | xr.Dataset,
     sampling_frequency: int,
-    period: int,
+    period: float,
     N = 3,
     dim = 'time'
 ) -> xr.DataArray:
@@ -94,7 +96,7 @@ def calc_butter_highpass(
     - sampling_frequency: int.
         Data sampling frequency. If it is daily data with only one time level record per day, 
         then the parameter value is 1; If a day contains four time level records, the parameter value is 4.
-    - period: list.
+    - period: float.
         The high-pass filtering time period below which the signal (high-frequency signal) will pass. 
         If you are obtaining a 10-day high-pass filter, the value of this parameter is `10`. 
         Note that the units of this parameter should be consistent with `sampling_frequency`.

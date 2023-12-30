@@ -1,4 +1,11 @@
-# What is Easy Climate
+.. _what:
+
+What is Easy Climate
+====================================
+
+.. figure:: _static/fig1.jpg
+    :scale: 40%
+    :align: center
 
 Are you tired of spending hours writing complicated code to analyze climate data?😒 Do you struggle with managing and visualizing large datasets?🙁 Look no further than **Easy Climate**, the latest addition to the Python ecosystem. Designed specifically for climate data analysis, **Easy Climate** eliminates lengthy coding processes, utilizes optimized numerical libraries, and supports scalable parallel processing.
 

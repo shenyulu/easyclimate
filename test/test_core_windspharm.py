@@ -6,7 +6,6 @@ import pytest
 import easyclimate as ecl
 import numpy as np
 import xarray as xr
-import pandas as pd
 from pathlib import Path
 from .const_define import TEST_DATA_PATH
 from .util import round_sf_np_new # Intel fortran outputs for Windows and linux are quit different

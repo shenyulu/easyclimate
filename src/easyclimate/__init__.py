@@ -1,11 +1,8 @@
 from .core import *
-from .interp import *
-from .filter import *
 
-from . import windspharm
+from . import filter
 from . import interp
 from . import plot
-from . import wavelet
 from . import field
 
 # Version number

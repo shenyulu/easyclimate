@@ -12,6 +12,7 @@ scipy
 statsmodels
 geocat-comp
 pyspharm-syl
+windspharm-syl
 dask
 pymannkendall
 flox

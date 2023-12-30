@@ -8,6 +8,9 @@ from .diagnosis import get_coriolis_parameter, get_potential_temperature, calc_b
 from .diff import calc_gradient, calc_lon_gradient, calc_lat_gradient, calc_lon_laplacian, calc_lon_lat_mixed_derivatives
 from .utility import transfer_data_units, transfer_units_coeff, transfer_deg2rad, transfer_dFdp2dFdz
 
+__all__ =  ["calc_eady_growth_rate", "calc_apparent_heat_source", "calc_total_diabatic_heating",
+            "calc_apparent_moisture_sink", "calc_Plumb_wave_activity_horizontal_flux",
+            "calc_TN_wave_activity_horizontal_flux", "calc_EP_horizontal_flux"]
 
 def calc_eady_growth_rate(
     u_daily_data: xr.DataArray, 

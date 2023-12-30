@@ -1,33 +1,40 @@
 """
-Functions for ocean instability.
+The calculation of ocean instability.
 """
 from __future__ import annotations
 import xarray as xr
 import numpy as np
 import gsw_xarray
 
-def cal_N2_from_t_salt(data_input_t, data_input_salt, time_dim = 'time', depth_dim = 'depth', lat_dim = 'lat', lon_dim = 'lon', p_mid_output = False):
+def calc_N2_from_temp_salt(
+    seawater_temperature_data: xr.DataArray,
+    seawater_practical_salinity_data: xr.DataArray,
+    time_dim: str = 'time',
+    depth_dim: str = 'depth',
+    lat_dim: str = 'lat',
+    lon_dim: str = 'lon',
+) -> xr.Dataset:
     '''
     http://www.teos-10.org/pubs/gsw/html/gsw_Nsquared.html
     http://www.teos-10.org/pubs/gsw/html/gsw_contents.html
     '''
-    data_input_t = data_input_t.transpose(time_dim, depth_dim, lat_dim, lon_dim)
-    data_input_salt = data_input_salt.transpose(time_dim, depth_dim, lat_dim, lon_dim)
-    time_length, depth_length, lat_length, lon_length = data_input_t.shape
+    seawater_temperature_data = seawater_temperature_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+    seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+    time_length, depth_length, lat_length, lon_length = seawater_temperature_data.shape
 
     ds = xr.Dataset()
-    ds['z'] = data_input_t[depth_dim]
-    ds['lat'] = data_input_t[lat_dim]
-    ds['SP'] = data_input_salt
-    ds['t'] = data_input_t    # ITS-90 温度（摄氏度）
+    ds['z'] = seawater_temperature_data[depth_dim]
+    ds['lat'] = seawater_temperature_data[lat_dim]
+    ds['SP'] = seawater_practical_salinity_data
+    ds['t'] = seawater_temperature_data    # ITS-90 Temperature (Celsius)
 
-    # 高度 -> 海水压力
+    # Height -> seawater pressure
     ds['p'] = gsw_xarray.p_from_z(z = ds['z'] *(-1), lat = ds['lat'])
 
-    # 实用盐度 -> 绝对盐度
+    # Practical salinity -> Absolute salinity
     ds['SA'] = gsw_xarray.SA_from_SP(SP = ds['SP'], p = ds['p'], lon = ds['lon'], lat = ds['lat'])
 
-    # 保守温度
+    # Conservative temperature
     ds['CT'] = gsw_xarray.CT_from_t(SA = ds['SA'], t = ds['t'], p = ds['p'])
 
     p_tmp = ds['p'].depth.data
@@ -46,10 +53,10 @@ def cal_N2_from_t_salt(data_input_t, data_input_salt, time_dim = 'time', depth_d
         N2,
         dims = [time_dim, depth_dim, lat_dim, lon_dim],
         coords = {
-            'time': ds['time'].data,
-            'depth': ds['depth'].data[:-1],
-            'lat': ds['lat'].data,
-            'lon': ds['lon'].data,
+            time_dim: ds['time'].data,
+            depth_dim: ds['depth'].data[:-1],
+            lat_dim: ds['lat'].data,
+            lon_dim: ds['lon'].data,
         }
     )
 
@@ -57,10 +64,10 @@ def cal_N2_from_t_salt(data_input_t, data_input_salt, time_dim = 'time', depth_d
         p_mid,
         dims = [time_dim, depth_dim, lat_dim, lon_dim],
         coords = {
-            'time': ds['time'].data,
-            'depth': ds['depth'].data[:-1],
-            'lat': ds['lat'].data,
-            'lon': ds['lon'].data,
+            time_dim: ds['time'].data,
+            depth_dim: ds['depth'].data[:-1],
+            lat_dim: ds['lat'].data,
+            lon_dim: ds['lon'].data,
         }
     )
 
@@ -69,38 +76,45 @@ def cal_N2_from_t_salt(data_input_t, data_input_salt, time_dim = 'time', depth_d
     Nsquared['N2'].attrs['name'] = 'Brunt-Vaisala Frequency squared (M-1xN)'
     Nsquared['N2'].attrs['units'] = 'rad^2 s^-2'
 
-    if p_mid_output == True:
-        Nsquared['p_mid'] = p_mid_dataarray
-        Nsquared['p_mid'].attrs['name'] = 'mid pressure between p grid (M-1xN)'
-        Nsquared['p_mid'].attrs['units'] = 'dbar'
+    Nsquared['p_mid'] = p_mid_dataarray
+    Nsquared['p_mid'].attrs['name'] = 'mid pressure between p grid (M-1xN)'
+    Nsquared['p_mid'].attrs['units'] = 'dbar'
 
     Nsquared.attrs['Attention'] = 'The units of N2 are radians^2 s^-2 however in may textbooks this is abreviated to s^-2 as radians does not have a unit. To convert the frequency to hertz, cycles sec^-1, divide the frequency by 2π, ie N/(2π).'
     return Nsquared
 
-def cal_N2_from_t_salt(data_input_t, data_input_salt):
+def calc_potential_density_from_temp_salt(
+    seawater_temperature_data: xr.DataArray,
+    seawater_practical_salinity_data: xr.DataArray,
+    time_dim: str = 'time',
+    depth_dim: str = 'depth',
+    lat_dim: str = 'lat',
+    lon_dim: str = 'lon',
+) -> xr.Dataset:
     '''
+
     http://www.teos-10.org/pubs/gsw/html/gsw_Nsquared.html
     http://www.teos-10.org/pubs/gsw/html/gsw_contents.html
     '''
-    data_input_t = data_input_t.transpose('time', 'depth', 'lat', 'lon')
-    data_input_salt = data_input_salt.transpose('time', 'depth', 'lat', 'lon')
-    time_length, depth_length, lat_length, lon_length = data_input_t.shape
+    seawater_temperature_data = seawater_temperature_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+    seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+    time_length, depth_length, lat_length, lon_length = seawater_temperature_data.shape
 
     ds = xr.Dataset()
-    ds['z'] = data_input_t['depth']
-    ds['lat'] = data_input_t['lat']
-    ds['SP'] = data_input_salt
-    ds['t'] = data_input_t    # ITS-90 温度（摄氏度）
+    ds['z'] = seawater_temperature_data[depth_dim]
+    ds['lat'] = seawater_temperature_data[lat_dim]
+    ds['SP'] = seawater_practical_salinity_data
+    ds['t'] = seawater_temperature_data    # ITS-90 Temperature (Celsius)
 
-    # 高度 -> 海水压力
+    # Height -> seawater pressure
     ds['p'] = gsw_xarray.p_from_z(
         z = ds['z']*(-1), lat = ds['lat']
     )
 
-    # 实用盐度 -> 绝对盐度
+    # Practical salinity ->Absolute salinity
     ds['SA'] = gsw_xarray.SA_from_SP(SP = ds['SP'], p = ds['p'], lon = ds['lon'], lat = ds['lat'])
 
-    # 保守温度
+    # Conservative temperature
     ds['CT'] = gsw_xarray.CT_from_t(SA = ds['SA'], t = ds['t'], p = ds['p'])
 
     p_tmp = ds['p'].depth.data
@@ -108,8 +122,7 @@ def cal_N2_from_t_salt(data_input_t, data_input_salt):
     p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
     p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
 
-    prho = gsw_xarray.pot_rho_t_exact(SA = ds['SA'], t = ds['t'], 
-                                p = p_needed, p_ref = 0)
+    prho = gsw_xarray.pot_rho_t_exact(SA = ds['SA'], t = ds['t'], p = p_needed, p_ref = 0)
 
     potential_density = xr.Dataset()
     potential_density['prho'] = prho
