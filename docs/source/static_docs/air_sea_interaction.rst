@@ -5,6 +5,8 @@ Air–sea interactions
     :scale: 40%
     :align: center
 
+    Photo by Robert Wiedemann on Unsplash
+
 Air–sea interaction is a vital process in the Earth's climate system, as it plays a crucial role in the exchange of energy, 
 momentum, and mass between the atmosphere and the ocean. This interaction is driven by the differences in temperature, 
 humidity, and pressure between the two mediums, which can lead to the formation of various weather patterns 

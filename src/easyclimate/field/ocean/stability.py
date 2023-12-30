@@ -25,6 +25,8 @@ def calc_N2_from_temp_salt(
     ds = xr.Dataset()
     ds['z'] = seawater_temperature_data[depth_dim]
     ds['lat'] = seawater_temperature_data[lat_dim]
+    ds['lon'] = seawater_temperature_data[lon_dim]
+    ds['depth'] = seawater_temperature_data[depth_dim]
     ds['SP'] = seawater_practical_salinity_data
     ds['t'] = seawater_temperature_data    # ITS-90 Temperature (Celsius)
 
@@ -111,7 +113,7 @@ def calc_potential_density_from_temp_salt(
         z = ds['z']*(-1), lat = ds['lat']
     )
 
-    # Practical salinity ->Absolute salinity
+    # Practical salinity -> Absolute salinity
     ds['SA'] = gsw_xarray.SA_from_SP(SP = ds['SP'], p = ds['p'], lon = ds['lon'], lat = ds['lat'])
 
     # Conservative temperature

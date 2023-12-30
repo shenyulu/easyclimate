@@ -5,6 +5,8 @@ Ocean
     :scale: 40%
     :align: center
 
+    Photo by Craig Lovelidge on Unsplash
+
 The ocean covers over 70% of the Earth's surface and plays a crucial role in regulating global climate patterns. It absorbs heat from the sun, which helps to moderate temperatures and maintain a stable climate. Additionally, the ocean acts as a carbon sink, sequestering carbon dioxide from the atmosphere and reducing the impact of greenhouse gas emissions. The ocean also influences weather phenomena, such as El Niño and La Niña, by transferring heat and moisture around the globe.
 
 In recent years, there have been several advancements in ocean research. Improved ocean modeling techniques have allowed scientists to better understand ocean dynamics and predict changes in ocean currents and temperature. Satellite observations have provided valuable data on ocean conditions, including sea level rise and ocean acidification. Autonomous underwater vehicles (AUVs) have enabled researchers to collect data on ocean temperature, salinity, and currents with greater accuracy and precision.

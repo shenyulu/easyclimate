@@ -1124,10 +1124,13 @@ def calc_divergence_watervaporflux_top2surface_integral(
     return divergence_watervaporflux_single_layer_top2surface_integral
 
 def calc_u_advection(
-    u_data: xr.DataArray, 
-    temper_data: xr.DataArray, 
-    lon_dim: str = 'lon', 
+    u_data: xr.DataArray,
+    temper_data: xr.DataArray,
+    lon_dim: str = 'lon',
     lat_dim: str = 'lat',
+    min_dx: float = 1.0,
+    edge_order: int = 2,
+    R: float = 6370000
 ) -> xr.DataArray:
     """
     Calculate zonal temperature advection at each vertical level.
@@ -1137,7 +1140,7 @@ def calc_u_advection(
 
     Parameters
     ----------
-    u: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal wind data.
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
@@ -1145,17 +1148,27 @@ def calc_u_advection(
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str<python.str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+    min_dx: :py:class:`float<python.float>`, default: `1.0`.
+        The minimum acceptable value of `dx`, below which parts will set `nan` to avoid large computational errors. 
+        The unit is m. You can set it to a negative value in order to remove this benefit.
+    edge_order: {1, 2}, optional
+        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
+    R: :py:class:`float<python.float>`, default: `6370000`.
+        Radius of the Earth.
 
     Returns
     -------
     The zonal temperature advection. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
-    return (-1) *u_data *calc_lon_gradient(temper_data, lon_dim = lon_dim, lat_dim = lat_dim)
+    return (-1) *u_data *calc_lon_gradient(temper_data, lon_dim = lon_dim, lat_dim = lat_dim, min_dx = min_dx, edge_order = edge_order, R = R)
 
 def calc_v_advection(
     v_data: xr.DataArray, 
     temper_data: xr.DataArray, 
     lat_dim: str = 'lat',
+    min_dy: float = 1.0, 
+    edge_order: int = 2, 
+    R: float = 6370000
 ) -> xr.DataArray:
     """
     Calculate meridional temperature advection at each vertical level.
@@ -1176,7 +1189,7 @@ def calc_v_advection(
     -------
     The meridional temperature advection. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
-    return (-1) *v_data *calc_lat_gradient(temper_data, lat_dim = lat_dim)
+    return (-1) *v_data *calc_lat_gradient(temper_data, lat_dim = lat_dim, min_dy = min_dy, edge_order = edge_order, R = R)
 
 def calc_p_advection(
     omega_data: xr.DataArray, 

@@ -34,7 +34,7 @@
         <strong>Easy Climate is just here to help you!</strong>
     </p>
 
-Installation
+Installation🛒
 ------------
 
 You can do a direct install via `pip` by using:
@@ -44,7 +44,7 @@ You can do a direct install via `pip` by using:
     $ pip install easyclimate
 
 
-How to cite
+How to cite📣
 -----------
 
 If you are using xarray and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
@@ -100,14 +100,6 @@ An example BibTeX entry:
    ./static_docs/ocean
    ./static_docs/monsoon
    ./static_docs/land_atm_interaction
-   
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-    :caption: Community
-
-    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
-    Source code on GitHub <https://github.com/shenyulu/easyclimate>
 
 .. toctree::
     :maxdepth: 1
@@ -116,9 +108,17 @@ An example BibTeX entry:
 
     ./api_index/index.rst
     changes.md
-    
 
-Indices and tables
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: Community
+
+    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
+    Source code on GitHub <https://github.com/shenyulu/easyclimate>
+ 
+
+Indices and tables🧭
 ------------------
 
 * :ref:`genindex`

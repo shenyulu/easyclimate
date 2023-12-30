@@ -5,6 +5,8 @@ Land–atmosphere interactions
     :scale: 40%
     :align: center
 
+    Photo by Haikang Z on Unsplash
+
 Land-atmosphere coupling refers to the complex interactions between the Earth's surface and the atmosphere, 
 involving the exchange of energy, water, and greenhouse gases. This coupling plays a crucial role in shaping local and global climate patterns, 
 making it an essential aspect of atmospheric science research. Recent studies have focused on understanding the 
