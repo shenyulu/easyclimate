@@ -47,7 +47,7 @@ You can do a direct install via `pip` by using:
 How to cite📣
 -----------
 
-If you are using xarray and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
+If you are using **Easy Climate** and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
 We provide a `Zenodo citation and DOI <https://zenodo.org/doi/10.5281/zenodo.10279567>`__ for this purpose:
 
 An example BibTeX entry:

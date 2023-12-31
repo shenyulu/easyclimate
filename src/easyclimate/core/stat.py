@@ -15,15 +15,15 @@ from .utility import generate_datatree_dispatcher
 from datatree import DataTree
 
 __all__ =  ["calc_linregress_spatial", "calc_detrend_data", "calc_ttestSpatialPattern_spatial",
-            "calc_skewness_spatial", "calc_kurtosis_spatial"]
+            "calc_skewness_spatial", "calc_kurtosis_spatial", "calc_theilslopes_spatial"]
 
 @generate_datatree_dispatcher
 def calc_linregress_spatial(
     data_input: xr.DataArray | xr.Dataset, 
     dim: str = 'time', 
-    x = None, 
+    x: np.array = None, 
     alternative: str = 'two-sided', 
-    returns_type: str = 'dataset_returns',
+    returns_type: {'dataset_returns', 'dataset_vars'} = 'dataset_returns',
 ) -> xr.Dataset | DataTree:
     """
     Calculate a linear least-squares regression for spatial data of time.
@@ -32,10 +32,12 @@ def calc_linregress_spatial(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>` to be regression.
-    dim : str
+    dim : str, default `time`.
         Dimension(s) over which to apply linregress. By default linregress is applied over the `time` dimension.
     x : numpy.array
-    returns_type: str
+        Independent variable. If None, use `np.arange(len(data_input['time'].shape[0]))` instead.
+    returns_type: str, default `'dataset_returns'`.
+        Return data type.
     
     Returns
     -------
@@ -355,3 +357,119 @@ def calc_kurtosis_spatial(
     kurtosis = _calc_kurt_core(data_input, data_all)
 
     return kurtosis
+
+@generate_datatree_dispatcher
+def calc_theilslopes_spatial(
+    data_input: xr.DataArray | xr.Dataset, 
+    dim: str = 'time', 
+    x = None, 
+    alpha: float = 0.95,
+    method: {'joint', 'separate'} = 'separate',
+    returns_type: {'dataset_returns', 'dataset_vars'} = 'dataset_returns',
+) -> xr.Dataset | DataTree:
+    """
+    Computes the Theil-Sen estimator.
+
+    Theilslopes implements a method for robust linear regression. It computes the slope as the median of all slopes between paired values.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>` to be regression.
+    dim : str, default `time`.
+        Dimension(s) over which to apply linregress. By default linregress is applied over the `time` dimension.
+    x : numpy.array
+        Independent variable. If None, use `np.arange(len(data_input['time'].shape[0]))` instead.
+    alpha: float, default 0.95.
+        Confidence degree between 0 and 1. Default is 95% confidence. Note that alpha is symmetric around 0.5, i.e. both 0.1 and 0.9 are interpreted as "find the 90% confidence interval".
+    method: {'joint', 'separate'}, default `'separate'`.
+        Method to be used for computing estimate for intercept. Following methods are supported,
+
+        - *joint*: Uses `np.median(y - slope * x)` as intercept.
+        - *separate*: Uses `np.median(y) - slope * np.median(x)` as intercept.
+
+    returns_type: str, default `'dataset_returns'`.
+        Return data type.
+    
+    Returns
+    -------
+    result : ``TheilslopesResult`` Dataset
+        The return Dataset have following data_var:
+
+        slope : float
+            Theil slope.
+        intercept : float
+            Intercept of the Theil line.
+        low_slope : float
+            Lower bound of the confidence interval on `slope`.
+        high_slope : float
+            Upper bound of the confidence interval on `slope`.
+
+    .. seealso::
+        :py:func:`scipy.stats.theilslopes <scipy:scipy.stats.theilslopes>`.
+    """
+    def _calc_theilslopes_spatial_scipy_theilslopes(data_input, dim, x, alpha, method):
+        
+        if data_input.chunks is not None:
+            # Dask routine
+            data_input = data_input.chunk({dim: -1})
+        else:
+            pass
+
+        # y shape
+        n = data_input[dim].shape[0]
+
+        if x is None:
+            # Regression parameter x
+            x_data = np.arange(0, data_input[dim].shape[0])
+            x = xr.DataArray(x_data, dims = dim, coords = {dim: data_input[dim].data})
+
+        x_shape = x.shape[0]
+        if x_shape != n:
+            raise ValueError('`data_input` array size along dimension `dim` should be the same as the `x` array size, but data_input[dim]: ' + n + '; x: ' + x_shape + '.')
+        
+        if isinstance(x, np.ndarray):
+            warnings.warn(f"Assuming that the coordinate value of '{dim}' in `data_input` and `x` is same. Ignoring.")
+            x = xr.DataArray(x, dims = dim, coords = {dim: data_input[dim].data})
+        if isinstance(x, xr.DataArray):
+            if x.dims[0] != data_input[dim].dims[0]:
+                raise ValueError('The coordinate name of `data_input` array along dimension `dim` should be the same as the `x`.')
+            if (x[dim].data == data_input[dim].data).all() == False:
+                raise ValueError(f"Coordinate value of '{dim}' in `data_input` and `x` is not same. If you are sure that the `x` dimension '{dim}' is the same as the value of the dimension in `data_input`, pass in the numpy array corresponding to `x`, e.g. `x.data`.")
+        else:
+            raise ValueError("Unsupported input type. Expected numpy.ndarray or xarray.DataArray.")
+        
+        # `scipy.stats.linregress` only supports numpy arrays
+        x = x.data
+            
+        # scipy function scipy.stats.linregress calculate regression parameter
+        def theilslopes_scipy(data):
+            TheilslopesResult = stats.theilslopes(data, x, alpha = alpha, method = method)
+            slope = TheilslopesResult[0]
+            intercept = TheilslopesResult[1]
+            low_slope = TheilslopesResult[2]
+            high_slope = TheilslopesResult[3]
+            return np.array([slope, intercept, low_slope, high_slope])
+
+        # Use xarray apply_ufunc to create DataArray
+        TheilslopesResult_dataarray = xr.apply_ufunc(
+            theilslopes_scipy,
+            data_input,
+            input_core_dims=[[dim]],
+            output_core_dims = [["parameter"]],
+            output_dtypes=["float64"],
+            dask = "parallelized",
+            vectorize=True,
+            dask_gufunc_kwargs = {"output_sizes": {"parameter": 4}},
+        )
+
+        # Transform DataArray to Dataset
+        return xr.Dataset(
+            data_vars = {'slope': TheilslopesResult_dataarray[...,0],
+                        'intercept':  TheilslopesResult_dataarray[...,1],
+                        'low_slope':  TheilslopesResult_dataarray[...,2],
+                        'high_slope':  TheilslopesResult_dataarray[...,3],
+            }
+        )
+    
+    return _calc_theilslopes_spatial_scipy_theilslopes(data_input, dim, x, alpha, method)

@@ -9,7 +9,7 @@ dependencies:
   - matplotlib
   - pandas
   - intel-fortran-rt
-  - scipy
+  - scipy  >=1.8.0
   - statsmodels
   - dask
   - pip:

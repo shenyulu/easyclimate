@@ -12,7 +12,7 @@ from oceans import ocfis
 def calc_mixed_layer_depth(
     seawater_temperature_data: xr.DataArray,
     seawater_practical_salinity_data: xr.DataArray,
-    criterion: ['temperature', 'density', 'pdvar'] = 'pdvar', 
+    criterion: {'temperature', 'density', 'pdvar'} = 'pdvar', 
     depth_dim: str = 'depth',
     lon_dim: str = 'lon',
     lat_dim: str = 'lat',

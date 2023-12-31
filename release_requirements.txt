@@ -8,7 +8,7 @@ pandas
 fast-barnes-py
 oceans
 intel-fortran-rt
-scipy
+scipy >=1.8.0
 statsmodels
 geocat-comp
 pyspharm-syl

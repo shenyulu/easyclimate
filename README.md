@@ -8,7 +8,6 @@
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-![PyPI - License](https://img.shields.io/pypi/l/easyclimate)
 ![PyPI - Version](https://img.shields.io/pypi/v/easyclimate)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
@@ -16,6 +15,8 @@
 [![Documentation Status](https://readthedocs.org/projects/easyclimate/badge/?version=latest)](https://easyclimate.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/465206111.svg)](https://zenodo.org/doi/10.5281/zenodo.10279567)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=.binder)
+
+
 
 ## About
 

@@ -53,17 +53,16 @@ def calc_Dx_depth(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     value: float,
     depth_dim: str = 'depth',
-    mask: bool = True
 ) -> xr.DataArray | xr.Dataset:
     """
     Caculate `value` depth of ocean temperature.
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
-
-
+    value: float.
+        The depth of ocean temperature to be calculated.
     depth_dim: :py:class:`str<python.str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
 
@@ -99,65 +98,123 @@ def calc_Dx_depth(
     # Linear interpolation
     isotherm_depth = _calc_linear_interpolate(data_nearest, data_middle, data_middle_depth, data_nearest_depth)
 
-    if mask == True:
-        # Create mask
-        mask = (data_anormaly.fillna(-9999) < 0).all(dim = depth_dim)
-        mask = 1 - mask
-        return isotherm_depth.where(mask)
-    elif mask == False:
-        return isotherm_depth
+    # Create mask
+    mask = (np.isnan(data_anormaly)).all(dim = depth_dim)
+    mask = 1 - mask
+
+    return isotherm_depth.where(mask)
 
 def calc_D14_depth(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     value: float = 14,
     depth_dim: str = 'depth',
-    mask: bool = True
 ) -> xr.DataArray | xr.Dataset:
     """
-    
+    Caculate 14m depth of ocean temperature.
+
+    Parameters
+    ----------
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
+    value: float (:math:`\\mathrm{m}`).
+        The depth of ocean temperature to be calculated.
+    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+        `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`. 
     """
-    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim, mask = mask)
+    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D17_depth(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     value: float = 17,
     depth_dim: str = 'depth',
-    mask: bool = True
 ) -> xr.DataArray | xr.Dataset:
     """
-    
+    Caculate 17m depth of ocean temperature.
+
+    Parameters
+    ----------
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
+    value: float (:math:`\\mathrm{m}`).
+        The depth of ocean temperature to be calculated.
+    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+        `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.     
     """
-    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim, mask = mask)
+    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D20_depth(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     value: float = 20,
     depth_dim: str = 'depth',
-    mask: bool = True
 ) -> xr.DataArray | xr.Dataset:
     """
-    
+    Caculate 20m depth of ocean temperature.
+
+    Parameters
+    ----------
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
+    value: float (:math:`\\mathrm{m}`).
+        The depth of ocean temperature to be calculated.
+    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+        `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.     
     """
-    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim, mask = mask)
+    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D26_depth(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     value: float = 26,
     depth_dim: str = 'depth',
-    mask: bool = True
 ) -> xr.DataArray | xr.Dataset:
     """
-    
+    Caculate 26m depth of ocean temperature.
+
+    Parameters
+    ----------
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
+    value: float (:math:`\\mathrm{m}`).
+        The depth of ocean temperature to be calculated.
+    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+        `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.     
     """
-    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim, mask = mask)
+    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D28_depth(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     value: float = 28,
     depth_dim: str = 'depth',
-    mask: bool = True
 ) -> xr.DataArray | xr.Dataset:
     """
-    
+    Caculate 28m depth of ocean temperature.
+
+    Parameters
+    ----------
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
+    value: float (:math:`\\mathrm{m}`).
+        The depth of ocean temperature to be calculated.
+    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+        `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.   
     """
-    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim, mask = mask)
+    return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
