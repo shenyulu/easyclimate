@@ -5,13 +5,11 @@ from __future__ import annotations
 import xarray as xr
 import numpy as np
 from ...core.diff import calc_gradient
-from ...core.utility import (generate_dataset_dispatcher)
 
-@generate_dataset_dispatcher
 def calc_seawater_thermocline_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset, 
+    seawater_temperature_data: xr.DataArray, 
     depth_dim: str = 'depth'
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate thermocline depth of ocean temperature.
 
@@ -48,12 +46,11 @@ def calc_seawater_thermocline_depth(
 
     return thermal_depth
 
-@generate_dataset_dispatcher
 def calc_Dx_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset,
+    seawater_temperature_data: xr.DataArray,
     value: float,
     depth_dim: str = 'depth',
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate `value` depth of ocean temperature.
 
@@ -105,10 +102,10 @@ def calc_Dx_depth(
     return isotherm_depth.where(mask)
 
 def calc_D14_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset,
+    seawater_temperature_data: xr.DataArray,
     value: float = 14,
     depth_dim: str = 'depth',
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate 14m depth of ocean temperature.
 
@@ -128,10 +125,10 @@ def calc_D14_depth(
     return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D17_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset,
+    seawater_temperature_data: xr.DataArray,
     value: float = 17,
     depth_dim: str = 'depth',
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate 17m depth of ocean temperature.
 
@@ -151,10 +148,10 @@ def calc_D17_depth(
     return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D20_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset,
+    seawater_temperature_data: xr.DataArray,
     value: float = 20,
     depth_dim: str = 'depth',
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate 20m depth of ocean temperature.
 
@@ -174,10 +171,10 @@ def calc_D20_depth(
     return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D26_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset,
+    seawater_temperature_data: xr.DataArray,
     value: float = 26,
     depth_dim: str = 'depth',
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate 26m depth of ocean temperature.
 
@@ -197,10 +194,10 @@ def calc_D26_depth(
     return calc_Dx_depth(seawater_temperature_data = seawater_temperature_data, value = value, depth_dim = depth_dim)
 
 def calc_D28_depth(
-    seawater_temperature_data: xr.DataArray | xr.Dataset,
+    seawater_temperature_data: xr.DataArray,
     value: float = 28,
     depth_dim: str = 'depth',
-) -> xr.DataArray | xr.Dataset:
+) -> xr.DataArray:
     """
     Caculate 28m depth of ocean temperature.
 

@@ -6,7 +6,6 @@ import xarray as xr
 import numpy as np
 import gsw_xarray
 from ...core.diff import (calc_gradient, calc_u_advection, calc_v_advection)
-from ...core.utility import (generate_dataset_dispatcher)
 from oceans import ocfis
 
 def calc_mixed_layer_depth(
@@ -87,9 +86,11 @@ def calc_mixed_layer_depth(
         dask_gufunc_kwargs = {"output_sizes": {"parameter": 1}},
     )
     result = result[...,0]
+
+    result.attrs = {}
+    result.name = 'mixed_layer_depth'
     return result
 
-@generate_dataset_dispatcher
 def calc_MLD_depth_weighted(
     seawater_temperature_data: xr.DataArray | xr.Dataset,
     mixed_layer_depth: xr.DataArray,
@@ -254,7 +255,7 @@ def get_data_average_within_MLD(
     # Slice the `data_input` data using the `xarray.where` function, keeping only the parts of the data whose depth is less than or equal to the depth of the hybrid layer
     data_winin_mld = data_input.where(data_input[depth_dim] <= mld_expanded)
 
-    return (data_winin_mld *depth_weight).sum(dim = depth_dim)
+    return (data_winin_mld *depth_weight).sum(dim = depth_dim, min_count = 1)
 
 def get_temper_average_within_MLD(
     seawater_temperature_data: xr.DataArray,
@@ -342,16 +343,18 @@ def calc_MLD_average_horizontal_advection(
                                    lon_dim = lon_dim, lat_dim = lat_dim, 
                                    min_dx = min_dx, edge_order = edge_order, R = R) *2626560 *depth_weight
     u_advection = get_data_within_MLD(data_input = u_advection, mixed_layer_depth = mixed_layer_depth, depth_dim = depth_dim)
+    u_advection.attrs = {}
 
     # Calculate $v \frac{\partial T}{\partial y}$   
     v_advection = calc_v_advection(v_data = v_monthly_data, temper_data = seawater_temperature_data, 
                                    lat_dim = lat_dim, 
                                    min_dy = min_dy, edge_order = edge_order, R = R) *2626560 *depth_weight
     v_advection = get_data_within_MLD(data_input = v_advection, mixed_layer_depth = mixed_layer_depth, depth_dim = depth_dim)
+    v_advection.attrs = {}
 
     dataset = xr.Dataset()
-    dataset['u_advection'] = u_advection.sum(dim = depth_dim)
-    dataset['v_advection'] = v_advection.sum(dim = depth_dim)
+    dataset['u_advection'] = u_advection.sum(dim = depth_dim, min_count = 1)
+    dataset['v_advection'] = v_advection.sum(dim = depth_dim, min_count = 1)
     return dataset
 
 def calc_MLD_average_vertical_advection(
@@ -387,7 +390,7 @@ def calc_MLD_average_vertical_advection(
     # Extracting data within the mixed layer
     w_advection_mld = get_data_within_MLD(data_input = w_advection, mixed_layer_depth = mixed_layer_depth, depth_dim = depth_dim)
 
-    return w_advection_mld.sum(dim = depth_dim)
+    return w_advection_mld.sum(dim = depth_dim, min_count = 1)
 
 def calc_ocean_surface_heat_flux(
     qnet_monthly_anomaly_data: xr.DataArray,
