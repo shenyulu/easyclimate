@@ -5,11 +5,12 @@ from __future__ import annotations
 import xarray as xr
 import numpy as np
 import gsw_xarray
+from ...core.utility import find_dims_axis
 
 def calc_N2_from_temp_salt(
     seawater_temperature_data: xr.DataArray,
     seawater_practical_salinity_data: xr.DataArray,
-    time_dim: str = 'time',
+    time_dim: str | None,
     depth_dim: str = 'depth',
     lat_dim: str = 'lat',
     lon_dim: str = 'lon',
@@ -23,7 +24,7 @@ def calc_N2_from_temp_salt(
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str<python.str>` or `None`, default: `time`.
         The time coordinate dimension name.
     depth_dim: :py:class:`str<python.str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
@@ -41,9 +42,15 @@ def calc_N2_from_temp_salt(
         - http://www.teos-10.org/pubs/gsw/html/gsw_Nsquared.html
         - http://www.teos-10.org/pubs/gsw/html/gsw_contents.html
     '''
-    seawater_temperature_data = seawater_temperature_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
-    seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
-    time_length, depth_length, lat_length, lon_length = seawater_temperature_data.shape
+    # For the convenience of subsequent broadcasting operations, it is necessary to transfer the same dimension sorting method here
+    if time_dim != None:
+        seawater_temperature_data = seawater_temperature_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+        seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+        time_length, depth_length, lat_length, lon_length = seawater_temperature_data.shape
+    else:
+        seawater_temperature_data = seawater_temperature_data.transpose(depth_dim, lat_dim, lon_dim)
+        seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(depth_dim, lat_dim, lon_dim)
+        depth_length, lat_length, lon_length = seawater_temperature_data.shape
 
     ds = xr.Dataset()
     ds['z'] = seawater_temperature_data[depth_dim]
@@ -62,39 +69,74 @@ def calc_N2_from_temp_salt(
     # Conservative temperature
     ds['CT'] = gsw_xarray.CT_from_t(SA = ds['SA'], t = ds['t'], p = ds['p'])
 
-    p_tmp = ds['p'].depth.data
-    p_tmp_new = p_tmp[np.newaxis, :, np.newaxis, np.newaxis]
-    p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
-    p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
+    if time_dim != None:
+        p_tmp = ds['p'].depth.data
+        p_tmp_new = p_tmp[np.newaxis, :, np.newaxis, np.newaxis]
+        p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
+        p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
 
-    lat_tmp = ds['lat'].data
-    lat_tmp_new = lat_tmp[np.newaxis, np.newaxis, :, np.newaxis]
-    lat_tmp_new1 = np.broadcast_to(lat_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
-    lat_needed = ds['CT'].copy(data = lat_tmp_new1, deep = True).where(~np.isnan(ds['t']))
+        lat_tmp = ds['lat'].data
+        lat_tmp_new = lat_tmp[np.newaxis, np.newaxis, :, np.newaxis]
+        lat_tmp_new1 = np.broadcast_to(lat_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
+        lat_needed = ds['CT'].copy(data = lat_tmp_new1, deep = True).where(~np.isnan(ds['t']))
+    else:
+        p_tmp = ds['p'].depth.data
+        p_tmp_new = p_tmp[:, np.newaxis, np.newaxis]
+        p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (depth_length, lat_length, lon_length))
+        p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
 
-    [N2, p_mid] = gsw_xarray.Nsquared(SA = ds['SA'], CT = ds['CT'], p = p_needed, lat = lat_needed, axis=1)
+        lat_tmp = ds['lat'].data
+        lat_tmp_new = lat_tmp[np.newaxis, :, np.newaxis]
+        lat_tmp_new1 = np.broadcast_to(lat_tmp_new, shape = (depth_length, lat_length, lon_length))
+        lat_needed = ds['CT'].copy(data = lat_tmp_new1, deep = True).where(~np.isnan(ds['t']))        
 
-    N2_dataarray = xr.DataArray(
-        N2,
-        dims = [time_dim, depth_dim, lat_dim, lon_dim],
-        coords = {
-            time_dim: ds['time'].data,
-            depth_dim: ds['depth'].data[:-1],
-            lat_dim: ds['lat'].data,
-            lon_dim: ds['lon'].data,
-        }
-    )
+    depth_axis_num = find_dims_axis(ds['SA'], depth_dim)
+    [N2, p_mid] = gsw_xarray.Nsquared(SA = ds['SA'], CT = ds['CT'], p = p_needed, lat = lat_needed, axis=depth_axis_num)
 
-    p_mid_dataarray = xr.DataArray(
-        p_mid,
-        dims = [time_dim, depth_dim, lat_dim, lon_dim],
-        coords = {
-            time_dim: ds['time'].data,
-            depth_dim: ds['depth'].data[:-1],
-            lat_dim: ds['lat'].data,
-            lon_dim: ds['lon'].data,
-        }
-    )
+    if time_dim != None:
+        
+
+        N2_dataarray = xr.DataArray(
+            N2,
+            dims = [time_dim, depth_dim, lat_dim, lon_dim],
+            coords = {
+                time_dim: ds['time'].data,
+                depth_dim: ds['depth'].data[:-1],
+                lat_dim: ds['lat'].data,
+                lon_dim: ds['lon'].data,
+            }
+        )
+
+        p_mid_dataarray = xr.DataArray(
+            p_mid,
+            dims = [time_dim, depth_dim, lat_dim, lon_dim],
+            coords = {
+                time_dim: ds['time'].data,
+                depth_dim: ds['depth'].data[:-1],
+                lat_dim: ds['lat'].data,
+                lon_dim: ds['lon'].data,
+            }
+        )
+    else:
+        N2_dataarray = xr.DataArray(
+            N2,
+            dims = [depth_dim, lat_dim, lon_dim],
+            coords = {
+                depth_dim: ds['depth'].data[:-1],
+                lat_dim: ds['lat'].data,
+                lon_dim: ds['lon'].data,
+            }
+        )
+
+        p_mid_dataarray = xr.DataArray(
+            p_mid,
+            dims = [depth_dim, lat_dim, lon_dim],
+            coords = {
+                depth_dim: ds['depth'].data[:-1],
+                lat_dim: ds['lat'].data,
+                lon_dim: ds['lon'].data,
+            }
+        )       
 
     Nsquared = xr.Dataset()
     Nsquared['N2'] = N2_dataarray
@@ -111,7 +153,7 @@ def calc_N2_from_temp_salt(
 def calc_potential_density_from_temp_salt(
     seawater_temperature_data: xr.DataArray,
     seawater_practical_salinity_data: xr.DataArray,
-    time_dim: str = 'time',
+    time_dim: str | None,
     depth_dim: str = 'depth',
     lat_dim: str = 'lat',
     lon_dim: str = 'lon',
@@ -125,7 +167,7 @@ def calc_potential_density_from_temp_salt(
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str<python.str>` or `None`, default: `time`.
         The time coordinate dimension name.
     depth_dim: :py:class:`str<python.str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
@@ -143,9 +185,15 @@ def calc_potential_density_from_temp_salt(
         - http://www.teos-10.org/pubs/gsw/html/gsw_Nsquared.html
         - http://www.teos-10.org/pubs/gsw/html/gsw_contents.html
     '''
-    seawater_temperature_data = seawater_temperature_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
-    seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
-    time_length, depth_length, lat_length, lon_length = seawater_temperature_data.shape
+    # For the convenience of subsequent broadcasting operations, it is necessary to transfer the same dimension sorting method here
+    if time_dim != None:
+        seawater_temperature_data = seawater_temperature_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+        seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(time_dim, depth_dim, lat_dim, lon_dim)
+        time_length, depth_length, lat_length, lon_length = seawater_temperature_data.shape
+    else:
+        seawater_temperature_data = seawater_temperature_data.transpose(depth_dim, lat_dim, lon_dim)
+        seawater_practical_salinity_data = seawater_practical_salinity_data.transpose(depth_dim, lat_dim, lon_dim)
+        depth_length, lat_length, lon_length = seawater_temperature_data.shape
 
     ds = xr.Dataset()
     ds['z'] = seawater_temperature_data[depth_dim]
@@ -164,10 +212,16 @@ def calc_potential_density_from_temp_salt(
     # Conservative temperature
     ds['CT'] = gsw_xarray.CT_from_t(SA = ds['SA'], t = ds['t'], p = ds['p'])
 
-    p_tmp = ds['p'].depth.data
-    p_tmp_new = p_tmp[np.newaxis, :, np.newaxis, np.newaxis]
-    p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
-    p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
+    if time_dim != None:
+        p_tmp = ds['p'].depth.data
+        p_tmp_new = p_tmp[np.newaxis, :, np.newaxis, np.newaxis]
+        p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (time_length, depth_length, lat_length, lon_length))
+        p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
+    else:
+        p_tmp = ds['p'].depth.data
+        p_tmp_new = p_tmp[:, np.newaxis, np.newaxis]
+        p_tmp_new1 = np.broadcast_to(p_tmp_new, shape = (depth_length, lat_length, lon_length))
+        p_needed = ds['CT'].copy(data = p_tmp_new1, deep = True).where(~np.isnan(ds['t']))
 
     prho = gsw_xarray.pot_rho_t_exact(SA = ds['SA'], t = ds['t'], p = p_needed, p_ref = 0)
 
