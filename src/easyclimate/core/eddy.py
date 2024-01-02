@@ -39,13 +39,13 @@ def calc_eady_growth_rate(
         Daily atmospheric geopotential height.
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Daily air temperature.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity. 
 
     Returns
@@ -108,19 +108,19 @@ def calc_apparent_heat_source(
         The vertical velocity data (:math:`\\frac{\\mathrm{d} p}{\\mathrm{d} t}`).
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    time_units: :py:class:`str<python.str>`.
+    time_units: :py:class:`str <str>`.
         The unit corresponding to the time dimension value. Optional values are `seconds`, `months`, `years` and so on.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    time_dim: :py:class:`str<python.str>`.
+    time_dim: :py:class:`str <str>`.
         The time coordinate dimension name.
-    c_p: :py:class:`float<python.float>`, default: `1005.7`.
+    c_p: :py:class:`float <float>`, default: `1005.7`.
         The specific heat at constant pressure of dry air.
 
         .. note::
@@ -179,19 +179,19 @@ def calc_total_diabatic_heating(
         The vertical velocity data (:math:`\\frac{\\mathrm{d} p}{\\mathrm{d} t}`).
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    time_units: :py:class:`str<python.str>`.
+    time_units: :py:class:`str <str>`.
         The unit corresponding to the time dimension value. Optional values are `seconds`, `months`, `years` and so on.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
-    c_p: :py:class:`float<python.float>`, default: `1005.7` (:math:`\\mathrm{J \\cdot kg^{-1} \\cdot K^{-1}}`).
+    c_p: :py:class:`float <float>`, default: `1005.7` (:math:`\\mathrm{J \\cdot kg^{-1} \\cdot K^{-1}}`).
         The specific heat at constant pressure of dry air.
 
         .. note::
@@ -243,21 +243,21 @@ def calc_apparent_moisture_sink(
         The vertical velocity data (:math:`\\frac{\\mathrm{d} p}{\\mathrm{d} t}`).
     specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The absolute humidity data.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    time_units: :py:class:`str<python.str>`.
+    time_units: :py:class:`str <str>`.
         The unit corresponding to the time dimension value. Optional values are `seconds`, `months`, `years` and so on.
-    specific_humidity_units: :py:class:`str<python.str>`.
+    specific_humidity_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
-    latent_heat_of_condensation: :py:class:`float<python.float>`, default: `2.5008e6` (:math:`\\mathrm{J \\cdot kg^{-1}}`).
+    latent_heat_of_condensation: :py:class:`float <float>`, default: `2.5008e6` (:math:`\\mathrm{J \\cdot kg^{-1}}`).
         Latent heat of condensation of water at 0°C.
 
         .. note::
@@ -307,19 +307,19 @@ def calc_Plumb_wave_activity_horizontal_flux(
     ----------
     z_prime_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The anormaly of atmospheric geopotential height.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    omega: :py:class:`float<python.float>`, default: `7.292e-5`.
+    omega: :py:class:`float <float>`, default: `7.292e-5`.
         The angular speed of the earth.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -387,19 +387,19 @@ def calc_TN_wave_activity_horizontal_flux(
         The climatology of zonal wind data.
     v_climatology_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The climatology of meridional wind data.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    omega: :py:class:`float<python.float>`, default: `7.292e-5`.
+    omega: :py:class:`float <float>`, default: `7.292e-5`.
         The angular speed of the earth.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
     
     Returns
@@ -480,29 +480,29 @@ def calc_TN_wave_activity_horizontal_flux(
 #         Air temperature.
 #     z_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
 #         Atmospheric geopotential height.
-#     vertical_dim: :py:class:`str<python.str>`.
+#     vertical_dim: :py:class:`str <str>`.
 #         Vertical coordinate dimension name.
-#     vertical_dim_units: :py:class:`str<python.str>`.
+#     vertical_dim_units: :py:class:`str <str>`.
 #         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-#     lon_dim: :py:class:`str<python.str>`, default: `lon`.
+#     lon_dim: :py:class:`str <str>`, default: `lon`.
 #         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-#     lat_dim: :py:class:`str<python.str>`, default: `lat`.
+#     lat_dim: :py:class:`str <str>`, default: `lat`.
 #         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-#     omega: :py:class:`float<python.float>`, default: `7.292e-5`.
+#     omega: :py:class:`float <float>`, default: `7.292e-5`.
 #         The angular speed of the earth.
-#     g: :py:class:`float<python.float>`, default: `9.8`.
+#     g: :py:class:`float <float>`, default: `9.8`.
 #         The acceleration of gravity.
-#     R: :py:class:`float<python.float>`, default: `6370000`.
+#     R: :py:class:`float <float>`, default: `6370000`.
 #         Radius of the Earth.
-#     scale_height: :py:class:`float<python.float>`, default: `8000`.
+#     scale_height: :py:class:`float <float>`, default: `8000`.
 #         Scale height.
-#     kappa: :py:class:`float<python.float>`, default: `287/1005.7`.
+#     kappa: :py:class:`float <float>`, default: `287/1005.7`.
 #         Poisson constant :math:`\\kappa`.
 
 #         .. note::
 #             `Poisson constant - Glossary of Meteorology <https://glossary.ametsoc.org/wiki/Poisson_constant>`__
 
-#     method: :py:class:`str<python.str>`, default: `'practical_height'`.
+#     method: :py:class:`str <str>`, default: `'practical_height'`.
 #         The calculation method of :math:`\\mathrm{d}z`. Optional values are `'practical_height'`, `'scale_height'`.
 
 #     Returns
@@ -577,9 +577,9 @@ def calc_EP_horizontal_flux(
         The anormaly of zonal wind data.
     v_prime_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The anormaly of meridional wind data.
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.        
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns

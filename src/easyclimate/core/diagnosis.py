@@ -31,9 +31,9 @@ def calc_brunt_vaisala_frequency_atm(
 
     .. attention:: The unit of `z_data` should be **meters**, NOT :math:`\\mathrm{m^2 \\cdot s^2}` which is the unit used in the representation of potential energy.
 
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
 
     Returns
@@ -69,7 +69,7 @@ def get_coriolis_parameter(
     ----------
     lat_data: :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.array <numpy.array>`.
         Latitude at each point.
-    omega: :py:class:`float<python.float>`, default: `7.292e-5`.
+    omega: :py:class:`float <float>`, default: `7.292e-5`.
         The angular speed of the earth.
 
     Returns
@@ -106,11 +106,11 @@ def get_potential_temperature(
     ----------
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    kappa: :py:class:`float<python.float>`, default: `287/1005.7`.
+    kappa: :py:class:`float <float>`, default: `287/1005.7`.
         Poisson constant :math:`\\kappa`.
 
         .. note::
@@ -155,9 +155,9 @@ def calc_static_stability(
     ----------
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
 
     Returns

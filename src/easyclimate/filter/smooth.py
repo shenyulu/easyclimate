@@ -26,7 +26,7 @@ def calc_spatial_smooth_gaussian(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    n: :py:class:`int <python.int>`.
+    n: :py:class:`int <int>`.
         Degree of filtering.
 
     Returns
@@ -58,13 +58,13 @@ def calc_spatial_smooth_rectangular(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    rectangle_shapes: :py:class:`int <python.int>` or :py:class:`Sequence[int]`, default `3`.
+    rectangle_shapes: :py:class:`int <int>` or :py:class:`Sequence[int]`, default `3`.
         Shape of rectangle along the trailing dimension(s) of the data.
-    times: :py:class:`int <python.int>` or , default `1`.
+    times: :py:class:`int <int>` or , default `1`.
         The number of times to apply the filter to the data.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -84,7 +84,7 @@ def calc_spatial_smooth_rectangular(
 @generate_dataset_dispatcher
 def calc_spatial_smooth_5or9_point(
     data: xr.DataArray | xr.Dataset,
-    n: [5, 9] = 5,
+    n: {5, 9} = 5,
     times: int = 1,
     lon_dim: str = 'lon',
     lat_dim: str = 'lat',
@@ -96,13 +96,13 @@ def calc_spatial_smooth_5or9_point(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    n: [5, 9], default `5`.
+    n: {5, 9}, default `5`.
         The number of points to use in smoothing, only valid inputs are 5 and 9.
-    times: :py:class:`int <python.int>` or , default `1`.
+    times: :py:class:`int <int>` or , default `1`.
         The number of times to apply the filter to the data.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -150,17 +150,17 @@ def calc_forward_smooth(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    n: [5, 9], default `5`.
+    n: {5, 9}, default `5`.
         The number of points to use in smoothing, only valid inputs are 5 and 9.
-    S: :py:class:`float <python.float>`, default `0.5`.
+    S: :py:class:`float <float>`, default `0.5`.
         The smoothing factor.
-    times: :py:class:`int <python.int>`, default `1`.
+    times: :py:class:`int <int>`, default `1`.
         The number of times to apply the filter to the data.
-    normalize_weights: :py:class:`bool <python.bool>`, default `False`.
+    normalize_weights: :py:class:`bool <bool>`, default `False`.
         If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.    
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -296,17 +296,17 @@ def calc_reverse_smooth(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    n: [5, 9], default `5`.
+    n: {5, 9}, default `5`.
         The number of points to use in smoothing, only valid inputs are 5 and 9.
-    S: :py:class:`float <python.float>`, default `-0.5`.
+    S: :py:class:`float <float>`, default `-0.5`.
         The smoothing factor.
-    times: :py:class:`int <python.int>`, default `1`.
+    times: :py:class:`int <int>`, default `1`.
         The number of times to apply the filter to the data.
-    normalize_weights: :py:class:`bool <python.bool>`, default `False`.
+    normalize_weights: :py:class:`bool <bool>`, default `False`.
         If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.    
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -429,7 +429,7 @@ def calc_reverse_smooth(
 @generate_dataset_dispatcher
 def calc_spatial_smooth_circular(
     data: xr.DataArray | xr.Dataset,
-    radius : int,
+    radius: int,
     times: int = 1,
     lon_dim: str = 'lon',
     lat_dim: str = 'lat',
@@ -441,13 +441,13 @@ def calc_spatial_smooth_circular(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    radius: :py:class:`int <python.int>`.
+    radius: :py:class:`int <int>`.
         Radius of the circular smoothing window. The “diameter” of the circle (width of smoothing window) is :math:`2 \\cdot \\mathrm{radius} + 1` to provide a smoothing window with odd shape.
-    times: :py:class:`int <python.int>`, default `1`.
+    times: :py:class:`int <int>`, default `1`.
         The number of times to apply the filter to the data.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -480,15 +480,15 @@ def calc_spatial_smooth_window(
     ----------
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         Some n-dimensional latitude-longitude dataset.
-    window : :py:class:`numpy <numpy.ndarray>` or :py:class:`xarray.DataArray<xarray.DataArray>`.
+    window : :py:class:`numpy.ndarray <numpy.ndarray>` or :py:class:`xarray.DataArray<xarray.DataArray>`.
         Window to use in smoothing. Can have dimension less than or equal to :math:`N`. If dimension less than :math:`N`, the scalar grid will be smoothed along its trailing dimensions. Shape along each dimension must be odd.
-    times: :py:class:`int <python.int>`, default `1`.
+    times: :py:class:`int <int>`, default `1`.
         The number of times to apply the filter to the data.
-    normalize_weights: :py:class:`bool <python.bool>`, default `False`.
+    normalize_weights: :py:class:`bool <bool>`, default `False`.
         If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns

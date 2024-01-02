@@ -118,14 +118,14 @@ def open_tutorial_dataset(
 
     Parameters
     ----------
-    name : str
+    name : :py:class:`str <str>`
         Name of the file containing the dataset.
         e.g. 'air_202201_mon_mean'
     cache_dir : path-like, optional
         The directory in which to search for and write cached data.
-    cache : bool, optional
+    cache : dim: :py:class:`bool <bool>`, optional
         If True, then cache data locally for use on subsequent calls
-    **kws : dict, optional
+    **kws : :py:class:`dict <dict>`, optional
         Passed to xarray.open_dataset
 
     Returns

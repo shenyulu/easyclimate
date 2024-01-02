@@ -37,11 +37,11 @@ def calc_gradient(
 
     Parameters
     ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
          The spatio-temporal data to be calculated.
-    dim : str
+    dim : :py:class:`str <str>`.
         Dimension(s) over which to apply gradient. By default gradient is applied over the `time` dimension.
-    varargs: list of scalar or array, optional
+    varargs: :py:class:`list <list>` of scalar or array, optional
         Spacing between f values. Default unitary spacing for all dimensions. Spacing can be specified using:
 
         1. Single scalar to specify a sample distance for all dimensions.
@@ -85,16 +85,16 @@ def calc_lon_gradient(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dx: :py:class:`float<python.float>`, default: `1.0`.
+    min_dx: :py:class:`float <float>`, default: `1.0`.
         The minimum acceptable value of `dx`, below which parts will set `nan` to avoid large computational errors. 
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
         Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -134,14 +134,14 @@ def calc_lat_gradient(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dy: :py:class:`float<python.float>`, default: `1.0`.
+    min_dy: :py:class:`float <float>`, default: `1.0`.
         The minimum acceptable value of `dy`, below which parts will set `nan` to avoid large computational errors. 
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
         Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -179,16 +179,16 @@ def calc_lon_laplacian(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dx2: :py:class:`float<python.float>`, default: `1e9`.
+    min_dx2: :py:class:`float <float>`, default: `1e9`.
         The minimum acceptable value of :math:`(\\mathrm{d}x)^2`, below which parts will set `nan` to avoid large computational errors. 
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
         Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -231,14 +231,14 @@ def calc_lat_laplacian(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.            
-    min_dy2: :py:class:`float<python.float>`, default: `1.0`.
+    min_dy2: :py:class:`float <float>`, default: `1.0`.
         The minimum acceptable value of :math:`(\\mathrm{d}y)^2`, below which parts will set `nan` to avoid large computational errors. 
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
         Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -277,16 +277,16 @@ def calc_lon_lat_mixed_derivatives(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dxdy: :py:class:`float<python.float>`, default: `1e10`.
+    min_dxdy: :py:class:`float <float>`, default: `1e10`.
         The minimum acceptable value of :math:`\\mathrm{d}x\\mathrm{d}y`, below which parts will set `nan` to avoid large computational errors. 
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
         Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -325,9 +325,9 @@ def calc_p_gradient(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
 
     Returns
@@ -363,9 +363,9 @@ def calc_time_gradient(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         The spatio-temporal data to be calculated.
-    time_units: :py:class:`str<python.str>`.
+    time_units: :py:class:`str <str>`.
         The unit corresponding to the time dimension value. Optional values are `seconds`, `months`, `years` and so on.
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
 
     Returns
@@ -404,11 +404,11 @@ def calc_delta_pressure(
         The spatio-temporal data to be calculated.
     surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Mean surface sea level pressure.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    surface_pressure_data_units: :py:class:`str<python.str>`.
+    surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
 
     Returns
@@ -452,9 +452,9 @@ def calc_p_integral(
     ----------
     data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The spatio-temporal data to be calculated.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    normalize: :py:class:`bool<python.bool>`, default: `True`.
+    normalize: :py:class:`bool<bool>`, default: `True`.
         Whether or not the integral results are averaged over the entire layer.
     
     Returns
@@ -501,13 +501,13 @@ def calc_top2surface_integral(
         The spatio-temporal data to be calculated.
     surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Mean surface sea level pressure.    
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    surface_pressure_data_units: :py:class:`str<python.str>`.
+    surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    method: :py:class:`str<python.str>`, default: `'Trenberth-vibeta'`.
+    method: :py:class:`str <str>`, default: `'Trenberth-vibeta'`.
         vertical integration method. Optional values are `Boer-vibeta`, `'Trenberth-vibeta'`.
 
         .. note::
@@ -529,7 +529,7 @@ def calc_top2surface_integral(
 
             While G. J. Boer (1982) define :math:`\\beta = 0, 1` only.
 
-    normalize: :py:class:`bool<python.bool>`, default: `True`.
+    normalize: :py:class:`bool<bool>`, default: `True`.
         Whether or not the integral results are averaged over the entire layer.
 
     Returns
@@ -620,13 +620,13 @@ def calc_laplacian(
     ----------
     data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
-    spherical_coord: :py:class:`bool<python.bool>`, default: `True`.
+    spherical_coord: :py:class:`bool <bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
     
     Returns
@@ -676,13 +676,13 @@ def calc_divergence(
         The zonal wind data.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional wind data.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
-    spherical_coord: :py:class:`bool<python.bool>`, default: `True`.
+    spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
 
     Returns
@@ -736,13 +736,13 @@ def calc_vorticity(
         The zonal wind data.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional wind data.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
-    spherical_coord: :py:class:`bool<python.bool>`, default: `True`.
+    spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
 
     Returns
@@ -790,15 +790,15 @@ def calc_geostrophic_wind(
     ----------
     z_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Atmospheric geopotential height.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    omega: :py:class:`float<python.float>`, default: `7.292e-5`.
+    omega: :py:class:`float <float>`, default: `7.292e-5`.
         The angular speed of the earth.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -851,17 +851,17 @@ def calc_geostrophic_wind_vorticity(
     ----------
     z_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Atmospheric geopotential height.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    spherical_coord: :py:class:`bool<python.bool>`, default: `True`.
+    spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
-    omega: :py:class:`float<python.float>`, default: `7.292e-5`.
+    omega: :py:class:`float <float>`, default: `7.292e-5`.
         The angular speed of the earth.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -895,7 +895,7 @@ def calc_horizontal_water_flux(
         The zonal wind data.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional wind data.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.    
 
     Returns
@@ -925,7 +925,7 @@ def calc_vertical_water_flux(
         The absolute humidity data.
     omega_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The vertical velocity data (:math:`\\frac{\\mathrm{d} p}{\\mathrm{d} t}`).
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
     
     Returns
@@ -959,15 +959,15 @@ def calc_water_flux_top2surface_integral(
         The meridional wind data.
     surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Mean surface sea level pressure. 
-    surface_pressure_data_units: :py:class:`str<python.str>`.
+    surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    method: :py:class:`str<python.str>`, default: `'Trenberth-vibeta'`.
+    method: :py:class:`str <str>`, default: `'Trenberth-vibeta'`.
         Vertical integration method. Optional values are `Boer-vibeta`, `'Trenberth-vibeta'`.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.    
 
     Returns
@@ -1031,17 +1031,17 @@ def calc_divergence_watervaporflux(
         The zonal wind data.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional wind data.
-    specific_humidity_units: :py:class:`str<python.str>`.
+    specific_humidity_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
-    spherical_coord: :py:class:`bool<python.bool>`, default: `True`.
+    spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity. 
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -1084,23 +1084,23 @@ def calc_divergence_watervaporflux_top2surface_integral(
         The meridional wind data.
     surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Mean surface sea level pressure. 
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    specific_humidity_units: :py:class:`str<python.str>`.
+    specific_humidity_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
-    surface_pressure_data_units: :py:class:`str<python.str>`.
+    surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    spherical_coord: :py:class:`bool<python.bool>`, default: `True`.
+    spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    g: :py:class:`float<python.float>`, default: `9.8`.
+    g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity. 
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -1144,16 +1144,16 @@ def calc_u_advection(
         The zonal wind data.
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dx: :py:class:`float<python.float>`, default: `1.0`.
+    min_dx: :py:class:`float <float>`, default: `1.0`.
         The minimum acceptable value of `dx`, below which parts will set `nan` to avoid large computational errors. 
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
         Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float<python.float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 
     Returns
@@ -1182,7 +1182,7 @@ def calc_v_advection(
         The meridional wind data.
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -1209,9 +1209,9 @@ def calc_p_advection(
         The vertical velocity data (:math:`\\frac{\\mathrm{d} p}{\\mathrm{d} t}`).
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Air temperature.
-    vertical_dim: :py:class:`str<python.str>`.
+    vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    vertical_dim_units: :py:class:`str<python.str>`.
+    vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
 
     Returns

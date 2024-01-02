@@ -20,12 +20,12 @@ def assert_compared_version(
 
     Parameters
     ----------
-    - ver1: Version number 1
-    - ver2: Version number 2
+    - ver1: :py:class:`float <float>`, version number 1
+    - ver2: :py:class:`float <float>`, version number 2
 
     Returns
     -------
-    :py:class:`int<python.int>`.
+    :py:class:`int<int>`.
 
     .. note::
         If `ver1<ver2`, return `-1`; If `ver1=ver2`, return `0`; If `ver1>ver2`, return `1`.
@@ -71,12 +71,12 @@ def find_dims_axis(
     ----------
     - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    - dim : :py:class:`str<python.str>`
+    - dim : :py:class:`str <str>`
         Dimension(s) over which to find axis.
     
     Returns
     -------
-    :py:class:`int<python.int>`.
+    :py:class:`int <int>`.
     '''
     return data.dims.index(dim)
 
@@ -202,9 +202,9 @@ def get_weighted_spatial_data(
     ----------
     - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    - lat_dim: :py:class:`str<python.str>`.
+    - lat_dim: :py:class:`str <str>`.
         Latitude dimension over which to apply. By default is applied over the `lat` dimension.
-    - lon_dim: :py:class:`str<python.str>`.
+    - lon_dim: :py:class:`str <str>`.
         Longitude dimension over which to apply. By default is applied over the `lon` dimension.
     - method: {`'cos_lat'`, `'area'`}.
         area-weighting methods.
@@ -516,7 +516,7 @@ def transfer_xarray_lon_from180TO360(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -550,7 +550,7 @@ def transfer_xarray_lon_from360TO180(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -572,19 +572,21 @@ def transfer_xarray_lon_from360TO180(
     tmp = data_input.assign_coords({lon_dim: lon_array}).sortby(lon_dim)
     return tmp
 
-def module_available(module: str) -> bool:
+def module_available(
+    module: str
+) -> bool:
     """Checks whether a module is installed without importing it.
 
     Use this for a lightweight check and lazy imports.
 
     Parameters
     ----------
-    module : str
+    module : dim: :py:class:`str <str>`
         Name of the module.
 
     Returns
     -------
-    available : bool
+    available : :py:class:`bool <bool>`
         Whether the module is installed.
     """
     import importlib
@@ -594,7 +596,7 @@ def dequantify_metpy_xarraydata(
     data: xr.DataArray
 ) -> xr.DataArray:
     """
-    (Metpy) Return a new DataArray with the data as magnitude and the units as an attribute.
+    Return a new DataArray with the data as magnitude and the units as an attribute (Metpy).
 
     .. note::
 

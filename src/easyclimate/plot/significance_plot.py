@@ -27,19 +27,19 @@ def draw_significant_area_contourf(
     ----------
     p_value: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The p value data.
-    thresh: :py:class:`float<python.float>`.
+    thresh: :py:class:`float <float>`.
         The threshold value.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     ax : :py:class:`matplotlib.axes.Axes`, optional.
         Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
-    hatches: `list[str]`, default: `...`
+    hatches: :py:class:`list[str]`, default: `...`
         A list of cross hatch patterns to use on the filled areas. If None, no hatching will be added to the contour. Hatching is supported in the PostScript, PDF, SVG and Agg backends only.
-    hatch_colors, default: `k`.
+    hatch_colors: :py:class:`str <str>`, default: `k`.
         The colors of the hatches.
-    reverse_level_plot: :py:class:`bool<python.bool>`, default: `False`.
+    reverse_level_plot: :py:class:`bool<bool>`, default: `False`.
         Whether to reverse the drawing area.
     **kwargs, optional:
         Additional keyword arguments to :py:func:`xarray.plot.contourf<xarray.plot.contourf>`.
@@ -101,11 +101,11 @@ def get_significance_point(
     ----------
     p_value: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The p value data.
-    thresh: :py:class:`float<python.float>`.
+    thresh: :py:class:`float <float>`.
         The threshold value.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.    
 
     Returns
@@ -131,9 +131,9 @@ def draw_significant_area_scatter(
     ----------
     significant_points_dataframe: :py:class:`pandas.DataFrame <pandas.DataFrame>`.
         The data contains the significant points, which is obtained by the :py:func:`easyclimate.plot.get_significance_point <easyclimate.plot.get_significance_point>`.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension. 
     ax : :py:class:`matplotlib.axes.Axes`, optional
         Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
@@ -141,7 +141,7 @@ def draw_significant_area_scatter(
         Additional keyword arguments to :py:func:`matplotlib.axes.Axes.scatter<matplotlib.axes.Axes.scatter>`.
 
         .. attention::
-            You must specify `transform = ccrs.PlateCarree()` (`import cartopy.crs as ccrs`) in the cartopy `GeoAxes` or `GeoAxesSubplot`, otherwise projection errors may occur.
+            You must specify `kwargs = {'transform': ccrs.PlateCarree()}` (`import cartopy.crs as ccrs`) in the cartopy `GeoAxes` or `GeoAxesSubplot`, otherwise projection errors may occur.
     """
     if ax == None:
         ax = plt.gca()

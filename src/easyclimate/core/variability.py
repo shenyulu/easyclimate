@@ -14,7 +14,7 @@ __all__ =  ["calc_all_climatological_mean", "calc_seasonal_climatological_mean",
 
 def calc_all_climatological_mean(
     data_input: xr.DataArray | xr.Dataset, 
-    dim = 'time', 
+    dim: str = 'time', 
     **kwargs
 ) -> xr.DataArray:
     """
@@ -24,7 +24,7 @@ def calc_all_climatological_mean(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data. 
@@ -38,7 +38,7 @@ def calc_all_climatological_mean(
 
 def calc_seasonal_climatological_mean(
     data_input: xr.DataArray | xr.Dataset,
-    dim = 'time',
+    dim: str = 'time',
     **kwargs
 ) -> xr.DataArray:
     """
@@ -48,7 +48,7 @@ def calc_seasonal_climatological_mean(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data. 
@@ -62,7 +62,7 @@ def calc_seasonal_climatological_mean(
 
 def calc_seasonal_cycle_mean(
     data_input: xr.DataArray | xr.Dataset,
-    dim = 'time',
+    dim: str = 'time',
     **kwargs
 ) -> xr.DataArray:
     """
@@ -75,7 +75,7 @@ def calc_seasonal_cycle_mean(
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data. 
@@ -89,7 +89,7 @@ def calc_seasonal_cycle_mean(
 
 def calc_seasonal_cycle_std(
     data_input: xr.DataArray | xr.Dataset,
-    dim = 'time',
+    dim: str = 'time',
     **kwargs
 ) -> xr.DataArray:
     """
@@ -102,7 +102,7 @@ def calc_seasonal_cycle_std(
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating standard deviation on this object's data. 
@@ -116,7 +116,7 @@ def calc_seasonal_cycle_std(
 
 def calc_seasonal_cycle_var(
     data_input: xr.DataArray | xr.Dataset,
-    dim = 'time',
+    dim: str = 'time',
     **kwargs
 ) -> xr.DataArray:
     """
@@ -129,7 +129,7 @@ def calc_seasonal_cycle_var(
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating variance on this object's data. 
@@ -143,7 +143,7 @@ def calc_seasonal_cycle_var(
 
 def remove_seasonal_cycle_mean(
     data_input: xr.DataArray | xr.Dataset, 
-    dim = 'time', 
+    dim: str = 'time', 
     **kwargs
 ) -> xr.DataArray:
     """
@@ -156,7 +156,7 @@ def remove_seasonal_cycle_mean(
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data. 
@@ -171,7 +171,7 @@ def remove_seasonal_cycle_mean(
 
 def calc_monthly_climatological_std_without_seasonal_cycle_mean(
     data_input: xr.DataArray | xr.Dataset,
-    dim = 'time',
+    dim: str = 'time',
     **kwargs
 ) -> xr.DataArray:
     """
@@ -184,7 +184,7 @@ def calc_monthly_climatological_std_without_seasonal_cycle_mean(
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating standard deviation on this object's data. 
@@ -198,7 +198,7 @@ def calc_monthly_climatological_std_without_seasonal_cycle_mean(
 
 def calc_monthly_climatological_var_without_seasonal_cycle_mean(
     data_input: xr.DataArray | xr.Dataset,
-    dim = 'time',
+    dim: str = 'time',
     **kwargs
 ) -> xr.DataArray:
     """
@@ -211,7 +211,7 @@ def calc_monthly_climatological_var_without_seasonal_cycle_mean(
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim : :py:class:`str<python.str>`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating variance on this object's data. 
@@ -225,8 +225,8 @@ def calc_monthly_climatological_var_without_seasonal_cycle_mean(
 
 def calc_horizontal_wind_components_std(
     uv_dataset: xr.Dataset,
-    u = 'u',
-    v = 'v',
+    u_dim = 'u',
+    v_dim = 'v',
     time_dim = 'time',
     ddof = 0
 ) -> xr.Dataset:
@@ -253,13 +253,13 @@ def calc_horizontal_wind_components_std(
     ----------
     uv_dataset : :py:class:`xarray.Dataset<xarray.Dataset>`
         :py:class:`xarray.Dataset<xarray.Dataset>` data containing zonal and meridional wind components.
-    u : str, default: `u`
+    u_dim: :py:class:`str <str>`, default: `u`
         Variable name for the u velocity (in x direction).
-    v : str, default: `v`
+    v_dim: :py:class:`str <str>`, default: `v`
         Variable name for the v velocity (in y direction).
-    time_dim : str, default: `time`
+    time_dim : :py:class:`str <str>`, default: `time`
         Dimension(s) over which to apply. By default is applied over the `time` dimension.
-    ddof : int, default: 1
+    ddof : :py:class:`int <int>`, default: 1
         If `ddof=1`, covariance is normalized by `N-1`, giving an unbiased estimate, else normalization is by `N`.
 
     Returns
@@ -273,14 +273,14 @@ def calc_horizontal_wind_components_std(
     G. R. Ackermann. (1983). Means and Standard Deviations of Horizontal Wind Components. 
     Website: https://doi.org/10.1175/1520-0450(1983)022%3C0959:MASDOH%3E2.0.CO;2    
     '''
-    U = uv_dataset[u].mean(dim = time_dim)
-    V = uv_dataset[v].mean(dim = time_dim)
+    U = uv_dataset[u_dim].mean(dim = time_dim)
+    V = uv_dataset[v_dim].mean(dim = time_dim)
     S = np.hypot(U, V)
     # D = np.arctan(U / V)
 
-    sigma2_u = uv_dataset[u].var(dim = time_dim)
-    sigma2_v = uv_dataset[v].var(dim = time_dim)
-    sigma_uv = xr.cov(uv_dataset[u], uv_dataset[v], dim = time_dim, ddof = ddof)
+    sigma2_u = uv_dataset[u_dim].var(dim = time_dim)
+    sigma2_v = uv_dataset[v_dim].var(dim = time_dim)
+    sigma_uv = xr.cov(uv_dataset[u_dim], uv_dataset[v_dim], dim = time_dim, ddof = ddof)
 
     sigma_s = (U**2 * sigma2_u + V**2 * sigma2_v + 2 * U * V * sigma_uv)**(1/2) * S**(-1)
     sigma_d = (V**2 * sigma2_u + U**2 * sigma2_v - 2 * U * V * sigma_uv)**(1/2) * S**(-2)

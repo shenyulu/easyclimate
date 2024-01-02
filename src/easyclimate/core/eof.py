@@ -36,11 +36,11 @@ def get_EOF_model(
     ----------
     data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
          The spatio-temporal data to be calculated.
-    lat_dim: :py:class:`str<python.str>`.
+    lat_dim: :py:class:`str <str>`.
         Latitude coordinate dimension name.
-    lon_dim: :py:class:`str<python.str>`.
+    lon_dim: :py:class:`str <str>`.
         Longitude coordinate dimension name.
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
     n_modes: :py:class:`int<int>`, default `10`.
         Number of modes to calculate.
@@ -112,7 +112,7 @@ def save_EOF_model(
         Whether or not to overwrite the existing path if it already exists. Ignored unless `engine = "zarr"`.
     save_data: :py:class:`bool <bool>`, default `False`
         Whether or not to save the full input data along with the fitted components.
-    engine: ["zarr", "netcdf4", "h5netcdf"], default `"zarr"`
+    engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for writing the saved model.
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
@@ -131,7 +131,7 @@ def load_EOF_model(
     ----------
     path: :py:class:`str <str>`
         Path to the saved model.
-    engine: ["zarr", "netcdf4", "h5netcdf"], default `"zarr"`
+    engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for reading the saved model.
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `open_datatree()`.
@@ -158,9 +158,9 @@ def calc_EOF_analysis(
     -------
     The results of the EOF model :py:class:`xarray.Dataset<xarray.Dataset>`.
 
-    - EOF: The (EOF) components. The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.
-    - PC: The (PC) scores. The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.
-    - explained_variance: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as 
+    - **EOF: The (EOF) components**: The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.
+    - **PC: The (PC) scores**: The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.
+    - **explained_variance**: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as 
     
     .. math::
 
@@ -169,7 +169,7 @@ def calc_EOF_analysis(
         
     where :math:`\\sigma_i` is the singular value of the :math:`i`-th mode and :math:`N` is the number of samples. Equivalently, :math:`\\lambda_i` is the :math:`i`-th eigenvalue of the covariance matrix.
 
-    - explained_variance_ratio: The explained variance ratio. The explained variance ratio :math:`\\gamma_i` is the variance explained by each mode normalized by the total variance. It is defined as
+    - **explained_variance_ratio**: The explained variance ratio. The explained variance ratio :math:`\\gamma_i` is the variance explained by each mode normalized by the total variance. It is defined as
 
     .. math::
 
@@ -178,7 +178,7 @@ def calc_EOF_analysis(
         
     where :math:`\\lambda_i` is the explained variance of the :math:`i`-th mode and :math:`M` is the total number of modes.
 
-    - singular_values: The singular values of the Singular Value Decomposition (SVD).
+    - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
     """
     model_output = xr.Dataset()
     model_output['EOF'] = model.components()
@@ -239,11 +239,11 @@ def get_REOF_model(
     ----------
     data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
          The spatio-temporal data to be calculated.
-    lat_dim: :py:class:`str<python.str>`.
+    lat_dim: :py:class:`str <str>`.
         Latitude coordinate dimension name.
-    lon_dim: :py:class:`str<python.str>`.
+    lon_dim: :py:class:`str <str>`.
         Longitude coordinate dimension name.
-    time_dim: :py:class:`str<python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
     n_modes: :py:class:`int<int>`, default `10`.
         Number of modes to calculate.
@@ -323,7 +323,7 @@ def save_REOF_model(
         Whether or not to overwrite the existing path if it already exists. Ignored unless `engine = "zarr"`.
     save_data: :py:class:`bool <bool>`, default `False`
         Whether or not to save the full input data along with the fitted components.
-    engine: ["zarr", "netcdf4", "h5netcdf"], default `"zarr"`
+    engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for writing the saved model.
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
@@ -342,7 +342,7 @@ def load_REOF_model(
     ----------
     path: :py:class:`str <str>`
         Path to the saved model.
-    engine: ["zarr", "netcdf4", "h5netcdf"], default `"zarr"`
+    engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for reading the saved model.
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `open_datatree()`.
@@ -369,9 +369,9 @@ def calc_REOF_analysis(
     -------
     The results of the EOF model :py:class:`xarray.Dataset<xarray.Dataset>`.
 
-    - EOF: The (EOF) components. The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.
-    - PC: The (PC) scores. The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.
-    - explained_variance: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as 
+    - **EOF: The (EOF) components**: The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.
+    - **PC: The (PC) scores**: The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.
+    - **explained_variance**: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as 
     
     .. math::
 
@@ -379,7 +379,7 @@ def calc_REOF_analysis(
 
     where :math:`\\sigma_i` is the singular value of the :math:`i`-th mode and :math:`N` is the number of samples. Equivalently, :math:`\\lambda_i` is the :math:`i`-th eigenvalue of the covariance matrix.
 
-    - explained_variance_ratio: The explained variance ratio. The explained variance ratio :math:`\\gamma_i` is the variance explained by each mode normalized by the total variance. It is defined as
+    - **explained_variance_ratio**: The explained variance ratio. The explained variance ratio :math:`\\gamma_i` is the variance explained by each mode normalized by the total variance. It is defined as
 
     .. math::
 
@@ -388,7 +388,7 @@ def calc_REOF_analysis(
     where :math:`\\lambda_i` is the explained variance of the :math:`i`-th mode and :math:`M` is the total number of modes.
 
 
-    - singular_values: The singular values of the Singular Value Decomposition (SVD).
+    - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
     """
     model_output = xr.Dataset()
     model_output['EOF'] = model.components()
@@ -551,7 +551,7 @@ def save_MCA_model(
         Whether or not to overwrite the existing path if it already exists. Ignored unless `engine = "zarr"`.
     save_data: :py:class:`bool <bool>`, default `False`
         Whether or not to save the full input data along with the fitted components.
-    engine: ["zarr", "netcdf4", "h5netcdf"], default `"zarr"`
+    engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for writing the saved model.
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
@@ -570,7 +570,7 @@ def load_MCA_model(
     ----------
     path: :py:class:`str <str>`
         Path to the saved model.
-    engine: ["zarr", "netcdf4", "h5netcdf"], default `"zarr"`
+    engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for reading the saved model.
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `open_datatree()`.
@@ -602,9 +602,9 @@ def calc_MCA_analysis(
     -------
     The results of the MCA model (:py:class:`datatree.DataTree <datatree.DataTree>`).
 
-    - EOF: The singular vectors of the left and right field.
-    - PC: The scores of the left and right field. The scores in MCA are the projection of the left and right field onto the left and right singular vector of the cross-covariance matrix.
-    - covariance_fraction: The covariance fraction (CF).
+    - **EOF**: The singular vectors of the left and right field.
+    - **PC**: The scores of the left and right field. The scores in MCA are the projection of the left and right field onto the left and right singular vector of the cross-covariance matrix.
+    - **covariance_fraction**: The covariance fraction (CF).
 
       Cheng and Dunkerton (1995) define the CF as follows:
 
@@ -620,9 +620,9 @@ def calc_MCA_analysis(
 
         It is important to differentiate the CF from the squared covariance fraction (SCF). While the SCF is an invariant quantity in MCA, the CF is not. Therefore, the SCF is used to assess the relative importance of each mode. Cheng and Dunkerton (1995) introduced the CF in the context of Varimax-rotated MCA to compare the relative importance of each mode before and after rotation. In the special case of both data fields in MCA being identical, the CF is equivalent to the explained variance ratio in EOF analysis.
 
-    - singular_values: The singular values of the cross-covariance matrix.
-    - squared_covariance: The squared covariance. The squared covariance corresponds to the explained variance in PCA and is given by the squared singular values of the covariance matrix.
-    - squared_covariance_fraction: The squared covariance fraction (SCF).
+    - **singular_values**: The singular values of the cross-covariance matrix.
+    - **squared_covariance**: The squared covariance. The squared covariance corresponds to the explained variance in PCA and is given by the squared singular values of the covariance matrix.
+    - **squared_covariance_fraction**: The squared covariance fraction (SCF).
 
       The SCF is a measure of the proportion of the total squared covariance that is explained by each mode :math:`i`. It is computed as follows:
 
@@ -632,7 +632,7 @@ def calc_MCA_analysis(
 
       where :math:`m` is the total number of modes and :math:`\\sigma_i` is the :math:`i`-th singular value of the covariance matrix.
 
-    - heterogeneous_patterns: The heterogeneous patterns of the left and right field.
+    - **heterogeneous_patterns**: The heterogeneous patterns of the left and right field.
 
       The heterogeneous patterns are the correlation coefficients between the input data and the scores of the other field.
 
@@ -644,7 +644,7 @@ def calc_MCA_analysis(
 
       where :math:`X` and :math:`Y` are the input data, :math:`A_x` and :math:`A_y` are the scores of the left and right field, respectively.
 
-    - homogeneous_patterns: The homogeneous patterns of the left and right field.
+    - **homogeneous_patterns**: The homogeneous patterns of the left and right field.
 
       The homogeneous patterns are the correlation coefficients between the input data and the scores.
 
@@ -739,8 +739,8 @@ def get_MCA_projection(
     Returns
     -------
     scores: :py:class:`datatree.DataTree <datatree.DataTree>`
-        - scores1: Left scores.
-        - scores2: Right scores.
+        - **scores1**: Left scores.
+        - **scores2**: Right scores.
     """
     scores1, scores2 = model.transform(data1 = data_left, data2 = data_right)
     scores1.name = 'scores1'

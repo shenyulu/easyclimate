@@ -13,26 +13,26 @@ __all__ = ["calc_butter_bandpass", "calc_butter_lowpass", "calc_butter_highpass"
 def calc_butter_bandpass(
     data: xr.DataArray | xr.Dataset,
     sampling_frequency: int, 
-    period: list, 
-    N = 3, 
-    dim = 'time'
+    period: list[int], 
+    N: int = 3, 
+    dim: str = 'time'
 ) -> xr.DataArray:
     """Butterworth bandpass filter.
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+    data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
-    - sampling_frequency: int.
+    sampling_frequency: :py:class:`int <int>`.
         Data sampling frequency. If it is daily data with only one time level record per day, 
         then the parameter value is 1; If a day contains four time level records, the parameter value is 4.
-    - period: list.
+    period: :py:class:`list[int]`.
         The time period interval of the bandpass filter to be acquired. 
         If we are obtaining a 3-10 day bandpass filter, the value of this parameter is `[3, 10]`. 
         Note that the units of this parameter should be consistent with `sampling_frequency`.
-    - N: int.
+    N: :py:class:`int <int>`.
         The order of the filter. Default is 3.
-    - dim: str.
+    dim: :py:class:`str <str>`..
         Dimension(s) over which to apply bandpass filter. By default gradient is applied over the `time` dimension.
 
     .. seealso::
@@ -49,25 +49,25 @@ def calc_butter_lowpass(
     data: xr.DataArray | xr.Dataset,
     sampling_frequency: int,
     period: float,
-    N = 3,
-    dim = 'time'
+    N: int = 3,
+    dim: str = 'time'
 ) -> xr.DataArray:
     """Butterworth lowpass filter.
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+    data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
-    - sampling_frequency: int.
+    sampling_frequency: :py:class:`int <int>`.
         Data sampling frequency. If it is daily data with only one time level record per day, 
         then the parameter value is 1; If a day contains four time level records, the parameter value is 4.
-    - period: float.
+    period: :py:class:`float <float>`.
         The low-pass filtering time period, above which the signal (low frequency signal) will pass. 
         If you are getting a 10-day low-pass filter, the value of this parameter is `10`. 
         Note that the units of this parameter should be consistent with `sampling_frequency`.
-    - N: int.
+    N: :py:class:`int <int>`.
         The order of the filter. Default is 3.
-    - dim: str.
+    dim: :py:class:`str <str>`..
         Dimension(s) over which to apply lowpass filter. By default gradient is applied over the `time` dimension.
 
     .. seealso::
@@ -84,25 +84,25 @@ def calc_butter_highpass(
     data: xr.DataArray | xr.Dataset,
     sampling_frequency: int,
     period: float,
-    N = 3,
-    dim = 'time'
+    N: int = 3,
+    dim: str = 'time'
 ) -> xr.DataArray:
     """Butterworth highpass filter.
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+    data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
-    - sampling_frequency: int.
+    sampling_frequency: :py:class:`int <int>`.
         Data sampling frequency. If it is daily data with only one time level record per day, 
         then the parameter value is 1; If a day contains four time level records, the parameter value is 4.
-    - period: float.
+    period: :py:class:`float <float>`.
         The high-pass filtering time period below which the signal (high-frequency signal) will pass. 
         If you are obtaining a 10-day high-pass filter, the value of this parameter is `10`. 
         Note that the units of this parameter should be consistent with `sampling_frequency`.
-    - N: int.
+    N: :py:class:`int <int>`.
         The order of the filter. Default is 3.
-    - dim: str.
+    dim: :py:class:`str <str>`..
         Dimension(s) over which to apply highpass filter. By default gradient is applied over the `time` dimension.
 
     .. seealso::

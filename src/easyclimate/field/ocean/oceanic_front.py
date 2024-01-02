@@ -30,15 +30,15 @@ def calc_intensity_STFZ(
     ----------
     sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
-    criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
+    criteria: :py:class:`float <float>`, default: `0.45 *1e-5`.
         Empirically-given critical value.
     lat_range: :py:class:`list<python.list>`, default: `[24, 32]`.
         The latitude range of the oceanic frontal zone.
     lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
         The longitude range of the oceanic frontal zone.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -78,15 +78,15 @@ def calc_intensity_SAFZ(
     ----------
     sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
-    criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
+    criteria: :py:class:`float <float>`, default: `0.80 *1e-5`.
         Empirically-given critical value.
     lat_range: :py:class:`list<python.list>`, default: `[36, 44]`.
         The latitude range of the oceanic frontal zone.
     lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
         The longitude range of the oceanic frontal zone.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -126,15 +126,15 @@ def calc_location_STFZ(
     ----------
     sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
-    criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
+    criteria: :py:class:`float <float>`, default: `0.45 *1e-5`.
         Empirically-given critical value.
     lat_range: :py:class:`list<python.list>`, default: `[24, 32]`.
         The latitude range of the oceanic frontal zone.
     lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
         The longitude range of the oceanic frontal zone.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -178,15 +178,15 @@ def calc_location_SAFZ(
     ----------
     sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
-    criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
+    criteria: :py:class:`float <float>`, default: `0.80 *1e-5`.
         Empirically-given critical value.
     lat_range: :py:class:`list<python.list>`, default: `[36, 44]`.
         The latitude range of the oceanic frontal zone.
     lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
         The longitude range of the oceanic frontal zone.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -230,15 +230,15 @@ def calc_location_line_STFZ(
     ----------
     sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
-    criteria: :py:class:`float<python.float>`, default: `0.45 *1e-5`.
+    criteria: :py:class:`float <float>`, default: `0.45 *1e-5`.
         Empirically-given critical value.
     lat_range: :py:class:`list<python.list>`, default: `[24, 32]`.
         The latitude range of the oceanic frontal zone.
     lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
         The longitude range of the oceanic frontal zone.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -282,15 +282,15 @@ def calc_location_line_SAFZ(
     ----------
     sst_DtDy_data : :py:class:`xarray.DataArray<xarray.DataArray>` 
         The SST meridional gradient data.
-    criteria: :py:class:`float<python.float>`, default: `0.80 *1e-5`.
+    criteria: :py:class:`float <float>`, default: `0.80 *1e-5`.
         Empirically-given critical value.
     lat_range: :py:class:`list<python.list>`, default: `[36, 44]`.
         The latitude range of the oceanic frontal zone.
     lon_range: :py:class:`list<python.list>`, default: `[145, 215]`.
         The longitude range of the oceanic frontal zone.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns

@@ -28,26 +28,26 @@ def original_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
     def _top_test(data_input, dim, alpha):
@@ -132,28 +132,28 @@ def hamed_rao_modification_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    lag: int.
+    lag: :py:class:`int <int>`.
         No. of First Significant Lags
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
     def _top_test(data_input, dim, alpha, lag = lag):
@@ -238,28 +238,28 @@ def yue_wang_modification_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    lag: int.
+    lag: :py:class:`int <int>`.
         No. of First Significant Lags
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """    
     def _top_test(data_input, dim, alpha, lag = lag):
         def mk_test(data):
@@ -342,26 +342,26 @@ def pre_whitening_modification_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
     def _top_test(data_input, dim, alpha):
         def mk_test(data):
@@ -444,26 +444,26 @@ def trend_free_pre_whitening_modification_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
     def _top_test(data_input, dim, alpha):
         def mk_test(data):
@@ -547,28 +547,28 @@ def seasonal_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         Significance level (0.05 is the default).
-    period: int, default 12.
+    period: :py:class:`int <int>`, default 12.
         Seasonal cycle. For monthly data it is 12, weekly data it is 52.
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
     def _top_test(data_input, dim, alpha, period):
         def mk_test(data):
@@ -651,26 +651,26 @@ def regional_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
     def _top_test(data_input, dim, alpha):
@@ -755,26 +755,28 @@ def correlated_seasonal_test(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    period: :py:class:`int <int>`, default 12.
+        Seasonal cycle. For monthly data it is 12, weekly data it is 52.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
     def _top_test(data_input, dim, alpha, period):
         def mk_test(data):
@@ -857,19 +859,19 @@ def sens_slope(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
+    alpha: :py:class:`float <float>`, default 0.05.
         significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
     def _top_test(data_input, dim):
@@ -923,26 +925,26 @@ def seasonal_sens_slope(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    dim: str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply MK test.
-    alpha: float, default 0.05.
-        significance level (0.05 is the default).
-    returns_type: str, default `dataset_returns`.
+    period: :py:class:`int <int>`, default 12.
+        Seasonal cycle. For monthly data it is 12, weekly data it is 52.
+    returns_type: :py:class:`str <str>`, default `dataset_returns`.
         Returns the sorting type of the value. Sort by variable (`dataset_returns`) or by return value (`dataset_vars`).
 
     Returns
     -------
     Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
 
-    - trend: tells the trend (increasing, decreasing or no trend)
-    - h: True (if trend is present) or False (if the trend is absence)
-    - p: p-value of the significance test
-    - z: normalized test statistics
-    - Tau: Kendall Tau
-    - s: Mann-Kendal's score
-    - var_s: Variance S
-    - slope: Theil-Sen estimator/slope
-    - intercept: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
+    - **trend**: tells the trend (increasing, decreasing or no trend)
+    - **h**: True (if trend is present) or False (if the trend is absence)
+    - **p**: p-value of the significance test
+    - **z**: normalized test statistics
+    - **Tau**: Kendall Tau
+    - **s**: Mann-Kendal's score
+    - **var_s**: Variance S
+    - **slope**: Theil-Sen estimator/slope
+    - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
     """
         
     def _top_test(data_input, dim, period):

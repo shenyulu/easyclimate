@@ -7,10 +7,7 @@ import warnings
 
 from scipy import stats
 from scipy import signal
-from scipy.stats import t
-
-from .utility import *
-from .utility import generate_datatree_dispatcher
+from .utility import (generate_datatree_dispatcher, find_dims_axis)
 
 from datatree import DataTree
 
@@ -30,13 +27,13 @@ def calc_linregress_spatial(
 
     Parameters
     ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+    data_input: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>` to be regression.
-    dim : str, default `time`.
+    dim: :py:class:`str <str>`, default `time`.
         Dimension(s) over which to apply linregress. By default linregress is applied over the `time` dimension.
-    x : numpy.array
+    x: :py:class:`numpy.array <numpy.array>`
         Independent variable. If None, use `np.arange(len(data_input['time'].shape[0]))` instead.
-    returns_type: str, default `'dataset_returns'`.
+    returns_type: :py:class:`str <str>`, default `'dataset_returns'`.
         Return data type.
     
     Returns
@@ -44,22 +41,22 @@ def calc_linregress_spatial(
     result : ``LinregressResult`` Dataset
         The return Dataset have following data_var:
 
-        slope : float
+        **slope**: :py:class:`float <float>`
             Slope of the regression line.
-        intercept : float
+        **intercept**: :py:class:`float <float>`
             Intercept of the regression line.
-        rvalue : float
+        **rvalue**: :py:class:`float <float>`
             The Pearson correlation coefficient. The square of ``rvalue``
             is equal to the coefficient of determination.
-        pvalue : float
+        **pvalue**: :py:class:`float <float>`
             The p-value for a hypothesis test whose null hypothesis is
             that the slope is zero, using Wald Test with t-distribution of
             the test statistic. See `alternative` above for alternative
             hypotheses.
-        stderr : float
+        **stderr**: :py:class:`float <float>`
             Standard error of the estimated slope (gradient), under the
             assumption of residual normality.
-        intercept_stderr : float
+        **intercept_stderr**: :py:class:`float <float>`
             Standard error of the estimated intercept, under the assumption
             of residual normality.
 
@@ -146,9 +143,9 @@ def calc_detrend_data(
 
     Parameters
     ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+    data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
          The spatio-temporal data of :py:class:`xarray.DataArray<xarray.DataArray>` to be detrended.
-    dim : `str`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to detrend. By default dimension is applied over the `time` dimension.
 
     Returns
@@ -179,20 +176,20 @@ def calc_ttestSpatialPattern_spatial(
 
     Parameters
     ----------
-    data_input1 : :py:class:`xarray.DataArray<xarray.DataArray>`
+    data_input1: :py:class:`xarray.DataArray<xarray.DataArray>`
          The first spatio-temporal data of xarray DataArray to be calculated.
-    data_input2 : :py:class:`xarray.DataArray<xarray.DataArray>`
+    data_input2: :py:class:`xarray.DataArray<xarray.DataArray>`
          The second spatio-temporal data of xarray DataArray to be calculated.
 
     .. note::
         The order of `data_input1` and `data_input2` has no effect on the calculation result.
 
-    dim : `str`
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply skewness. By default skewness is applied over the `time` dimension.
 
     Returns
     -------
-    - statistic, pvalue: :py:class:`xarray.Dataset<xarray.Dataset>`.
+    - **statistic**, **pvalue**: :py:class:`xarray.Dataset<xarray.Dataset>`.
 
     .. seealso::
         :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.
@@ -251,14 +248,14 @@ def calc_skewness_spatial(
     
     Parameters
     ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+    data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
          The spatio-temporal data of xarray DataArray to be calculated.
-    dim : str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply skewness. By default skewness is applied over the `time` dimension.
 
     Returns
     -------
-    - skewness, pvalue: :py:class:`xarray.Dataset<xarray.Dataset>`.
+    - **skewness**, **pvalue**: :py:class:`xarray.Dataset<xarray.Dataset>`.
     
     Reference
     --------------
@@ -321,9 +318,9 @@ def calc_kurtosis_spatial(
 
     Parameters
     ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+    data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
          The spatio-temporal data of xarray DataArray to be calculated.
-    dim : str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply kurtosis. By default kurtosis is applied over the `time` dimension.
 
     Returns
@@ -376,11 +373,11 @@ def calc_theilslopes_spatial(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>` to be regression.
-    dim : str, default `time`.
+    dim: :py:class:`str <str>`, default `time`.
         Dimension(s) over which to apply linregress. By default linregress is applied over the `time` dimension.
-    x : numpy.array
+    x: :py:class:`numpy.array <numpy.array>`
         Independent variable. If None, use `np.arange(len(data_input['time'].shape[0]))` instead.
-    alpha: float, default 0.95.
+    alpha: :py:class:`float <float>`, default 0.95.
         Confidence degree between 0 and 1. Default is 95% confidence. Note that alpha is symmetric around 0.5, i.e. both 0.1 and 0.9 are interpreted as "find the 90% confidence interval".
     method: {'joint', 'separate'}, default `'separate'`.
         Method to be used for computing estimate for intercept. Following methods are supported,
@@ -388,7 +385,7 @@ def calc_theilslopes_spatial(
         - *joint*: Uses `np.median(y - slope * x)` as intercept.
         - *separate*: Uses `np.median(y) - slope * np.median(x)` as intercept.
 
-    returns_type: str, default `'dataset_returns'`.
+    returns_type: :py:class:`str <str>`, default `'dataset_returns'`.
         Return data type.
     
     Returns
@@ -396,13 +393,13 @@ def calc_theilslopes_spatial(
     result : ``TheilslopesResult`` Dataset
         The return Dataset have following data_var:
 
-        slope : float
+        **slope**: :py:class:`float <float>`
             Theil slope.
-        intercept : float
+        **intercept**: :py:class:`float <float>`
             Intercept of the Theil line.
-        low_slope : float
+        **low_slope**: :py:class:`float <float>`
             Lower bound of the confidence interval on `slope`.
-        high_slope : float
+        **high_slope**: :py:class:`float <float>`
             Upper bound of the confidence interval on `slope`.
 
     .. seealso::

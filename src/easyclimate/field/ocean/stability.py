@@ -24,13 +24,13 @@ def calc_N2_from_temp_salt(
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).
-    time_dim: :py:class:`str<python.str>` or `None`, default: `time`.
+    time_dim: :py:class:`str <str>` or `None`, default: `time`.
         The time coordinate dimension name.
-    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+    depth_dim: :py:class:`str <str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -167,13 +167,13 @@ def calc_potential_density_from_temp_salt(
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).
-    time_dim: :py:class:`str<python.str>` or `None`, default: `time`.
+    time_dim: :py:class:`str <str>` or `None`, default: `time`.
         The time coordinate dimension name.
-    depth_dim: :py:class:`str<python.str>`, default: `depth`.
+    depth_dim: :py:class:`str <str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns

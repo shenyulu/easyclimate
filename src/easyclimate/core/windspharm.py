@@ -35,20 +35,20 @@ def calc_wind_speed(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.    
 
     Returns
@@ -79,22 +79,22 @@ def calc_relative_vorticity_and_horizontal_divergence(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -130,22 +130,22 @@ def calc_relative_vorticity(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -177,22 +177,22 @@ def calc_divergence(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -224,22 +224,22 @@ def calc_planetary_vorticity(
         The zonal component of the wind.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    omega: :py:class:`float`.
+    omega: :py:class:`float <float>`.
         Earth's angular velocity. The default value if not specified is :math:`7.292 \times 10^{-5} \mathrm{s^{-1}}`.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -272,24 +272,24 @@ def calc_absolute_vorticity(
         The zonal component of the wind.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    omega: :py:class:`float`.
+    omega: :py:class:`float <float>`.
         Earth's angular velocity. The default value if not specified is :math:`7.292 \times 10^{-5} \mathrm{s^{-1}}`.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -321,22 +321,22 @@ def calc_streamfunction_and_velocity_potential(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.    
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -372,22 +372,22 @@ def calc_streamfunction(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.    
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -419,22 +419,22 @@ def calc_velocity_potential(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.    
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -466,22 +466,22 @@ def calc_helmholtz(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.    
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -519,22 +519,22 @@ def calc_irrotational_component(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.    
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -570,22 +570,22 @@ def calc_nondivergent_component(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.    
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -626,22 +626,22 @@ def calc_rossby_wave_source(
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
@@ -686,22 +686,22 @@ def calc_gradient(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         The spatio-temporal data to be calculated.
-    truncation: :py:class:`int`.
+    truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float`.
+    R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
         mean spherical Earth radius.
-    legfunc: :py:class:`str`, 'stored' (default) or 'computed'.
+    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
         created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
         :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns

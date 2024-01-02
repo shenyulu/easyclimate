@@ -45,11 +45,11 @@ def interp_mesh2mesh(
             target_grid['lat'] = np.arange(-89, 89, 3) + 1 / 1.0
             target_grid['lon'] = np.arange(-180, 180, 3) + 1 / 1.0
 
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    method: :py:class:`str<python.str>`, default: `linear`.
+    method: :py:class:`str <str>`, default: `linear`.
         The methods of regridding.
 
         - `linear`: linear, bilinear, or higher dimensional linear interpolation.

@@ -38,7 +38,7 @@ def calc_timeseries_wavelet_transform(
         Timeseries data.
     dt: :py:class:`float<float>`.
         Amount of time between each timeseries data value, i.e. the sampling time.
-    time_dim: :py:class:`str<python.str>`.
+    time_dim: :py:class:`str <str>`.
         The time coordinate dimension name.
     pad: :py:class:`float<float>`, default: `1`.
         if set to 1 (default is 0), pad time series with zeroes to get N up to the next higher power of 2. 
@@ -303,11 +303,11 @@ def draw_global_wavelet_spectrum(
     ----------
     timeseries_wavelet_transform_result: :py:class:`xarray.Dataset<xarray.Dataset>`.
         Timeseries wavelet transform result.
-    ax : :py:class:`matplotlib.axes.Axes`
+    ax: :py:class:`matplotlib.axes.Axes`
         The axes to which the boundary will be applied.
-    **global_ws_kwargs, optional:
+    **global_ws_kwargs, :py:class:`dict <dict>`, optional:
         Additional keyword arguments to :py:func:`xarray.DataArray.plot.line<xarray.DataArray.plot.line>` for ploting `global_ws`.
-    **global_signif_kwargs, optional, default {'ls': '--'}:
+    **global_signif_kwargs, :py:class:`dict <dict>`, optional, default {'ls': '--'}:
         Additional keyword arguments to :py:func:`xarray.DataArray.plot.line<xarray.DataArray.plot.line>` for ploting `global_signif`.
     """
     if ax == None:
@@ -344,13 +344,13 @@ def draw_wavelet_transform(
         Timeseries wavelet transform result.
     ax : :py:class:`matplotlib.axes.Axes`
         The axes to which the boundary will be applied.
-    **power_kwargs, optional, default {'levels': [0, 0.5, 1, 2, 4, 999], 'colors': ['white', 'bisque', 'orange', 'orangered', 'darkred']}:
+    **power_kwargs, optional, :py:class:`dict <dict>`, default {'levels': [0, 0.5, 1, 2, 4, 999], 'colors': ['white', 'bisque', 'orange', 'orangered', 'darkred']}:
         Additional keyword arguments to :py:func:`xarray.DataArray.plot.contourf<xarray.DataArray.plot.contourf>` for ploting `power`.
-    **sig_kwargs, optional, default {'levels': [-99, 1], 'colors': 'k'}:
+    **sig_kwargs, optional, :py:class:`dict <dict>`, default {'levels': [-99, 1], 'colors': 'k'}:
         Additional keyword arguments to :py:func:`xarray.DataArray.plot.contourf<xarray.DataArray.plot.contourf>` for ploting `sig`.
-    **coi_kwargs, optional, default {'color': 'k'}:
+    **coi_kwargs, optional, :py:class:`dict <dict>`, default {'color': 'k'}:
         Additional keyword arguments to :py:func:`xarray.DataArray.plot.contourf<xarray.DataArray.plot.contourf>` for ploting `coi`.
-    **fill_between_kwargs, optional, default {'facecolor': 'none', 'edgecolor': '#00000040', 'hatch': 'x'}:
+    **fill_between_kwargs, :py:class:`dict <dict>`, optional, default {'facecolor': 'none', 'edgecolor': '#00000040', 'hatch': 'x'}:
         Additional keyword arguments to :py:func:`matplotlib.pyplot.fill_between<matplotlib.pyplot.fill_between>`.
     """
     if ax == None:

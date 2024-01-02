@@ -21,9 +21,9 @@ def calc_index_nino1and2(
     ----------
     sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -56,9 +56,9 @@ def calc_index_nino3(
     ----------
     sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -94,11 +94,11 @@ def calc_index_nino34(
     ----------
     sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    running_mean: :py:class:`int<python.int>`, default: `5`.
+    running_mean: :py:class:`int <int>`, default: `5`.
         Running mean value. If `running_mean` is `None` or `0`, it will not perform running average operation.
 
     Returns
@@ -137,11 +137,11 @@ def calc_index_OMI(
     ----------
     sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    running_mean: :py:class:`int<python.int>`, default: `3`.
+    running_mean: :py:class:`int <int>`, default: `3`.
         Running mean value. If `running_mean` is `None` or `0`, it will not perform running average operation.
 
     Returns
@@ -177,9 +177,9 @@ def calc_index_nino4(
     ----------
     sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Monthly Sea surface temperature (SST) anomalies data.
-    lat_dim: :py:class:`str<python.str>`, default: `lat`.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns

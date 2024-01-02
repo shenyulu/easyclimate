@@ -8,7 +8,11 @@ import xarray as xr
 
 __all__ = ["open_muliti_dataset"]
 
-def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
+def open_muliti_dataset(
+    files: str, 
+    dim: str, 
+    **kwargs
+) -> xr.Dataset:
     """
     Open multiple netCDF files without the need for xarray's necessary dimension checks
 
@@ -19,7 +23,7 @@ def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
 
     Returns
     -------
-    :py:class:`int<python.int>`.
+    :py:class:`int <int>`.
 
     .. note::
         If `ver1<ver2`, return `-1`; If `ver1=ver2`, return `0`; If `ver1>ver2`, return `1`.

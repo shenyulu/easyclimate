@@ -113,7 +113,7 @@ def add_lon_cyclic(
         The spatio-temporal data to be calculated.
     inter: :py:class:`float<float>`
         Longitude interval (assuming longitude is arranged in a sequence of equal differences).
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str<str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     .. seealso
