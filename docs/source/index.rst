@@ -35,7 +35,7 @@
     </p>
 
 Installation🛒
-------------
+------------------------
 
 You can do a direct install via `pip` by using:
 
@@ -43,9 +43,16 @@ You can do a direct install via `pip` by using:
 
     $ pip install easyclimate
 
+Online experience💻
+------------------------
+Just click on the link below and wait for the online environment to be configured before using the Easyclimate package on Jupyter notebook online.
+
+.. image:: https://mybinder.org/badge_logo.svg
+    
+    :target: https://mybinder.org/v2/gh/shenyulu/easyclimate/main
 
 How to cite📣
------------
+-----------------------
 
 If you are using **Easy Climate** and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
 We provide a `Zenodo citation and DOI <https://zenodo.org/doi/10.5281/zenodo.10279567>`__ for this purpose:
@@ -119,7 +126,7 @@ An example BibTeX entry:
  
 
 Indices and tables🧭
-------------------
+------------------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
