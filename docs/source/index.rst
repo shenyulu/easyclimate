@@ -48,7 +48,6 @@ Online experience💻
 Just click on the link below and wait for the online environment to be configured before using the Easyclimate package on Jupyter notebook online.
 
 .. image:: https://mybinder.org/badge_logo.svg
-    
     :target: https://mybinder.org/v2/gh/shenyulu/easyclimate/main
 
 How to cite📣
