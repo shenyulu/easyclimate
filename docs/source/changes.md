@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2024.01.01
+
+*Released on: 2024/01/04*
+
+### What's Changed
+* Publish version 2024.01.01 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/9
+* Bump pytest from 7.4.3 to 7.4.4 by @dependabot in https://github.com/shenyulu/easyclimate/pull/8
+
 ## Version 2023.12.01
 
 *Released on: 2023/12/10*
