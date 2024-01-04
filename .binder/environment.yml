@@ -1,0 +1,30 @@
+name: easyclimate-examples
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy >= 1.24.3
+  - xarray >= 0.17.0
+  - cartopy >= 0.20
+  - matplotlib
+  - pandas
+  - intel-fortran-rt
+  - scipy  >=1.8.0
+  - statsmodels
+  - dask
+  - pip:
+    - geocat.viz <= 2023.10.0
+    - xeofs >= 2.2.2
+    - fast-barnes-py
+    - oceans
+    - geocat-comp
+    - pyspharm-syl
+    - pymannkendall
+    - flox
+    - xarray-datatree
+    - xarray_regrid
+    - gsw_xarray
+    - pooch
+    - tqdm
+    - zarr
+    - metpy

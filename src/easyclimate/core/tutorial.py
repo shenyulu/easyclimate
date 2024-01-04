@@ -20,6 +20,8 @@ import pandas as pd
 if TYPE_CHECKING:
     from xarray.backends.api import T_Engine
 
+__all__ = ["open_tutorial_dataset"]
+
 _default_cache_dir_name = "easylimate_tutorial_data"
 base_url = "https://github.com/shenyulu/easyclimate-data"
 version = "main"
@@ -46,6 +48,11 @@ file_formats = {
     "omega_202201_mon_mean": 4,
     "mini_HadISST_ice": 4,
     "PressQFF_202007271200_872": 'csv',
+    "pr_wtr_eatm_2022": 4,
+    "sst_mnmean_oisst": 4,
+    "hgt_day_ltm_1991_2020_0to6day": 4,
+    "uwnd_day_ltm_1991_2020_0to6day": 4,
+    "vwnd_day_ltm_1991_2020_0to6day": 4,
 }
 
 def _check_netcdf_engine_installed(name):
@@ -106,18 +113,19 @@ def open_tutorial_dataset(
     * ``"omega_202201_mon_mean"``: Vertical velocity of the NCEP reanalysis subset
     * ``"mini_HadISST_ice"``: Hadley Centre Sea Ice and Sea Surface Temperature data set (HadISST) subset
     * ``"PressQFF_202007271200_872"``: Observational data from European stations (from https://github.com/EXCITED-CO2/xarray-regrid)
-
+    * ``"pr_wtr_eatm_2022"``: Precipitable water of the NCEP reanalysis subset in the 2022
+    * ``"sst_mnmean_oisst"``: NOAA Optimum Interpolation (OI) SST V2 (from https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.html)
 
     Parameters
     ----------
-    name : str
+    name : :py:class:`str <str>`
         Name of the file containing the dataset.
         e.g. 'air_202201_mon_mean'
     cache_dir : path-like, optional
         The directory in which to search for and write cached data.
-    cache : bool, optional
+    cache : dim: :py:class:`bool <bool>`, optional
         If True, then cache data locally for use on subsequent calls
-    **kws : dict, optional
+    **kws : :py:class:`dict <dict>`, optional
         Passed to xarray.open_dataset
 
     Returns

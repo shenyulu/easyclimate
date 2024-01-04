@@ -34,8 +34,8 @@
         <strong>Easy Climate is just here to help you!</strong>
     </p>
 
-Installation
-------------
+Installation🛒
+------------------------
 
 You can do a direct install via `pip` by using:
 
@@ -43,13 +43,31 @@ You can do a direct install via `pip` by using:
 
     $ pip install easyclimate
 
+Online experience💻
+------------------------
+Just click on the link below and wait for the online environment to be configured before using the Easyclimate package on Jupyter notebook online.
 
-How to cite
------------
-If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit <https://zenodo.org/doi/10.5281/zenodo.10279567>`__.
+.. image:: https://mybinder.org/badge_logo.svg
+    :target: https://mybinder.org/v2/gh/shenyulu/easyclimate/main
 
-.. image:: https://zenodo.org/badge/465206111.svg
-  :target: https://zenodo.org/doi/10.5281/zenodo.10279567
+How to cite📣
+-----------------------
+
+If you are using **Easy Climate** and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
+We provide a `Zenodo citation and DOI <https://zenodo.org/doi/10.5281/zenodo.10279567>`__ for this purpose:
+
+An example BibTeX entry:
+
+.. code:: BibTeX
+
+    @misc{easyclimate_v2023_12_1,
+        author = {Yulu Shen},
+        title  = {easyclimate: v2023.12.1},
+        month  = dec,
+        year   = 2023,
+        doi    = {10.5281/zenodo.10279567},
+        url    = {https://doi.org/10.5281/zenodo.10279567}
+        }
 
 
 .. toctree::
@@ -59,6 +77,7 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
     
     overview.rst
     install.rst
+    .. ./auto_gallery_output/index
 
 .. toctree::
    :maxdepth: 1
@@ -81,19 +100,12 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Indices:
+   :caption: Climate Field
 
-   ./static_docs/air_sea_interaction.md
-   ./static_docs/monsoon.md
-
-   
-.. toctree::
-    :maxdepth: 1
-    :hidden:
-    :caption: Community
-
-    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
-    Source code on GitHub <https://github.com/shenyulu/easyclimate>
+   ./static_docs/air_sea_interaction
+   ./static_docs/ocean
+   ./static_docs/monsoon
+   ./static_docs/land_atm_interaction
 
 .. toctree::
     :maxdepth: 1
@@ -102,10 +114,18 @@ If you would like to cite `Easy-climate` you can do so using our `Zenodo deposit
 
     ./api_index/index.rst
     changes.md
-    
 
-Indices and tables
-------------------
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+    :caption: Community
+
+    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
+    Source code on GitHub <https://github.com/shenyulu/easyclimate>
+ 
+
+Indices and tables🧭
+------------------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

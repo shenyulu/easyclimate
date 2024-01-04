@@ -9,6 +9,8 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 
+__all__ = ["interp_point2mesh", "interp_point2mesh_S2"]
+
 def interp_point2mesh(
     data: pd.DataFrame,
     var_name: str,
@@ -53,7 +55,7 @@ def interp_point2mesh(
     
     where :math:`\\delta` is the Dirac impulse function and :math:`r(.)` an elementary rectangular function of a specific length that depends on :math:`\\sigma` and :math:`n`.
 
-    - data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
+    data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
         Longitude and latitude grid point discrete data. There should be a similar structure as follows
 
         +------------+------------+-----------+
@@ -69,24 +71,24 @@ def interp_point2mesh(
         .. note:: 
             Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
     
-    - var_name: :py:class:`str<python.str>`
+    var_name: :py:class:`str <str>`
         The name of the data variable. This should match the one in the parameter `data`.
-    - lat_dim_name: :py:class:`str<python.str>`.
+    lat_dim_name: :py:class:`str <str>`.
         Latitude dimension name. This should match the one in the parameter `data`. By default is `lat`.
-    - lon_dim_name: :py:class:`str<python.str>`.
+    lon_dim_name: :py:class:`str <str>`.
         Longitude dimension name. This should match the one in the parameter `data`. By default is `lon`.
-    - point : numpy ndarray
+    point : :py:class:`numpy.ndarray <numpy.ndarray>`.
         A 1-dimensional array of size 2 containing the coordinates of the
         start point of the grid to be used.
-    - grid_x : :py:class:`int<python.int>`.
+    grid_x : :py:class:`int <int>`.
         Length in degrees in the x-direction of the interpolated rectangular grid.
-    - grid_y : :py:class:`int<python.int>`.
+    grid_y : :py:class:`int <int>`.
         Length in degrees in the y-direction of the interpolated rectangular grid.
-    - resolution: float
+    resolution: :py:class:`float <float>`
         Grid resolution. The distance between regular grid points is the reciprocal of the value. Common values: 4.0, 8.0, 16.0, 32.0, 64.0.
-    - sigma : float
+    sigma : :py:class:`float <float>`
         The Gaussian width parameter to be used. Common values: 0.25, 0.5, 1.0, 2.0, 4.0.
-    - method : {'optimized_convolution', 'convolution', 'radius', 'naive'}, default: 'optimized_convolution'.
+    method : {'optimized_convolution', 'convolution', 'radius', 'naive'}, default: 'optimized_convolution'.
         Designates the Barnes interpolation method to be used. The possible
         implementations that can be chosen are 'naive' for the straightforward
         implementation (algorithm A from paper), 'radius' to consider only sample
@@ -97,11 +99,11 @@ def interp_point2mesh(
         to the rectangular kernel. The latter two algorithms reduce the complexity
         down to :math:`O(N + W \\times H)`.
         The default is 'optimized_convolution'.
-    - num_iter : int, optional
+    num_iter : :py:class:`int <int>`, optional
         The number of performed self-convolutions of the underlying rect-kernel.
         Applies only if method is 'optimized_convolution' or 'convolution'.
         The default is 4. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.
-    - min_weight : float, optional
+    min_weight : :py:class:`float <float>`, optional
         Choose radius of influence such that Gaussian weight of considered sample
         points is greater than `min_weight`.
         Applies only if method is 'radius'. Recommended values are 0.001 and less.
@@ -161,7 +163,7 @@ def interp_point2mesh_S2(
 
     Parameters
     ----------
-    - data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
+    data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
         Longitude and latitude grid point discrete data. There should be a similar structure as follows
 
         +------------+------------+-----------+
@@ -177,24 +179,24 @@ def interp_point2mesh_S2(
         .. note:: 
             Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
     
-    - var_name: :py:class:`str<python.str>`
+    var_name: :py:class:`str <str>`
         The name of the data variable. This should match the one in the parameter `data`.
-    - lat_dim_name: :py:class:`str<python.str>`.
+    lat_dim_name: :py:class:`str <str>`.
         Latitude dimension name. This should match the one in the parameter `data`. By default is `lat`.
-    - lon_dim_name: :py:class:`str<python.str>`.
+    lon_dim_name: :py:class:`str <str>`.
         Longitude dimension name. This should match the one in the parameter `data`. By default is `lon`.
-    - point : numpy ndarray
+    point : :py:class:`numpy.ndarray <numpy.ndarray>`
         A 1-dimensional array of size 2 containing the coordinates of the
         start point of the grid to be used.
-    - grid_x : :py:class:`int<python.int>`.
+    grid_x : :py:class:`int <int>`.
         Length in degrees in the x-direction of the interpolated rectangular grid.
-    - grid_y : :py:class:`int<python.int>`.
+    grid_y : :py:class:`int <int>`.
         Length in degrees in the y-direction of the interpolated rectangular grid.
-    - resolution: float
+    resolution: :py:class:`float <float>`
         Grid resolution. The distance between regular grid points is the reciprocal of the value. Common values: 4.0, 8.0, 16.0, 32.0, 64.0.
-    - sigma : float
+    sigma : :py:class:`float <float>`
         The Gaussian width parameter to be used. Common values: 0.25, 0.5, 1.0, 2.0, 4.0.
-    - method : {'optimized_convolution_S2', 'naive_S2'}, default: 'optimized_convolution_S2'.
+    method : {'optimized_convolution_S2', 'naive_S2'}, default: 'optimized_convolution_S2'.
         Designates the Barnes interpolation method to be used. The possible
         implementations that can be chosen are 'naive_S2' for the straightforward
         implementation (algorithm A from the paper) with an algorithmic complexity
@@ -203,11 +205,11 @@ def interp_point2mesh_S2(
         specified in the paper by appending tail values to the rectangular kernel.
         The latter algorithm has a reduced complexity of :math:`O(N + W \\times H)`.
         The default is 'optimized_convolution_S2'.
-    - num_iter : int, optional, default: 4.
+    num_iter : :py:class:`int <int>`, optional, default: 4.
         The number of performed self-convolutions of the underlying rect-kernel.
         Applies only if method is 'optimized_convolution_S2'.
         The default is 4. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.
-    - resample : bool, optional, default: `True`.
+    resample : :py:class:`bool <bool>`, optional, default: `True`.
         Specifies whether to resample Lambert grid field to lonlat grid.
         Applies only if method is 'optimized_convolution_S2'.
         The default is True.

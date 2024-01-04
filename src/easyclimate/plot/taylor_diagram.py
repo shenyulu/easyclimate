@@ -10,6 +10,9 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import xarray as xr
 
+__all__ = ["calc_TaylorDiagrams_metadata", "draw_TaylorDiagrams_base", "draw_TaylorDiagrams_metadata",
+           "calc_TaylorDiagrams_values"]
+
 def calc_correlation_coefficient(
     f: xr.DataArray, 
     r: xr.DataArray
@@ -21,9 +24,9 @@ def calc_correlation_coefficient(
     
     Parameters
     ----------
-    - f: (xarray DataArray, required)
+    - f: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array of models to be compared.
-    - r: (xarray DataArray, required)
+    - r: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array for model reference comparisons (observations).
     
     .. attention::
@@ -50,9 +53,9 @@ def calc_standard_deviation(
     
     Parameters
     ----------
-    - f: (xarray DataArray, required)
+    - f: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array of models to be compared.
-    - ddof: (int, optional)
+    - ddof: :py:class:`int <int>`, optional.
         "Delta Degrees of Freedom": the divisor used in the calculation is `N - ddof`, where `N` represents the number of elements.
 
     .. attention::
@@ -77,9 +80,9 @@ def calc_centeredRMS(
     
     Parameters
     ----------
-    - f: (xarray DataArray, required)
+    f: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array of models to be compared.
-    - r: (xarray DataArray, required)
+    r: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array for model reference comparisons (observations).
 
     .. attention::
@@ -87,7 +90,7 @@ def calc_centeredRMS(
             
     Returns
     -------
-    - centerRMS : numpy array
+    - centerRMS: :py:class:`numpy.array <numpy.array>`
         Pattern center root mean square error array.
     
     """
@@ -99,7 +102,7 @@ def calc_Taylor_skill_score(
     r: xr.DataArray, 
     sigma_f: xr.DataArray, 
     sigma_r: xr.DataArray, 
-    r0 = 0.999
+    r0: float = 0.999
 ) -> xr.DataArray:
     """Calculate Taylor skill score (TSS).
 
@@ -108,13 +111,13 @@ def calc_Taylor_skill_score(
 
     Parameters
     ----------
-    - r: (Float, required)
+    r: :py:class:`float <float>`, required.
         The correlation coefficient value.
-    - sigma_f: (Float, required)
+    sigma_f: :py:class:`float <float>`, required.
         The standard deviation value of the model.
-    - sigma_r: (Float, required)
+    sigma_r: :py:class:`float <float>`, required.
         The standard deviation value of the observation.
-    - r0: (Float, optional)
+    r0: :py:class:`float <float>`, optional.
         Maximum correlation obtainable.
     """
     SDR = sigma_f / sigma_r
@@ -126,10 +129,10 @@ def calc_TaylorDiagrams_values(
     f: xr.DataArray, 
     r: xr.DataArray, 
     model_name: str, 
-    weighted = False, 
-    lat_dim = 'lat', 
-    normalized = True, 
-    r0 = 0.999
+    weighted: bool = False, 
+    lat_dim: str = 'lat', 
+    normalized: bool = True, 
+    r0: float = 0.999
 ) -> pd.DataFrame:
     """Calculate the center root mean square error.
 
@@ -137,19 +140,19 @@ def calc_TaylorDiagrams_values(
     
     Parameters
     ----------
-    - f : (xarray DataArray, required)
+    f : :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array of models to be compared.
-    - r : (xarray DataArray, required)
+    r : :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array for model reference comparisons (observations).
-    - model_name: (str, required)
+    model_name: :py:class:`str <str>`, required.
         The name of the model.
-    - weighted: (bool, default `False`)
+    weighted: :py:class:`bool <bool>`, default `False`.
         Whether to weight the data by latitude or not? The default value is `False`.
-    - lat_dim: (str, default `lat`)
+    lat_dim: :py:class:`str <str>`, default `lat`.
         The name of `latitude` coordinate name.
-    - normalized: (bool, default `True`, optional)
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
         Whether the standard deviations is normalized, that is standard deviation of the model divided by that of the observations.
-    - r0 : (Float, optional)
+    r0 : :py:class:`float <float>`, optional.
         Maximum correlation obtainable.
 
     .. attention::
@@ -157,13 +160,11 @@ def calc_TaylorDiagrams_values(
             
     Returns
     -------
-    pandas DataFrame.
+    :py:class:`pandas.DataFrame <pandas.DataFrame>`.
 
     Reference
     --------------
-    Taylor, K. E. (2001), Summarizing multiple aspects of model 
-      performance in a single diagram, J. Geophys. Res., 106(D7),
-      7183-7192, doi:`10.1029/2000JD900719 <https://doi.org/10.1029/2000JD900719>`__.
+    Taylor, K. E. (2001), Summarizing multiple aspects of model performance in a single diagram, J. Geophys. Res., 106(D7), 7183-7192, doi:`10.1029/2000JD900719 <https://doi.org/10.1029/2000JD900719>`__.
     
     """
     if(weighted == True):
@@ -180,6 +181,12 @@ def calc_TaylorDiagrams_values(
     standard_deviation_r = calc_standard_deviation(r)
     centered_RMS = calc_centeredRMS(f, r)
     TSS_value = calc_Taylor_skill_score(correlation_coefficient, standard_deviation_f, standard_deviation_r, r0 = r0)
+
+    correlation_coefficient = float(correlation_coefficient)
+    standard_deviation_f = float(standard_deviation_f)
+    standard_deviation_r = float(standard_deviation_r)
+    centered_RMS = float(centered_RMS)
+    TSS_value = float(TSS_value)
 
     if(normalized == False):
         taylor_diagrams_data = {
@@ -203,32 +210,32 @@ def calc_TaylorDiagrams_values(
 def calc_TaylorDiagrams_metadata(
     f: xr.DataArray, 
     r: xr.DataArray, 
-    models_name = [], 
-    weighted = False, 
-    lat_dim = 'lat', 
-    normalized = True
+    models_name: list[str] = [], 
+    weighted: bool = False, 
+    lat_dim: str = 'lat', 
+    normalized: bool = True
 ):
     '''
     Calculating Taylor diagram metadata
 
     Parameters
     ----------
-    - f: (xarray DataArray, required)
+    f: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array of models to be compared.
-    - r: (xarray DataArray, required)
+    r: :py:class:`xarray.DataArray<xarray.DataArray>`, required.
         A spatial array for model reference comparisons (observations).
-    - weighted: (bool, default `False`)
-        Whether to weight the data by latitude or not? The default value is `False`.
-    - lat_dim: (str, default `lat`)
-        The name of `latitude` coordinate name.
-    - model_name: (list str, required)
+    model_name: :py:class:`list[str]`, required.
         The `list` of the models' name.
-    - normalized: (bool, default `True`, optional)
+    weighted: :py:class:`bool <bool>`, default `False`.
+        Whether to weight the data by latitude or not? The default value is `False`.
+    lat_dim: :py:class:`str <str>`, default `lat`.
+        The name of `latitude` coordinate name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
         Whether the standard deviations is normalized, that is standard deviation of the model divided by that of the observations.
 
     Returns
     --------------
-    pandas.DataFrame
+    :py:class:`pandas.DataFrame <pandas.DataFrame>`.
 
     Examples
     ---------------
@@ -315,80 +322,80 @@ def calc_TaylorDiagrams_metadata(
     return pd.concat(objs = dataframe_all, ignore_index = True)
 
 def draw_TaylorDiagrams_base(
-    ax = None,
-    half_circle = False,
-    normalized = True,
-    std_min = 0,
-    std_max = 2,
-    std_interval = 0.25,
-    arc_label = 'Correlation',
-    arc_label_pad = 0.2,
-    arc_label_kwargs = {'fontsize': 12},
-    arc_ticker_kwargs = {'lw': 0.8, 'c': 'black'},
-    arc_tickerlabel_kwargs = {'labelsize': 12, 'pad': 8},
-    arc_ticker_length = 0.02,
-    arc_minorticker_length = 0.01,
-    x_label = 'Std (Normalized)',
-    x_label_pad = 0.25,
-    x_label_kwargs = {'fontsize': 12},
-    x_ticker_length = 0.02,
-    x_tickerlabel_kwargs = {'fontsize': 12},
-    x_ticker_kwargs = {'lw': 0.8, 'c': 'black'},
-    y_ticker_kwargs = {'lw': 0.8, 'c': 'black'},
+    ax: matplotlib.axes.Axes = None,
+    half_circle: bool = False,
+    normalized: bool = True,
+    std_min: float = 0,
+    std_max: float = 2,
+    std_interval: float = 0.25,
+    arc_label: str = 'Correlation',
+    arc_label_pad: float = 0.2,
+    arc_label_kwargs: dict = {'fontsize': 12},
+    arc_ticker_kwargs: dict = {'lw': 0.8, 'c': 'black'},
+    arc_tickerlabel_kwargs: dict = {'labelsize': 12, 'pad': 8},
+    arc_ticker_length: float = 0.02,
+    arc_minorticker_length: float = 0.01,
+    x_label: str = 'Std (Normalized)',
+    x_label_pad: float = 0.25,
+    x_label_kwargs: dict = {'fontsize': 12},
+    x_ticker_length: float = 0.02,
+    x_tickerlabel_kwargs: dict = {'fontsize': 12},
+    x_ticker_kwargs: dict = {'lw': 0.8, 'c': 'black'},
+    y_ticker_kwargs: dict = {'lw': 0.8, 'c': 'black'},
 ) -> matplotlib.collections.Collection:
     '''
     Drawing Taylor Graphics Basic Framework
 
     Parameters
     ----------
-    - ax: (matplotlib axes object, optional)
+    ax: :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional.
         Axes on which to plot. By default, use the current axes, i.e. `ax = plt.gca()`.
-    - half_circle: (bool, default `False`, optional)
+    half_circle: :py:class:`bool <bool>`, default `False`, optional.
         Whether to draw the `'half-circle'` version of the Taylor diagram.
-    - normalized: (bool, default `True`, optional)
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
         Whether the standard deviations is normalized, that is standard deviation of the model divided by that of the observations. 
         This parameter mainly affects the label `x=1` on the `x` axis, if normalized to True, it is rewritten to `REF`.
-    - std_min: (float, default `0.0`, optional)
+    std_min: :py:class:`float <float>`, default `0.0`, optional.
         Minimum value of x-axis (standard deviation) on Taylor diagram.
 
         .. note:: The value of `std_min` shoud be 0 in the `'half-circle'` version of the Taylor diagram.
 
-    - std_max: (float, default `2.0`, optional)
+    std_max: :py:class:`float <float>`, default `2.0`, optional.
         Maximum value of x-axis (standard deviation) on Taylor diagram.
-    - std_interval: (float, default `0.25`, optional)
+    std_interval: :py:class:`float <float>`, default `0.25`, optional.
         The interval between the ticker on the x-axis (standard deviation) between the minimum and maximum values on the Taylor diagram.
-    - arc_label: (str, default `'Correlation'`, optional)
+    arc_label: :py:class:`str <str>`, default `'Correlation'`, optional.
         Label on Taylor chart arc, default value is `'Correlation'`.
-    - arc_label_pad: (float, default `0.2`, optional)
+    arc_label_pad: :py:class:`float <float>`, default `0.2`, optional.
         The offset of the title from the top of the arc, based on x-axis based coordinate system.
-    - arc_label_kwargs: (dict, default `{'fontsize': 12}`, optional)
+    arc_label_kwargs: :py:class:`dict <dict>`, default `{'fontsize': 12}`, optional.
         Additional keyword arguments passed on to labels on arcs, according to other miscellaneous parameters in`matplotlib.axes.Axes.text`.
-    - arc_ticker_kwargs: (dict, default `{'lw': 0.8, 'c': 'black'}`, optional)
+    arc_ticker_kwargs: :py:class:`dict <dict>`, default `{'lw': 0.8, 'c': 'black'}`, optional.
         Additional keyword arguments passed on to tickers on arcs, according to other miscellaneous parameters in`matplotlib.axes.Axes.plot`.
-    - arc_tickerlabel_kwargs: (dict, default `{'labelsize': 12, 'pad': 8}`, optional)
+    arc_tickerlabel_kwargs: :py:class:`dict <dict>`, default `{'labelsize': 12, 'pad': 8}`, optional.
         Additional keyword arguments passed on to tickers on arcs, according to other miscellaneous parameters in`matplotlib.axes.Axes.tick_params`.
-    - arc_ticker_length: (float, default `0.02`, optional)
+    arc_ticker_length: :py:class:`float <float>`, default `0.02`, optional.
         Ticker length on arc.
-    - arc_minorticker_length: (float, default `0.01`, optional)
+    arc_minorticker_length: :py:class:`float <float>`, default `0.01`, optional.
         Minor ticker length on arc.
-    - x_label: (str, default `'Std (Normalized)'`, optional)
+    x_label: :py:class:`str <str>`, default `'Std (Normalized)'`, optional.
         Label on Taylor chart x axis, default value is `'Std (Normalized)'`.
-    - x_label_pad: (float, default `0.25`, optional)
+    x_label_pad: :py:class:`float <float>`, default `0.25`, optional.
         The offset of the title from the top of the x-axis, based on x-axis based coordinate system.
-    - x_label_kwargs: (dict, default `{'fontsize': 12}`, optional)
+    x_label_kwargs: :py:class:`dict <dict>`, default `{'fontsize': 12}`, optional.
         Additional keyword arguments passed on to labels on x-axis, according to other miscellaneous parameters in`matplotlib.axes.Axes.text`.
-    - x_ticker_length: (float, default `0.02`, optional)
+    x_ticker_length: :py:class:`float <float>`, default `0.02`, optional.
         Ticker length on x-axis
-    - x_tickerlabel_kwargs: (dict, default `{'fontsize': 12}`, optional)
+    x_tickerlabel_kwargs: :py:class:`dict <dict>`, default `{'fontsize': 12}`, optional.
         Additional keyword arguments passed on to tickers' labels on x-axis, according to other miscellaneous parameters in`matplotlib.axes.Axes.text`.
-    - x_ticker_kwargs: (dict, default `{'lw': 0.8, 'c': 'black'}`, optional)
+    x_ticker_kwargs: :py:class:`dict <dict>`, default `{'lw': 0.8, 'c': 'black'}`, optional.
         Additional keyword arguments passed on to tickers on x-axis, according to other miscellaneous parameters in`matplotlib.axes.Axes.plot`.
-    - y_ticker_kwargs: (dict, default `{'lw': 0.8, 'c': 'black'}`, optional)
+    y_ticker_kwargs: :py:class:`dict <dict>`, default `{'lw': 0.8, 'c': 'black'}`, optional.
         Additional keyword arguments passed on to tickers on y-axis, according to other miscellaneous parameters in`matplotlib.axes.Axes.plot`.
 
     Returns
     -------
-    `matplotlib.collections.Collection`
+    :py:class:`matplotlib.collections.Collection <matplotlib.collections.Collection>`.
     '''
 
     # Get Axes
@@ -411,6 +418,9 @@ def draw_TaylorDiagrams_base(
             raise ValueError("`std_min` should be greater than 0!")
     else:
         raise ValueError("`half_circle` should be Boolean type.")
+
+    if std_max < 0:
+        raise ValueError("`std_max` should be greater than 0!")
 
     # The 'half-circle' version of the Taylor Diagram
     if(half_circle == True):
@@ -568,58 +578,58 @@ def draw_TaylorDiagrams_base(
         ax.plot([0,np.arccos(rad_num)], [0, std_max], lw = 0.7, color = 'grey', linestyle = '--')
 
 def draw_TaylorDiagrams_metadata(
-    taylordiagrams_metadata, 
-    marker_list, 
-    color_list, 
-    label_list, 
-    legend_list,
-    ax = None, 
-    normalized = True, 
-    cc = 'cc', 
-    std = 'std',
-    point_label_xoffset = 0,
-    point_label_yoffset = 0.05,
-    point_kwargs = {'alpha': 1, 'markersize': 6.5},
-    point_label_kwargs = {'fontsize': 14},
+    taylordiagrams_metadata: pd.DataFrame, 
+    marker_list: list, 
+    color_list: list, 
+    label_list: list, 
+    legend_list: list,
+    ax: matplotlib.axes.Axes = None, 
+    normalized: bool = True, 
+    cc: str = 'cc', 
+    std: str = 'std',
+    point_label_xoffset: float = 0,
+    point_label_yoffset: float = 0.05,
+    point_kwargs: dict = {'alpha': 1, 'markersize': 6.5},
+    point_label_kwargs: dict = {'fontsize': 14},
 ) -> matplotlib.collections.Collection:
     '''
     Draw points to Taylor Graphics Basic Framework according to Taylor diagram metadata.
 
     Parameters
     ----------
-    - taylordiagrams_metadata: (pandas.DataFrame, required)
+    taylordiagrams_metadata: :py:class:`pandas.DataFrame <pandas.DataFrame>`, required.
         Taylor diagram metadata generated by the function `calc_TaylorDiagrams_metadata`.
-    - marker_list: (list, required)
+    marker_list: :py:class:`list <list>`, required.
         The list of markers. The order of `marker` in `marker_list` is determined by the order in `taylordiagrams_metadata`. 
         See `matplotlib.markers` for full description of possible arguments.
-    - color_list: (list, required)
+    color_list: :py:class:`list <list>`, required.
         The list of colors. The order of `color` in `color_list` is determined by the order in `taylordiagrams_metadata`. 
-    - label_list: (list, required)
+    label_list: :py:class:`list <list>`, required.
         The list of data point labels (marked next to plotted points). 
         The order of label in `label_list` is determined by the order in `taylordiagrams_metadata`.
-    - legend_list: (list, required)
+    legend_list: :py:class:`list <list>`, required.
         The list of legend label. 
         The order of label in `legend_list` is determined by the order in `taylordiagrams_metadata`.
-    - ax: (matplotlib axes object, optional)
+    ax: :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional.
         Axes on which to plot. By default, use the current axes, i.e. `ax = plt.gca()`.
-    - normalized: (bool, default `True`, optional)
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
         Whether the standard deviations is normalized, that is standard deviation of the model divided by that of the observations.
-    - cc: (str, default `'cc'`, optional)
+    cc: :py:class:`str <str>`, default `'cc'`, optional.
         The name of correlation coefficient in `taylordiagrams_metadata`.
-    - std: (str, default `'std'`, optional)
+    std: :py:class:`str <str>`, default `'std'`, optional.
         The name of standard deviation in `taylordiagrams_metadata`.
-    - point_label_xoffset: (float, optional)
+    point_label_xoffset: :py:class:`float <float>`, optional.
         The offset of the labels from the points, based on x-axis based coordinate system.
-    - point_label_yoffset: (float, optional)
+    point_label_yoffset: :py:class:`float <float>`, optional.
         The offset of the labels from the points, based on y-axis based coordinate system.
-    - point_kwargs: (dict, optional)
+    point_kwargs: :py:class:`dict <dict>`, optional.
         Additional keyword arguments passed on to data points, according to other miscellaneous parameters in`matplotlib.axes.Axes.plot`.
-    - point_label_kwargs: (dict, optional)
+    point_label_kwargs: :py:class:`dict <dict>`, optional.
         Additional keyword arguments passed on to the labels of data points, according to other miscellaneous parameters in`matplotlib.axes.Axes.text`.
 
     Returns
     -------
-    `matplotlib.collections.Collection`
+    :py:class:`matplotlib.collections.Collection <matplotlib.collections.Collection>`.
     '''
     # Get Axes
     if(ax == None):

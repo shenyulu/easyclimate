@@ -1,9 +1,22 @@
 """
 Obtain data within a specified time period
 """
-from .yearstat import *
+import xarray as xr
+import numpy as np
+from .yearstat import calc_yearly_climatological_mean
+from typing import List
 
-def get_specific_years_data(data_input: xr.DataArray, year_array: np.array, dim = 'time') -> xr.DataArray:
+__all__ =  ["get_specific_years_data", "get_specific_months_data", "get_specific_days_data",
+            "get_specific_hours_data", "get_specific_minutes_data", "get_specific_seconds_data",
+            "get_specific_microseconds_data", "get_specific_nanoseconds_data", 
+            "get_specific_dayofweek_data", "get_yearmean_for_specific_months_data",
+            "get_year_exceed_index_upper_bound", "get_year_exceed_index_lower_bound"]
+
+def get_specific_years_data(
+    data_input: xr.DataArray | xr.Dataset,
+    year_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer years.
 
@@ -11,9 +24,9 @@ def get_specific_years_data(data_input: xr.DataArray, year_array: np.array, dim 
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    year_array: numpy.array containing int data-type objects
+    year_array: :py:class:`list[int]`
         Year(s) to be extracted.
-    dim : str
+    dim : :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -24,7 +37,11 @@ def get_specific_years_data(data_input: xr.DataArray, year_array: np.array, dim 
     year_idx = years.isin(year_array)
     return data_input.isel({dim: year_idx})
 
-def get_specific_months_data(data_input: xr.DataArray, month_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_months_data(
+    data_input: xr.DataArray | xr.Dataset,
+    month_array: np.array,
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer months.
 
@@ -32,9 +49,9 @@ def get_specific_months_data(data_input: xr.DataArray, month_array: np.array, di
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    month_array: numpy.array containing int data-type objects
+    month_array: :py:class:`list[int]`
         Month(s) to be extracted.
-    dim : str
+    dim : :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -45,7 +62,11 @@ def get_specific_months_data(data_input: xr.DataArray, month_array: np.array, di
     months_idx = months.isin(month_array)
     return data_input.isel({dim: months_idx})
 
-def get_specific_days_data(data_input: xr.DataArray, day_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_days_data(
+    data_input: xr.DataArray | xr.Dataset,
+    day_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer days.
 
@@ -53,9 +74,9 @@ def get_specific_days_data(data_input: xr.DataArray, day_array: np.array, dim = 
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    day_array: numpy.array containing int data-type objects
+    day_array: :py:class:`list[int]`
         Days(s) to be extracted.
-    dim : str
+    dim : :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -66,7 +87,11 @@ def get_specific_days_data(data_input: xr.DataArray, day_array: np.array, dim = 
     days_idx = days.isin(day_array)
     return data_input.isel({dim: days_idx})
 
-def get_specific_hours_data(data_input: xr.DataArray, hour_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_hours_data(
+    data_input: xr.DataArray | xr.Dataset,
+    hour_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer hours.
 
@@ -74,9 +99,9 @@ def get_specific_hours_data(data_input: xr.DataArray, hour_array: np.array, dim 
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    hour_array: numpy.array containing int data-type objects
+    hour_array: :py:class:`list[int]`
         Hour(s) to be extracted.
-    dim : str
+    dim : :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -87,7 +112,11 @@ def get_specific_hours_data(data_input: xr.DataArray, hour_array: np.array, dim 
     hours_idx = hours.isin(hour_array)
     return data_input.isel({dim: hours_idx})
 
-def get_specific_minutes_data(data_input: xr.DataArray, minute_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_minutes_data(
+    data_input: xr.DataArray | xr.Dataset,
+    minute_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer minutes.
 
@@ -95,9 +124,9 @@ def get_specific_minutes_data(data_input: xr.DataArray, minute_array: np.array, 
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    minute_array: numpy.array containing int data-type objects
+    minute_array: :py:class:`list[int]`
         Minute(s) to be extracted.
-    dim : str
+    dim : :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -108,7 +137,11 @@ def get_specific_minutes_data(data_input: xr.DataArray, minute_array: np.array, 
     minutes_idx = minutes.isin(minute_array)
     return data_input.isel({dim: minutes_idx})
 
-def get_specific_seconds_data(data_input: xr.DataArray, second_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_seconds_data(
+    data_input: xr.DataArray | xr.Dataset,
+    second_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer seconds.
 
@@ -116,9 +149,9 @@ def get_specific_seconds_data(data_input: xr.DataArray, second_array: np.array, 
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    second_array: numpy.array containing int data-type objects
+    second_array: :py:class:`list[int]`
         Second(s) to be extracted.
-    dim : str
+    dim : :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -129,7 +162,11 @@ def get_specific_seconds_data(data_input: xr.DataArray, second_array: np.array, 
     seconds_idx = seconds.isin(second_array)
     return data_input.isel({dim: seconds_idx})
 
-def get_specific_microseconds_data(data_input: xr.DataArray, microsecond_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_microseconds_data(
+    data_input: xr.DataArray | xr.Dataset,
+    microsecond_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer microseconds.
 
@@ -137,9 +174,9 @@ def get_specific_microseconds_data(data_input: xr.DataArray, microsecond_array: 
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    microsecond_array: numpy.array containing int data-type objects
+    microsecond_array: :py:class:`list[int]`
         Microsecond(s) to be extracted.
-    dim : str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -150,7 +187,11 @@ def get_specific_microseconds_data(data_input: xr.DataArray, microsecond_array: 
     microseconds_idx = microseconds.isin(microsecond_array)
     return data_input.isel({dim: microseconds_idx})
 
-def get_specific_nanoseconds_data(data_input: xr.DataArray, nanosecond_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_nanoseconds_data(
+    data_input: xr.DataArray | xr.Dataset,
+    nanosecond_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer nanoseconds.
 
@@ -158,9 +199,9 @@ def get_specific_nanoseconds_data(data_input: xr.DataArray, nanosecond_array: np
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    nanosecond_array: numpy.array containing int data-type objects
+    nanosecond_array: :py:class:`list[int]`
         Nanosecond(s) to be extracted.
-    dim : str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -171,7 +212,11 @@ def get_specific_nanoseconds_data(data_input: xr.DataArray, nanosecond_array: np
     nanoseconds_idx = nanoseconds.isin(nanosecond_array)
     return data_input.isel({dim: nanoseconds_idx})
 
-def get_specific_dayofweek_data(data_input: xr.DataArray, dayofweek_array: np.array, dim = 'time') -> xr.DataArray:
+def get_specific_dayofweek_data(
+    data_input: xr.DataArray | xr.Dataset,
+    dayofweek_array: np.array(int) | List[int],
+    dim: str = 'time'
+) -> xr.DataArray | xr.Dataset:
     """
     Slicing and extracting the part of the data containing the specified year based on an array of given integer dayofweek.
 
@@ -179,7 +224,7 @@ def get_specific_dayofweek_data(data_input: xr.DataArray, dayofweek_array: np.ar
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    dayofweek_array: numpy.array containing int data-type objects
+    dayofweek_array: :py:class:`list[int]`
         The days of the week to be extracted. 
 
         The integer numbers correspond to the days of the week as follows.
@@ -202,7 +247,7 @@ def get_specific_dayofweek_data(data_input: xr.DataArray, dayofweek_array: np.ar
     |      Sunday       |         6         |
     +-------------------+-------------------+
 
-    dim : str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
 
     Returns
@@ -213,7 +258,12 @@ def get_specific_dayofweek_data(data_input: xr.DataArray, dayofweek_array: np.ar
     dayofweek_idx = dayofweek.isin(dayofweek_array)
     return data_input.isel({dim: dayofweek_idx})
 
-def get_yearmean_for_specific_months_data(data_input: xr.DataArray, month_array: np.array, dim = 'time', kwargs = None) -> xr.DataArray:
+def get_yearmean_for_specific_months_data(
+    data_input: xr.DataArray | xr.Dataset,
+    month_array: np.array(int) | List[int],
+    dim: str = 'time',
+    **kwargs,
+) -> xr.DataArray | xr.Dataset:
     """
     Get the annual average of certain months.
 
@@ -221,9 +271,9 @@ def get_yearmean_for_specific_months_data(data_input: xr.DataArray, month_array:
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         :py:class:`xarray.DataArray<xarray.DataArray>` to be extracted.
-    month_array: numpy.array containing int data-type objects
+    month_array: :py:class:`list[int]`
         Month(s) to be extracted.
-    dim : str
+    dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
     **kwargs:
         Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data. 
@@ -234,7 +284,7 @@ def get_yearmean_for_specific_months_data(data_input: xr.DataArray, month_array:
     :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
     data_get_specific_months_data = get_specific_months_data(data_input, month_array, dim = dim)
-    return calc_yearmean(data_get_specific_months_data, dim = dim, **kwargs)
+    return calc_yearly_climatological_mean(data_get_specific_months_data, dim = dim, **kwargs)
 
 def get_year_exceed_index_upper_bound(
     data_input: xr.DataArray,
@@ -248,9 +298,9 @@ def get_year_exceed_index_upper_bound(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         The one-dimensional data with only a `time` dimension.
-    thresh: :py:class:`float<python.float>`.
+    thresh: :py:class:`float <float>`.
         The threshold value.
-    time_dim: :py:class:`str<python.str>`.
+    time_dim: :py:class:`str <str>`.
         The time coordinate dimension name.
 
     Returns
@@ -275,9 +325,9 @@ def get_year_exceed_index_lower_bound(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         The one-dimensional data with only a `time` dimension.
-    thresh: :py:class:`float<python.float>`.
+    thresh: :py:class:`float <float>`.
         The threshold value.
-    time_dim: :py:class:`str<python.str>`.
+    time_dim: :py:class:`str <str>`.
         The time coordinate dimension name.
 
     Returns

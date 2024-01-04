@@ -32,6 +32,7 @@ Core
     easyclimate.core.utility
     easyclimate.core.variability
     easyclimate.core.yearstat
+    easyclimate.core.windspharm
 
 Filter
 ----------------------------------------
@@ -40,6 +41,8 @@ Filter
     :toctree: generated/
 
     easyclimate.filter.butter_filter
+    easyclimate.filter.smooth
+    easyclimate.filter.wavelet
     .. easyclimate.filter.barnes_filter
 
 Interpolation
@@ -51,16 +54,6 @@ Interpolation
     easyclimate.interp.point2mesh
     easyclimate.interp.mesh2mesh
 
-Ocean
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.ocean.mixlayer
-    easyclimate.ocean.stability
-    easyclimate.ocean.thermal
-
 Plot
 ----------------------------------------
 
@@ -71,32 +64,55 @@ Plot
     easyclimate.plot.projection
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
-    easyclimate.plot.wind
+    .. easyclimate.plot.wind
+    
 
-Wavelet transform
+Climate Field
 ----------------------------------------
+
+Air–Sea Interaction
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.wavelet.wavelet
+    easyclimate.field.air_sea_interaction
+    easyclimate.field.air_sea_interaction.index_enso
 
-
-Spherical harmonics of wind fields
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.windspharm.top
-
-Index
-----------------------------------------
+Atmosphere
+::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.index.enso
-    easyclimate.index.npwi
-    easyclimate.index.oceanic_front
-    easyclimate.index.pna
+    easyclimate.field.atm
+    easyclimate.field.atm.index_PNA
+
+Land–Atmosphere Interactions
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.land_atm_interaction
+
+Monsoon
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.monsoon
+    easyclimate.field.monsoon.index_npwi
+
+Ocean
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.ocean
+    easyclimate.field.ocean.mixlayer
+    easyclimate.field.ocean.oceanic_front
+    easyclimate.field.ocean.stability
+    easyclimate.field.ocean.thermal

@@ -5,15 +5,16 @@ from __future__ import annotations
 
 from glob import glob
 import xarray as xr
-import pooch
 
-def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
+__all__ = ["open_muliti_dataset"]
+
+def open_muliti_dataset(
+    files: str, 
+    dim: str, 
+    **kwargs
+) -> xr.Dataset:
     """
-    Compare python library versions.
-
-    .. attention::
-        - Only for incoming version numbers without alphabetic characters.
-        - Based on this method, the version number comparison should result in the following `"10.12.2.6.5">"10.12.2.6"`.
+    Open multiple netCDF files without the need for xarray's necessary dimension checks
 
     Parameters
     ----------
@@ -22,7 +23,7 @@ def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
 
     Returns
     -------
-    :py:class:`int<python.int>`.
+    :py:class:`int <int>`.
 
     .. note::
         If `ver1<ver2`, return `-1`; If `ver1=ver2`, return `0`; If `ver1>ver2`, return `1`.
@@ -43,7 +44,8 @@ def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
     """
 
     # Dask is used by default for multi-data file reads for lazy computation
-    kwargs = kwargs.get('chunks', 'auto')
+    if 'chunks' not in kwargs:
+        kwargs['chunks'] = 'auto'
 
     # glob expands paths with * to a list of files, like the unix shell
     paths = sorted(glob(files))

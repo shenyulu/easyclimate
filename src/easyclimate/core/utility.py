@@ -2,7 +2,6 @@
 Functions for package utility.
 """
 from __future__ import annotations
-# from typing import Union
 from datatree import DataTree
 import numpy as np
 import xarray as xr
@@ -21,12 +20,12 @@ def assert_compared_version(
 
     Parameters
     ----------
-    - ver1: Version number 1
-    - ver2: Version number 2
+    - ver1: :py:class:`float <float>`, version number 1
+    - ver2: :py:class:`float <float>`, version number 2
 
     Returns
     -------
-    :py:class:`int<python.int>`.
+    :py:class:`int<int>`.
 
     .. note::
         If `ver1<ver2`, return `-1`; If `ver1=ver2`, return `0`; If `ver1>ver2`, return `1`.
@@ -72,12 +71,12 @@ def find_dims_axis(
     ----------
     - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    - dim : :py:class:`str<python.str>`
+    - dim : :py:class:`str <str>`
         Dimension(s) over which to find axis.
     
     Returns
     -------
-    :py:class:`int<python.int>`.
+    :py:class:`int <int>`.
     '''
     return data.dims.index(dim)
 
@@ -115,7 +114,7 @@ def transfer_int2datetime(
     # xarray coordinate axis does not accept DatetimeIndex, so use `.to_numpy()` to convert it to numpy array.
     return pd.to_datetime(data, format = "%Y").to_numpy()
 
-def transfer_datetime2int(
+def split_datetime2yearday(
     ds: xr.DataArray
 ) -> xr.DataArray:
     """
@@ -172,28 +171,23 @@ def transfer_inf2nan(
     """
     return ds.where(np.isfinite(ds), np.nan)
 
-def transfer_monmean2everymonthmean(
-    data_input: xr.DataArray, 
-    time_dim: str = 'time'
+def transfer_nan2value(
+    ds: xr.DataArray,
+    value: float,
 ) -> xr.DataArray:
     """
-    Convert to the month-mean state corresponding to each month.
+    Convert `np.inf` in `ds` to `np.nan`, respectively.
 
     Parameters
     ----------
-    - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.    
+    - ds: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Data include `np.inf`.
+    
+    Returns
+    -------
+    - Data include `np.nan`.: :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
-    time_step_all = data_input[time_dim].shape[0]
-    month_int = data_input.time.dt.month
-    month_climate = data_input.groupby(time_dim + '.month').mean(dim = time_dim)
-    data_input_empty = xr.full_like(data_input, fill_value = np.nan)
-
-    for time_step in np.arange(0, time_step_all):
-        time_step_month = month_int.isel(time = time_step).data
-        data_input_empty[{time_dim: time_step}] = month_climate.sel(month = time_step_month)
-
-    return data_input_empty
+    return ds.fillna(value)
 
 def get_weighted_spatial_data(
     data_input: xr.DataArray, 
@@ -208,9 +202,9 @@ def get_weighted_spatial_data(
     ----------
     - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    - lat_dim: :py:class:`str<python.str>`.
+    - lat_dim: :py:class:`str <str>`.
         Latitude dimension over which to apply. By default is applied over the `lat` dimension.
-    - lon_dim: :py:class:`str<python.str>`.
+    - lon_dim: :py:class:`str <str>`.
         Longitude dimension over which to apply. By default is applied over the `lon` dimension.
     - method: {`'cos_lat'`, `'area'`}.
         area-weighting methods.
@@ -313,7 +307,9 @@ def get_weighted_spatial_data(
             return xda
         
         # area dataArray
-        da_area = area_grid(data_input[lat_dim].data, data_input[lon_dim].data, lat_dim, lon_dim)
+        lat_array = data_input[lat_dim].astype('float64').data
+        lon_array = data_input[lon_dim].astype('float64').data
+        da_area = area_grid(lat_array, lon_array, lat_dim, lon_dim)
         # total area
         total_area = da_area.sum(dim = (lat_dim, lon_dim))
         weights = da_area / total_area
@@ -356,7 +352,14 @@ def sort_ascending_latlon_coordinates(
     """
     Sort the dimensions `lat`, `lon` in ascending order.
     """
-    return data.sortby([lat_dim, lon_dim], ascending = True)
+    if (lat_dim is None) and (lon_dim is None):
+        return data
+    elif lat_dim is None:
+        return data.sortby([lon_dim], ascending = True)
+    elif lon_dim is None:
+        return data.sortby([lat_dim], ascending = True)
+    else:
+        return data.sortby([lat_dim, lon_dim], ascending = True)
 
 def transfer_units_coeff(
     input_units: str, 
@@ -513,7 +516,7 @@ def transfer_xarray_lon_from180TO360(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -547,7 +550,7 @@ def transfer_xarray_lon_from360TO180(
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
          The spatio-temporal data to be calculated.
-    lon_dim: :py:class:`str<python.str>`, default: `lon`.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
 
     Returns
@@ -569,20 +572,34 @@ def transfer_xarray_lon_from360TO180(
     tmp = data_input.assign_coords({lon_dim: lon_array}).sortby(lon_dim)
     return tmp
 
-def module_available(module: str) -> bool:
+def module_available(
+    module: str
+) -> bool:
     """Checks whether a module is installed without importing it.
 
     Use this for a lightweight check and lazy imports.
 
     Parameters
     ----------
-    module : str
+    module : dim: :py:class:`str <str>`
         Name of the module.
 
     Returns
     -------
-    available : bool
+    available : :py:class:`bool <bool>`
         Whether the module is installed.
     """
     import importlib
     return importlib.util.find_spec(module) is not None
+
+def dequantify_metpy_xarraydata(
+    data: xr.DataArray
+) -> xr.DataArray:
+    """
+    Return a new DataArray with the data as magnitude and the units as an attribute (Metpy).
+
+    .. note::
+
+        https://unidata.github.io/MetPy/latest/api/generated/metpy.xarray.html#metpy.xarray.MetPyDataArrayAccessor.dequantify
+    """
+    return data.metpy.dequantify()

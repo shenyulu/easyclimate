@@ -1,4 +1,5 @@
 import numpy as np
+from pathlib import Path
 
 def round_sf_np(
     x: np.array,
@@ -18,3 +19,12 @@ def round_sf_np_new(
     Take Two significant figures (NEW)
     """
     return np.array(["{:.2g}".format(num) for num in arr], dtype=float)
+
+def assert_path_dir_exist(
+    folder_path
+):
+    if not Path(folder_path).exists():
+        Path(folder_path).mkdir()
+        print(r"The path {folder_path} is create!")
+    else:
+        pass

@@ -17,7 +17,7 @@ u_data
 
 #%%
 # Formatting of the Latitude and Lontitude Tickes
-# ------------------------------------
+# ------------------------------------------------------------------------
 # `draw_data1` is extracted from time level 0 and 500hPa vertical level.
 draw_data1 = u_data.isel(time = 0).sel(level = 500)
 draw_data1
@@ -74,7 +74,7 @@ ax[1].set_title('dms = True')
 
 #%%
 # Barometric Profile Label Formatting
-# ------------------------------------
+# ------------------------------------------------------------------------
 # Here we choose the longitudinally averaged latitudinal direction at time level 0 to plot the profile
 draw_data2 = u_data.isel(time = 0).mean(dim = 'lon')
 
@@ -104,7 +104,7 @@ ecl.plot.set_p_format_axis(ax, axis = 'y')
 
 #%%
 # Polar Stereo of the Circle Boundary
-# ------------------------------------
+# ------------------------------------------------------------------------
 # For the sake of illustration, we use here the sea ice concentration (SIC) data from the Barents-Kara Seas (30°−90°E, 65°−85°N). 
 # The results of the data under the 10th time level are described below.
 sic_data = ecl.tutorial.open_tutorial_dataset('mini_HadISST_ice').sic.isel(time = 10)

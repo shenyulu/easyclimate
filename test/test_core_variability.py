@@ -92,13 +92,13 @@ uv_data_sample = xr.Dataset(
     data_vars = {'u': u_data_sample, 'v': v_data_sample}
 )
 
-def test_calc_climatological_mean():
-    result_data = ecl.calc_climatological_mean(sst_timeseries).data
+def test_calc_all_climatological_mean():
+    result_data = ecl.calc_all_climatological_mean(sst_timeseries).data
     refer_data = np.array(29.41912939)
     assert np.isclose(result_data, refer_data).all()
 
-def test_calc_climatological_seasonal_mean():
-    result_data = ecl.calc_climatological_seasonal_mean(sst_timeseries).data
+def test_calc_seasonal_climatological_mean():
+    result_data = ecl.calc_seasonal_climatological_mean(sst_timeseries).data
     refer_data = np.array([29.3350306 , 29.37734163, 29.45836823, 29.5057771 ])
     assert np.isclose(result_data, refer_data).all()
 
@@ -151,13 +151,13 @@ def test_remove_seasonal_cycle_mean():
         0.2287558,  0.1612636,  0.4631372,  0.2486949,  0.5100738])
     assert np.isclose(result_data, refer_data).all()
 
-def test_calc_climate_monthly_std():
-    result_data = ecl.calc_climate_monthly_std(sst_timeseries).data
+def test_calc_monthly_climatological_std_without_seasonal_cycle_mean():
+    result_data = ecl.calc_monthly_climatological_std_without_seasonal_cycle_mean(sst_timeseries).data
     refer_data = np.array(0.2803478)
     assert np.isclose(result_data, refer_data).all()
 
-def test_calc_climate_monthly_var():
-    result_data = ecl.calc_climate_monthly_var(sst_timeseries).data
+def test_calc_monthly_climatological_var_without_seasonal_cycle_mean():
+    result_data = ecl.calc_monthly_climatological_var_without_seasonal_cycle_mean(sst_timeseries).data
     refer_data = np.array(0.07859489)
     assert np.isclose(result_data, refer_data).all()
 

@@ -14,7 +14,7 @@ import cartopy.crs as ccrs
 # 
 # .. seealso::
 #   Luo, B., Luo, D., Ge, Y. et al. Origins of Barents-Kara sea-ice interannual variability modulated by the Atlantic pathway of El Niño–Southern Oscillation. Nat Commun 14, 585 (2023). https://doi.org/10.1038/s41467-023-36136-5
-sic_data_Barents_Sea = ecl.tutorial.open_tutorial_dataset('mini_HadISST_ice').sic
+sic_data_Barents_Sea = ecl.open_tutorial_dataset('mini_HadISST_ice').sic
 sic_data_Barents_Sea
 
 #%%
@@ -22,7 +22,7 @@ sic_data_Barents_Sea
 # 
 # .. seealso::
 #   Rayner, N. A.; Parker, D. E.; Horton, E. B.; Folland, C. K.; Alexander, L. V.; Rowell, D. P.; Kent, E. C.; Kaplan, A. (2003) Global analyses of sea surface temperature, sea ice, and night marine air temperature since the late nineteenth century J. Geophys. Res.Vol. 108, No. D14, 4407 https://doi.org/10.1029/2002JD002670  (pdf ~9Mb)
-sst_data = ecl.tutorial.open_tutorial_dataset('mini_HadISST_sst').sst
+sst_data = ecl.open_tutorial_dataset('mini_HadISST_sst').sst
 sst_data
 
 #%%
@@ -142,8 +142,8 @@ ecl.plot.draw_significant_area_contourf(
 # 
 # In this subsection we try to regress the Niño 3.4 index on the Barents-Kara December SIC data.
 # Before performing the regression analysis, we can see that the longitude range of the SST data is **-180°~180°**,
-# try to convert the longitude range to **0°~360°** using :py:func:`easyclimate.transfer_xarray_lon_from180TO360 <easyclimate.transfer_xarray_lon_from180TO360>`.
-sst_data_0_360 = ecl.transfer_xarray_lon_from180TO360(sst_data)
+# try to convert the longitude range to **0°~360°** using :py:func:`easyclimate.utility.transfer_xarray_lon_from180TO360 <easyclimate.utility.transfer_xarray_lon_from180TO360>`.
+sst_data_0_360 = ecl.utility.transfer_xarray_lon_from180TO360(sst_data)
 sst_data_0_360
 
 #%%
@@ -173,20 +173,20 @@ ax.coastlines(edgecolor = 'black', linewidths = 0.5)
 
 #%%
 # The Niño3.4 index is commonly used as an indicator for detecting ENSO, 
-# and `easyclimate` provides :py:func:`easyclimate.index.enso.calc_index_nino34 <easyclimate.index.enso.calc_index_nino34>` to calculate the index using SST anomalies.
+# and `easyclimate` provides :py:func:`easyclimate.field.air_sea_interaction.calc_index_nino34 <easyclimate.field.air_sea_interaction.calc_index_nino34>` to calculate the index using SST anomalies.
 # 
 # .. seealso::
 #   Anthony G. Bamston, Muthuvel Chelliah & Stanley B. Goldenberg (1997) Documentation of a highly ENSO‐related sst region in the equatorial pacific: Research note, Atmosphere-Ocean, 35:3, 367-383, DOI: https://doi.org/10.1080/07055900.1997.9649597
-nino34_monthly_index = ecl.index.enso.calc_index_nino34(sst_data_anormaly)
+nino34_monthly_index = ecl.field.air_sea_interaction.calc_index_nino34(sst_data_anormaly)
 
 nino34_monthly_index.plot(
     figsize = (8, 3),
 )
 
 #%%
-# :py:func:`easyclimate.calc_yearmean <easyclimate.calc_yearmean>` is then used to solve for the annual average of the monthly index data
+# :py:func:`easyclimate.calc_yearly_climatological_mean <easyclimate.calc_yearly_climatological_mean>` is then used to solve for the annual average of the monthly index data
 nino34_12_index = ecl.get_specific_months_data(nino34_monthly_index, 12)
-nino34_dec_yearly_index = ecl.calc_yearmean(nino34_12_index)
+nino34_dec_yearly_index = ecl.calc_yearly_climatological_mean(nino34_12_index)
 nino34_dec_yearly_index
 
 #%%
@@ -264,11 +264,11 @@ ax[1].legend()
 # regions are weighted according to their actual surface area when calculating 
 # averages or other regional statistical measures.
 # 
-# :py:func:`easyclimate.get_weighted_spatial_data <easyclimate.get_weighted_spatial_data>` can help us create 
+# :py:func:`easyclimate.utility.get_weighted_spatial_data <easyclimate.utility.get_weighted_spatial_data>` can help us create 
 # an :py:class:`xarray.core.weighted.DataArrayWeighted <xarray.core.weighted.DataArrayWeighted>` object. 
 # This object will automatically consider and calculate weights in subsequent area operations, thereby achieving the operation of the weighted spatial average.
 sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(sic_data_Barents_Sea_12, time_dim = 'time')
-grid_detrend_data_weighted_obj = ecl.get_weighted_spatial_data(sic_data_Barents_Sea_12_detrend, lat_dim = 'lat', lon_dim = 'lon')
+grid_detrend_data_weighted_obj = ecl.utility.get_weighted_spatial_data(sic_data_Barents_Sea_12_detrend, lat_dim = 'lat', lon_dim = 'lon')
 print(type(grid_detrend_data_weighted_obj))
 
 #%%

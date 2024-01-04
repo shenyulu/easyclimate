@@ -5,6 +5,7 @@
 <p align="center">
 <a href="https://easyclimate.readthedocs.io/en/latest/"><strong>Documentation</strong> (latest)</a> •
 <a href="https://easyclimate.readthedocs.io/en/main/"><strong>Documentation</strong> (main branch)</a> •
+<a href="https://easyclimate.readthedocs.io/en/dev/"><strong>Documentation</strong> (Dev)</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
@@ -14,6 +15,9 @@
 [![codecov](https://codecov.io/gh/shenyulu/easyclimate/graph/badge.svg?token=CBG3IO5A5A)](https://codecov.io/gh/shenyulu/easyclimate)
 [![Documentation Status](https://readthedocs.org/projects/easyclimate/badge/?version=latest)](https://easyclimate.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/465206111.svg)](https://zenodo.org/doi/10.5281/zenodo.10279567)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=.binder)
+
+
 
 ## About
 
@@ -60,8 +64,14 @@ By participating in this project you agree to abide by its terms.
 > writing code**.
 >
 
+## Contributors
+
+Thanks to our many contributors!
+
+[![Contributors](https://contrib.rocks/image?repo=shenyulu/easyclimate)](https://github.com/shenyulu/easyclimate/graphs/contributors)
+
 ## License
 
 This is free software: you can redistribute it and/or modify it under the terms
 of the **BSD 3-clause License**. A copy of this license is provided in
-[`LICENSE.txt`](https://github.com/fatiando/verde/blob/main/LICENSE.txt).
+[`LICENSE.txt`](https://github.com/shenyulu/easyclimate/blob/main/LICENSE.txt).

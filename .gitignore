@@ -1,6 +1,16 @@
 **/__pycache__
 **/.vscode
-dist
+**/easyclimate.egg-info
+**/docs/source/auto_gallery_output
+**/docs/source/api_index/generated
+**/docs/source/technical/api
+**/src/easyclimate.egg-info
+docs/optipng.exe
+docs/source/sg_execution_times.rst
+docs/source/relay
+docs/build
+dist/
+test/tmpfile
 **/.pytest_cache
 .coverage
 .coverage*

@@ -84,6 +84,8 @@ html_theme_options = {
     "sidebar_hide_name": True,
     "top_of_page_button": "edit",
     "last-updated": True,
+    "repository_url": "https://github.com/shenyulu/easyclimate",
+    "use_repository_button": True,
 }
 
 # Logo
@@ -148,4 +150,7 @@ intersphinx_mapping = {'scipy': ('https://docs.scipy.org/doc/scipy/', None),
                        'pandas': ('https://pandas.pydata.org/pandas-docs/stable', None),
                        'matplotlib': ('https://matplotlib.org/stable', None),
                        'statsmodels': ('https://www.statsmodels.org/stable', None),
+                       'xarray-datatree': ('https://xarray-datatree.readthedocs.io/en/latest/', None),
+                       'xeofs': ('https://xeofs.readthedocs.io/en/latest/', None),
+                       'metpy': ('https://unidata.github.io/MetPy/latest/', None),
 }

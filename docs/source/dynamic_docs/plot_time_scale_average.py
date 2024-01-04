@@ -16,13 +16,13 @@ sic_data_Barents_Sea
 #%%
 # Mean States
 # ------------------------------------
-# Solving for the overall climatological mean state was solved using :py:func:`easyclimate.calc_climatological_mean <easyclimate.calc_climatological_mean>`.
+# Solving for the overall climatological mean state was solved using :py:func:`easyclimate.calc_all_climatological_mean <easyclimate.calc_all_climatological_mean>`.
 #
-ecl.calc_climatological_mean(sic_data_Barents_Sea, dim = 'time')
+ecl.calc_all_climatological_mean(sic_data_Barents_Sea, dim = 'time')
 
 #%%
-# If the climate state is for each season, the results are solved using :py:func:`easyclimate.calc_climatological_seasonal_mean <easyclimate.calc_climatological_seasonal_mean>`.
-ecl.calc_climatological_seasonal_mean(sic_data_Barents_Sea, dim = 'time')
+# If the climate state is for each season, the results are solved using :py:func:`easyclimate.calc_seasonal_climatological_mean <easyclimate.calc_seasonal_climatological_mean>`.
+ecl.calc_seasonal_climatological_mean(sic_data_Barents_Sea, dim = 'time')
 
 #%%
 # However, if the climate state is for each month, the results are solved using :py:func:`easyclimate.calc_seasonal_cycle_mean <easyclimate.calc_seasonal_cycle_mean>`.
@@ -47,12 +47,13 @@ sic_data_Barents_Sea_remove_seasonal_cycle.mean(dim = ('lat', 'lon')).sel(time =
 # ------------------------------------
 # :py:func:`easyclimate.calc_seasonal_cycle_mean <easyclimate.calc_seasonal_cycle_mean>` can solve for monthly average results, 
 # and :py:func:`easyclimate.transfer_monmean2everymonthmean <easyclimate.transfer_monmean2everymonthmean>` can project monthly climate state results onto individual months for certain calculations.
-everymonth_climatology = ecl.transfer_monmean2everymonthmean(sic_data_Barents_Sea)
-everymonth_climatology;
+
+# everymonth_climatology = ecl.transfer_monmean2everymonthmean(sic_data_Barents_Sea)
+# everymonth_climatology;
 
 #%%
 # We can find that the seasonal cycles are all consistent.
-everymonth_climatology.mean(dim = ('lat', 'lon')).sel(time = slice('2010-01-01', '2015-12-31')).plot(
-    figsize = (10, 3),
-    marker = '.',
-)
+# everymonth_climatology.mean(dim = ('lat', 'lon')).sel(time = slice('2010-01-01', '2015-12-31')).plot(
+#     figsize = (10, 3),
+#     marker = '.',
+# )
