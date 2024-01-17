@@ -92,6 +92,7 @@ def open_tutorial_dataset(
     name: str,
     cache: bool = True,
     cache_dir: None | str | os.PathLike = None,
+    progressbar: bool = False,
     *,
     engine: T_Engine = None,
     **kws,
@@ -125,6 +126,8 @@ def open_tutorial_dataset(
         The directory in which to search for and write cached data.
     cache : dim: :py:class:`bool <bool>`, optional
         If True, then cache data locally for use on subsequent calls
+    progressbar: :py:class:`bool <bool>`, default `False`.
+        If True, will print a progress bar of the download to standard error (stderr). Requires `tqdm` to be installed.
     **kws : :py:class:`dict <dict>`, optional
         Passed to xarray.open_dataset
 
@@ -178,7 +181,7 @@ def open_tutorial_dataset(
         url = f"{base_url}/raw/{version}/{path.name}"
 
     # retrieve the file
-    filepath = pooch.retrieve(url=url, known_hash=None, path=cache_dir, progressbar=True)
+    filepath = pooch.retrieve(url=url, known_hash=None, path=cache_dir, progressbar=progressbar)
 
     if Path(filepath).suffix == '.nc' or Path(filepath).suffix == '.grib':
         ds = xr.open_dataset(filepath, engine=engine, **kws)

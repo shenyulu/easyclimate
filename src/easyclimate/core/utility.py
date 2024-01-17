@@ -603,3 +603,20 @@ def dequantify_metpy_xarraydata(
         https://unidata.github.io/MetPy/latest/api/generated/metpy.xarray.html#metpy.xarray.MetPyDataArrayAccessor.dequantify
     """
     return data.metpy.dequantify()
+
+def reverse_bool_xarraydata(
+    data_input: xr.DataArray | xr.Dataset
+) -> xr.DataArray | xr.Dataset:
+    """
+    Reverse the bool type in the `data_input`. i.e., `True` -> `False`, and `False` -> `True`.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        Input dataset.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+    """
+    return xr.where(data_input, False, True)

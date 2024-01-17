@@ -1,5 +1,5 @@
 """
-Easy cliamte top interface for the windspharm
+Easy climate top interface for the windspharm
 
 This is the top layer of packaging for the windspharm package.
 

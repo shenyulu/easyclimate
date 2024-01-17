@@ -182,7 +182,8 @@ def calc_ttestSpatialPattern_spatial(
          The second spatio-temporal data of xarray DataArray to be calculated.
 
     .. note::
-        The order of `data_input1` and `data_input2` has no effect on the calculation result.
+        - The order of `data_input1` and `data_input2` has no effect on the calculation result.
+        - The non-time dimensions of the two data sets must be exactly the same, and the dimensionality values must be arranged in the same order (ascending or descending).
 
     dim: :py:class:`str <str>`
         Dimension(s) over which to apply skewness. By default skewness is applied over the `time` dimension.
