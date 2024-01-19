@@ -140,7 +140,7 @@ def calc_timeseries_wavelet_transform(
     """    
     # variance
     timeseries_data_numpy = timeseries_data.data
-    variance = float(timeseries_data.std().data)
+    variance = float(timeseries_data.var().data)
     n = timeseries_data[time_dim].shape[0]
     
     if s0 is None:
