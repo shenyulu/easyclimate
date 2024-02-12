@@ -319,6 +319,7 @@ def test_module_available():
     assert result_data1 is refer_data1
     assert result_data2 is refer_data2
 
+
 def test_reverse_bool_xarraydata():
     data = xr.DataArray(np.array([True, False]), dims="lon")
     result_data = ecl.utility.reverse_bool_xarraydata(data)

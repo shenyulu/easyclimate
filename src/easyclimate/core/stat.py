@@ -22,6 +22,7 @@ __all__ = [
     "calc_theilslopes_spatial",
 ]
 
+
 @generate_datatree_dispatcher
 def calc_linregress_spatial(
     data_input: xr.DataArray | xr.Dataset,
@@ -338,17 +339,18 @@ def calc_levenetestSpatialPattern_spatial(
         }
     )
 
+
 def calc_levenetestSpatialPattern_spatial(
     data_input1: xr.DataArray,
     data_input2: xr.DataArray,
-    dim: str = 'time',
-    center: {'mean', 'median', 'trimmed'} = 'median',
-    proportiontocut: float = 0.05
+    dim: str = "time",
+    center: {"mean", "median", "trimmed"} = "median",
+    proportiontocut: float = 0.05,
 ) -> xr.Dataset:
     """
     Perform Levene test for equal variances of two independent sptial samples along with other axis (i.e. 'time') of scores.
 
-    The Levene test tests the null hypothesis that all input samples are from populations with equal variances. 
+    The Levene test tests the null hypothesis that all input samples are from populations with equal variances.
     Levene's test is an alternative to Bartlett's test in the case where there are significant deviations from normality.
 
     Parameters
@@ -380,7 +382,7 @@ def calc_levenetestSpatialPattern_spatial(
 
     proportiontocut: :py:class:`float <float>`, default `0.05`.
         When center is `'trimmed'`, this gives the proportion of data points to cut from each end (See :py:func:`scipy.stats.trim_mean <scipy:scipy.stats.trim_mean>`).
-        
+
     Returns
     -------
     - **statistic**, **pvalue**: :py:class:`xarray.Dataset<xarray.Dataset>`.
@@ -392,34 +394,39 @@ def calc_levenetestSpatialPattern_spatial(
 
     .. seealso::
         :py:func:`scipy.stats.levene <scipy:scipy.stats.levene>`.
-    """    
-    
-    if(data_input1.dims != data_input2.dims):
-        raise InterruptedError('data_input1.dims and data_input2.dims must be same!')
+    """
+
+    if data_input1.dims != data_input2.dims:
+        raise InterruptedError("data_input1.dims and data_input2.dims must be same!")
 
     # scipy function scipy.stats.levene calculate the F-test for the means of two independent samples of scores.
     def _levenetest_ind_scipy(data1, data2):
-        statistic, pvalue = stats.levene(data1, data2, center = center, proportiontocut = proportiontocut)
+        statistic, pvalue = stats.levene(
+            data1, data2, center=center, proportiontocut=proportiontocut
+        )
         return np.array([statistic, pvalue])
 
     # Use xarray apply_ufunc to create DataArray
     levenetest_ind_dataarray = xr.apply_ufunc(
         _levenetest_ind_scipy,
-        data_input1, data_input2,
-        input_core_dims=[[dim],[dim]],
-        output_core_dims = [["parameter"]],
+        data_input1,
+        data_input2,
+        input_core_dims=[[dim], [dim]],
+        output_core_dims=[["parameter"]],
         output_dtypes=["float64"],
-        dask = "parallelized",
+        dask="parallelized",
         vectorize=True,
-        dask_gufunc_kwargs = {"output_sizes": {"parameter": 2}},
-        exclude_dims=set((dim,)), # allow change size
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}},
+        exclude_dims=set((dim,)),  # allow change size
     )
 
     return xr.Dataset(
-        data_vars = {'statistic': levenetest_ind_dataarray[...,0],
-                     'pvalue':  levenetest_ind_dataarray[...,1],
+        data_vars={
+            "statistic": levenetest_ind_dataarray[..., 0],
+            "pvalue": levenetest_ind_dataarray[..., 1],
         }
     )
+
 
 @generate_datatree_dispatcher
 def calc_skewness_spatial(
