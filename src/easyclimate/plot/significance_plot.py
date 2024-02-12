@@ -1,6 +1,7 @@
 """
 Mapping areas of significance
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -9,16 +10,17 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import pandas as pd
 
+
 def draw_significant_area_contourf(
     p_value: xr.DataArray,
     thresh: float = 0.05,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
     ax: matplotlib.axes.Axes = None,
-    hatches: str = '...',
-    hatch_colors: str = 'k',
+    hatches: str = "...",
+    hatch_colors: str = "k",
     reverse_level_plot: bool = False,
-    **kwargs
+    **kwargs,
 ) -> matplotlib.contour.QuadContourSet:
     """
     Draw significant area by :py:func:`matplotlib.axes.Axes.contourf<matplotlib.axes.Axes.contourf>`.
@@ -54,46 +56,47 @@ def draw_significant_area_contourf(
     if 0 < thresh < 1:
         pass
     else:
-        raise ValueError('The parameter `thresh` should be between 0 and 1.')
+        raise ValueError("The parameter `thresh` should be between 0 and 1.")
 
-    if(reverse_level_plot == False):
+    if reverse_level_plot == False:
         hatches_value = [hatches, None]
-    elif(reverse_level_plot == True):
+    elif reverse_level_plot == True:
         hatches_value = [None, hatches]
     else:
-        raise ValueError('The parameter `hatches_value` should be bool type.')
-    
+        raise ValueError("The parameter `hatches_value` should be bool type.")
+
     cs = p_value.plot.contourf(
-        x = lon_dim, 
-        y = lat_dim,
-        ax = ax,
-        levels = [0, thresh],
-        hatches = hatches_value, 
-        colors = 'none',
-        add_colorbar = False, 
+        x=lon_dim,
+        y=lat_dim,
+        ax=ax,
+        levels=[0, thresh],
+        hatches=hatches_value,
+        colors="none",
+        add_colorbar=False,
         **kwargs,
     )
 
     # Change hatch pattern color
     # see: https://github.com/matplotlib/matplotlib/issues/2789/
-    # 
+    #
     # https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.8.0.html#contourset-collections
-    # 
-    # For each level, we set the color of its hatch 
+    #
+    # For each level, we set the color of its hatch
     for i, collection in enumerate(cs.collections):
         collection.set_edgecolor(hatch_colors[i % len(hatch_colors)])
-    
+
     # Doing this also colors in the box around each level
     # We can remove the colored line around the levels by setting the linewidth to 0
     for collection in cs.collections:
-        collection.set_linewidth(0.)
+        collection.set_linewidth(0.0)
+
 
 def get_significance_point(
     p_value: xr.DataArray,
     thresh: float = 0.05,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
-) -> pd.DataFrame:  
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+) -> pd.DataFrame:
     """
     Obtain longitude and latitude array values that meet the conditions within the threshold from a two-dimensional array of p-values
 
@@ -106,7 +109,7 @@ def get_significance_point(
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.    
+        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
     -------
@@ -117,12 +120,13 @@ def get_significance_point(
     point_lon = p_value[lon_dim][index[1]].data
     return pd.DataFrame({lat_dim: point_lat, lon_dim: point_lon})
 
+
 def draw_significant_area_scatter(
     significant_points_dataframe: pd.DataFrame,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
     ax: matplotlib.axes.Axes = None,
-    **kwargs
+    **kwargs,
 ):
     """
     Draw significant area by :py:func:`matplotlib.axes.Axes.scatter<matplotlib.axes.Axes.scatter>`.
@@ -134,7 +138,7 @@ def draw_significant_area_scatter(
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension. 
+        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     ax : :py:class:`matplotlib.axes.Axes`, optional
         Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
     **kwargs, optional:
@@ -146,4 +150,8 @@ def draw_significant_area_scatter(
     if ax == None:
         ax = plt.gca()
 
-    ax.scatter(significant_points_dataframe[lon_dim].values, significant_points_dataframe[lat_dim].values, **kwargs)
+    ax.scatter(
+        significant_points_dataframe[lon_dim].values,
+        significant_points_dataframe[lat_dim].values,
+        **kwargs,
+    )

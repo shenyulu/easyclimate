@@ -1,6 +1,7 @@
 """
 Wavelet transform
 """
+
 from __future__ import annotations
 from .waveletFunctions import wave_signif, wavelet
 import xarray as xr
@@ -12,21 +13,26 @@ import matplotlib.ticker as ticker
 import statsmodels.api as sm
 import scipy
 
-__all__ = ["calc_timeseries_wavelet_transform", "draw_global_wavelet_spectrum", "draw_wavelet_transform"]
+__all__ = [
+    "calc_timeseries_wavelet_transform",
+    "draw_global_wavelet_spectrum",
+    "draw_wavelet_transform",
+]
+
 
 def calc_timeseries_wavelet_transform(
     timeseries_data: xr.DataArray,
     dt: float,
-    time_dim: str = 'time',
+    time_dim: str = "time",
     pad: float = 1,
     dj: float = 0.25,
     j1_n_div_dj: int = 7,
-    s0 = None,
+    s0=None,
     lag1: float = None,
-    mother: str = 'morlet',
-    mother_param = None,
-    sigtest_wavelet: str = 'regular chi-square test',
-    sigtest_global: str = 'time-average test',
+    mother: str = "morlet",
+    mother_param=None,
+    sigtest_wavelet: str = "regular chi-square test",
+    sigtest_global: str = "time-average test",
     significance_level: float = 0.95,
 ) -> xr.Dataset:
     """
@@ -41,8 +47,8 @@ def calc_timeseries_wavelet_transform(
     time_dim: :py:class:`str <str>`.
         The time coordinate dimension name.
     pad: :py:class:`float<float>`, default: `1`.
-        if set to 1 (default is 0), pad time series with zeroes to get N up to the next higher power of 2. 
-        This prevents wraparound from the end of the time series to the beginning, and also 
+        if set to 1 (default is 0), pad time series with zeroes to get N up to the next higher power of 2.
+        This prevents wraparound from the end of the time series to the beginning, and also
         speeds up the FFT's used to do the wavelet transform. This will not eliminate all edge effects (see COI below).
     dj: :py:class:`float<float>`, default: `0.25`.
         The spacing between discrete scales. A smaller `dj` will give better scale resolution, but be slower to plot.
@@ -65,7 +71,7 @@ def calc_timeseries_wavelet_transform(
 
             - Name: Morlet (:math:`\\omega_0` = frequency)
             - :math:`\\psi_0(\eta)`: :math:`\\pi^{-1/4} e^{i \\omega_{0} \\eta} e^{-\\eta^2/2}`.
-        
+
         .. tab:: Paul
 
             - Name: Paul (:math:`m` = order)
@@ -75,7 +81,7 @@ def calc_timeseries_wavelet_transform(
 
             - Name: DOG (:math:`m` = derivative)
             - :math:`\\psi_0(\eta)`: :math:`\\frac{(-1)^{m+1}}{\\sqrt{\\Gamma (m+\\frac{1}{2})}} \\frac{d^m}{d \\eta^m} (e^{-\\eta^2 /2})`.
-    
+
 
     mother_param: :py:class:`float<float>`.
         The mother wavelet parameter.
@@ -92,7 +98,7 @@ def calc_timeseries_wavelet_transform(
         .. math::
 
             \\frac{\\left|W_n(s)\\right|^2}{\\sigma^2}\\Longrightarrow\\frac{1}{2} P_k\\chi_2^2
-        
+
         2. The "time-average" test, i.e. Eqn (23).
 
         .. math::
@@ -108,7 +114,7 @@ def calc_timeseries_wavelet_transform(
 
         .. math::
 
-            \\overline{P}=S_{\\mathrm{avg}}\\sum_{j=j_1}^{j_2}\\frac{P_j}{S_j}, \\ \\mathrm{where} \\ S_{\\mathrm{avg}}=\\left(\\sum_{j=j_1}^{j_2}\\frac1{s_j}\\right)^{-1}, \\frac{C_\\delta S_\\mathrm{avg}}{\\delta j\\delta t\\sigma^2}\\overline{W}_n^2\\Rightarrow\\overline{P}\\frac{\\chi_\\nu^2}\\nu, \\nu=\\frac{2n_aS_{\\mathrm{avg}}}{S_{\\mathrm{mid}}}\\sqrt{1+\\left(\\frac{n_a\\delta j}{\\delta j_0}\\right)^2}. 
+            \\overline{P}=S_{\\mathrm{avg}}\\sum_{j=j_1}^{j_2}\\frac{P_j}{S_j}, \\ \\mathrm{where} \\ S_{\\mathrm{avg}}=\\left(\\sum_{j=j_1}^{j_2}\\frac1{s_j}\\right)^{-1}, \\frac{C_\\delta S_\\mathrm{avg}}{\\delta j\\delta t\\sigma^2}\\overline{W}_n^2\\Rightarrow\\overline{P}\\frac{\\chi_\\nu^2}\\nu, \\nu=\\frac{2n_aS_{\\mathrm{avg}}}{S_{\\mathrm{mid}}}\\sqrt{1+\\left(\\frac{n_a\\delta j}{\\delta j_0}\\right)^2}.
 
         In this case, DOF should be set to a
         two-element vector [S1,S2], which gives the scale
@@ -118,7 +124,7 @@ def calc_timeseries_wavelet_transform(
 
     sigtest_global: {'regular chi-square test', 'time-average test', 'scale-average test'}, default: `'time-average test'`.
         See also the description of `sigtest_wavelet`.
-    
+
     significance_level: :py:class:`float<float>`, default: `0.95`.
         Significance level to use.
 
@@ -137,12 +143,12 @@ def calc_timeseries_wavelet_transform(
     - Torrence, C., & Compo, G. P. (1998). A Practical Guide to Wavelet Analysis. Bulletin of the American Meteorological Society, 79(1), 61-78. https://doi.org/10.1175/1520-0477(1998)079<0061:APGTWA>2.0.CO;2
     - Torrence, C., & Webster, P. J. (1999). Interdecadal Changes in the ENSO–Monsoon System. Journal of Climate, 12(8), 2679-2690. https://doi.org/10.1175/1520-0442(1999)012<2679:ICITEM>2.0.CO;2
     - Grinsted, A., Moore, J. C., and Jevrejeva, S.: Application of the cross wavelet transform and wavelet coherence to geophysical time series, Nonlin. Processes Geophys., 11, 561–566, https://doi.org/10.5194/npg-11-561-2004, 2004.
-    """    
+    """
     # variance
     timeseries_data_numpy = timeseries_data.data
     variance = float(timeseries_data.var().data)
     n = timeseries_data[time_dim].shape[0]
-    
+
     if s0 is None:
         # this says start at a scale of 6 months
         s0 = 2 * dt
@@ -154,61 +160,57 @@ def calc_timeseries_wavelet_transform(
 
     if lag1 is None:
         lag1 = sm.tsa.acf(timeseries_data_numpy)[1]
-        print("Allen and Smith AR(1) model estimate of the lag-one autocorrelation: lag1 = ", lag1)
+        print(
+            "Allen and Smith AR(1) model estimate of the lag-one autocorrelation: lag1 = ",
+            lag1,
+        )
 
     # this says do `j1_n_div_dj` powers-of-two with dj sub-octaves each
     j1 = j1_n_div_dj / dj
 
     match mother:
-        case 'morlet':
-            mother_value = 'MORLET'
-        case 'paul':
-            mother_value = 'PAUL'
-        case 'dog':
-            mother_value = 'DOG'
+        case "morlet":
+            mother_value = "MORLET"
+        case "paul":
+            mother_value = "PAUL"
+        case "dog":
+            mother_value = "DOG"
 
     match sigtest_wavelet:
-        case 'regular chi-square test':
+        case "regular chi-square test":
             sigtest_wavelet_value = 0
-        case 'time-average test':
+        case "time-average test":
             sigtest_wavelet_value = 1
-        case 'scale-average test':
+        case "scale-average test":
             sigtest_wavelet_value = 2
 
     match sigtest_global:
-        case 'regular chi-square test':
+        case "regular chi-square test":
             sigtest_global_value = 0
-        case 'time-average test':
+        case "time-average test":
             sigtest_global_value = 1
-        case 'scale-average test':
+        case "scale-average test":
             sigtest_global_value = 2
 
     # ------------------------------------------------
     # Wavelet transform
     wave, period, scale, coi = wavelet(
-        timeseries_data_numpy, 
-        dt, 
-        pad, 
-        dj, 
-        s0, 
-        j1, 
-        mother_value,
-        mother_param_value
+        timeseries_data_numpy, dt, pad, dj, s0, j1, mother_value, mother_param_value
     )
     power = (np.abs(wave)) ** 2  # Compute wavelet power spectrum
-    global_ws = (np.sum(power, axis=1) / n)  # time-average over all times
+    global_ws = np.sum(power, axis=1) / n  # time-average over all times
 
     # ------------------------------------------------
     # Significance levels
     signif = wave_signif(
-        ([variance]), 
-        dt = dt, 
-        sigtest = sigtest_wavelet_value, 
-        scale = scale,
-        lag1 = lag1, 
-        mother = mother_value,
-        siglvl = significance_level,
-        param = mother_param,
+        ([variance]),
+        dt=dt,
+        sigtest=sigtest_wavelet_value,
+        scale=scale,
+        lag1=lag1,
+        mother=mother_value,
+        siglvl=significance_level,
+        param=mother_param,
     )
 
     # expand signif --> (J+1)x(N) array
@@ -219,82 +221,78 @@ def calc_timeseries_wavelet_transform(
     # Global wavelet spectrum & significance levels
     dof = n - scale  # the -scale corrects for padding at edges
     global_signif = wave_signif(
-        variance, 
-        dt = dt, 
-        scale = scale, 
-        sigtest = sigtest_global_value, 
-        lag1 = lag1, 
-        dof = dof, 
-        mother = mother_value,
-        siglvl = significance_level,
-        param = mother_param,
+        variance,
+        dt=dt,
+        scale=scale,
+        sigtest=sigtest_global_value,
+        lag1=lag1,
+        dof=dof,
+        mother=mother_value,
+        siglvl=significance_level,
+        param=mother_param,
     )
-    
+
     # ------------------------------------------------
     # Create xarray DataArray
     power_xarray = xr.DataArray(
         power,
-        dims = ['period', time_dim],
-        coords = {'period': period, time_dim: timeseries_data[time_dim]},
-        name = 'power'
+        dims=["period", time_dim],
+        coords={"period": period, time_dim: timeseries_data[time_dim]},
+        name="power",
     )
 
     sig95_xarray = xr.DataArray(
         sig95,
-        dims = ['period', time_dim],
-        coords = {'period': period, time_dim: timeseries_data[time_dim]},
-        name = 'sig'
+        dims=["period", time_dim],
+        coords={"period": period, time_dim: timeseries_data[time_dim]},
+        name="sig",
     )
 
     global_ws_xarray = xr.DataArray(
-        global_ws,
-        dims = ['period'],
-        coords = {'period': period},
-        name = 'global_ws'
+        global_ws, dims=["period"], coords={"period": period}, name="global_ws"
     )
 
     global_signif_xarray = xr.DataArray(
-        global_signif,
-        dims = ['period'],
-        coords = {'period': period},
-        name = 'global_signif'
+        global_signif, dims=["period"], coords={"period": period}, name="global_signif"
     )
 
     coi_xarray = xr.DataArray(
-        coi,
-        dims = [time_dim],
-        coords = {time_dim: timeseries_data[time_dim]},
-        name = 'coi'
+        coi, dims=[time_dim], coords={time_dim: timeseries_data[time_dim]}, name="coi"
     )
 
     coi_bottom_xarray = xr.DataArray(
         coi * 0 + period[-1],
-        dims = [time_dim],
-        coords = {time_dim: timeseries_data[time_dim]},
-        name = 'coi'
+        dims=[time_dim],
+        coords={time_dim: timeseries_data[time_dim]},
+        name="coi",
     )
 
     result = xr.Dataset(
-        data_vars = {'power': power_xarray, 'sig': sig95_xarray,
-                     'global_ws': global_ws_xarray, 'global_signif': global_signif_xarray,
-                     'coi': coi_xarray, 'coi_bottom': coi_bottom_xarray
-                     }
+        data_vars={
+            "power": power_xarray,
+            "sig": sig95_xarray,
+            "global_ws": global_ws_xarray,
+            "global_signif": global_signif_xarray,
+            "coi": coi_xarray,
+            "coi_bottom": coi_bottom_xarray,
+        }
     )
-    result.attrs['dt'] = dt
-    result.attrs['scale'] = scale
-    result.attrs['sigtest_global'] = sigtest_global
-    result.attrs['sigtest_wavelet'] = sigtest_wavelet
-    result.attrs['lag1'] = lag1
-    result.attrs['dof'] = dof
-    result.attrs['mother'] = mother
-    result.attrs['significance_level'] = significance_level
+    result.attrs["dt"] = dt
+    result.attrs["scale"] = scale
+    result.attrs["sigtest_global"] = sigtest_global
+    result.attrs["sigtest_wavelet"] = sigtest_wavelet
+    result.attrs["lag1"] = lag1
+    result.attrs["dof"] = dof
+    result.attrs["mother"] = mother
+    result.attrs["significance_level"] = significance_level
     return result
+
 
 def draw_global_wavelet_spectrum(
     timeseries_wavelet_transform_result: xr.Dataset,
     ax: matplotlib.axes.Axes = None,
     global_ws_kwargs: dict = {},
-    global_signif_kwargs: dict = {'ls': '--'},
+    global_signif_kwargs: dict = {"ls": "--"},
 ):
     """
     Draw global wavelet spectrum
@@ -313,27 +311,37 @@ def draw_global_wavelet_spectrum(
     if ax == None:
         ax = plt.gca()
 
-    period = timeseries_wavelet_transform_result['period']
+    period = timeseries_wavelet_transform_result["period"]
 
-    timeseries_wavelet_transform_result.global_ws.plot(ax = ax, **global_ws_kwargs)
-    timeseries_wavelet_transform_result.global_signif.plot(ax = ax, **global_signif_kwargs)
+    timeseries_wavelet_transform_result.global_ws.plot(ax=ax, **global_ws_kwargs)
+    timeseries_wavelet_transform_result.global_signif.plot(
+        ax=ax, **global_signif_kwargs
+    )
 
-    ax.set_xscale('log', base = 2, subs = None)
+    ax.set_xscale("log", base=2, subs=None)
     ax.xaxis.set_major_formatter(ticker.ScalarFormatter())
     ax.set_xlim([np.min(period), np.max(period)])
 
     ax.set_ylim([0, 1.25 * timeseries_wavelet_transform_result.global_ws.max()])
 
-    ax.set_xlabel('Period')
-    ax.set_ylabel('Power')
+    ax.set_xlabel("Period")
+    ax.set_ylabel("Power")
+
 
 def draw_wavelet_transform(
     timeseries_wavelet_transform_result: xr.Dataset,
     ax: matplotlib.axes.Axes = None,
-    power_kwargs: dict = {'levels': [0, 0.5, 1, 2, 4, 999], 'colors': ['white', 'bisque', 'orange', 'orangered', 'darkred']},
-    sig_kwargs: dict = {'levels': [-99, 1], 'colors': 'k'},
-    coi_kwargs: dict = {'color': 'k'},
-    fill_between_kwargs: dict = {'facecolor': 'none', 'edgecolor': '#00000040', 'hatch': 'x'},
+    power_kwargs: dict = {
+        "levels": [0, 0.5, 1, 2, 4, 999],
+        "colors": ["white", "bisque", "orange", "orangered", "darkred"],
+    },
+    sig_kwargs: dict = {"levels": [-99, 1], "colors": "k"},
+    coi_kwargs: dict = {"color": "k"},
+    fill_between_kwargs: dict = {
+        "facecolor": "none",
+        "edgecolor": "#00000040",
+        "hatch": "x",
+    },
 ):
     """
     Draw wavelet transform
@@ -356,27 +364,24 @@ def draw_wavelet_transform(
     if ax == None:
         ax = plt.gca()
 
-    period = timeseries_wavelet_transform_result['period']
-    power_xarray = timeseries_wavelet_transform_result['power']
-    sig95_xarray = timeseries_wavelet_transform_result['sig']
-    coi_xarray = timeseries_wavelet_transform_result['coi']
-    coi_bottom_xarray = timeseries_wavelet_transform_result['coi_bottom']
+    period = timeseries_wavelet_transform_result["period"]
+    power_xarray = timeseries_wavelet_transform_result["power"]
+    sig95_xarray = timeseries_wavelet_transform_result["sig"]
+    coi_xarray = timeseries_wavelet_transform_result["coi"]
+    coi_bottom_xarray = timeseries_wavelet_transform_result["coi_bottom"]
 
     power_xarray.plot.contourf(**power_kwargs)
     sig95_xarray.plot.contour(**sig_kwargs)
     coi_xarray.plot(**coi_kwargs)
 
     plt.fill_between(
-        power_xarray.time,
-        coi_bottom_xarray,
-        coi_xarray,
-        **fill_between_kwargs
+        power_xarray.time, coi_bottom_xarray, coi_xarray, **fill_between_kwargs
     )
 
-    ax.set_yscale('log', base = 2, subs = None)
+    ax.set_yscale("log", base=2, subs=None)
     ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
     ax.set_ylim([np.min(period), np.max(period)])
-    ax.ticklabel_format(axis = 'y', style = 'plain')
+    ax.ticklabel_format(axis="y", style="plain")
 
-    ax.set_xlabel('Time')
-    ax.set_ylabel('Period')
+    ax.set_xlabel("Time")
+    ax.set_ylabel("Period")

@@ -1,20 +1,26 @@
 """
 Functions for Weather and climate variable diagnosis.
 """
+
 from __future__ import annotations
 import xarray as xr
 import numpy as np
 from .diff import calc_gradient, calc_p_gradient
 from .utility import transfer_deg2rad, transfer_units_coeff
 
-__all__ = ["calc_brunt_vaisala_frequency_atm", "get_coriolis_parameter", 
-           "get_potential_temperature", "calc_static_stability"]
+__all__ = [
+    "calc_brunt_vaisala_frequency_atm",
+    "get_coriolis_parameter",
+    "get_potential_temperature",
+    "calc_static_stability",
+]
+
 
 def calc_brunt_vaisala_frequency_atm(
-    potential_temperature_data: xr.DataArray, 
-    z_data: xr.DataArray, 
-    vertical_dim: str, 
-    g: float = 9.8
+    potential_temperature_data: xr.DataArray,
+    z_data: xr.DataArray,
+    vertical_dim: str,
+    g: float = 9.8,
 ) -> xr.DataArray:
     """
     Calculation of the Brunt-väisälä frequency for the vertical atmosphere.
@@ -47,17 +53,17 @@ def calc_brunt_vaisala_frequency_atm(
     .. seealso::
         - `brunt_vaisala_frequency — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.brunt_vaisala_frequency.html>`__
         - `brunt_vaisala_atm - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/brunt_vaisala_atm.shtml>`__
-        
+
     """
     dp = 1.0
-    dtheta_dp = calc_gradient(potential_temperature_data, dim = vertical_dim) /dp
-    dz_dp = calc_gradient(z_data, dim = vertical_dim) /dp
-    N = np.sqrt((g /potential_temperature_data) *(dtheta_dp/ dz_dp) )
+    dtheta_dp = calc_gradient(potential_temperature_data, dim=vertical_dim) / dp
+    dz_dp = calc_gradient(z_data, dim=vertical_dim) / dp
+    N = np.sqrt((g / potential_temperature_data) * (dtheta_dp / dz_dp))
     return N
 
+
 def get_coriolis_parameter(
-    lat_data: xr.DataArray | np.array, 
-    omega: float = 7.292e-5
+    lat_data: xr.DataArray | np.array, omega: float = 7.292e-5
 ) -> xr.DataArray | np.array:
     """
     Calculate the Coriolis parameter at each point.
@@ -84,15 +90,15 @@ def get_coriolis_parameter(
         - `coriolis_parameter — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.coriolis_parameter.html>`__
         - `coriolis_param - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/coriolis_param.shtml>`__
     """
-    lat_data = lat_data.astype('float64')
-    return 2 *omega *np.sin(transfer_deg2rad(lat_data))
+    lat_data = lat_data.astype("float64")
+    return 2 * omega * np.sin(transfer_deg2rad(lat_data))
 
 
 def get_potential_temperature(
     temper_data: xr.DataArray,
     vertical_dim: str,
     vertical_dim_units: str,
-    kappa: float = 287/1005.7
+    kappa: float = 287 / 1005.7,
 ) -> xr.DataArray:
     """
     Calculate the potential temperature.
@@ -130,24 +136,23 @@ def get_potential_temperature(
         - `potential_temperature — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.potential_temperature.html>`__
         - `pot_temp - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/pot_temp.shtml>`__
     """
-    p_base = transfer_units_coeff(vertical_dim_units, 'Pa')
-    if p_base == 1.:
+    p_base = transfer_units_coeff(vertical_dim_units, "Pa")
+    if p_base == 1.0:
         P_0 = 1000e2
     elif p_base == 100.0:
         P_0 = 1000
     else:
-        raise ValueError('`vertical_dim_units` be `Pa`, `hPa`, `mbar`.')
-    
-    return temper_data *(P_0/ temper_data[vertical_dim]) **(kappa)
+        raise ValueError("`vertical_dim_units` be `Pa`, `hPa`, `mbar`.")
+
+    return temper_data * (P_0 / temper_data[vertical_dim]) ** (kappa)
+
 
 def calc_static_stability(
-    temper_data: xr.DataArray,
-    vertical_dim: str,
-    vertical_dim_units: str
+    temper_data: xr.DataArray, vertical_dim: str, vertical_dim_units: str
 ) -> xr.DataArray:
     """
     Calculate the static stability within a vertical profile.
-    
+
     .. math::
         \\sigma = - T \\frac{\\partial \\ln \\theta}{\\partial p}
 
@@ -173,7 +178,11 @@ def calc_static_stability(
         - `static_stability — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.static_stability.html>`__
         - `Static stability parameters · Issue #2535 · Unidata/MetPy <https://github.com/Unidata/MetPy/issues/2535>`__
     """
-    theta = get_potential_temperature(temper_data, vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units)
+    theta = get_potential_temperature(
+        temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
+    )
     ln_theta = np.log(theta)
-    part = calc_p_gradient(ln_theta, vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units)
-    return -temper_data *part
+    part = calc_p_gradient(
+        ln_theta, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
+    )
+    return -temper_data * part

@@ -1,11 +1,30 @@
-ci:
-    autofix_commit_msg: |
-        [pre-commit.ci] auto fixes from pre-commit.com hooks
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
 
-        for more information, see https://pre-commit.ci
-    autofix_prs: true
-    autoupdate_branch: ''
-    autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
-    autoupdate_schedule: weekly
-    skip: []
-    submodules: false
+# Set the default stage to commit, only checking during submission
+default_stages:
+- commit
+
+# Set the default language version, and you can also set language_version separately in each repos
+default_language_version:
+  python: python3.10
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+    -   id: check-symlinks
+    -   id: check-merge-conflict
+    -   id: check-json
+    -   id: check-toml
+    -   id: name-tests-test
+        args: [--maxkb=51200]
+
+-   repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+    -   id: black

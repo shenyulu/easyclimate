@@ -6,12 +6,12 @@
 
 .. .. image:: _static/easyclimate-logo.svg
 
-.. Easy climate is a Python library for processing spatial data (bathymetry, geophysics surveys, etc) 
+.. Easy climate is a Python library for processing spatial data (bathymetry, geophysics surveys, etc)
 .. and interpolating it on regular grids (i.e., gridding).
 
-.. Our core interpolation methods are inspired by machine-learning. 
-.. As such, Verde implements an interface that is similar to the popular scikit-learn library. 
-.. We also provide other analysis methods that are often used in combination with gridding, 
+.. Our core interpolation methods are inspired by machine-learning.
+.. As such, Verde implements an interface that is similar to the popular scikit-learn library.
+.. We also provide other analysis methods that are often used in combination with gridding,
 .. like trend removal, blocked/windowed operations, cross-validation, and more!
 
 .. title:: Home
@@ -74,7 +74,7 @@ An example BibTeX entry:
     :maxdepth: 1
     :hidden:
     :caption: Getting Started
-    
+
     overview.rst
     install.rst
     .. ./auto_gallery_output/index
@@ -122,7 +122,7 @@ An example BibTeX entry:
 
     How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
     Source code on GitHub <https://github.com/shenyulu/easyclimate>
- 
+
 
 Indices and tables🧭
 ------------------------------
@@ -134,6 +134,6 @@ Indices and tables🧭
 .. caution::
     🚨 This package is still undergoing rapid development. 🚨
 
-    All of the API (functions/classes/interfaces) is subject to change. 
-    There may be non-backward compatible changes as we experiment with new design ideas and implement new features. 
+    All of the API (functions/classes/interfaces) is subject to change.
+    There may be non-backward compatible changes as we experiment with new design ideas and implement new features.
     This is not a finished product, use with caution.

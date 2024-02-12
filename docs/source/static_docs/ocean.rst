@@ -17,7 +17,7 @@ API
 ::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
-    
+
     easyclimate.field.ocean.mixlayer
     easyclimate.field.ocean.oceanic_front
     easyclimate.field.ocean.stability

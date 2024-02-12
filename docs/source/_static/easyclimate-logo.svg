@@ -4,9 +4,9 @@
 	 viewBox="0 0 497.52 81.9" style="enable-background:new 0 0 497.52 81.9;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#3861F6;}
-	
+
 		.st1{clip-path:url(#SVGID_00000157266399196178488040000018392931432007169666_);fill-rule:evenodd;clip-rule:evenodd;fill:#A42115;}
-	
+
 		.st2{clip-path:url(#SVGID_00000026132125694750779840000007761402950196300677_);fill-rule:evenodd;clip-rule:evenodd;fill:#A42115;}
 </style>
 <g>
@@ -62,7 +62,7 @@
 	<clipPath id="SVGID_00000010283606342015683100000015316965363196618906_">
 		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
 	</clipPath>
-	
+
 		<path style="clip-path:url(#SVGID_00000010283606342015683100000015316965363196618906_);fill-rule:evenodd;clip-rule:evenodd;fill:#A42115;" d="
 		M216.48,35.09c-0.6-3.67-2.62-6.96-5.63-9.15c-3.12-2.19-7-3-10.73-2.25c-2.95-4.52-7.97-7.25-13.36-7.27
 		c-1.24,0-2.47,0.14-3.67,0.43c-6.39,1.66-11.18,6.98-12.16,13.51c-4.23,0.15-8.17,2.18-10.73,5.55c-2.99,4.21-3.53,9.69-1.43,14.4
@@ -79,7 +79,7 @@
 	<clipPath id="SVGID_00000037651413934217173200000014864696316630443401_">
 		<use xlink:href="#SVGID_00000145044278989956313000000009589999494970910863_"  style="overflow:visible;"/>
 	</clipPath>
-	
+
 		<path style="clip-path:url(#SVGID_00000037651413934217173200000014864696316630443401_);fill-rule:evenodd;clip-rule:evenodd;fill:#A42115;" d="
 		M191.28,36.64v29.69c0,0,0,0.01-0.01,0.01c0,0,0,0,0,0l-9.97-9.96l-1.06,1.06l11.79,11.79l11.79-11.79l-1.06-1.06l-9.96,9.96
 		c0,0-0.01,0-0.01,0c0,0,0,0,0-0.01V36.64H191.28z"/>
