@@ -174,6 +174,18 @@ def test_calc_levenetestSpatialPattern_spatial():
     assert np.isclose(result_data2, refer_data2).all()
 
 
+def test_calc_levenetestSpatialPattern_spatial():
+   sic_data_Barents_Sea_12_spatial_mean = sic_data_Barents_Sea_12.sel(lon = slice(34.5, 36.5), lat = slice(78.5, 80.5)).mean(dim = ('lat', 'lon'))
+   test1 = sic_data_Barents_Sea_12_spatial_mean.isel(time = slice(0, 20))
+   test2 = sic_data_Barents_Sea_12_spatial_mean.isel(time = slice(21, None))
+   result_data = ecl.calc_levenetestSpatialPattern_spatial(test1, test2)
+   result_data1 = result_data['statistic'].data
+   result_data2 = result_data['pvalue'].data
+   refer_data1 = 13.79602081
+   refer_data2 = 0.00063671
+   assert np.isclose(result_data1, refer_data1).all()
+   assert np.isclose(result_data2, refer_data2).all()
+
 def test_calc_skewness_spatial():
     sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(
         sic_data_Barents_Sea_12.sel(lon=slice(34.5, 36.5), lat=slice(78.5, 80.5)),

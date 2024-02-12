@@ -13,6 +13,7 @@ dependencies:
   - statsmodels
   - dask
   - pip:
+    - easyclimate
     - geocat.viz <= 2023.10.0
     - xeofs >= 2.2.2
     - fast-barnes-py

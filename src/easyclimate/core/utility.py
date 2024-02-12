@@ -614,7 +614,6 @@ def dequantify_metpy_xarraydata(data: xr.DataArray) -> xr.DataArray:
     """
     return data.metpy.dequantify()
 
-
 def reverse_bool_xarraydata(
     data_input: xr.DataArray | xr.Dataset,
 ) -> xr.DataArray | xr.Dataset:
