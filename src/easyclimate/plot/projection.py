@@ -1,6 +1,7 @@
 """
 Graph processing related functions
 """
+
 from __future__ import annotations
 
 import cartopy
@@ -8,14 +9,16 @@ import xarray as xr
 import warnings
 import matplotlib
 import matplotlib.pyplot as plt
-from ..core.utility import (transfer_xarray_lon_from180TO360, assert_compared_version)
+from ..core.utility import transfer_xarray_lon_from180TO360, assert_compared_version
 
 # cartopy version check
-check_return = assert_compared_version(cartopy.__version__, '0.20')
+check_return = assert_compared_version(cartopy.__version__, "0.20")
 if check_return == 1:
     pass
 else:
-    print("Cartopy version is not greater than 0.20, please update cartopy package. You can use Conda to update: `conda install -c conda-forge cartopy`")
+    print(
+        "Cartopy version is not greater than 0.20, please update cartopy package. You can use Conda to update: `conda install -c conda-forge cartopy`"
+    )
 
 import cartopy.crs as ccrs
 import matplotlib.ticker as ticker
@@ -29,7 +32,7 @@ def draw_Circlemap_PolarStereo(
     add_gridlines: bool = True,
     lon_step: float = None,
     lat_step: float = None,
-    ax: matplotlib.axes.Axes = None, 
+    ax: matplotlib.axes.Axes = None,
     draw_labels: bool = True,
     set_map_boundary_kwargs: dict = {},
     gridlines_kwargs: dict = {},
@@ -65,45 +68,47 @@ def draw_Circlemap_PolarStereo(
         :py:func:`geocat.viz.util.set_map_boundary <geocat.viz:geocat.viz.util.set_map_boundary>`, :py:class:`cartopy.mpl.gridliner.Gridliner <cartopy:cartopy.mpl.gridliner.Gridliner>`.
     """
     # Get Axes
-    if(ax == None):
+    if ax == None:
         ax = plt.gca()
     else:
-        pass    
-  
+        pass
+
     # Check the projection parameters
-    if (type(ax.projection).__name__ == 'NorthPolarStereo') or (type(ax.projection).__name__ == 'SouthPolarStereo'):
+    if (type(ax.projection).__name__ == "NorthPolarStereo") or (
+        type(ax.projection).__name__ == "SouthPolarStereo"
+    ):
         pass
     else:
-        raise TypeError("The projection type of the Axes should be `cartopy.crs.NorthPolarStereo` or `cartopy.crs.SouthPolarStereo`, consider to specify the parameter `projection` as `cartopy.crs.NorthPolarStereo` or `cartopy.crs.SouthPolarStereo`. E.g. `fig, ax = plt.subplots(subplot_kw = {'projection': ccrs.NorthPolarStereo()})`.")
+        raise TypeError(
+            "The projection type of the Axes should be `cartopy.crs.NorthPolarStereo` or `cartopy.crs.SouthPolarStereo`, consider to specify the parameter `projection` as `cartopy.crs.NorthPolarStereo` or `cartopy.crs.SouthPolarStereo`. E.g. `fig, ax = plt.subplots(subplot_kw = {'projection': ccrs.NorthPolarStereo()})`."
+        )
 
-    gvutil.set_map_boundary(
-        ax, 
-        [-180, 180], 
-        lat_range, 
-        **set_map_boundary_kwargs
-    )
+    gvutil.set_map_boundary(ax, [-180, 180], lat_range, **set_map_boundary_kwargs)
 
     if add_gridlines == True:
         if lon_step == None or lat_step == None:
-            raise ValueError('If `add_gridlines = True`, the parameters `lon_step`, `lat_step`, and `draw_labels` should be specified.')
+            raise ValueError(
+                "If `add_gridlines = True`, the parameters `lon_step`, `lat_step`, and `draw_labels` should be specified."
+            )
 
         gl = ax.gridlines(
-            crs = ccrs.PlateCarree(),
-            draw_labels = draw_labels,
-            xlocs = ticker.FixedLocator(np.arange(-180, 180, lon_step)),
-            ylocs = ticker.FixedLocator(np.arange(min(lat_range), max(lat_range), lat_step)),
+            crs=ccrs.PlateCarree(),
+            draw_labels=draw_labels,
+            xlocs=ticker.FixedLocator(np.arange(-180, 180, lon_step)),
+            ylocs=ticker.FixedLocator(
+                np.arange(min(lat_range), max(lat_range), lat_step)
+            ),
             **gridlines_kwargs,
         )
     elif add_gridlines == False:
         pass
     else:
-        raise ValueError('`add_gridlines` is bool type, it should be `True` or `False`.')
+        raise ValueError(
+            "`add_gridlines` is bool type, it should be `True` or `False`."
+        )
 
-def add_lon_cyclic(
-    data_input : xr.DataArray, 
-    inter: float,
-    lon_dim: str = 'lon'
-):
+
+def add_lon_cyclic(data_input: xr.DataArray, inter: float, lon_dim: str = "lon"):
     """
     Add a cyclic point to an array and optionally a corresponding coordinate.
 
@@ -119,15 +124,14 @@ def add_lon_cyclic(
     .. seealso
         :py:func:`xarray.DataArray.pad <xarray:xarray.DataArray.pad>`, :py:func:`cartopy.util.add_cyclic_point <cartopy:cartopy.util.add_cyclic_point>`
     """
-    lon_array_data_input = data_input[lon_dim].data   
+    lon_array_data_input = data_input[lon_dim].data
 
     if (lon_array_data_input < 0).any():
-        warnings.warn('It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°.')
+        warnings.warn(
+            "It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°."
+        )
         data_input = transfer_xarray_lon_from180TO360(data_input)
 
-    temp = data_input.pad(
-        pad_width = {lon_dim: (0, 1)},
-        mode = "wrap"
-    )
+    temp = data_input.pad(pad_width={lon_dim: (0, 1)}, mode="wrap")
     result_data = temp.assign_coords({lon_dim: np.arange(0, 360 + inter, inter)})
     return result_data

@@ -65,7 +65,7 @@ Plot
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
     .. easyclimate.plot.wind
-    
+
 
 Climate Field
 ----------------------------------------

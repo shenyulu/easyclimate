@@ -13,6 +13,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/easyclimate)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/easyclimate)
 [![codecov](https://codecov.io/gh/shenyulu/easyclimate/graph/badge.svg?token=CBG3IO5A5A)](https://codecov.io/gh/shenyulu/easyclimate)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/shenyulu/easyclimate/main.svg)](https://results.pre-commit.ci/latest/github/shenyulu/easyclimate/main)
 [![Documentation Status](https://readthedocs.org/projects/easyclimate/badge/?version=latest)](https://easyclimate.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/465206111.svg)](https://zenodo.org/doi/10.5281/zenodo.10279567)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=.binder)

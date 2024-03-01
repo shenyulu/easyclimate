@@ -5,6 +5,7 @@ Useful for:
 * building tutorials in the documentation.
 
 """
+
 # idea borrowed from xarray
 
 from __future__ import annotations
@@ -26,6 +27,7 @@ _default_cache_dir_name = "easylimate_tutorial_data"
 base_url = "https://github.com/shenyulu/easyclimate-data"
 version = "main"
 
+
 def _construct_cache_dir(path):
     import pooch
 
@@ -35,6 +37,7 @@ def _construct_cache_dir(path):
         path = pooch.os_cache(_default_cache_dir_name)
 
     return path
+
 
 external_urls = {}  # type: dict
 file_formats = {
@@ -47,13 +50,14 @@ file_formats = {
     "vwnd_202201_mon_mean": 4,
     "omega_202201_mon_mean": 4,
     "mini_HadISST_ice": 4,
-    "PressQFF_202007271200_872": 'csv',
+    "PressQFF_202007271200_872": "csv",
     "pr_wtr_eatm_2022": 4,
     "sst_mnmean_oisst": 4,
     "hgt_day_ltm_1991_2020_0to6day": 4,
     "uwnd_day_ltm_1991_2020_0to6day": 4,
     "vwnd_day_ltm_1991_2020_0to6day": 4,
 }
+
 
 def _check_netcdf_engine_installed(name):
     version = file_formats.get(name)
@@ -79,14 +83,14 @@ def _check_netcdf_engine_installed(name):
                     f"opening tutorial dataset {name} requires either h5netcdf "
                     "or netCDF4 to be installed."
                 )
-    if version == 'csv':
+    if version == "csv":
         try:
             import pandas  # noqa
         except ImportError:
             raise ImportError(
-                f"opening tutorial dataset {name} requires pandas "
-                " to be installed."
+                f"opening tutorial dataset {name} requires pandas " " to be installed."
             )
+
 
 def open_tutorial_dataset(
     name: str,
@@ -181,14 +185,16 @@ def open_tutorial_dataset(
         url = f"{base_url}/raw/{version}/{path.name}"
 
     # retrieve the file
-    filepath = pooch.retrieve(url=url, known_hash=None, path=cache_dir, progressbar=progressbar)
+    filepath = pooch.retrieve(
+        url=url, known_hash=None, path=cache_dir, progressbar=progressbar
+    )
 
-    if Path(filepath).suffix == '.nc' or Path(filepath).suffix == '.grib':
+    if Path(filepath).suffix == ".nc" or Path(filepath).suffix == ".grib":
         ds = xr.open_dataset(filepath, engine=engine, **kws)
         if not cache:
             ds = ds.load()
             pathlib.Path(filepath).unlink()
-    elif Path(filepath).suffix == '.csv' or Path(filepath).suffix == '.CSV':
+    elif Path(filepath).suffix == ".csv" or Path(filepath).suffix == ".CSV":
         ds = pd.read_csv(filepath)
 
     return ds

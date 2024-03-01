@@ -1,6 +1,7 @@
 """
 Functions for read data.
 """
+
 from __future__ import annotations
 
 from glob import glob
@@ -8,11 +9,8 @@ import xarray as xr
 
 __all__ = ["open_muliti_dataset"]
 
-def open_muliti_dataset(
-    files: str, 
-    dim: str, 
-    **kwargs
-) -> xr.Dataset:
+
+def open_muliti_dataset(files: str, dim: str, **kwargs) -> xr.Dataset:
     """
     Open multiple netCDF files without the need for xarray's necessary dimension checks
 
@@ -44,8 +42,8 @@ def open_muliti_dataset(
     """
 
     # Dask is used by default for multi-data file reads for lazy computation
-    if 'chunks' not in kwargs:
-        kwargs['chunks'] = 'auto'
+    if "chunks" not in kwargs:
+        kwargs["chunks"] = "auto"
 
     # glob expands paths with * to a list of files, like the unix shell
     paths = sorted(glob(files))

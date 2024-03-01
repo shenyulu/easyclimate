@@ -1,24 +1,48 @@
 """
 The calculation of transient eddy
 """
+
 from __future__ import annotations
 import xarray as xr
 import numpy as np
-from .diagnosis import get_coriolis_parameter, get_potential_temperature, calc_brunt_vaisala_frequency_atm
-from .diff import calc_gradient, calc_lon_gradient, calc_lat_gradient, calc_lon_laplacian, calc_lon_lat_mixed_derivatives
-from .utility import transfer_data_units, transfer_units_coeff, transfer_deg2rad, transfer_dFdp2dFdz
+from .diagnosis import (
+    get_coriolis_parameter,
+    get_potential_temperature,
+    calc_brunt_vaisala_frequency_atm,
+)
+from .diff import (
+    calc_gradient,
+    calc_lon_gradient,
+    calc_lat_gradient,
+    calc_lon_laplacian,
+    calc_lon_lat_mixed_derivatives,
+)
+from .utility import (
+    transfer_data_units,
+    transfer_units_coeff,
+    transfer_deg2rad,
+    transfer_dFdp2dFdz,
+)
 
-__all__ =  ["calc_eady_growth_rate", "calc_apparent_heat_source", "calc_total_diabatic_heating",
-            "calc_apparent_moisture_sink", "calc_Plumb_wave_activity_horizontal_flux",
-            "calc_TN_wave_activity_horizontal_flux", "calc_EP_horizontal_flux"]
+__all__ = [
+    "calc_eady_growth_rate",
+    "calc_apparent_heat_source",
+    "calc_total_diabatic_heating",
+    "calc_apparent_moisture_sink",
+    "calc_Plumb_wave_activity_horizontal_flux",
+    "calc_TN_wave_activity_horizontal_flux",
+    "calc_EP_horizontal_flux",
+]
+
 
 def calc_eady_growth_rate(
-    u_daily_data: xr.DataArray, 
-    z_daily_data: xr.DataArray, 
-    temper_daily_data: xr.DataArray, 
-    vertical_dim: str, vertical_dim_units: str, 
-    lat_dim = 'lat', 
-    g = 9.8
+    u_daily_data: xr.DataArray,
+    z_daily_data: xr.DataArray,
+    temper_daily_data: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: str,
+    lat_dim="lat",
+    g=9.8,
 ) -> xr.Dataset:
     """
     Calculate the maximum Eady growth rate.
@@ -27,8 +51,8 @@ def calc_eady_growth_rate(
         \\sigma = 0.3098 \\frac{f}{N} \\frac{\mathrm{d} U}{\mathrm{d} z}
 
     .. caution::
-        Eady growth rate (EGR) is a non-linear quantity. Hence, `calc_eady_growth_rate` should **NOT** be **directly applied to monthly means** variables. 
-        If a monthly climatology of EGR is desired, the EGR values at the high frequency temporal time steps should be calculated; 
+        Eady growth rate (EGR) is a non-linear quantity. Hence, `calc_eady_growth_rate` should **NOT** be **directly applied to monthly means** variables.
+        If a monthly climatology of EGR is desired, the EGR values at the high frequency temporal time steps should be calculated;
         then, use calculate monthly mean.
 
     Parameters
@@ -46,7 +70,7 @@ def calc_eady_growth_rate(
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     g: :py:class:`float <float>`, default: `9.8`.
-        The acceleration of gravity. 
+        The acceleration of gravity.
 
     Returns
     -------
@@ -63,34 +87,41 @@ def calc_eady_growth_rate(
     dim_tuple = u_daily_data.dims
     f = get_coriolis_parameter(u_daily_data[lat_dim])
     dp = 1
-    dudp = calc_gradient(u_daily_data, dim = vertical_dim) /dp
-    dzdp = calc_gradient(z_daily_data, dim = vertical_dim) /dp
-    dudz = dudp /dzdp
-    pt = get_potential_temperature(temper_daily_data, vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units)
-    brunt_vaisala_atm = calc_brunt_vaisala_frequency_atm(pt, z_daily_data, vertical_dim = vertical_dim)
-    eady_growth_rate = 0.3098 *g *np.abs(f) *np.abs(dudz) /brunt_vaisala_atm
+    dudp = calc_gradient(u_daily_data, dim=vertical_dim) / dp
+    dzdp = calc_gradient(z_daily_data, dim=vertical_dim) / dp
+    dudz = dudp / dzdp
+    pt = get_potential_temperature(
+        temper_daily_data,
+        vertical_dim=vertical_dim,
+        vertical_dim_units=vertical_dim_units,
+    )
+    brunt_vaisala_atm = calc_brunt_vaisala_frequency_atm(
+        pt, z_daily_data, vertical_dim=vertical_dim
+    )
+    eady_growth_rate = 0.3098 * g * np.abs(f) * np.abs(dudz) / brunt_vaisala_atm
     eady_growth_rate = eady_growth_rate.transpose(*dim_tuple)
     result_dataset = xr.Dataset(
-        data_vars = {
-            'eady_growth_rate': eady_growth_rate,
-            'dudz': dudz,
-            'brunt_vaisala_frequency': brunt_vaisala_atm,
+        data_vars={
+            "eady_growth_rate": eady_growth_rate,
+            "dudz": dudz,
+            "brunt_vaisala_frequency": brunt_vaisala_atm,
         }
     )
     return result_dataset
 
+
 def calc_apparent_heat_source(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
-    omega_data: xr.DataArray, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
+    omega_data: xr.DataArray,
     temper_data: xr.DataArray,
-    vertical_dim: str, 
-    vertical_dim_units: str, 
+    vertical_dim: str,
+    vertical_dim_units: str,
     time_units: str,
-    lon_dim = 'lon',
-    lat_dim = 'lat', 
-    time_dim = 'time', 
-    c_p = 1005.7
+    lon_dim="lon",
+    lat_dim="lat",
+    time_dim="time",
+    c_p=1005.7,
 ) -> xr.DataArray:
     """
     Calculate the apparent heat source.
@@ -135,34 +166,41 @@ def calc_apparent_heat_source(
         - `Ling, J., & Zhang, C. (2013). Diabatic Heating Profiles in Recent Global Reanalyses, Journal of Climate, 26(10), 3307-3325. <https://doi.org/10.1175/JCLI-D-12-00384.1>`__
     """
     # Convert time units to seconds
-    dt = transfer_units_coeff(time_units, 'seconds')
-    # Convert the pressure unit to Pascal 
-    dp_base = transfer_units_coeff(vertical_dim_units, 'Pa')
+    dt = transfer_units_coeff(time_units, "seconds")
+    # Convert the pressure unit to Pascal
+    dp_base = transfer_units_coeff(vertical_dim_units, "Pa")
 
-    pt = get_potential_temperature(temper_data, vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units)
-    dtheta_dt = calc_gradient(pt, dim = time_dim) /dt
-    dtheta_dx = calc_lon_gradient(pt, lon_dim = lon_dim, lat_dim = lat_dim)
-    dtheta_dy = calc_lat_gradient(pt, lat_dim = lat_dim)
+    pt = get_potential_temperature(
+        temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
+    )
+    dtheta_dt = calc_gradient(pt, dim=time_dim) / dt
+    dtheta_dx = calc_lon_gradient(pt, lon_dim=lon_dim, lat_dim=lat_dim)
+    dtheta_dy = calc_lat_gradient(pt, lat_dim=lat_dim)
 
-    dp = calc_gradient(pt[vertical_dim], dim = vertical_dim) *dp_base
-    domega_dp = calc_gradient(pt, dim = vertical_dim) /dp
+    dp = calc_gradient(pt[vertical_dim], dim=vertical_dim) * dp_base
+    domega_dp = calc_gradient(pt, dim=vertical_dim) / dp
 
-    Q1 = c_p *(temper_data /pt) *(dtheta_dt + u_data *dtheta_dx + v_data *dtheta_dy + omega_data *domega_dp)
-    Q1.name = 'apparent_heat_source'
+    Q1 = (
+        c_p
+        * (temper_data / pt)
+        * (dtheta_dt + u_data * dtheta_dx + v_data * dtheta_dy + omega_data * domega_dp)
+    )
+    Q1.name = "apparent_heat_source"
     return Q1
 
+
 def calc_total_diabatic_heating(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
-    omega_data: xr.DataArray, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
+    omega_data: xr.DataArray,
     temper_data: xr.DataArray,
-    vertical_dim: str, 
-    vertical_dim_units: str, 
+    vertical_dim: str,
+    vertical_dim_units: str,
     time_units: str,
-    lat_dim = 'lat', 
-    lon_dim = 'lon', 
-    time_dim = 'time', 
-    c_p = 1005.7
+    lat_dim="lat",
+    lon_dim="lon",
+    time_dim="time",
+    c_p=1005.7,
 ) -> xr.DataArray:
     """
     Calculate the total diabatic heating.
@@ -205,34 +243,42 @@ def calc_total_diabatic_heating(
         :py:func:`calc_apparent_heat_source <calc_apparent_heat_source>`
     """
     Q1 = calc_apparent_heat_source(
-        u_data = u_data, v_data = v_data,
-        omega_data = omega_data, temper_data = temper_data,
-        vertical_dim = vertical_dim, vertical_dim_units = vertical_dim_units,
-        time_units = time_units, lat_dim= lat_dim, lon_dim = lon_dim,
-        time_dim = time_dim, c_p = c_p)
-    Q1.name = 'total_diabatic_heating'
+        u_data=u_data,
+        v_data=v_data,
+        omega_data=omega_data,
+        temper_data=temper_data,
+        vertical_dim=vertical_dim,
+        vertical_dim_units=vertical_dim_units,
+        time_units=time_units,
+        lat_dim=lat_dim,
+        lon_dim=lon_dim,
+        time_dim=time_dim,
+        c_p=c_p,
+    )
+    Q1.name = "total_diabatic_heating"
     return Q1
 
+
 def calc_apparent_moisture_sink(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
-    omega_data: xr.DataArray, 
-    specific_humidity_data: xr.DataArray, 
-    vertical_dim: str, 
-    vertical_dim_units: str, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
+    omega_data: xr.DataArray,
+    specific_humidity_data: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: str,
     time_units: str,
     specific_humidity_units: str,
-    lon_dim = 'lon',
-    lat_dim = 'lat', 
-    time_dim = 'time', 
-    latent_heat_of_condensation = 2.501e6,
+    lon_dim="lon",
+    lat_dim="lat",
+    time_dim="time",
+    latent_heat_of_condensation=2.501e6,
 ) -> xr.DataArray:
     """
     Calculate the apparent moisture sink.
 
     .. math::
         Q_2 = -L \\left( \\frac{\\partial q}{\\partial t} + u \\frac{\\partial q}{\\partial x} + v \\frac{\\partial q}{\\partial y} + \\omega \\frac{\\partial q}{\\partial p}  \\right)
-    
+
     Parameters
     ----------
     u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
@@ -272,33 +318,40 @@ def calc_apparent_moisture_sink(
         - `Yanai, M., & Tomita, T. (1998). Seasonal and Interannual Variability of Atmospheric Heat Sources and Moisture Sinks as Determined from NCEP–NCAR Reanalysis, Journal of Climate, 11(3), 463-482. <https://journals.ametsoc.org/view/journals/clim/11/3/1520-0442_1998_011_0463_saivoa_2.0.co_2.xml>`__
         - `HAO Lisheng, MA Ning, HE Liye. Circulation anomalies characteritics of the abnormal drought and high temperature event in the middle and lower reaches of the Yangtze River in summer of 2022[J]. Arid Meteorology, 2022, 40(5): 721-732 <https://doi.org/10.11755/j.issn.1006-7639(2022)-05-0721>`__
     """
-    specific_humidity_data = transfer_data_units(specific_humidity_data, specific_humidity_units, 'kg/kg')
+    specific_humidity_data = transfer_data_units(
+        specific_humidity_data, specific_humidity_units, "kg/kg"
+    )
 
     # Convert time units to seconds
-    dt = transfer_units_coeff(time_units, 'seconds')
-    # Convert the pressure unit to Pascal 
-    dp_base = transfer_units_coeff(vertical_dim_units, 'Pa')
+    dt = transfer_units_coeff(time_units, "seconds")
+    # Convert the pressure unit to Pascal
+    dp_base = transfer_units_coeff(vertical_dim_units, "Pa")
 
-    dqs_dt = calc_gradient(specific_humidity_data, dim = time_dim)/ dt
-    dqs_dx = calc_lon_gradient(specific_humidity_data, lon_dim = lon_dim, lat_dim = lat_dim)
-    dqs_dy = calc_lat_gradient(specific_humidity_data, lat_dim = lat_dim)
+    dqs_dt = calc_gradient(specific_humidity_data, dim=time_dim) / dt
+    dqs_dx = calc_lon_gradient(specific_humidity_data, lon_dim=lon_dim, lat_dim=lat_dim)
+    dqs_dy = calc_lat_gradient(specific_humidity_data, lat_dim=lat_dim)
 
-    dp = calc_gradient(specific_humidity_data[vertical_dim], dim = vertical_dim) *dp_base
-    domega_dp = calc_gradient(specific_humidity_data, dim = vertical_dim) /dp
+    dp = calc_gradient(specific_humidity_data[vertical_dim], dim=vertical_dim) * dp_base
+    domega_dp = calc_gradient(specific_humidity_data, dim=vertical_dim) / dp
 
-    Q2 = (-1) *latent_heat_of_condensation *(dqs_dt + u_data *dqs_dx + v_data *dqs_dy + omega_data *domega_dp)
-    Q2.name = 'apparent_moisture_sink'
+    Q2 = (
+        (-1)
+        * latent_heat_of_condensation
+        * (dqs_dt + u_data * dqs_dx + v_data * dqs_dy + omega_data * domega_dp)
+    )
+    Q2.name = "apparent_moisture_sink"
     return Q2
+
 
 def calc_Plumb_wave_activity_horizontal_flux(
     z_prime_data: xr.DataArray,
-    vertical_dim: str, 
+    vertical_dim: str,
     vertical_dim_units: str,
-    lon_dim = 'lon', 
-    lat_dim = 'lat',
-    omega = 7.292e-5, 
-    g = 9.8, 
-    R = 6370000,
+    lon_dim="lon",
+    lat_dim="lat",
+    omega=7.292e-5,
+    g=9.8,
+    R=6370000,
 ) -> xr.Dataset:
     """
     Calculate Plumb wave activity horizontal flux.
@@ -331,43 +384,46 @@ def calc_Plumb_wave_activity_horizontal_flux(
     """
     coordinate_sample_data = z_prime_data
 
-    lat_array = coordinate_sample_data['lat'].astype('float64')
+    lat_array = coordinate_sample_data["lat"].astype("float64")
     coslat = np.cos(transfer_deg2rad(lat_array))
 
-    f = get_coriolis_parameter(lat_array, omega = omega)
-    psi_p = z_prime_data *g /f
+    f = get_coriolis_parameter(lat_array, omega=omega)
+    psi_p = z_prime_data * g / f
 
-    p_lev = transfer_data_units(coordinate_sample_data[vertical_dim], vertical_dim_units, 'Pa')
-    p = p_lev /1e5
+    p_lev = transfer_data_units(
+        coordinate_sample_data[vertical_dim], vertical_dim_units, "Pa"
+    )
+    p = p_lev / 1e5
 
-    dpsi_dlambda = calc_gradient(psi_p, dim = lon_dim)
-    dpsi_dphi = calc_gradient(psi_p, dim = lat_dim)
+    dpsi_dlambda = calc_gradient(psi_p, dim=lon_dim)
+    dpsi_dphi = calc_gradient(psi_p, dim=lat_dim)
 
-    d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim = lon_dim)
-    d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim = lon_dim)
+    d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim=lon_dim)
+    d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim=lon_dim)
 
-    term_xu = dpsi_dlambda**2 - (psi_p *d2psi_dlambda2)
-    term_xv = dpsi_dlambda *dpsi_dphi - (psi_p *d2psi_dlambdadphi)
+    term_xu = dpsi_dlambda**2 - (psi_p * d2psi_dlambda2)
+    term_xv = dpsi_dlambda * dpsi_dphi - (psi_p * d2psi_dlambdadphi)
 
-    fx = p *( (1 /(2 *R**2  *coslat)) *term_xu )
-    fy = p *( (1 /(2 *R**2)) *term_xv )
+    fx = p * ((1 / (2 * R**2 * coslat)) * term_xu)
+    fy = p * ((1 / (2 * R**2)) * term_xv)
 
     result = xr.Dataset()
-    result['psi_p'] = psi_p
-    result['fx'] = fx
-    result['fy'] = fy
+    result["psi_p"] = psi_p
+    result["fx"] = fx
+    result["fy"] = fy
     return result
 
+
 def calc_TN_wave_activity_horizontal_flux(
-    z_prime_data: xr.DataArray, 
-    u_climatology_data: xr.DataArray, 
+    z_prime_data: xr.DataArray,
+    u_climatology_data: xr.DataArray,
     v_climatology_data: xr.DataArray,
-    vertical_dim: str, 
+    vertical_dim: str,
     vertical_dim_units: str,
-    lon_dim: str = 'lon', 
-    lat_dim: str = 'lat',
-    omega: float = 7.292e-5, 
-    g: float = 9.8, 
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    omega: float = 7.292e-5,
+    g: float = 9.8,
     R: float = 6370000,
 ) -> xr.DataArray:
     """
@@ -377,7 +433,7 @@ def calc_TN_wave_activity_horizontal_flux(
         \\mathbf{W_h} = \\frac{p\\cos\\varphi}{2\\lvert \\mathbf{U_c} \\rvert}\\begin{pmatrix}
                               \\frac{U_c}{R^2 \\cos^2 \\varphi} \\left[ \\left( \\frac{\\partial \\psi'}{\\partial \\lambda} \\right)^2 - \\psi'\\frac{\\partial^2 \\psi'}{\\partial \\lambda^2} \\right] + \\frac{V_c}{R^2 \\cos \\varphi} \\left[ \\frac{\\partial \\psi'}{\\partial \\lambda} \\frac{\\partial \\psi'}{\\partial \\varphi} - \\psi' \\frac{\\partial^2 \\psi'}{\\partial \\lambda \\partial \\varphi} \\right] \\\\
                               \\frac{U_c}{R^2 \\cos \\varphi} \\left[ \\frac{\\partial \\psi'}{\\partial \\lambda} \\frac{\\partial \\psi'}{\\partial \\varphi} - \\psi' \\frac{\\partial^2 \\psi'}{\\partial \\lambda \\partial \\varphi} \\right] + \\frac{V_c}{R^2} \\left[ \\left( \\frac{\\partial \\psi'}{\\partial \\varphi} \\right)^2 - \\psi'\\frac{\\partial^2 \\psi'}{\\partial \\varphi^2} \\right] \\\\
-                               \\end{pmatrix}    
+                               \\end{pmatrix}
 
     Parameters
     ----------
@@ -401,7 +457,7 @@ def calc_TN_wave_activity_horizontal_flux(
         The acceleration of gravity.
     R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
-    
+
     Returns
     -------
     The TN wave activity horizontal flux (:py:class:`xarray.DataArray<xarray.DataArray>`).
@@ -416,52 +472,55 @@ def calc_TN_wave_activity_horizontal_flux(
     u_c = u_climatology_data
     v_c = v_climatology_data
 
-    lat_array = coordinate_sample_data['lat'].astype('float64')
+    lat_array = coordinate_sample_data["lat"].astype("float64")
     coslat = np.cos(transfer_deg2rad(lat_array))
 
-    f = get_coriolis_parameter(lat_array, omega = omega)
-    psi_p = z_prime_data *g /f
+    f = get_coriolis_parameter(lat_array, omega=omega)
+    psi_p = z_prime_data * g / f
 
-    p_lev = transfer_data_units(coordinate_sample_data[vertical_dim], vertical_dim_units, 'Pa')
-    p = p_lev /1e5
+    p_lev = transfer_data_units(
+        coordinate_sample_data[vertical_dim], vertical_dim_units, "Pa"
+    )
+    p = p_lev / 1e5
 
-    dpsi_dlambda = calc_gradient(psi_p, dim = lon_dim)
-    dpsi_dphi = calc_gradient(psi_p, dim = lat_dim)
+    dpsi_dlambda = calc_gradient(psi_p, dim=lon_dim)
+    dpsi_dphi = calc_gradient(psi_p, dim=lat_dim)
 
-    d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim = lon_dim)
-    d2psi_dphi2 = calc_gradient(dpsi_dphi, dim = lat_dim)
-    d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim = lon_dim)
+    d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim=lon_dim)
+    d2psi_dphi2 = calc_gradient(dpsi_dphi, dim=lat_dim)
+    d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim=lon_dim)
 
-    term_xu = dpsi_dlambda**2 - (psi_p *d2psi_dlambda2)
-    term_xv = dpsi_dlambda *dpsi_dphi - (psi_p *d2psi_dlambdadphi)
-    term_yv = dpsi_dphi**2 - (psi_p *d2psi_dphi2)
+    term_xu = dpsi_dlambda**2 - (psi_p * d2psi_dlambda2)
+    term_xv = dpsi_dlambda * dpsi_dphi - (psi_p * d2psi_dlambdadphi)
+    term_yv = dpsi_dphi**2 - (psi_p * d2psi_dphi2)
 
     magU = np.sqrt(u_c**2 + v_c**2)
-    coeff = p /(2 *magU)
+    coeff = p / (2 * magU)
 
-    fx = coeff *( (u_c /(R**2 *coslat) *term_xu) + (v_c /(R**2) *term_xv) )
-    fy = coeff *( (u_c /(R**2) *term_xv) + (v_c *coslat /(R**2) *term_yv) )
+    fx = coeff * ((u_c / (R**2 * coslat) * term_xu) + (v_c / (R**2) * term_xv))
+    fy = coeff * ((u_c / (R**2) * term_xv) + (v_c * coslat / (R**2) * term_yv))
 
     result = xr.Dataset()
-    result['psi_p'] = psi_p
-    result['fx'] = fx
-    result['fy'] = fy
+    result["psi_p"] = psi_p
+    result["fx"] = fx
+    result["fy"] = fy
     return result
 
+
 # def calc_TN_wave_activity_3D_flux(
-#     z_prime_data: xr.DataArray, 
-#     u_climatology_data: xr.DataArray, 
+#     z_prime_data: xr.DataArray,
+#     u_climatology_data: xr.DataArray,
 #     v_climatology_data: xr.DataArray,
-#     temper_data: xr.DataArray, 
-#     vertical_dim: str, 
+#     temper_data: xr.DataArray,
+#     vertical_dim: str,
 #     vertical_dim_units: str,
 #     z_data: xr.DataArray | None = None,
-#     lon_dim: str = 'lon', 
+#     lon_dim: str = 'lon',
 #     lat_dim: str = 'lat',
-#     omega: float = 7.292e-5, 
-#     g: float = 9.8, 
+#     omega: float = 7.292e-5,
+#     g: float = 9.8,
 #     R: float = 6370000,
-#     scale_height: float = 8000., 
+#     scale_height: float = 8000.,
 #     kappa: float = 287/1005.7,
 #     method: str ='practical_height',
 # ) -> xr.Dataset:
@@ -509,7 +568,7 @@ def calc_TN_wave_activity_horizontal_flux(
 #     -------
 #     The TN wave activity 3D flux (:py:class:`xarray.DataArray<xarray.DataArray>`).
 #     """
-    
+
 #     coordinate_sample_data = z_prime_data
 #     u_c = u_climatology_data
 #     v_c = v_climatology_data
@@ -562,12 +621,13 @@ def calc_TN_wave_activity_horizontal_flux(
 #     result['fz'] = fz
 #     return result
 
+
 def calc_EP_horizontal_flux(
-    u_prime_data: xr.DataArray, 
+    u_prime_data: xr.DataArray,
     v_prime_data: xr.DataArray,
-    time_dim: str = 'time', 
-    lat_dim: str = 'lat',
-) -> xr.Dataset: 
+    time_dim: str = "time",
+    lat_dim: str = "lat",
+) -> xr.Dataset:
     """
     Calculate horizontal Eliassen–Palm Flux.
 
@@ -578,7 +638,7 @@ def calc_EP_horizontal_flux(
     v_prime_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The anormaly of meridional wind data.
     time_dim: :py:class:`str <str>`, default: `time`.
-        The time coordinate dimension name.        
+        The time coordinate dimension name.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
@@ -590,13 +650,15 @@ def calc_EP_horizontal_flux(
         - https://www.ncl.ucar.edu/Applications/EPflux.shtml
         - https://renqlsysu.github.io/2020/02/16/wave_activity_flux/
     """
-    lat_array = u_prime_data[lat_dim].astype('float64')
+    lat_array = u_prime_data[lat_dim].astype("float64")
     coslat = np.cos(transfer_deg2rad(lat_array))
 
-    fx = 0.5 *( (v_prime_data **2).mean(dim = time_dim) - (u_prime_data **2).mean(dim = time_dim)   )
-    fy = - (u_prime_data *v_prime_data).mean(dim = time_dim)
+    fx = 0.5 * (
+        (v_prime_data**2).mean(dim=time_dim) - (u_prime_data**2).mean(dim=time_dim)
+    )
+    fy = -(u_prime_data * v_prime_data).mean(dim=time_dim)
 
     result = xr.Dataset()
-    result['fx'] = fx *coslat
-    result['fy'] = fy *coslat
+    result["fx"] = fx * coslat
+    result["fy"] = fy * coslat
     return result

@@ -4,6 +4,7 @@ The analysis of the EOF and MCA
 .. note::
     `xeofs`: https://xeofs.readthedocs.io/en/latest/
 """
+
 import xarray as xr
 import xeofs
 import warnings
@@ -15,19 +16,20 @@ import warnings
 # -------------------------------------------------------------------
 # EOF analysis
 
+
 def get_EOF_model(
     data_input: xr.DataArray,
     lat_dim: str,
     lon_dim: str,
-    time_dim: str = 'time',
+    time_dim: str = "time",
     n_modes: int = 10,
-    remove_seasonal_cycle_mean = False,
+    remove_seasonal_cycle_mean=False,
     center: bool = False,
-    standardize: bool = False, 
-    use_coslat: bool = True, 
-    random_state = None,
-    solver = 'auto',
-    solver_kwargs = {},
+    standardize: bool = False,
+    use_coslat: bool = True,
+    random_state=None,
+    solver="auto",
+    solver_kwargs={},
 ) -> xeofs.models.eof.EOF:
     """
     Build the model of the Empirical Orthogonal Functions (EOF) analysis, more commonly known as Principal Component Analysis (PCA).
@@ -52,7 +54,7 @@ def get_EOF_model(
     standardize: :py:class:`bool<bool>`, default `False`.
         Whether to standardize the input data.
     use_coslat: :py:class:`bool<bool>`, default `True`.
-        Whether to use cosine of latitude for scaling. 
+        Whether to use cosine of latitude for scaling.
     random_state: :py:class:`int<int>`, default `None`.
         Seed for the random number generator.
     solver: {"auto", "full", "randomized"}, default: "auto".
@@ -69,35 +71,40 @@ def get_EOF_model(
     from xeofs.utils.constants import VALID_LATITUDE_NAMES
 
     if remove_seasonal_cycle_mean == True:
-        data_input = remove_seasonal_cycle_mean_func(data_input, dim = time_dim)
-    
+        data_input = remove_seasonal_cycle_mean_func(data_input, dim=time_dim)
+
     if (lat_dim in VALID_LATITUDE_NAMES) == False:
-        warnings.warn(f"The lat_dim '{lat_dim}' in the data_input is not valid, we rename it to the 'lat'.")
-        data_input = data_input.rename({lat_dim, 'lat'})
+        warnings.warn(
+            f"The lat_dim '{lat_dim}' in the data_input is not valid, we rename it to the 'lat'."
+        )
+        data_input = data_input.rename({lat_dim, "lat"})
     if (lon_dim in VALID_LONGITUDE_NAMES) == False:
-        warnings.warn(f"The lon_dim '{lon_dim}' in the data_input is not valid, we rename it to the 'lon'.")
-        data_input = data_input.rename({lon_dim, 'lon'})
+        warnings.warn(
+            f"The lon_dim '{lon_dim}' in the data_input is not valid, we rename it to the 'lon'."
+        )
+        data_input = data_input.rename({lon_dim, "lon"})
 
     model = EOF(
-        n_modes = n_modes, 
-        center = center,
-        standardize = standardize, 
-        use_coslat = use_coslat, 
-        random_state = random_state,
-        solver = solver,
-        solver_kwargs = solver_kwargs,
+        n_modes=n_modes,
+        center=center,
+        standardize=standardize,
+        use_coslat=use_coslat,
+        random_state=random_state,
+        solver=solver,
+        solver_kwargs=solver_kwargs,
     )
-    model.fit(data_input, dim = time_dim)
+    model.fit(data_input, dim=time_dim)
 
     return model
+
 
 def save_EOF_model(
     model: xeofs.models.eof.EOF,
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
-    engine: ['zarr', 'netcdf4', 'h5netcdf'] = 'zarr',
-    **kwargs
+    engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr",
+    **kwargs,
 ):
     """
     Save the model.
@@ -117,12 +124,13 @@ def save_EOF_model(
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
     """
-    model.save(path = path, overwrite = overwrite, save_data = save_data, engine = engine, **kwargs)
+    model.save(
+        path=path, overwrite=overwrite, save_data=save_data, engine=engine, **kwargs
+    )
+
 
 def load_EOF_model(
-    path: str,
-    engine: ['zarr', 'netcdf4', 'h5netcdf'] = 'zarr',
-    **kwargs
+    path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
 ) -> xeofs.models.eof.EOF:
     """
     Load a saved EOF model.
@@ -140,8 +148,8 @@ def load_EOF_model(
     -------
     The model of :py:class:`xeofs.models.EOF<xeofs.models.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
     """
-    return xeofs.models.eof.EOF.load(path = path, engine = engine, **kwargs)
-    
+    return xeofs.models.eof.EOF.load(path=path, engine=engine, **kwargs)
+
 
 def calc_EOF_analysis(
     model: xeofs.models.eof.EOF,
@@ -160,13 +168,13 @@ def calc_EOF_analysis(
 
     - **EOF: The (EOF) components**: The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.
     - **PC: The (PC) scores**: The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.
-    - **explained_variance**: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as 
-    
+    - **explained_variance**: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as
+
     .. math::
 
         \\lambda_i = \\frac{\\sigma_i^2}{N-1}
 
-        
+
     where :math:`\\sigma_i` is the singular value of the :math:`i`-th mode and :math:`N` is the number of samples. Equivalently, :math:`\\lambda_i` is the :math:`i`-th eigenvalue of the covariance matrix.
 
     - **explained_variance_ratio**: The explained variance ratio. The explained variance ratio :math:`\\gamma_i` is the variance explained by each mode normalized by the total variance. It is defined as
@@ -175,19 +183,20 @@ def calc_EOF_analysis(
 
         \\gamma_i = \\frac{\\lambda_i}{\\sum_{j=1}^M \\lambda_j}
 
-        
+
     where :math:`\\lambda_i` is the explained variance of the :math:`i`-th mode and :math:`M` is the total number of modes.
 
     - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
     """
     model_output = xr.Dataset()
-    model_output['EOF'] = model.components()
-    model_output['PC'] = model.scores()
-    model_output['explained_variance'] = model.explained_variance()
-    model_output['explained_variance_ratio'] = model.explained_variance_ratio()
-    model_output['singular_values'] = model.singular_values()
+    model_output["EOF"] = model.components()
+    model_output["PC"] = model.scores()
+    model_output["explained_variance"] = model.explained_variance()
+    model_output["explained_variance_ratio"] = model.explained_variance_ratio()
+    model_output["singular_values"] = model.singular_values()
 
     return model_output
+
 
 def get_EOF_projection(
     model: xeofs.models.eof.EOF,
@@ -211,26 +220,28 @@ def get_EOF_projection(
     projections: :py:class:`xarray.DataArray<xarray.DataArray>`
         Projections of the data onto the components.
     """
-    return model.transform(data, normalized = normalized)
+    return model.transform(data, normalized=normalized)
+
 
 # -------------------------------------------------------------------
 # Rotate EOF analysis
+
 
 def get_REOF_model(
     data_input: xr.DataArray,
     lat_dim: str,
     lon_dim: str,
-    time_dim: str = 'time',
+    time_dim: str = "time",
     n_modes: int = 2,
     power: int = 1,
     max_iter: int = None,
     rtol: float = 1e-8,
-    remove_seasonal_cycle_mean = False,
-    standardize: bool = False, 
-    use_coslat: bool = True, 
-    random_state = None,
-    solver = 'auto',
-    solver_kwargs = {},
+    remove_seasonal_cycle_mean=False,
+    standardize: bool = False,
+    use_coslat: bool = True,
+    random_state=None,
+    solver="auto",
+    solver_kwargs={},
 ) -> xeofs.models.EOFRotator:
     """
     Build the model of the Rotate Empirical Orthogonal Functions (REOF) analysis.
@@ -253,7 +264,7 @@ def get_REOF_model(
     standardize: :py:class:`bool<bool>`, default `False`.
         Whether to standardize the input data.
     use_coslat: :py:class:`bool<bool>`, default `True`.
-        Whether to use cosine of latitude for scaling. 
+        Whether to use cosine of latitude for scaling.
     random_state: :py:class:`int<int>`, default `None`.
         Seed for the random number generator.
     solver: {"auto", "full", "randomized"}, default: "auto".
@@ -275,40 +286,45 @@ def get_REOF_model(
     from xeofs.utils.constants import VALID_LATITUDE_NAMES
 
     if remove_seasonal_cycle_mean == True:
-        data_input = remove_seasonal_cycle_mean_func(data_input, dim = time_dim)
-    
+        data_input = remove_seasonal_cycle_mean_func(data_input, dim=time_dim)
+
     if (lat_dim in VALID_LATITUDE_NAMES) == False:
-        warnings.warn(f"The lat_dim '{lat_dim}' in the data_input is not valid, we rename it to the 'lat'.")
-        data_input = data_input.rename({lat_dim, 'lat'})
+        warnings.warn(
+            f"The lat_dim '{lat_dim}' in the data_input is not valid, we rename it to the 'lat'."
+        )
+        data_input = data_input.rename({lat_dim, "lat"})
     if (lon_dim in VALID_LONGITUDE_NAMES) == False:
-        warnings.warn(f"The lon_dim '{lon_dim}' in the data_input is not valid, we rename it to the 'lon'.")
-        data_input = data_input.rename({lon_dim, 'lon'})
+        warnings.warn(
+            f"The lon_dim '{lon_dim}' in the data_input is not valid, we rename it to the 'lon'."
+        )
+        data_input = data_input.rename({lon_dim, "lon"})
 
     model = EOF(
-        n_modes = n_modes,
-        standardize = standardize,
-        use_coslat = use_coslat,
-        random_state = random_state,
-        solver = solver,
-        solver_kwargs = solver_kwargs,
+        n_modes=n_modes,
+        standardize=standardize,
+        use_coslat=use_coslat,
+        random_state=random_state,
+        solver=solver,
+        solver_kwargs=solver_kwargs,
     )
-    model.fit(data_input, dim = time_dim)
+    model.fit(data_input, dim=time_dim)
     rotator = EOFRotator(
-        n_modes = n_modes,
-        power = power,
-        max_iter = max_iter,
-        rtol = rtol,
+        n_modes=n_modes,
+        power=power,
+        max_iter=max_iter,
+        rtol=rtol,
     )
     rotator.fit(model)
     return rotator
+
 
 def save_REOF_model(
     model: xeofs.models.EOFRotator,
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
-    engine: ['zarr', 'netcdf4', 'h5netcdf'] = 'zarr',
-    **kwargs
+    engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr",
+    **kwargs,
 ):
     """
     Save the model.
@@ -328,12 +344,13 @@ def save_REOF_model(
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
     """
-    model.save(path = path, overwrite = overwrite, save_data = save_data, engine = engine, **kwargs)
+    model.save(
+        path=path, overwrite=overwrite, save_data=save_data, engine=engine, **kwargs
+    )
+
 
 def load_REOF_model(
-    path: str,
-    engine: ['zarr', 'netcdf4', 'h5netcdf'] = 'zarr',
-    **kwargs
+    path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
 ) -> xeofs.models.EOFRotator:
     """
     Load a saved REOF model.
@@ -351,8 +368,8 @@ def load_REOF_model(
     -------
     The model of :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
     """
-    return xeofs.models.EOFRotator.load(path = path, engine = engine, **kwargs)
-    
+    return xeofs.models.EOFRotator.load(path=path, engine=engine, **kwargs)
+
 
 def calc_REOF_analysis(
     model: xeofs.models.EOFRotator,
@@ -371,8 +388,8 @@ def calc_REOF_analysis(
 
     - **EOF: The (EOF) components**: The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.
     - **PC: The (PC) scores**: The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.
-    - **explained_variance**: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as 
-    
+    - **explained_variance**: The explained variance. The explained variance :math:`\\lambda_i` is the variance explained by each mode. It is defined as
+
     .. math::
 
         \\lambda_i = \\frac{\\sigma_i^2}{N-1}
@@ -391,13 +408,14 @@ def calc_REOF_analysis(
     - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
     """
     model_output = xr.Dataset()
-    model_output['EOF'] = model.components()
-    model_output['PC'] = model.scores()
-    model_output['explained_variance'] = model.explained_variance()
-    model_output['explained_variance_ratio'] = model.explained_variance_ratio()
-    model_output['singular_values'] = model.singular_values()
+    model_output["EOF"] = model.components()
+    model_output["PC"] = model.scores()
+    model_output["explained_variance"] = model.explained_variance()
+    model_output["explained_variance_ratio"] = model.explained_variance_ratio()
+    model_output["singular_values"] = model.singular_values()
 
     return model_output
+
 
 def get_REOF_projection(
     model: xeofs.models.EOFRotator,
@@ -421,26 +439,28 @@ def get_REOF_projection(
     projections: :py:class:`xarray.DataArray<xarray.DataArray>`
         Projections of the data onto the components.
     """
-    return model.transform(data, normalized = normalized)
+    return model.transform(data, normalized=normalized)
+
 
 # -------------------------------------------------------------------
 # MCA analysis
+
 
 def get_MCA_model(
     data_left: xr.DataArray,
     data_right: xr.DataArray,
     lat_dim: str,
     lon_dim: str,
-    time_dim: str = 'time',
-    n_modes = 10,
+    time_dim: str = "time",
+    n_modes=10,
     center: bool = False,
     standardize: bool = False,
     use_coslat: bool = False,
-    n_pca_modes: int = 'auto',
+    n_pca_modes: int = "auto",
     weights_left: xr.DataArray = None,
     weights_right: xr.DataArray = None,
     random_state: int = None,
-    solver: str = 'auto',
+    solver: str = "auto",
     solver_kwargs: dict = {},
 ) -> xeofs.models.MCA:
     """
@@ -470,11 +490,11 @@ def get_MCA_model(
     use_coslat: :py:class:`bool <bool>`, default `True`.
         Whether to use cosine of latitude for scaling.
     n_pca_modes: :py:class:`int <int>`, default same as `n_modes`, i.e, 'auto'.
-        The number of principal components to retain during the PCA preprocessing step applied to both data sets prior to executing MCA. 
-        If set to None, PCA preprocessing will be bypassed, and the MCA will be performed on the original datasets. 
-        Specifying an integer value greater than 0 for `n_pca_modes` will trigger the PCA preprocessing, 
-        retaining only the specified number of principal components. This reduction in dimensionality 
-        can be especially beneficial when dealing with high-dimensional data, where computing the 
+        The number of principal components to retain during the PCA preprocessing step applied to both data sets prior to executing MCA.
+        If set to None, PCA preprocessing will be bypassed, and the MCA will be performed on the original datasets.
+        Specifying an integer value greater than 0 for `n_pca_modes` will trigger the PCA preprocessing,
+        retaining only the specified number of principal components. This reduction in dimensionality
+        can be especially beneficial when dealing with high-dimensional data, where computing the
         cross-covariance matrix can become computationally intensive or in scenarios where multicollinearity is a concern.
     weights_left: :py:class:`xarray.DataArray <xarray.DataArray>`
         Weights to be applied to the left input data.
@@ -503,40 +523,53 @@ def get_MCA_model(
     time_length_data_left = data_left[time_dim].shape[0]
     time_length_data_right = data_right[time_dim].shape[0]
     if time_length_data_left != time_length_data_right:
-        raise ValueError(f'The time length of the data_left is {time_length_data_left}, but the time length of the data_right is {time_length_data_right}. It is not equal, please check the time length of the input data.')
+        raise ValueError(
+            f"The time length of the data_left is {time_length_data_left}, but the time length of the data_right is {time_length_data_right}. It is not equal, please check the time length of the input data."
+        )
 
     if (lat_dim in VALID_LATITUDE_NAMES) == False:
-        warnings.warn(f"The lat_dim '{lat_dim}' in the data_input is not valid, we rename it to the 'lat'.")
-        data_left = data_left.rename({lat_dim, 'lat'})
-        data_right = data_right.rename({lat_dim, 'lat'})
+        warnings.warn(
+            f"The lat_dim '{lat_dim}' in the data_input is not valid, we rename it to the 'lat'."
+        )
+        data_left = data_left.rename({lat_dim, "lat"})
+        data_right = data_right.rename({lat_dim, "lat"})
     if (lon_dim in VALID_LONGITUDE_NAMES) == False:
-        warnings.warn(f"The lon_dim '{lon_dim}' in the data_input is not valid, we rename it to the 'lon'.")
-        data_left = data_left.rename({lon_dim, 'lon'})
-        data_right = data_right.rename({lon_dim, 'lon'})
+        warnings.warn(
+            f"The lon_dim '{lon_dim}' in the data_input is not valid, we rename it to the 'lon'."
+        )
+        data_left = data_left.rename({lon_dim, "lon"})
+        data_right = data_right.rename({lon_dim, "lon"})
 
-    if n_pca_modes == 'auto':
+    if n_pca_modes == "auto":
         n_pca_modes = n_modes
 
     model = MCA(
-        n_modes = n_modes,
-        center = center,
-        standardize = standardize, 
-        use_coslat = use_coslat, 
-        solver = solver,
-        n_pca_modes = n_pca_modes,
-        random_state = random_state,
-        solver_kwargs = solver_kwargs,
+        n_modes=n_modes,
+        center=center,
+        standardize=standardize,
+        use_coslat=use_coslat,
+        solver=solver,
+        n_pca_modes=n_pca_modes,
+        random_state=random_state,
+        solver_kwargs=solver_kwargs,
     )
-    model.fit(data_left, data_right, dim = time_dim, weights1 = weights_left, weights2 = weights_right)
+    model.fit(
+        data_left,
+        data_right,
+        dim=time_dim,
+        weights1=weights_left,
+        weights2=weights_right,
+    )
     return model
+
 
 def save_MCA_model(
     model: xeofs.models.MCA,
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
-    engine: ['zarr', 'netcdf4', 'h5netcdf'] = 'zarr',
-    **kwargs
+    engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr",
+    **kwargs,
 ):
     """
     Save the model.
@@ -556,12 +589,13 @@ def save_MCA_model(
     **kwargs: :py:class:`dict <dict>`.
         Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
     """
-    model.save(path = path, overwrite = overwrite, save_data = save_data, engine = engine, **kwargs)
+    model.save(
+        path=path, overwrite=overwrite, save_data=save_data, engine=engine, **kwargs
+    )
+
 
 def load_MCA_model(
-    path: str,
-    engine: ['zarr', 'netcdf4', 'h5netcdf'] = 'zarr',
-    **kwargs
+    path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
 ) -> xeofs.models.MCA:
     """
     Load a saved MCA model.
@@ -579,12 +613,13 @@ def load_MCA_model(
     -------
     The model of :py:class:`xeofs.models.MCA <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
     """
-    return xeofs.models.MCA.load(path = path, engine = engine, **kwargs)
+    return xeofs.models.MCA.load(path=path, engine=engine, **kwargs)
+
 
 def calc_MCA_analysis(
     model: xeofs.models.MCA,
-    correction = None, 
-    alpha = 0.05,
+    correction=None,
+    alpha=0.05,
 ) -> DataTree:
     """
     Calculate the results of the EOF model.
@@ -666,58 +701,75 @@ def calc_MCA_analysis(
     left_components = model.components()[0]
     right_components = model.components()[1]
 
-    model_output['EOF/left_EOF'] = DataTree(left_components)
-    model_output['EOF/right_EOF'] = DataTree(right_components)
+    model_output["EOF/left_EOF"] = DataTree(left_components)
+    model_output["EOF/right_EOF"] = DataTree(right_components)
 
     # scores
     left_scores = model.scores()[0]
     right_scores = model.scores()[1]
 
-    model_output['PC/left_PC'] = DataTree(left_scores)
-    model_output['PC/right_PC'] = DataTree(right_scores)
+    model_output["PC/left_PC"] = DataTree(left_scores)
+    model_output["PC/right_PC"] = DataTree(right_scores)
 
     # covariance_fraction
     covariance_fraction = model.covariance_fraction()
-    model_output['covariance_fraction'] = DataTree(covariance_fraction)
+    model_output["covariance_fraction"] = DataTree(covariance_fraction)
 
     # singular_values
     singular_values = model.singular_values()
-    model_output['singular_values'] = DataTree(singular_values)
+    model_output["singular_values"] = DataTree(singular_values)
 
     # squared_covariance
     squared_covariance = model.squared_covariance()
-    model_output['squared_covariance'] = DataTree(squared_covariance)
+    model_output["squared_covariance"] = DataTree(squared_covariance)
 
     # squared_covariance_fraction
     squared_covariance_fraction = model.squared_covariance_fraction()
-    squared_covariance_fraction.name = 'squared_covariance_fraction'
-    model_output['squared_covariance_fraction'] = DataTree(squared_covariance_fraction)
+    squared_covariance_fraction.name = "squared_covariance_fraction"
+    model_output["squared_covariance_fraction"] = DataTree(squared_covariance_fraction)
 
     # heterogeneous_patterns
-    tmp = model.heterogeneous_patterns(correction = correction, alpha = alpha)
+    tmp = model.heterogeneous_patterns(correction=correction, alpha=alpha)
     left_heterogeneous_patterns = tmp[0][0]
     right_heterogeneous_patterns = tmp[0][1]
     pvalues_of_left_heterogeneous_patterns = tmp[1][0]
     pvalues_of_right_heterogeneous_patterns = tmp[1][1]
 
-    model_output['heterogeneous_patterns/left_heterogeneous_patterns'] = DataTree(left_heterogeneous_patterns)
-    model_output['heterogeneous_patterns/right_heterogeneous_patterns'] = DataTree(right_heterogeneous_patterns)
-    model_output['heterogeneous_patterns/pvalues_of_left_heterogeneous_patterns'] = DataTree(pvalues_of_left_heterogeneous_patterns)
-    model_output['heterogeneous_patterns/pvalues_of_right_heterogeneous_patterns'] = DataTree(pvalues_of_right_heterogeneous_patterns)
+    model_output["heterogeneous_patterns/left_heterogeneous_patterns"] = DataTree(
+        left_heterogeneous_patterns
+    )
+    model_output["heterogeneous_patterns/right_heterogeneous_patterns"] = DataTree(
+        right_heterogeneous_patterns
+    )
+    model_output["heterogeneous_patterns/pvalues_of_left_heterogeneous_patterns"] = (
+        DataTree(pvalues_of_left_heterogeneous_patterns)
+    )
+    model_output["heterogeneous_patterns/pvalues_of_right_heterogeneous_patterns"] = (
+        DataTree(pvalues_of_right_heterogeneous_patterns)
+    )
 
     # homogeneous_patterns
-    tmp = model.homogeneous_patterns(correction = correction, alpha = alpha)
+    tmp = model.homogeneous_patterns(correction=correction, alpha=alpha)
     left_homogeneous_patterns = tmp[0][0]
     right_homogeneous_patterns = tmp[0][1]
     pvalues_of_left_homogeneous_patterns = tmp[1][0]
     pvalues_of_right_homogeneous_patterns = tmp[1][1]
 
-    model_output['homogeneous_patterns/left_homogeneous_patterns'] = DataTree(left_homogeneous_patterns)
-    model_output['homogeneous_patterns/right_homogeneous_patterns'] = DataTree(right_homogeneous_patterns)
-    model_output['homogeneous_patterns/pvalues_of_left_homogeneous_patterns'] = DataTree(pvalues_of_left_homogeneous_patterns)
-    model_output['homogeneous_patterns/pvalues_of_right_homogeneous_patterns'] = DataTree(pvalues_of_right_homogeneous_patterns)
+    model_output["homogeneous_patterns/left_homogeneous_patterns"] = DataTree(
+        left_homogeneous_patterns
+    )
+    model_output["homogeneous_patterns/right_homogeneous_patterns"] = DataTree(
+        right_homogeneous_patterns
+    )
+    model_output["homogeneous_patterns/pvalues_of_left_homogeneous_patterns"] = (
+        DataTree(pvalues_of_left_homogeneous_patterns)
+    )
+    model_output["homogeneous_patterns/pvalues_of_right_homogeneous_patterns"] = (
+        DataTree(pvalues_of_right_homogeneous_patterns)
+    )
 
     return model_output
+
 
 def get_MCA_projection(
     model: xeofs.models.mca.MCA,
@@ -742,11 +794,11 @@ def get_MCA_projection(
         - **scores1**: Left scores.
         - **scores2**: Right scores.
     """
-    scores1, scores2 = model.transform(data1 = data_left, data2 = data_right)
-    scores1.name = 'scores1'
-    scores2.name = 'scores2'
+    scores1, scores2 = model.transform(data1=data_left, data2=data_right)
+    scores1.name = "scores1"
+    scores2.name = "scores2"
 
-    projection_output = DataTree(name = "root")
-    projection_output['scores1'] = DataTree(scores1)
-    projection_output['scores2'] = DataTree(scores2)
+    projection_output = DataTree(name="root")
+    projection_output["scores1"] = DataTree(scores1)
+    projection_output["scores2"] = DataTree(scores2)
     return projection_output

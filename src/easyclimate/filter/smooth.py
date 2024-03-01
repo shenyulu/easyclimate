@@ -1,23 +1,31 @@
 """
 spatial smoothing
 """
+
 from __future__ import annotations
 import numpy as np
 import xarray as xr
 import metpy.calc as mpcalc
-from ..core.utility import (dequantify_metpy_xarraydata, generate_dataset_dispatcher)
+from ..core.utility import dequantify_metpy_xarraydata, generate_dataset_dispatcher
 from typing import Sequence
 
-__all__ = ["calc_spatial_smooth_gaussian", "calc_spatial_smooth_rectangular", "calc_spatial_smooth_5or9_point", 
-                     "calc_forward_smooth", "calc_reverse_smooth", "calc_spatial_smooth_circular", 
-                     "calc_spatial_smooth_window"]
+__all__ = [
+    "calc_spatial_smooth_gaussian",
+    "calc_spatial_smooth_rectangular",
+    "calc_spatial_smooth_5or9_point",
+    "calc_forward_smooth",
+    "calc_reverse_smooth",
+    "calc_spatial_smooth_circular",
+    "calc_spatial_smooth_window",
+]
+
 
 @generate_dataset_dispatcher
 def calc_spatial_smooth_gaussian(
     data: xr.DataArray | xr.Dataset,
     n: int = 3,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with normal distribution of weights.
@@ -38,18 +46,19 @@ def calc_spatial_smooth_gaussian(
         :py:func:`metpy.calc.smooth_gaussian <metpy:metpy.calc.smooth_gaussian>`
     """
     data_original_dims_order = data.dims
-    data = data.transpose(...,lat_dim, lon_dim)
+    data = data.transpose(..., lat_dim, lon_dim)
     smoothed_data = mpcalc.smooth_gaussian(data, n)
     smoothed_data = smoothed_data.transpose(*data_original_dims_order)
     return dequantify_metpy_xarraydata(smoothed_data)
+
 
 @generate_dataset_dispatcher
 def calc_spatial_smooth_rectangular(
     data: xr.DataArray | xr.Dataset,
     rectangle_shapes: int | Sequence[int] = 3,
     times: int = 1,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with a rectangular window smoother.
@@ -76,18 +85,19 @@ def calc_spatial_smooth_rectangular(
         :py:func:`metpy.calc.smooth_rectangular <metpy:metpy.calc.smooth_rectangular>`
     """
     data_original_dims_order = data.dims
-    data = data.transpose(...,lat_dim, lon_dim)
-    smoothed_data = mpcalc.smooth_rectangular(data, size = rectangle_shapes, passes = times)
+    data = data.transpose(..., lat_dim, lon_dim)
+    smoothed_data = mpcalc.smooth_rectangular(data, size=rectangle_shapes, passes=times)
     smoothed_data = smoothed_data.transpose(*data_original_dims_order)
     return dequantify_metpy_xarraydata(smoothed_data)
+
 
 @generate_dataset_dispatcher
 def calc_spatial_smooth_5or9_point(
     data: xr.DataArray | xr.Dataset,
     n: {5, 9} = 5,
     times: int = 1,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with an 5-point or 9-point smoother.
@@ -114,24 +124,37 @@ def calc_spatial_smooth_5or9_point(
         :py:func:`metpy.calc.smooth_n_point <metpy:metpy.calc.smooth_n_point>`
     """
     data_original_dims_order = data.dims
-    data = data.transpose(...,lat_dim, lon_dim)
-    smoothed_data = mpcalc.smooth_n_point(data, n = n, passes = times)
+    data = data.transpose(..., lat_dim, lon_dim)
+    smoothed_data = mpcalc.smooth_n_point(data, n=n, passes=times)
     smoothed_data = smoothed_data.transpose(*data_original_dims_order)
     return dequantify_metpy_xarraydata(smoothed_data)
 
+
 def _spatial_smooth(data, n, S, times, normalize_weights, lon_dim, lat_dim):
     if n == 9:
-        weights = np.array([[S**2/4., S*(1-S)/2., S**2/4.],
-                            [S*(1-S)/2., 1-2*S*(1-S), S*(1-S)/2.],
-                            [S**2/4., S*(1-S)/2., S**2/4.]])
+        weights = np.array(
+            [
+                [S**2 / 4.0, S * (1 - S) / 2.0, S**2 / 4.0],
+                [S * (1 - S) / 2.0, 1 - 2 * S * (1 - S), S * (1 - S) / 2.0],
+                [S**2 / 4.0, S * (1 - S) / 2.0, S**2 / 4.0],
+            ]
+        )
     elif n == 5:
-        weights = np.array([[0., S/4., 0.],
-                            [S/4., 1-S, S/4.],
-                            [0., S/4., 0.]])
+        weights = np.array(
+            [[0.0, S / 4.0, 0.0], [S / 4.0, 1 - S, S / 4.0], [0.0, S / 4.0, 0.0]]
+        )
     else:
-        raise ValueError(f'`n` should be 5 or 9, not {n}')
+        raise ValueError(f"`n` should be 5 or 9, not {n}")
 
-    return calc_spatial_smooth_window(data = data, window = weights, times = times, normalize_weights = normalize_weights, lon_dim = lon_dim, lat_dim= lat_dim)
+    return calc_spatial_smooth_window(
+        data=data,
+        window=weights,
+        times=times,
+        normalize_weights=normalize_weights,
+        lon_dim=lon_dim,
+        lat_dim=lat_dim,
+    )
+
 
 @generate_dataset_dispatcher
 def calc_forward_smooth(
@@ -139,9 +162,9 @@ def calc_forward_smooth(
     n: int = 5,
     S: float = 0.5,
     times: int = 1,
-    normalize_weights = False,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    normalize_weights=False,
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with the forward smooth.
@@ -157,7 +180,7 @@ def calc_forward_smooth(
     times: :py:class:`int <int>`, default `1`.
         The number of times to apply the filter to the data.
     normalize_weights: :py:class:`bool <bool>`, default `False`.
-        If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.    
+        If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -278,16 +301,19 @@ def calc_forward_smooth(
     .. seealso::
         :py:func:`metpy.calc.smooth_n_point <metpy:metpy.calc.smooth_n_point>`
     """
-    return _spatial_smooth(data, n, S, times, normalize_weights, lon_dim = lon_dim, lat_dim = lat_dim)
+    return _spatial_smooth(
+        data, n, S, times, normalize_weights, lon_dim=lon_dim, lat_dim=lat_dim
+    )
+
 
 def calc_reverse_smooth(
     data: xr.DataArray | xr.Dataset,
     n: int = 5,
     S: float = -0.5,
     times: int = 1,
-    normalize_weights = False,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    normalize_weights=False,
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with the reverse smooth.
@@ -303,7 +329,7 @@ def calc_reverse_smooth(
     times: :py:class:`int <int>`, default `1`.
         The number of times to apply the filter to the data.
     normalize_weights: :py:class:`bool <bool>`, default `False`.
-        If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.    
+        If `True`, divide the values in window by the sum of all values in the window to obtain the normalized smoothing weights. If `False`, use supplied values directly as the weights.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -422,17 +448,20 @@ def calc_reverse_smooth(
         This is the "window" matrix used by the function when :math:`n=9`.
 
     .. seealso::
-        :py:func:`metpy.calc.smooth_n_point <metpy:metpy.calc.smooth_n_point>`   
+        :py:func:`metpy.calc.smooth_n_point <metpy:metpy.calc.smooth_n_point>`
     """
-    return _spatial_smooth(data, n, S, times, normalize_weights, lon_dim = lon_dim, lat_dim = lat_dim)
+    return _spatial_smooth(
+        data, n, S, times, normalize_weights, lon_dim=lon_dim, lat_dim=lat_dim
+    )
+
 
 @generate_dataset_dispatcher
 def calc_spatial_smooth_circular(
     data: xr.DataArray | xr.Dataset,
     radius: int,
     times: int = 1,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with a circular window smoother.
@@ -459,19 +488,20 @@ def calc_spatial_smooth_circular(
         :py:func:`metpy.calc.smooth_circular <metpy:metpy.calc.smooth_circular>`
     """
     data_original_dims_order = data.dims
-    data = data.transpose(...,lat_dim, lon_dim)
-    smoothed_data = mpcalc.smooth_circular(data, radius = radius, passes = times)
+    data = data.transpose(..., lat_dim, lon_dim)
+    smoothed_data = mpcalc.smooth_circular(data, radius=radius, passes=times)
     smoothed_data = smoothed_data.transpose(*data_original_dims_order)
     return dequantify_metpy_xarraydata(smoothed_data)
+
 
 @generate_dataset_dispatcher
 def calc_spatial_smooth_window(
     data: xr.DataArray | xr.Dataset,
-    window : np.ndarray | xr.DataArray,
+    window: np.ndarray | xr.DataArray,
     times: int = 1,
     normalize_weights: bool = False,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray | xr.Dataset:
     """
     Filter with an arbitrary window smoother.
@@ -500,7 +530,9 @@ def calc_spatial_smooth_window(
         :py:func:`metpy.calc.smooth_window <metpy:metpy.calc.smooth_window>`
     """
     data_original_dims_order = data.dims
-    data = data.transpose(...,lat_dim, lon_dim)
-    smoothed_data = mpcalc.smooth_window(data, window = window, passes = times, normalize_weights = normalize_weights)
+    data = data.transpose(..., lat_dim, lon_dim)
+    smoothed_data = mpcalc.smooth_window(
+        data, window=window, passes=times, normalize_weights=normalize_weights
+    )
     smoothed_data = smoothed_data.transpose(*data_original_dims_order)
     return dequantify_metpy_xarraydata(smoothed_data)

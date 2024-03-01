@@ -1,6 +1,7 @@
 """
 Interpolate from points to grid
 """
+
 from __future__ import annotations
 
 from fastbarnes.interpolation import barnes
@@ -11,6 +12,7 @@ import pandas as pd
 
 __all__ = ["interp_point2mesh", "interp_point2mesh_S2"]
 
+
 def interp_point2mesh(
     data: pd.DataFrame,
     var_name: str,
@@ -19,11 +21,11 @@ def interp_point2mesh(
     grid_y: float,
     resolution: float,
     sigma: float,
-    lon_dim_name = 'lon',
-    lat_dim_name = 'lat',
-    method='optimized_convolution',
-    num_iter = 4,
-    min_weight = 0.001
+    lon_dim_name="lon",
+    lat_dim_name="lat",
+    method="optimized_convolution",
+    num_iter=4,
+    min_weight=0.001,
 ) -> xr.DataArray:
     """
     Computes the Barnes interpolation for observation values `var_name` taken at sample
@@ -32,27 +34,27 @@ def interp_point2mesh(
     `point`, regular x-direction length `grid_x` (degree), regular y-direction length `grid_y` (degree),
     and resolution `resolution`.
 
-    Barnes interpolation is a method that is widely used in geospatial sciences like meteorology 
-    to remodel data values recorded at irregularly distributed points into a representative 
+    Barnes interpolation is a method that is widely used in geospatial sciences like meteorology
+    to remodel data values recorded at irregularly distributed points into a representative
     analytical field. It is defined as
 
     .. math::
         f(\\boldsymbol{x})=\\frac{\\sum_{k=1}^N f_k\\cdot w_k(\\boldsymbol{x})}{\\sum_{k=1}^N w_k(\\boldsymbol{x})}
-    
+
     with Gaussian weights
 
     .. math::
         w_k(\\boldsymbol{x})=\\text{e}^{-\\frac{1}{2\\sigma^2}\\left\|x-\\boldsymbol{x}_k\\right\\|^2}
 
-    Naive computation of Barnes interpolation leads to an algorithmic complexity of :math:`O(N \\times W \\times H)`, 
+    Naive computation of Barnes interpolation leads to an algorithmic complexity of :math:`O(N \\times W \\times H)`,
     where :math:`N` is the number of sample points and :math:`W \\times H` the size of the underlying grid.
 
-    For sufficiently large :math:`n` (in general in the range from 3 to 6) a good approximation of 
+    For sufficiently large :math:`n` (in general in the range from 3 to 6) a good approximation of
     Barnes interpolation with a reduced complexity :math:`O(N + W \\times H)` can be obtained by the convolutional expression
 
     .. math::
         f(\\boldsymbol{x})\\approx \\frac{ (\\sum_{k=1}^{N}f_k\\cdot\\delta_{\\boldsymbol{x}_k}) *  ( r_n^{*n[x]}(x)\\cdot r_n^{*n[y]}(y) )   }{ ( \\sum_{k=1}^{N} \\delta_{\\boldsymbol{x}_k}  ) *  (  r_{n}^{*n[x]}(x)\\cdot r_{n}^{*n[y]}(y)  )   }
-    
+
     where :math:`\\delta` is the Dirac impulse function and :math:`r(.)` an elementary rectangular function of a specific length that depends on :math:`\\sigma` and :math:`n`.
 
     data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
@@ -68,9 +70,9 @@ def interp_point2mesh(
         |    ...     |   ...      |   ...     |
         +------------+------------+-----------+
 
-        .. note:: 
+        .. note::
             Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
-    
+
     var_name: :py:class:`str <str>`
         The name of the data variable. This should match the one in the parameter `data`.
     lat_dim_name: :py:class:`str <str>`.
@@ -108,12 +110,12 @@ def interp_point2mesh(
         points is greater than `min_weight`.
         Applies only if method is 'radius'. Recommended values are 0.001 and less.
         The default is 0.001, which corresponds to a radius of 3.717 * sigma.
-    
+
     Returns
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
 
-    .. seealso::   
+    .. seealso::
         - https://github.com/MeteoSwiss/fast-barnes-py
         - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
     """
@@ -125,18 +127,30 @@ def interp_point2mesh(
     lon_lat_data = data[[lon_dim_name, lat_dim_name]].to_numpy()
     qff_values = data[[var_name]].to_numpy().flatten()
 
-    gridX = np.arange(x0[0], x0[0] + size[1] *step, step)
-    gridY = np.arange(x0[1], x0[1] + size[0] *step, step)
+    gridX = np.arange(x0[0], x0[0] + size[1] * step, step)
+    gridY = np.arange(x0[1], x0[1] + size[0] * step, step)
 
     # calculate Barnes interpolation from fastbarnes import interpolation
-    field = barnes(lon_lat_data, qff_values, sigma, x0, step, size, 
-                   method = method, 
-                   num_iter = num_iter, 
-                   min_weight = min_weight
+    field = barnes(
+        lon_lat_data,
+        qff_values,
+        sigma,
+        x0,
+        step,
+        size,
+        method=method,
+        num_iter=num_iter,
+        min_weight=min_weight,
     )
 
-    field_dataarray = xr.DataArray(field, dims = (lat_dim_name, lon_dim_name), coords = {lon_dim_name: gridX, lat_dim_name: gridY}, name = var_name)
+    field_dataarray = xr.DataArray(
+        field,
+        dims=(lat_dim_name, lon_dim_name),
+        coords={lon_dim_name: gridX, lat_dim_name: gridY},
+        name=var_name,
+    )
     return field_dataarray
+
 
 def interp_point2mesh_S2(
     data: pd.DataFrame,
@@ -146,11 +160,11 @@ def interp_point2mesh_S2(
     grid_y: float,
     resolution: float,
     sigma: float,
-    lon_dim_name = 'lon',
-    lat_dim_name = 'lat',
-    method='optimized_convolution_S2',
-    num_iter = 4,
-    resample = True
+    lon_dim_name="lon",
+    lat_dim_name="lat",
+    method="optimized_convolution_S2",
+    num_iter=4,
+    resample=True,
 ) -> xr.DataArray:
     """
     Computes the Barnes interpolation for observation values `var_name` taken at sample
@@ -176,9 +190,9 @@ def interp_point2mesh_S2(
         |    ...     |   ...      |   ...     |
         +------------+------------+-----------+
 
-        .. note:: 
+        .. note::
             Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
-    
+
     var_name: :py:class:`str <str>`
         The name of the data variable. This should match the one in the parameter `data`.
     lat_dim_name: :py:class:`str <str>`.
@@ -218,7 +232,7 @@ def interp_point2mesh_S2(
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
 
-    .. seealso::   
+    .. seealso::
         - https://github.com/MeteoSwiss/fast-barnes-py
         - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
     """
@@ -230,15 +244,26 @@ def interp_point2mesh_S2(
     lon_lat_data = data[[lon_dim_name, lat_dim_name]].to_numpy()
     qff_values = data[[var_name]].to_numpy().flatten()
 
-    gridX = np.arange(x0[0], x0[0] + size[1] *step, step)
-    gridY = np.arange(x0[1], x0[1] + size[0] *step, step)
+    gridX = np.arange(x0[0], x0[0] + size[1] * step, step)
+    gridY = np.arange(x0[1], x0[1] + size[0] * step, step)
 
     # calculate Barnes interpolation from fastbarnes import interpolation
-    field = barnes_S2(lon_lat_data, qff_values, sigma, x0, step, size, 
-                      method = method, 
-                      num_iter = num_iter, 
-                      resample = resample
+    field = barnes_S2(
+        lon_lat_data,
+        qff_values,
+        sigma,
+        x0,
+        step,
+        size,
+        method=method,
+        num_iter=num_iter,
+        resample=resample,
     )
 
-    field_dataarray = xr.DataArray(field, dims = (lat_dim_name, lon_dim_name), coords = {lon_dim_name: gridX, lat_dim_name: gridY}, name = var_name)
+    field_dataarray = xr.DataArray(
+        field,
+        dims=(lat_dim_name, lon_dim_name),
+        coords={lon_dim_name: gridX, lat_dim_name: gridY},
+        name=var_name,
+    )
     return field_dataarray

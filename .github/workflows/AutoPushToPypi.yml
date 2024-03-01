@@ -38,7 +38,7 @@ jobs:
           pip install --upgrade build
           python -m pip install --upgrade pip
           python -m build
-        
+
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:

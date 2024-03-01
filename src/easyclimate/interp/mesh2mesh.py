@@ -1,22 +1,24 @@
 """
 Regridding
 """
+
 from __future__ import annotations
 
 import xarray_regrid
 import xarray as xr
 import warnings
-from ..core.utility import (transfer_xarray_lon_from180TO360, generate_dataset_dispatcher)
+from ..core.utility import transfer_xarray_lon_from180TO360, generate_dataset_dispatcher
 
 __all__ = ["interp_mesh2mesh"]
+
 
 @generate_dataset_dispatcher
 def interp_mesh2mesh(
     data_input: xr.DataArray | xr.Dataset,
     target_grid: xr.DataArray | xr.Dataset,
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
-    method: str = 'linear'
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    method: str = "linear",
 ):
     """
     Regridding regular or lat-lon grid data.
@@ -63,33 +65,42 @@ def interp_mesh2mesh(
     """
     target_grid_dims_len = len(target_grid.dims)
     if target_grid_dims_len != 2:
-        raise ValueError('The dimension should be 2, rather than %s.' %target_grid_dims_len)
-    
+        raise ValueError(
+            "The dimension should be 2, rather than %s." % target_grid_dims_len
+        )
+
     # For the convenience of data processing
     target_grid = target_grid.transpose(lat_dim, lon_dim)
-    
+
     for dims_name in target_grid.dims:
         try:
             data_input[dims_name]
         except Exception as r:
-            print('Latitude or Lontitude name should be same between `data_input` and `target_grid`, but here find unknown dimension name: %s.' %r)
-    
+            print(
+                "Latitude or Lontitude name should be same between `data_input` and `target_grid`, but here find unknown dimension name: %s."
+                % r
+            )
+
     lon_array_data_input = data_input[lon_dim].data
     lon_array_target_grid = target_grid[lon_dim].data
 
     if (lon_array_data_input < 0).any():
-        warnings.warn('It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°.')
+        warnings.warn(
+            "It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°."
+        )
         data_input = transfer_xarray_lon_from180TO360(data_input)
     if (lon_array_target_grid < 0).any():
-        warnings.warn('It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°.')    
+        warnings.warn(
+            "It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°."
+        )
         target_grid = transfer_xarray_lon_from180TO360(target_grid)
-    
+
     match method:
-        case 'linear':
+        case "linear":
             return data_input.regrid.linear(target_grid)
-        case 'nearest':
+        case "nearest":
             return data_input.regrid.nearest(target_grid)
-        case 'cubic':
+        case "cubic":
             return data_input.regrid.cubic(target_grid)
-        case 'conservative':
-            return data_input.regrid.conservative(target_grid, latitude_coord = lat_dim)
+        case "conservative":
+            return data_input.regrid.conservative(target_grid, latitude_coord=lat_dim)

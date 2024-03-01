@@ -8,23 +8,35 @@ This is the top layer of packaging for the windspharm package.
     - https://github.com/ajdawson/windspharm
     - Dawson, A. (2016). Windspharm: A High-Level Library for Global Wind Field Computations Using Spherical Harmonics. Journal of Open Research Software, 4(1), e31.DOI: https://doi.org/10.5334/jors.129
 """
+
 from windspharm.xarray import VectorWind
 import xarray as xr
 
-__all__ = ["calc_wind_speed", "calc_relative_vorticity_and_horizontal_divergence",
-           "calc_relative_vorticity", "calc_divergence", "calc_planetary_vorticity",
-           "calc_absolute_vorticity", "calc_streamfunction_and_velocity_potential",
-           "calc_streamfunction", "calc_velocity_potential", "calc_helmholtz",
-           "calc_irrotational_component", "calc_nondivergent_component", 
-           "calc_rossby_wave_source", "calc_gradient"]
+__all__ = [
+    "calc_wind_speed",
+    "calc_relative_vorticity_and_horizontal_divergence",
+    "calc_relative_vorticity",
+    "calc_divergence",
+    "calc_planetary_vorticity",
+    "calc_absolute_vorticity",
+    "calc_streamfunction_and_velocity_potential",
+    "calc_streamfunction",
+    "calc_velocity_potential",
+    "calc_helmholtz",
+    "calc_irrotational_component",
+    "calc_nondivergent_component",
+    "calc_rossby_wave_source",
+    "calc_gradient",
+]
+
 
 def calc_wind_speed(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
-    R: float = 6371200.0, 
-    legfunc: str='stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
+    R: float = 6371200.0,
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate the wind speed (magnitude of vector wind).
@@ -49,7 +61,7 @@ def calc_wind_speed(
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.    
+        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
     Returns
     -------
@@ -61,14 +73,15 @@ def calc_wind_speed(
     w = VectorWind(u_data, v_data, rsphere=R, legfunc=legfunc)
     return w.magnitude()
 
+
 def calc_relative_vorticity_and_horizontal_divergence(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Calculate relative vorticity and horizontal divergence.
@@ -108,18 +121,19 @@ def calc_relative_vorticity_and_horizontal_divergence(
     vrt, div = w.vrtdiv(truncation=truncation)
 
     data = xr.Dataset()
-    data['vrt'] = vrt
-    data['div'] = div
+    data["vrt"] = vrt
+    data["div"] = div
     return data
 
+
 def calc_relative_vorticity(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate relative vorticity.
@@ -150,7 +164,7 @@ def calc_relative_vorticity(
 
     Returns
     -------
-    Relative vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).    
+    Relative vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -159,14 +173,15 @@ def calc_relative_vorticity(
     vrt = w.vorticity(truncation=truncation)
     return vrt
 
+
 def calc_divergence(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate horizontal divergence.
@@ -206,14 +221,15 @@ def calc_divergence(
     div = w.divergence(truncation=truncation)
     return div
 
+
 def calc_planetary_vorticity(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     omega: float = 7.2921150,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate planetary vorticity (Coriolis parameter).
@@ -253,15 +269,16 @@ def calc_planetary_vorticity(
     pvrt = w.planetaryvorticity(omega=omega)
     return pvrt
 
+
 def calc_absolute_vorticity(
-    u_data: xr.DataArray, 
-    v_data: xr.DataArray, 
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
     truncation: int = None,
-    omega: float = 7.2921150, 
-    R: float = 6371200.0, 
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    omega: float = 7.2921150,
+    R: float = 6371200.0,
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate absolute vorticity (sum of relative and planetary vorticity).
@@ -303,14 +320,15 @@ def calc_absolute_vorticity(
     avrt = w.absolutevorticity(omega=omega, truncation=truncation)
     return avrt
 
+
 def calc_streamfunction_and_velocity_potential(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Calculate stream function and velocity potential.
@@ -320,7 +338,7 @@ def calc_streamfunction_and_velocity_potential(
     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.    
+        The meridional component of vector wind.
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     R: :py:class:`float <float>`.
@@ -350,18 +368,19 @@ def calc_streamfunction_and_velocity_potential(
     sf, vp = w.sfvp(truncation=truncation)
 
     data = xr.Dataset()
-    data['stream'] = sf
-    data['pv'] = vp
+    data["stream"] = sf
+    data["pv"] = vp
     return data
+
 
 def calc_streamfunction(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate stream function.
@@ -371,7 +390,7 @@ def calc_streamfunction(
     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.    
+        The meridional component of vector wind.
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     R: :py:class:`float <float>`.
@@ -401,14 +420,15 @@ def calc_streamfunction(
     sf = w.streamfunction(truncation=truncation)
     return sf
 
+
 def calc_velocity_potential(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate velocity potential.
@@ -418,7 +438,7 @@ def calc_velocity_potential(
     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.    
+        The meridional component of vector wind.
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     R: :py:class:`float <float>`.
@@ -448,14 +468,15 @@ def calc_velocity_potential(
     vp = w.velocitypotential(truncation=truncation)
     return vp
 
+
 def calc_helmholtz(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Calculate irrotational and non-divergent components of the vector wind.
@@ -465,7 +486,7 @@ def calc_helmholtz(
     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.    
+        The meridional component of vector wind.
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     R: :py:class:`float <float>`.
@@ -495,20 +516,21 @@ def calc_helmholtz(
     uchi, vchi, upsi, vpsi = w.helmholtz(truncation=truncation)
 
     data = xr.Dataset()
-    data['uchi'] = uchi
-    data['vchi'] = vchi
-    data['upsi'] = upsi
-    data['vpsi'] = vpsi
+    data["uchi"] = uchi
+    data["vchi"] = vchi
+    data["upsi"] = upsi
+    data["vpsi"] = vpsi
     return data
+
 
 def calc_irrotational_component(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Calculate irrotational (divergent) component of the vector wind.
@@ -518,7 +540,7 @@ def calc_irrotational_component(
     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.    
+        The meridional component of vector wind.
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     R: :py:class:`float <float>`.
@@ -548,18 +570,19 @@ def calc_irrotational_component(
     uchi, vchi = w.irrotationalcomponent(truncation=truncation)
 
     data = xr.Dataset()
-    data['uchi'] = uchi
-    data['vchi'] = vchi
+    data["uchi"] = uchi
+    data["vchi"] = vchi
     return data
+
 
 def calc_nondivergent_component(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Calculate non-divergent (rotational) component of the vector wind.
@@ -569,7 +592,7 @@ def calc_nondivergent_component(
     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
         The zonal component of the wind.
     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.    
+        The meridional component of vector wind.
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     R: :py:class:`float <float>`.
@@ -599,25 +622,26 @@ def calc_nondivergent_component(
     upsi, vpsi = w.nondivergentcomponent(truncation=truncation)
 
     data = xr.Dataset()
-    data['upsi'] = upsi
-    data['vpsi'] = vpsi
+    data["upsi"] = upsi
+    data["vpsi"] = vpsi
     return data
+
 
 def calc_rossby_wave_source(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
     Calculate Rossby wave sources (RWS).
 
     .. math::
         RWS=-\\nabla \\cdot \\left({v}_{x}\\zeta \\right)=-\\left(\\zeta \\nabla \\cdot {v}_{x}+{v}_{x}\\cdot \\nabla \\zeta \\right)
-    
+
     with :math:`\\zeta` being the absolute vorticity.
 
     Parameters
@@ -665,19 +689,20 @@ def calc_rossby_wave_source(
     div = w.divergence(truncation=truncation)
     uchi, vchi = w.irrotationalcomponent(truncation=truncation)
     etax, etay = w.gradient(eta, truncation=truncation)
-    etax.attrs['units'] = 'm**-1 s**-1'
-    etay.attrs['units'] = 'm**-1 s**-1'
+    etax.attrs["units"] = "m**-1 s**-1"
+    etay.attrs["units"] = "m**-1 s**-1"
 
-    S = eta * -1. * div - (uchi * etax + vchi * etay)
+    S = eta * -1.0 * div - (uchi * etax + vchi * etay)
     return S
+
 
 def calc_gradient(
     data_input: xr.DataArray,
     truncation: int = None,
     R: float = 6371200.0,
-    legfunc: str = 'stored',
-    lon_dim: str = 'lon',
-    lat_dim: str = 'lat',
+    legfunc: str = "stored",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Computes the vector gradient of a scalar field on the sphere.
@@ -714,9 +739,10 @@ def calc_gradient(
     data_zonal, data_meridional = w.gradient(data_input, truncation=truncation)
 
     data = xr.Dataset()
-    data['zonal_gradient'] = data_zonal
-    data['meridional_gradient'] = data_meridional
+    data["zonal_gradient"] = data_zonal
+    data["meridional_gradient"] = data_meridional
     return data
+
 
 def _format_lat_lon_coordinate(
     data_input: xr.DataArray,
@@ -724,6 +750,6 @@ def _format_lat_lon_coordinate(
     lon_dim: str,
 ) -> xr.DataArray:
     """Add attrs to lat lon coordinate"""
-    data_input[lon_dim].attrs['units'] = 'degrees_east'
-    data_input[lat_dim].attrs['units'] = 'degrees_north'
+    data_input[lon_dim].attrs["units"] = "degrees_east"
+    data_input[lat_dim].attrs["units"] = "degrees_north"
     return 0
