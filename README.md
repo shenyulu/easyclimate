@@ -17,7 +17,7 @@
 [![Documentation Status](https://readthedocs.org/projects/easyclimate/badge/?version=latest)](https://easyclimate.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/465206111.svg)](https://zenodo.org/doi/10.5281/zenodo.10279567)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=.binder)
-
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
 ## About
