@@ -3,23 +3,23 @@ channels:
   - conda-forge
 dependencies:
   - python=3.10
-  - numpy >= 1.24.3
-  - xarray >= 0.17.0,<=2023.12.0
-  - cartopy >= 0.20
-  - matplotlib
-  - pandas
-  - intel-fortran-rt
-  - scipy  >=1.8.0
-  - statsmodels
-  - dask
   - pip:
-    - easyclimate
-    - geocat.viz <= 2023.10.0
+    - numpy >= 1.24.3
+    - xarray >= 0.17.0,<=2023.12.0
+    - geocat.viz
+    - cartopy >= 0.20
     - xeofs >= 2.2.2
+    - matplotlib
+    - pandas
     - fast-barnes-py
     - oceans
+    - intel-fortran-rt
+    - scipy >=1.8.0
+    - statsmodels
     - geocat-comp
     - pyspharm-syl
+    - windspharm-syl
+    - dask
     - pymannkendall
     - flox
     - xarray-datatree
@@ -29,3 +29,4 @@ dependencies:
     - tqdm
     - zarr
     - metpy
+    - easyclimate
