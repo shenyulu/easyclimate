@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2024.03.01
+
+*Released on: 2024/03/05*
+
+### What's Changed
+* pin xarray version <=2023.12.0 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/13
+* modify eof functions and add test and add create .pre-commit-config.yaml by @shenyulu in https://github.com/shenyulu/easyclimate/pull/16
+* update requirement by @shenyulu in https://github.com/shenyulu/easyclimate/pull/23
+* remove the pin of geocat.viz by @shenyulu in https://github.com/shenyulu/easyclimate/pull/24
+* change binder example location by @shenyulu in https://github.com/shenyulu/easyclimate/pull/25
+
 ## Version 2024.01.01
 
 *Released on: 2024/01/04*
