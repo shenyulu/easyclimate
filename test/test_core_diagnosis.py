@@ -154,6 +154,18 @@ z_data = xr.DataArray(
     },
 )
 
+t_data_Tv = xr.DataArray(
+    np.array([299.80002, 295.4]),
+    dims="level",
+    coords={"level": np.array([1000.0, 925.0])},
+)
+
+q_data_Tv = xr.DataArray(
+    np.array([0.01864, 0.0149525]),
+    dims="level",
+    coords={"level": np.array([1000.0, 925.0])},
+)
+
 
 def test_calc_brunt_vaisala_frequency_atm():
     N2_data = ecl.calc_brunt_vaisala_frequency_atm(
@@ -251,4 +263,24 @@ def test_calc_static_stability():
             0.06889,
         ]
     )
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_virtual_temperature():
+    result_data = ecl.calc_virtual_temperature(
+        temper_data=t_data_Tv,
+        specific_humidity_data=q_data_Tv,
+        specific_humidity_units="g/g",
+    ).data
+    refer_data = np.array([303.1976896, 298.08551685])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_virtual_temperature_Hobbs2006():
+    result_data = ecl.calc_virtual_temperature_Hobbs2006(
+        temper_data=t_data_Tv,
+        specific_humidity_data=q_data_Tv,
+        specific_humidity_units="g/g",
+    ).data
+    refer_data = np.array([303.1345747, 298.04520656])
     assert np.isclose(result_data, refer_data).all()
