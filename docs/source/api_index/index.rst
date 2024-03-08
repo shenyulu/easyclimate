@@ -53,6 +53,7 @@ Interpolation
 
     easyclimate.interp.point2mesh
     easyclimate.interp.mesh2mesh
+    easyclimate.interp.interp1d_vertical_model2pressure
 
 Plot
 ----------------------------------------

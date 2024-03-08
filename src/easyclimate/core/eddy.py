@@ -7,7 +7,7 @@ import xarray as xr
 import numpy as np
 from .diagnosis import (
     get_coriolis_parameter,
-    get_potential_temperature,
+    calc_potential_temperature,
     calc_brunt_vaisala_frequency_atm,
 )
 from .diff import (
@@ -90,7 +90,7 @@ def calc_eady_growth_rate(
     dudp = calc_gradient(u_daily_data, dim=vertical_dim) / dp
     dzdp = calc_gradient(z_daily_data, dim=vertical_dim) / dp
     dudz = dudp / dzdp
-    pt = get_potential_temperature(
+    pt = calc_potential_temperature(
         temper_daily_data,
         vertical_dim=vertical_dim,
         vertical_dim_units=vertical_dim_units,
@@ -170,7 +170,7 @@ def calc_apparent_heat_source(
     # Convert the pressure unit to Pascal
     dp_base = transfer_units_coeff(vertical_dim_units, "Pa")
 
-    pt = get_potential_temperature(
+    pt = calc_potential_temperature(
         temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
     dtheta_dt = calc_gradient(pt, dim=time_dim) / dt
@@ -607,7 +607,7 @@ def calc_TN_wave_activity_horizontal_flux(
 #     magU = np.sqrt(u_c**2 + v_c**2)
 #     coeff = p /(2 *magU)
 
-#     potential_temperature_data = get_potential_temperature(temper_data, vertical_dim = vertical_dim, vertical_units = vertical_units, kappa = kappa)
+#     potential_temperature_data = calc_potential_temperature(temper_data, vertical_dim = vertical_dim, vertical_units = vertical_units, kappa = kappa)
 #     N = calc_brunt_vaisala_frequency_atm(potential_temperature_data, z_data, vertical_dim = vertical_dim, g = g)
 
 #     fx = coeff *( (u_c /(R**2 *coslat) *term_xu) + (v_c /(R**2) *term_xv) )
