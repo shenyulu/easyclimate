@@ -11,7 +11,7 @@ from .utility import transfer_deg2rad, transfer_units_coeff
 __all__ = [
     "calc_brunt_vaisala_frequency_atm",
     "get_coriolis_parameter",
-    "get_potential_temperature",
+    "calc_potential_temperature",
     "calc_static_stability",
 ]
 
@@ -94,7 +94,7 @@ def get_coriolis_parameter(
     return 2 * omega * np.sin(transfer_deg2rad(lat_data))
 
 
-def get_potential_temperature(
+def calc_potential_temperature(
     temper_data: xr.DataArray,
     vertical_dim: str,
     vertical_dim_units: str,
@@ -178,7 +178,7 @@ def calc_static_stability(
         - `static_stability — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.static_stability.html>`__
         - `Static stability parameters · Issue #2535 · Unidata/MetPy <https://github.com/Unidata/MetPy/issues/2535>`__
     """
-    theta = get_potential_temperature(
+    theta = calc_potential_temperature(
         temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
     ln_theta = np.log(theta)
