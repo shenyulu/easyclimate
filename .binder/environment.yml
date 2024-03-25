@@ -14,6 +14,7 @@ dependencies:
     - fast-barnes-py
     - oceans
     - intel-fortran-rt
+    - dpcpp-cpp-rt
     - scipy >=1.8.0
     - statsmodels
     - geocat-comp
