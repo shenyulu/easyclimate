@@ -6,8 +6,15 @@ import pytest
 
 import easyclimate as ecl
 import numpy as np
+import xarray as xr
+from pathlib import Path
+from .const_define import TEST_DATA_PATH
 
-sst_data = ecl.open_tutorial_dataset("sst_mnmean_oisst").sst.isel(time=slice(100, 150))
+# sst_data = ecl.open_tutorial_dataset("sst_mnmean_oisst").sst.isel(time=slice(100, 150))
+# sst_data.sortby('lat').sel(lon = slice(130, 230), lat = slice(20, 50)).to_netcdf('data/test_input_sst_mnmean_oisst_oceanic_front.nc', format = "NETCDF3_64BIT")
+sst_data = xr.open_dataset(
+    str(Path(TEST_DATA_PATH, "test_input_sst_mnmean_oisst_oceanic_front.nc"))
+)["sst"]
 
 
 def test_calc_intensity_STFZ():
