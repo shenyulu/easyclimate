@@ -13,12 +13,12 @@ from .util import (
     round_sf_np_new,
 )  # Intel fortran outputs for Windows and linux are quit different
 
-u_data_sample = (
-    ecl.open_tutorial_dataset("uwnd_202201_mon_mean").uwnd.isel(time=0).sel(level=500)
-)
-v_data_sample = (
-    ecl.open_tutorial_dataset("vwnd_202201_mon_mean").vwnd.isel(time=0).sel(level=500)
-)
+u_data_sample = xr.open_dataset(
+    str(Path(TEST_DATA_PATH, "test_input_uwnd_202201_mon_mean_500hPa_sampledata.nc"))
+)["uwnd"]
+v_data_sample = xr.open_dataset(
+    str(Path(TEST_DATA_PATH, "test_input_vwnd_202201_mon_mean_500hPa_sampledata.nc"))
+)["vwnd"]
 
 lon_start, lon_end, lat_start, lat_end = 20, 30, -10, 10
 
