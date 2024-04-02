@@ -143,7 +143,10 @@ def calc_linregress_spatial(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 6}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 6},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -240,7 +243,7 @@ def calc_ttestSpatialPattern_spatial(
         output_dtypes=["float64"],
         dask="parallelized",
         vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}},
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}, "allow_rechunk": True},
         exclude_dims=set((dim,)),  # allow change size
     )
 
@@ -328,7 +331,7 @@ def calc_levenetestSpatialPattern_spatial(
         output_dtypes=["float64"],
         dask="parallelized",
         vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}},
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}, "allow_rechunk": True},
         exclude_dims=set((dim,)),  # allow change size
     )
 
@@ -416,7 +419,7 @@ def calc_levenetestSpatialPattern_spatial(
         output_dtypes=["float64"],
         dask="parallelized",
         vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}},
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}, "allow_rechunk": True},
         exclude_dims=set((dim,)),  # allow change size
     )
 
@@ -682,7 +685,10 @@ def calc_theilslopes_spatial(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 4}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 4},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
