@@ -89,7 +89,7 @@ def calc_mixed_layer_depth(
         output_dtypes=["float64"],
         dask="parallelized",
         vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 1}, "allow_rechunk": True},
     )
     result = result[..., 0]
 

@@ -85,7 +85,10 @@ def original_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -199,7 +202,10 @@ def hamed_rao_modification_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -313,7 +319,10 @@ def yue_wang_modification_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -424,7 +433,10 @@ def pre_whitening_modification_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -537,7 +549,10 @@ def trend_free_pre_whitening_modification_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -653,7 +668,10 @@ def seasonal_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -764,7 +782,10 @@ def regional_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -880,7 +901,10 @@ def correlated_seasonal_test(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -968,7 +992,10 @@ def sens_slope(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset
@@ -1045,7 +1072,10 @@ def seasonal_sens_slope(
             output_dtypes=["float64"],
             dask="parallelized",
             vectorize=True,
-            dask_gufunc_kwargs={"output_sizes": {"parameter": 1}},
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 1},
+                "allow_rechunk": True,
+            },
         )
 
         # Transform DataArray to Dataset

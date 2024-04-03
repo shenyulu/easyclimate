@@ -19,23 +19,21 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-
-## About
+## 👋 Overview
 
 **Easy Climate** is a Python package, aiming to use a line of code to analyze climate.
 
 
 We support Python >= 3.10.
 
-
-## Project goals
+### ✨ Project goals
 
 * Eliminate lengthy code for data and plot handling.
 * Use numpy and xarray syntax for optimal computational speed.
 * Dask for scalable parallel processing support extends climate data processing to TBs or PBs.
 * Open-source software for increased application flexibility.
 
-## How to install?
+## 🚀 How to install?
 
 If you use [pip](https://pypi.org/project/pip/), you can install `easyclimate` with:
 
@@ -45,7 +43,7 @@ pip install easyclimate
 
 For more information about installation, please chech the documentation.
 
-## Getting involved
+## 💫 Getting involved
 
 👩🏾‍💻 **Contributing to project development:**
 Please read our
@@ -65,18 +63,18 @@ By participating in this project you agree to abide by its terms.
 > writing code**.
 >
 
-## Contributors
+## 🤗 Contributors
 
 Thanks to our many contributors!
 
 [![Contributors](https://contrib.rocks/image?repo=shenyulu/easyclimate)](https://github.com/shenyulu/easyclimate/graphs/contributors)
 
-## License
+## 🪪 License
 
 This is free software: you can redistribute it and/or modify it under the terms
 of the **BSD 3-clause License**. A copy of this license is provided in
 [`LICENSE.txt`](https://github.com/shenyulu/easyclimate/blob/main/LICENSE.txt).
 
-## Star History
+## 💎 Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=shenyulu/easyclimate&type=Date)](https://star-history.com/#shenyulu/easyclimate&Date)

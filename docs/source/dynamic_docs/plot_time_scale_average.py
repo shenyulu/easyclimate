@@ -45,19 +45,3 @@ sic_data_Barents_Sea_remove_seasonal_cycle.mean(dim=("lat", "lon")).sel(
     figsize=(10, 3),
     marker=".",
 )
-
-# %%
-# Convert to the Month-mean State corresponding to Each Month
-# ------------------------------------
-# :py:func:`easyclimate.calc_seasonal_cycle_mean <easyclimate.calc_seasonal_cycle_mean>` can solve for monthly average results,
-# and :py:func:`easyclimate.transfer_monmean2everymonthmean <easyclimate.transfer_monmean2everymonthmean>` can project monthly climate state results onto individual months for certain calculations.
-
-# everymonth_climatology = ecl.transfer_monmean2everymonthmean(sic_data_Barents_Sea)
-# everymonth_climatology;
-
-# %%
-# We can find that the seasonal cycles are all consistent.
-# everymonth_climatology.mean(dim = ('lat', 'lon')).sel(time = slice('2010-01-01', '2015-12-31')).plot(
-#     figsize = (10, 3),
-#     marker = '.',
-# )
