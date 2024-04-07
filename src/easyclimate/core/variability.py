@@ -407,8 +407,21 @@ def calc_daily_climatological_anomaly(
     data_daily: xr.DataArray | xr.Dataset,
     data_climatology_daily_data: xr.DataArray | xr.Dataset,
     timd_dim="time",
-) -> xr.DataArray:
-    """ """
+) -> xr.DataArray | xr.Dataset:
+    """
+    Calulate daily anomaly using the given dataset of climatological mean state .
+
+    - data_daily: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    - data_climatology_daily_data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+        The daily climatology dataset.
+    - time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+    """
     data_daily_anomaly = (
         data_daily.groupby(data_daily[timd_dim].dt.dayofyear)
         - data_climatology_daily_data.groupby(
