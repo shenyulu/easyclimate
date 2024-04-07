@@ -15,9 +15,8 @@ __all__ = [
     "calc_monthly_climatological_std_without_seasonal_cycle_mean",
     "calc_monthly_climatological_var_without_seasonal_cycle_mean",
     "calc_horizontal_wind_components_std",
-    "transfer_monmean2everymonthmean",
-    "mapping_daily_climatological_mean2every_day",
-    "mapping_monthly_climatological_mean2every_month",
+    "populate_monmean2everymon",
+    "populate_daymean2everyday",
     "calc_daily_climatological_anomaly",
 ]
 
@@ -290,85 +289,118 @@ def calc_horizontal_wind_components_std(
     return uv_dataset.assign({"sigma_s": sigma_s, "sigma_d": sigma_d})
 
 
-def transfer_monmean2everymonthmean(
-    data_input: xr.DataArray, time_dim: str = "time"
+def populate_monmean2everymon(
+    data_monthly: xr.DataArray,
+    data_climatology_monthly_data: xr.DataArray = None,
+    time_dim: str = "time",
 ) -> xr.DataArray:
     """
-    Convert to the month-mean state corresponding to each month.
+    Populate the data of each month using the monthly mean state of the `data_monthly` or given dataset.
 
     Parameters
     ----------
-    - data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    - data_monthly: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    - data_climatology_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`, default `None`.
+        The monthly climatology dataset. If it is `None`, the climatology is derived from `data_monthly`.
+    - time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
-    time_step_all = data_input[time_dim].shape[0]
-    month_int = data_input.time.dt.month
-    month_climate = data_input.groupby(time_dim + ".month").mean(dim=time_dim)
-    data_input_empty = xr.full_like(data_input, fill_value=np.nan)
+    if data_climatology_monthly_data is None:
+        time_step_all = data_monthly[time_dim].shape[0]
+        month_int = data_monthly.time.dt.month
+        month_climate = data_monthly.groupby(time_dim + ".month").mean(dim=time_dim)
+        data_monthly_empty = xr.full_like(data_monthly, fill_value=np.nan)
 
-    for time_step in np.arange(0, time_step_all):
-        time_step_month = month_int.isel(time=time_step).data
-        data_input_empty[{time_dim: time_step}] = month_climate.sel(
-            month=time_step_month
-        )
+        for time_step in np.arange(0, time_step_all):
+            time_step_month = month_int.isel(time=time_step).data
+            data_monthly_empty[{time_dim: time_step}] = month_climate.sel(
+                month=time_step_month
+            )
 
-    return data_input_empty
+        return data_monthly_empty
+
+    else:
+        result_data = xr.full_like(data_monthly, fill_value=np.nan)
+        time_length = result_data[time_dim].shape[0]
+        time_month = result_data[time_dim].dt.month.data
+        climate_data_month_index = data_climatology_monthly_data[time_dim].dt.month.data
+
+        for time_item in np.arange(time_length):
+            # Target month index
+            time_month_item = time_month[time_item]
+            # Correspond month index in the climate data
+            month_index = np.transpose(
+                np.nonzero(climate_data_month_index == time_month_item)
+            )
+            month_index = month_index.item()
+
+            result_data[{time_dim: time_item}] = data_climatology_monthly_data.isel(
+                {time_dim: month_index}
+            )
+
+        return result_data
 
 
-def mapping_daily_climatological_mean2every_day(
+def populate_daymean2everyday(
     data_daily: xr.DataArray,
-    data_climatology_daily_data: xr.DataArray,
-    timd_dim: str = "time",
+    data_climatology_daily_data: xr.DataArray = None,
+    time_dim: str = "time",
 ) -> xr.DataArray:
-    """ """
-    result_data = xr.full_like(data_daily, fill_value=np.nan)
-    time_length = result_data[timd_dim].shape[0]
-    time_dayofyear = result_data[timd_dim].dt.dayofyear.data
-    climate_data_dayofyear_index = data_climatology_daily_data[
-        timd_dim
-    ].dt.dayofyear.data
+    """
+    Populate the data of each day using the daily mean state of the `data_daily` or given dataset.
 
-    for time_item in np.arange(time_length):
-        # Target dayofyear index
-        time_dayofyear_item = time_dayofyear[time_item]
-        # Correspond dayofyear index in the climate data
-        dayofyear_index = np.transpose(
-            np.nonzero(climate_data_dayofyear_index == time_dayofyear_item)
-        )
-        dayofyear_index = int(dayofyear_index)
+    Parameters
+    ----------
+    - data_daily: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    - data_climatology_daily_data: :py:class:`xarray.DataArray<xarray.DataArray>`, default `None`.
+        The daily climatology dataset. If it is `None`, the climatology is derived from `data_monthly`.
+    - time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
 
-        result_data[{timd_dim: time_item}] = data_climatology_daily_data.isel(
-            {timd_dim: dayofyear_index}
-        )
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.
+    """
+    if data_climatology_daily_data is None:
+        time_step_all = data_daily[time_dim].shape[0]
+        day_int = data_daily.time.dt.day
+        day_climate = data_daily.groupby(time_dim + ".day").mean(dim=time_dim)
+        data_daily_empty = xr.full_like(data_daily, fill_value=np.nan)
 
-    return result_data
+        for time_step in np.arange(0, time_step_all):
+            time_step_day = day_int.isel(time=time_step).data
+            data_daily_empty[{time_dim: time_step}] = day_climate.sel(day=time_step_day)
 
+        return data_daily_empty
 
-def mapping_monthly_climatological_mean2every_month(
-    data_monthly: xr.DataArray,
-    data_climatology_monthly_data: xr.DataArray,
-    timd_dim: str = "time",
-) -> xr.DataArray:
-    """ """
-    result_data = xr.full_like(data_monthly, fill_value=np.nan)
-    time_length = result_data[timd_dim].shape[0]
-    time_month = result_data[timd_dim].dt.month.data
-    climate_data_month_index = data_climatology_monthly_data[timd_dim].dt.month.data
+    else:
+        result_data = xr.full_like(data_daily, fill_value=np.nan)
+        time_length = result_data[time_dim].shape[0]
+        time_dayofyear = result_data[time_dim].dt.dayofyear.data
+        climate_data_dayofyear_index = data_climatology_daily_data[
+            time_dim
+        ].dt.dayofyear.data
 
-    for time_item in np.arange(time_length):
-        # Target month index
-        time_month_item = time_month[time_item]
-        # Correspond month index in the climate data
-        month_index = np.transpose(
-            np.nonzero(climate_data_month_index == time_month_item)
-        )
-        month_index = int(month_index)
+        for time_item in np.arange(time_length):
+            # Target dayofyear index
+            time_dayofyear_item = time_dayofyear[time_item]
+            # Correspond dayofyear index in the climate data
+            dayofyear_index = np.transpose(
+                np.nonzero(climate_data_dayofyear_index == time_dayofyear_item)
+            )
+            dayofyear_index = dayofyear_index.item()
 
-        result_data[{timd_dim: time_item}] = data_climatology_monthly_data.isel(
-            {timd_dim: month_index}
-        )
+            result_data[{time_dim: time_item}] = data_climatology_daily_data.isel(
+                {time_dim: dayofyear_index}
+            )
 
-    return result_data
+        return result_data
 
 
 def calc_daily_climatological_anomaly(

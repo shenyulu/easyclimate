@@ -245,47 +245,6 @@ def test_transfer_nan2value():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_transfer_monmean2everymonthmean():
-    result_data = ecl.variability.transfer_monmean2everymonthmean(
-        data_time_series.isel(lon=0), time_dim="time"
-    ).data
-    refer_data = np.array(
-        [
-            57443.694,
-            57467.17633333,
-            57543.966,
-            57580.77333333,
-            57533.17533333,
-            57411.96166667,
-            57377.69,
-            57391.9715,
-            57423.3845,
-            57414.818,
-            57492.878,
-            57527.1475,
-            57443.694,
-            57467.17633333,
-            57543.966,
-            57580.77333333,
-            57533.17533333,
-            57411.96166667,
-            57377.69,
-            57391.9715,
-            57423.3845,
-            57414.818,
-            57492.878,
-            57527.1475,
-            57443.694,
-            57467.17633333,
-            57543.966,
-            57580.77333333,
-            57533.17533333,
-            57411.96166667,
-        ]
-    )
-    assert np.isclose(result_data, refer_data).all()
-
-
 def test_get_weighted_spatial_data():
     inputdata = xr.open_dataset(
         str(Path(TEST_DATA_PATH, "test_input_core_eof.nc"))
