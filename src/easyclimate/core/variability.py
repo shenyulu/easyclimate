@@ -383,5 +383,5 @@ def calc_daily_climatological_anomaly(
             data_climatology_daily_data[timd_dim].dt.dayofyear
         ).mean()
     )
-    data_daily_anomaly = data_daily_anomaly.drop("dayofyear")
+    data_daily_anomaly = data_daily_anomaly.drop_vars("dayofyear")
     return data_daily_anomaly
