@@ -3,6 +3,7 @@ pytest for eof.py
 """
 
 import pytest
+import warnings
 
 import easyclimate as ecl
 import xarray as xr
@@ -73,6 +74,76 @@ ds5 = xr.DataArray(
     np.array([3e-5, 5.4e-5, 7.3e-5]),
     dims="lon",
     coords={"lon": np.array([120, 180, 310])},
+)
+
+comparedata1 = xr.DataArray(
+    dims=("time", "level", "lat", "lon"),
+    coords={
+        "time": np.array(
+            [
+                "1948-01-01T00:00:00.000000000",
+                "1948-02-01T00:00:00.000000000",
+                "1948-03-01T00:00:00.000000000",
+            ],
+            dtype="datetime64[ns]",
+        ),
+        "level": np.array([1000.0, 925.0, 850.0], dtype=np.float32),
+        "lat": np.array([10.0, 7.5, 5.0, 2.5, 0.0], dtype=np.float32),
+        "lon": np.array([100.0, 102.5, 105.0, 107.5, 110.0], dtype=np.float32),
+    },
+)
+
+comparedata2 = xr.DataArray(
+    dims=("level", "lat", "lon"),
+    coords={
+        "level": np.array([1000.0, 925.0, 850.0], dtype=np.float32),
+        "lat": np.array([10.0, 7.5, 5.0, 2.5, 0.0], dtype=np.float32),
+        "lon": np.array([100.0, 102.5, 105.0, 107.5, 110.0], dtype=np.float32),
+    },
+)
+
+comparedata3 = xr.DataArray(
+    dims=("time", "level", "lat", "lon"),
+    coords={
+        "time": np.array(
+            [
+                "1948-01-01T00:00:00.000000000",
+                "1948-02-01T00:00:00.000000000",
+                "1948-03-01T00:00:00.000000000",
+            ],
+            dtype="datetime64[ns]",
+        ),
+        "level": np.array([1000.0, 925.0, 850.0], dtype=np.float32),
+        "lat": np.array([10.0, 7.5, 5.0, 2.5, 0.0, -2.5], dtype=np.float32),
+        "lon": np.array([100.0, 102.5, 105.0, 107.5, 110.0], dtype=np.float32),
+    },
+)
+
+comparedata4 = xr.DataArray(
+    dims=("time", "level", "lat", "lon"),
+    coords={
+        "time": np.array(
+            [
+                "1948-01-01T00:00:00.000000000",
+                "1948-02-01T00:00:00.000000000",
+                "1948-03-01T00:00:00.000000000",
+            ],
+            dtype="datetime64[ns]",
+        ),
+        "level": np.array([1000.0, 925.0, 500.0], dtype=np.float32),
+        "lat": np.array([10.0, 7.5, 5.0, 2.5, 0.0], dtype=np.float32),
+        "lon": np.array([100.0, 102.5, 105.0, 107.5, 110.0], dtype=np.float32),
+    },
+)
+
+comparedata5 = xr.DataArray(
+    dims=("time", "level", "lat", "lon"),
+    coords={
+        "time": np.array([1, 2, 3]),
+        "level": np.array([1000.0, 925.0, 850.0], dtype=np.float32),
+        "lat": np.array([10.0, 7.5, 5.0, 2.5, 0.0], dtype=np.float32),
+        "lon": np.array([100.0, 102.5, 105.0, 107.5, 110.0], dtype=np.float32),
+    },
 )
 
 
@@ -325,3 +396,49 @@ def test_reverse_bool_xarraydata():
     result_data = ecl.utility.reverse_bool_xarraydata(data)
     refer_data = xr.DataArray(np.array([False, True]), dims="lon")
     assert (result_data == refer_data).all().data
+
+
+def test_compare_two_dataarray_coordinate1():
+    ecl.utility.compare_two_dataarray_coordinate(
+        data_input1=comparedata1,
+        data_input2=comparedata1,
+    )
+    assert 1
+
+
+@pytest.mark.xfail(raises=AssertionError)
+def test_compare_two_dataarray_coordinate2():
+    ecl.utility.compare_two_dataarray_coordinate(
+        data_input1=comparedata1,
+        data_input2=comparedata2,
+    )
+
+
+@pytest.mark.xfail(raises=AssertionError)
+def test_compare_two_dataarray_coordinate3():
+    ecl.utility.compare_two_dataarray_coordinate(
+        data_input1=comparedata1,
+        data_input2=comparedata3,
+    )
+
+
+@pytest.mark.xfail(raises=AssertionError)
+def test_compare_two_dataarray_coordinate4():
+    ecl.utility.compare_two_dataarray_coordinate(
+        data_input1=comparedata1,
+        data_input2=comparedata4,
+    )
+
+
+@pytest.mark.filterwarnings("ignore::RuntimeWarning")
+def test_compare_two_dataarray_coordinate5():
+    ecl.utility.compare_two_dataarray_coordinate(
+        data_input1=comparedata1,
+        data_input2=comparedata5,
+    )
+
+
+def test_compare_multi_dataarray_coordinate():
+    ecl.utility.compare_multi_dataarray_coordinate(
+        data_input_list=[comparedata1, comparedata1, comparedata1]
+    )
