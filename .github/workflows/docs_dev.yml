@@ -25,7 +25,9 @@ jobs:
         run: pip install -r docs/requirements.txt
 
       - name: Build
-        run: make html
+        run: |
+          cd docs
+          make html
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
