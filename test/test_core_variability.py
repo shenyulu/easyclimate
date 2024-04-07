@@ -135,7 +135,7 @@ sst_timeseries = xr.DataArray(
         ]
     ),
     dims="time",
-    coords={"time": pd.date_range("2010-01-01", "2019-12-31", freq="M")},
+    coords={"time": pd.date_range("2010-01-01", "2019-12-31", freq="ME")},
 )
 
 u_data_sample = xr.DataArray(
@@ -264,7 +264,7 @@ u_data_sample = xr.DataArray(
         ]
     ),
     dims="time",
-    coords={"time": pd.date_range("2010-01-01", "2019-12-31", freq="M")},
+    coords={"time": pd.date_range("2010-01-01", "2019-12-31", freq="ME")},
 )
 
 v_data_sample = xr.DataArray(
@@ -393,7 +393,7 @@ v_data_sample = xr.DataArray(
         ]
     ),
     dims="time",
-    coords={"time": pd.date_range("2010-01-01", "2019-12-31", freq="M")},
+    coords={"time": pd.date_range("2010-01-01", "2019-12-31", freq="ME")},
 )
 
 uv_data_sample = xr.Dataset(data_vars={"u": u_data_sample, "v": v_data_sample})

@@ -46,7 +46,7 @@ data_time_series = xr.DataArray(
     ),
     dims=("time", "lon"),
     coords={
-        "time": pd.date_range("1982-01-01", periods=30, freq="M"),
+        "time": pd.date_range("1982-01-01", periods=30, freq="ME"),
         "lon": np.array([100.125, 101.25]),
     },
 )
