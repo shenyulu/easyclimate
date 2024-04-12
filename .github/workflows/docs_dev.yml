@@ -1,42 +1,53 @@
-name: Build and Deploy pages
+name: docs_pages_workflow
+
+# execute this workflow automatically when a we push to master
 on:
-    push:
-      branches:
-        - dev
-permissions:
-  contents: write
+  push:
+    branches: [ dev ]
+
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+
+  build_docs_job:
     runs-on: ubuntu-latest
-    environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Install OptiPNG and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install OptiPNG and Build 🔧
         run: |
           sudo apt-get install -y optipng
 
-      - name: Set up Python 3.10 🔧
-        uses: actions/setup-python@v4
-        with:
-            python-version: '3.10'
       - name: Install dependencies 💻
-        run: pip install -r docs/requirements.txt
-
-      - name: Build
         run: |
-          cd docs
-          make html
+          pip install -r docs/requirements.txt
 
-      - name: Deploy 🚀
-        uses: peaceiris/actions-gh-pages@v3
+      - name: make the sphinx docs
+        run: |
+          make -C docs clean
+          make -C docs html
+
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd docs/build/html/
+          git init
+          touch .nojekyll
+          git add -A
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
+
+      - name: Force push to destination branch 🚀
+        uses: ad-m/github-push-action@v0.5.0
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: .
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          force: true
+          directory: ./docs/build/html
