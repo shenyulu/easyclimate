@@ -5,7 +5,7 @@
 <p align="center">
 <a href="https://easyclimate.readthedocs.io/en/latest/"><strong>Documentation</strong> (latest)</a> •
 <a href="https://easyclimate.readthedocs.io/en/main/"><strong>Documentation</strong> (main branch)</a> •
-<a href="https://easyclimate.readthedocs.io/en/dev/"><strong>Documentation</strong> (Dev)</a> •
+<a href="https://shenyulu.github.io/easyclimate/"><strong>Documentation</strong> (Dev)</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
@@ -33,7 +33,7 @@ We support Python >= 3.10.
 * Dask for scalable parallel processing support extends climate data processing to TBs or PBs.
 * Open-source software for increased application flexibility.
 
-## 🚀 How to install?
+### 🚀 How to install?
 
 If you use [pip](https://pypi.org/project/pip/), you can install `easyclimate` with:
 
