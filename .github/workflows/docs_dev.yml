@@ -5,11 +5,9 @@ on:
   push:
     branches: [ dev ]
 
-  # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# https://github.com/ad-m/github-push-action/issues/52
+permissions: write-all
 
 jobs:
 
