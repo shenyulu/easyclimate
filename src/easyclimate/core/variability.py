@@ -146,30 +146,34 @@ def calc_seasonal_cycle_var(
 
 
 def remove_seasonal_cycle_mean(
-    data_input: xr.DataArray | xr.Dataset, dim: str = "time", **kwargs
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str = "time",
+    time_range: slice = slice(None, None),
 ) -> xr.DataArray:
     """
     Remove of the seasonal cycle means over the entire time range.
 
     Parameters
     ----------
-    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-         The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
+        The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
 
     .. caution:: `data_input` must be **monthly** data.
 
-    dim: :py:class:`str <str>`
+    dim: :py:class:`str <str>`.
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
-    **kwargs:
-        Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data.
-        These could include dask-specific kwargs like split_every.
+
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of seasonal cycle means to be calculated. The default value is the entire time range.
 
     Returns
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
     gb = data_input.groupby(data_input[dim].dt.month)
-    return gb - gb.mean(dim=dim)
+    data_input_mean = data_input.sel({dim: time_range})
+    gb_mean = data_input_mean.groupby(data_input_mean[dim].dt.month)
+    return gb - gb_mean.mean(dim=dim)
 
 
 def calc_monthly_climatological_std_without_seasonal_cycle_mean(
