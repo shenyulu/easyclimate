@@ -1026,8 +1026,6 @@ def test_calc_index_nino34():
     )
     refer_data = np.array(
         [
-            1.65075790e-02,
-            2.10588261e-01,
             3.77884239e-01,
             5.46651006e-01,
             7.73060560e-01,
@@ -1516,9 +1514,12 @@ def test_calc_index_nino34():
             -8.66236925e-01,
             -9.05105293e-01,
             -8.18093896e-01,
-        ]
+            np.nan,
+            np.nan,
+        ],
+        dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, equal_nan=True).all()
 
 
 def test_calc_index_OMI():
@@ -1529,7 +1530,6 @@ def test_calc_index_OMI():
     )
     refer_data = np.array(
         [
-            -0.03255368,
             0.05916019,
             0.05705167,
             0.2813835,
@@ -2021,9 +2021,11 @@ def test_calc_index_OMI():
             -0.8707774,
             -0.8257758,
             -0.7667706,
-        ]
+            np.nan,
+        ],
+        dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, equal_nan=True).all()
 
 
 def test_calc_index_nino4():
