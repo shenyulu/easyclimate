@@ -631,3 +631,93 @@ def reverse_bool_xarraydata(
     :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
     """
     return xr.where(data_input, False, True)
+
+
+def compare_two_dataarray_coordinate(
+    data_input1: xr.DataArray,
+    data_input2: xr.DataArray,
+    time_dim: str = "time",
+    exclude_dims: list[str] = [],
+):
+    """
+    Compare two DataArray data whether they have the same dimensions (without comparing internal data)
+
+    Parameters
+    ----------
+    data_input1 : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        Input dataset 1.
+    data_input2 : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        Input dataset 2.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    exclude_dims: :py:class:`list <list>`, default: `[]`.
+        The exclude comparison dimensions.
+    """
+    a_dims = data_input1.dims
+    b_dims = data_input2.dims
+
+    # remove dimensions that do not participate in comparison
+    a_dims = tuple(x for x in a_dims if not x in exclude_dims)
+    b_dims = tuple(x for x in b_dims if not x in exclude_dims)
+
+    for item_dims in a_dims:
+        # dims
+        if item_dims in b_dims:
+            pass
+        else:
+            raise AssertionError(
+                f"The coodinnate `{item_dims}` does not exist in two datasets simultaneously."
+            )
+
+        # dims shape
+        a_item_dims_shape = data_input1[item_dims].shape[0]
+        b_item_dims_shape = data_input2[item_dims].shape[0]
+        if a_item_dims_shape == b_item_dims_shape:
+            pass
+        else:
+            raise AssertionError(
+                f"The shape of coodinnate `{item_dims}` (i.e., {a_item_dims_shape} vs {b_item_dims_shape}) is not same in two datasets."
+            )
+
+        # dims data
+        a_item_dims_data = data_input1[item_dims].data
+        b_item_dims_data = data_input2[item_dims].data
+        if item_dims != time_dim:
+            if np.allclose(a_item_dims_data, b_item_dims_data, equal_nan=True):
+                pass
+            else:
+                raise AssertionError(
+                    f"The data in the coodinnate `{item_dims}` is not same in two datasets. If it is the precision problem, you can specify the value of one data dimension as the value of another corresponding data, i.e., `a[{item_dims}] = b[{item_dims}]`."
+                )
+        else:
+            if (data_input1[item_dims].data == data_input2[item_dims].data).all():
+                pass
+            else:
+                warnings.warn(
+                    f"The data in the coodinnate `{item_dims}` is not same in two datasets. If it is the precision problem, you can specify the value of one data dimension as the value of another corresponding data, i.e., `a[{item_dims}] = b[{item_dims}]`.",
+                    RuntimeWarning,
+                )
+
+
+def compare_multi_dataarray_coordinate(
+    data_input_list: list[xr.DataArray],
+    time_dim: str = "time",
+    exclude_dims: list[str] = [],
+):
+    """
+    Compare multi-DataArray data whether they have the same dimensions (without comparing internal data)
+
+    Parameters
+    ----------
+    data_input_list : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        Input dataset list.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    exclude_dims: :py:class:`list <list>`, default: `[]`.
+        The exclude comparison dimensions.
+    """
+    item0 = data_input_list[0]
+    for dataarray_item in data_input_list[1:]:
+        compare_two_dataarray_coordinate(
+            item0, dataarray_item, time_dim=time_dim, exclude_dims=exclude_dims
+        )

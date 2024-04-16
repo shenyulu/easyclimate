@@ -4,7 +4,7 @@ geocat.viz
 cartopy >= 0.20
 xeofs >= 2.2.2
 matplotlib
-pandas
+pandas >= 2.2.0
 fast-barnes-py
 oceans
 intel-fortran-rt

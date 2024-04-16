@@ -10,11 +10,14 @@ import pandas as pd
 import xarray as xr
 
 # data1
-timearray = pd.date_range("2020-01-01", freq="Y", periods=5)
+# For the `freq` alteration from `Y` to `YE`, please refer as follows:
+# Reference: https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#timeseries-offset-aliases
+# https://github.com/pandas-dev/pandas/issues/9586
+timearray = pd.date_range("2020-01-01", freq="YE", periods=5)
 data1 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data2
-timearray = pd.date_range("2020-01-01", freq="M", periods=5)
+timearray = pd.date_range("2020-01-01", freq="ME", periods=5)
 data2 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data3
@@ -22,7 +25,7 @@ timearray = pd.date_range("2020-01-01", freq="D", periods=5)
 data3 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data4
-timearray = pd.date_range("2020-01-01", freq="H", periods=5)
+timearray = pd.date_range("2020-01-01", freq="h", periods=5)
 data4 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data5
@@ -30,7 +33,7 @@ timearray = pd.date_range("2020-01-01", freq="min", periods=5)
 data5 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data6
-timearray = pd.date_range("2020-01-01", freq="S", periods=5)
+timearray = pd.date_range("2020-01-01", freq="s", periods=5)
 data6 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data7
@@ -38,7 +41,7 @@ timearray = pd.date_range("2020-01-01", freq="ms", periods=5)
 data7 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data8
-timearray = pd.date_range("2020-01-01", freq="N", periods=5)
+timearray = pd.date_range("2020-01-01", freq="ns", periods=5)
 data8 = xr.DataArray(np.arange(0, 5, 1), dims=("time"), coords={"time": timearray})
 
 # data9
@@ -46,7 +49,7 @@ timearray = pd.date_range("2020-01-01", freq="D", periods=14)
 data9 = xr.DataArray(np.arange(0, 14, 1), dims=("time"), coords={"time": timearray})
 
 # data10
-timearray = pd.date_range("2020-01-01", freq="M", periods=40)
+timearray = pd.date_range("2020-01-01", freq="ME", periods=40)
 data10 = xr.DataArray(np.arange(0, 40, 1), dims=("time"), coords={"time": timearray})
 
 # data_sst_nino34
@@ -97,7 +100,7 @@ data_sst_nino34 = xr.DataArray(
         ]
     ),
     dims="time",
-    coords={"time": pd.date_range("1982-01-01", "2022-12-31", freq="Y")},
+    coords={"time": pd.date_range("1982-01-01", "2022-12-31", freq="YE")},
 )
 
 

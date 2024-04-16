@@ -66,10 +66,10 @@ v_prime_data = ecl.calc_daily_climatological_anomaly(
     data_daily=vwnd_daily, data_climatology_daily_data=v_climate_data
 )
 
-u_climate_data_need = ecl.mapping_daily_climatological_mean2every_day(
+u_climate_data_need = ecl.populate_daymean2everyday(
     data_daily=z_prime_data, data_climatology_daily_data=u_climate_data
 )
-v_climate_data_need = ecl.mapping_daily_climatological_mean2every_day(
+v_climate_data_need = ecl.populate_daymean2everyday(
     data_daily=z_prime_data, data_climatology_daily_data=v_climate_data
 )
 
