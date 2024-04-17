@@ -212,7 +212,7 @@ def calc_index_PNA_NH_REOF(
     - https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/history/method.shtml
 
     .. seealso::
-        :py:func:`calc_apparent_heat_source <calc_apparent_heat_source>`
+        :py:func:`get_REOF_model <easyclimate.core.eof.get_REOF_model>`
     """
     z_monthly_data = sort_ascending_latlon_coordinates(
         z_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim

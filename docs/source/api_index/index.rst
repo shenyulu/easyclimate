@@ -88,6 +88,7 @@ Atmosphere
 
     easyclimate.field.atm
     easyclimate.field.atm.index_PNA
+    easyclimate.field.atm.index_NAO
 
 Land–Atmosphere Interactions
 ::::::::::::::::::::::::::::::::::::::::
