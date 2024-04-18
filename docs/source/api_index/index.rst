@@ -65,7 +65,6 @@ Plot
     easyclimate.plot.projection
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
-    .. easyclimate.plot.wind
 
 
 Climate Field
@@ -80,15 +79,15 @@ Air–Sea Interaction
     easyclimate.field.air_sea_interaction
     easyclimate.field.air_sea_interaction.index_enso
 
-Atmosphere
+Teleconnections
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.atm
-    easyclimate.field.atm.index_PNA
-    easyclimate.field.atm.index_NAO
+    easyclimate.field.teleconnection
+    easyclimate.field.teleconnection.index_PNA
+    easyclimate.field.teleconnection.index_NAO
 
 Land–Atmosphere Interactions
 ::::::::::::::::::::::::::::::::::::::::

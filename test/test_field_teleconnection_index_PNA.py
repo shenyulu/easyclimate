@@ -1,5 +1,5 @@
 """
-pytest for field/atm/index_PNA.py
+pytest for field/teleconnection/index_PNA.py
 """
 
 import pytest
@@ -14,7 +14,9 @@ z500_data = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_z500_mon.nc")))
 
 
 def test_calc_index_PNA_modified_pointwise():
-    result_data = ecl.field.atm.calc_index_PNA_modified_pointwise(z500_data).data[:20]
+    result_data = ecl.field.teleconnection.calc_index_PNA_modified_pointwise(
+        z500_data
+    ).data[:20]
     refer_data = np.array(
         [
             3.2386305,
@@ -44,7 +46,9 @@ def test_calc_index_PNA_modified_pointwise():
 
 
 def test_calc_index_PNA_Wallace_Gutzler_1981():
-    result_data = ecl.field.atm.calc_index_PNA_Wallace_Gutzler_1981(z500_data).data[:20]
+    result_data = ecl.field.teleconnection.calc_index_PNA_Wallace_Gutzler_1981(
+        z500_data
+    ).data[:20]
     refer_data = np.array(
         [
             2.976821,
@@ -74,7 +78,7 @@ def test_calc_index_PNA_Wallace_Gutzler_1981():
 
 
 def test_calc_index_PNA_NH_REOF():
-    result_data = ecl.field.atm.calc_index_PNA_NH_REOF(
+    result_data = ecl.field.teleconnection.calc_index_PNA_NH_REOF(
         z500_data, solver="randomized", random_state=1
     ).data[:20]
     refer_data = np.array(

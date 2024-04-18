@@ -1,5 +1,5 @@
 """
-pytest for field/atm/index_NAO.py
+pytest for field/teleconnection/index_NAO.py
 """
 
 import pytest
@@ -14,7 +14,7 @@ z500_data = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_z500_mon.nc")))
 
 
 def test_calc_index_NAO_NH_REOF():
-    result_data = ecl.field.atm.calc_index_NAO_NH_REOF(
+    result_data = ecl.field.teleconnection.calc_index_NAO_NH_REOF(
         z500_data, solver="randomized", random_state=1
     ).data[:20]
     refer_data = np.array(
