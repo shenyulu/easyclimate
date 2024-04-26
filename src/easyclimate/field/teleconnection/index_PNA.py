@@ -1,7 +1,7 @@
 """
-PNA Index
+Pacific/North American (PNA) Index
 
-The Pacific/ North American teleconnection pattern (PNA) is one of the most prominent modes of low-frequency
+The Pacific/North American teleconnection pattern (PNA) is one of the most prominent modes of low-frequency
 variability in the Northern Hemisphere extratropics. The positive phase of the PNA pattern features above-average
 heights in the vicinity of Hawaii and over the intermountain region of North America, and below-average heights
 located south of the Aleutian Islands and over the southeastern United States. The PNA pattern is associated with
@@ -55,7 +55,7 @@ def calc_index_PNA_modified_pointwise(
     Parameters
     ----------
     z_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The monthly geopotential height.
+        The monthly geopotential height. The 500hPa layer is recommended.
     time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
         The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lon_dim: :py:class:`str <str>`, default: `lon`.
@@ -102,7 +102,8 @@ def calc_index_PNA_modified_pointwise(
 
     # Normalized
     index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_PNA / index_normalized_std).drop_vars("month")
+    result = (index_PNA / index_normalized_std).drop_vars("month")
+    return result
 
 
 def calc_index_PNA_Wallace_Gutzler_1981(
@@ -123,7 +124,7 @@ def calc_index_PNA_Wallace_Gutzler_1981(
     Parameters
     ----------
     z_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The monthly geopotential height.
+        The monthly geopotential height. The 500hPa layer is recommended.
     time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
         The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lon_dim: :py:class:`str <str>`, default: `lon`.
@@ -162,7 +163,8 @@ def calc_index_PNA_Wallace_Gutzler_1981(
 
     # Normalized
     index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_PNA / index_normalized_std).drop_vars("month")
+    result = (index_PNA / index_normalized_std).drop_vars("month")
+    return result
 
 
 def calc_index_PNA_NH_REOF(
@@ -177,12 +179,12 @@ def calc_index_PNA_NH_REOF(
     solver_kwargs={},
 ) -> xr.DataArray:
     """
-    The calculation of monthly mean PNA index using rotated empirical orthogonal functions (REOFs) method:
+    The calculation of monthly mean PNA index using rotated empirical orthogonal functions (REOFs) method over the entire Northern Hemisphere:
 
     Parameters
     ----------
     z_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The monthly geopotential height.
+        The monthly geopotential height. The 500hPa layer is recommended.
     time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
         The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lon_dim: :py:class:`str <str>`, default: `lon`.
@@ -196,9 +198,9 @@ def calc_index_PNA_NH_REOF(
     random_state: :py:class:`int<int>`, default `None`.
         Seed for the random number generator.
     solver: {"auto", "full", "randomized"}, default: "auto".
-        Solver to use for the SVD computation.
+        Solver to use for the REOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
-        Additional keyword arguments to be passed to the SVD solver.
+        Additional keyword arguments to be passed to the REOFs solver.
 
     Returns
     -------
@@ -226,9 +228,9 @@ def calc_index_PNA_NH_REOF(
     # REOF
     z_REOF_model = get_REOF_model(
         z_anomaly_data_NH,
-        lat_dim="lat",
-        lon_dim="lon",
-        time_dim="time",
+        lat_dim=lat_dim,
+        lon_dim=lon_dim,
+        time_dim=time_dim,
         n_modes=2,
         random_state=random_state,
         solver=solver,
@@ -239,4 +241,5 @@ def calc_index_PNA_NH_REOF(
 
     # Normalized
     index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_PNA / index_normalized_std).drop_vars(["month", "mode"])
+    result = (index_PNA / index_normalized_std).drop_vars("month")
+    return result

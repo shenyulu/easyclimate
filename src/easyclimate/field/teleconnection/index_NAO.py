@@ -1,5 +1,5 @@
 """
-NAO Index
+North Atlantic Oscillation (NAO) Index
 
 The North Atlantic Oscillation (NAO) index is based on the surface sea-level pressure difference between the Subtropical (Azores) High and the Subpolar Low. The positive phase of the NAO reflects below-normal heights and pressure across the high latitudes of the North Atlantic and above-normal heights and pressure over the central North Atlantic, the eastern United States and western Europe. The negative phase reflects an opposite pattern of height and pressure anomalies over these regions. Both phases of the NAO are associated with basin-wide changes in the intensity and location of the North Atlantic jet stream and storm track, and in large-scale modulations of the normal patterns of zonal and meridional heat and moisture transport, which in turn results in changes in temperature and precipitation patterns often extending from eastern North America to western and central Europe.
 
@@ -78,9 +78,9 @@ def calc_index_NAO_NH_REOF(
     # REOF
     z_REOF_model = get_REOF_model(
         z_anomaly_data_NH,
-        lat_dim="lat",
-        lon_dim="lon",
-        time_dim="time",
+        lat_dim=lat_dim,
+        lon_dim=lon_dim,
+        time_dim=time_dim,
         n_modes=2,
         random_state=random_state,
         solver=solver,

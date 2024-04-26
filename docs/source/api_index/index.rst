@@ -88,6 +88,10 @@ Teleconnections
     easyclimate.field.teleconnection
     easyclimate.field.teleconnection.index_PNA
     easyclimate.field.teleconnection.index_NAO
+    easyclimate.field.teleconnection.index_EA
+    easyclimate.field.teleconnection.index_WA
+    easyclimate.field.teleconnection.index_WP
+    easyclimate.field.teleconnection.index_EU
 
 Land–Atmosphere Interactions
 ::::::::::::::::::::::::::::::::::::::::
