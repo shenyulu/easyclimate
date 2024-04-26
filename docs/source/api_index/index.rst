@@ -77,7 +77,8 @@ Air–Sea Interaction
     :toctree: generated/
 
     easyclimate.field.air_sea_interaction
-    easyclimate.field.air_sea_interaction.index_enso
+    easyclimate.field.air_sea_interaction.index_ENSO
+    easyclimate.field.air_sea_interaction.index_IOD
 
 Teleconnections
 ::::::::::::::::::::::::::::::::::::::::
