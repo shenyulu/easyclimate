@@ -1,5 +1,5 @@
 """
-ENSO Indices
+ENSO Index
 """
 
 import xarray as xr
