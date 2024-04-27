@@ -17,7 +17,7 @@ def calc_index_IOD_Saji_1999(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
-    normalized: bool = True,
+    normalized: bool = False,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean Indian Ocean Dipole (IOD) index (i.e., Dipole Mode Index; DMI) is constructed by following method:
@@ -28,7 +28,7 @@ def calc_index_IOD_Saji_1999(
     Parameters
     ----------
     sst_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The monthly SST dataset.
+        The monthly sea surface temperature (SST) dataset.
     time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
         The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lon_dim: :py:class:`str <str>`, default: `lon`.
