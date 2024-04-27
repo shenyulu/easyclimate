@@ -7,9 +7,7 @@ from ...core.utility import sort_ascending_latlon_coordinates
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_EOF_model, calc_EOF_analysis
 
-__all__ = [
-    "calc_index_IOBM_1point",
-]
+__all__ = ["calc_index_IOBM_1point", "calc_index_IOBM_EOF1"]
 
 
 def calc_index_IOBM_1point(
@@ -145,7 +143,7 @@ def calc_index_IOBM_EOF1(
 
     # EOF
     sst_EOF_model = get_EOF_model(
-        sst_anomaly_data,
+        sst_anomaly_data.sel(lon=lon_range, lat=slice(-20, 20)),
         lat_dim=lat_dim,
         lon_dim=lon_dim,
         time_dim=time_dim,
