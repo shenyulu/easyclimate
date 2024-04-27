@@ -57,7 +57,7 @@ def calc_index_ATL3(
 
     ATL3_index = sst_monthly_anomaly_data.sel(
         {lat_dim: slice(-3, 3), lon_dim: slice(340, 360)}
-    )
+    ).mean(dim=(lat_dim, lon_dim))
 
     # Normalized
     if normalized == True:

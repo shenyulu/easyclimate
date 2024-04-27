@@ -1,5 +1,5 @@
 """
-pytest for field.air_sea_interaction.index_ENSO.py
+pytest for field.air_sea_interaction.index_enso.py
 """
 
 import pytest

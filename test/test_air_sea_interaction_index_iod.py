@@ -1,5 +1,5 @@
 """
-pytest for field.air_sea_interaction.index_IOD.py
+pytest for field.air_sea_interaction.index_iod.py
 """
 
 import pytest
@@ -45,7 +45,7 @@ def test_calc_index_IOD_Saji_1999_1():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_index_IOD_Saji_1999_1():
+def test_calc_index_IOD_Saji_1999_2():
     result_data = ecl.field.air_sea_interaction.calc_index_IOD_Saji_1999(
         data_sst, normalized=True
     ).data[:20]
