@@ -43,7 +43,6 @@ Filter
     easyclimate.filter.butter_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
-    .. easyclimate.filter.barnes_filter
 
 Interpolation
 ----------------------------------------
@@ -77,8 +76,11 @@ Air–Sea Interaction
     :toctree: generated/
 
     easyclimate.field.air_sea_interaction
-    easyclimate.field.air_sea_interaction.index_ENSO
-    easyclimate.field.air_sea_interaction.index_IOD
+    easyclimate.field.air_sea_interaction.index_enso
+    easyclimate.field.air_sea_interaction.index_iod
+    easyclimate.field.air_sea_interaction.index_iobm
+    easyclimate.field.air_sea_interaction.index_amm
+    easyclimate.field.air_sea_interaction.index_atlantic_nino
 
 Teleconnections
 ::::::::::::::::::::::::::::::::::::::::
@@ -87,12 +89,14 @@ Teleconnections
     :toctree: generated/
 
     easyclimate.field.teleconnection
-    easyclimate.field.teleconnection.index_PNA
-    easyclimate.field.teleconnection.index_NAO
-    easyclimate.field.teleconnection.index_EA
-    easyclimate.field.teleconnection.index_WA
-    easyclimate.field.teleconnection.index_WP
-    easyclimate.field.teleconnection.index_EU
+    easyclimate.field.teleconnection.index_pna
+    easyclimate.field.teleconnection.index_nao
+    easyclimate.field.teleconnection.index_ea
+    easyclimate.field.teleconnection.index_wa
+    easyclimate.field.teleconnection.index_wp
+    easyclimate.field.teleconnection.index_eu
+    easyclimate.field.teleconnection.index_srp
+    easyclimate.field.teleconnection.index_cgt
 
 Land–Atmosphere Interactions
 ::::::::::::::::::::::::::::::::::::::::
@@ -100,7 +104,7 @@ Land–Atmosphere Interactions
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.land_atm_interaction
+    easyclimate.field.land
 
 Monsoon
 ::::::::::::::::::::::::::::::::::::::::

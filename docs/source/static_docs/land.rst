@@ -1,4 +1,4 @@
-Land–atmosphere interactions
+Land
 ====================================
 
 .. figure:: ../_static/fig4.jpg
@@ -37,4 +37,4 @@ API
 
 .. autosummary::
 
-    easyclimate.field.land_atm_interaction
+    easyclimate.field.land
