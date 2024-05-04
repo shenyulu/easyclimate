@@ -16,6 +16,24 @@ import warnings
 # -------------------------------------------------------------------
 # EOF analysis
 
+__all__ = [
+    "get_EOF_model",
+    "save_EOF_model",
+    "load_EOF_model",
+    "calc_EOF_analysis",
+    "get_EOF_projection",
+    "get_REOF_model",
+    "save_REOF_model",
+    "load_REOF_model",
+    "calc_REOF_analysis",
+    "get_REOF_projection",
+    "get_MCA_model",
+    "save_MCA_model",
+    "load_MCA_model",
+    "calc_MCA_analysis",
+    "get_MCA_projection",
+]
+
 
 def get_EOF_model(
     data_input: xr.DataArray,

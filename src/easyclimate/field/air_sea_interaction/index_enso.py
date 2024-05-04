@@ -1,15 +1,27 @@
 """
-ENSO Indices
+ENSO Index
 """
 
-from ...core.utility import sort_ascending_latlon_coordinates
 import xarray as xr
+from ...core.utility import sort_ascending_latlon_coordinates
+from ...core.variability import remove_seasonal_cycle_mean
+
+__all__ = [
+    "calc_index_nino1and2",
+    "calc_index_nino3",
+    "calc_index_nino34",
+    "calc_index_OMI",
+    "calc_index_nino4",
+]
 
 
 def calc_index_nino1and2(
-    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
+    sst_monthly_data: xr.DataArray | xr.Dataset,
+    time_range: slice = slice(None, None),
     lat_dim: str = "lat",
     lon_dim: str = "lon",
+    time_dim: str = "time",
+    normalized: bool = False,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 1+2 index.
@@ -20,12 +32,18 @@ def calc_index_nino1and2(
 
     Parameters
     ----------
-    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
-        Monthly Sea surface temperature (SST) anomalies data.
+    sst_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The monthly sea surface temperature (SST) dataset.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `False`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -36,6 +54,14 @@ def calc_index_nino1and2(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
+    sst_monthly_data = sort_ascending_latlon_coordinates(
+        sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
+    )
+    # anomaly
+    sst_monthly_anomaly_data = remove_seasonal_cycle_mean(
+        sst_monthly_data, dim=time_dim, time_range=time_range
+    )
+
     sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(
         sst_monthly_anomaly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
@@ -43,13 +69,25 @@ def calc_index_nino1and2(
         {lat_dim: slice(-10, 0), lon_dim: slice(270, 280)}
     ).mean(dim=(lat_dim, lon_dim))
     nino1plus2_index.name = "Nino1+2_index"
-    return nino1plus2_index
+
+    # Normalized
+    if normalized == True:
+        index_normalized_std = (
+            nino1plus2_index.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (nino1plus2_index / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return nino1plus2_index
 
 
 def calc_index_nino3(
-    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
+    sst_monthly_data: xr.DataArray | xr.Dataset,
+    time_range: slice = slice(None, None),
     lat_dim: str = "lat",
     lon_dim: str = "lon",
+    time_dim: str = "time",
+    normalized: bool = False,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 3 index.
@@ -60,12 +98,18 @@ def calc_index_nino3(
 
     Parameters
     ----------
-    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
-        Monthly Sea surface temperature (SST) anomalies data.
+    sst_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The monthly sea surface temperature (SST) dataset.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `False`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -77,21 +121,38 @@ def calc_index_nino3(
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     - Trenberth, K. E., 1997: The Definition of El Niño. Bull. Amer. Meteor. Soc., 78, 2771–2778, https://doi.org/10.1175/1520-0477(1997)078<2771:TDOENO>2.0.CO;2.
     """
-    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(
-        sst_monthly_anomaly_data, lat_dim=lat_dim, lon_dim=lon_dim
+    sst_monthly_data = sort_ascending_latlon_coordinates(
+        sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
+    # anomaly
+    sst_monthly_anomaly_data = remove_seasonal_cycle_mean(
+        sst_monthly_data, dim=time_dim, time_range=time_range
+    )
+
     nino3_index = sst_monthly_anomaly_data.sel(
         {lat_dim: slice(-5, 5), lon_dim: slice(210, 270)}
     ).mean(dim=(lat_dim, lon_dim))
     nino3_index.name = "Nino3_index"
-    return nino3_index
+
+    # Normalized
+    if normalized == True:
+        index_normalized_std = (
+            nino3_index.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (nino3_index / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return nino3_index
 
 
 def calc_index_nino34(
-    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
+    sst_monthly_data: xr.DataArray | xr.Dataset,
+    time_range: slice = slice(None, None),
     lat_dim: str = "lat",
     lon_dim: str = "lon",
     running_mean=5,
+    time_dim: str = "time",
+    normalized: bool = False,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 3.4 index.
@@ -103,14 +164,20 @@ def calc_index_nino34(
 
     Parameters
     ----------
-    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
-        Monthly Sea surface temperature (SST) anomalies data.
+    sst_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The monthly sea surface temperature (SST) dataset.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     running_mean: :py:class:`int <int>`, default: `5`.
         Running mean value. If `running_mean` is `None` or `0`, it will not perform running average operation.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `False`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -121,9 +188,14 @@ def calc_index_nino34(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(
-        sst_monthly_anomaly_data, lat_dim=lat_dim, lon_dim=lon_dim
+    sst_monthly_data = sort_ascending_latlon_coordinates(
+        sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
+    # anomaly
+    sst_monthly_anomaly_data = remove_seasonal_cycle_mean(
+        sst_monthly_data, dim=time_dim, time_range=time_range
+    )
+
     nino34_index = sst_monthly_anomaly_data.sel(
         {lat_dim: slice(-5, 5), lon_dim: slice(190, 240)}
     )
@@ -136,14 +208,26 @@ def calc_index_nino34(
             .mean(dim=(lat_dim, lon_dim))
         )
     nino34_index.name = "Nino34_index"
-    return nino34_index
+
+    # Normalized
+    if normalized == True:
+        index_normalized_std = (
+            nino34_index.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (nino34_index / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return nino34_index
 
 
 def calc_index_OMI(
-    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
+    sst_monthly_data: xr.DataArray | xr.Dataset,
+    time_range: slice = slice(None, None),
     lat_dim: str = "lat",
     lon_dim: str = "lon",
     running_mean=3,
+    time_dim: str = "time",
+    normalized: bool = False,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the ONI (Oceanic Niño Index) index.
@@ -155,14 +239,20 @@ def calc_index_OMI(
 
     Parameters
     ----------
-    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
-        Monthly Sea surface temperature (SST) anomalies data.
+    sst_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The monthly sea surface temperature (SST) dataset.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     running_mean: :py:class:`int <int>`, default: `3`.
         Running mean value. If `running_mean` is `None` or `0`, it will not perform running average operation.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `False`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -173,9 +263,14 @@ def calc_index_OMI(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(
-        sst_monthly_anomaly_data, lat_dim=lat_dim, lon_dim=lon_dim
+    sst_monthly_data = sort_ascending_latlon_coordinates(
+        sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
+    # anomaly
+    sst_monthly_anomaly_data = remove_seasonal_cycle_mean(
+        sst_monthly_data, dim=time_dim, time_range=time_range
+    )
+
     omi_index = sst_monthly_anomaly_data.sel(
         {lat_dim: slice(-5, 5), lon_dim: slice(190, 240)}
     )
@@ -188,13 +283,25 @@ def calc_index_OMI(
             .mean(dim=(lat_dim, lon_dim))
         )
     omi_index.name = "Oceanic_Nino_Index_index"
-    return omi_index
+
+    # Normalized
+    if normalized == True:
+        index_normalized_std = (
+            omi_index.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (omi_index / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return omi_index
 
 
 def calc_index_nino4(
-    sst_monthly_anomaly_data: xr.DataArray | xr.Dataset,
+    sst_monthly_data: xr.DataArray | xr.Dataset,
+    time_range: slice = slice(None, None),
     lat_dim: str = "lat",
     lon_dim: str = "lon",
+    time_dim: str = "time",
+    normalized: bool = False,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculate the Niño 4 index.
@@ -204,12 +311,18 @@ def calc_index_nino4(
 
     Parameters
     ----------
-    sst_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>`
-        Monthly Sea surface temperature (SST) anomalies data.
+    sst_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The monthly sea surface temperature (SST) dataset.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of seasonal cycle means to be calculated. The default value is the entire time range.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `False`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -220,11 +333,25 @@ def calc_index_nino4(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
-    sst_monthly_anomaly_data = sort_ascending_latlon_coordinates(
-        sst_monthly_anomaly_data, lat_dim=lat_dim, lon_dim=lon_dim
+    sst_monthly_data = sort_ascending_latlon_coordinates(
+        sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
+    # anomaly
+    sst_monthly_anomaly_data = remove_seasonal_cycle_mean(
+        sst_monthly_data, dim=time_dim, time_range=time_range
+    )
+
     nino4_index = sst_monthly_anomaly_data.sel(
         {lat_dim: slice(-5, 5), lon_dim: slice(160, 210)}
     ).mean(dim=(lat_dim, lon_dim))
     nino4_index.name = "Nino4_index"
-    return nino4_index
+
+    # Normalized
+    if normalized == True:
+        index_normalized_std = (
+            nino4_index.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (nino4_index / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return nino4_index

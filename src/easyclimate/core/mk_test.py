@@ -15,6 +15,19 @@ import pymannkendall as mk
 from .utility import generate_datatree_dispatcher
 from datatree import DataTree
 
+__all__ = [
+    "original_test",
+    "hamed_rao_modification_test",
+    "yue_wang_modification_test",
+    "pre_whitening_modification_test",
+    "trend_free_pre_whitening_modification_test",
+    "seasonal_test",
+    "regional_test",
+    "correlated_seasonal_test",
+    "sens_slope",
+    "seasonal_sens_slope",
+]
+
 
 @generate_datatree_dispatcher
 def original_test(

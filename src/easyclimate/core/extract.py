@@ -20,6 +20,8 @@ __all__ = [
     "get_yearmean_for_specific_months_data",
     "get_year_exceed_index_upper_bound",
     "get_year_exceed_index_lower_bound",
+    "get_time_exceed_index_upper_bound",
+    "get_time_exceed_index_lower_bound",
 ]
 
 
@@ -363,3 +365,59 @@ def get_year_exceed_index_lower_bound(
     else:
         raise ValueError("Only one-dimensional time series input is supported.")
     return data_input[time_dim].dt.year[data_input < thresh].data
+
+
+def get_time_exceed_index_upper_bound(
+    data_input: xr.DataArray,
+    thresh: float,
+    time_dim: str = "time",
+) -> np.array:
+    """
+    Extract the time under the specified threshold (upper bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        The one-dimensional data with only a `time` dimension.
+    thresh: :py:class:`float <float>`.
+        The threshold value.
+    time_dim: :py:class:`str <str>`.
+        The time coordinate dimension name.
+
+    Returns
+    -------
+    Time array.
+    """
+    if data_input.dims == (time_dim,):
+        pass
+    else:
+        raise ValueError("Only one-dimensional time series input is supported.")
+    return data_input[time_dim][data_input > thresh].data
+
+
+def get_time_exceed_index_lower_bound(
+    data_input: xr.DataArray,
+    thresh: float,
+    time_dim: str = "time",
+) -> np.array:
+    """
+    Extract the time under the specified threshold (lower bound) in the annual average index (one-dimensional data with only a `time` dimension).
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        The one-dimensional data with only a `time` dimension.
+    thresh: :py:class:`float <float>`.
+        The threshold value.
+    time_dim: :py:class:`str <str>`.
+        The time coordinate dimension name.
+
+    Returns
+    -------
+    Time array.
+    """
+    if data_input.dims == (time_dim,):
+        pass
+    else:
+        raise ValueError("Only one-dimensional time series input is supported.")
+    return data_input[time_dim][data_input < thresh].data

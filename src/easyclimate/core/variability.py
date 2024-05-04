@@ -4,6 +4,7 @@ This module calculate climate variability
 
 import numpy as np
 import xarray as xr
+from .extract import get_specific_months_data
 
 __all__ = [
     "calc_all_climatological_mean",
@@ -143,6 +144,51 @@ def calc_seasonal_cycle_var(
     :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
     return data_input.groupby(data_input[dim].dt.month).var(dim=dim, **kwargs)
+
+
+def calc_seasonal_mean(
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str = "time",
+    extract_season=None,
+    **kwargs,
+) -> xr.DataArray:
+    """
+    Calculation of the seasonal means per year over the entire time range.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+         The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+    .. caution:: `data_input` must be **monthly** data.
+
+    dim: :py:class:`str <str>`
+        Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
+    extract_season: :py:class:`list <list>`, e.g., one or multiple items from `['DJF', 'MAM', 'JJA', 'SON']`. default: None.
+        Extraction seasons. A variety of seasons can be placed in it.
+    **kwargs:
+        Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data.
+        These could include dask-specific kwargs like split_every.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>`.
+    """
+    result_seasonal_mean = data_input.resample({dim: "QS-DEC"}).mean(dim=dim)
+
+    extract_season_list = []
+    if extract_season is not None:
+        if "DJF" in extract_season:
+            extract_season_list.append(12)
+        if "MAM" in extract_season:
+            extract_season_list.append(3)
+        if "JJA" in extract_season:
+            extract_season_list.append(6)
+        if "SON" in extract_season:
+            extract_season_list.append(9)
+        return get_specific_months_data(result_seasonal_mean, extract_season_list)
+    else:
+        return result_seasonal_mean
 
 
 def remove_seasonal_cycle_mean(

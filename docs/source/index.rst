@@ -105,7 +105,7 @@ An example BibTeX entry:
    ./static_docs/air_sea_interaction
    ./static_docs/ocean
    ./static_docs/monsoon
-   ./static_docs/land_atm_interaction
+   ./static_docs/land
 
 .. toctree::
     :maxdepth: 1
