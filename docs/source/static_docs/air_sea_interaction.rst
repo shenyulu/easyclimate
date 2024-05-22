@@ -44,3 +44,7 @@ API
 .. autosummary::
 
     easyclimate.field.air_sea_interaction.index_enso
+    easyclimate.field.air_sea_interaction.index_iod
+    easyclimate.field.air_sea_interaction.index_iobm
+    easyclimate.field.air_sea_interaction.index_amm
+    easyclimate.field.air_sea_interaction.index_atlantic_nino

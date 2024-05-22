@@ -103,6 +103,7 @@ An example BibTeX entry:
    :caption: Climate Field
 
    ./static_docs/air_sea_interaction
+   ./static_docs/teleconnections
    ./static_docs/ocean
    ./static_docs/monsoon
    ./static_docs/land

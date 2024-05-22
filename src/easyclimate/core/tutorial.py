@@ -1,9 +1,5 @@
 """
-Useful for:
-
-* users learning easyclimate
-* building tutorials in the documentation.
-
+Tutorials in the `easyclimate` documentation
 """
 
 # idea borrowed from xarray
