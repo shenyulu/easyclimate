@@ -12,6 +12,7 @@ __all__ = [
     "calc_seasonal_cycle_mean",
     "calc_seasonal_cycle_std",
     "calc_seasonal_cycle_var",
+    "calc_seasonal_mean",
     "remove_seasonal_cycle_mean",
     "calc_monthly_climatological_std_without_seasonal_cycle_mean",
     "calc_monthly_climatological_var_without_seasonal_cycle_mean",
