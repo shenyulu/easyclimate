@@ -14,7 +14,7 @@ from datatree import DataTree
 
 __all__ = [
     "calc_linregress_spatial",
-    "calc_detrend_data",
+    "calc_detrend_spatial",
     "calc_ttestSpatialPattern_spatial",
     "calc_levenetestSpatialPattern_spatial",
     "calc_skewness_spatial",
@@ -165,7 +165,7 @@ def calc_linregress_spatial(
 
 
 @generate_datatree_dispatcher
-def calc_detrend_data(
+def calc_detrend_spatial(
     data_input: xr.DataArray | xr.Dataset, time_dim: str = "time"
 ) -> xr.DataArray | DataTree:
     """
