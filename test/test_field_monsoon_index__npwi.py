@@ -97,9 +97,9 @@ def test_calc_NPWI_monsoon_onset():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_NPWI_monsoon_detreat():
+def test_calc_NPWI_monsoon_retreat():
     result_data = (
-        ecl.field.monsoon.calc_NPWI_monsoon_detreat(NPWI_index, monsoon_onset_date)
+        ecl.field.monsoon.calc_NPWI_monsoon_retreat(NPWI_index, monsoon_onset_date)
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
