@@ -15,3 +15,4 @@ from .taylor_diagram import (
     draw_TaylorDiagrams_metadata,
 )
 from .axisticker import set_lon_format_axis, set_lat_format_axis, set_p_format_axis
+from .quick_draw import *
