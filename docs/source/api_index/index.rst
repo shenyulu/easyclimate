@@ -64,6 +64,7 @@ Plot
     easyclimate.plot.projection
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
+    easyclimate.plot.quick_draw
 
 
 Climate Field

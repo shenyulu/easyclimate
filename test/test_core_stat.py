@@ -85,9 +85,9 @@ def test_calc_linregress_spatial_datatree():
     assert isinstance(result_data, DataTree)
 
 
-def test_calc_detrend_data():
+def test_calc_detrend_spatial():
     result_data = (
-        ecl.calc_detrend_data(
+        ecl.calc_detrend_spatial(
             sic_data_Barents_Sea_12.sel(lon=slice(34.5, 36.5), lat=slice(78.5, 80.5)),
             time_dim="time",
         )
@@ -190,7 +190,7 @@ def test_calc_levenetestSpatialPattern_spatial():
 
 
 def test_calc_skewness_spatial():
-    sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(
+    sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_spatial(
         sic_data_Barents_Sea_12.sel(lon=slice(34.5, 36.5), lat=slice(78.5, 80.5)),
         time_dim="time",
     )
@@ -216,7 +216,7 @@ def test_calc_skewness_spatial():
 
 
 def test_calc_kurtosis_spatial():
-    sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(
+    sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_spatial(
         sic_data_Barents_Sea_12.sel(lon=slice(34.5, 36.5), lat=slice(78.5, 80.5)),
         time_dim="time",
     )

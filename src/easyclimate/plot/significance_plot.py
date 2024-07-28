@@ -10,6 +10,12 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import pandas as pd
 
+__all__ = [
+    "draw_significant_area_contourf",
+    "get_significance_point",
+    "draw_significant_area_scatter",
+]
+
 
 def draw_significant_area_contourf(
     p_value: xr.DataArray,

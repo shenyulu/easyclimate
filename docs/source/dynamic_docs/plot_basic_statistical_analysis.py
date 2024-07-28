@@ -240,10 +240,10 @@ ecl.plot.draw_significant_area_contourf(
 # We remove the linear trend from SIC in order to study the variability of SIC itself.
 # In addition, here we explore the differences between the trend followed by regional averaging and regional averaging followed by detrending approaches.
 sic_data_Barents_Sea_12_spatial_mean = sic_data_Barents_Sea_12.mean(dim=("lat", "lon"))
-sic_data_Barents_Sea_12_spatial_detrendmean = ecl.calc_detrend_data(
+sic_data_Barents_Sea_12_spatial_detrendmean = ecl.calc_detrend_spatial(
     sic_data_Barents_Sea_12, time_dim="time"
 ).mean(dim=("lat", "lon"))
-sic_data_Barents_Sea_12_time_detrendmean = ecl.calc_detrend_data(
+sic_data_Barents_Sea_12_time_detrendmean = ecl.calc_detrend_spatial(
     sic_data_Barents_Sea_12_spatial_mean, time_dim="time"
 )
 
@@ -287,7 +287,7 @@ ax[1].legend()
 # :py:func:`easyclimate.utility.get_weighted_spatial_data <easyclimate.utility.get_weighted_spatial_data>` can help us create
 # an :py:class:`xarray.core.weighted.DataArrayWeighted <xarray.core.weighted.DataArrayWeighted>` object.
 # This object will automatically consider and calculate weights in subsequent area operations, thereby achieving the operation of the weighted spatial average.
-sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(
+sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_spatial(
     sic_data_Barents_Sea_12, time_dim="time"
 )
 grid_detrend_data_weighted_obj = ecl.utility.get_weighted_spatial_data(
@@ -344,7 +344,7 @@ fig.show()
 #
 # The skewness is calculated using :py:func:`easyclimate.calc_skewness_spatial <easyclimate.calc_skewness_spatial>`.
 # The result of the calculation contains the skewness and p-value.
-sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_data(
+sic_data_Barents_Sea_12_detrend = ecl.calc_detrend_spatial(
     sic_data_Barents_Sea_12, time_dim="time"
 )
 sic_data_Barents_Sea_12_skew = ecl.calc_skewness_spatial(

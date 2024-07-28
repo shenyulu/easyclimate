@@ -6,6 +6,8 @@ import matplotlib
 import cartopy.mpl.ticker as geoticker
 import matplotlib.ticker as ticker
 
+__all__ = ["set_lon_format_axis", "set_lat_format_axis", "set_p_format_axis"]
+
 
 def set_lon_format_axis(ax: matplotlib.axes.Axes, axis: str = "x", **kwargs):
     """

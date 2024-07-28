@@ -121,7 +121,7 @@ def calc_lon_gradient(
         The minimum acceptable value of `dx`, below which parts will set `nan` to avoid large computational errors.
         The unit is m. You can set it to a negative value in order to remove this benefit.
     edge_order: {1, 2}, optional
-        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
+        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 2.
     R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
 

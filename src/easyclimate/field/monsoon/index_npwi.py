@@ -177,7 +177,7 @@ def calc_NPWI_monsoon_onset(
     return dateofyear_NPWI.groupby("time.year").min().median(dim="year")
 
 
-def calc_NPWI_monsoon_detreat(
+def calc_NPWI_monsoon_retreat(
     NPWI: xr.DataArray,
     monsoon_onset_date: xr.DataArray,
     thresh: float = 0.618,
