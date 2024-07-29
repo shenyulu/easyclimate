@@ -25,7 +25,7 @@ tqdm
 zarr
 metpy
 
-sphinx == 7.4.7
+sphinx == 8.0.0
 recommonmark == 0.7.1
 sphinx-markdown-tables == 0.0.17
 sphinxcontrib-jupyter == 0.5.10
