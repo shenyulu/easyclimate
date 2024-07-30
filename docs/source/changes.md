@@ -4,7 +4,7 @@
 
 *Released on: 2024/05/19*
 
-## What's Changed
+### What's Changed
 * Add the calculation of virtual temperature and interpolating from the model levels to pressure levels by @shenyulu in https://github.com/shenyulu/easyclimate/pull/27
 * [pre-commit.ci] pre-commit autoupdate by @pre-commit-ci in https://github.com/shenyulu/easyclimate/pull/29
 * Bump pytest from 8.0.2 to 8.1.1 by @dependabot in https://github.com/shenyulu/easyclimate/pull/28
@@ -33,7 +33,7 @@
   * [fix: change module name `land_atm_interaction` to `land`](https://github.com/shenyulu/easyclimate/pull/43/commits/30903458cf71af2adf66dbe1593372fc1af519b0)
 
 
-## New Contributors
+### New Contributors
 * @pre-commit-ci made their first contribution in https://github.com/shenyulu/easyclimate/pull/29
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.03.01...v2024.05.01
