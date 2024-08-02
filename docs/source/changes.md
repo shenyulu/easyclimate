@@ -2,6 +2,27 @@
 
 ## Version 2024.05.01
 
+*Released on: 2024/08/02*
+
+### What's Changed
+* Update requirements text by @shenyulu in https://github.com/shenyulu/easyclimate/pull/51
+* Update sphinx from 6.2.1 to 7.3.7 in the requirements.txt by @shenyulu in https://github.com/shenyulu/easyclimate/pull/52
+* update sphinx version from 6.2.1 to 7.3.7 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/53
+* build(deps): bump sphinx-autoapi from 3.1.1 to 3.1.2 by @dependabot in https://github.com/shenyulu/easyclimate/pull/54
+* chore: necessary update (2024.08.01) by @shenyulu in https://github.com/shenyulu/easyclimate/pull/66
+
+  * [fix: update `calc_NPWI_monsoon_retreat` from `calc_NPWI_monsoon_detreat`](https://github.com/shenyulu/easyclimate/pull/66/commits/26d041ce5986104bdd7f0a6c30d195c22b9c8833)
+  * [fix: change name `calc_detrend_spatial` from `calc_detrend_data`](https://github.com/shenyulu/easyclimate/pull/66/commits/dcb54394191faf7ae91765f941ab9a157d81ffb2)
+  * [test: update calc_NPWI_monsoon_retreat from `calc_NPWI_monsoon_detreat](https://github.com/shenyulu/easyclimate/pull/66/commits/deb0c8c799c758c61ac3cfa741fa3d34c68ca63d)
+  * [feat: add quick_draw_spatial_basemap for quick drawing](https://github.com/shenyulu/easyclimate/pull/66/commits/370a26f2660610ee1312e376c25c7f13ceb0e921)
+  * [depend: Update dependency requirement](https://github.com/shenyulu/easyclimate/pull/66/commits/39052c8a623ec94b760763c5f6203079ec1e90be)
+  * [test: add test for quick_draw_spatial_basemap](https://github.com/shenyulu/easyclimate/pull/66/commits/db3e0738153c5a14704d51bab83c9a38057a7c10)
+  * [fix: File reference modification](https://github.com/shenyulu/easyclimate/pull/66/commits/d8067e94b0fe98c2ae001148f268952f14c0d41a)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.05.01...v2024.08.01
+
+## Version 2024.05.01
+
 *Released on: 2024/05/19*
 
 ### What's Changed
