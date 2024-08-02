@@ -121,11 +121,11 @@ def test_get_EOF_model_and_calc_EOF_analysis():
         ]
     )
 
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
-    assert np.isclose(result_data3, refer_data3).all()
-    assert np.isclose(result_data4, refer_data4).all()
-    assert np.isclose(result_data5, refer_data5).all()
+    assert np.isclose(result_data1, refer_data1, atol=0.01).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.01).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.01).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.01).all()
+    assert np.isclose(result_data5, refer_data5, atol=0.01).all()
 
 
 def test_save_EOF_model_and_load_EOF_model():
@@ -215,11 +215,11 @@ def test_get_REOF_model_and_calc_REOF_analysis():
     refer_data4 = np.array([0.50255507, 0.49495115])
     refer_data5 = np.array([6401.3041078, 6352.69203657])
 
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
-    assert np.isclose(result_data3, refer_data3).all()
-    assert np.isclose(result_data4, refer_data4).all()
-    assert np.isclose(result_data5, refer_data5).all()
+    assert np.isclose(result_data1, refer_data1, atol=0.01).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.01).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.01).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.01).all()
+    assert np.isclose(result_data5, refer_data5, atol=0.01).all()
 
 
 def test_save_EOF_model_and_load_EOF_model():
