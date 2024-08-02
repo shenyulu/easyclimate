@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2024.05.01
+## Version 2024.08.01
 
 *Released on: 2024/08/02*
 
