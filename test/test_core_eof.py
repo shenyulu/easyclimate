@@ -222,7 +222,7 @@ def test_get_REOF_model_and_calc_REOF_analysis():
     assert np.isclose(result_data5, refer_data5, atol=0.01).all()
 
 
-def test_save_EOF_model_and_load_EOF_model():
+def test_save_REOF_model_and_load_REOF_model():
     assert_path_dir_exist(TEST_TMP_PATH)
     inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_core_eof.nc"))).z
     model = ecl.eof.get_REOF_model(

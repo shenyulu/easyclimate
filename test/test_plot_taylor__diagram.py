@@ -170,7 +170,7 @@ def test_draw_TaylorDiagrams_base9():
         assert 1 == 1
 
 
-def test_draw_TaylorDiagrams_base9():
+def test_draw_TaylorDiagrams_base10():
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     with pytest.raises(ValueError):
         ecl.plot.draw_TaylorDiagrams_base(ax=ax, std_max=-1, half_circle=False)
