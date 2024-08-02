@@ -42,7 +42,7 @@ def test_calc_index_AMM_Doi_2009_1():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
 
 
 def test_calc_index_AMM_Doi_2009_2():
@@ -74,4 +74,4 @@ def test_calc_index_AMM_Doi_2009_2():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()

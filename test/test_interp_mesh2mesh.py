@@ -93,7 +93,7 @@ def test_interp_mesh2mesh4():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_interp_mesh2mesh4():
+def test_interp_mesh2mesh5():
     target_grid = xr.DataArray(
         dims=("lat", "lon"),
         coords={"lon": np.linspace(0, 357.5, 72), "lat": np.linspace(-90, 90, 36)},

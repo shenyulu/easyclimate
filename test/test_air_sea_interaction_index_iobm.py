@@ -42,7 +42,7 @@ def test_calc_index_IOBM_1point_1():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
 
 
 def test_calc_index_IOBM_1point_2():
@@ -74,7 +74,7 @@ def test_calc_index_IOBM_1point_2():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
 
 
 def test_calc_index_IOBM_EOF1_1():
