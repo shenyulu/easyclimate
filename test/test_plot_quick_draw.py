@@ -51,3 +51,13 @@ def test_quick_draw_spatial_basemap2():
     )
     ax[1].set_title("")
     return fig
+
+
+@pytest.mark.mpl_image_compare
+def test_quick_draw_rectangular_box1():
+    fig, ax = ecl.plot.quick_draw_spatial_basemap(central_longitude=180)
+    ax.set_extent([120, 290, -30, 30], crs=ccrs.PlateCarree())
+    ecl.plot.quick_draw_rectangular_box(
+        -120, 170, 5, -5, ax, ec="r", fc="none", lw=2, transform=ccrs.PlateCarree()
+    )
+    return fig

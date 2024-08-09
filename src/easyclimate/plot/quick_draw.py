@@ -6,8 +6,13 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
+import matplotlib
+import matplotlib.patches as patches
+import numpy as np
+import xarray as xr
+from ..core.utility import transfer_xarray_lon_from180TO360
 
-__all__ = ["quick_draw_spatial_basemap"]
+__all__ = ["quick_draw_spatial_basemap", "quick_draw_rectangular_box"]
 
 
 def quick_draw_spatial_basemap(
@@ -88,3 +93,78 @@ def quick_draw_spatial_basemap(
                 edgecolor=coastlines_edgecolor, linewidths=coastlines_linewidths
             )
     return fig, ax
+
+
+def quick_draw_rectangular_box(
+    lon1: float,
+    lon2: float,
+    lat1: float,
+    lat2: float,
+    ax: matplotlib.axes.Axes = None,
+    **patches_kwargs,
+):
+    """
+    Create geographical rectangular box.
+
+    Parameters
+    ----------
+    lon1, lon2: :py:class:`float <float>`.
+        Rectangular box longitude point. The applicable value should be between -180 :math:`^\circ` and 360 :math:`^\circ`.
+        `lon1` and `lon2` must have a certain difference, should not be equal,
+        do not strictly require the size relationship between `lon1` and `lon2`.
+    lat1, lat2: :py:class:`float <float>`.
+        Rectangular box latitude point. The applicable value should be between -90 :math:`^\circ` and 90 :math:`^\circ`.
+        `lat1` and `lat2` must have a certain difference, should not be equal,
+        do not strictly require the size relationship between `lat1` and `lat2`.
+    ax : :py:class:`matplotlib.axes.Axes`, optional.
+        Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
+    **patches_kwargs:
+        Patch properties. see more in :py:class:`matplotlib.patches.Patch <matplotlib.patches.Patch>`
+
+    .. seealso::
+        :py:class:`matplotlib.patches.Rectangle <matplotlib.patches.Rectangle>`
+    """
+    # Get Axes
+    if ax == None:
+        ax = plt.gca()
+    else:
+        pass
+
+    if lon1 > 360 or lon2 > 360 or lon1 < -180 or lon2 < -180:
+        raise ValueError(
+            "`lon1` or `lon2` should remain between -180 degree to 360 degree."
+        )
+    if lat1 > 90 or lat2 > 90 or lat1 < -90 or lat2 < -90:
+        raise ValueError(
+            "`lat1` or `lat2` should remain between -90 degree to 90 degree."
+        )
+
+    if lon1 < 0 or lon2 < 0:
+        # Transfer from -180-180 degree to 0-360 degree
+        data_raw = np.array([lon1, lon2])
+        data_transfered = xr.DataArray(data_raw, dims="lon", coords={"lon": data_raw})
+        data_transfered = transfer_xarray_lon_from180TO360(data_transfered)
+        lon1 = data_transfered["lon"].data[0]
+        lon2 = data_transfered["lon"].data[1]
+
+    width = lon2 - lon1
+    height = lat2 - lat1
+
+    if width < 0:
+        tmp = lon2
+        lon2 = lon1
+        lon1 = tmp
+        width = np.abs(width)
+    elif width == 0:
+        raise ValueError("`lon1` and `lon2` should not be same!")
+
+    if height < 0:
+        tmp = lat2
+        lat2 = lat1
+        lat1 = tmp
+        height = np.abs(height)
+    elif height == 0:
+        raise ValueError("`lat1` and `lat2` should not be same!")
+
+    rect = patches.Rectangle((lon1, lat1), width, height, **patches_kwargs)
+    ax.add_patch(rect)
