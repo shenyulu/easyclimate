@@ -6,7 +6,11 @@ from __future__ import annotations
 import xarray as xr
 import numpy as np
 from .diff import calc_gradient, calc_p_gradient
-from .utility import transfer_deg2rad, transfer_units_coeff, transfer_data_units
+from .utility import (
+    transfer_deg2rad,
+    transfer_units_coeff,
+    transfer_data_multiple_units,
+)
 
 __all__ = [
     "calc_brunt_vaisala_frequency_atm",
@@ -188,7 +192,7 @@ def calc_virtual_temperature(
         - `virtual_temperature — MetPy <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.virtual_temperature.html>`__
         - `temp_virtual - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml>`__
     """
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "g/g"
     )
 
@@ -239,7 +243,7 @@ def calc_virtual_temperature_Hobbs2006(
         - `virtual_temperature — MetPy <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.virtual_temperature.html>`__
         - `temp_virtual - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml>`__
     """
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "g/g"
     )
 

@@ -18,7 +18,7 @@ from .diff import (
     calc_lon_lat_mixed_derivatives,
 )
 from .utility import (
-    transfer_data_units,
+    transfer_data_multiple_units,
     transfer_units_coeff,
     transfer_deg2rad,
     transfer_dFdp2dFdz,
@@ -318,7 +318,7 @@ def calc_apparent_moisture_sink(
         - `Yanai, M., & Tomita, T. (1998). Seasonal and Interannual Variability of Atmospheric Heat Sources and Moisture Sinks as Determined from NCEP–NCAR Reanalysis, Journal of Climate, 11(3), 463-482. <https://journals.ametsoc.org/view/journals/clim/11/3/1520-0442_1998_011_0463_saivoa_2.0.co_2.xml>`__
         - `HAO Lisheng, MA Ning, HE Liye. Circulation anomalies characteritics of the abnormal drought and high temperature event in the middle and lower reaches of the Yangtze River in summer of 2022[J]. Arid Meteorology, 2022, 40(5): 721-732 <https://doi.org/10.11755/j.issn.1006-7639(2022)-05-0721>`__
     """
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "kg/kg"
     )
 
@@ -390,7 +390,7 @@ def calc_Plumb_wave_activity_horizontal_flux(
     f = get_coriolis_parameter(lat_array, omega=omega)
     psi_p = z_prime_data * g / f
 
-    p_lev = transfer_data_units(
+    p_lev = transfer_data_multiple_units(
         coordinate_sample_data[vertical_dim], vertical_dim_units, "Pa"
     )
     p = p_lev / 1e5
@@ -478,7 +478,7 @@ def calc_TN_wave_activity_horizontal_flux(
     f = get_coriolis_parameter(lat_array, omega=omega)
     psi_p = z_prime_data * g / f
 
-    p_lev = transfer_data_units(
+    p_lev = transfer_data_multiple_units(
         coordinate_sample_data[vertical_dim], vertical_dim_units, "Pa"
     )
     p = p_lev / 1e5
@@ -579,7 +579,7 @@ def calc_TN_wave_activity_horizontal_flux(
 #     f = get_coriolis_parameter(lat_array, omega = omega)
 #     psi_p = z_prime_data *g /f
 
-#     p_lev = transfer_data_units(coordinate_sample_data[vertical_dim], vertical_dim_units, 'Pa')
+#     p_lev = transfer_data_multiple_units(coordinate_sample_data[vertical_dim], vertical_dim_units, 'Pa')
 #     p = p_lev /1e5
 
 #     if method == 'scale_height':

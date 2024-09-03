@@ -306,9 +306,19 @@ def test_transfer_units_coeff():
     assert np.isclose(result_data3, refer_data3).all()
 
 
-def test_transfer_data_units():
-    result_data = ecl.utility.transfer_data_units(ds3, "mm/day", "m/day").data.flatten()
+def test_transfer_data_multiple_units():
+    result_data = ecl.utility.transfer_data_multiple_units(
+        ds3, "mm/day", "m/day"
+    ).data.flatten()
     refer_data = np.array([3.00e-08, 5.40e-08, 5.20e-03, -7.55e-02])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_data_difference_units():
+    result_data = ecl.utility.transfer_data_difference_units(
+        xr.DataArray(15), "celsius", "kelvin"
+    ).data
+    refer_data = 288.15
     assert np.isclose(result_data, refer_data).all()
 
 
