@@ -11,6 +11,7 @@ from .utility import (
     transfer_units_coeff,
     transfer_data_multiple_units,
 )
+import warnings
 
 __all__ = [
     "calc_brunt_vaisala_frequency_atm",
@@ -65,6 +66,16 @@ def calc_brunt_vaisala_frequency_atm(
     dtheta_dp = calc_gradient(potential_temperature_data, dim=vertical_dim) / dp
     dz_dp = calc_gradient(z_data, dim=vertical_dim) / dp
     N = np.sqrt((g / potential_temperature_data) * (dtheta_dp / dz_dp))
+
+    try:
+        z_data_units = z_data.attrs["units"]
+        N.attrs["units"] = f"{z_data_units}^(1/2)"
+    except:
+        N.attrs["units"] = f"[L]^(1/2)"
+        warnings.warn(
+            "The variable of `z_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
+    N.name = "brunt_vaisala_frequency_atm"
     return N
 
 
@@ -97,7 +108,11 @@ def get_coriolis_parameter(
         - `coriolis_param - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/coriolis_param.shtml>`__
     """
     lat_data = lat_data.astype("float64")
-    return 2 * omega * np.sin(transfer_deg2rad(lat_data))
+    return_data = 2 * omega * np.sin(transfer_deg2rad(lat_data))
+
+    return_data.attrs["units"] = "s^-1"
+    return_data.name = "coriolis_parameter"
+    return return_data
 
 
 def calc_potential_temperature(
@@ -150,7 +165,17 @@ def calc_potential_temperature(
     else:
         raise ValueError("`vertical_dim_units` be `Pa`, `hPa`, `mbar`.")
 
-    return temper_data * (P_0 / temper_data[vertical_dim]) ** (kappa)
+    return_data = temper_data * (P_0 / temper_data[vertical_dim]) ** (kappa)
+
+    try:
+        return_data.attrs["units"] = temper_data.attrs["units"]
+    except:
+        return_data.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
+    return_data.name = "potential_temperature"
+    return return_data
 
 
 def calc_virtual_temperature(
@@ -197,6 +222,14 @@ def calc_virtual_temperature(
     )
 
     T_v = (1 + epsilon * specific_humidity_data) * temper_data
+
+    try:
+        T_v.attrs["units"] = temper_data.attrs["units"]
+    except:
+        T_v.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
     T_v.name = "virtual_temperature"
     return T_v
 
@@ -250,6 +283,14 @@ def calc_virtual_temperature_Hobbs2006(
     T_v = temper_data * (
         (specific_humidity_data + epsilon) / (epsilon * (1 + specific_humidity_data))
     )
+
+    try:
+        T_v.attrs["units"] = temper_data.attrs["units"]
+    except:
+        T_v.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
     T_v.name = "virtual_temperature"
     return T_v
 
@@ -292,4 +333,15 @@ def calc_static_stability(
     part = calc_p_gradient(
         ln_theta, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
-    return -temper_data * part
+    return_data = -temper_data * part
+
+    try:
+        temper_data_units = temper_data.attrs["units"]
+        return_data.attrs["units"] = f"{temper_data_units}^2 {vertical_dim_units}^-1"
+    except:
+        return_data.attrs["units"] = f"[T]^2 {vertical_dim_units}^-1"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
+    return_data.name = "static_stability"
+    return return_data
