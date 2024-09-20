@@ -144,7 +144,7 @@ def test_save_EOF_model_and_load_EOF_model():
         model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
     )
     mymodel = ecl.eof.load_EOF_model(path=outputfile_path, engine="zarr")
-    assert isinstance(mymodel, xeofs.models.eof.EOF)
+    assert isinstance(mymodel, xeofs.single.eof.EOF)
 
 
 def test_get_REOF_model_and_calc_REOF_analysis():
@@ -238,7 +238,7 @@ def test_save_REOF_model_and_load_REOF_model():
         model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
     )
     mymodel = ecl.eof.load_REOF_model(path=outputfile_path, engine="zarr")
-    assert isinstance(mymodel, xeofs.models.EOFRotator)
+    assert isinstance(mymodel, xeofs.single.EOFRotator)
 
 
 def test_get_MCA_model_and_calc_MCA_analysis():

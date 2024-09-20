@@ -48,7 +48,7 @@ def get_EOF_model(
     random_state=None,
     solver="auto",
     solver_kwargs={},
-) -> xeofs.models.eof.EOF:
+) -> xeofs.single.eof.EOF:
     """
     Build the model of the Empirical Orthogonal Functions (EOF) analysis, more commonly known as Principal Component Analysis (PCA).
 
@@ -82,9 +82,9 @@ def get_EOF_model(
 
     Returns
     -------
-    :py:class:`xeofs.models.EOF<xeofs.models.EOF>`
+    :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
     """
-    from xeofs.models import EOF
+    from xeofs.single import EOF
     from xeofs.utils.constants import VALID_LONGITUDE_NAMES
     from xeofs.utils.constants import VALID_LATITUDE_NAMES
 
@@ -117,7 +117,7 @@ def get_EOF_model(
 
 
 def save_EOF_model(
-    model: xeofs.models.eof.EOF,
+    model: xeofs.single.eof.EOF,
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
@@ -129,8 +129,8 @@ def save_EOF_model(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.EOF<xeofs.models.EOF>`
-        The model of :py:class:`xeofs.models.EOF<xeofs.models.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+    model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
+        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
     path: :py:class:`str <str>`
         Path to save the model.
     overwrite: :py:class:`bool <bool>`, default `False`
@@ -149,7 +149,7 @@ def save_EOF_model(
 
 def load_EOF_model(
     path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
-) -> xeofs.models.eof.EOF:
+) -> xeofs.single.eof.EOF:
     """
     Load a saved EOF model.
 
@@ -164,21 +164,21 @@ def load_EOF_model(
 
     Returns
     -------
-    The model of :py:class:`xeofs.models.EOF<xeofs.models.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+    The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
     """
-    return xeofs.models.eof.EOF.load(path=path, engine=engine, **kwargs)
+    return xeofs.single.eof.EOF.load(path=path, engine=engine, **kwargs)
 
 
 def calc_EOF_analysis(
-    model: xeofs.models.eof.EOF,
+    model: xeofs.single.eof.EOF,
 ) -> xr.Dataset:
     """
     Calculate the results of the EOF model.
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.EOF<xeofs.models.EOF>`
-        The model of :py:class:`xeofs.models.EOF<xeofs.models.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+    model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
+        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
 
     Returns
     -------
@@ -217,7 +217,7 @@ def calc_EOF_analysis(
 
 
 def get_EOF_projection(
-    model: xeofs.models.eof.EOF,
+    model: xeofs.single.eof.EOF,
     data: xr.DataArray,
     normalized: bool = True,
 ):
@@ -226,8 +226,8 @@ def get_EOF_projection(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.EOF<xeofs.models.EOF>`
-        The model of :py:class:`xeofs.models.EOF<xeofs.models.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+    model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
+        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
     data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Data to be transformed.
     normalized: :py:class:`bool<bool>`, default `True`.
@@ -260,7 +260,7 @@ def get_REOF_model(
     random_state=None,
     solver="auto",
     solver_kwargs={},
-) -> xeofs.models.EOFRotator:
+) -> xeofs.single.EOFRotator:
     """
     Build the model of the Rotate Empirical Orthogonal Functions (REOF) analysis.
 
@@ -292,14 +292,14 @@ def get_REOF_model(
 
     Returns
     -------
-    :py:class:`xeofs.models.EOFRotator<xeofs.models.EOFRotator>`
+    :py:class:`xeofs.single.EOFRotator<xeofs.single.EOFRotator>`
 
     Reference
     --------------
     Richman, M.B. (1986), Rotation of principal components. J. Climatol., 6: 293-335. https://doi.org/10.1002/joc.3370060305
     """
-    from xeofs.models import EOF
-    from xeofs.models import EOFRotator
+    from xeofs.single import EOF
+    from xeofs.single import EOFRotator
     from xeofs.utils.constants import VALID_LONGITUDE_NAMES
     from xeofs.utils.constants import VALID_LATITUDE_NAMES
 
@@ -337,7 +337,7 @@ def get_REOF_model(
 
 
 def save_REOF_model(
-    model: xeofs.models.EOFRotator,
+    model: xeofs.single.EOFRotator,
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
@@ -349,8 +349,8 @@ def save_REOF_model(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>`
-        The model of :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+    model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
+        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
     path: :py:class:`str <str>`
         Path to save the model.
     overwrite: :py:class:`bool <bool>`, default `False`
@@ -369,7 +369,7 @@ def save_REOF_model(
 
 def load_REOF_model(
     path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
-) -> xeofs.models.EOFRotator:
+) -> xeofs.single.EOFRotator:
     """
     Load a saved REOF model.
 
@@ -384,21 +384,21 @@ def load_REOF_model(
 
     Returns
     -------
-    The model of :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+    The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
     """
-    return xeofs.models.EOFRotator.load(path=path, engine=engine, **kwargs)
+    return xeofs.single.EOFRotator.load(path=path, engine=engine, **kwargs)
 
 
 def calc_REOF_analysis(
-    model: xeofs.models.EOFRotator,
+    model: xeofs.single.EOFRotator,
 ) -> xr.Dataset:
     """
     Calculate the results of the REOF model.
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>`
-        The model of :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+    model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
+        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
 
     Returns
     -------
@@ -436,7 +436,7 @@ def calc_REOF_analysis(
 
 
 def get_REOF_projection(
-    model: xeofs.models.EOFRotator,
+    model: xeofs.single.EOFRotator,
     data: xr.DataArray,
     normalized: bool = True,
 ):
@@ -445,8 +445,8 @@ def get_REOF_projection(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>`
-        The model of :py:class:`xeofs.models.EOFRotator <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+    model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
+        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
     data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Data to be transformed.
     normalized: :py:class:`bool<bool>`, default `True`.
@@ -480,7 +480,7 @@ def get_MCA_model(
     random_state: int = None,
     solver: str = "auto",
     solver_kwargs: dict = {},
-) -> xeofs.models.MCA:
+) -> xeofs.cross.MCA:
     """
     Build the model of the Maximum Covariance Analyis (MCA). MCA is a statistical method that finds patterns of maximum covariance between two datasets.
 
@@ -527,14 +527,14 @@ def get_MCA_model(
 
     Returns
     -------
-    :py:class:`xeofs.models.MCA <xeofs.models.MCA>`
+    :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
 
     Reference
     --------------
     - Bretherton, C. S., Smith, C., & Wallace, J. M. (1992). An Intercomparison of Methods for Finding Coupled Patterns in Climate Data. Journal of Climate, 5(6), 541-560. https://doi.org/10.1175/1520-0442(1992)005<0541:AIOMFF>2.0.CO;2
     - Cherry, S. (1996). Singular Value Decomposition Analysis and Canonical Correlation Analysis. Journal of Climate, 9(9), 2003-2009. https://doi.org/10.1175/1520-0442(1996)009<2003:SVDAAC>2.0.CO;2
     """
-    from xeofs.models import MCA
+    from xeofs.cross import MCA
     from xeofs.utils.constants import VALID_LONGITUDE_NAMES
     from xeofs.utils.constants import VALID_LATITUDE_NAMES
 
@@ -582,7 +582,7 @@ def get_MCA_model(
 
 
 def save_MCA_model(
-    model: xeofs.models.MCA,
+    model: xeofs.cross.MCA,
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
@@ -594,8 +594,8 @@ def save_MCA_model(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.MCA <xeofs.models.MCA>`
-        The model of :py:class:`xeofs.models.MCA <xeofs.models.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+    model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
+        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
     path: :py:class:`str <str>`
         Path to save the model.
     overwrite: :py:class:`bool <bool>`, default `False`
@@ -614,7 +614,7 @@ def save_MCA_model(
 
 def load_MCA_model(
     path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
-) -> xeofs.models.MCA:
+) -> xeofs.cross.MCA:
     """
     Load a saved MCA model.
 
@@ -629,13 +629,13 @@ def load_MCA_model(
 
     Returns
     -------
-    The model of :py:class:`xeofs.models.MCA <xeofs.models.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+    The model of :py:class:`xeofs.cross.MCA <xeofs.cross.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
     """
-    return xeofs.models.MCA.load(path=path, engine=engine, **kwargs)
+    return xeofs.cross.MCA.load(path=path, engine=engine, **kwargs)
 
 
 def calc_MCA_analysis(
-    model: xeofs.models.MCA,
+    model: xeofs.cross.MCA,
     correction=None,
     alpha=0.05,
 ) -> DataTree:
@@ -644,8 +644,8 @@ def calc_MCA_analysis(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.MCA <xeofs.models.MCA>`
-        The model of :py:class:`xeofs.models.MCA <xeofs.models.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+    model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
+        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
     correction: :py:class:`str <str>`, default `None`
         Method to apply a multiple testing correction. If None, no correction is applied. Available methods are: - bonferroni : one-step correction - sidak : one-step correction - holm-sidak : step down method using Sidak adjustments - holm : step-down method using Bonferroni adjustments - simes-hochberg : step-up method (independent) - hommel : closed method based on Simes tests (non-negative) - fdr_bh : Benjamini/Hochberg (non-negative) (default) - fdr_by : Benjamini/Yekutieli (negative) - fdr_tsbh : two stage fdr correction (non-negative) - fdr_tsbky : two stage fdr correction (non-negative)
     alpha: :py:class:`float <float>`, default `0.05`
@@ -790,7 +790,7 @@ def calc_MCA_analysis(
 
 
 def get_MCA_projection(
-    model: xeofs.models.mca.MCA,
+    model: xeofs.cross.mca.MCA,
     data_left: xr.DataArray | xr.Dataset,
     data_right: xr.DataArray | xr.Dataset,
 ) -> DataTree:
@@ -799,8 +799,8 @@ def get_MCA_projection(
 
     Parameters
     ----------
-    model: :py:class:`xeofs.models.MCA <xeofs.models.MCA>`
-        The model of :py:class:`xeofs.models.MCA <xeofs.models.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+    model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
+        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
     data_left: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         Left input data. Must be provided if `data_right` is not provided.
     data_right: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`

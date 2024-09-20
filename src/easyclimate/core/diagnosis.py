@@ -124,8 +124,15 @@ def get_coriolis_parameter(
     lat_data = lat_data.astype("float64")
     return_data = 2 * omega * np.sin(transfer_deg2rad(lat_data))
 
-    return_data.attrs["units"] = "s^-1"
-    return_data.name = "coriolis_parameter"
+    if isinstance(return_data, xr.DataArray):
+        return_data.attrs["units"] = "s^-1"
+        return_data.name = "coriolis_parameter"
+    elif isinstance(return_data, np.ndarray):
+        warnings.warn(
+            "The unit for the output in `get_coriolis_parameter` is " + "s^-1"
+        )
+    else:
+        raise TypeError("`lat_data` shuold be `xr.DataArray` or `np.array`.")
     return return_data
 
 
