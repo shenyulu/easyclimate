@@ -10,6 +10,7 @@ import xeofs
 import warnings
 from .variability import remove_seasonal_cycle_mean as remove_seasonal_cycle_mean_func
 from datatree import DataTree
+from typing import Literal
 
 import warnings
 
@@ -121,7 +122,7 @@ def save_EOF_model(
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
-    engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr",
+    engine: Literal["zarr", "netcdf4", "h5netcdf"] = "zarr",
     **kwargs,
 ):
     """
@@ -148,7 +149,7 @@ def save_EOF_model(
 
 
 def load_EOF_model(
-    path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
+    path: str, engine: Literal["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
 ) -> xeofs.single.eof.EOF:
     """
     Load a saved EOF model.
@@ -341,7 +342,7 @@ def save_REOF_model(
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
-    engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr",
+    engine: Literal["zarr", "netcdf4", "h5netcdf"] = "zarr",
     **kwargs,
 ):
     """
@@ -368,7 +369,7 @@ def save_REOF_model(
 
 
 def load_REOF_model(
-    path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
+    path: str, engine: Literal["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
 ) -> xeofs.single.EOFRotator:
     """
     Load a saved REOF model.
@@ -586,7 +587,7 @@ def save_MCA_model(
     path: str,
     overwrite: bool = False,
     save_data: bool = False,
-    engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr",
+    engine: Literal["zarr", "netcdf4", "h5netcdf"] = "zarr",
     **kwargs,
 ):
     """
@@ -613,7 +614,7 @@ def save_MCA_model(
 
 
 def load_MCA_model(
-    path: str, engine: ["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
+    path: str, engine: Literal["zarr", "netcdf4", "h5netcdf"] = "zarr", **kwargs
 ) -> xeofs.cross.MCA:
     """
     Load a saved MCA model.
