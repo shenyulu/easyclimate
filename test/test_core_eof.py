@@ -252,39 +252,52 @@ def test_get_MCA_model_and_calc_MCA_analysis():
     result_datatree = ecl.eof.calc_MCA_analysis(mca_model)
 
     result_data1 = (
-        result_datatree["EOF"]["left_EOF"]["components1"]
+        result_datatree["EOF"]["left_EOF"]["left_EOF"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data2 = (
-        result_datatree["EOF"]["right_EOF"]["components2"]
+        result_datatree["EOF"]["right_EOF"]["right_EOF"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data3 = (
-        result_datatree["PC"]["left_PC"]["scores1"]
+        result_datatree["PC"]["left_PC"]["left_PC"]
         .isel(mode=0, time=slice(None, 20))
         .data.flatten()
     )
     result_data4 = (
-        result_datatree["PC"]["right_PC"]["scores2"]
+        result_datatree["PC"]["right_PC"]["right_PC"]
         .isel(mode=0, time=slice(None, 20))
         .data.flatten()
     )
-    result_data5 = result_datatree["covariance_fraction"][
+    result_data5 = result_datatree["correlation_coefficients_X"][
+        "correlation_coefficients_X"
+    ].data.flatten()
+    result_data6 = result_datatree["correlation_coefficients_Y"][
+        "correlation_coefficients_Y"
+    ].data.flatten()
+    result_data7 = result_datatree["covariance_fraction"][
         "covariance_fraction"
     ].data.flatten()
-    result_data6 = result_datatree["singular_values"]["singular_values"].data.flatten()
-    result_data7 = result_datatree["squared_covariance"][
-        "squared_covariance"
+    result_data8 = result_datatree["cross_correlation_coefficients"][
+        "cross_correlation_coefficients"
     ].data.flatten()
-    result_data8 = result_datatree["squared_covariance_fraction"][
+    result_data9 = result_datatree["fraction_variance_X_explained_by_X"][
+        "fraction_variance_X_explained_by_X"
+    ].data.flatten()
+    result_data10 = result_datatree["fraction_variance_Y_explained_by_X"][
+        "fraction_variance_Y_explained_by_X"
+    ].data.flatten()
+    result_data11 = result_datatree["fraction_variance_Y_explained_by_Y"][
+        "fraction_variance_Y_explained_by_Y"
+    ].data.flatten()
+    result_data12 = result_datatree["squared_covariance_fraction"][
         "squared_covariance_fraction"
     ].data.flatten()
-
-    result_data9 = (
+    result_data13 = (
         result_datatree["heterogeneous_patterns/left_heterogeneous_patterns"][
             "left_heterogeneous_patterns"
         ]
@@ -292,7 +305,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-    result_data10 = (
+    result_data14 = (
         result_datatree["heterogeneous_patterns/right_heterogeneous_patterns"][
             "right_heterogeneous_patterns"
         ]
@@ -300,7 +313,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-    result_data11 = (
+    result_data15 = (
         result_datatree[
             "heterogeneous_patterns/pvalues_of_left_heterogeneous_patterns"
         ]["pvalues_of_left_heterogeneous_patterns"]
@@ -308,7 +321,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-    result_data12 = (
+    result_data16 = (
         result_datatree[
             "heterogeneous_patterns/pvalues_of_right_heterogeneous_patterns"
         ]["pvalues_of_right_heterogeneous_patterns"]
@@ -316,8 +329,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-
-    result_data13 = (
+    result_data17 = (
         result_datatree["homogeneous_patterns/left_homogeneous_patterns"][
             "left_homogeneous_patterns"
         ]
@@ -325,7 +337,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-    result_data14 = (
+    result_data18 = (
         result_datatree["homogeneous_patterns/right_homogeneous_patterns"][
             "right_homogeneous_patterns"
         ]
@@ -333,7 +345,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-    result_data15 = (
+    result_data19 = (
         result_datatree["homogeneous_patterns/pvalues_of_left_homogeneous_patterns"][
             "pvalues_of_left_homogeneous_patterns"
         ]
@@ -341,7 +353,7 @@ def test_get_MCA_model_and_calc_MCA_analysis():
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
-    result_data16 = (
+    result_data20 = (
         result_datatree["homogeneous_patterns/pvalues_of_right_homogeneous_patterns"][
             "pvalues_of_right_homogeneous_patterns"
         ]
@@ -351,107 +363,83 @@ def test_get_MCA_model_and_calc_MCA_analysis():
     )
 
     refer_data1 = np.array(
-        [0.01424639, 0.01283669, 0.01373628, 0.01355581, 0.01252516, 0.01323858]
+        [0.01429357, 0.01288472, 0.01379039, 0.01360664, 0.01257804, 0.01328289]
     )
     refer_data2 = np.array(
-        [0.05879741, 0.05500811, 0.06178727, 0.0619469, 0.06488786, 0.06516425]
+        [0.05899554, 0.05512575, 0.06199014, 0.0621235, 0.06507501, 0.06534258]
     )
     refer_data3 = np.array(
         [
-            0.00361445,
-            0.00359823,
-            0.00359024,
-            0.00360107,
-            0.00361677,
-            0.00359558,
-            0.00359158,
-            0.00360423,
-            0.00363048,
-            0.00361504,
-            0.0036224,
-            0.00362335,
-            0.00363947,
-            0.00360717,
-            0.00359529,
-            0.00360251,
-            0.00362341,
-            0.00360205,
-            0.00360161,
-            0.00360466,
+            -0.01954985,
+            -0.02180333,
+            -0.02291398,
+            -0.02141504,
+            -0.01923306,
+            -0.02217942,
+            -0.02273159,
+            -0.02097159,
+            -0.01731079,
+            -0.01945496,
+            -0.01842522,
+            -0.01830342,
+            -0.01606281,
+            -0.0205611,
+            -0.02221527,
+            -0.02121668,
+            -0.01830737,
+            -0.02127802,
+            -0.02133489,
+            -0.02091899,
         ]
     )
     refer_data4 = np.array(
         [
-            0.00387221,
-            0.00385854,
-            0.00385573,
-            0.00385987,
-            0.00385299,
-            0.00382875,
-            0.00383138,
-            0.00383567,
-            0.00384058,
-            0.00382164,
-            0.00381791,
-            0.00383335,
-            0.00383727,
-            0.00383647,
-            0.00384156,
-            0.00385833,
-            0.00385721,
-            0.00383832,
-            0.0038367,
-            0.0038472,
+            -0.02082994,
+            -0.02281079,
+            -0.02321885,
+            -0.02261734,
+            -0.02361386,
+            -0.02712528,
+            -0.02674619,
+            -0.02611874,
+            -0.02540835,
+            -0.02815159,
+            -0.02869196,
+            -0.02645197,
+            -0.02588184,
+            -0.02599966,
+            -0.02526168,
+            -0.02282659,
+            -0.0229897,
+            -0.02572749,
+            -0.02596728,
+            -0.02444324,
         ]
     )
-    refer_data5 = np.array([9.99321686e-01, 6.78314305e-04])
-    refer_data6 = np.array([1.2383819e12, 8.4058234e08])
-    refer_data7 = np.array([1.53358974e24, 7.06578670e17])
-    refer_data8 = np.array([9.99999539e-01, 4.60734919e-07])
-    refer_data9 = np.array(
-        [
-            2643.94120679,
-            2814.18914907,
-            2606.29513332,
-            2660.039444,
-            2692.63997955,
-            2649.38745258,
-        ]
-    )
-    refer_data10 = np.array(
-        [
-            766.11631185,
-            839.15093393,
-            715.23096131,
-            717.78585558,
-            667.5871293,
-            661.89358203,
-        ]
-    )
-    refer_data11 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-    refer_data12 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    refer_data5 = np.array([1.00034258, 0.0197428, 0.0197428, 1.00034258])
+    refer_data6 = np.array([1.00034258, -0.01454136, -0.01454136, 1.00034258])
+    refer_data7 = np.array([0.98730161, 0.01269839])
+    refer_data8 = np.array([0.9630392, 0.23463093])
+    refer_data9 = np.array([0.9412848, 0.0587152])
+    refer_data10 = np.array([0.99735505, 0.00264495])
+    refer_data11 = np.array([0.95723355, 0.04276645])
+    refer_data12 = np.array([9.99834604e-01, 1.65396211e-04])
     refer_data13 = np.array(
-        [
-            2383.9696907,
-            2537.47378184,
-            2350.02760208,
-            2398.49181239,
-            2427.88325588,
-            2388.89479008,
-        ]
+        [0.94608926, 0.94110219, 0.9386202, 0.94100743, 0.93486529, 0.94569481]
     )
     refer_data14 = np.array(
-        [
-            849.62210588,
-            930.62236392,
-            793.19624281,
-            796.02573919,
-            740.36144092,
-            734.04497586,
-        ]
+        [0.93032336, 0.95012203, 0.93197093, 0.93965557, 0.93909767, 0.94152274]
     )
     refer_data15 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     refer_data16 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    refer_data17 = np.array(
+        [0.97868187, 0.97299976, 0.97019417, 0.97289241, 0.96597168, 0.97822986]
+    )
+    refer_data18 = np.array(
+        [0.96241103, 0.98436429, 0.96421665, 0.9726781, 0.97206123, 0.97474614]
+    )
+    refer_data19 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    refer_data20 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
     assert np.isclose(result_data1, refer_data1).all()
     assert np.isclose(result_data2, refer_data2).all()
@@ -469,6 +457,10 @@ def test_get_MCA_model_and_calc_MCA_analysis():
     assert np.isclose(result_data14, refer_data14).all()
     assert np.isclose(result_data15, refer_data15).all()
     assert np.isclose(result_data16, refer_data16).all()
+    assert np.isclose(result_data17, refer_data17).all()
+    assert np.isclose(result_data18, refer_data18).all()
+    assert np.isclose(result_data19, refer_data19).all()
+    assert np.isclose(result_data20, refer_data20).all()
 
 
 def test_save_MCA_model_and_load_MCA_model():
@@ -487,7 +479,7 @@ def test_save_MCA_model_and_load_MCA_model():
         mca_model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
     )
     mymodel = ecl.eof.load_MCA_model(path=outputfile_path, engine="zarr")
-    assert isinstance(mymodel, xeofs.models.MCA)
+    assert isinstance(mymodel, xeofs.cross.MCA)
 
 
 def test_clean_tmp_file():

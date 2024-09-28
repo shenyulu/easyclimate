@@ -171,7 +171,7 @@ def load_EOF_model(
 
 
 def calc_EOF_analysis(
-    model: xeofs.single.eof.EOF,
+    model: xeofs.single.eof.EOF, PC_normalized: bool = True
 ) -> xr.Dataset:
     """
     Calculate the results of the EOF model.
@@ -180,7 +180,8 @@ def calc_EOF_analysis(
     ----------
     model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
         The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
-
+    PC_normalized: :py:class:`bool`, default `True`.
+        Whether to normalize the scores by the L2 norm (singular values).
     Returns
     -------
     The results of the EOF model :py:class:`xarray.Dataset<xarray.Dataset>`.
@@ -209,7 +210,7 @@ def calc_EOF_analysis(
     """
     model_output = xr.Dataset()
     model_output["EOF"] = model.components()
-    model_output["PC"] = model.scores()
+    model_output["PC"] = model.scores(normalized=PC_normalized)
     model_output["explained_variance"] = model.explained_variance()
     model_output["explained_variance_ratio"] = model.explained_variance_ratio()
     model_output["singular_values"] = model.singular_values()
@@ -391,7 +392,7 @@ def load_REOF_model(
 
 
 def calc_REOF_analysis(
-    model: xeofs.single.EOFRotator,
+    model: xeofs.single.EOFRotator, PC_normalized: bool = True
 ) -> xr.Dataset:
     """
     Calculate the results of the REOF model.
@@ -400,6 +401,8 @@ def calc_REOF_analysis(
     ----------
     model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
         The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+    PC_normalized: :py:class:`bool`, default `True`.
+        Whether to normalize the scores by the L2 norm (singular values).
 
     Returns
     -------
@@ -428,7 +431,7 @@ def calc_REOF_analysis(
     """
     model_output = xr.Dataset()
     model_output["EOF"] = model.components()
-    model_output["PC"] = model.scores()
+    model_output["PC"] = model.scores(normalized=PC_normalized)
     model_output["explained_variance"] = model.explained_variance()
     model_output["explained_variance_ratio"] = model.explained_variance_ratio()
     model_output["singular_values"] = model.singular_values()
@@ -472,7 +475,6 @@ def get_MCA_model(
     lon_dim: str,
     time_dim: str = "time",
     n_modes=10,
-    center: bool = False,
     standardize: bool = False,
     use_coslat: bool = False,
     n_pca_modes: int = "auto",
@@ -502,8 +504,6 @@ def get_MCA_model(
         The time coordinate dimension name.
     n_modes: :py:class:`int <int>`, default `10`.
         Number of modes to calculate.
-    center: :py:class:`bool <bool>`, default `False`.
-        Whether to center the input data.
     standardize: :py:class:`bool <bool>`, default `False`.
         Whether to standardize the input data.
     use_coslat: :py:class:`bool <bool>`, default `True`.
@@ -564,7 +564,6 @@ def get_MCA_model(
 
     model = MCA(
         n_modes=n_modes,
-        center=center,
         standardize=standardize,
         use_coslat=use_coslat,
         solver=solver,
@@ -576,8 +575,8 @@ def get_MCA_model(
         data_left,
         data_right,
         dim=time_dim,
-        weights1=weights_left,
-        weights2=weights_right,
+        weights_X=weights_left,
+        weights_Y=weights_right,
     )
     return model
 
@@ -636,9 +635,7 @@ def load_MCA_model(
 
 
 def calc_MCA_analysis(
-    model: xeofs.cross.MCA,
-    correction=None,
-    alpha=0.05,
+    model: xeofs.cross.MCA, correction=None, alpha=0.05, PC_normalized: bool = True
 ) -> DataTree:
     """
     Calculate the results of the EOF model.
@@ -648,9 +645,23 @@ def calc_MCA_analysis(
     model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
         The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
     correction: :py:class:`str <str>`, default `None`
-        Method to apply a multiple testing correction. If None, no correction is applied. Available methods are: - bonferroni : one-step correction - sidak : one-step correction - holm-sidak : step down method using Sidak adjustments - holm : step-down method using Bonferroni adjustments - simes-hochberg : step-up method (independent) - hommel : closed method based on Simes tests (non-negative) - fdr_bh : Benjamini/Hochberg (non-negative) (default) - fdr_by : Benjamini/Yekutieli (negative) - fdr_tsbh : two stage fdr correction (non-negative) - fdr_tsbky : two stage fdr correction (non-negative)
+        Method to apply a multiple testing correction. If None, no correction is applied. Available methods are:
+
+        - bonferroni : one-step correction
+        - sidak : one-step correction
+        - holm-sidak : step down method using Sidak adjustments
+        - holm : step-down method using Bonferroni adjustments
+        - simes-hochberg : step-up method (independent)
+        - hommel : closed method based on Simes tests (non-negative)
+        - fdr_bh : Benjamini/Hochberg (non-negative) (default)
+        - fdr_by : Benjamini/Yekutieli (negative)
+        - fdr_tsbh : two stage fdr correction (non-negative)
+        - fdr_tsbky : two stage fdr correction (non-negative)
+
     alpha: :py:class:`float <float>`, default `0.05`
         The desired family-wise error rate. Not used if correction is None.
+    PC_normalized: :py:class:`bool`, default `True`.
+        Whether to normalize the scores by the L2 norm (singular values).
 
     Returns
     -------
@@ -658,93 +669,200 @@ def calc_MCA_analysis(
 
     - **EOF**: The singular vectors of the left and right field.
     - **PC**: The scores of the left and right field. The scores in MCA are the projection of the left and right field onto the left and right singular vector of the cross-covariance matrix.
-    - **covariance_fraction**: The covariance fraction (CF).
+    - **correlation_coefficients_X**: Get the correlation coefficients for the scores of :math:`X`.
 
-      Cheng and Dunkerton (1995) define the CF as follows:
+    The correlation coefficients of the scores of :math:`X` are given by:
 
-      .. math::
+    .. math::
+
+        c_{x, ij} = \\text{corr} \\left(\\mathbf{r}_{x, i}, \\mathbf{r}_{x, j} \\right)
+
+    where :math:`\\mathbf{r}_{x, i}` and :math:`\\mathbf{r}_{x, j}` are the :math:`i` th and :math:`j` th scores of :math:`X`.
+
+    - **correlation_coefficients_Y**: Get the correlation coefficients for the scores of :math:`Y`.
+
+    The correlation coefficients of the scores of :math:`Y` are given by:
+
+    .. math::
+
+        c_{y, ij} = \\text{corr} \\left(\\mathbf{r}_{y, i}, \\mathbf{r}_{y, j} \\right)
+
+    where :math:`\\mathbf{r}_{y, i}` and :math:`\\mathbf{r}_{y, j}` are the :math:`i` th and :math:`j` th scores of :math:`Y`.
+    - **covariance_fraction_CD95**: Get the covariance fraction (CF).
+
+    Cheng and Dunkerton (1995) define the CF as follows:
+
+    .. math::
 
         CF_i = \\frac{\\sigma_i}{\\sum_{i=1}^{m} \\sigma_i}
 
-      where :math:`m` is the total number of modes and :math:`\\sigma_i` is the :math:`i`-th singular value of the covariance matrix.
+    where :math:`m` is the total number of modes and :math:`\\sigma_i` is the :math:`i`-th singular value of the covariance matrix.
 
-      In this implementation the sum of singular values is estimated from the first n modes, therefore one should aim to retain as many modes as possible to get a good estimate of the covariance fraction.
+    This implementation estimates the sum of singular values from the first n modes,
+    therefore one should aim to retain as many modes as possible to get a good estimate of the covariance fraction.
 
-      .. note::
+    .. note::
 
-        It is important to differentiate the CF from the squared covariance fraction (SCF). While the SCF is an invariant quantity in MCA, the CF is not. Therefore, the SCF is used to assess the relative importance of each mode. Cheng and Dunkerton (1995) introduced the CF in the context of Varimax-rotated MCA to compare the relative importance of each mode before and after rotation. In the special case of both data fields in MCA being identical, the CF is equivalent to the explained variance ratio in EOF analysis.
+        In MCA, the focus is on maximizing the squared covariance (SC).
+        As a result, this quantity is preserved during decomposition - meaning the SC of both datasets
+        remains unchanged before and after decomposition. Each mode explains a fraction of the total SC,
+        and together, all modes can reconstruct the total SC of the cross-covariance matrix.
+        However, the (non-squared) covariance is not invariant in MCA;
+        it is not preserved by the individual modes and cannot be reconstructed from them.
+        Consequently, the squared covariance fraction (SCF) is invariant in MCA and is typically
+        used to assess the relative importance of each mode. In contrast, the convariance fraction (CF) is not invariant.
+        Cheng and Dunkerton (1995) introduced the CF to compare the relative importance of modes
+        before and after Varimax rotation in MCA. Notably, when the data fields in MCA are identical,
+        the CF corresponds to the explained variance ratio in Principal Component Analysis (PCA).
 
-    - **singular_values**: The singular values of the cross-covariance matrix.
-    - **squared_covariance**: The squared covariance. The squared covariance corresponds to the explained variance in PCA and is given by the squared singular values of the covariance matrix.
-    - **squared_covariance_fraction**: The squared covariance fraction (SCF).
+    - **cross_correlation_coefficients**: Get the cross-correlation coefficients.
 
-      The SCF is a measure of the proportion of the total squared covariance that is explained by each mode :math:`i`. It is computed as follows:
+    The cross-correlation coefficients between the scores of :math:`X` and :math:`Y` are computed as:
 
-      .. math::
+    .. math::
 
-        SCF_i = \\frac{\\sigma_i^2}{\\sum_{i=1}^{m} \\sigma_i^2}
+        c_{xy, i} = \\text{corr} \\left(\\mathbf{r}_{x, i}, \\mathbf{r}_{y, i} \\right)
 
-      where :math:`m` is the total number of modes and :math:`\\sigma_i` is the :math:`i`-th singular value of the covariance matrix.
+    where :math:`\\mathbf{r}_{x, i}` and :math:`\\mathbf{r}_{y, i}` are the :math:`i` th scores of :math:`X` and :math:`Y`.
+
+    .. note::
+
+        When :math:`\\alpha=0`, the cross-correlation coefficients are equivalent to the canonical correlation coefficients.
+
+    - **fraction_variance_X_explained_by_X**: Get the fraction of variance explained (FVE X).
+
+    The FVE X is the fraction of variance in :math:`X` explained by the scores of :math:`X`.
+
+    It is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :
+
+    .. math::
+
+        FVE_{X|X,i} = 1 - \\frac{\\|\\mathbf{d}_{X,i}\\|_F^2}{\\|X\\|_F^2}
+
+    where :math:`\\mathbf{d}_{X,i}` are the residuals of the input data :math:`X` after reconstruction by the :math:`i` th scores of :math:`X`.
+
+    - **fraction_variance_Y_explained_by_X**: Get the fraction of variance explained (FVE YX).
+
+    The FVE YX is the fraction of variance in :math:`Y` explained by the scores of :math:`X`.
+    It is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :
+
+    .. math::
+
+        FVE_{Y|X,i} = 1 - \\frac{\\|(X^TX)^{-1/2} \\mathbf{d}_{X,i}^T \\mathbf{d}_{Y,i}\\|_F^2}{\\|(X^TX)^{-1/2} X^TY\\|_F^2}
+
+    where :math:`\\mathbf{d}_{X,i}` and :math:`\mathbf{d}_{Y,i}` are the residuals of the input data :math:`X`
+    and :math:`Y` after reconstruction by the :math:`i` th scores of :math:`X` and :math:`Y`, respectively.
+
+    - **fraction_variance_Y_explained_by_Y**: Get the fraction of variance explained (FVE Y).
+
+    The FVE Y is the fraction of variance in :math:`Y` explained by the scores of :math:`Y`.
+    It is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :
+
+    .. math::
+
+        FVE_{Y|Y,i} = 1 - \\frac{\\|\\mathbf{d}_{Y,i}\\|_F^2}{\\|Y\\|_F^2}
+
+    where :math:`\\mathbf{d}_{Y,i}` are the residuals of the input data :math:`Y`
+    after reconstruction by the :math:`i` th scores of :math:`Y`.
+
+    - **squared_covariance_fraction**: Get the squared covariance fraction (SCF).
+
+    The SCF is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :
+
+    .. math::
+
+        SCF_{i} = 1 - \\frac{\\|\\mathbf{d}_{X,i}^T \\mathbf{d}_{Y,i}\\|_F^2}{\\|X^TY\\|_F^2}
+
+    where :math:`\\mathbf{d}_{X,i}` and :math:`\mathbf{d}_{Y,i}` are the residuals of the input data :math:`X`
+    and :math:`Y` after reconstruction by the :math:`i` th scores of :math:`X` and :math:`Y`, respectively.
 
     - **heterogeneous_patterns**: The heterogeneous patterns of the left and right field.
 
-      The heterogeneous patterns are the correlation coefficients between the input data and the scores of the other field.
+    The heterogeneous patterns are the correlation coefficients between the input data and the scores of the other field.
 
-      More precisely, the heterogeneous patterns :math:`r_{\\mathrm{het}}` are defined as
+    More precisely, the heterogeneous patterns :math:`r_{\\mathrm{het}}` are defined as
 
-      .. math::
+    .. math::
 
         r_{\\mathrm{het}, x} = corr \\left(X, A_y \\right), \\ r_{\\mathrm{het}, y} = corr \\left(Y, A_x \\right)
 
-      where :math:`X` and :math:`Y` are the input data, :math:`A_x` and :math:`A_y` are the scores of the left and right field, respectively.
+    where :math:`X` and :math:`Y` are the input data, :math:`A_x` and :math:`A_y` are the scores of the left and right field, respectively.
 
     - **homogeneous_patterns**: The homogeneous patterns of the left and right field.
 
-      The homogeneous patterns are the correlation coefficients between the input data and the scores.
+    The homogeneous patterns are the correlation coefficients between the input data and the scores.
 
-      More precisely, the homogeneous patterns :math:`r_{\\mathrm{hom}}` are defined as
+    More precisely, the homogeneous patterns :math:`r_{\\mathrm{hom}}` are defined as
 
-      .. math::
+    .. math::
 
         r_{\\mathrm{hom}, x} = corr \\left(X, A_x \\right), \\ r_{\\mathrm{hom}, y} = corr \\left(Y, A_y \\right)
 
-      where :math:`X` and :math:`Y` are the input data, :math:`A_x` and :math:`A_y` are the scores of the left and right field, respectively.
+    where :math:`X` and :math:`Y` are the input data, :math:`A_x` and :math:`A_y` are the scores of the left and right field, respectively.
 
     Reference
     --------------
-    Cheng, X., & Dunkerton, T. J. (1995). Orthogonal Rotation of Spatial Patterns Derived from Singular Value Decomposition Analysis. Journal of Climate, 8(11), 2631-2643. https://doi.org/10.1175/1520-0442(1995)008<2631:OROSPD>2.0.CO;2
+    - Cheng, X., & Dunkerton, T. J. (1995). Orthogonal Rotation of Spatial Patterns Derived from Singular Value Decomposition Analysis. Journal of Climate, 8(11), 2631-2643. https://doi.org/10.1175/1520-0442(1995)008<2631:OROSPD>2.0.CO;2
+    - Swenson, E. (2015). Continuum Power CCA: A Unified Approach for Isolating Coupled Modes. Journal of Climate, 28(3), 1016-1030. https://doi.org/10.1175/JCLI-D-14-00451.1
     """
     model_output = DataTree(name="root")
 
     # components
     left_components = model.components()[0]
     right_components = model.components()[1]
+    left_components.name = "left_EOF"
+    right_components.name = "right_EOF"
 
     model_output["EOF/left_EOF"] = DataTree(left_components)
     model_output["EOF/right_EOF"] = DataTree(right_components)
 
     # scores
-    left_scores = model.scores()[0]
-    right_scores = model.scores()[1]
+    left_scores = model.scores(normalized=PC_normalized)[0]
+    right_scores = model.scores(normalized=PC_normalized)[1]
+    left_scores.name = "left_PC"
+    right_scores.name = "right_PC"
 
     model_output["PC/left_PC"] = DataTree(left_scores)
     model_output["PC/right_PC"] = DataTree(right_scores)
 
-    # covariance_fraction
-    covariance_fraction = model.covariance_fraction()
+    # correlation_coefficients_X
+    correlation_coefficients_X = model.correlation_coefficients_X()
+    model_output["correlation_coefficients_X"] = DataTree(correlation_coefficients_X)
+
+    # correlation_coefficients_Y
+    correlation_coefficients_Y = model.correlation_coefficients_Y()
+    model_output["correlation_coefficients_Y"] = DataTree(correlation_coefficients_Y)
+
+    # covariance_fraction_CD95
+    covariance_fraction = model.covariance_fraction_CD95()
     model_output["covariance_fraction"] = DataTree(covariance_fraction)
 
-    # singular_values
-    singular_values = model.singular_values()
-    model_output["singular_values"] = DataTree(singular_values)
+    # cross_correlation_coefficients
+    cross_correlation_coefficients = model.cross_correlation_coefficients()
+    model_output["cross_correlation_coefficients"] = DataTree(
+        cross_correlation_coefficients
+    )
 
-    # squared_covariance
-    squared_covariance = model.squared_covariance()
-    model_output["squared_covariance"] = DataTree(squared_covariance)
+    # fraction_variance_X_explained_by_X
+    fraction_variance_X_explained_by_X = model.fraction_variance_X_explained_by_X()
+    model_output["fraction_variance_X_explained_by_X"] = DataTree(
+        fraction_variance_X_explained_by_X
+    )
+
+    # fraction_variance_Y_explained_by_X
+    fraction_variance_Y_explained_by_X = model.fraction_variance_Y_explained_by_X()
+    model_output["fraction_variance_Y_explained_by_X"] = DataTree(
+        fraction_variance_Y_explained_by_X
+    )
+
+    # fraction_variance_Y_explained_by_Y
+    fraction_variance_Y_explained_by_Y = model.fraction_variance_Y_explained_by_Y()
+    model_output["fraction_variance_Y_explained_by_Y"] = DataTree(
+        fraction_variance_Y_explained_by_Y
+    )
 
     # squared_covariance_fraction
     squared_covariance_fraction = model.squared_covariance_fraction()
-    squared_covariance_fraction.name = "squared_covariance_fraction"
     model_output["squared_covariance_fraction"] = DataTree(squared_covariance_fraction)
 
     # heterogeneous_patterns
@@ -794,6 +912,7 @@ def get_MCA_projection(
     model: xeofs.cross.mca.MCA,
     data_left: xr.DataArray | xr.Dataset,
     data_right: xr.DataArray | xr.Dataset,
+    normalized: bool = True,
 ) -> DataTree:
     """
     Get the expansion coefficients of "unseen" data. The expansion coefficients are obtained by projecting data onto the singular vectors.
@@ -806,6 +925,8 @@ def get_MCA_projection(
         Left input data. Must be provided if `data_right` is not provided.
     data_right: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
         Right input data. Must be provided if `data_left` is not provided.
+    normalized: :py:class:`bool`, default `False`.
+        Whether to return L2 normalized scores.
 
     Returns
     -------
@@ -813,7 +934,9 @@ def get_MCA_projection(
         - **scores1**: Left scores.
         - **scores2**: Right scores.
     """
-    scores1, scores2 = model.transform(data1=data_left, data2=data_right)
+    scores1, scores2 = model.transform(
+        data1=data_left, data2=data_right, normalized=normalized
+    )
     scores1.name = "scores1"
     scores2.name = "scores2"
 
