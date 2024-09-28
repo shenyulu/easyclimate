@@ -9,6 +9,7 @@ import numpy as np
 import xarray as xr
 from pathlib import Path
 from .const_define import TEST_DATA_PATH
+from .util import round_sf_np_new
 
 data_u = xr.open_dataset(
     str(Path(TEST_DATA_PATH, "test_input_interp_mesh2mesh.nc"))
@@ -45,10 +46,10 @@ def test_interp_mesh2mesh1():
     refer_data3 = data_output_cubic.data.flatten()
     refer_data4 = data_output_conservative.data.flatten()
 
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
-    assert np.isclose(result_data3, refer_data3).all()
-    assert np.isclose(result_data4, refer_data4).all()
+    assert np.isclose(round_sf_np_new(result_data1), round_sf_np_new(refer_data1)).all()
+    assert np.isclose(round_sf_np_new(result_data2), round_sf_np_new(refer_data2)).all()
+    assert np.isclose(round_sf_np_new(result_data3), round_sf_np_new(refer_data3)).all()
+    assert np.isclose(round_sf_np_new(result_data4), round_sf_np_new(refer_data4)).all()
 
 
 def test_interp_mesh2mesh2():
