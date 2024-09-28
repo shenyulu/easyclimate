@@ -284,3 +284,123 @@ def test_calc_virtual_temperature_Hobbs2006():
     ).data
     refer_data = np.array([303.1345747, 298.04520656])
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dewpoint():
+    result_data = ecl.calc_dewpoint(
+        vapor_pressure_data=xr.DataArray([22, 23]), vapor_pressure_data_units="hPa"
+    ).data
+    refer_data = np.array([19.02910179, 19.74308483])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_mixing_ratio():
+    result_data = ecl.calc_mixing_ratio(
+        partial_pressure_data=xr.DataArray([25, 30]),
+        total_pressure_data=xr.DataArray([1000, 1000]),
+    ).data
+    refer_data = np.array([0.01594761, 0.01923578])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_vapor_pressure():
+    result_data = ecl.calc_vapor_pressure(
+        pressure_data=xr.DataArray([988, 991]),
+        mixing_ratio_data=xr.DataArray([0.018, 0.0159]),
+        pressure_data_units="hPa",
+    ).data
+    refer_data = np.array([27.789371, 24.70287576])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_saturation_vapor_pressure():
+    result_data = ecl.calc_saturation_vapor_pressure(
+        temperature_data=xr.DataArray([24, 36, 40]), temperature_data_units="celsius"
+    ).data
+    refer_data = np.array([29.83254305, 59.5118433, 73.94900581])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_saturation_mixing_ratio():
+    result_data = ecl.calc_saturation_mixing_ratio(
+        total_pressure_data=xr.DataArray([983, 991]),
+        temperature_data=xr.DataArray([25, 28]),
+        temperature_data_units="celsius",
+        total_pressure_data_units="hPa",
+    ).data
+    refer_data = np.array([0.02070799, 0.02467106])
+
+
+def test_transfer_mixing_ratio_2_specific_humidity():
+    result_data = ecl.transfer_mixing_ratio_2_specific_humidity(
+        mixing_ratio_data=xr.DataArray([0.01594761, 0.01923578])
+    ).data
+    refer_data = np.array([0.01569728, 0.01887275])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_specific_humidity_2_mixing_ratio():
+    result_data = ecl.transfer_specific_humidity_2_mixing_ratio(
+        specific_humidity_data=xr.DataArray([0.01569728, 0.01887275]),
+        specific_humidity_units="g/g",
+    ).data
+    refer_data = np.array([0.01594761, 0.01923578])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_dewpoint_2_specific_humidity():
+    result_data = ecl.transfer_dewpoint_2_specific_humidity(
+        dewpoint_data=xr.DataArray([15, 18]),
+        pressure_data=xr.DataArray([988, 980]),
+        dewpoint_data_units="celsius",
+        pressure_data_units="hPa",
+    ).data
+    refer_data = np.array([0.01079758, 0.01319518])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_specific_humidity_2_dewpoint():
+    result_data = ecl.transfer_specific_humidity_2_dewpoint(
+        specific_humidity_data=xr.DataArray([0.01079, 0.01319]),
+        pressure_data=xr.DataArray([988, 980]),
+        specific_humidity_units="g/g",
+        pressure_data_units="hPa",
+    ).data
+    refer_data = np.array([14.98916116, 17.9938138])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_dewpoint_2_relative_humidity():
+    result_data = ecl.transfer_dewpoint_2_relative_humidity(
+        temperature_data=xr.DataArray([25, 28]),
+        dewpoint_data=xr.DataArray([12, 13]),
+        temperature_data_units="celsius",
+        dewpoint_data_units="celsius",
+    ).data
+    refer_data = np.array([0.44248477, 0.3958322])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_mixing_ratio_2_relative_humidity():
+    result_data = ecl.transfer_mixing_ratio_2_relative_humidity(
+        pressure_data=xr.DataArray([1013.25, 1014]),
+        temperature_data=xr.DataArray([30, 28]),
+        mixing_ratio_data=xr.DataArray([18 / 1000, 16 / 1000]),
+        pressure_data_units="hPa",
+        temperature_data_units="celsius",
+    ).data
+    refer_data = np.array([0.67127708, 0.67260414])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_transfer_specific_humidity_2_relative_humidity():
+    result_data = ecl.transfer_specific_humidity_2_relative_humidity(
+        pressure_data=xr.DataArray([1013.25, 1014]),
+        temperature_data=xr.DataArray([30, 28]),
+        specific_humidity_data=xr.DataArray([18 / 1000, 16 / 1000]),
+        pressure_data_units="hPa",
+        temperature_data_units="degC",
+        specific_humidity_units="g/g",
+    ).data
+    refer_data = np.array([0.6832293, 0.68326215])
+    assert np.isclose(result_data, refer_data).all()
