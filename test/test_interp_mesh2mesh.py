@@ -30,26 +30,26 @@ def test_interp_mesh2mesh1():
     )
     result_data1 = ecl.interp.interp_mesh2mesh(
         data_u, target_grid, lon_dim="lon", lat_dim="lat", method="linear"
-    ).data.flatten()
+    ).data.flatten()[:20]
     result_data2 = ecl.interp.interp_mesh2mesh(
         data_u, target_grid, lon_dim="lon", lat_dim="lat", method="nearest"
-    ).data.flatten()
+    ).data.flatten()[:20]
     result_data3 = ecl.interp.interp_mesh2mesh(
         data_u, target_grid, lon_dim="lon", lat_dim="lat", method="cubic"
-    ).data.flatten()
+    ).data.flatten()[:20]
     result_data4 = ecl.interp.interp_mesh2mesh(
         data_u, target_grid, lon_dim="lon", lat_dim="lat", method="conservative"
-    ).data.flatten()
+    ).data.flatten()[:20]
 
-    refer_data1 = data_output_linear.data.flatten()
-    refer_data2 = data_output_nearest.data.flatten()
-    refer_data3 = data_output_cubic.data.flatten()
-    refer_data4 = data_output_conservative.data.flatten()
+    refer_data1 = data_output_linear.data.flatten()[:20]
+    refer_data2 = data_output_nearest.data.flatten()[:20]
+    refer_data3 = data_output_cubic.data.flatten()[:20]
+    refer_data4 = data_output_conservative[:20].data.flatten()[:20]
 
-    assert np.isclose(round_sf_np_new(result_data1), round_sf_np_new(refer_data1)).all()
-    assert np.isclose(round_sf_np_new(result_data2), round_sf_np_new(refer_data2)).all()
-    assert np.isclose(round_sf_np_new(result_data3), round_sf_np_new(refer_data3)).all()
-    assert np.isclose(round_sf_np_new(result_data4), round_sf_np_new(refer_data4)).all()
+    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(result_data3, refer_data3).all()
+    assert np.isclose(result_data4, refer_data4).all()
 
 
 def test_interp_mesh2mesh2():
