@@ -6,7 +6,14 @@ from __future__ import annotations
 import xarray as xr
 import numpy as np
 from .diff import calc_gradient, calc_p_gradient
-from .utility import transfer_deg2rad, transfer_units_coeff, transfer_data_units
+from .utility import (
+    transfer_deg2rad,
+    transfer_units_coeff,
+    transfer_data_multiple_units,
+    transfer_data_difference_units,
+)
+from typing import Literal
+import warnings
 
 __all__ = [
     "calc_brunt_vaisala_frequency_atm",
@@ -15,6 +22,18 @@ __all__ = [
     "calc_virtual_temperature_Hobbs2006",
     "calc_virtual_temperature",
     "calc_static_stability",
+    "calc_dewpoint",
+    "calc_mixing_ratio",
+    "calc_vapor_pressure",
+    "calc_saturation_vapor_pressure",
+    "calc_saturation_mixing_ratio",
+    "transfer_mixing_ratio_2_specific_humidity",
+    "transfer_specific_humidity_2_mixing_ratio",
+    "transfer_dewpoint_2_specific_humidity",
+    "transfer_specific_humidity_2_dewpoint",
+    "transfer_dewpoint_2_relative_humidity",
+    "transfer_mixing_ratio_2_relative_humidity",
+    "transfer_specific_humidity_2_relative_humidity",
 ]
 
 
@@ -61,6 +80,16 @@ def calc_brunt_vaisala_frequency_atm(
     dtheta_dp = calc_gradient(potential_temperature_data, dim=vertical_dim) / dp
     dz_dp = calc_gradient(z_data, dim=vertical_dim) / dp
     N = np.sqrt((g / potential_temperature_data) * (dtheta_dp / dz_dp))
+
+    try:
+        z_data_units = z_data.attrs["units"]
+        N.attrs["units"] = f"{z_data_units}^(1/2)"
+    except:
+        N.attrs["units"] = f"[L]^(1/2)"
+        warnings.warn(
+            "The variable of `z_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
+    N.name = "brunt_vaisala_frequency_atm"
     return N
 
 
@@ -93,7 +122,18 @@ def get_coriolis_parameter(
         - `coriolis_param - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/coriolis_param.shtml>`__
     """
     lat_data = lat_data.astype("float64")
-    return 2 * omega * np.sin(transfer_deg2rad(lat_data))
+    return_data = 2 * omega * np.sin(transfer_deg2rad(lat_data))
+
+    if isinstance(return_data, xr.DataArray):
+        return_data.attrs["units"] = "s^-1"
+        return_data.name = "coriolis_parameter"
+    elif isinstance(return_data, np.ndarray):
+        warnings.warn(
+            "The unit for the output in `get_coriolis_parameter` is " + "s^-1"
+        )
+    else:
+        raise TypeError("`lat_data` shuold be `xr.DataArray` or `np.array`.")
+    return return_data
 
 
 def calc_potential_temperature(
@@ -146,14 +186,24 @@ def calc_potential_temperature(
     else:
         raise ValueError("`vertical_dim_units` be `Pa`, `hPa`, `mbar`.")
 
-    return temper_data * (P_0 / temper_data[vertical_dim]) ** (kappa)
+    return_data = temper_data * (P_0 / temper_data[vertical_dim]) ** (kappa)
+
+    try:
+        return_data.attrs["units"] = temper_data.attrs["units"]
+    except:
+        return_data.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
+    return_data.name = "potential_temperature"
+    return return_data
 
 
 def calc_virtual_temperature(
     temper_data: xr.DataArray,
     specific_humidity_data: xr.DataArray,
-    specific_humidity_units: str,
-    epsilon=0.608,
+    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    epsilon: float = 0.608,
 ) -> xr.DataArray:
     """
     Calculate virtual temperature.
@@ -165,7 +215,7 @@ def calc_virtual_temperature(
     .. math::
         T_v = T(1+ \\epsilon q)
 
-    where :math:`\\epsilon = 0.608` when the mixing ratio (specific humidity) :math:`q` is expressed in :math:`\\mathrm{g \ g^{-1}}`.
+    where :math:`\\epsilon = 0.608` when the mixing ratio (specific humidity) :math:`q` is expressed in :math:`\\mathrm{g \\cdot g^{-1}}`.
 
     Parameters
     ----------
@@ -174,7 +224,7 @@ def calc_virtual_temperature(
     specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The absolute humidity data.
     specific_humidity_units: :py:class:`str <str>`.
-        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
+        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
     epsilon: :py:class:`float <float>`.
         A constant.
 
@@ -188,11 +238,19 @@ def calc_virtual_temperature(
         - `virtual_temperature — MetPy <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.virtual_temperature.html>`__
         - `temp_virtual - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml>`__
     """
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "g/g"
     )
 
     T_v = (1 + epsilon * specific_humidity_data) * temper_data
+
+    try:
+        T_v.attrs["units"] = temper_data.attrs["units"]
+    except:
+        T_v.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
     T_v.name = "virtual_temperature"
     return T_v
 
@@ -200,8 +258,8 @@ def calc_virtual_temperature(
 def calc_virtual_temperature_Hobbs2006(
     temper_data: xr.DataArray,
     specific_humidity_data: xr.DataArray,
-    specific_humidity_units: str,
-    epsilon=0.6219569100577033,
+    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    epsilon: float = 0.6219569100577033,
 ) -> xr.DataArray:
     """
     Calculate virtual temperature.
@@ -224,7 +282,7 @@ def calc_virtual_temperature_Hobbs2006(
     specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The absolute humidity data.
     specific_humidity_units: :py:class:`str <str>`.
-        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
+        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
     epsilon: :py:class:`float <float>`.
         The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air. Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
 
@@ -239,13 +297,21 @@ def calc_virtual_temperature_Hobbs2006(
         - `virtual_temperature — MetPy <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.virtual_temperature.html>`__
         - `temp_virtual - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml>`__
     """
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "g/g"
     )
 
     T_v = temper_data * (
         (specific_humidity_data + epsilon) / (epsilon * (1 + specific_humidity_data))
     )
+
+    try:
+        T_v.attrs["units"] = temper_data.attrs["units"]
+    except:
+        T_v.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
     T_v.name = "virtual_temperature"
     return T_v
 
@@ -288,4 +354,492 @@ def calc_static_stability(
     part = calc_p_gradient(
         ln_theta, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
-    return -temper_data * part
+    return_data = -temper_data * part
+
+    try:
+        temper_data_units = temper_data.attrs["units"]
+        return_data.attrs["units"] = f"{temper_data_units}^2 {vertical_dim_units}^-1"
+    except:
+        return_data.attrs["units"] = f"[T]^2 {vertical_dim_units}^-1"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
+    return_data.name = "static_stability"
+    return return_data
+
+
+def calc_dewpoint(
+    vapor_pressure_data: xr.DataArray,
+    vapor_pressure_data_units: Literal["hPa", "Pa"],
+) -> xr.DataArray:
+    """
+    Calculate the ambient dewpoint given the vapor pressure.
+
+    Parameters
+    ----------
+    vapor_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Water vapor partial pressure.
+    total_pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `total_pressure_data` value. Optional values are `hPa`, `Pa`.
+
+    Returns
+    -------
+    The dew point (:py:class:`xarray.DataArray<xarray.DataArray>`), degrees Celsius.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint.html
+    """
+    vapor_pressure_data = transfer_data_multiple_units(
+        vapor_pressure_data, vapor_pressure_data_units, "hPa"
+    )
+
+    val = np.log(vapor_pressure_data / 6.112)
+    dewpoint = 243.5 * val / (17.67 - val)
+    dewpoint.attrs["units"] = "celsius"
+    dewpoint.name = "dewpoint"
+    return dewpoint
+
+
+def calc_mixing_ratio(
+    partial_pressure_data: xr.DataArray,
+    total_pressure_data: xr.DataArray,
+    molecular_weight_ratio: float = 0.6219569100577033,
+) -> xr.DataArray:
+    """
+    Calculate the mixing ratio of a gas.
+
+    This calculates mixing ratio given its partial pressure and the total pressure of the air.
+    There are no required units for the input arrays, other than that they have the same units.
+
+    Parameters
+    ----------
+    partial_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Partial pressure of the constituent gas.
+    total_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Total air pressure.
+    molecular_weight_ratio : :py:class:`float <float>`, optional.
+        The ratio of the molecular weight of the constituent gas to that assumed for air.
+        Defaults to the ratio for water vapor to dry air (:math:`\\epsilon\\approx0.622`).
+
+    .. note::
+        The units of `partial_pressure_data` and `total_pressure_data` should be the same.
+
+    Returns
+    -------
+    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless (e.g. Kg/Kg or g/g).
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio.html
+    """
+    return_data = (
+        molecular_weight_ratio
+        * partial_pressure_data
+        / (total_pressure_data - partial_pressure_data)
+    )
+    return_data.attrs["units"] = "1"
+    return_data.name = "mixing_ratio"
+    return return_data
+
+
+def calc_vapor_pressure(
+    pressure_data: xr.DataArray,
+    mixing_ratio_data: xr.DataArray,
+    pressure_data_units: Literal["hPa", "Pa"] = None,
+    epsilon: float = 0.6219569100577033,
+) -> xr.DataArray:
+    """
+    Parameters
+    ----------
+    pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The pressure data set.
+    mixing_ratio_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The mixing ratio of a gas.
+    epsilon: :py:class:`float <float>`.
+        The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
+        Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
+    pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
+
+    Returns
+    -------
+    The water vapor (partial) pressure (:py:class:`xarray.DataArray<xarray.DataArray>`), units according to `pressure_data_units`.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.vapor_pressure.html
+    """
+    return_data = pressure_data * mixing_ratio_data / (mixing_ratio_data + epsilon)
+
+    if pressure_data_units is None:
+        pressure_data_units = pressure_data.attrs["units"]
+        return_data.attrs["units"] = f"{pressure_data_units}"
+    else:
+        return_data.attrs["units"] = f"{pressure_data_units}"
+    return_data.name = "vapor_pressure"
+    return return_data
+
+
+def calc_saturation_vapor_pressure(
+    temperature_data: xr.DataArray,
+    temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+) -> xr.DataArray:
+    """
+    Calculate the saturation water vapor (partial) pressure.
+
+    Parameters
+    ----------
+    temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Atmospheric temperature.
+    temperature_data_units: :py:class:`str <str>`.
+        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+
+    Returns
+    -------
+    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), hPa.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_vapor_pressure.html
+    """
+    temperature_data = transfer_data_difference_units(
+        input_data=temperature_data,
+        input_units=temperature_data_units,
+        output_units="celsius",
+    )
+    return_data = 6.112 * np.exp(17.67 * temperature_data / (temperature_data + 243.5))
+    return_data.attrs["units"] = "hPa"
+    return_data.name = "saturation_vapor_pressure"
+    return return_data
+
+
+def calc_saturation_mixing_ratio(
+    total_pressure_data: xr.DataArray,
+    temperature_data: xr.DataArray,
+    temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+    total_pressure_data_units: Literal["hPa", "Pa"],
+) -> xr.DataArray:
+    """
+    Calculate the saturation mixing ratio of water vapor.
+
+    This calculation is given total atmospheric pressure and air temperature.
+
+    Parameters
+    ----------
+    total_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Total atmospheric pressure.
+    temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Atmospheric temperature.
+    temperature_data_units: :py:class:`str <str>`.
+        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+    total_pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `total_pressure_data` value. Optional values are `hPa`, `Pa`.
+
+    Returns
+    -------
+    The saturation mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_mixing_ratio.html
+    """
+    total_pressure_data = transfer_data_multiple_units(
+        total_pressure_data, total_pressure_data_units, "hPa"
+    )
+
+    partial_pressure_data = calc_saturation_vapor_pressure(
+        temperature_data=temperature_data, temperature_data_units=temperature_data_units
+    )
+    return_data = calc_mixing_ratio(
+        partial_pressure_data=partial_pressure_data,
+        total_pressure_data=total_pressure_data,
+    )
+    return_data.attrs["units"] = "1"
+    return_data.name = "saturation_mixing_ratio"
+    return return_data
+
+
+def transfer_mixing_ratio_2_specific_humidity(
+    mixing_ratio_data: xr.DataArray,
+) -> xr.DataArray:
+    """
+    Calculate the specific humidity from mixing ratio.
+
+    Parameters
+    ----------
+    mixing_ratio_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The mixing ratio of a gas.
+
+    Returns
+    -------
+    The specific humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless (e.g. Kg/Kg or g/g).
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_mixing_ratio.html
+    """
+    return_data = mixing_ratio_data / (1 + mixing_ratio_data)
+    return_data.attrs["units"] = "g/g"
+    return_data.name = "specific_humidity"
+    return return_data
+
+
+def transfer_specific_humidity_2_mixing_ratio(
+    specific_humidity_data: xr.DataArray,
+    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+) -> xr.DataArray:
+    """
+    Calculate the mixing ratio from specific humidity.
+
+    Parameters
+    ----------
+    specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The Specific humidity of air.
+    specific_humidity_units: :py:class:`str <str>`.
+        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
+
+    Returns
+    -------
+    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio_from_specific_humidity.html
+    """
+    specific_humidity_data = transfer_data_multiple_units(
+        specific_humidity_data, specific_humidity_units, "g/g"
+    )
+
+    return_data = specific_humidity_data / (1 - specific_humidity_data)
+    return_data.attrs["units"] = "1"
+    return_data.name = "mixing_ratio"
+    return return_data
+
+
+def transfer_dewpoint_2_specific_humidity(
+    dewpoint_data: xr.DataArray,
+    pressure_data: xr.DataArray,
+    dewpoint_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+    pressure_data_units: Literal["hPa", "Pa"],
+) -> xr.DataArray:
+    """
+    Calculate the specific humidity from the dewpoint temperature and pressure.
+
+    Parameters
+    ----------
+    dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The dewpoint temperature.
+    pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The pressure data set.
+    dewpoint_data_units: :py:class:`str <str>`.
+        The unit corresponding to `dewpoint_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+    pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
+
+    Returns
+    -------
+    The specific humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_dewpoint.html
+    """
+    mixing_ratio = calc_saturation_mixing_ratio(
+        total_pressure_data=pressure_data,
+        temperature_data=dewpoint_data,
+        temperature_data_units=dewpoint_data_units,
+        total_pressure_data_units=pressure_data_units,
+    )
+    return_data = transfer_mixing_ratio_2_specific_humidity(mixing_ratio)
+    return_data.attrs["units"] = "g/g"
+    return_data.name = "specific_humidity"
+    return return_data
+
+
+def transfer_specific_humidity_2_dewpoint(
+    specific_humidity_data: xr.DataArray,
+    pressure_data: xr.DataArray,
+    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    pressure_data_units: Literal["hPa", "Pa"],
+    epsilon: float = 0.6219569100577033,
+) -> xr.DataArray:
+    """
+    Calculate the dewpoint from specific humidity and pressure.
+
+    Parameters
+    ----------
+    specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The absolute humidity data.
+    pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The pressure data set.
+    specific_humidity_units: :py:class:`str <str>`.
+        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
+    pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
+    epsilon: :py:class:`float <float>`.
+        The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
+        Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
+
+    Returns
+    -------
+    The dewpoint (:py:class:`xarray.DataArray<xarray.DataArray>`), degrees Celsius.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint_from_specific_humidity.html
+    """
+    specific_humidity_data = transfer_data_multiple_units(
+        specific_humidity_data, specific_humidity_units, "g/g"
+    )
+    w = transfer_specific_humidity_2_mixing_ratio(
+        specific_humidity_data=specific_humidity_data,
+        specific_humidity_units=specific_humidity_units,
+    )
+    e = pressure_data * w / (epsilon + w)
+    return_data = calc_dewpoint(
+        vapor_pressure_data=e, vapor_pressure_data_units=pressure_data_units
+    )
+    return_data.attrs["units"] = "Celsius"
+    return_data.name = "dewpoint"
+    return return_data
+
+
+def transfer_dewpoint_2_relative_humidity(
+    temperature_data: xr.DataArray,
+    dewpoint_data: xr.DataArray,
+    temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+    dewpoint_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+) -> xr.DataArray:
+    """
+    Calculate the relative humidity from dewpoint.
+
+    Uses temperature and dewpoint to calculate relative humidity as the ratio of vapor pressure to saturation vapor pressures.
+
+    Parameters
+    ----------
+    temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Atmospheric temperature.
+    dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The dewpoint temperature.
+    temperature_data_units: :py:class:`str <str>`.
+        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+    dewpoint_data_units: :py:class:`str <str>`.
+        The unit corresponding to `dewpoint_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+
+    Returns
+    -------
+    The relative humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_dewpoint.html
+    """
+    temperature_data = transfer_data_difference_units(
+        input_data=temperature_data,
+        input_units=temperature_data_units,
+        output_units="celsius",
+    )
+    dewpoint_data = transfer_data_difference_units(
+        input_data=dewpoint_data,
+        input_units=dewpoint_data_units,
+        output_units="celsius",
+    )
+
+    e = calc_saturation_vapor_pressure(
+        temperature_data=dewpoint_data, temperature_data_units=dewpoint_data_units
+    )
+    e_s = calc_saturation_vapor_pressure(
+        temperature_data=temperature_data, temperature_data_units=temperature_data_units
+    )
+    return_data = e / e_s
+    return_data.attrs["units"] = "1"
+    return_data.name = "relative_humidity"
+    return return_data
+
+
+def transfer_mixing_ratio_2_relative_humidity(
+    pressure_data: xr.DataArray,
+    temperature_data: xr.DataArray,
+    mixing_ratio_data: xr.DataArray,
+    pressure_data_units: Literal["hPa", "Pa"],
+    temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+    epsilon: float = 0.6219569100577033,
+) -> xr.DataArray:
+    """
+    Calculate the relative humidity from mixing ratio, temperature, and pressure.
+
+    Parameters
+    ----------
+    pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The pressure data set.
+    temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Atmospheric temperature.
+    mixing_ratio_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The mixing ratio of a gas.
+    pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
+    temperature_data_units: :py:class:`str <str>`.
+        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+    epsilon: :py:class:`float <float>`.
+        The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
+        Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
+
+    Returns
+    -------
+    The relative humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_mixing_ratio.html
+    """
+    w_s = calc_saturation_mixing_ratio(
+        total_pressure_data=pressure_data,
+        temperature_data=temperature_data,
+        total_pressure_data_units=pressure_data_units,
+        temperature_data_units=temperature_data_units,
+    )
+    return_data = (
+        mixing_ratio_data / (epsilon + mixing_ratio_data) * (epsilon + w_s) / w_s
+    )
+    return_data.attrs["units"] = "1"
+    return_data.name = "relative_humidity"
+    return return_data
+
+
+def transfer_specific_humidity_2_relative_humidity(
+    pressure_data: xr.DataArray,
+    temperature_data: xr.DataArray,
+    specific_humidity_data: xr.DataArray,
+    pressure_data_units: Literal["hPa", "Pa"],
+    temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+) -> xr.DataArray:
+    """
+    Calculate the relative humidity from specific humidity, temperature, and pressure.
+
+    Parameters
+    ----------
+    pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The pressure data set.
+    temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Atmospheric temperature.
+    specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The absolute humidity data.
+    pressure_data_units: :py:class:`str <str>`.
+        The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
+    temperature_data_units: :py:class:`str <str>`.
+        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+    specific_humidity_units: :py:class:`str <str>`.
+        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
+
+    Returns
+    -------
+    The relative humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+
+    .. seealso::
+        - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_specific_humidity.html
+    """
+    mixing_ratio_data = transfer_specific_humidity_2_mixing_ratio(
+        specific_humidity_data=specific_humidity_data,
+        specific_humidity_units=specific_humidity_units,
+    )
+    return_data = transfer_mixing_ratio_2_relative_humidity(
+        pressure_data=pressure_data,
+        temperature_data=temperature_data,
+        mixing_ratio_data=mixing_ratio_data,
+        pressure_data_units=pressure_data_units,
+        temperature_data_units=temperature_data_units,
+    )
+    return_data.attrs["units"] = "1"
+    return_data.name = "relative_humidity"
+    return return_data

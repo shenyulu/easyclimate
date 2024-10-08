@@ -8,7 +8,7 @@ dependencies:
     - xarray >= 0.17.0
     - geocat.viz
     - cartopy >= 0.20
-    - xeofs >= 2.2.2
+    - xeofs >= 3.0.0
     - matplotlib
     - pandas >= 2.2.0
     - fast-barnes-py

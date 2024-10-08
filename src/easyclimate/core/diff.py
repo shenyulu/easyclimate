@@ -10,7 +10,7 @@ from .utility import (
     transfer_deg2rad,
     transfer_inf2nan,
     transfer_units_coeff,
-    transfer_data_units,
+    transfer_data_multiple_units,
     generate_dataset_dispatcher,
 )
 import xarray as xr
@@ -462,7 +462,7 @@ def calc_delta_pressure(
     )
 
     # Change the surface pressure data unit to `Pa`
-    surface_pressure_data = transfer_data_units(
+    surface_pressure_data = transfer_data_multiple_units(
         surface_pressure_data, surface_pressure_data_units, "Pa"
     )
 
@@ -597,12 +597,12 @@ def calc_top2surface_integral(
     if method == "Boer-vibeta":
         # https://doi.org/10.1175/1520-0493(1982)110%3C1801:DEIIC%3E2.0.CO;2
         # Change the vertical coordinate unit to `Pa`
-        vertical_dim_array = transfer_data_units(
+        vertical_dim_array = transfer_data_multiple_units(
             data_input[vertical_dim], vertical_dim_units, "Pa"
         )
 
         # Change the surface pressure data unit to `Pa`
-        surface_pressure_data = transfer_data_units(
+        surface_pressure_data = transfer_data_multiple_units(
             surface_pressure_data, surface_pressure_data_units, "Pa"
         )
 
@@ -1152,7 +1152,7 @@ def calc_divergence_watervaporflux(
     -------
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
-    specific_humidity = transfer_data_units(
+    specific_humidity = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "kg/kg"
     )
     divergence_watervaporflux = (1 / g) * calc_divergence(
@@ -1219,7 +1219,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
     -------
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
-    specific_humidity = transfer_data_units(
+    specific_humidity = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_units, "kg/kg"
     )
 

@@ -21,7 +21,8 @@ __all__ = [
     "transfer_dFdp2dFdz",
     "sort_ascending_latlon_coordinates",
     "transfer_units_coeff",
-    "transfer_data_units",
+    "transfer_data_multiple_units",
+    "transfer_data_difference_units",
     "generate_dataset_dispatcher",
     "generate_datatree_dispatcher",
     "transfer_xarray_lon_from180TO360",
@@ -394,14 +395,26 @@ def transfer_units_coeff(input_units: str, output_units: str) -> float:
     return base
 
 
-def transfer_data_units(
+def transfer_data_multiple_units(
     input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
 ) -> xr.DataArray | xr.Dataset:
     """
-    Data unit conversion
+    Data unit conversion for multiple transition.
     """
     base = transfer_units_coeff(input_units, output_units)
     output_data = input_data * base
+    output_data.attrs["units"] = output_units
+    return output_data
+
+
+def transfer_data_difference_units(
+    input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
+) -> xr.DataArray | xr.Dataset:
+    """
+    Data unit conversion for difference transition.
+    """
+    coeff = transfer_units_coeff(input_units, output_units)
+    output_data = input_data + coeff - 1
     output_data.attrs["units"] = output_units
     return output_data
 
