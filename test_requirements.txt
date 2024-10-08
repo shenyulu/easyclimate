@@ -29,5 +29,5 @@ pytest == 8.3.3
 pytest-cov == 5.0.0
 pytest-mpl == 0.17.0
 pre-commit
-netcdf
+netCDF4
 h5netcdf
