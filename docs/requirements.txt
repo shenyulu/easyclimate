@@ -24,6 +24,8 @@ pooch
 tqdm
 zarr
 metpy
+netCDF4
+h5netcdf
 
 sphinx == 8.0.2
 recommonmark == 0.7.1
