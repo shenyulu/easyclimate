@@ -1,5 +1,26 @@
 # Changelog
 
+## Version 2024.10.0
+
+*Released on: 2024/10/09*
+
+### What's Changed
+
+* [feat: add quick_draw_rectangular_box](https://github.com/shenyulu/easyclimate/pull/77/commits/727ad88dce8902d72bee249f7c485d3860108a75)
+* [feat: Modify the units conversion module](https://github.com/shenyulu/easyclimate/pull/77/commits/18740c3ffd78dcf55b1503b1f9284993dad47535)
+* [feat: Enhance unit availability](https://github.com/shenyulu/easyclimate/pull/77/commits/470e4451dcb9c67b5d1af8e06de4ed6c1968721f)
+* [feat: add water vapor parameter calculation function](https://github.com/shenyulu/easyclimate/pull/77/commits/5692972b44fcc712da6512976ca43da84739308b)
+* [fix: fix error introduced by xeofs 3.0.0](https://github.com/shenyulu/easyclimate/pull/77/commits/930444e720dae3a000bd262fb67e59cc91ce8380)
+* [fix: Type expression](https://github.com/shenyulu/easyclimate/pull/77/commits/125a161232a3879e6aab13046540685e61dbd29c)
+* [update: fix eof error for xeof>3.0.0](https://github.com/shenyulu/easyclimate/pull/77/commits/e6a32dabf54fdf2b7f0df5d27d37c466c34386ea)
+* [test: add test for water vapor calculation](https://github.com/shenyulu/easyclimate/pull/77/commits/7314b5f38b3c605d38bb15626e496e521727ac09)
+* [fix: accuracy problem on linux](https://github.com/shenyulu/easyclimate/pull/77/commits/fa042c132701c9eb5c707d57514cf29bbc024490)
+* [depend: update dependency](https://github.com/shenyulu/easyclimate/pull/77/commits/d1486b0d298a29328bfbfe1b748d3122ed002975)
+* [update: update version of pre*commit*config](https://github.com/shenyulu/easyclimate/pull/77/commits/ca25504503ae70a0cfd989e00f7e7cef96d96d17)
+* [fix: test dependency for netcdf](https://github.com/shenyulu/easyclimate/pull/77/commits/a4f56b283ed3086f9fd54d13c61651d01bddccd7)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.08.01...v2024.10.0
+
 ## Version 2024.08.01
 
 *Released on: 2024/08/02*
