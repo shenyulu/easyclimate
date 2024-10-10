@@ -27,7 +27,7 @@ metpy
 netCDF4
 h5netcdf
 
-sphinx == 8.0.2
+sphinx == 8.1.0
 recommonmark == 0.7.1
 sphinx-markdown-tables == 0.0.17
 sphinxcontrib-jupyter == 0.5.10
