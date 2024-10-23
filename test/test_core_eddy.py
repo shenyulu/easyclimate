@@ -231,7 +231,7 @@ def test_calc_apparent_moisture_sink():
         vertical_dim="level",
         vertical_dim_units="hPa",
         time_units="day",
-        specific_humidity_units="kg/kg",
+        specific_humidity_data_units="kg/kg",
     )
     result_data1 = result_data.sel(level=500).isel(time=3).data.flatten()
     refer_data1 = np.array(

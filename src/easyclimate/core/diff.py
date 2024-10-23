@@ -1113,7 +1113,7 @@ def calc_divergence_watervaporflux(
     specific_humidity_data: xr.DataArray,
     u_data: xr.DataArray,
     v_data: xr.DataArray,
-    specific_humidity_units: str,
+    specific_humidity_data_units: str,
     spherical_coord: bool = True,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
@@ -1135,7 +1135,7 @@ def calc_divergence_watervaporflux(
         The zonal wind data.
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional wind data.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
@@ -1153,7 +1153,7 @@ def calc_divergence_watervaporflux(
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
     specific_humidity = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "kg/kg"
+        specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
     divergence_watervaporflux = (1 / g) * calc_divergence(
         u_data=specific_humidity * u_data,
@@ -1173,7 +1173,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
     v_data: xr.DataArray,
     surface_pressure_data: xr.DataArray,
     vertical_dim: str,
-    specific_humidity_units: str,
+    specific_humidity_data_units: str,
     surface_pressure_data_units: str,
     vertical_dim_units: str,
     spherical_coord: bool = True,
@@ -1198,7 +1198,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
         Mean surface sea level pressure.
     vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
     surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
@@ -1220,7 +1220,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
     specific_humidity = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "kg/kg"
+        specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
 
     # Calculation of single-layer water vapor flux divergence
@@ -1229,7 +1229,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
         u_data,
         v_data,
         spherical_coord=spherical_coord,
-        specific_humidity_units=specific_humidity_units,
+        specific_humidity_data_units=specific_humidity_data_units,
         lon_dim=lon_dim,
         lat_dim=lat_dim,
         g=g,

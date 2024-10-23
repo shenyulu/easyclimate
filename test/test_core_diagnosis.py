@@ -270,7 +270,7 @@ def test_calc_virtual_temperature():
     result_data = ecl.calc_virtual_temperature(
         temper_data=t_data_Tv,
         specific_humidity_data=q_data_Tv,
-        specific_humidity_units="g/g",
+        specific_humidity_data_units="g/g",
     ).data
     refer_data = np.array([303.1976896, 298.08551685])
     assert np.isclose(result_data, refer_data).all()
@@ -280,7 +280,7 @@ def test_calc_virtual_temperature_Hobbs2006():
     result_data = ecl.calc_virtual_temperature_Hobbs2006(
         temper_data=t_data_Tv,
         specific_humidity_data=q_data_Tv,
-        specific_humidity_units="g/g",
+        specific_humidity_data_units="g/g",
     ).data
     refer_data = np.array([303.1345747, 298.04520656])
     assert np.isclose(result_data, refer_data).all()
@@ -342,7 +342,7 @@ def test_transfer_mixing_ratio_2_specific_humidity():
 def test_transfer_specific_humidity_2_mixing_ratio():
     result_data = ecl.transfer_specific_humidity_2_mixing_ratio(
         specific_humidity_data=xr.DataArray([0.01569728, 0.01887275]),
-        specific_humidity_units="g/g",
+        specific_humidity_data_units="g/g",
     ).data
     refer_data = np.array([0.01594761, 0.01923578])
     assert np.isclose(result_data, refer_data).all()
@@ -363,7 +363,7 @@ def test_transfer_specific_humidity_2_dewpoint():
     result_data = ecl.transfer_specific_humidity_2_dewpoint(
         specific_humidity_data=xr.DataArray([0.01079, 0.01319]),
         pressure_data=xr.DataArray([988, 980]),
-        specific_humidity_units="g/g",
+        specific_humidity_data_units="g/g",
         pressure_data_units="hPa",
     ).data
     refer_data = np.array([14.98916116, 17.9938138])
@@ -400,7 +400,7 @@ def test_transfer_specific_humidity_2_relative_humidity():
         specific_humidity_data=xr.DataArray([18 / 1000, 16 / 1000]),
         pressure_data_units="hPa",
         temperature_data_units="degC",
-        specific_humidity_units="g/g",
+        specific_humidity_data_units="g/g",
     ).data
     refer_data = np.array([0.6832293, 0.68326215])
     assert np.isclose(result_data, refer_data).all()
