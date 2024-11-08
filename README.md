@@ -1,4 +1,4 @@
-<img src="https://github.com/shenyulu/easyclimate-sphinx_docs/blob/main/source/_static/easyclimate-logo.svg?raw=true" alt="easyclimate">
+<img src="https://github.com/shenyulu/easyclimate/blob/main/docs/source/_static/easyclimate-logo.svg?raw=true" alt="easyclimate">
 
 <h2 align="center">A line of code to analyze climate</h2>
 
