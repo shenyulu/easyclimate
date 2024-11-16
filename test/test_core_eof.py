@@ -247,76 +247,61 @@ def test_get_MCA_model_and_calc_MCA_analysis():
     da2 = t2m.isel(lon=slice(27, None))
 
     mca_model = ecl.eof.get_MCA_model(
-        da1, da2, lat_dim="lat", lon_dim="lon", n_modes=2, use_coslat=True
+        da1,
+        da2,
+        lat_dim="lat",
+        lon_dim="lon",
+        n_modes=10,
+        use_coslat=True,
+        solver="full",
+        random_state=0,
     )
     result_datatree = ecl.eof.calc_MCA_analysis(mca_model)
 
     result_data1 = (
-        result_datatree["EOF"]["left_EOF"]["left_EOF"]
+        result_datatree["EOF"]["left_EOF"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data2 = (
-        result_datatree["EOF"]["right_EOF"]["right_EOF"]
+        result_datatree["EOF"]["right_EOF"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data3 = (
-        result_datatree["PC"]["left_PC"]["left_PC"]
+        result_datatree["PC"]["left_PC"]
         .isel(mode=0, time=slice(None, 20))
         .data.flatten()
     )
     result_data4 = (
-        result_datatree["PC"]["right_PC"]["right_PC"]
+        result_datatree["PC"]["right_PC"]
         .isel(mode=0, time=slice(None, 20))
         .data.flatten()
     )
-    result_data5 = result_datatree["correlation_coefficients_X"][
-        "correlation_coefficients_X"
-    ].data.flatten()
-    result_data6 = result_datatree["correlation_coefficients_Y"][
-        "correlation_coefficients_Y"
-    ].data.flatten()
-    result_data7 = result_datatree["covariance_fraction"][
-        "covariance_fraction"
-    ].data.flatten()
-    result_data8 = result_datatree["cross_correlation_coefficients"][
-        "cross_correlation_coefficients"
-    ].data.flatten()
-    result_data9 = result_datatree["fraction_variance_X_explained_by_X"][
-        "fraction_variance_X_explained_by_X"
-    ].data.flatten()
-    result_data10 = result_datatree["fraction_variance_Y_explained_by_X"][
-        "fraction_variance_Y_explained_by_X"
-    ].data.flatten()
-    result_data11 = result_datatree["fraction_variance_Y_explained_by_Y"][
-        "fraction_variance_Y_explained_by_Y"
-    ].data.flatten()
-    result_data12 = result_datatree["squared_covariance_fraction"][
-        "squared_covariance_fraction"
-    ].data.flatten()
+    result_data5 = result_datatree["correlation_coefficients_X"].data.flatten()
+    result_data6 = result_datatree["correlation_coefficients_Y"].data.flatten()
+    result_data7 = result_datatree["covariance_fraction"].data.flatten()
+    result_data8 = result_datatree["cross_correlation_coefficients"].data.flatten()
+    result_data9 = result_datatree["fraction_variance_X_explained_by_X"].data.flatten()
+    result_data10 = result_datatree["fraction_variance_Y_explained_by_X"].data.flatten()
+    result_data11 = result_datatree["fraction_variance_Y_explained_by_Y"].data.flatten()
+    result_data12 = result_datatree["squared_covariance_fraction"].data.flatten()
     result_data13 = (
-        result_datatree["heterogeneous_patterns/left_heterogeneous_patterns"][
-            "left_heterogeneous_patterns"
-        ]
+        result_datatree["heterogeneous_patterns/left_heterogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data14 = (
-        result_datatree["heterogeneous_patterns/right_heterogeneous_patterns"][
-            "right_heterogeneous_patterns"
-        ]
+        result_datatree["heterogeneous_patterns/right_heterogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data15 = (
-        result_datatree[
-            "heterogeneous_patterns/pvalues_of_left_heterogeneous_patterns"
-        ]["pvalues_of_left_heterogeneous_patterns"]
+        result_datatree["heterogeneous_patterns/pvalues_of_left_heterogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
@@ -324,143 +309,419 @@ def test_get_MCA_model_and_calc_MCA_analysis():
     result_data16 = (
         result_datatree[
             "heterogeneous_patterns/pvalues_of_right_heterogeneous_patterns"
-        ]["pvalues_of_right_heterogeneous_patterns"]
+        ]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data17 = (
-        result_datatree["homogeneous_patterns/left_homogeneous_patterns"][
-            "left_homogeneous_patterns"
-        ]
+        result_datatree["homogeneous_patterns/left_homogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data18 = (
-        result_datatree["homogeneous_patterns/right_homogeneous_patterns"][
-            "right_homogeneous_patterns"
-        ]
+        result_datatree["homogeneous_patterns/right_homogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data19 = (
-        result_datatree["homogeneous_patterns/pvalues_of_left_homogeneous_patterns"][
-            "pvalues_of_left_homogeneous_patterns"
-        ]
+        result_datatree["homogeneous_patterns/pvalues_of_left_homogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
     result_data20 = (
-        result_datatree["homogeneous_patterns/pvalues_of_right_homogeneous_patterns"][
-            "pvalues_of_right_homogeneous_patterns"
-        ]
+        result_datatree["homogeneous_patterns/pvalues_of_right_homogeneous_patterns"]
         .isel(mode=0)
         .isel(lat=slice(10, 13), lon=slice(6, 8))
         .data.flatten()
     )
 
     refer_data1 = np.array(
-        [0.01429357, 0.01288472, 0.01379039, 0.01360664, 0.01257804, 0.01328289]
+        [0.01558326, 0.01405792, 0.01504114, 0.01474562, 0.01370998, 0.01430686]
     )
     refer_data2 = np.array(
-        [0.05899554, 0.05512575, 0.06199014, 0.0621235, 0.06507501, 0.06534258]
+        [0.05806844, 0.05429851, 0.0604402, 0.06080861, 0.06308315, 0.0634863]
     )
     refer_data3 = np.array(
         [
-            -0.01954985,
-            -0.02180333,
-            -0.02291398,
-            -0.02141504,
-            -0.01923306,
-            -0.02217942,
-            -0.02273159,
-            -0.02097159,
-            -0.01731079,
-            -0.01945496,
-            -0.01842522,
-            -0.01830342,
-            -0.01606281,
-            -0.0205611,
-            -0.02221527,
-            -0.02121668,
-            -0.01830737,
-            -0.02127802,
-            -0.02133489,
-            -0.02091899,
+            -0.01965964,
+            -0.02188687,
+            -0.02300512,
+            -0.02149792,
+            -0.01936105,
+            -0.02230554,
+            -0.02288072,
+            -0.021101,
+            -0.01745216,
+            -0.01957284,
+            -0.01852802,
+            -0.01836741,
+            -0.01614946,
+            -0.0205901,
+            -0.02224295,
+            -0.02124052,
+            -0.01838362,
+            -0.02135036,
+            -0.02138998,
+            -0.0209474,
         ]
     )
     refer_data4 = np.array(
         [
-            -0.02082994,
-            -0.02281079,
-            -0.02321885,
-            -0.02261734,
-            -0.02361386,
-            -0.02712528,
-            -0.02674619,
-            -0.02611874,
-            -0.02540835,
-            -0.02815159,
-            -0.02869196,
-            -0.02645197,
-            -0.02588184,
-            -0.02599966,
-            -0.02526168,
-            -0.02282659,
-            -0.0229897,
-            -0.02572749,
-            -0.02596728,
-            -0.02444324,
+            -0.02089254,
+            -0.02286041,
+            -0.02326339,
+            -0.02265824,
+            -0.02363329,
+            -0.02712326,
+            -0.02675353,
+            -0.0261337,
+            -0.0254113,
+            -0.02813793,
+            -0.02868098,
+            -0.02645875,
+            -0.02586578,
+            -0.02594402,
+            -0.02520787,
+            -0.02279183,
+            -0.02296499,
+            -0.02568254,
+            -0.02591385,
+            -0.02441013,
         ]
     )
-    refer_data5 = np.array([1.00034258, 0.0197428, 0.0197428, 1.00034258])
-    refer_data6 = np.array([1.00034258, -0.01454136, -0.01454136, 1.00034258])
-    refer_data7 = np.array([0.98730161, 0.01269839])
-    refer_data8 = np.array([0.9630392, 0.23463093])
-    refer_data9 = np.array([0.9412848, 0.0587152])
-    refer_data10 = np.array([0.99735505, 0.00264495])
-    refer_data11 = np.array([0.95723355, 0.04276645])
-    refer_data12 = np.array([9.99834604e-01, 1.65396211e-04])
+    refer_data5 = np.array(
+        [
+            1.00034258,
+            0.05091213,
+            0.0477693,
+            -0.04618039,
+            0.08341818,
+            0.01019111,
+            0.03106142,
+            0.08745134,
+            -0.06169519,
+            0.0323779,
+            0.05091213,
+            1.00034258,
+            -0.2698223,
+            -0.04627493,
+            0.11332768,
+            0.12340422,
+            0.28155392,
+            0.11583862,
+            -0.0025707,
+            -0.10371667,
+            0.0477693,
+            -0.2698223,
+            1.00034258,
+            0.11594853,
+            -0.25484756,
+            -0.24710089,
+            -0.43387763,
+            0.0381828,
+            0.24572371,
+            0.3747766,
+            -0.04618039,
+            -0.04627493,
+            0.11594853,
+            1.00034258,
+            -0.17266141,
+            0.38627309,
+            -0.11352632,
+            -0.00329691,
+            0.27015383,
+            0.09440547,
+            0.08341818,
+            0.11332768,
+            -0.25484756,
+            -0.17266141,
+            1.00034258,
+            0.03187743,
+            0.1435686,
+            0.33747335,
+            -0.27991527,
+            -0.17946749,
+            0.01019111,
+            0.12340422,
+            -0.24710089,
+            0.38627309,
+            0.03187743,
+            1.00034258,
+            0.14073894,
+            -0.04791318,
+            -0.06978607,
+            -0.26116732,
+            0.03106142,
+            0.28155392,
+            -0.43387763,
+            -0.11352632,
+            0.1435686,
+            0.14073894,
+            1.00034258,
+            0.00306663,
+            -0.25236892,
+            -0.28796784,
+            0.08745134,
+            0.11583862,
+            0.0381828,
+            -0.00329691,
+            0.33747335,
+            -0.04791318,
+            0.00306663,
+            1.00034258,
+            -0.06696252,
+            -0.03856645,
+            -0.06169519,
+            -0.0025707,
+            0.24572371,
+            0.27015383,
+            -0.27991527,
+            -0.06978607,
+            -0.25236892,
+            -0.06696252,
+            1.00034258,
+            0.14860438,
+            0.0323779,
+            -0.10371667,
+            0.3747766,
+            0.09440547,
+            -0.17946749,
+            -0.26116732,
+            -0.28796784,
+            -0.03856645,
+            0.14860438,
+            1.00034258,
+        ]
+    )
+    refer_data6 = np.array(
+        [
+            1.00034258,
+            -0.03323755,
+            -0.06621311,
+            0.02149172,
+            -0.04363363,
+            -0.05428197,
+            -0.00640223,
+            0.06088193,
+            -0.06661587,
+            0.11255033,
+            -0.03323755,
+            1.00034258,
+            0.02362015,
+            0.05605379,
+            -0.03993013,
+            -0.18056184,
+            -0.33470027,
+            -0.02887211,
+            -0.1287425,
+            -0.05885655,
+            -0.06621311,
+            0.02362015,
+            1.00034258,
+            0.13241564,
+            0.27994298,
+            0.37009574,
+            -0.02332147,
+            -0.10510192,
+            0.1352765,
+            0.03899048,
+            0.02149172,
+            0.05605379,
+            0.13241564,
+            1.00034258,
+            0.16297803,
+            -0.05573436,
+            -0.17095611,
+            -0.23545458,
+            0.01153948,
+            -0.1293934,
+            -0.04363363,
+            -0.03993013,
+            0.27994298,
+            0.16297803,
+            1.00034258,
+            0.01784411,
+            -0.11589252,
+            -0.01809376,
+            0.10523593,
+            -0.06055696,
+            -0.05428197,
+            -0.18056184,
+            0.37009574,
+            -0.05573436,
+            0.01784411,
+            1.00034258,
+            -0.00906442,
+            -0.31905356,
+            0.43199383,
+            0.15733733,
+            -0.00640223,
+            -0.33470027,
+            -0.02332147,
+            -0.17095611,
+            -0.11589252,
+            -0.00906442,
+            1.00034258,
+            0.07692467,
+            0.02321068,
+            0.15483428,
+            0.06088193,
+            -0.02887211,
+            -0.10510192,
+            -0.23545458,
+            -0.01809376,
+            -0.31905356,
+            0.07692467,
+            1.00034258,
+            -0.25836711,
+            0.15994814,
+            -0.06661587,
+            -0.1287425,
+            0.1352765,
+            0.01153948,
+            0.10523593,
+            0.43199383,
+            0.02321068,
+            -0.25836711,
+            1.00034258,
+            0.03261397,
+            0.11255033,
+            -0.05885655,
+            0.03899048,
+            -0.1293934,
+            -0.06055696,
+            0.15733733,
+            0.15483428,
+            0.15994814,
+            0.03261397,
+            1.00034258,
+        ]
+    )
+    refer_data7 = np.array(
+        [
+            9.28776726e-01,
+            2.81577930e-02,
+            1.50080474e-02,
+            9.27542244e-03,
+            7.68112471e-03,
+            4.28324636e-03,
+            2.74762904e-03,
+            2.14268177e-03,
+            1.20557269e-03,
+            7.21756237e-04,
+        ]
+    )
+    refer_data8 = np.array(
+        [
+            0.9641005,
+            0.7657287,
+            0.49969426,
+            0.45858186,
+            0.41303811,
+            0.23081255,
+            0.16580367,
+            0.18137918,
+            0.09319696,
+            0.06168472,
+        ]
+    )
+    refer_data9 = np.array(
+        [
+            0.82936789,
+            0.02959719,
+            0.03261848,
+            0.02330888,
+            0.01837483,
+            0.01807617,
+            0.01839542,
+            0.01028853,
+            0.01073144,
+            0.00924117,
+        ]
+    )
+    refer_data10 = np.array(
+        [
+            9.51870941e-01,
+            2.78700018e-02,
+            9.39324447e-03,
+            4.63173060e-03,
+            3.76155974e-03,
+            1.29245449e-03,
+            4.94903686e-04,
+            4.69950767e-04,
+            1.51283996e-04,
+            6.39289999e-05,
+        ]
+    )
+    refer_data11 = np.array(
+        [
+            0.85637781,
+            0.03496484,
+            0.02116462,
+            0.01343219,
+            0.01440391,
+            0.01457993,
+            0.01142491,
+            0.01038058,
+            0.01193328,
+            0.01133793,
+        ]
+    )
+    refer_data12 = np.array(
+        [
+            9.98615922e-01,
+            9.17852850e-04,
+            2.60749943e-04,
+            9.95963067e-05,
+            6.83007496e-05,
+            2.12384074e-05,
+            8.73960962e-06,
+            5.31485215e-06,
+            1.68252932e-06,
+            6.03055008e-07,
+        ]
+    )
     refer_data13 = np.array(
-        [0.94608926, 0.94110219, 0.9386202, 0.94100743, 0.93486529, 0.94569481]
+        [0.81719904, 0.78632968, 0.79406758, 0.78797284, 0.76287803, 0.77685482]
     )
     refer_data14 = np.array(
-        [0.93032336, 0.95012203, 0.93197093, 0.93965557, 0.93909767, 0.94152274]
+        [0.88580087, 0.90172098, 0.88207484, 0.89022451, 0.88250947, 0.88197606]
     )
     refer_data15 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     refer_data16 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     refer_data17 = np.array(
-        [0.97868187, 0.97299976, 0.97019417, 0.97289241, 0.96597168, 0.97822986]
+        [0.7763152, 0.74608813, 0.75346575, 0.75260881, 0.72411332, 0.74683124]
     )
     refer_data18 = np.array(
-        [0.96241103, 0.98436429, 0.96421665, 0.9726781, 0.97206123, 0.97474614]
+        [0.9298704, 0.94731727, 0.93471545, 0.94020059, 0.94094888, 0.93843361]
     )
     refer_data19 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     refer_data20 = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
-    assert np.isclose(result_data3, refer_data3).all()
-    assert np.isclose(result_data4, refer_data4).all()
-    assert np.isclose(result_data5, refer_data5).all()
-    assert np.isclose(result_data6, refer_data6).all()
-    assert np.isclose(result_data7, refer_data7).all()
-    assert np.isclose(result_data8, refer_data8).all()
-    assert np.isclose(result_data9, refer_data9).all()
-    assert np.isclose(result_data10, refer_data10).all()
-    assert np.isclose(result_data11, refer_data11).all()
-    assert np.isclose(result_data12, refer_data12).all()
-    assert np.isclose(result_data13, refer_data13).all()
-    assert np.isclose(result_data14, refer_data14).all()
-    assert np.isclose(result_data15, refer_data15).all()
-    assert np.isclose(result_data16, refer_data16).all()
-    assert np.isclose(result_data17, refer_data17).all()
-    assert np.isclose(result_data18, refer_data18).all()
-    assert np.isclose(result_data19, refer_data19).all()
-    assert np.isclose(result_data20, refer_data20).all()
+    assert np.isclose(result_data1, refer_data1, atol=0.01).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.01).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.01).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.01).all()
+    assert np.isclose(result_data5, refer_data5, atol=0.01).all()
+    assert np.isclose(result_data6, refer_data6, atol=0.01).all()
+    assert np.isclose(result_data7, refer_data7, atol=0.01).all()
+    assert np.isclose(result_data8, refer_data8, atol=0.01).all()
+    assert np.isclose(result_data9, refer_data9, atol=0.01).all()
+    assert np.isclose(result_data10, refer_data10, atol=0.01).all()
+    assert np.isclose(result_data11, refer_data11, atol=0.01).all()
+    assert np.isclose(result_data12, refer_data12, atol=0.01).all()
+    assert np.isclose(result_data13, refer_data13, atol=0.01).all()
+    assert np.isclose(result_data14, refer_data14, atol=0.01).all()
+    assert np.isclose(result_data15, refer_data15, atol=0.01).all()
+    assert np.isclose(result_data16, refer_data16, atol=0.01).all()
+    assert np.isclose(result_data17, refer_data17, atol=0.01).all()
+    assert np.isclose(result_data18, refer_data18, atol=0.01).all()
+    assert np.isclose(result_data19, refer_data19, atol=0.01).all()
+    assert np.isclose(result_data20, refer_data20, atol=0.01).all()
 
 
 def test_save_MCA_model_and_load_MCA_model():

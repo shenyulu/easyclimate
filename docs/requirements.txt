@@ -1,5 +1,5 @@
 numpy >= 1.24.3
-xarray >= 0.17.0
+xarray >= 2014.10.0
 geocat.viz
 cartopy >= 0.20
 xeofs >= 3.0.0
@@ -17,13 +17,13 @@ windspharm-syl
 dask
 pymannkendall
 flox
-xarray-datatree
 xarray_regrid
 gsw_xarray
 pooch
 tqdm
 zarr
 metpy
+tcpypi
 netCDF4
 h5netcdf
 

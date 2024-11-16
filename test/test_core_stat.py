@@ -7,7 +7,7 @@ import pytest
 import easyclimate as ecl
 import numpy as np
 from .util import round_sf_np_new
-from datatree import DataTree
+from xarray import DataTree
 
 sst_data = ecl.tutorial.open_tutorial_dataset("mini_HadISST_sst").sst
 sic_data_Barents_Sea = ecl.tutorial.open_tutorial_dataset("mini_HadISST_ice").sic
@@ -81,7 +81,7 @@ def test_calc_linregress_spatial_datatree():
     data = sic_data_Barents_Sea_12.sel(
         lon=slice(34.5, 36.5), lat=slice(78.5, 80.5)
     ).to_dataset(name="sic")
-    result_data = ecl.calc_linregress_spatial(data, dim="time").compute()
+    result_data = ecl.calc_linregress_spatial(data, dim="time")
     assert isinstance(result_data, DataTree)
 
 
