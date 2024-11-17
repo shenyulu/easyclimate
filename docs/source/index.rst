@@ -60,11 +60,11 @@ An example BibTeX entry:
 
 .. code:: BibTeX
 
-    @misc{easyclimate_v2023_12_1,
+    @misc{easyclimate_v2024_11_0,
         author = {Yulu Shen},
-        title  = {easyclimate: v2023.12.1},
+        title  = {easyclimate: v2024.11.0},
         month  = dec,
-        year   = 2023,
+        year   = 2024,
         doi    = {10.5281/zenodo.10279567},
         url    = {https://doi.org/10.5281/zenodo.10279567}
         }
@@ -107,6 +107,7 @@ An example BibTeX entry:
    ./static_docs/ocean
    ./static_docs/monsoon
    ./static_docs/land
+   ./static_docs/mesoscale
 
 .. toctree::
     :maxdepth: 1
