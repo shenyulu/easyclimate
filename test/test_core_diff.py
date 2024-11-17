@@ -645,7 +645,7 @@ def test_calc_divergence_watervaporflux():
         q_data_500hpa,
         u_data_500hpa,
         v_data_500hpa,
-        specific_humidity_units="g/kg",
+        specific_humidity_data_units="g/kg",
     ).data.flatten()
     refer_data = np.array(
         [
@@ -691,7 +691,7 @@ def test_calc_divergence_watervaporflux_top2surface_integral():
         v_data_sample,
         surface_pressure_data_sample,
         vertical_dim="level",
-        specific_humidity_units="g/kg",
+        specific_humidity_data_units="g/kg",
         surface_pressure_data_units="hPa",
         vertical_dim_units="hPa",
     ).data.flatten()

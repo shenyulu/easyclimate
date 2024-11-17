@@ -202,7 +202,7 @@ def calc_potential_temperature(
 def calc_virtual_temperature(
     temper_data: xr.DataArray,
     specific_humidity_data: xr.DataArray,
-    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    specific_humidity_data_units: Literal["kg/kg", "g/g", "g/kg"],
     epsilon: float = 0.608,
 ) -> xr.DataArray:
     """
@@ -223,7 +223,7 @@ def calc_virtual_temperature(
         Air temperature.
     specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The absolute humidity data.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
     epsilon: :py:class:`float <float>`.
         A constant.
@@ -239,7 +239,7 @@ def calc_virtual_temperature(
         - `temp_virtual - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml>`__
     """
     specific_humidity_data = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "g/g"
+        specific_humidity_data, specific_humidity_data_units, "g/g"
     )
 
     T_v = (1 + epsilon * specific_humidity_data) * temper_data
@@ -258,7 +258,7 @@ def calc_virtual_temperature(
 def calc_virtual_temperature_Hobbs2006(
     temper_data: xr.DataArray,
     specific_humidity_data: xr.DataArray,
-    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    specific_humidity_data_units: Literal["kg/kg", "g/g", "g/kg"],
     epsilon: float = 0.6219569100577033,
 ) -> xr.DataArray:
     """
@@ -281,7 +281,7 @@ def calc_virtual_temperature_Hobbs2006(
         Air temperature.
     specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The absolute humidity data.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
     epsilon: :py:class:`float <float>`.
         The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air. Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
@@ -298,7 +298,7 @@ def calc_virtual_temperature_Hobbs2006(
         - `temp_virtual - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml>`__
     """
     specific_humidity_data = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "g/g"
+        specific_humidity_data, specific_humidity_data_units, "g/g"
     )
 
     T_v = temper_data * (
@@ -581,7 +581,7 @@ def transfer_mixing_ratio_2_specific_humidity(
 
 def transfer_specific_humidity_2_mixing_ratio(
     specific_humidity_data: xr.DataArray,
-    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    specific_humidity_data_units: Literal["kg/kg", "g/g", "g/kg"],
 ) -> xr.DataArray:
     """
     Calculate the mixing ratio from specific humidity.
@@ -590,7 +590,7 @@ def transfer_specific_humidity_2_mixing_ratio(
     ----------
     specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The Specific humidity of air.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
 
     Returns
@@ -601,7 +601,7 @@ def transfer_specific_humidity_2_mixing_ratio(
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio_from_specific_humidity.html
     """
     specific_humidity_data = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "g/g"
+        specific_humidity_data, specific_humidity_data_units, "g/g"
     )
 
     return_data = specific_humidity_data / (1 - specific_humidity_data)
@@ -652,7 +652,7 @@ def transfer_dewpoint_2_specific_humidity(
 def transfer_specific_humidity_2_dewpoint(
     specific_humidity_data: xr.DataArray,
     pressure_data: xr.DataArray,
-    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    specific_humidity_data_units: Literal["kg/kg", "g/g", "g/kg"],
     pressure_data_units: Literal["hPa", "Pa"],
     epsilon: float = 0.6219569100577033,
 ) -> xr.DataArray:
@@ -665,7 +665,7 @@ def transfer_specific_humidity_2_dewpoint(
         The absolute humidity data.
     pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The pressure data set.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
     pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
@@ -681,11 +681,11 @@ def transfer_specific_humidity_2_dewpoint(
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint_from_specific_humidity.html
     """
     specific_humidity_data = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "g/g"
+        specific_humidity_data, specific_humidity_data_units, "g/g"
     )
     w = transfer_specific_humidity_2_mixing_ratio(
         specific_humidity_data=specific_humidity_data,
-        specific_humidity_units=specific_humidity_units,
+        specific_humidity_data_units=specific_humidity_data_units,
     )
     e = pressure_data * w / (epsilon + w)
     return_data = calc_dewpoint(
@@ -802,7 +802,7 @@ def transfer_specific_humidity_2_relative_humidity(
     specific_humidity_data: xr.DataArray,
     pressure_data_units: Literal["hPa", "Pa"],
     temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
-    specific_humidity_units: Literal["kg/kg", "g/g", "g/kg"],
+    specific_humidity_data_units: Literal["kg/kg", "g/g", "g/kg"],
 ) -> xr.DataArray:
     """
     Calculate the relative humidity from specific humidity, temperature, and pressure.
@@ -819,7 +819,7 @@ def transfer_specific_humidity_2_relative_humidity(
         The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/g`, `g/kg` and so on.
 
     Returns
@@ -831,7 +831,7 @@ def transfer_specific_humidity_2_relative_humidity(
     """
     mixing_ratio_data = transfer_specific_humidity_2_mixing_ratio(
         specific_humidity_data=specific_humidity_data,
-        specific_humidity_units=specific_humidity_units,
+        specific_humidity_data_units=specific_humidity_data_units,
     )
     return_data = transfer_mixing_ratio_2_relative_humidity(
         pressure_data=pressure_data,

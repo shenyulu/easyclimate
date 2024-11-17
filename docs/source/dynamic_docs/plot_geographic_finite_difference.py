@@ -440,7 +440,7 @@ divergence_watervaporflux_top2surface_integral = (
         v_data=v_data,
         surface_pressure_data=msl_data,
         surface_pressure_data_units="millibars",
-        specific_humidity_units="grams/kg",
+        specific_humidity_data_units="grams/kg",
         vertical_dim="level",
         vertical_dim_units="hPa",
     )

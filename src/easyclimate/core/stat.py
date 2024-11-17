@@ -10,7 +10,8 @@ from scipy import stats
 from scipy import signal
 from .utility import generate_datatree_dispatcher, find_dims_axis
 
-from datatree import DataTree
+from xarray import DataTree
+from .datanode import DataNode
 
 __all__ = [
     "calc_linregress_spatial",

@@ -13,7 +13,8 @@ import xarray as xr
 import pymannkendall as mk
 
 from .utility import generate_datatree_dispatcher
-from datatree import DataTree
+from xarray import DataTree
+from .datanode import DataNode
 
 __all__ = [
     "original_test",
@@ -52,7 +53,7 @@ def original_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -169,7 +170,7 @@ def hamed_rao_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -286,7 +287,7 @@ def yue_wang_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -400,7 +401,7 @@ def pre_whitening_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -514,7 +515,7 @@ def trend_free_pre_whitening_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -635,7 +636,7 @@ def seasonal_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -749,7 +750,7 @@ def regional_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -866,7 +867,7 @@ def correlated_seasonal_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -982,7 +983,7 @@ def sens_slope(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **slope**: Theil-Sen estimator/slope
     - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
@@ -1055,7 +1056,7 @@ def seasonal_sens_slope(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`DataTree <DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)

@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2024.11.0
+
+*Released on: 2024/11/17*
+
+### What's Changed
+
+* [fix: modify `specific_humidity_units` to `specific_humidity_data_units`](https://github.com/shenyulu/easyclimate/pull/85/commits/67ed21523b17105c7e353dae85d9ba8b7e5c36e9)
+* [fix: rename file in the `field`](https://github.com/shenyulu/easyclimate/pull/85/commits/e7defd7e398e5836bde1a015ed52c9c2e703ff42)
+* [fix: fix error DataTree immigration](https://github.com/shenyulu/easyclimate/pull/85/commits/a4fa73d2bbb333fac5a157857429d6e17cae88d1)
+* [feat: add Potential intensity of TC](https://github.com/shenyulu/easyclimate/pull/85/commits/e7defd7e398e5836bde1a015ed52c9c2e703ff42)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.10.0...v2024.11.0
+
 ## Version 2024.10.0
 
 *Released on: 2024/10/09*

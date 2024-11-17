@@ -127,3 +127,12 @@ Ocean
     easyclimate.field.ocean.oceanic_front
     easyclimate.field.ocean.stability
     easyclimate.field.ocean.thermal
+
+Mesoscale
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.mesoscale
+    easyclimate.field.mesoscale.potential_intensity

@@ -7,6 +7,7 @@ from .stat import *
 from .variability import *
 from .yearstat import *
 from .tutorial import *
+from .datanode import DataNode
 
 from . import utility
 from . import mk_test

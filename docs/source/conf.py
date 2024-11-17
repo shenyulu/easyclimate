@@ -146,7 +146,6 @@ intersphinx_mapping = {
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "statsmodels": ("https://www.statsmodels.org/stable", None),
-    "xarray-datatree": ("https://xarray-datatree.readthedocs.io/en/latest/", None),
     "xeofs": ("https://xeofs.readthedocs.io/en/latest/", None),
     "metpy": ("https://unidata.github.io/MetPy/latest/", None),
 }

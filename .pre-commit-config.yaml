@@ -3,7 +3,7 @@
 
 # Set the default stage to commit, only checking during submission
 default_stages:
-- commit
+- pre-commit
 
 # Set the default language version, and you can also set language_version separately in each repos
 default_language_version:

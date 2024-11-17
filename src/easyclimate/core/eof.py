@@ -9,7 +9,7 @@ import xarray as xr
 import xeofs
 import warnings
 from .variability import remove_seasonal_cycle_mean as remove_seasonal_cycle_mean_func
-from datatree import DataTree
+from .datanode import DataNode
 from typing import Literal
 
 import warnings
@@ -141,7 +141,7 @@ def save_EOF_model(
     engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for writing the saved model.
     **kwargs: :py:class:`dict <dict>`.
-        Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
+        Additional keyword arguments to pass to `xarray.DataTree.to_netcdf()` or `xarray.DataTree.to_zarr()`.
     """
     model.save(
         path=path, overwrite=overwrite, save_data=save_data, engine=engine, **kwargs
@@ -362,7 +362,7 @@ def save_REOF_model(
     engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for writing the saved model.
     **kwargs: :py:class:`dict <dict>`.
-        Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
+        Additional keyword arguments to pass to `xarray.DataTree.to_netcdf()` or `xarray.DataTree.to_zarr()`.
     """
     model.save(
         path=path, overwrite=overwrite, save_data=save_data, engine=engine, **kwargs
@@ -605,7 +605,7 @@ def save_MCA_model(
     engine: {"zarr", "netcdf4", "h5netcdf"}, default `"zarr"`
         Xarray backend engine to use for writing the saved model.
     **kwargs: :py:class:`dict <dict>`.
-        Additional keyword arguments to pass to `DataTree.to_netcdf()` or `DataTree.to_zarr()`.
+        Additional keyword arguments to pass to `xarray.DataTree.to_netcdf()` or `xarray.DataTree.to_zarr()`.
     """
     model.save(
         path=path, overwrite=overwrite, save_data=save_data, engine=engine, **kwargs
@@ -636,7 +636,7 @@ def load_MCA_model(
 
 def calc_MCA_analysis(
     model: xeofs.cross.MCA, correction=None, alpha=0.05, PC_normalized: bool = True
-) -> DataTree:
+) -> DataNode:
     """
     Calculate the results of the EOF model.
 
@@ -665,7 +665,7 @@ def calc_MCA_analysis(
 
     Returns
     -------
-    The results of the MCA model (:py:class:`datatree.DataTree <datatree.DataTree>`).
+    The results of the MCA model (:py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **EOF**: The singular vectors of the left and right field.
     - **PC**: The scores of the left and right field. The scores in MCA are the projection of the left and right field onto the left and right singular vector of the cross-covariance matrix.
@@ -805,7 +805,7 @@ def calc_MCA_analysis(
     - Cheng, X., & Dunkerton, T. J. (1995). Orthogonal Rotation of Spatial Patterns Derived from Singular Value Decomposition Analysis. Journal of Climate, 8(11), 2631-2643. https://doi.org/10.1175/1520-0442(1995)008<2631:OROSPD>2.0.CO;2
     - Swenson, E. (2015). Continuum Power CCA: A Unified Approach for Isolating Coupled Modes. Journal of Climate, 28(3), 1016-1030. https://doi.org/10.1175/JCLI-D-14-00451.1
     """
-    model_output = DataTree(name="root")
+    model_output = DataNode(name="root")
 
     # components
     left_components = model.components()[0]
@@ -813,8 +813,8 @@ def calc_MCA_analysis(
     left_components.name = "left_EOF"
     right_components.name = "right_EOF"
 
-    model_output["EOF/left_EOF"] = DataTree(left_components)
-    model_output["EOF/right_EOF"] = DataTree(right_components)
+    model_output["EOF/left_EOF"] = left_components
+    model_output["EOF/right_EOF"] = right_components
 
     # scores
     left_scores = model.scores(normalized=PC_normalized)[0]
@@ -822,48 +822,46 @@ def calc_MCA_analysis(
     left_scores.name = "left_PC"
     right_scores.name = "right_PC"
 
-    model_output["PC/left_PC"] = DataTree(left_scores)
-    model_output["PC/right_PC"] = DataTree(right_scores)
+    model_output["PC/left_PC"] = left_scores
+    model_output["PC/right_PC"] = right_scores
 
     # correlation_coefficients_X
     correlation_coefficients_X = model.correlation_coefficients_X()
-    model_output["correlation_coefficients_X"] = DataTree(correlation_coefficients_X)
+    model_output["correlation_coefficients_X"] = correlation_coefficients_X
 
     # correlation_coefficients_Y
     correlation_coefficients_Y = model.correlation_coefficients_Y()
-    model_output["correlation_coefficients_Y"] = DataTree(correlation_coefficients_Y)
+    model_output["correlation_coefficients_Y"] = correlation_coefficients_Y
 
     # covariance_fraction_CD95
     covariance_fraction = model.covariance_fraction_CD95()
-    model_output["covariance_fraction"] = DataTree(covariance_fraction)
+    model_output["covariance_fraction"] = covariance_fraction
 
     # cross_correlation_coefficients
     cross_correlation_coefficients = model.cross_correlation_coefficients()
-    model_output["cross_correlation_coefficients"] = DataTree(
-        cross_correlation_coefficients
-    )
+    model_output["cross_correlation_coefficients"] = cross_correlation_coefficients
 
     # fraction_variance_X_explained_by_X
     fraction_variance_X_explained_by_X = model.fraction_variance_X_explained_by_X()
-    model_output["fraction_variance_X_explained_by_X"] = DataTree(
+    model_output["fraction_variance_X_explained_by_X"] = (
         fraction_variance_X_explained_by_X
     )
 
     # fraction_variance_Y_explained_by_X
     fraction_variance_Y_explained_by_X = model.fraction_variance_Y_explained_by_X()
-    model_output["fraction_variance_Y_explained_by_X"] = DataTree(
+    model_output["fraction_variance_Y_explained_by_X"] = (
         fraction_variance_Y_explained_by_X
     )
 
     # fraction_variance_Y_explained_by_Y
     fraction_variance_Y_explained_by_Y = model.fraction_variance_Y_explained_by_Y()
-    model_output["fraction_variance_Y_explained_by_Y"] = DataTree(
+    model_output["fraction_variance_Y_explained_by_Y"] = (
         fraction_variance_Y_explained_by_Y
     )
 
     # squared_covariance_fraction
     squared_covariance_fraction = model.squared_covariance_fraction()
-    model_output["squared_covariance_fraction"] = DataTree(squared_covariance_fraction)
+    model_output["squared_covariance_fraction"] = squared_covariance_fraction
 
     # heterogeneous_patterns
     tmp = model.heterogeneous_patterns(correction=correction, alpha=alpha)
@@ -872,17 +870,17 @@ def calc_MCA_analysis(
     pvalues_of_left_heterogeneous_patterns = tmp[1][0]
     pvalues_of_right_heterogeneous_patterns = tmp[1][1]
 
-    model_output["heterogeneous_patterns/left_heterogeneous_patterns"] = DataTree(
+    model_output["heterogeneous_patterns/left_heterogeneous_patterns"] = (
         left_heterogeneous_patterns
     )
-    model_output["heterogeneous_patterns/right_heterogeneous_patterns"] = DataTree(
+    model_output["heterogeneous_patterns/right_heterogeneous_patterns"] = (
         right_heterogeneous_patterns
     )
     model_output["heterogeneous_patterns/pvalues_of_left_heterogeneous_patterns"] = (
-        DataTree(pvalues_of_left_heterogeneous_patterns)
+        pvalues_of_left_heterogeneous_patterns
     )
     model_output["heterogeneous_patterns/pvalues_of_right_heterogeneous_patterns"] = (
-        DataTree(pvalues_of_right_heterogeneous_patterns)
+        pvalues_of_right_heterogeneous_patterns
     )
 
     # homogeneous_patterns
@@ -892,17 +890,17 @@ def calc_MCA_analysis(
     pvalues_of_left_homogeneous_patterns = tmp[1][0]
     pvalues_of_right_homogeneous_patterns = tmp[1][1]
 
-    model_output["homogeneous_patterns/left_homogeneous_patterns"] = DataTree(
+    model_output["homogeneous_patterns/left_homogeneous_patterns"] = (
         left_homogeneous_patterns
     )
-    model_output["homogeneous_patterns/right_homogeneous_patterns"] = DataTree(
+    model_output["homogeneous_patterns/right_homogeneous_patterns"] = (
         right_homogeneous_patterns
     )
     model_output["homogeneous_patterns/pvalues_of_left_homogeneous_patterns"] = (
-        DataTree(pvalues_of_left_homogeneous_patterns)
+        pvalues_of_left_homogeneous_patterns
     )
     model_output["homogeneous_patterns/pvalues_of_right_homogeneous_patterns"] = (
-        DataTree(pvalues_of_right_homogeneous_patterns)
+        pvalues_of_right_homogeneous_patterns
     )
 
     return model_output
@@ -913,7 +911,7 @@ def get_MCA_projection(
     data_left: xr.DataArray | xr.Dataset,
     data_right: xr.DataArray | xr.Dataset,
     normalized: bool = True,
-) -> DataTree:
+) -> DataNode:
     """
     Get the expansion coefficients of "unseen" data. The expansion coefficients are obtained by projecting data onto the singular vectors.
 
@@ -930,7 +928,7 @@ def get_MCA_projection(
 
     Returns
     -------
-    scores: :py:class:`datatree.DataTree <datatree.DataTree>`
+    scores: :py:class:`easyclimate.DataNode <easyclimate.DataNode>`
         - **scores1**: Left scores.
         - **scores2**: Right scores.
     """
@@ -940,7 +938,7 @@ def get_MCA_projection(
     scores1.name = "scores1"
     scores2.name = "scores2"
 
-    projection_output = DataTree(name="root")
-    projection_output["scores1"] = DataTree(scores1)
-    projection_output["scores2"] = DataTree(scores2)
+    projection_output = DataNode(name="root")
+    projection_output["scores1"] = scores1
+    projection_output["scores2"] = scores2
     return projection_output

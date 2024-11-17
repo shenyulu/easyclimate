@@ -267,7 +267,7 @@ def calc_apparent_moisture_sink(
     vertical_dim: str,
     vertical_dim_units: str,
     time_units: str,
-    specific_humidity_units: str,
+    specific_humidity_data_units: str,
     lon_dim="lon",
     lat_dim="lat",
     time_dim="time",
@@ -295,7 +295,7 @@ def calc_apparent_moisture_sink(
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
     time_units: :py:class:`str <str>`.
         The unit corresponding to the time dimension value. Optional values are `seconds`, `months`, `years` and so on.
-    specific_humidity_units: :py:class:`str <str>`.
+    specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
@@ -319,7 +319,7 @@ def calc_apparent_moisture_sink(
         - `HAO Lisheng, MA Ning, HE Liye. Circulation anomalies characteritics of the abnormal drought and high temperature event in the middle and lower reaches of the Yangtze River in summer of 2022[J]. Arid Meteorology, 2022, 40(5): 721-732 <https://doi.org/10.11755/j.issn.1006-7639(2022)-05-0721>`__
     """
     specific_humidity_data = transfer_data_multiple_units(
-        specific_humidity_data, specific_humidity_units, "kg/kg"
+        specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
 
     # Convert time units to seconds

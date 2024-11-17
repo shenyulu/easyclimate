@@ -47,16 +47,17 @@ easyclimate using ``conda`` or ``pip``.
 Required:
 
 * `numpy <http://www.numpy.org/>`__ (1.24.3 or later)
-* `xarray <http://xarray.pydata.org/>`__ (0.17.0 or later)
-* `geocat.viz <https://github.com/NCAR/geocat-viz>`__ (2023.10.0 or before)
+* `xarray <http://xarray.pydata.org/>`__ (2014.10.0 or later)
+* `geocat.viz <https://github.com/NCAR/geocat-viz>`__
 * `cartopy <https://scitools.org.uk/cartopy/docs/latest/>`__ (0.20 or later)
-* `xeofs <https://github.com/nicrie/xeofs>`__ (2.2.2 or later)
+* `xeofs <https://github.com/nicrie/xeofs>`__ (3.0.0 or later)
 
 * `matplotlib <https://matplotlib.org/>`__
-* `pandas <http://pandas.pydata.org/>`__
+* `pandas <http://pandas.pydata.org/>`__ (2.2.0 or later)
 * `fast-barnes-py <https://github.com/MeteoSwiss/fast-barnes-py>`__
 * `python-oceans <https://github.com/pyoceans/python-oceans>`__
 * `intel-fortran-rt <https://www.intel.com/content/www/us/en/developer/tools/oneapi/fortran-compiler.html>`__
+* `dpcpp-cpp-rt 2025.0.0 <https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compiler.html>`__
 * `scipy <https://docs.scipy.org/doc/scipy/reference/>`__ (1.8.0 or later)
 * `statsmodels <https://github.com/statsmodels/statsmodels>`__
 * `geocat-comp <https://github.com/NCAR/geocat-comp>`__
@@ -66,13 +67,13 @@ Required:
 
 * `pymannkendall <https://github.com/mmhs013/pymannkendall>`__
 * `flox <https://github.com/xarray-contrib/flox>`__
-* `xarray-datatree <https://github.com/xarray-contrib/datatree>`__
 * `xarray-regrid <https://github.com/EXCITED-CO2/xarray-regrid>`__
 * `gsw-xarray <https://github.com/DocOtak/gsw-xarray>`__
 * `pooch <https://github.com/fatiando/pooch>`__
 * `tqdm <https://github.com/tqdm/tqdm>`__
 * `zarr <https://github.com/zarr-developers/zarr-python>`__
 * `metpy <https://github.com/Unidata/MetPy>`__
+* `tcpyPI <https://github.com/dgilford/tcpyPI>`__
 
 Our examples use other packages as well which are not used within easyclimate itself.
 If you wish to **run the examples in the documentation**, you will also have to
