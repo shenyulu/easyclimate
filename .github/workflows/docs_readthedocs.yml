@@ -52,18 +52,13 @@ jobs:
         uses: ad-m/github-push-action@v0.8.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
+          branch: main-pages
           force: true
           directory: ./docs/build/html
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./docs/build/html
-
       - name: Trigger RTDs build
-        uses: dfm/rtds-action@v1
-        with:
-          webhook_url: ${{ secrets.RTDS_WEBHOOK_URL }}
-          webhook_token: ${{ secrets.RTDS_WEBHOOK_TOKEN }}
-          commit_ref: ${{ github.ref }}
+        run: |
+         curl -X POST \
+         -H "Content-Type: application/x-www-form-urlencoded" \
+         -d "branches=dev&token=${{ secrets.RTDS_WEBHOOK_TOKEN }}" \
+         ${{ secrets.RTDS_WEBHOOK_URL }}
