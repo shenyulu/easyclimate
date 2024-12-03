@@ -1,0 +1,70 @@
+name: docs_readthedocs
+
+# execute this workflow automatically when a we push to master
+on:
+  push:
+    branches: [ main, dev ]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# https://github.com/ad-m/github-push-action/issues/52
+permissions: write-all
+
+jobs:
+
+  build_docs_job:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: '3.10'
+
+      - name: Install OptiPNG and Build 🔧
+        run: |
+          sudo apt-get install -y optipng
+
+      - name: Install dependencies 💻
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: make the sphinx docs
+        run: |
+          # make -C docs clean
+          make -C docs html
+
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd docs/build/html/
+          git init
+          touch .nojekyll
+          git add -A
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
+
+      - name: Force push to destination branch 🚀
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          force: true
+          directory: ./docs/build/html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/build/html
+
+
+      - name: Trigger RTDs build
+        uses: dfm/rtds-action@v1
+        with:
+          webhook_url: ${{ secrets.RTDS_WEBHOOK_URL }}
+          webhook_token: ${{ secrets.RTDS_WEBHOOK_TOKEN }}
+          commit_ref: ${{ github.ref }}
