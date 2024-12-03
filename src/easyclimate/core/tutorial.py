@@ -157,6 +157,9 @@ def open_tutorial_dataset(
     logger = pooch.get_logger()
     logger.setLevel("WARNING")
 
+    # pass user-agent to allow rtd downloading from github
+    downloader = pooch.HTTPDownloader(headers={"User-Agent": "easyclimate"})
+
     cache_dir = _construct_cache_dir(cache_dir)
     if name in external_urls:
         url = external_urls[name]
@@ -182,7 +185,11 @@ def open_tutorial_dataset(
 
     # retrieve the file
     filepath = pooch.retrieve(
-        url=url, known_hash=None, path=cache_dir, progressbar=progressbar
+        url=url,
+        known_hash=None,
+        path=cache_dir,
+        progressbar=progressbar,
+        downloader=downloader,
     )
 
     if Path(filepath).suffix == ".nc" or Path(filepath).suffix == ".grib":

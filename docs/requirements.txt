@@ -26,6 +26,7 @@ metpy
 tcpypi
 netCDF4
 h5netcdf
+seaborn
 
 sphinx == 8.0.2
 recommonmark == 0.7.1
