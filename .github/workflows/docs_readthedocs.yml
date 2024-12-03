@@ -61,7 +61,6 @@ jobs:
         with:
           path: ./docs/build/html
 
-
       - name: Trigger RTDs build
         uses: dfm/rtds-action@v1
         with:
