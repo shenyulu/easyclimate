@@ -48,17 +48,14 @@ jobs:
           git config --local user.name "GitHub Action"
           git commit -m 'deploy'
 
-      - name: Force push to destination branch 🚀
-        uses: ad-m/github-push-action@v0.8.0
+      - uses: actions/upload-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main-pages
-          force: true
-          directory: ./docs/build/html
+          name: notebooks-for-${{ github.sha }}
+          path: docs/build/html
 
       - name: Trigger RTDs build
-        run: |
-         curl -X POST \
-         -H "Content-Type: application/x-www-form-urlencoded" \
-         -d "branches=dev&token=${{ secrets.RTDS_WEBHOOK_TOKEN }}" \
-         ${{ secrets.RTDS_WEBHOOK_URL }}
+        uses: dfm/rtds-action@v1
+        with:
+            webhook_url: ${{ secrets.RTDS_WEBHOOK_URL }}
+            webhook_token: ${{ secrets.RTDS_WEBHOOK_TOKEN }}
+            commit_ref: ${{ github.ref }}
