@@ -1,0 +1,986 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>easyclimate.core.mk_test &#8212; easyclimate v2024.11.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f47278f1"></script>
+    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/core/mk_test/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="2024-12-03"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="easyclimate v2024.11.0 documentation - Home"/>
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark pst-js-only" alt="easyclimate v2024.11.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/air_sea_interaction.html">Air–sea interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/mesoscale.html">Mesoscale</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api_index/index.html">List of functions and classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.html">easyclimate.field.air_sea_interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.html">easyclimate.field.teleconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.html">easyclimate.field.monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.html">easyclimate.field.ocean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.mesoscale.html">easyclimate.field.mesoscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.mesoscale.potential_intensity.html">easyclimate.field.mesoscale.potential_intensity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/core/mk_test/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/core/mk_test/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.core.mk_test</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.original_test"><code class="docutils literal notranslate"><span class="pre">original_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.hamed_rao_modification_test"><code class="docutils literal notranslate"><span class="pre">hamed_rao_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.yue_wang_modification_test"><code class="docutils literal notranslate"><span class="pre">yue_wang_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.pre_whitening_modification_test"><code class="docutils literal notranslate"><span class="pre">pre_whitening_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test"><code class="docutils literal notranslate"><span class="pre">trend_free_pre_whitening_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.seasonal_test"><code class="docutils literal notranslate"><span class="pre">seasonal_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.regional_test"><code class="docutils literal notranslate"><span class="pre">regional_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.correlated_seasonal_test"><code class="docutils literal notranslate"><span class="pre">correlated_seasonal_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.sens_slope"><code class="docutils literal notranslate"><span class="pre">sens_slope()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.seasonal_sens_slope"><code class="docutils literal notranslate"><span class="pre">seasonal_sens_slope()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-easyclimate.core.mk_test">
+<span id="easyclimate-core-mk-test"></span><h1>easyclimate.core.mk_test<a class="headerlink" href="#module-easyclimate.core.mk_test" title="Link to this heading">#</a></h1>
+<p>Mann-Kendall Test</p>
+<p>The Mann-Kendall Trend Test (sometimes called the MK test) is used to analyze time series data for consistently increasing or decreasing trends (monotonic trends). It is a non-parametric test, which means it works for all distributions (i.e. data doesn’t have to meet the assumption of normality), but data should have no serial correlation. If the data has a serial correlation, it could affect in significant level (p-value). It could lead to misinterpretation. To overcome this problem, researchers proposed several modified Mann-Kendall tests (Hamed and Rao Modified MK Test, Yue and Wang Modified MK Test, Modified MK test using Pre-Whitening method, etc.). Seasonal Mann-Kendall test also developed to remove the effect of seasonality.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/mmhs013/pymannkendall">mmhs013/pymannkendall</a></p></li>
+<li><p>Hussain et al., (2019). pyMannKendall: a python package for non parametric Mann Kendall family of trend tests.. Journal of Open Source Software, 4(39), 1556, <a class="reference external" href="https://doi.org/10.21105/joss.01556">https://doi.org/10.21105/joss.01556</a></p></li>
+</ul>
+</div>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.original_test" title="easyclimate.core.mk_test.original_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">original_test</span></code></a>(→ xarray.Dataset | xarray.DataTree)</p></td>
+<td><p>Original Mann-Kendall test is a nonparametric test, which does not consider serial correlation or seasonal effects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.hamed_rao_modification_test" title="easyclimate.core.mk_test.hamed_rao_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hamed_rao_modification_test</span></code></a>(...)</p></td>
+<td><p>This modified MK test proposed by Hamed and Rao (1998) to address serial autocorrelation issues. They suggested a variance correction approach to improve trend analysis. User can consider first n significant lag by insert lag number in this function. By default, it considered all significant lags.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.yue_wang_modification_test" title="easyclimate.core.mk_test.yue_wang_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yue_wang_modification_test</span></code></a>(...)</p></td>
+<td><p>This is also a variance correction method for considered serial autocorrelation proposed by Yue, S., &amp; Wang, C. Y. (2004). User can also set their desired significant n lags for the calculation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.pre_whitening_modification_test" title="easyclimate.core.mk_test.pre_whitening_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pre_whitening_modification_test</span></code></a>(...)</p></td>
+<td><p>This test suggested by Yue and Wang (2002) to using Pre-Whitening the time series before the application of trend test.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test" title="easyclimate.core.mk_test.trend_free_pre_whitening_modification_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trend_free_pre_whitening_modification_test</span></code></a>(...)</p></td>
+<td><p>This test also proposed by Yue and Wang (2002) to remove trend component and then Pre-Whitening the time series before application of trend test.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.seasonal_test" title="easyclimate.core.mk_test.seasonal_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seasonal_test</span></code></a>(→ xarray.Dataset | xarray.DataTree)</p></td>
+<td><p>For seasonal time series data, Hirsch, R.M., Slack, J.R. and Smith, R.A. (1982) proposed this test to calculate the seasonal trend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.regional_test" title="easyclimate.core.mk_test.regional_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">regional_test</span></code></a>(→ xarray.Dataset | xarray.DataTree)</p></td>
+<td><p>Based on Hirsch (1982) proposed seasonal mk test, Helsel, D.R. and Frans, L.M., (2006) suggest regional mk test to calculate the overall trend in a regional scale.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.correlated_seasonal_test" title="easyclimate.core.mk_test.correlated_seasonal_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlated_seasonal_test</span></code></a>(...)</p></td>
+<td><p>This method proposed by Hipel (1994) used, when time series significantly correlated with the preceding one or more months/seasons.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.sens_slope" title="easyclimate.core.mk_test.sens_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sens_slope</span></code></a>(→ xarray.Dataset | xarray.DataTree)</p></td>
+<td><p>This method proposed by Theil (1950) and Sen (1968) to estimate the magnitude of the monotonic trend. Intercept is calculate using Conover, W.J. (1980) method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.mk_test.seasonal_sens_slope" title="easyclimate.core.mk_test.seasonal_sens_slope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seasonal_sens_slope</span></code></a>(→ xarray.Dataset | xarray.DataTree)</p></td>
+<td><p>This method proposed by Hipel (1994) to estimate the magnitude of the monotonic trend, when data has seasonal effects. Intercept is calculate using Conover, W.J. (1980) method.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.original_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">original_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.original_test" title="Link to this definition">#</a></dt>
+<dd><p>Original Mann-Kendall test is a nonparametric test, which does not consider serial correlation or seasonal effects.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.hamed_rao_modification_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">hamed_rao_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.hamed_rao_modification_test" title="Link to this definition">#</a></dt>
+<dd><p>This modified MK test proposed by Hamed and Rao (1998) to address serial autocorrelation issues. They suggested a variance correction approach to improve trend analysis. User can consider first n significant lag by insert lag number in this function. By default, it considered all significant lags.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hamed, K. H., &amp; Rao, A. R. (1998). A modified Mann-Kendall trend test for autocorrelated data. Journal of hydrology, 204(1-4), 182-196. doi: <a class="reference external" href="http://doi.org/10.1016/S0022-1694(97)00125-X">http://doi.org/10.1016/S0022-1694(97)00125-X</a></p>
+</div>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>lag: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>.</dt><dd><p>No. of First Significant Lags</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.yue_wang_modification_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">yue_wang_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.yue_wang_modification_test" title="Link to this definition">#</a></dt>
+<dd><p>This is also a variance correction method for considered serial autocorrelation proposed by Yue, S., &amp; Wang, C. Y. (2004). User can also set their desired significant n lags for the calculation.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Yue, S., &amp; Wang, C. (2004). The Mann-Kendall test modified by effective sample size to detect trend in serially correlated hydrological series. Water resources management, 18(3), 201-218. doi: <a class="reference external" href="http://doi.org/10.1023/B:WARM.0000043140.61082.60">http://doi.org/10.1023/B:WARM.0000043140.61082.60</a></p>
+</div>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>lag: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>.</dt><dd><p>No. of First Significant Lags</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.pre_whitening_modification_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">pre_whitening_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.pre_whitening_modification_test" title="Link to this definition">#</a></dt>
+<dd><p>This test suggested by Yue and Wang (2002) to using Pre-Whitening the time series before the application of trend test.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Yue, S., &amp; Wang, C. Y. (2002). Applicability of prewhitening to eliminate the influence of serial correlation on the Mann-Kendall test. Water resources research, 38(6), 4-1. doi: <a class="reference external" href="http://doi.org/10.1029/2001WR000861">http://doi.org/10.1029/2001WR000861</a></p>
+</div>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.trend_free_pre_whitening_modification_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">trend_free_pre_whitening_modification_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test" title="Link to this definition">#</a></dt>
+<dd><p>This test also proposed by Yue and Wang (2002) to remove trend component and then Pre-Whitening the time series before application of trend test.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Yue, S., &amp; Wang, C. Y. (2002). Applicability of prewhitening to eliminate the influence of serial correlation on the Mann-Kendall test. Water resources research, 38(6), 4-1. doi: <a class="reference external" href="http://doi.org/10.1029/2001WR000861">http://doi.org/10.1029/2001WR000861</a></p>
+</div>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.seasonal_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">seasonal_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.seasonal_test" title="Link to this definition">#</a></dt>
+<dd><p>For seasonal time series data, Hirsch, R.M., Slack, J.R. and Smith, R.A. (1982) proposed this test to calculate the seasonal trend.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hirsch, R. M., Slack, J. R., &amp; Smith, R. A. (1982). Techniques of trend analysis for monthly water quality data. Water resources research, 18(1), 107-121. doi: <a class="reference external" href="http://doi.org/10.1029/WR018i001p00107">http://doi.org/10.1029/WR018i001p00107</a></p>
+</div>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>Significance level (0.05 is the default).</p>
+</dd>
+<dt>period: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default 12.</dt><dd><p>Seasonal cycle. For monthly data it is 12, weekly data it is 52.</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.regional_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">regional_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.regional_test" title="Link to this definition">#</a></dt>
+<dd><p>Based on Hirsch (1982) proposed seasonal mk test, Helsel, D.R. and Frans, L.M., (2006) suggest regional mk test to calculate the overall trend in a regional scale.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hirsch, R. M., Slack, J. R., &amp; Smith, R. A. (1982). Techniques of trend analysis for monthly water quality data. Water resources research, 18(1), 107-121. doi: <a class="reference external" href="http://doi.org/10.1029/WR018i001p00107">http://doi.org/10.1029/WR018i001p00107</a></p>
+</div>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Returns<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.correlated_seasonal_test">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">correlated_seasonal_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.correlated_seasonal_test" title="Link to this definition">#</a></dt>
+<dd><p>This method proposed by Hipel (1994) used, when time series significantly correlated with the preceding one or more months/seasons.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hipel, K. W., &amp; McLeod, A. I. (1994). Time series modelling of water resources and environmental systems (Vol. 45). Elsevier.</p>
+</div>
+<section id="id13">
+<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>period: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default 12.</dt><dd><p>Seasonal cycle. For monthly data it is 12, weekly data it is 52.</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.sens_slope">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">sens_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.sens_slope" title="Link to this definition">#</a></dt>
+<dd><p>This method proposed by Theil (1950) and Sen (1968) to estimate the magnitude of the monotonic trend. Intercept is calculate using Conover, W.J. (1980) method.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>Theil, H. (1950). A rank-invariant method of linear and polynominal regression analysis (parts 1-3). In Ned. Akad. Wetensch. Proc. Ser. A (Vol. 53, pp. 1397-1412).</p></li>
+<li><p>Sen, P. K. (1968). Estimates of the regression coefficient based on Kendall’s tau. Journal of the American statistical association, 63(324), 1379-1389. doi: <a class="reference external" href="http://doi.org/10.1080/01621459.1968.10480934">http://doi.org/10.1080/01621459.1968.10480934</a></p></li>
+</ul>
+</div>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.05.</dt><dd><p>significance level (0.05 is the default).</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.mk_test.seasonal_sens_slope">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.mk_test.</span></span><span class="sig-name descname"><span class="pre">seasonal_sens_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dataset_returns'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataTree</span></a></span></span><a class="headerlink" href="#easyclimate.core.mk_test.seasonal_sens_slope" title="Link to this definition">#</a></dt>
+<dd><p>This method proposed by Hipel (1994) to estimate the magnitude of the monotonic trend, when data has seasonal effects. Intercept is calculate using Conover, W.J. (1980) method.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Hipel, K. W., &amp; McLeod, A. I. (1994). Time series modelling of water resources and environmental systems (Vol. 45). Elsevier.</p>
+</div>
+<section id="id17">
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></span></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Dimension(s) over which to apply MK test.</p>
+</dd>
+<dt>period: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default 12.</dt><dd><p>Seasonal cycle. For monthly data it is 12, weekly data it is 52.</p>
+</dd>
+<dt>returns_type: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>dataset_returns</cite>.</dt><dd><p>Returns the sorting type of the value. Sort by variable (<cite>dataset_returns</cite>) or by return value (<cite>dataset_vars</cite>).</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h3>Returns<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<p>Mann-Kendall Test results (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>trend</strong>: tells the trend (increasing, decreasing or no trend)</p></li>
+<li><p><strong>h</strong>: True (if trend is present) or False (if the trend is absence)</p></li>
+<li><p><strong>p</strong>: p-value of the significance test</p></li>
+<li><p><strong>z</strong>: normalized test statistics</p></li>
+<li><p><strong>Tau</strong>: Kendall Tau</p></li>
+<li><p><strong>s</strong>: Mann-Kendal’s score</p></li>
+<li><p><strong>var_s</strong>: Variance S</p></li>
+<li><p><strong>slope</strong>: Theil-Sen estimator/slope</p></li>
+<li><p><strong>intercept</strong>: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.original_test"><code class="docutils literal notranslate"><span class="pre">original_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.hamed_rao_modification_test"><code class="docutils literal notranslate"><span class="pre">hamed_rao_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.yue_wang_modification_test"><code class="docutils literal notranslate"><span class="pre">yue_wang_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.pre_whitening_modification_test"><code class="docutils literal notranslate"><span class="pre">pre_whitening_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.trend_free_pre_whitening_modification_test"><code class="docutils literal notranslate"><span class="pre">trend_free_pre_whitening_modification_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.seasonal_test"><code class="docutils literal notranslate"><span class="pre">seasonal_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.regional_test"><code class="docutils literal notranslate"><span class="pre">regional_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.correlated_seasonal_test"><code class="docutils literal notranslate"><span class="pre">correlated_seasonal_test()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.sens_slope"><code class="docutils literal notranslate"><span class="pre">sens_slope()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.mk_test.seasonal_sens_slope"><code class="docutils literal notranslate"><span class="pre">seasonal_sens_slope()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2024, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2024-12-03.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

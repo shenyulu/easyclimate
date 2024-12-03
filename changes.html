@@ -1,0 +1,774 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Changelog &#8212; easyclimate v2024.11.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="_static/documentation_options.js?v=f47278f1"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/tabs.js?v=3ee01567"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'changes';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="easyclimate.field.mesoscale.potential_intensity" href="api_index/generated/easyclimate.field.mesoscale.potential_intensity.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="2024-12-03"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/easyclimate-logo.svg" class="logo__image only-light" alt="easyclimate v2024.11.0 documentation - Home"/>
+    <img src="_static/easyclimate-logo.svg" class="logo__image only-dark pst-js-only" alt="easyclimate v2024.11.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery_output/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery_output/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery_output/plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="static_docs/air_sea_interaction.html">Air–sea interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/mesoscale.html">Mesoscale</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_index/index.html">List of functions and classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.html">easyclimate.field.air_sea_interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.html">easyclimate.field.teleconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.monsoon.html">easyclimate.field.monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.html">easyclimate.field.ocean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.mesoscale.html">easyclimate.field.mesoscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.mesoscale.potential_intensity.html">easyclimate.field.mesoscale.potential_intensity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Changelog</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Fchanges.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/changes.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Changelog</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-11-0">Version 2024.11.0</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-changed">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-10-0">Version 2024.10.0</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-08-01">Version 2024.08.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-05-01">Version 2024.05.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">What’s Changed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-contributors">New Contributors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-03-01">Version 2024.03.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-01-01">Version 2024.01.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2023-12-01">Version 2023.12.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">What’s Changed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">New Contributors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-0-0-1">Version 0.0.1</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">What’s Changed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">New Contributors</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
+<section id="version-2024-11-0">
+<h2>Version 2024.11.0<a class="headerlink" href="#version-2024-11-0" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2024/11/17</em></p>
+<section id="what-s-changed">
+<h3>What’s Changed<a class="headerlink" href="#what-s-changed" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/85/commits/67ed21523b17105c7e353dae85d9ba8b7e5c36e9">fix: modify <code class="docutils literal notranslate"><span class="pre">specific_humidity_units</span></code> to <code class="docutils literal notranslate"><span class="pre">specific_humidity_data_units</span></code></a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/85/commits/e7defd7e398e5836bde1a015ed52c9c2e703ff42">fix: rename file in the <code class="docutils literal notranslate"><span class="pre">field</span></code></a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/85/commits/a4fa73d2bbb333fac5a157857429d6e17cae88d1">fix: fix error DataTree immigration</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/85/commits/e7defd7e398e5836bde1a015ed52c9c2e703ff42">feat: add Potential intensity of TC</a></p></li>
+</ul>
+<p><strong>Full Changelog</strong>: https://github.com/shenyulu/easyclimate/compare/v2024.10.0…v2024.11.0</p>
+</section>
+</section>
+<section id="version-2024-10-0">
+<h2>Version 2024.10.0<a class="headerlink" href="#version-2024-10-0" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2024/10/09</em></p>
+<section id="id1">
+<h3>What’s Changed<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/727ad88dce8902d72bee249f7c485d3860108a75">feat: add quick_draw_rectangular_box</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/18740c3ffd78dcf55b1503b1f9284993dad47535">feat: Modify the units conversion module</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/470e4451dcb9c67b5d1af8e06de4ed6c1968721f">feat: Enhance unit availability</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/5692972b44fcc712da6512976ca43da84739308b">feat: add water vapor parameter calculation function</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/930444e720dae3a000bd262fb67e59cc91ce8380">fix: fix error introduced by xeofs 3.0.0</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/125a161232a3879e6aab13046540685e61dbd29c">fix: Type expression</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/e6a32dabf54fdf2b7f0df5d27d37c466c34386ea">update: fix eof error for xeof&gt;3.0.0</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/7314b5f38b3c605d38bb15626e496e521727ac09">test: add test for water vapor calculation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/fa042c132701c9eb5c707d57514cf29bbc024490">fix: accuracy problem on linux</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/d1486b0d298a29328bfbfe1b748d3122ed002975">depend: update dependency</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/ca25504503ae70a0cfd989e00f7e7cef96d96d17">update: update version of pre<em>commit</em>config</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/77/commits/a4f56b283ed3086f9fd54d13c61651d01bddccd7">fix: test dependency for netcdf</a></p></li>
+</ul>
+<p><strong>Full Changelog</strong>: https://github.com/shenyulu/easyclimate/compare/v2024.08.01…v2024.10.0</p>
+</section>
+</section>
+<section id="version-2024-08-01">
+<h2>Version 2024.08.01<a class="headerlink" href="#version-2024-08-01" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2024/08/02</em></p>
+<section id="id2">
+<h3>What’s Changed<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Update requirements text by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/51</p></li>
+<li><p>Update sphinx from 6.2.1 to 7.3.7 in the requirements.txt by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/52</p></li>
+<li><p>update sphinx version from 6.2.1 to 7.3.7 by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/53</p></li>
+<li><p>build(deps): bump sphinx-autoapi from 3.1.1 to 3.1.2 by &#64;dependabot in https://github.com/shenyulu/easyclimate/pull/54</p></li>
+<li><p>chore: necessary update (2024.08.01) by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/66</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/26d041ce5986104bdd7f0a6c30d195c22b9c8833">fix: update <code class="docutils literal notranslate"><span class="pre">calc_NPWI_monsoon_retreat</span></code> from <code class="docutils literal notranslate"><span class="pre">calc_NPWI_monsoon_detreat</span></code></a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/dcb54394191faf7ae91765f941ab9a157d81ffb2">fix: change name <code class="docutils literal notranslate"><span class="pre">calc_detrend_spatial</span></code> from <code class="docutils literal notranslate"><span class="pre">calc_detrend_data</span></code></a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/deb0c8c799c758c61ac3cfa741fa3d34c68ca63d">test: update calc_NPWI_monsoon_retreat from `calc_NPWI_monsoon_detreat</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/370a26f2660610ee1312e376c25c7f13ceb0e921">feat: add quick_draw_spatial_basemap for quick drawing</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/39052c8a623ec94b760763c5f6203079ec1e90be">depend: Update dependency requirement</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/db3e0738153c5a14704d51bab83c9a38057a7c10">test: add test for quick_draw_spatial_basemap</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/66/commits/d8067e94b0fe98c2ae001148f268952f14c0d41a">fix: File reference modification</a></p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Full Changelog</strong>: https://github.com/shenyulu/easyclimate/compare/v2024.05.01…v2024.08.01</p>
+</section>
+</section>
+<section id="version-2024-05-01">
+<h2>Version 2024.05.01<a class="headerlink" href="#version-2024-05-01" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2024/05/19</em></p>
+<section id="id3">
+<h3>What’s Changed<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add the calculation of virtual temperature and interpolating from the model levels to pressure levels by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/27</p></li>
+<li><p>[pre-commit.ci] pre-commit autoupdate by &#64;pre-commit-ci in https://github.com/shenyulu/easyclimate/pull/29</p></li>
+<li><p>Bump pytest from 8.0.2 to 8.1.1 by &#64;dependabot in https://github.com/shenyulu/easyclimate/pull/28</p></li>
+<li><p>[pre-commit.ci] pre-commit autoupdate by &#64;pre-commit-ci in https://github.com/shenyulu/easyclimate/pull/30</p></li>
+<li><p>update testdata for the change of pyspharm-syl by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/33</p></li>
+<li><p>Remove the pin of xarray by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/34</p></li>
+<li><p>chore: necessary update (2024.04.01) by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/36</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/36/commits/ed57c3941a926229166b634bec467162096a58bb">fix: calculation of ENSO index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/36/commits/f8dc30f9fe46a1bccc0cdb51c525fc2018d2901b">fix: dropping variables using drop is deprecated, use drop_vars</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/36/commits/a82c636611690d571683554d93897991a5512332">refactor, test: rename populate_monmean2everymon and `populate_daym…</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/36/commits/0ef7ca145c74222e08fbd591181a26e0a00ab3d8">docs: add more details for calc_daily_climatological_anomaly</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/36/commits/4930f0d40f5856fb4dc8582e64901145cd45336a">feat: supports the removal of seasonal cycles from the climate averag…</a></p></li>
+</ul>
+</li>
+<li><p>chore: necessary update (2024.05.01) by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/43</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/6570c97e62d32567f1d19f85637dbd7ca79150a0">feat: The calculation of the PNA index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/da59768f9ce8c113f718230f46f8aa1360b5e664">feat: The calculation of the NAO index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/2d4019aa1643710c778985e04e8509473dab2816">refactor: rename field.atm to field.teleconnection</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/890af93ecff65c78aa9c48334a48004dec1cef4b">feat: add teleconnection index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/085e966bf517df60378ade3c24c9615f5df42c2e">feat: add calc_seasonal_mean</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/08d278a5b27ca074a06d5213218f086f60b6b63c">feat: add IOD index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/777c2492800d3ef596228ff977c1264bc4935cf6">refactor, test: use SST data to calculate ENSO index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/03ab712adc190af098d1efbb0813bb2071efb22e">fix: Change the file name to lowercase</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/a938a74e91f5a92076b368bcb2c7f2ed246effeb">feat: add IOBM index</a></p></li>
+<li><p><a class="reference external" href="https://github.com/shenyulu/easyclimate/pull/43/commits/30903458cf71af2adf66dbe1593372fc1af519b0">fix: change module name <code class="docutils literal notranslate"><span class="pre">land_atm_interaction</span></code> to <code class="docutils literal notranslate"><span class="pre">land</span></code></a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="new-contributors">
+<h3>New Contributors<a class="headerlink" href="#new-contributors" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>&#64;pre-commit-ci made their first contribution in https://github.com/shenyulu/easyclimate/pull/29</p></li>
+</ul>
+<p><strong>Full Changelog</strong>: https://github.com/shenyulu/easyclimate/compare/v2024.03.01…v2024.05.01</p>
+</section>
+</section>
+<section id="version-2024-03-01">
+<h2>Version 2024.03.01<a class="headerlink" href="#version-2024-03-01" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2024/03/05</em></p>
+<section id="id4">
+<h3>What’s Changed<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>pin xarray version &lt;=2023.12.0 by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/13</p></li>
+<li><p>modify eof functions and add test and add create .pre-commit-config.yaml by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/16</p></li>
+<li><p>update requirement by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/23</p></li>
+<li><p>remove the pin of geocat.viz by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/24</p></li>
+<li><p>change binder example location by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/25</p></li>
+</ul>
+</section>
+</section>
+<section id="version-2024-01-01">
+<h2>Version 2024.01.01<a class="headerlink" href="#version-2024-01-01" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2024/01/04</em></p>
+<section id="id5">
+<h3>What’s Changed<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Publish version 2024.01.01 by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/9</p></li>
+<li><p>Bump pytest from 7.4.3 to 7.4.4 by &#64;dependabot in https://github.com/shenyulu/easyclimate/pull/8</p></li>
+</ul>
+</section>
+</section>
+<section id="version-2023-12-01">
+<h2>Version 2023.12.01<a class="headerlink" href="#version-2023-12-01" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2023/12/10</em></p>
+<section id="id6">
+<h3>What’s Changed<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Bump sphinx from 6.2.1 to 7.2.6 by &#64;dependabot in https://github.com/shenyulu/easyclimate/pull/2</p></li>
+<li><p>Publish version 2023.12.01 by &#64;shenyulu in https://github.com/shenyulu/easyclimate/pull/3</p></li>
+<li><p>Add pytest (codecov to 44.37%)</p></li>
+<li><p>Improve requirements</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>New Contributors<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>&#64;shenyulu made their first contribution in https://github.com/shenyulu/easyclimate/pull/3</p></li>
+</ul>
+</section>
+</section>
+<section id="version-0-0-1">
+<h2>Version 0.0.1<a class="headerlink" href="#version-0-0-1" title="Link to this heading">#</a></h2>
+<p><em>Released on: 2022/05/02</em></p>
+<section id="id8">
+<h3>What’s Changed<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>First release</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>New Contributors<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>shenyulu</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="api_index/generated/easyclimate.field.mesoscale.potential_intensity.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">easyclimate.field.mesoscale.potential_intensity</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-11-0">Version 2024.11.0</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-changed">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-10-0">Version 2024.10.0</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-08-01">Version 2024.08.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-05-01">Version 2024.05.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">What’s Changed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-contributors">New Contributors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-03-01">Version 2024.03.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2024-01-01">Version 2024.01.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">What’s Changed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-2023-12-01">Version 2023.12.01</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">What’s Changed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">New Contributors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-0-0-1">Version 0.0.1</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">What’s Changed</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">New Contributors</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2024, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2024-12-03.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

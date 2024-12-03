@@ -1,0 +1,1190 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>easyclimate.core.eof &#8212; easyclimate v2024.11.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f47278f1"></script>
+    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/core/eof/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="2024-12-03"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="easyclimate v2024.11.0 documentation - Home"/>
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark pst-js-only" alt="easyclimate v2024.11.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/air_sea_interaction.html">Air–sea interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/mesoscale.html">Mesoscale</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api_index/index.html">List of functions and classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.html">easyclimate.field.air_sea_interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.html">easyclimate.field.teleconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.html">easyclimate.field.monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.html">easyclimate.field.ocean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.mesoscale.html">easyclimate.field.mesoscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.mesoscale.potential_intensity.html">easyclimate.field.mesoscale.potential_intensity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/core/eof/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/core/eof/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.core.eof</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_EOF_model"><code class="docutils literal notranslate"><span class="pre">get_EOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.save_EOF_model"><code class="docutils literal notranslate"><span class="pre">save_EOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.load_EOF_model"><code class="docutils literal notranslate"><span class="pre">load_EOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.calc_EOF_analysis"><code class="docutils literal notranslate"><span class="pre">calc_EOF_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_EOF_projection"><code class="docutils literal notranslate"><span class="pre">get_EOF_projection()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_REOF_model"><code class="docutils literal notranslate"><span class="pre">get_REOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.save_REOF_model"><code class="docutils literal notranslate"><span class="pre">save_REOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.load_REOF_model"><code class="docutils literal notranslate"><span class="pre">load_REOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.calc_REOF_analysis"><code class="docutils literal notranslate"><span class="pre">calc_REOF_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_REOF_projection"><code class="docutils literal notranslate"><span class="pre">get_REOF_projection()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_MCA_model"><code class="docutils literal notranslate"><span class="pre">get_MCA_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.save_MCA_model"><code class="docutils literal notranslate"><span class="pre">save_MCA_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.load_MCA_model"><code class="docutils literal notranslate"><span class="pre">load_MCA_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.calc_MCA_analysis"><code class="docutils literal notranslate"><span class="pre">calc_MCA_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_MCA_projection"><code class="docutils literal notranslate"><span class="pre">get_MCA_projection()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-easyclimate.core.eof">
+<span id="easyclimate-core-eof"></span><h1>easyclimate.core.eof<a class="headerlink" href="#module-easyclimate.core.eof" title="Link to this heading">#</a></h1>
+<p>The analysis of the EOF and MCA</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>xeofs</cite>: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/">https://xeofs.readthedocs.io/en/latest/</a></p>
+</div>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.get_EOF_model" title="easyclimate.core.eof.get_EOF_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_EOF_model</span></code></a>(→ xeofs.single.eof.EOF)</p></td>
+<td><p>Build the model of the Empirical Orthogonal Functions (EOF) analysis, more commonly known as Principal Component Analysis (PCA).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.save_EOF_model" title="easyclimate.core.eof.save_EOF_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_EOF_model</span></code></a>(model, path[, overwrite, save_data, engine])</p></td>
+<td><p>Save the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.load_EOF_model" title="easyclimate.core.eof.load_EOF_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_EOF_model</span></code></a>(→ xeofs.single.eof.EOF)</p></td>
+<td><p>Load a saved EOF model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.calc_EOF_analysis" title="easyclimate.core.eof.calc_EOF_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_EOF_analysis</span></code></a>(→ xarray.Dataset)</p></td>
+<td><p>Calculate the results of the EOF model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.get_EOF_projection" title="easyclimate.core.eof.get_EOF_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_EOF_projection</span></code></a>(model, data[, normalized])</p></td>
+<td><p>Project data onto the components.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.get_REOF_model" title="easyclimate.core.eof.get_REOF_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_REOF_model</span></code></a>(→ xeofs.single.EOFRotator)</p></td>
+<td><p>Build the model of the Rotate Empirical Orthogonal Functions (REOF) analysis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.save_REOF_model" title="easyclimate.core.eof.save_REOF_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_REOF_model</span></code></a>(model, path[, overwrite, save_data, ...])</p></td>
+<td><p>Save the model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.load_REOF_model" title="easyclimate.core.eof.load_REOF_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_REOF_model</span></code></a>(→ xeofs.single.EOFRotator)</p></td>
+<td><p>Load a saved REOF model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.calc_REOF_analysis" title="easyclimate.core.eof.calc_REOF_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_REOF_analysis</span></code></a>(→ xarray.Dataset)</p></td>
+<td><p>Calculate the results of the REOF model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.get_REOF_projection" title="easyclimate.core.eof.get_REOF_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_REOF_projection</span></code></a>(model, data[, normalized])</p></td>
+<td><p>Project data onto the components.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.get_MCA_model" title="easyclimate.core.eof.get_MCA_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_MCA_model</span></code></a>(→ xeofs.cross.MCA)</p></td>
+<td><p>Build the model of the Maximum Covariance Analyis (MCA). MCA is a statistical method that finds patterns of maximum covariance between two datasets.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.save_MCA_model" title="easyclimate.core.eof.save_MCA_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_MCA_model</span></code></a>(model, path[, overwrite, save_data, engine])</p></td>
+<td><p>Save the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.load_MCA_model" title="easyclimate.core.eof.load_MCA_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_MCA_model</span></code></a>(→ xeofs.cross.MCA)</p></td>
+<td><p>Load a saved MCA model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.eof.calc_MCA_analysis" title="easyclimate.core.eof.calc_MCA_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_MCA_analysis</span></code></a>(→ easyclimate.core.datanode.DataNode)</p></td>
+<td><p>Calculate the results of the EOF model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.eof.get_MCA_projection" title="easyclimate.core.eof.get_MCA_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_MCA_projection</span></code></a>(→ easyclimate.core.datanode.DataNode)</p></td>
+<td><p>Get the expansion coefficients of &quot;unseen&quot; data. The expansion coefficients are obtained by projecting data onto the singular vectors.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.get_EOF_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">get_EOF_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_seasonal_cycle_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_coslat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><span class="pre">xeofs.single.eof.EOF</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.get_EOF_model" title="Link to this definition">#</a></dt>
+<dd><p>Build the model of the Empirical Orthogonal Functions (EOF) analysis, more commonly known as Principal Component Analysis (PCA).</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>data_input: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>lat_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Latitude coordinate dimension name.</p>
+</dd>
+<dt>lon_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Longitude coordinate dimension name.</p>
+</dd>
+<dt>time_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default: <cite>time</cite>.</dt><dd><p>The time coordinate dimension name.</p>
+</dd>
+<dt>n_modes: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default <cite>10</cite>.</dt><dd><p>Number of modes to calculate.</p>
+</dd>
+<dt>remove_seasonal_cycle_mean: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to remove seasonal cycle mean of the input data.
+If it is <cite>True</cite>, the function will use <a class="reference internal" href="../../index.html#easyclimate.remove_seasonal_cycle_mean" title="easyclimate.remove_seasonal_cycle_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.remove_seasonal_cycle_mean</span></code></a> to remove seasonal cycle mean of the input data.</p>
+</dd>
+<dt>center: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to center the input data.</p>
+</dd>
+<dt>standardize: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to standardize the input data.</p>
+</dd>
+<dt>use_coslat: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to use cosine of latitude for scaling.</p>
+</dd>
+<dt>random_state: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default <cite>None</cite>.</dt><dd><p>Seed for the random number generator.</p>
+</dd>
+<dt>solver: {“auto”, “full”, “randomized”}, default: “auto”.</dt><dd><p>Solver to use for the SVD computation.</p>
+</dd>
+<dt>solver_kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, default <cite>{}</cite>.</dt><dd><p>Additional keyword arguments to be passed to the SVD solver.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a></p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.save_EOF_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">save_EOF_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><span class="pre">xeofs.single.eof.EOF</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zarr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'netcdf4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'h5netcdf'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.eof.save_EOF_model" title="Link to this definition">#</a></dt>
+<dd><p>Save the model.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_EOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOF.fit</span></code>.</p>
+</dd>
+<dt>path: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Path to save the model.</p>
+</dd>
+<dt>overwrite: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite></dt><dd><p>Whether or not to overwrite the existing path if it already exists. Ignored unless <cite>engine = “zarr”</cite>.</p>
+</dd>
+<dt>save_data: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite></dt><dd><p>Whether or not to save the full input data along with the fitted components.</p>
+</dd>
+<dt>engine: {“zarr”, “netcdf4”, “h5netcdf”}, default <cite>“zarr”</cite></dt><dd><p>Xarray backend engine to use for writing the saved model.</p>
+</dd>
+<dt><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</dt><dd><p>Additional keyword arguments to pass to <cite>xarray.DataTree.to_netcdf()</cite> or <cite>xarray.DataTree.to_zarr()</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.load_EOF_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">load_EOF_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zarr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'netcdf4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'h5netcdf'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><span class="pre">xeofs.single.eof.EOF</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.load_EOF_model" title="Link to this definition">#</a></dt>
+<dd><p>Load a saved EOF model.</p>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>path: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Path to the saved model.</p>
+</dd>
+<dt>engine: {“zarr”, “netcdf4”, “h5netcdf”}, default <cite>“zarr”</cite></dt><dd><p>Xarray backend engine to use for reading the saved model.</p>
+</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</dt><dd><p>Additional keyword arguments to pass to <cite>open_datatree()</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_EOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOF.fit</span></code>.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.calc_EOF_analysis">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">calc_EOF_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><span class="pre">xeofs.single.eof.EOF</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">PC_normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.calc_EOF_analysis" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the results of the EOF model.</p>
+<section id="id8">
+<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_EOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOF.fit</span></code>.</p>
+</dd>
+<dt>PC_normalized: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to normalize the scores by the L2 norm (singular values).</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>The results of the EOF model <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.</p>
+<ul class="simple">
+<li><p><strong>EOF: The (EOF) components</strong>: The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.</p></li>
+<li><p><strong>PC: The (PC) scores</strong>: The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.</p></li>
+<li><p><strong>explained_variance</strong>: The explained variance. The explained variance <span class="math notranslate nohighlight">\(\lambda_i\)</span> is the variance explained by each mode. It is defined as</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\lambda_i = \frac{\sigma_i^2}{N-1}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_i\)</span> is the singular value of the <span class="math notranslate nohighlight">\(i\)</span>-th mode and <span class="math notranslate nohighlight">\(N\)</span> is the number of samples. Equivalently, <span class="math notranslate nohighlight">\(\lambda_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th eigenvalue of the covariance matrix.</p>
+<ul class="simple">
+<li><p><strong>explained_variance_ratio</strong>: The explained variance ratio. The explained variance ratio <span class="math notranslate nohighlight">\(\gamma_i\)</span> is the variance explained by each mode normalized by the total variance. It is defined as</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\gamma_i = \frac{\lambda_i}{\sum_{j=1}^M \lambda_j}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda_i\)</span> is the explained variance of the <span class="math notranslate nohighlight">\(i\)</span>-th mode and <span class="math notranslate nohighlight">\(M\)</span> is the total number of modes.</p>
+<ul class="simple">
+<li><p><strong>singular_values</strong>: The singular values of the Singular Value Decomposition (SVD).</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.get_EOF_projection">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">get_EOF_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><span class="pre">xeofs.single.eof.EOF</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.eof.get_EOF_projection" title="Link to this definition">#</a></dt>
+<dd><p>Project data onto the components.</p>
+<section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOF.html#xeofs.single.EOF" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOF</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_EOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOF.fit</span></code>.</p>
+</dd>
+<dt>data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Data to be transformed.</p>
+</dd>
+<dt>normalized: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to normalize the scores by the L2 norm.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>projections: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Projections of the data onto the components.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.get_REOF_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">get_REOF_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_seasonal_cycle_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_coslat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><span class="pre">xeofs.single.EOFRotator</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.get_REOF_model" title="Link to this definition">#</a></dt>
+<dd><p>Build the model of the Rotate Empirical Orthogonal Functions (REOF) analysis.</p>
+<section id="id12">
+<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>data_input: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>The spatio-temporal data to be calculated.</p>
+</dd>
+<dt>lat_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Latitude coordinate dimension name.</p>
+</dd>
+<dt>lon_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Longitude coordinate dimension name.</p>
+</dd>
+<dt>time_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default: <cite>time</cite>.</dt><dd><p>The time coordinate dimension name.</p>
+</dd>
+<dt>n_modes: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default <cite>10</cite>.</dt><dd><p>Number of modes to calculate.</p>
+</dd>
+<dt>remove_seasonal_cycle_mean: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to remove seasonal cycle mean of the input data.
+If it is <cite>True</cite>, the function will use <a class="reference internal" href="../../index.html#easyclimate.remove_seasonal_cycle_mean" title="easyclimate.remove_seasonal_cycle_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.remove_seasonal_cycle_mean</span></code></a> to remove seasonal cycle mean of the input data.</p>
+</dd>
+<dt>standardize: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to standardize the input data.</p>
+</dd>
+<dt>use_coslat: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to use cosine of latitude for scaling.</p>
+</dd>
+<dt>random_state: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default <cite>None</cite>.</dt><dd><p>Seed for the random number generator.</p>
+</dd>
+<dt>solver: {“auto”, “full”, “randomized”}, default: “auto”.</dt><dd><p>Solver to use for the SVD computation.</p>
+</dd>
+<dt>solver_kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, default <cite>{}</cite>.</dt><dd><p>Additional keyword arguments to be passed to the SVD solver.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a></p>
+</section>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h3>
+<p>Richman, M.B. (1986), Rotation of principal components. J. Climatol., 6: 293-335. <a class="reference external" href="https://doi.org/10.1002/joc.3370060305">https://doi.org/10.1002/joc.3370060305</a></p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.save_REOF_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">save_REOF_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><span class="pre">xeofs.single.EOFRotator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zarr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'netcdf4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'h5netcdf'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.eof.save_REOF_model" title="Link to this definition">#</a></dt>
+<dd><p>Save the model.</p>
+<section id="id14">
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_REOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOFRotator.fit</span></code>.</p>
+</dd>
+<dt>path: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Path to save the model.</p>
+</dd>
+<dt>overwrite: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite></dt><dd><p>Whether or not to overwrite the existing path if it already exists. Ignored unless <cite>engine = “zarr”</cite>.</p>
+</dd>
+<dt>save_data: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite></dt><dd><p>Whether or not to save the full input data along with the fitted components.</p>
+</dd>
+<dt>engine: {“zarr”, “netcdf4”, “h5netcdf”}, default <cite>“zarr”</cite></dt><dd><p>Xarray backend engine to use for writing the saved model.</p>
+</dd>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</dt><dd><p>Additional keyword arguments to pass to <cite>xarray.DataTree.to_netcdf()</cite> or <cite>xarray.DataTree.to_zarr()</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.load_REOF_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">load_REOF_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zarr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'netcdf4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'h5netcdf'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><span class="pre">xeofs.single.EOFRotator</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.load_REOF_model" title="Link to this definition">#</a></dt>
+<dd><p>Load a saved REOF model.</p>
+<section id="id17">
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>path: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Path to the saved model.</p>
+</dd>
+<dt>engine: {“zarr”, “netcdf4”, “h5netcdf”}, default <cite>“zarr”</cite></dt><dd><p>Xarray backend engine to use for reading the saved model.</p>
+</dd>
+<dt><a href="#id18"><span class="problematic" id="id19">**</span></a>kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</dt><dd><p>Additional keyword arguments to pass to <cite>open_datatree()</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h3>Returns<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_REOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOFRotator.fit</span></code>.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.calc_REOF_analysis">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">calc_REOF_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><span class="pre">xeofs.single.EOFRotator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">PC_normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.calc_REOF_analysis" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the results of the REOF model.</p>
+<section id="id21">
+<h3>Parameters<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_REOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOFRotator.fit</span></code>.</p>
+</dd>
+<dt>PC_normalized: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to normalize the scores by the L2 norm (singular values).</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h3>Returns<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<p>The results of the EOF model <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.</p>
+<ul class="simple">
+<li><p><strong>EOF: The (EOF) components</strong>: The components in EOF anaylsis are the eigenvectors of the covariance/correlation matrix. Other names include the principal components or EOFs.</p></li>
+<li><p><strong>PC: The (PC) scores</strong>: The scores in EOF anaylsis are the projection of the data matrix onto the eigenvectors of the covariance matrix (or correlation) matrix. Other names include the principal component (PC) scores or just PCs.</p></li>
+<li><p><strong>explained_variance</strong>: The explained variance. The explained variance <span class="math notranslate nohighlight">\(\lambda_i\)</span> is the variance explained by each mode. It is defined as</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\lambda_i = \frac{\sigma_i^2}{N-1}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_i\)</span> is the singular value of the <span class="math notranslate nohighlight">\(i\)</span>-th mode and <span class="math notranslate nohighlight">\(N\)</span> is the number of samples. Equivalently, <span class="math notranslate nohighlight">\(\lambda_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th eigenvalue of the covariance matrix.</p>
+<ul class="simple">
+<li><p><strong>explained_variance_ratio</strong>: The explained variance ratio. The explained variance ratio <span class="math notranslate nohighlight">\(\gamma_i\)</span> is the variance explained by each mode normalized by the total variance. It is defined as</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\gamma_i = \frac{\lambda_i}{\sum_{j=1}^M \lambda_j}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda_i\)</span> is the explained variance of the <span class="math notranslate nohighlight">\(i\)</span>-th mode and <span class="math notranslate nohighlight">\(M\)</span> is the total number of modes.</p>
+<ul class="simple">
+<li><p><strong>singular_values</strong>: The singular values of the Singular Value Decomposition (SVD).</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.get_REOF_projection">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">get_REOF_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><span class="pre">xeofs.single.EOFRotator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.eof.get_REOF_projection" title="Link to this definition">#</a></dt>
+<dd><p>Project data onto the components.</p>
+<section id="id23">
+<h3>Parameters<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.single.EOFRotator.html#xeofs.single.EOFRotator" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.single.EOFRotator</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_REOF_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.EOFRotator.fit</span></code>.</p>
+</dd>
+<dt>data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Data to be transformed.</p>
+</dd>
+<dt>normalized: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to normalize the scores by the L2 norm.</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h3>Returns<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>projections: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Projections of the data onto the components.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.get_MCA_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">get_MCA_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_modes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_coslat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pca_modes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><span class="pre">xeofs.cross.MCA</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.get_MCA_model" title="Link to this definition">#</a></dt>
+<dd><p>Build the model of the Maximum Covariance Analyis (MCA). MCA is a statistical method that finds patterns of maximum covariance between two datasets.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MCA is similar to Principal Component Analysis (PCA) and Canonical Correlation Analysis (CCA), but while PCA finds modes of maximum variance and CCA finds modes of maximum correlation, MCA finds modes of maximum covariance.</p>
+</div>
+<section id="id25">
+<h3>Parameters<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>data_left: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Left input data.</p>
+</dd>
+<dt>data_right: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Right input data.</p>
+</dd>
+<dt>lat_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</dt><dd><p>Latitude coordinate dimension name.</p>
+</dd>
+<dt>lon_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</dt><dd><p>Longitude coordinate dimension name.</p>
+</dd>
+<dt>time_dim: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, default: <cite>time</cite>.</dt><dd><p>The time coordinate dimension name.</p>
+</dd>
+<dt>n_modes: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default <cite>10</cite>.</dt><dd><p>Number of modes to calculate.</p>
+</dd>
+<dt>standardize: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to standardize the input data.</p>
+</dd>
+<dt>use_coslat: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to use cosine of latitude for scaling.</p>
+</dd>
+<dt>n_pca_modes: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default same as <cite>n_modes</cite>, i.e, ‘auto’.</dt><dd><p>The number of principal components to retain during the PCA preprocessing step applied to both data sets prior to executing MCA.
+If set to None, PCA preprocessing will be bypassed, and the MCA will be performed on the original datasets.
+Specifying an integer value greater than 0 for <cite>n_pca_modes</cite> will trigger the PCA preprocessing,
+retaining only the specified number of principal components. This reduction in dimensionality
+can be especially beneficial when dealing with high-dimensional data, where computing the
+cross-covariance matrix can become computationally intensive or in scenarios where multicollinearity is a concern.</p>
+</dd>
+<dt>weights_left: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Weights to be applied to the left input data.</p>
+</dd>
+<dt>weights_right: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></dt><dd><p>Weights to be applied to the right input data.</p>
+</dd>
+<dt>random_state: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default <cite>None</cite>.</dt><dd><p>Seed for the random number generator.</p>
+</dd>
+<dt>solver: {“auto”, “full”, “randomized”}, default: “auto”.</dt><dd><p>Solver to use for the SVD computation.</p>
+</dd>
+<dt>solver_kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, default <cite>{}</cite>.</dt><dd><p>Additional keyword arguments to be passed to the SVD solver.</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h3>Returns<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a></p>
+</section>
+<section id="id27">
+<h3>Reference<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Bretherton, C. S., Smith, C., &amp; Wallace, J. M. (1992). An Intercomparison of Methods for Finding Coupled Patterns in Climate Data. Journal of Climate, 5(6), 541-560. <a class="reference external" href="https://doi.org/10.1175/1520-0442(1992">https://doi.org/10.1175/1520-0442(1992</a>)005&lt;0541:AIOMFF&gt;2.0.CO;2</p></li>
+<li><p>Cherry, S. (1996). Singular Value Decomposition Analysis and Canonical Correlation Analysis. Journal of Climate, 9(9), 2003-2009. <a class="reference external" href="https://doi.org/10.1175/1520-0442(1996">https://doi.org/10.1175/1520-0442(1996</a>)009&lt;2003:SVDAAC&gt;2.0.CO;2</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.save_MCA_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">save_MCA_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><span class="pre">xeofs.cross.MCA</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zarr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'netcdf4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'h5netcdf'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#easyclimate.core.eof.save_MCA_model" title="Link to this definition">#</a></dt>
+<dd><p>Save the model.</p>
+<section id="id28">
+<h3>Parameters<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_MCA_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.MCA.fit</span></code>.</p>
+</dd>
+<dt>path: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Path to save the model.</p>
+</dd>
+<dt>overwrite: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite></dt><dd><p>Whether or not to overwrite the existing path if it already exists. Ignored unless <cite>engine = “zarr”</cite>.</p>
+</dd>
+<dt>save_data: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite></dt><dd><p>Whether or not to save the full input data along with the fitted components.</p>
+</dd>
+<dt>engine: {“zarr”, “netcdf4”, “h5netcdf”}, default <cite>“zarr”</cite></dt><dd><p>Xarray backend engine to use for writing the saved model.</p>
+</dd>
+<dt><a href="#id29"><span class="problematic" id="id30">**</span></a>kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</dt><dd><p>Additional keyword arguments to pass to <cite>xarray.DataTree.to_netcdf()</cite> or <cite>xarray.DataTree.to_zarr()</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.load_MCA_model">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">load_MCA_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zarr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'netcdf4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'h5netcdf'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><span class="pre">xeofs.cross.MCA</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.load_MCA_model" title="Link to this definition">#</a></dt>
+<dd><p>Load a saved MCA model.</p>
+<section id="id31">
+<h3>Parameters<a class="headerlink" href="#id31" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>path: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></dt><dd><p>Path to the saved model.</p>
+</dd>
+<dt>engine: {“zarr”, “netcdf4”, “h5netcdf”}, default <cite>“zarr”</cite></dt><dd><p>Xarray backend engine to use for reading the saved model.</p>
+</dd>
+<dt><a href="#id32"><span class="problematic" id="id33">**</span></a>kwargs: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</dt><dd><p>Additional keyword arguments to pass to <cite>open_datatree()</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h3>Returns<a class="headerlink" href="#id34" title="Link to this heading">#</a></h3>
+<p>The model of <code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_MCA_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.MCA.fit</span></code>.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.calc_MCA_analysis">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">calc_MCA_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><span class="pre">xeofs.cross.MCA</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PC_normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../datanode/index.html#easyclimate.core.datanode.DataNode" title="easyclimate.core.datanode.DataNode"><span class="pre">easyclimate.core.datanode.DataNode</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.calc_MCA_analysis" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the results of the EOF model.</p>
+<section id="id35">
+<h3>Parameters<a class="headerlink" href="#id35" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_MCA_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.MCA.fit</span></code>.</p>
+</dd>
+<dt>correction: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, default <cite>None</cite></dt><dd><p>Method to apply a multiple testing correction. If None, no correction is applied. Available methods are:</p>
+<ul class="simple">
+<li><p>bonferroni : one-step correction</p></li>
+<li><p>sidak : one-step correction</p></li>
+<li><p>holm-sidak : step down method using Sidak adjustments</p></li>
+<li><p>holm : step-down method using Bonferroni adjustments</p></li>
+<li><p>simes-hochberg : step-up method (independent)</p></li>
+<li><p>hommel : closed method based on Simes tests (non-negative)</p></li>
+<li><p>fdr_bh : Benjamini/Hochberg (non-negative) (default)</p></li>
+<li><p>fdr_by : Benjamini/Yekutieli (negative)</p></li>
+<li><p>fdr_tsbh : two stage fdr correction (non-negative)</p></li>
+<li><p>fdr_tsbky : two stage fdr correction (non-negative)</p></li>
+</ul>
+</dd>
+<dt>alpha: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default <cite>0.05</cite></dt><dd><p>The desired family-wise error rate. Not used if correction is None.</p>
+</dd>
+<dt>PC_normalized: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>True</cite>.</dt><dd><p>Whether to normalize the scores by the L2 norm (singular values).</p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h3>Returns<a class="headerlink" href="#id36" title="Link to this heading">#</a></h3>
+<p>The results of the MCA model (<a class="reference internal" href="../../index.html#easyclimate.DataNode" title="easyclimate.DataNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">easyclimate.DataNode</span></code></a>).</p>
+<ul class="simple">
+<li><p><strong>EOF</strong>: The singular vectors of the left and right field.</p></li>
+<li><p><strong>PC</strong>: The scores of the left and right field. The scores in MCA are the projection of the left and right field onto the left and right singular vector of the cross-covariance matrix.</p></li>
+<li><p><strong>correlation_coefficients_X</strong>: Get the correlation coefficients for the scores of <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+</ul>
+<p>The correlation coefficients of the scores of <span class="math notranslate nohighlight">\(X\)</span> are given by:</p>
+<div class="math notranslate nohighlight">
+\[c_{x, ij} = \text{corr} \left(\mathbf{r}_{x, i}, \mathbf{r}_{x, j} \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{r}_{x, i}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{r}_{x, j}\)</span> are the <span class="math notranslate nohighlight">\(i\)</span> th and <span class="math notranslate nohighlight">\(j\)</span> th scores of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<ul class="simple">
+<li><p><strong>correlation_coefficients_Y</strong>: Get the correlation coefficients for the scores of <span class="math notranslate nohighlight">\(Y\)</span>.</p></li>
+</ul>
+<p>The correlation coefficients of the scores of <span class="math notranslate nohighlight">\(Y\)</span> are given by:</p>
+<div class="math notranslate nohighlight">
+\[c_{y, ij} = \text{corr} \left(\mathbf{r}_{y, i}, \mathbf{r}_{y, j} \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{r}_{y, i}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{r}_{y, j}\)</span> are the <span class="math notranslate nohighlight">\(i\)</span> th and <span class="math notranslate nohighlight">\(j\)</span> th scores of <span class="math notranslate nohighlight">\(Y\)</span>.
+- <strong>covariance_fraction_CD95</strong>: Get the covariance fraction (CF).</p>
+<p>Cheng and Dunkerton (1995) define the CF as follows:</p>
+<div class="math notranslate nohighlight">
+\[CF_i = \frac{\sigma_i}{\sum_{i=1}^{m} \sigma_i}\]</div>
+<p>where <span class="math notranslate nohighlight">\(m\)</span> is the total number of modes and <span class="math notranslate nohighlight">\(\sigma_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th singular value of the covariance matrix.</p>
+<p>This implementation estimates the sum of singular values from the first n modes,
+therefore one should aim to retain as many modes as possible to get a good estimate of the covariance fraction.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In MCA, the focus is on maximizing the squared covariance (SC).
+As a result, this quantity is preserved during decomposition - meaning the SC of both datasets
+remains unchanged before and after decomposition. Each mode explains a fraction of the total SC,
+and together, all modes can reconstruct the total SC of the cross-covariance matrix.
+However, the (non-squared) covariance is not invariant in MCA;
+it is not preserved by the individual modes and cannot be reconstructed from them.
+Consequently, the squared covariance fraction (SCF) is invariant in MCA and is typically
+used to assess the relative importance of each mode. In contrast, the convariance fraction (CF) is not invariant.
+Cheng and Dunkerton (1995) introduced the CF to compare the relative importance of modes
+before and after Varimax rotation in MCA. Notably, when the data fields in MCA are identical,
+the CF corresponds to the explained variance ratio in Principal Component Analysis (PCA).</p>
+</div>
+<ul class="simple">
+<li><p><strong>cross_correlation_coefficients</strong>: Get the cross-correlation coefficients.</p></li>
+</ul>
+<p>The cross-correlation coefficients between the scores of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are computed as:</p>
+<div class="math notranslate nohighlight">
+\[c_{xy, i} = \text{corr} \left(\mathbf{r}_{x, i}, \mathbf{r}_{y, i} \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{r}_{x, i}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{r}_{y, i}\)</span> are the <span class="math notranslate nohighlight">\(i\)</span> th scores of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <span class="math notranslate nohighlight">\(\alpha=0\)</span>, the cross-correlation coefficients are equivalent to the canonical correlation coefficients.</p>
+</div>
+<ul class="simple">
+<li><p><strong>fraction_variance_X_explained_by_X</strong>: Get the fraction of variance explained (FVE X).</p></li>
+</ul>
+<p>The FVE X is the fraction of variance in <span class="math notranslate nohighlight">\(X\)</span> explained by the scores of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>It is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :</p>
+<div class="math notranslate nohighlight">
+\[FVE_{X|X,i} = 1 - \frac{\|\mathbf{d}_{X,i}\|_F^2}{\|X\|_F^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{d}_{X,i}\)</span> are the residuals of the input data <span class="math notranslate nohighlight">\(X\)</span> after reconstruction by the <span class="math notranslate nohighlight">\(i\)</span> th scores of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<ul class="simple">
+<li><p><strong>fraction_variance_Y_explained_by_X</strong>: Get the fraction of variance explained (FVE YX).</p></li>
+</ul>
+<p>The FVE YX is the fraction of variance in <span class="math notranslate nohighlight">\(Y\)</span> explained by the scores of <span class="math notranslate nohighlight">\(X\)</span>.
+It is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :</p>
+<div class="math notranslate nohighlight">
+\[FVE_{Y|X,i} = 1 - \frac{\|(X^TX)^{-1/2} \mathbf{d}_{X,i}^T \mathbf{d}_{Y,i}\|_F^2}{\|(X^TX)^{-1/2} X^TY\|_F^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{d}_{X,i}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{d}_{Y,i}\)</span> are the residuals of the input data <span class="math notranslate nohighlight">\(X\)</span>
+and <span class="math notranslate nohighlight">\(Y\)</span> after reconstruction by the <span class="math notranslate nohighlight">\(i\)</span> th scores of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, respectively.</p>
+<ul class="simple">
+<li><p><strong>fraction_variance_Y_explained_by_Y</strong>: Get the fraction of variance explained (FVE Y).</p></li>
+</ul>
+<p>The FVE Y is the fraction of variance in <span class="math notranslate nohighlight">\(Y\)</span> explained by the scores of <span class="math notranslate nohighlight">\(Y\)</span>.
+It is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :</p>
+<div class="math notranslate nohighlight">
+\[FVE_{Y|Y,i} = 1 - \frac{\|\mathbf{d}_{Y,i}\|_F^2}{\|Y\|_F^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{d}_{Y,i}\)</span> are the residuals of the input data <span class="math notranslate nohighlight">\(Y\)</span>
+after reconstruction by the <span class="math notranslate nohighlight">\(i\)</span> th scores of <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<ul class="simple">
+<li><p><strong>squared_covariance_fraction</strong>: Get the squared covariance fraction (SCF).</p></li>
+</ul>
+<p>The SCF is computed as a weighted mean-square error (see equation (15) in Swenson (2015)) :</p>
+<div class="math notranslate nohighlight">
+\[SCF_{i} = 1 - \frac{\|\mathbf{d}_{X,i}^T \mathbf{d}_{Y,i}\|_F^2}{\|X^TY\|_F^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{d}_{X,i}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{d}_{Y,i}\)</span> are the residuals of the input data <span class="math notranslate nohighlight">\(X\)</span>
+and <span class="math notranslate nohighlight">\(Y\)</span> after reconstruction by the <span class="math notranslate nohighlight">\(i\)</span> th scores of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, respectively.</p>
+<ul class="simple">
+<li><p><strong>heterogeneous_patterns</strong>: The heterogeneous patterns of the left and right field.</p></li>
+</ul>
+<p>The heterogeneous patterns are the correlation coefficients between the input data and the scores of the other field.</p>
+<p>More precisely, the heterogeneous patterns <span class="math notranslate nohighlight">\(r_{\mathrm{het}}\)</span> are defined as</p>
+<div class="math notranslate nohighlight">
+\[r_{\mathrm{het}, x} = corr \left(X, A_y \right), \ r_{\mathrm{het}, y} = corr \left(Y, A_x \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are the input data, <span class="math notranslate nohighlight">\(A_x\)</span> and <span class="math notranslate nohighlight">\(A_y\)</span> are the scores of the left and right field, respectively.</p>
+<ul class="simple">
+<li><p><strong>homogeneous_patterns</strong>: The homogeneous patterns of the left and right field.</p></li>
+</ul>
+<p>The homogeneous patterns are the correlation coefficients between the input data and the scores.</p>
+<p>More precisely, the homogeneous patterns <span class="math notranslate nohighlight">\(r_{\mathrm{hom}}\)</span> are defined as</p>
+<div class="math notranslate nohighlight">
+\[r_{\mathrm{hom}, x} = corr \left(X, A_x \right), \ r_{\mathrm{hom}, y} = corr \left(Y, A_y \right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are the input data, <span class="math notranslate nohighlight">\(A_x\)</span> and <span class="math notranslate nohighlight">\(A_y\)</span> are the scores of the left and right field, respectively.</p>
+</section>
+<section id="id37">
+<h3>Reference<a class="headerlink" href="#id37" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Cheng, X., &amp; Dunkerton, T. J. (1995). Orthogonal Rotation of Spatial Patterns Derived from Singular Value Decomposition Analysis. Journal of Climate, 8(11), 2631-2643. <a class="reference external" href="https://doi.org/10.1175/1520-0442(1995">https://doi.org/10.1175/1520-0442(1995</a>)008&lt;2631:OROSPD&gt;2.0.CO;2</p></li>
+<li><p>Swenson, E. (2015). Continuum Power CCA: A Unified Approach for Isolating Coupled Modes. Journal of Climate, 28(3), 1016-1030. <a class="reference external" href="https://doi.org/10.1175/JCLI-D-14-00451.1">https://doi.org/10.1175/JCLI-D-14-00451.1</a></p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.eof.get_MCA_projection">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.eof.</span></span><span class="sig-name descname"><span class="pre">get_MCA_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><span class="pre">xeofs.cross.mca.MCA</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.Dataset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../datanode/index.html#easyclimate.core.datanode.DataNode" title="easyclimate.core.datanode.DataNode"><span class="pre">easyclimate.core.datanode.DataNode</span></a></span></span><a class="headerlink" href="#easyclimate.core.eof.get_MCA_projection" title="Link to this definition">#</a></dt>
+<dd><p>Get the expansion coefficients of “unseen” data. The expansion coefficients are obtained by projecting data onto the singular vectors.</p>
+<section id="id38">
+<h3>Parameters<a class="headerlink" href="#id38" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>model: <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a></dt><dd><p>The model of <a class="reference external" href="https://xeofs.readthedocs.io/en/latest/content/api_reference/_autosummary/xeofs.cross.MCA.html#xeofs.cross.MCA" title="(in xeofs)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xeofs.cross.MCA</span></code></a> is the results from <code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.eof.get_MCA_model</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">xeofs.models.MCA.fit</span></code>.</p>
+</dd>
+<dt>data_left: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></dt><dd><p>Left input data. Must be provided if <cite>data_right</cite> is not provided.</p>
+</dd>
+<dt>data_right: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></dt><dd><p>Right input data. Must be provided if <cite>data_left</cite> is not provided.</p>
+</dd>
+<dt>normalized: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default <cite>False</cite>.</dt><dd><p>Whether to return L2 normalized scores.</p>
+</dd>
+</dl>
+</section>
+<section id="id39">
+<h3>Returns<a class="headerlink" href="#id39" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>scores: <a class="reference internal" href="../../index.html#easyclimate.DataNode" title="easyclimate.DataNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">easyclimate.DataNode</span></code></a></dt><dd><ul class="simple">
+<li><p><strong>scores1</strong>: Left scores.</p></li>
+<li><p><strong>scores2</strong>: Right scores.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_EOF_model"><code class="docutils literal notranslate"><span class="pre">get_EOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.save_EOF_model"><code class="docutils literal notranslate"><span class="pre">save_EOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.load_EOF_model"><code class="docutils literal notranslate"><span class="pre">load_EOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.calc_EOF_analysis"><code class="docutils literal notranslate"><span class="pre">calc_EOF_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_EOF_projection"><code class="docutils literal notranslate"><span class="pre">get_EOF_projection()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_REOF_model"><code class="docutils literal notranslate"><span class="pre">get_REOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.save_REOF_model"><code class="docutils literal notranslate"><span class="pre">save_REOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.load_REOF_model"><code class="docutils literal notranslate"><span class="pre">load_REOF_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.calc_REOF_analysis"><code class="docutils literal notranslate"><span class="pre">calc_REOF_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_REOF_projection"><code class="docutils literal notranslate"><span class="pre">get_REOF_projection()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_MCA_model"><code class="docutils literal notranslate"><span class="pre">get_MCA_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.save_MCA_model"><code class="docutils literal notranslate"><span class="pre">save_MCA_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.load_MCA_model"><code class="docutils literal notranslate"><span class="pre">load_MCA_model()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.calc_MCA_analysis"><code class="docutils literal notranslate"><span class="pre">calc_MCA_analysis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.eof.get_MCA_projection"><code class="docutils literal notranslate"><span class="pre">get_MCA_projection()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2024, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2024-12-03.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

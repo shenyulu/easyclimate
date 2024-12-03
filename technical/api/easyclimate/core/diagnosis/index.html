@@ -1,0 +1,1228 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>easyclimate.core.diagnosis &#8212; easyclimate v2024.11.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../../../_static/documentation_options.js?v=f47278f1"></script>
+    <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/core/diagnosis/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="2024-12-03"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-light" alt="easyclimate v2024.11.0 documentation - Home"/>
+    <img src="../../../../../_static/easyclimate-logo.svg" class="logo__image only-dark pst-js-only" alt="easyclimate v2024.11.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery_output/plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/air_sea_interaction.html">Air–sea interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/mesoscale.html">Mesoscale</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api_index/index.html">List of functions and classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.html">easyclimate.field.air_sea_interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.html">easyclimate.field.teleconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.html">easyclimate.field.monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.html">easyclimate.field.ocean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.mesoscale.html">easyclimate.field.mesoscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.mesoscale.potential_intensity.html">easyclimate.field.mesoscale.potential_intensity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/core/diagnosis/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/core/diagnosis/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.core.diagnosis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_brunt_vaisala_frequency_atm"><code class="docutils literal notranslate"><span class="pre">calc_brunt_vaisala_frequency_atm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.get_coriolis_parameter"><code class="docutils literal notranslate"><span class="pre">get_coriolis_parameter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_potential_temperature"><code class="docutils literal notranslate"><span class="pre">calc_potential_temperature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_virtual_temperature"><code class="docutils literal notranslate"><span class="pre">calc_virtual_temperature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_virtual_temperature_Hobbs2006"><code class="docutils literal notranslate"><span class="pre">calc_virtual_temperature_Hobbs2006()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_static_stability"><code class="docutils literal notranslate"><span class="pre">calc_static_stability()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_dewpoint"><code class="docutils literal notranslate"><span class="pre">calc_dewpoint()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_mixing_ratio"><code class="docutils literal notranslate"><span class="pre">calc_mixing_ratio()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_vapor_pressure"><code class="docutils literal notranslate"><span class="pre">calc_vapor_pressure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_saturation_vapor_pressure"><code class="docutils literal notranslate"><span class="pre">calc_saturation_vapor_pressure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_saturation_mixing_ratio"><code class="docutils literal notranslate"><span class="pre">calc_saturation_mixing_ratio()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_specific_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_mixing_ratio_2_specific_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_mixing_ratio"><code class="docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_mixing_ratio()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_specific_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_dewpoint_2_specific_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_dewpoint"><code class="docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_dewpoint()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_relative_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_dewpoint_2_relative_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_relative_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_mixing_ratio_2_relative_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_relative_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_relative_humidity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-easyclimate.core.diagnosis">
+<span id="easyclimate-core-diagnosis"></span><h1>easyclimate.core.diagnosis<a class="headerlink" href="#module-easyclimate.core.diagnosis" title="Link to this heading">#</a></h1>
+<p>Functions for Weather and climate variable diagnosis.</p>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_brunt_vaisala_frequency_atm" title="easyclimate.core.diagnosis.calc_brunt_vaisala_frequency_atm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_brunt_vaisala_frequency_atm</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculation of the Brunt-väisälä frequency for the vertical atmosphere.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.get_coriolis_parameter" title="easyclimate.core.diagnosis.get_coriolis_parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_coriolis_parameter</span></code></a>(→ xarray.DataArray | numpy.array)</p></td>
+<td><p>Calculate the Coriolis parameter at each point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_potential_temperature" title="easyclimate.core.diagnosis.calc_potential_temperature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_potential_temperature</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the potential temperature.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_virtual_temperature" title="easyclimate.core.diagnosis.calc_virtual_temperature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_virtual_temperature</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate virtual temperature.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_virtual_temperature_Hobbs2006" title="easyclimate.core.diagnosis.calc_virtual_temperature_Hobbs2006"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_virtual_temperature_Hobbs2006</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate virtual temperature.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_static_stability" title="easyclimate.core.diagnosis.calc_static_stability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_static_stability</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the static stability within a vertical profile.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_dewpoint" title="easyclimate.core.diagnosis.calc_dewpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_dewpoint</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the ambient dewpoint given the vapor pressure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_mixing_ratio" title="easyclimate.core.diagnosis.calc_mixing_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_mixing_ratio</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the mixing ratio of a gas.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_vapor_pressure" title="easyclimate.core.diagnosis.calc_vapor_pressure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_vapor_pressure</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Parameters</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_saturation_vapor_pressure" title="easyclimate.core.diagnosis.calc_saturation_vapor_pressure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_saturation_vapor_pressure</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the saturation water vapor (partial) pressure.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.calc_saturation_mixing_ratio" title="easyclimate.core.diagnosis.calc_saturation_mixing_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_saturation_mixing_ratio</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the saturation mixing ratio of water vapor.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_specific_humidity" title="easyclimate.core.diagnosis.transfer_mixing_ratio_2_specific_humidity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_mixing_ratio_2_specific_humidity</span></code></a>(...)</p></td>
+<td><p>Calculate the specific humidity from mixing ratio.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_mixing_ratio" title="easyclimate.core.diagnosis.transfer_specific_humidity_2_mixing_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_mixing_ratio</span></code></a>(...)</p></td>
+<td><p>Calculate the mixing ratio from specific humidity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_specific_humidity" title="easyclimate.core.diagnosis.transfer_dewpoint_2_specific_humidity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_dewpoint_2_specific_humidity</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the specific humidity from the dewpoint temperature and pressure.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_dewpoint" title="easyclimate.core.diagnosis.transfer_specific_humidity_2_dewpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_dewpoint</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the dewpoint from specific humidity and pressure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_relative_humidity" title="easyclimate.core.diagnosis.transfer_dewpoint_2_relative_humidity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_dewpoint_2_relative_humidity</span></code></a>(→ xarray.DataArray)</p></td>
+<td><p>Calculate the relative humidity from dewpoint.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_relative_humidity" title="easyclimate.core.diagnosis.transfer_mixing_ratio_2_relative_humidity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_mixing_ratio_2_relative_humidity</span></code></a>(...)</p></td>
+<td><p>Calculate the relative humidity from mixing ratio, temperature, and pressure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_relative_humidity" title="easyclimate.core.diagnosis.transfer_specific_humidity_2_relative_humidity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_relative_humidity</span></code></a>(...)</p></td>
+<td><p>Calculate the relative humidity from specific humidity, temperature, and pressure.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_brunt_vaisala_frequency_atm">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_brunt_vaisala_frequency_atm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential_temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9.8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_brunt_vaisala_frequency_atm" title="Link to this definition">#</a></dt>
+<dd><p>Calculation of the Brunt-väisälä frequency for the vertical atmosphere.</p>
+<div class="math notranslate nohighlight">
+\[N = \left( \frac{g}{\theta} \frac{\mathrm{d}\theta}{\mathrm{d}z} \right)^\frac{1}{2}\]</div>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>potential_temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Vertical atmospheric potential temperature.</p>
+</dd>
+<dt>z_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Vertical atmospheric geopotential height.</p>
+</dd>
+</dl>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The unit of <cite>z_data</cite> should be <strong>meters</strong>, NOT <span class="math notranslate nohighlight">\(\mathrm{m^2 \cdot s^2}\)</span> which is the unit used in the representation of potential energy.</p>
+</div>
+<dl class="simple">
+<dt>vertical_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Vertical coordinate dimension name.</p>
+</dd>
+<dt>g: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default: <cite>9.8</cite>.</dt><dd><p>The acceleration of gravity.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<p>Brunt-väisälä frequency (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>).</p>
+</section>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://glossary.ametsoc.org/wiki/Brunt-v%C3%A4is%C3%A4l%C3%A4_frequency">Brunt-väisälä frequency - Glossary of Meteorology</a></p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.brunt_vaisala_frequency.html">brunt_vaisala_frequency — MetPy 1.5</a></p></li>
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Document/Functions/Contributed/brunt_vaisala_atm.shtml">brunt_vaisala_atm - NCL</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.get_coriolis_parameter">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">get_coriolis_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7.292e-05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.array</span></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.get_coriolis_parameter" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the Coriolis parameter at each point.</p>
+<div class="math notranslate nohighlight">
+\[f = 2 \Omega \sin(\phi)\]</div>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>lat_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code>.</dt><dd><p>Latitude at each point.</p>
+</dd>
+<dt>omega: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default: <cite>7.292e-5</cite>.</dt><dd><p>The angular speed of the earth.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Corresponding Coriolis force at each point (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code>).</p>
+</section>
+<section id="id3">
+<h3>Reference<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://glossary.ametsoc.org/wiki/Coriolis_parameter">Coriolis parameter - Glossary of Meteorology</a></p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.coriolis_parameter.html">coriolis_parameter — MetPy 1.5</a></p></li>
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Document/Functions/Contributed/coriolis_param.shtml">coriolis_param - NCL</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_potential_temperature">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_potential_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temper_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">287</span> <span class="pre">/</span> <span class="pre">1005.7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_potential_temperature" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the potential temperature.</p>
+<p>Uses the Poisson equation to calculation the potential temperature given pressure and temperature.</p>
+<div class="math notranslate nohighlight">
+\[\theta = T \left( \frac{p_0}{p} \right) ^\kappa\]</div>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<dl>
+<dt>temper_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Air temperature.</p>
+</dd>
+<dt>vertical_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Vertical coordinate dimension name.</p>
+</dd>
+<dt>vertical_dim_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to the vertical p-coordinate value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>, <cite>mbar</cite>.</p>
+</dd>
+<dt>kappa: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default: <cite>287/1005.7</cite>.</dt><dd><p>Poisson constant <span class="math notranslate nohighlight">\(\kappa\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://glossary.ametsoc.org/wiki/Poisson_constant">Poisson constant - Glossary of Meteorology</a></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h3>Returns<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>Potential temperature corresponding to the temperature and pressure (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>).</p>
+</section>
+<section id="id6">
+<h3>Reference<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://glossary.ametsoc.org/wiki/Potential_temperature">Potential temperature - Glossary of Meteorology</a></p></li>
+<li><p><a class="reference external" href="http://weatherclimatelab.mit.edu/wp-content/uploads/2018/02/Potential-temperature.pdf">Potential-temperature.pdf</a></p></li>
+<li><p><a class="reference external" href="https://renqlsysu.github.io/2019/10/23/potential_temperature/">大气位温、相当位温、饱和相当位温、静力稳定度</a></p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.potential_temperature.html">potential_temperature — MetPy 1.5</a></p></li>
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Document/Functions/Contributed/pot_temp.shtml">pot_temp - NCL</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_virtual_temperature">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_virtual_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temper_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kg/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/kg'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.608</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_virtual_temperature" title="Link to this definition">#</a></dt>
+<dd><p>Calculate virtual temperature.</p>
+<p>The virtual temperature (<span class="math notranslate nohighlight">\(T_v\)</span>) is the temperature at which dry air would have the same density as the moist air, at a given pressure.
+In other words, two air samples with the same virtual temperature have the same density, regardless of their actual temperature or relative humidity.
+The virtual temperature is always greater than  the absolute air temperature.</p>
+<div class="math notranslate nohighlight">
+\[T_v = T(1+ \epsilon q)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon = 0.608\)</span> when the mixing ratio (specific humidity) <span class="math notranslate nohighlight">\(q\)</span> is expressed in <span class="math notranslate nohighlight">\(\mathrm{g \cdot g^{-1}}\)</span>.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>temper_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Air temperature.</p>
+</dd>
+<dt>specific_humidity_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The absolute humidity data.</p>
+</dd>
+<dt>specific_humidity_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>specific_humidity</cite> value. Optional values are <cite>kg/kg</cite>, <cite>g/g</cite>, <cite>g/kg</cite> and so on.</p>
+</dd>
+<dt>epsilon: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</dt><dd><p>A constant.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Reference<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Doswell , C. A., and E. N. Rasmussen, 1994: The Effect of Neglecting the Virtual Temperature Correction on CAPE Calculations. Wea. Forecasting, 9, 625–629, <a class="reference external" href="https://doi.org/10.1175/1520-0434(1994">https://doi.org/10.1175/1520-0434(1994</a>)009&lt;0625:TEONTV&gt;2.0.CO;2.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Virtual_temperature">https://en.wikipedia.org/wiki/Virtual_temperature</a></p></li>
+<li><p><a class="reference external" href="https://glossary.ametsoc.org/wiki/Virtual_temperature">https://glossary.ametsoc.org/wiki/Virtual_temperature</a></p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.virtual_temperature.html">virtual_temperature — MetPy</a></p></li>
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml">temp_virtual - NCL</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_virtual_temperature_Hobbs2006">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_virtual_temperature_Hobbs2006</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temper_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kg/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/kg'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.6219569100577033</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_virtual_temperature_Hobbs2006" title="Link to this definition">#</a></dt>
+<dd><p>Calculate virtual temperature.</p>
+<p>The virtual temperature (<span class="math notranslate nohighlight">\(T_v\)</span>) is the temperature at which dry air would have the same density as the moist air, at a given pressure.
+In other words, two air samples with the same virtual temperature have the same density, regardless of their actual temperature or relative humidity.
+The virtual temperature is always greater than  the absolute air temperature.</p>
+<p>This calculation must be given an air parcel’s temperature and mixing ratio. The implementation uses the formula outlined in [Hobbs2006] pg.67 &amp; 80.</p>
+<div class="math notranslate nohighlight">
+\[T_v = T \frac{\text{q} + \epsilon}{\epsilon\,(1 + \text{q})}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon \approx 0.622\)</span> when the mixing ratio (specific humidity) <span class="math notranslate nohighlight">\(q\)</span> is expressed in <span class="math notranslate nohighlight">\(\mathrm{g \ g^{-1}}\)</span>.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>temper_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Air temperature.</p>
+</dd>
+<dt>specific_humidity_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The absolute humidity data.</p>
+</dd>
+<dt>specific_humidity_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>specific_humidity</cite> value. Optional values are <cite>kg/kg</cite>, <cite>g/g</cite>, <cite>g/kg</cite> and so on.</p>
+</dd>
+<dt>epsilon: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</dt><dd><p>The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air. Defaults to the ratio for water vapor to dry air. (<span class="math notranslate nohighlight">\(\epsilon \approx 0.622\)</span>)</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Reference<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Hobbs, P. V., and J. M. Wallace, 2006: Atmospheric Science: An Introductory Survey. 2nd ed. Academic Press, 504 pp. <a class="reference external" href="https://www.sciencedirect.com/book/9780127329512/atmospheric-science">https://www.sciencedirect.com/book/9780127329512/atmospheric-science</a></p></li>
+<li><p>Doswell , C. A., and E. N. Rasmussen, 1994: The Effect of Neglecting the Virtual Temperature Correction on CAPE Calculations. Wea. Forecasting, 9, 625–629, <a class="reference external" href="https://doi.org/10.1175/1520-0434(1994">https://doi.org/10.1175/1520-0434(1994</a>)009&lt;0625:TEONTV&gt;2.0.CO;2.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Virtual_temperature">https://en.wikipedia.org/wiki/Virtual_temperature</a></p></li>
+<li><p><a class="reference external" href="https://glossary.ametsoc.org/wiki/Virtual_temperature">https://glossary.ametsoc.org/wiki/Virtual_temperature</a></p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.virtual_temperature.html">virtual_temperature — MetPy</a></p></li>
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Document/Functions/Contributed/temp_virtual.shtml">temp_virtual - NCL</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_static_stability">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_static_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temper_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_static_stability" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the static stability within a vertical profile.</p>
+<div class="math notranslate nohighlight">
+\[\sigma = - T \frac{\partial \ln \theta}{\partial p}\]</div>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>temper_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Air temperature.</p>
+</dd>
+<dt>vertical_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Vertical coordinate dimension name.</p>
+</dd>
+<dt>vertical_dim_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to the vertical p-coordinate value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>, <cite>mbar</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Returns<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<p>Static stability (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>).</p>
+</section>
+<section id="id13">
+<h3>Reference<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Document/Functions/Contributed/static_stability.shtml">static_stability - NCL</a></p></li>
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.static_stability.html">static_stability — MetPy 1.5</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Unidata/MetPy/issues/2535">Static stability parameters · Issue #2535 · Unidata/MetPy</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_dewpoint">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_dewpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vapor_pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vapor_pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_dewpoint" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the ambient dewpoint given the vapor pressure.</p>
+<section id="id14">
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>vapor_pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Water vapor partial pressure.</p>
+</dd>
+<dt>total_pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>total_pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<p>The dew point (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), degrees Celsius.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_mixing_ratio">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_mixing_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partial_pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">molecular_weight_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.6219569100577033</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_mixing_ratio" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the mixing ratio of a gas.</p>
+<p>This calculates mixing ratio given its partial pressure and the total pressure of the air.
+There are no required units for the input arrays, other than that they have the same units.</p>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<dl>
+<dt>partial_pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Partial pressure of the constituent gas.</p>
+</dd>
+<dt>total_pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Total air pressure.</p>
+</dd>
+<dt>molecular_weight_ratio<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional.</span></dt><dd><p>The ratio of the molecular weight of the constituent gas to that assumed for air.
+Defaults to the ratio for water vapor to dry air (<span class="math notranslate nohighlight">\(\epsilon\approx0.622\)</span>).</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The units of <cite>partial_pressure_data</cite> and <cite>total_pressure_data</cite> should be the same.</p>
+</div>
+</section>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<p>The mixing ratio (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless (e.g. Kg/Kg or g/g).</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_vapor_pressure">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_vapor_pressure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixing_ratio_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.6219569100577033</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_vapor_pressure" title="Link to this definition">#</a></dt>
+<dd><section id="id18">
+<h3>Parameters<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The pressure data set.</p>
+</dd>
+<dt>mixing_ratio_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The mixing ratio of a gas.</p>
+</dd>
+<dt>epsilon: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</dt><dd><p>The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
+Defaults to the ratio for water vapor to dry air. (<span class="math notranslate nohighlight">\(\epsilon \approx 0.622\)</span>)</p>
+</dd>
+<dt>pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h3>Returns<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<p>The water vapor (partial) pressure (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), units according to <cite>pressure_data_units</cite>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.vapor_pressure.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.vapor_pressure.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_saturation_vapor_pressure">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_saturation_vapor_pressure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_saturation_vapor_pressure" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the saturation water vapor (partial) pressure.</p>
+<section id="id20">
+<h3>Parameters<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Atmospheric temperature.</p>
+</dd>
+<dt>temperature_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>temperature_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h3>Returns<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<p>The mixing ratio (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), hPa.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_vapor_pressure.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_vapor_pressure.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.calc_saturation_mixing_ratio">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">calc_saturation_mixing_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.calc_saturation_mixing_ratio" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the saturation mixing ratio of water vapor.</p>
+<p>This calculation is given total atmospheric pressure and air temperature.</p>
+<section id="id22">
+<h3>Parameters<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>total_pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Total atmospheric pressure.</p>
+</dd>
+<dt>temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Atmospheric temperature.</p>
+</dd>
+<dt>temperature_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>temperature_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>total_pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>total_pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h3>Returns<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<p>The saturation mixing ratio (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_mixing_ratio.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_mixing_ratio.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_mixing_ratio_2_specific_humidity">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_mixing_ratio_2_specific_humidity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mixing_ratio_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_specific_humidity" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the specific humidity from mixing ratio.</p>
+<section id="id24">
+<h3>Parameters<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>mixing_ratio_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The mixing ratio of a gas.</p>
+</dd>
+</dl>
+</section>
+<section id="id25">
+<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
+<p>The specific humidity (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless (e.g. Kg/Kg or g/g).</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_mixing_ratio.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_mixing_ratio.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_specific_humidity_2_mixing_ratio">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_specific_humidity_2_mixing_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specific_humidity_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kg/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/kg'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_mixing_ratio" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the mixing ratio from specific humidity.</p>
+<section id="id26">
+<h3>Parameters<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>specific_humidity_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The Specific humidity of air.</p>
+</dd>
+<dt>specific_humidity_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>specific_humidity</cite> value. Optional values are <cite>kg/kg</cite>, <cite>g/g</cite>, <cite>g/kg</cite> and so on.</p>
+</dd>
+</dl>
+</section>
+<section id="id27">
+<h3>Returns<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
+<p>The mixing ratio (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio_from_specific_humidity.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio_from_specific_humidity.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_dewpoint_2_specific_humidity">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_dewpoint_2_specific_humidity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dewpoint_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dewpoint_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_specific_humidity" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the specific humidity from the dewpoint temperature and pressure.</p>
+<section id="id28">
+<h3>Parameters<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>dewpoint_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The dewpoint temperature.</p>
+</dd>
+<dt>pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The pressure data set.</p>
+</dd>
+<dt>dewpoint_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>dewpoint_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h3>Returns<a class="headerlink" href="#id29" title="Link to this heading">#</a></h3>
+<p>The specific humidity (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_dewpoint.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_dewpoint.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_specific_humidity_2_dewpoint">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_specific_humidity_2_dewpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specific_humidity_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kg/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/kg'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.6219569100577033</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_dewpoint" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the dewpoint from specific humidity and pressure.</p>
+<section id="id30">
+<h3>Parameters<a class="headerlink" href="#id30" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>specific_humidity_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The absolute humidity data.</p>
+</dd>
+<dt>pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The pressure data set.</p>
+</dd>
+<dt>specific_humidity_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>specific_humidity</cite> value. Optional values are <cite>kg/kg</cite>, <cite>g/g</cite>, <cite>g/kg</cite> and so on.</p>
+</dd>
+<dt>pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+<dt>epsilon: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</dt><dd><p>The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
+Defaults to the ratio for water vapor to dry air. (<span class="math notranslate nohighlight">\(\epsilon \approx 0.622\)</span>)</p>
+</dd>
+</dl>
+</section>
+<section id="id31">
+<h3>Returns<a class="headerlink" href="#id31" title="Link to this heading">#</a></h3>
+<p>The dewpoint (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), degrees Celsius.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint_from_specific_humidity.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint_from_specific_humidity.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_dewpoint_2_relative_humidity">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_dewpoint_2_relative_humidity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dewpoint_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dewpoint_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_relative_humidity" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the relative humidity from dewpoint.</p>
+<p>Uses temperature and dewpoint to calculate relative humidity as the ratio of vapor pressure to saturation vapor pressures.</p>
+<section id="id32">
+<h3>Parameters<a class="headerlink" href="#id32" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Atmospheric temperature.</p>
+</dd>
+<dt>dewpoint_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The dewpoint temperature.</p>
+</dd>
+<dt>temperature_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>temperature_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>dewpoint_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>dewpoint_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h3>Returns<a class="headerlink" href="#id33" title="Link to this heading">#</a></h3>
+<p>The relative humidity (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_dewpoint.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_dewpoint.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_mixing_ratio_2_relative_humidity">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_mixing_ratio_2_relative_humidity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixing_ratio_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.6219569100577033</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_relative_humidity" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the relative humidity from mixing ratio, temperature, and pressure.</p>
+<section id="id34">
+<h3>Parameters<a class="headerlink" href="#id34" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The pressure data set.</p>
+</dd>
+<dt>temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Atmospheric temperature.</p>
+</dd>
+<dt>mixing_ratio_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The mixing ratio of a gas.</p>
+</dd>
+<dt>pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+<dt>temperature_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>temperature_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>epsilon: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</dt><dd><p>The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
+Defaults to the ratio for water vapor to dry air. (<span class="math notranslate nohighlight">\(\epsilon \approx 0.622\)</span>)</p>
+</dd>
+</dl>
+</section>
+<section id="id35">
+<h3>Returns<a class="headerlink" href="#id35" title="Link to this heading">#</a></h3>
+<p>The relative humidity (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_mixing_ratio.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_mixing_ratio.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.core.diagnosis.transfer_specific_humidity_2_relative_humidity">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.core.diagnosis.</span></span><span class="sig-name descname"><span class="pre">transfer_specific_humidity_2_relative_humidity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kg/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/kg'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><span class="pre">xarray.DataArray</span></a></span></span><a class="headerlink" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_relative_humidity" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the relative humidity from specific humidity, temperature, and pressure.</p>
+<section id="id36">
+<h3>Parameters<a class="headerlink" href="#id36" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt>pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The pressure data set.</p>
+</dd>
+<dt>temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Atmospheric temperature.</p>
+</dd>
+<dt>specific_humidity_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The absolute humidity data.</p>
+</dd>
+<dt>pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>.</p>
+</dd>
+<dt>temperature_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>temperature_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>specific_humidity_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>specific_humidity</cite> value. Optional values are <cite>kg/kg</cite>, <cite>g/g</cite>, <cite>g/kg</cite> and so on.</p>
+</dd>
+</dl>
+</section>
+<section id="id37">
+<h3>Returns<a class="headerlink" href="#id37" title="Link to this heading">#</a></h3>
+<p>The relative humidity (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>), dimensionless.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_specific_humidity.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_specific_humidity.html</a></p></li>
+</ul>
+</div>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_brunt_vaisala_frequency_atm"><code class="docutils literal notranslate"><span class="pre">calc_brunt_vaisala_frequency_atm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.get_coriolis_parameter"><code class="docutils literal notranslate"><span class="pre">get_coriolis_parameter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_potential_temperature"><code class="docutils literal notranslate"><span class="pre">calc_potential_temperature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_virtual_temperature"><code class="docutils literal notranslate"><span class="pre">calc_virtual_temperature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_virtual_temperature_Hobbs2006"><code class="docutils literal notranslate"><span class="pre">calc_virtual_temperature_Hobbs2006()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_static_stability"><code class="docutils literal notranslate"><span class="pre">calc_static_stability()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_dewpoint"><code class="docutils literal notranslate"><span class="pre">calc_dewpoint()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_mixing_ratio"><code class="docutils literal notranslate"><span class="pre">calc_mixing_ratio()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_vapor_pressure"><code class="docutils literal notranslate"><span class="pre">calc_vapor_pressure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_saturation_vapor_pressure"><code class="docutils literal notranslate"><span class="pre">calc_saturation_vapor_pressure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.calc_saturation_mixing_ratio"><code class="docutils literal notranslate"><span class="pre">calc_saturation_mixing_ratio()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_specific_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_mixing_ratio_2_specific_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_mixing_ratio"><code class="docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_mixing_ratio()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_specific_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_dewpoint_2_specific_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_dewpoint"><code class="docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_dewpoint()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_dewpoint_2_relative_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_dewpoint_2_relative_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_mixing_ratio_2_relative_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_mixing_ratio_2_relative_humidity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.core.diagnosis.transfer_specific_humidity_2_relative_humidity"><code class="docutils literal notranslate"><span class="pre">transfer_specific_humidity_2_relative_humidity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2024, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2024-12-03.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

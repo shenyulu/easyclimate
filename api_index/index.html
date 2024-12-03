@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>List of functions and classes (API) &#8212; easyclimate v2024.11.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=f47278f1"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api_index/index';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="easyclimate.core.diagnosis" href="generated/easyclimate.core.diagnosis.html" />
+    <link rel="prev" title="Mesoscale" href="../static_docs/mesoscale.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="2024-12-03"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/easyclimate-logo.svg" class="logo__image only-light" alt="easyclimate v2024.11.0 documentation - Home"/>
+    <img src="../_static/easyclimate-logo.svg" class="logo__image only-dark pst-js-only" alt="easyclimate v2024.11.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../auto_gallery_output/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_gallery_output/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_gallery_output/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_gallery_output/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../auto_gallery_output/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_gallery_output/plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/air_sea_interaction.html">Air–sea interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/mesoscale.html">Mesoscale</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">List of functions and classes (API)</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.interp.point2mesh.html">easyclimate.interp.point2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.air_sea_interaction.html">easyclimate.field.air_sea_interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.html">easyclimate.field.teleconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.monsoon.html">easyclimate.field.monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.ocean.html">easyclimate.field.ocean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.mesoscale.html">easyclimate.field.mesoscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/easyclimate.field.mesoscale.potential_intensity.html">easyclimate.field.mesoscale.potential_intensity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changelog</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source code on GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Fapi_index/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api_index/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>List of functions and classes (API)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core">Core</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filter">Filter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation">Interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#climate-field">Climate Field</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#airsea-interaction">Air–Sea Interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teleconnections">Teleconnections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#landatmosphere-interactions">Land–Atmosphere Interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monsoon">Monsoon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ocean">Ocean</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mesoscale">Mesoscale</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="list-of-functions-and-classes-api">
+<span id="api"></span><h1>List of functions and classes (API)<a class="headerlink" href="#list-of-functions-and-classes-api" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>All functions and classes should be accessed from the</strong> <a class="reference internal" href="../technical/api/easyclimate/index.html#module-easyclimate" title="easyclimate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate</span></code></a>
+<strong>top-level namespace.</strong></p>
+<p>Modules inside of the <a class="reference internal" href="../technical/api/easyclimate/index.html#module-easyclimate" title="easyclimate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">easyclimate</span></code></a> package are meant mostly for internal
+organization. Please <strong>avoid importing</strong> directly from submodules since
+functions/classes may be moved around.</p>
+</div>
+<section id="core">
+<span id="module-easyclimate"></span><h2>Core<a class="headerlink" href="#core" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/diagnosis/index.html#module-easyclimate.core.diagnosis" title="easyclimate.core.diagnosis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.diagnosis</span></code></a></p></td>
+<td><p>Functions for Weather and climate variable diagnosis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/diff/index.html#module-easyclimate.core.diff" title="easyclimate.core.diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.diff</span></code></a></p></td>
+<td><p>The calculation of geographic finite difference</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/eddy/index.html#module-easyclimate.core.eddy" title="easyclimate.core.eddy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.eddy</span></code></a></p></td>
+<td><p>The calculation of transient eddy</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/eof/index.html#module-easyclimate.core.eof" title="easyclimate.core.eof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.eof</span></code></a></p></td>
+<td><p>The analysis of the EOF and MCA</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/extract/index.html#module-easyclimate.core.extract" title="easyclimate.core.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.extract</span></code></a></p></td>
+<td><p>Obtain data within a specified time period</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/mk_test/index.html#module-easyclimate.core.mk_test" title="easyclimate.core.mk_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.mk_test</span></code></a></p></td>
+<td><p>Mann-Kendall Test</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/read/index.html#module-easyclimate.core.read" title="easyclimate.core.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.read</span></code></a></p></td>
+<td><p>Functions for read data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/stat/index.html#module-easyclimate.core.stat" title="easyclimate.core.stat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.stat</span></code></a></p></td>
+<td><p>Basic statistical analysis of weather and climate variables</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/tutorial/index.html#module-easyclimate.core.tutorial" title="easyclimate.core.tutorial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.tutorial</span></code></a></p></td>
+<td><p>Tutorials in the <cite>easyclimate</cite> documentation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/utility/index.html#module-easyclimate.core.utility" title="easyclimate.core.utility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.utility</span></code></a></p></td>
+<td><p>Functions for package utility.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/variability/index.html#module-easyclimate.core.variability" title="easyclimate.core.variability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.variability</span></code></a></p></td>
+<td><p>This module calculate climate variability</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/yearstat/index.html#module-easyclimate.core.yearstat" title="easyclimate.core.yearstat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.yearstat</span></code></a></p></td>
+<td><p>This module computes statistical values over timesteps of the same year</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/core/windspharm/index.html#module-easyclimate.core.windspharm" title="easyclimate.core.windspharm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.core.windspharm</span></code></a></p></td>
+<td><p>Easy climate top interface for the windspharm</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="filter">
+<h2>Filter<a class="headerlink" href="#filter" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/filter/butter_filter/index.html#module-easyclimate.filter.butter_filter" title="easyclimate.filter.butter_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.filter.butter_filter</span></code></a></p></td>
+<td><p>Butterworth bandpass filter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/filter/smooth/index.html#module-easyclimate.filter.smooth" title="easyclimate.filter.smooth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.filter.smooth</span></code></a></p></td>
+<td><p>spatial smoothing</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/filter/wavelet/index.html#module-easyclimate.filter.wavelet" title="easyclimate.filter.wavelet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.filter.wavelet</span></code></a></p></td>
+<td><p>Wavelet transform</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="interpolation">
+<h2>Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/interp/point2mesh/index.html#module-easyclimate.interp.point2mesh" title="easyclimate.interp.point2mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.interp.point2mesh</span></code></a></p></td>
+<td><p>Interpolate from points to grid</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/interp/mesh2mesh/index.html#module-easyclimate.interp.mesh2mesh" title="easyclimate.interp.mesh2mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.interp.mesh2mesh</span></code></a></p></td>
+<td><p>Regridding</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/interp/index.html#easyclimate.interp.interp1d_vertical_model2pressure" title="easyclimate.interp.interp1d_vertical_model2pressure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.interp.interp1d_vertical_model2pressure</span></code></a>(...)</p></td>
+<td><p>Interpolating variables from the model levels (e.g., sigma vertical coordinate) to the standard pressure levels by 1-D function.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/plot/axisticker/index.html#module-easyclimate.plot.axisticker" title="easyclimate.plot.axisticker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.plot.axisticker</span></code></a></p></td>
+<td><p>Quick processing of special axes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/plot/projection/index.html#module-easyclimate.plot.projection" title="easyclimate.plot.projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.plot.projection</span></code></a></p></td>
+<td><p>Graph processing related functions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/plot/significance_plot/index.html#module-easyclimate.plot.significance_plot" title="easyclimate.plot.significance_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.plot.significance_plot</span></code></a></p></td>
+<td><p>Mapping areas of significance</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/plot/taylor_diagram/index.html#module-easyclimate.plot.taylor_diagram" title="easyclimate.plot.taylor_diagram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.plot.taylor_diagram</span></code></a></p></td>
+<td><p>Functions for Taylor Diagrams plotting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/plot/quick_draw/index.html#module-easyclimate.plot.quick_draw" title="easyclimate.plot.quick_draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.plot.quick_draw</span></code></a></p></td>
+<td><p>The quick drawing function</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="climate-field">
+<h2>Climate Field<a class="headerlink" href="#climate-field" title="Link to this heading">#</a></h2>
+<section id="airsea-interaction">
+<h3>Air–Sea Interaction<a class="headerlink" href="#airsea-interaction" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/air_sea_interaction/index.html#module-easyclimate.field.air_sea_interaction" title="easyclimate.field.air_sea_interaction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.air_sea_interaction</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/air_sea_interaction/index_enso/index.html#module-easyclimate.field.air_sea_interaction.index_enso" title="easyclimate.field.air_sea_interaction.index_enso"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.air_sea_interaction.index_enso</span></code></a></p></td>
+<td><p>ENSO Index</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/air_sea_interaction/index_iod/index.html#module-easyclimate.field.air_sea_interaction.index_iod" title="easyclimate.field.air_sea_interaction.index_iod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.air_sea_interaction.index_iod</span></code></a></p></td>
+<td><p>Indian Ocean Dipole (IOD) Index</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/air_sea_interaction/index_iobm/index.html#module-easyclimate.field.air_sea_interaction.index_iobm" title="easyclimate.field.air_sea_interaction.index_iobm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.air_sea_interaction.index_iobm</span></code></a></p></td>
+<td><p>Indian Ocean Basin mode (IOBM) Index</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/air_sea_interaction/index_amm/index.html#module-easyclimate.field.air_sea_interaction.index_amm" title="easyclimate.field.air_sea_interaction.index_amm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.air_sea_interaction.index_amm</span></code></a></p></td>
+<td><p>Atlantic Meridional Mode (AMM) Index</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/air_sea_interaction/index_atlantic_nino/index.html#module-easyclimate.field.air_sea_interaction.index_atlantic_nino" title="easyclimate.field.air_sea_interaction.index_atlantic_nino"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.air_sea_interaction.index_atlantic_nino</span></code></a></p></td>
+<td><p>Atlantic Niños Index</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="teleconnections">
+<h3>Teleconnections<a class="headerlink" href="#teleconnections" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index.html#module-easyclimate.field.teleconnection" title="easyclimate.field.teleconnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_pna/index.html#module-easyclimate.field.teleconnection.index_pna" title="easyclimate.field.teleconnection.index_pna"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_pna</span></code></a></p></td>
+<td><p>Pacific/North American (PNA) Index</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_nao/index.html#module-easyclimate.field.teleconnection.index_nao" title="easyclimate.field.teleconnection.index_nao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_nao</span></code></a></p></td>
+<td><p>North Atlantic Oscillation (NAO) Index</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_ea/index.html#module-easyclimate.field.teleconnection.index_ea" title="easyclimate.field.teleconnection.index_ea"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_ea</span></code></a></p></td>
+<td><p>The eastern Atlantic (EA) pattern</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_wa/index.html#module-easyclimate.field.teleconnection.index_wa" title="easyclimate.field.teleconnection.index_wa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_wa</span></code></a></p></td>
+<td><p>The western Atlantic (WA) pattern</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_wp/index.html#module-easyclimate.field.teleconnection.index_wp" title="easyclimate.field.teleconnection.index_wp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_wp</span></code></a></p></td>
+<td><p>The western Pacific (WP) pattern</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_eu/index.html#module-easyclimate.field.teleconnection.index_eu" title="easyclimate.field.teleconnection.index_eu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_eu</span></code></a></p></td>
+<td><p>The Eurasian pattern (EU) pattern</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_srp/index.html#module-easyclimate.field.teleconnection.index_srp" title="easyclimate.field.teleconnection.index_srp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_srp</span></code></a></p></td>
+<td><p>Silk Road pattern (SRP) Index</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/teleconnection/index_cgt/index.html#module-easyclimate.field.teleconnection.index_cgt" title="easyclimate.field.teleconnection.index_cgt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.teleconnection.index_cgt</span></code></a></p></td>
+<td><p>Circumglobal teleconnection pattern (CGT) Index</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="landatmosphere-interactions">
+<h3>Land–Atmosphere Interactions<a class="headerlink" href="#landatmosphere-interactions" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/land/index.html#module-easyclimate.field.land" title="easyclimate.field.land"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.land</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="monsoon">
+<h3>Monsoon<a class="headerlink" href="#monsoon" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/monsoon/index.html#module-easyclimate.field.monsoon" title="easyclimate.field.monsoon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.monsoon</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/monsoon/index_npwi/index.html#module-easyclimate.field.monsoon.index_npwi" title="easyclimate.field.monsoon.index_npwi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.monsoon.index_npwi</span></code></a></p></td>
+<td><p>Objective globally unified summer monsoon onset or retreat dates.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="ocean">
+<h3>Ocean<a class="headerlink" href="#ocean" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/ocean/index.html#module-easyclimate.field.ocean" title="easyclimate.field.ocean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.ocean</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/ocean/mixlayer/index.html#module-easyclimate.field.ocean.mixlayer" title="easyclimate.field.ocean.mixlayer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.ocean.mixlayer</span></code></a></p></td>
+<td><p>The calculation of ocean mixed layer variables.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/ocean/oceanic_front/index.html#module-easyclimate.field.ocean.oceanic_front" title="easyclimate.field.ocean.oceanic_front"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front</span></code></a></p></td>
+<td><p>Quantify the intensity and location of two basin-scale oceanic frontal zones in the wintertime North Pacific, i.e. the subtropical and subarctic frontal zones (STFZ, SAFZ).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/ocean/stability/index.html#module-easyclimate.field.ocean.stability" title="easyclimate.field.ocean.stability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.ocean.stability</span></code></a></p></td>
+<td><p>The calculation of ocean instability.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/ocean/thermal/index.html#module-easyclimate.field.ocean.thermal" title="easyclimate.field.ocean.thermal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.ocean.thermal</span></code></a></p></td>
+<td><p>The calculation of ocean thermocline variables.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="mesoscale">
+<h3>Mesoscale<a class="headerlink" href="#mesoscale" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/mesoscale/index.html#module-easyclimate.field.mesoscale" title="easyclimate.field.mesoscale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.mesoscale</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../technical/api/easyclimate/field/mesoscale/potential_intensity/index.html#module-easyclimate.field.mesoscale.potential_intensity" title="easyclimate.field.mesoscale.potential_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">easyclimate.field.mesoscale.potential_intensity</span></code></a></p></td>
+<td><p>Potential intensity of TC</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../static_docs/mesoscale.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mesoscale</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generated/easyclimate.core.diagnosis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">easyclimate.core.diagnosis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core">Core</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filter">Filter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation">Interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#climate-field">Climate Field</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#airsea-interaction">Air–Sea Interaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teleconnections">Teleconnections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#landatmosphere-interactions">Land–Atmosphere Interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monsoon">Monsoon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ocean">Ocean</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mesoscale">Mesoscale</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2024, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2024-12-03.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
