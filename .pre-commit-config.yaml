@@ -24,7 +24,8 @@ repos:
         args: [--maxkb=51200, --markdown-linebreak-ext=md]
 
 -   repo: https://github.com/psf/black
-    rev: 24.8.0
+    rev: 24.10.0
     hooks:
     -   id: black
         types: [python]
+        exclude: ^docs/
