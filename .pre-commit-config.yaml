@@ -27,3 +27,4 @@ repos:
     rev: 24.8.0
     hooks:
     -   id: black
+        types: [python]

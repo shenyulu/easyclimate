@@ -1,12 +1,12 @@
 .. easyclimate documentation master file, created by
    sphinx-quickstart on Mon Mar 20 14:33:30 2023.
 
-.. Easy climate
+.. Easy Climate
 .. =======================================
 
 .. .. image:: _static/easyclimate-logo.svg
 
-.. Easy climate is a Python library for processing spatial data (bathymetry, geophysics surveys, etc)
+.. Easy Climate is a Python library for processing spatial data (bathymetry, geophysics surveys, etc)
 .. and interpolating it on regular grids (i.e., gridding).
 
 .. Our core interpolation methods are inspired by machine-learning.
@@ -34,41 +34,80 @@
         <strong>Easy Climate is just here to help you!</strong>
     </p>
 
-Installation🛒
-------------------------
 
-You can do a direct install via `pip` by using:
+You can directly install it via `pip` by using 🛒
 
 .. code-block:: bash
 
     $ pip install easyclimate
 
-Online experience💻
-------------------------
-Just click on the link below and wait for the online environment to be configured before using the Easyclimate package on Jupyter notebook online.
 
-.. image:: https://mybinder.org/badge_logo.svg
-    :target: https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample
+----
 
-How to cite📣
------------------------
+.. grid:: 1 2 1 2
+    :margin: 5 5 0 0
+    :padding: 0 0 0 0
+    :gutter: 4
 
-If you are using **Easy Climate** and would like to cite it in academic publication, we would certainly appreciate it. We recommend the following citations.
-We provide a `Zenodo citation and DOI <https://zenodo.org/doi/10.5281/zenodo.10279567>`__ for this purpose:
+    .. grid-item-card:: :octicon:`info` Try Online🤗
+        :text-align: center
+        :class-title: sd-fs-5
+        :class-card: sd-p-3
 
-An example BibTeX entry:
+        New to Easy Climate? Try!
 
-.. code:: BibTeX
+        .. button-link:: https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample
+            :click-parent:
+            :color: primary
+            :outline:
+            :expand:
 
-    @misc{easyclimate_v2024_11_0,
-        author = {Yulu Shen},
-        title  = {easyclimate: v2024.11.0},
-        month  = dec,
-        year   = 2024,
-        doi    = {10.5281/zenodo.10279567},
-        url    = {https://doi.org/10.5281/zenodo.10279567}
-        }
+            Binder Online Engine :octicon:`rocket`
 
+    .. grid-item-card:: :octicon:`comment-discussion` Need help?
+        :text-align: center
+        :class-title: sd-fs-5
+        :class-card: sd-p-3
+
+        Ask on our community channels.
+
+        .. button-link:: https://github.com/shenyulu/easyclimate/discussions
+            :click-parent:
+            :color: primary
+            :outline:
+            :expand:
+
+            Join the conversation :octicon:`link-external`
+
+    .. grid-item-card:: :octicon:`file-badge` Reference documentation
+        :text-align: center
+        :class-title: sd-fs-5
+        :class-card: sd-p-3
+
+        A list of modules and functions.
+
+        .. button-ref:: api
+            :ref-type: ref
+            :color: primary
+            :outline:
+            :expand:
+
+    .. grid-item-card:: :octicon:`bookmark` Using Easy Climate for research?
+        :text-align: center
+        :class-title: sd-fs-5
+        :class-card: sd-p-3
+
+        Citations help support our work!
+
+        .. button-ref:: citenote
+            :ref-type: ref
+            :color: primary
+            :outline:
+            :expand:
+
+            Cite our repository
+
+----
 
 .. toctree::
     :maxdepth: 1
@@ -116,6 +155,7 @@ An example BibTeX entry:
 
     ./api_index/index.rst
     changes.md
+    ./static_docs/cite
 
 .. toctree::
     :maxdepth: 1
@@ -125,13 +165,6 @@ An example BibTeX entry:
     How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
     Source code on GitHub <https://github.com/shenyulu/easyclimate>
 
-
-Indices and tables🧭
-------------------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. caution::
     🚨 This package is still undergoing rapid development. 🚨

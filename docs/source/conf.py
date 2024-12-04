@@ -49,6 +49,7 @@ extensions = [
     # copy button
     "sphinx_copybutton",
     "sphinx.ext.githubpages",
+    "sphinx_design",
 ]
 
 templates_path = ["_templates"]
