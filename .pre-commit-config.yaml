@@ -21,7 +21,7 @@ repos:
     -   id: check-json
     -   id: check-toml
     -   id: name-tests-test
-        args: [--maxkb=51200]
+        args: [--maxkb=51200, --markdown-linebreak-ext=md]
 
 -   repo: https://github.com/psf/black
     rev: 24.8.0

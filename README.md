@@ -19,6 +19,8 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+<center>English / <a href = "README_zh_CN.md">简体中文</a> / <a href = "README_ja_JP.md">日本語</a></center>
+
 ## 👋 Overview
 
 **Easy Climate** is a Python package, aiming to use a line of code to analyze climate.
