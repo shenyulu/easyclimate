@@ -6,4 +6,4 @@ from . import plot
 from . import field
 
 # Version number
-__version__ = "2024.11.0"
+__version__ = "2024.12.0"
