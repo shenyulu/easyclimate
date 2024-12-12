@@ -11,7 +11,7 @@ dependencies:
     - xeofs >= 3.0.0
     - matplotlib
     - pandas >= 2.2.0
-    - fast-barnes-py
+    - fast-barnes-py == 1.0.0
     - oceans
     - intel-fortran-rt
     - dpcpp-cpp-rt

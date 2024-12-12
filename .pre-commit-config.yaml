@@ -11,7 +11,7 @@ default_language_version:
 
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
@@ -21,9 +21,11 @@ repos:
     -   id: check-json
     -   id: check-toml
     -   id: name-tests-test
-        args: [--maxkb=51200]
+        args: [--maxkb=51200, --markdown-linebreak-ext=md]
 
 -   repo: https://github.com/psf/black
-    rev: 24.8.0
+    rev: 24.10.0
     hooks:
     -   id: black
+        types: [python]
+        exclude: ^docs/
