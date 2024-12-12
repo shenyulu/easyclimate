@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2024.12.0
+
+*Released on: 2024/12/12*
+
+### What's Changed
+
+* [feat: add interp1d_vertical_pressure2altitude](https://github.com/shenyulu/easyclimate/pull/86/commits/0137a7427dd9bd44746f11fdf03b28ee07d713b0)
+* [feat: add docs seaborn rely](https://github.com/shenyulu/easyclimate/pull/86/commits/fca5fec9a860b32786ceffac80dfccd4cab97a2e)
+* [fix: rtd github download](https://github.com/shenyulu/easyclimate/pull/86/commits/cef99c25a18cf017623926d4bec135c745fb8a1b)
+* [feat: support Chinese and Japanese readme](https://github.com/shenyulu/easyclimate/pull/87/commits/0742ed89673d06c452e7e407a1401afb905a8697)
+* [update: update index page](https://github.com/shenyulu/easyclimate/pull/87/commits/485563e916aa52430cf4077bcb0e7a251ae6f902)
+* [fix: fix fast-barnes-py version temperately](https://github.com/shenyulu/easyclimate/pull/87/commits/277e687c652e53e59f1cc8699d074de194caf231)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.11.0...v2024.12.0
+
 ## Version 2024.11.0
 
 *Released on: 2024/11/17*
