@@ -4,6 +4,7 @@ from . import filter
 from . import interp
 from . import plot
 from . import field
+from . import accessor
 
 # Version number
-__version__ = "2024.12.0"
+__version__ = "2025.1.0"

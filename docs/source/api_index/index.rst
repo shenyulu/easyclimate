@@ -66,6 +66,7 @@ Plot
     easyclimate.plot.significance_plot
     easyclimate.plot.taylor_diagram
     easyclimate.plot.quick_draw
+    easyclimate.plot.curved_quiver_plot
 
 
 Climate Field
