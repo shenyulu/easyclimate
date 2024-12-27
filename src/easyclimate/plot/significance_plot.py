@@ -9,6 +9,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import xarray as xr
 import pandas as pd
+import matplotlib.patches as patches
 
 __all__ = [
     "draw_significant_area_contourf",
@@ -87,14 +88,17 @@ def draw_significant_area_contourf(
     #
     # https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.8.0.html#contourset-collections
     #
-    # For each level, we set the color of its hatch
-    for i, collection in enumerate(cs.collections):
-        collection.set_edgecolor(hatch_colors[i % len(hatch_colors)])
-
-    # Doing this also colors in the box around each level
-    # We can remove the colored line around the levels by setting the linewidth to 0
-    for collection in cs.collections:
-        collection.set_linewidth(0.0)
+    # Manually add hatches and set the hatch color without using collections
+    for i, path in enumerate(cs.get_paths()):
+        # Create a Patch for each contour path
+        patch = patches.PathPatch(
+            path,
+            facecolor="none",
+            edgecolor=hatch_colors[i % len(hatch_colors)],
+            hatch=hatches_value[i % len(hatches_value)],
+            lw=0,
+        )
+        ax.add_patch(patch)  # Add patch to the axis
 
 
 def get_significance_point(
