@@ -19,7 +19,9 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+<div align="center">
 <center><a href = "README.md">English</a> / 简体中文 / <a href = "README_ja_JP.md">日本語</a></center>
+</div>
 
 ## 👋 总览
 
