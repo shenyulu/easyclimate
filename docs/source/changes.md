@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2025.1.0
+
+*Released on: 2025/1/9*
+
+### What's Changed
+
+* [feat: add curly vector support](https://github.com/shenyulu/easyclimate/commit/ca89e9be939fab698dc07a87943b7ad323220f35)
+* [fix: fix Collection in matplotlib](https://github.com/shenyulu/easyclimate/commit/1cb5e719303d4bdb78d4856201e941c901b8f991)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.12.0...v2025.1.0
+
 ## Version 2024.12.0
 
 *Released on: 2024/12/12*
