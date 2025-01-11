@@ -99,7 +99,7 @@ def calc_lanczos_lowpass(
     method: Literal["rolling", "convolve"] = "rolling",
 ) -> xr.DataArray:
     """
-    Lanczos lowpass filter.
+    Lanczos lowpass filter
 
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
@@ -111,9 +111,11 @@ def calc_lanczos_lowpass(
     dim: :py:class:`str <str>`.
         Dimension(s) over which to apply lowpass filter. By default gradient is applied over the `time` dimension.
     method: :py:class:`str <str>`, default: `rolling`.
-        Filter method. Optional values are `rolling`, `'convolve`.
+        Filter method. Optional values are `rolling`, `convolve`.
+
     .. seealso::
-        https://github.com/liv0505/Lanczos-Filter/tree/master
+        - https://github.com/liv0505/Lanczos-Filter/tree/master
+        - `Duchon, C. E. (1979). Lanczos Filtering in One and Two Dimensions. Journal of Applied Meteorology and Climatology, 18(8), 1016-1022. <https://journals.ametsoc.org/view/journals/apme/18/8/1520-0450_1979_018_1016_lfioat_2_0_co_2.xml>`__
     """
     fw = lanczos_lowpass_weights(window_length, 1.0 / period)
 
@@ -136,7 +138,7 @@ def calc_lanczos_highpass(
     method: Literal["rolling", "convolve"] = "rolling",
 ) -> xr.DataArray:
     """
-    Lanczos highpass filter.
+    Lanczos highpass filter
 
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
@@ -148,9 +150,11 @@ def calc_lanczos_highpass(
     dim: :py:class:`str <str>`.
         Dimension(s) over which to apply highpass filter. By default gradient is applied over the `time` dimension.
     method: :py:class:`str <str>`, default: `rolling`.
-        Filter method. Optional values are `rolling`, `'convolve`.
+        Filter method. Optional values are `rolling`, `convolve`.
+
     .. seealso::
-        https://github.com/liv0505/Lanczos-Filter/tree/master
+        - https://github.com/liv0505/Lanczos-Filter/tree/master
+        - `Duchon, C. E. (1979). Lanczos Filtering in One and Two Dimensions. Journal of Applied Meteorology and Climatology, 18(8), 1016-1022. <https://journals.ametsoc.org/view/journals/apme/18/8/1520-0450_1979_018_1016_lfioat_2_0_co_2.xml>`__
     """
     fw = lanczos_highpass_weights(window_length, 1.0 / period)
 
@@ -173,7 +177,7 @@ def calc_lanczos_bandpass(
     method: Literal["rolling", "convolve"] = "rolling",
 ) -> xr.DataArray:
     """
-    Lanczos bandpass filter.
+    Lanczos bandpass filter
 
     data: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`.
         The array of data to be filtered.
@@ -185,9 +189,11 @@ def calc_lanczos_bandpass(
     dim: :py:class:`str <str>`.
         Dimension(s) over which to apply bandpass filter. By default gradient is applied over the `time` dimension.
     method: :py:class:`str <str>`, default: `rolling`.
-        Filter method. Optional values are `rolling`, `'convolve`.
+        Filter method. Optional values are `rolling`, `convolve`.
+
     .. seealso::
-        https://github.com/liv0505/Lanczos-Filter/tree/master
+        - https://github.com/liv0505/Lanczos-Filter/tree/master
+        - `Duchon, C. E. (1979). Lanczos Filtering in One and Two Dimensions. Journal of Applied Meteorology and Climatology, 18(8), 1016-1022. <https://journals.ametsoc.org/view/journals/apme/18/8/1520-0450_1979_018_1016_lfioat_2_0_co_2.xml>`__
     """
     period = np.array(period)
     period = np.sort(period)

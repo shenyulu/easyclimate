@@ -1,5 +1,5 @@
 """
-spatial smoothing
+Spatial smoothing
 """
 
 from __future__ import annotations

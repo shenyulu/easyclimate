@@ -1,5 +1,5 @@
 """
-Functions for Curved quiver plots.
+Functions for curved quiver plots.
 """
 
 from __future__ import annotations
