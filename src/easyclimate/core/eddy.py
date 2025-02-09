@@ -74,7 +74,7 @@ def calc_eady_growth_rate(
 
     Returns
     -------
-    The maximum Eady growth rate. (:py:class:`xarray.Dataset<xarray.Dataset>`).
+    The maximum Eady growth rate (:py:class:`xarray.Dataset<xarray.Dataset>`).
 
     - `eady_growth_rate`: The maximum Eady growth rate.
     - `dudz`: :math:`\\frac{\\mathrm{d} U}{\\mathrm{d} z}`

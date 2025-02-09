@@ -217,7 +217,7 @@ def add_curved_quiverkey(
     # Calculate arrow length in data coordinates
     resolution = curved_quiver.resolution
     magnitude = curved_quiver.magnitude
-    arrow_length = U * resolution * np.mean(magnitude)
+    arrow_length = U * resolution / np.mean(magnitude)
 
     # Convert angle to radians
     angle_rad = np.radians(angle)

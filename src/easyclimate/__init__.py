@@ -7,4 +7,4 @@ from . import field
 from . import accessor
 
 # Version number
-__version__ = "2025.1.0"
+__version__ = "2025.2.0"

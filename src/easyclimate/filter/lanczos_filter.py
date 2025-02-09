@@ -115,6 +115,7 @@ def calc_lanczos_lowpass(
 
     .. seealso::
         - https://github.com/liv0505/Lanczos-Filter/tree/master
+        - https://scitools-iris.readthedocs.io/en/stable/generated/gallery/general/plot_SOI_filtering.html
         - `Duchon, C. E. (1979). Lanczos Filtering in One and Two Dimensions. Journal of Applied Meteorology and Climatology, 18(8), 1016-1022. <https://journals.ametsoc.org/view/journals/apme/18/8/1520-0450_1979_018_1016_lfioat_2_0_co_2.xml>`__
     """
     fw = lanczos_lowpass_weights(window_length, 1.0 / period)
@@ -154,6 +155,7 @@ def calc_lanczos_highpass(
 
     .. seealso::
         - https://github.com/liv0505/Lanczos-Filter/tree/master
+        - https://scitools-iris.readthedocs.io/en/stable/generated/gallery/general/plot_SOI_filtering.html
         - `Duchon, C. E. (1979). Lanczos Filtering in One and Two Dimensions. Journal of Applied Meteorology and Climatology, 18(8), 1016-1022. <https://journals.ametsoc.org/view/journals/apme/18/8/1520-0450_1979_018_1016_lfioat_2_0_co_2.xml>`__
     """
     fw = lanczos_highpass_weights(window_length, 1.0 / period)
@@ -193,6 +195,7 @@ def calc_lanczos_bandpass(
 
     .. seealso::
         - https://github.com/liv0505/Lanczos-Filter/tree/master
+        - https://scitools-iris.readthedocs.io/en/stable/generated/gallery/general/plot_SOI_filtering.html
         - `Duchon, C. E. (1979). Lanczos Filtering in One and Two Dimensions. Journal of Applied Meteorology and Climatology, 18(8), 1016-1022. <https://journals.ametsoc.org/view/journals/apme/18/8/1520-0450_1979_018_1016_lfioat_2_0_co_2.xml>`__
     """
     period = np.array(period)
