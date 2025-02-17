@@ -1,5 +1,5 @@
 """
-pytest for yearstat.py
+pytest for filter/butter_filter.py
 """
 
 import pytest

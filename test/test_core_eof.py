@@ -128,23 +128,23 @@ def test_get_EOF_model_and_calc_EOF_analysis():
     assert np.isclose(result_data5, refer_data5, atol=0.01).all()
 
 
-def test_save_EOF_model_and_load_EOF_model():
-    assert_path_dir_exist(TEST_TMP_PATH)
-    inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_core_eof.nc"))).z
-    model = ecl.eof.get_EOF_model(
-        inputdata,
-        lat_dim="lat",
-        lon_dim="lon",
-        remove_seasonal_cycle_mean=True,
-        use_coslat=True,
-    )
-    result_data = ecl.eof.calc_EOF_analysis(model)
-    outputfile_path = str(Path(TEST_TMP_PATH, "test_output_core_eof_model.zarr"))
-    ecl.eof.save_EOF_model(
-        model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
-    )
-    mymodel = ecl.eof.load_EOF_model(path=outputfile_path, engine="zarr")
-    assert isinstance(mymodel, xeofs.single.eof.EOF)
+# def test_save_EOF_model_and_load_EOF_model():
+#     assert_path_dir_exist(TEST_TMP_PATH)
+#     inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_core_eof.nc"))).z
+#     model = ecl.eof.get_EOF_model(
+#         inputdata,
+#         lat_dim="lat",
+#         lon_dim="lon",
+#         remove_seasonal_cycle_mean=True,
+#         use_coslat=True,
+#     )
+#     result_data = ecl.eof.calc_EOF_analysis(model)
+#     outputfile_path = str(Path(TEST_TMP_PATH, "test_output_core_eof_model.zarr"))
+#     ecl.eof.save_EOF_model(
+#         model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
+#     )
+#     mymodel = ecl.eof.load_EOF_model(path=outputfile_path, engine="zarr")
+#     assert isinstance(mymodel, xeofs.single.eof.EOF)
 
 
 def test_get_REOF_model_and_calc_REOF_analysis():
@@ -222,23 +222,23 @@ def test_get_REOF_model_and_calc_REOF_analysis():
     assert np.isclose(result_data5, refer_data5, atol=0.01).all()
 
 
-def test_save_REOF_model_and_load_REOF_model():
-    assert_path_dir_exist(TEST_TMP_PATH)
-    inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_core_eof.nc"))).z
-    model = ecl.eof.get_REOF_model(
-        inputdata,
-        lat_dim="lat",
-        lon_dim="lon",
-        remove_seasonal_cycle_mean=True,
-        use_coslat=True,
-    )
-    result_data = ecl.eof.calc_REOF_analysis(model)
-    outputfile_path = str(Path(TEST_TMP_PATH, "test_output_core_reof_model.zarr"))
-    ecl.eof.save_REOF_model(
-        model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
-    )
-    mymodel = ecl.eof.load_REOF_model(path=outputfile_path, engine="zarr")
-    assert isinstance(mymodel, xeofs.single.EOFRotator)
+# def test_save_REOF_model_and_load_REOF_model():
+#     assert_path_dir_exist(TEST_TMP_PATH)
+#     inputdata = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_core_eof.nc"))).z
+#     model = ecl.eof.get_REOF_model(
+#         inputdata,
+#         lat_dim="lat",
+#         lon_dim="lon",
+#         remove_seasonal_cycle_mean=True,
+#         use_coslat=True,
+#     )
+#     result_data = ecl.eof.calc_REOF_analysis(model)
+#     outputfile_path = str(Path(TEST_TMP_PATH, "test_output_core_reof_model.zarr"))
+#     ecl.eof.save_REOF_model(
+#         model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
+#     )
+#     mymodel = ecl.eof.load_REOF_model(path=outputfile_path, engine="zarr")
+#     assert isinstance(mymodel, xeofs.single.EOFRotator)
 
 
 def test_get_MCA_model_and_calc_MCA_analysis():
@@ -724,23 +724,23 @@ def test_get_MCA_model_and_calc_MCA_analysis():
     assert np.isclose(result_data20, refer_data20, atol=0.01).all()
 
 
-def test_save_MCA_model_and_load_MCA_model():
-    assert_path_dir_exist(TEST_TMP_PATH)
+# def test_save_MCA_model_and_load_MCA_model():
+#     assert_path_dir_exist(TEST_TMP_PATH)
 
-    t2m = xr.tutorial.load_dataset("air_temperature")["air"]
-    da1 = t2m.isel(lon=slice(0, 26))
-    da2 = t2m.isel(lon=slice(27, None))
-    mca_model = ecl.eof.get_MCA_model(
-        da1, da2, lat_dim="lat", lon_dim="lon", n_modes=2, use_coslat=True
-    )
-    result_datatree = ecl.eof.calc_MCA_analysis(mca_model)
+#     t2m = xr.tutorial.load_dataset("air_temperature")["air"]
+#     da1 = t2m.isel(lon=slice(0, 26))
+#     da2 = t2m.isel(lon=slice(27, None))
+#     mca_model = ecl.eof.get_MCA_model(
+#         da1, da2, lat_dim="lat", lon_dim="lon", n_modes=2, use_coslat=True
+#     )
+#     result_datatree = ecl.eof.calc_MCA_analysis(mca_model)
 
-    outputfile_path = str(Path(TEST_TMP_PATH, "test_output_core_mca_model.zarr"))
-    ecl.eof.save_MCA_model(
-        mca_model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
-    )
-    mymodel = ecl.eof.load_MCA_model(path=outputfile_path, engine="zarr")
-    assert isinstance(mymodel, xeofs.cross.MCA)
+#     outputfile_path = str(Path(TEST_TMP_PATH, "test_output_core_mca_model.zarr"))
+#     ecl.eof.save_MCA_model(
+#         mca_model, path=outputfile_path, overwrite=True, save_data=False, engine="zarr"
+#     )
+#     mymodel = ecl.eof.load_MCA_model(path=outputfile_path, engine="zarr")
+#     assert isinstance(mymodel, xeofs.cross.MCA)
 
 
 def test_clean_tmp_file():

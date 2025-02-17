@@ -270,17 +270,64 @@ def velovect(
         axes.add_patch(p)
 
     axes.autoscale_view()
-    stream_container = CurvedQuiverplotSet(lc, ac, magnitude, resolution)
+    stream_container = CurvedQuiverplotSet(
+        lc,
+        ac,
+        resolution,
+        magnitude,
+        zorder,
+        transform,
+        axes,
+        linewidth,
+        color,
+        cmap,
+        arrowsize,
+        arrowstyle,
+        start_points,
+        integration_direction,
+        grains,
+        broken_streamlines,
+    )
     return stream_container
 
 
 class CurvedQuiverplotSet:
 
-    def __init__(self, lines, arrows, magnitude, resolution):
+    def __init__(
+        self,
+        lines,
+        arrows,
+        resolution,
+        magnitude,
+        zorder,
+        transform,
+        axes,
+        linewidth,
+        color,
+        cmap,
+        arrowsize,
+        arrowstyle,
+        start_points,
+        integration_direction,
+        grains,
+        broken_streamlines,
+    ):
         self.lines = lines
         self.arrows = arrows
         self.resolution = resolution
         self.magnitude = magnitude
+        self.zorder = zorder
+        self.transform = transform
+        self.axes = axes
+        self.linewidth = linewidth
+        self.color = color
+        self.cmap = cmap
+        self.arrowsize = arrowsize
+        self.arrowstyle = arrowstyle
+        self.start_points = start_points
+        self.integration_direction = integration_direction
+        self.grains = grains
+        self.broken_streamlines = broken_streamlines
 
 
 # Coordinate definitions

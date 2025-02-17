@@ -41,8 +41,10 @@ Filter
     :toctree: generated/
 
     easyclimate.filter.butter_filter
+    easyclimate.filter.lanczos_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
+    easyclimate.filter.redfit
 
 Interpolation
 ----------------------------------------
@@ -101,7 +103,7 @@ Teleconnections
     easyclimate.field.teleconnection.index_srp
     easyclimate.field.teleconnection.index_cgt
 
-Land–Atmosphere Interactions
+Land
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::

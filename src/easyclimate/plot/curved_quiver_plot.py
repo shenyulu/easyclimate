@@ -1,5 +1,5 @@
 """
-Functions for Curved quiver plots.
+Functions for curved quiver plots.
 """
 
 from __future__ import annotations
@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 import matplotlib.font_manager
 from .modplot import CurvedQuiverplotSet
 from typing import Literal
+from matplotlib.patches import FancyArrowPatch
 
 import xarray as xr
 import matplotlib.pyplot as plt
@@ -217,7 +218,7 @@ def add_curved_quiverkey(
     # Calculate arrow length in data coordinates
     resolution = curved_quiver.resolution
     magnitude = curved_quiver.magnitude
-    arrow_length = U * resolution * np.mean(magnitude)
+    arrow_length = U * resolution / np.mean(magnitude)
 
     # Convert angle to radians
     angle_rad = np.radians(angle)
@@ -227,19 +228,25 @@ def add_curved_quiverkey(
     dy = arrow_length * np.sin(angle_rad)
 
     # Define arrow properties
-    arrow_props = dict(
-        facecolor=color, edgecolor=color, width=0.02, headwidth=4, headlength=6
-    )
+    arrow_props = dict(linewidth=0.02)
 
     # Draw the arrow with the given angle
-    ax.annotate(
-        "",
-        xy=(pos[0] + dx, pos[1] + dy),  # Arrow endpoint
-        xytext=pos,  # Arrow start
-        arrowprops=arrow_props,
-        xycoords="axes fraction",
-        zorder=zorder if zorder is not None else 2,
+    # ax.annotate(
+    #     "",
+    #     xy=(pos[0] + dx, pos[1] + dy),  # Arrow endpoint
+    #     xytext=pos,  # Arrow start
+    #     arrowprops=arrow_props,
+    #     xycoords="axes fraction",
+    #     zorder=zorder if zorder is not None else 2,
+    # )
+    arrow = FancyArrowPatch(
+        (pos[0], pos[1]),
+        (pos[0] + arrow_length, pos[1]),
+        mutation_scale=15,
+        arrowstyle="->",
+        **arrow_props,
     )
+    ax.add_patch(arrow)
 
     # Calculate the label position based on `labelpos`
     if labelpos == "N":  # Label above the arrow

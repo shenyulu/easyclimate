@@ -1,6 +1,16 @@
 # Changelog
 
-## Version 2025.1.0
+## v2025.2.0
+
+*Released on: 2025/2/17*
+
+### What's Changed
+
+* [feat: add Lanczos filter](https://github.com/shenyulu/easyclimate/commit/54e407c7d6dfa1ec35aaf0458e87c69d70d98d1e)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.1.0...v2025.2.0
+
+## v2025.1.0
 
 *Released on: 2025/1/9*
 
@@ -11,7 +21,7 @@
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.12.0...v2025.1.0
 
-## Version 2024.12.0
+## v2024.12.0
 
 *Released on: 2024/12/12*
 
@@ -26,7 +36,7 @@
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.11.0...v2024.12.0
 
-## Version 2024.11.0
+## v2024.11.0
 
 *Released on: 2024/11/17*
 
@@ -39,7 +49,7 @@
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.10.0...v2024.11.0
 
-## Version 2024.10.0
+## v2024.10.0
 
 *Released on: 2024/10/09*
 
@@ -60,7 +70,7 @@
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.08.01...v2024.10.0
 
-## Version 2024.08.01
+## v2024.08.01
 
 *Released on: 2024/08/02*
 
@@ -81,7 +91,7 @@
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.05.01...v2024.08.01
 
-## Version 2024.05.01
+## v2024.05.01
 
 *Released on: 2024/05/19*
 
@@ -119,7 +129,7 @@
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.03.01...v2024.05.01
 
-## Version 2024.03.01
+## v2024.03.01
 
 *Released on: 2024/03/05*
 
@@ -130,7 +140,7 @@
 * remove the pin of geocat.viz by @shenyulu in https://github.com/shenyulu/easyclimate/pull/24
 * change binder example location by @shenyulu in https://github.com/shenyulu/easyclimate/pull/25
 
-## Version 2024.01.01
+## v2024.01.01
 
 *Released on: 2024/01/04*
 
@@ -138,7 +148,7 @@
 * Publish version 2024.01.01 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/9
 * Bump pytest from 7.4.3 to 7.4.4 by @dependabot in https://github.com/shenyulu/easyclimate/pull/8
 
-## Version 2023.12.01
+## v2023.12.01
 
 *Released on: 2023/12/10*
 
@@ -151,7 +161,7 @@
 ### New Contributors
 * @shenyulu made their first contribution in https://github.com/shenyulu/easyclimate/pull/3
 
-## Version 0.0.1
+## v0.0.1
 
 *Released on: 2022/05/02*
 
