@@ -44,6 +44,7 @@ Filter
     easyclimate.filter.lanczos_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
+    easyclimate.filter.redfit
 
 Interpolation
 ----------------------------------------
