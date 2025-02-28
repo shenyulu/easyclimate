@@ -1,5 +1,5 @@
 """
-Interpolate from points to grid
+Fast Barnes interpolation
 """
 
 from __future__ import annotations
@@ -9,11 +9,12 @@ from fastbarnes.interpolationS2 import barnes_S2
 import numpy as np
 import xarray as xr
 import pandas as pd
+from typing import Literal
 
-__all__ = ["interp_point2mesh", "interp_point2mesh_S2"]
+__all__ = ["interp_spatial_barnes", "interp_spatial_barnesS2"]
 
 
-def interp_point2mesh(
+def interp_spatial_barnes(
     data: pd.DataFrame,
     var_name: str,
     point: list[int],
@@ -21,11 +22,14 @@ def interp_point2mesh(
     grid_y: float,
     resolution: float,
     sigma: float,
-    lon_dim_name="lon",
-    lat_dim_name="lat",
-    method="optimized_convolution",
-    num_iter=4,
-    min_weight=0.001,
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    method: Literal[
+        "optimized_convolution", "convolution", "radius", "naive"
+    ] = "optimized_convolution",
+    num_iter: int = 4,
+    max_dist: float = 3.5,
+    min_weight: float = 0.001,
 ) -> xr.DataArray:
     """
     Computes the Barnes interpolation for observation values `var_name` taken at sample
@@ -75,9 +79,9 @@ def interp_point2mesh(
 
     var_name: :py:class:`str <str>`
         The name of the data variable. This should match the one in the parameter `data`.
-    lat_dim_name: :py:class:`str <str>`.
+    lat_dim: :py:class:`str <str>`.
         Latitude dimension name. This should match the one in the parameter `data`. By default is `lat`.
-    lon_dim_name: :py:class:`str <str>`.
+    lon_dim: :py:class:`str <str>`.
         Longitude dimension name. This should match the one in the parameter `data`. By default is `lon`.
     point : :py:class:`numpy.ndarray <numpy.ndarray>`.
         A 1-dimensional array of size 2 containing the coordinates of the
@@ -105,6 +109,11 @@ def interp_point2mesh(
         The number of performed self-convolutions of the underlying rect-kernel.
         Applies only if method is 'optimized_convolution' or 'convolution'.
         The default is 4. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.
+    max_dist : float, optional
+        The maximum distance between a grid point and the next sample point for which
+        the Barnes interpolation is still calculated. Specified in sigma distances.
+        Applies only if method is 'optimized_convolution' or 'convolution'.
+        The default is 3.5, i.e. the maximum distance is 3.5 * sigma.
     min_weight : :py:class:`float <float>`, optional
         Choose radius of influence such that Gaussian weight of considered sample
         points is greater than `min_weight`.
@@ -124,16 +133,16 @@ def interp_point2mesh(
     x0 = np.asarray([point[0] + step, point[1]], dtype=np.float64)
     size = (int(grid_x / step), int(grid_y / step))
 
-    lon_lat_data = data[[lon_dim_name, lat_dim_name]].to_numpy()
-    qff_values = data[[var_name]].to_numpy().flatten()
+    lon_lat_data = data[[lon_dim, lat_dim]].to_numpy()
+    values = data[[var_name]].to_numpy().flatten()
 
-    gridX = np.arange(x0[0], x0[0] + size[1] * step, step)
-    gridY = np.arange(x0[1], x0[1] + size[0] * step, step)
+    gridX = np.arange(x0[0], x0[0] + size[0] * step, step)
+    gridY = np.arange(x0[1], x0[1] + size[1] * step, step)
 
     # calculate Barnes interpolation from fastbarnes import interpolation
     field = barnes(
         lon_lat_data,
-        qff_values,
+        values,
         sigma,
         x0,
         step,
@@ -145,14 +154,15 @@ def interp_point2mesh(
 
     field_dataarray = xr.DataArray(
         field,
-        dims=(lat_dim_name, lon_dim_name),
-        coords={lon_dim_name: gridX, lat_dim_name: gridY},
+        dims=(lat_dim, lon_dim),
+        coords={lon_dim: gridX, lat_dim: gridY},
         name=var_name,
+        attrs={"method": method},
     )
     return field_dataarray
 
 
-def interp_point2mesh_S2(
+def interp_spatial_barnesS2(
     data: pd.DataFrame,
     var_name: str,
     point: list[int],
@@ -160,11 +170,14 @@ def interp_point2mesh_S2(
     grid_y: float,
     resolution: float,
     sigma: float,
-    lon_dim_name="lon",
-    lat_dim_name="lat",
-    method="optimized_convolution_S2",
-    num_iter=4,
-    resample=True,
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    method: Literal[
+        "optimized_convolution_S2", "naive_S2"
+    ] = "optimized_convolution_S2",
+    num_iter: int = 4,
+    max_dist: float = 3.5,
+    resample: bool = True,
 ) -> xr.DataArray:
     """
     Computes the Barnes interpolation for observation values `var_name` taken at sample
@@ -195,9 +208,9 @@ def interp_point2mesh_S2(
 
     var_name: :py:class:`str <str>`
         The name of the data variable. This should match the one in the parameter `data`.
-    lat_dim_name: :py:class:`str <str>`.
+    lat_dim: :py:class:`str <str>`.
         Latitude dimension name. This should match the one in the parameter `data`. By default is `lat`.
-    lon_dim_name: :py:class:`str <str>`.
+    lon_dim: :py:class:`str <str>`.
         Longitude dimension name. This should match the one in the parameter `data`. By default is `lon`.
     point : :py:class:`numpy.ndarray <numpy.ndarray>`
         A 1-dimensional array of size 2 containing the coordinates of the
@@ -223,6 +236,10 @@ def interp_point2mesh_S2(
         The number of performed self-convolutions of the underlying rect-kernel.
         Applies only if method is 'optimized_convolution_S2'.
         The default is 4. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.
+    max_dist : float, optional
+        The maximum distance between a grid point and the next sample point for which
+        the Barnes interpolation is still calculated. Specified in sigma distances.
+        The default is 3.5, i.e. the maximum distance is 3.5 * sigma.
     resample : :py:class:`bool <bool>`, optional, default: `True`.
         Specifies whether to resample Lambert grid field to lonlat grid.
         Applies only if method is 'optimized_convolution_S2'.
@@ -241,29 +258,31 @@ def interp_point2mesh_S2(
     x0 = np.asarray([point[0] + step, point[1]], dtype=np.float64)
     size = (int(grid_x / step), int(grid_y / step))
 
-    lon_lat_data = data[[lon_dim_name, lat_dim_name]].to_numpy()
-    qff_values = data[[var_name]].to_numpy().flatten()
+    lon_lat_data = data[[lon_dim, lat_dim]].to_numpy()
+    values = data[[var_name]].to_numpy().flatten()
 
-    gridX = np.arange(x0[0], x0[0] + size[1] * step, step)
-    gridY = np.arange(x0[1], x0[1] + size[0] * step, step)
+    gridX = np.arange(x0[0], x0[0] + size[0] * step, step)
+    gridY = np.arange(x0[1], x0[1] + size[1] * step, step)
 
     # calculate Barnes interpolation from fastbarnes import interpolation
     field = barnes_S2(
         lon_lat_data,
-        qff_values,
+        values,
         sigma,
         x0,
         step,
         size,
         method=method,
         num_iter=num_iter,
+        max_dist=max_dist,
         resample=resample,
     )
 
     field_dataarray = xr.DataArray(
         field,
-        dims=(lat_dim_name, lon_dim_name),
-        coords={lon_dim_name: gridX, lat_dim_name: gridY},
+        dims=(lat_dim, lon_dim),
+        coords={lon_dim: gridX, lat_dim: gridY},
         name=var_name,
+        attrs={"method": method},
     )
     return field_dataarray

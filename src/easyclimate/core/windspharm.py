@@ -9,7 +9,7 @@ This is the top layer of packaging for the windspharm package.
     - Dawson, A. (2016). Windspharm: A High-Level Library for Global Wind Field Computations Using Spherical Harmonics. Journal of Open Research Software, 4(1), e31.DOI: https://doi.org/10.5334/jors.129
 """
 
-from windspharm.xarray import VectorWind
+from easyclimate_backend.windspharm.xarray import VectorWind
 import xarray as xr
 
 __all__ = [

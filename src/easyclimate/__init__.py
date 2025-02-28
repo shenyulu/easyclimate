@@ -5,6 +5,7 @@ from . import interp
 from . import plot
 from . import field
 from . import accessor
+from . import detection
 
 # Version number
-__version__ = "2025.2.0"
+__version__ = "2025.3.0"

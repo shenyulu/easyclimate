@@ -11,15 +11,14 @@ dependencies:
     - xeofs >= 3.0.0
     - matplotlib
     - pandas >= 2.2.0
-    - fast-barnes-py == 1.0.0
+    - fast-barnes-py
     - oceans
     - intel-fortran-rt
     - dpcpp-cpp-rt
     - scipy >=1.8.0
     - statsmodels
     - geocat-comp
-    - pyspharm-syl
-    - windspharm-syl
+    - easyclimate-backend
     - dask
     - pymannkendall
     - flox

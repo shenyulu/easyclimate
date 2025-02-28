@@ -12,27 +12,27 @@ import cartopy.crs as ccrs
 import numpy as np
 
 # %%
-# Interpolation from points to grid
+# Interpolation from points to grid (European region only)
 # ------------------------------------
 # Open sample surface pressure data for the European region
 data = ecl.open_tutorial_dataset("PressQFF_202007271200_872.csv")
 print(data)
 
 # %%
-# :py:func:`easyclimate.interp.interp_point2mesh <easyclimate.interp.interp_point2mesh>` enables interpolation from site data to grid point data.
+# :py:func:`easyclimate.interp.interp_spatial_barnes <easyclimate.interp.interp_spatial_barnes>` enables interpolation from site data to grid point data.
 #
 # .. seealso::
 #
 #     - https://github.com/MeteoSwiss/fast-barnes-py
 #     - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
-meshdata = ecl.interp.interp_point2mesh(
+meshdata = ecl.interp.interp_spatial_barnes(
     data,
     var_name="qff",
     grid_x=37.5,
     grid_y=75.0,
     point=[-26.0, 34.5],
     resolution=32,
-    sigma=1,
+    sigma=1.0,
 )
 meshdata
 
@@ -42,6 +42,7 @@ fig, ax = plt.subplots(subplot_kw={"projection": ccrs.PlateCarree(central_longit
 
 ax.gridlines(draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--")
 ax.coastlines(edgecolor="black", linewidths=0.5)
+ax.set_extent([-30, 15, 32, 75])
 
 # Draw interpolation results
 meshdata.plot.contourf(
@@ -54,6 +55,13 @@ meshdata.plot.contourf(
 
 # Draw observation stations
 ax.scatter(data["lon"], data["lat"], s=1, c="r", transform=ccrs.PlateCarree())
+
+# %%
+#
+# .. warning::
+#
+#       The supported geographical domain and projection - as in the paper - is currently fixed to the European latitudes and Lambert conformal projection and cannot be freely chosen.
+
 
 # %%
 # Regriding
@@ -73,7 +81,7 @@ target_grid = xr.DataArray(
 )
 
 # %%
-# :py:func:`easyclimate.interp.interp_point2mesh <easyclimate.interp.interp_point2mesh>` performs a regridding operation.
+# :py:func:`easyclimate.interp.interp_mesh2mesh <easyclimate.interp.interp_mesh2mesh>` performs a regridding operation.
 #
 # .. seealso::
 #

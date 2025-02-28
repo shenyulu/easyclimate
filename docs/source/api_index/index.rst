@@ -52,7 +52,7 @@ Interpolation
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.interp.point2mesh
+    easyclimate.interp.barnes
     easyclimate.interp.mesh2mesh
     easyclimate.interp.interp1d_vertical_model2pressure
     easyclimate.interp.interp1d_vertical_pressure2altitude
