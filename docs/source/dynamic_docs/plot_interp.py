@@ -13,7 +13,7 @@ import numpy as np
 
 # %%
 # Interpolation from points to grid (European region only)
-# ------------------------------------
+# ------------------------------------------------------------------------
 # Open sample surface pressure data for the European region
 data = ecl.open_tutorial_dataset("PressQFF_202007271200_872.csv")
 print(data)
@@ -60,7 +60,7 @@ ax.scatter(data["lon"], data["lat"], s=1, c="r", transform=ccrs.PlateCarree())
 #
 # .. warning::
 #
-#       The supported geographical domain and projection - as in the paper - is currently fixed to the European latitudes and Lambert conformal projection and cannot be freely chosen.
+#       The supported geographical domain and projection (as in the paper) is currently fixed to the European latitudes and Lambert conformal projection and cannot be freely chosen.
 
 
 # %%
@@ -101,7 +101,7 @@ ax[1].set_title("After", size=20)
 
 # %%
 # Interpolation from model layers to altitude layers
-# ------------------------------------
+# ------------------------------------------------------------------------
 # Suppose the following data are available
 
 uwnd_data = xr.DataArray(
@@ -168,7 +168,7 @@ plt.legend()
 
 # %%
 # Interpolation from pressure layers to altitude layers
-# ------------------------------------
+# ------------------------------------------------------------------------
 # Suppose the following data are available
 
 z_data = xr.DataArray(

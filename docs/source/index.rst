@@ -127,6 +127,7 @@ You can directly install it via `pip` by using 🛒
    ./auto_gallery_output/plot_time_scale_average
    ./auto_gallery_output/plot_geographic_finite_difference
    ./auto_gallery_output/plot_interp
+   ./auto_gallery_output/plot_wrf_tutorial
 
 .. toctree::
    :maxdepth: 1

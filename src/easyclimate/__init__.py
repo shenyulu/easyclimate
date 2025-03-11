@@ -5,7 +5,7 @@ from . import interp
 from . import plot
 from . import field
 from . import accessor
-from . import detection
+from . import wrf
 
 # Version number
 __version__ = "2025.3.0"

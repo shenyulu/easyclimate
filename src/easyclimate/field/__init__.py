@@ -4,3 +4,5 @@ from . import land
 from . import monsoon
 from . import ocean
 from . import mesoscale
+from . import detection
+from . import heat_stress
