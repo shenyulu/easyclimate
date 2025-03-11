@@ -149,3 +149,12 @@ Mesoscale
 
     easyclimate.field.mesoscale
     easyclimate.field.mesoscale.potential_intensity
+
+Heat Stress
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.heat_stress
+    easyclimate.field.heat_stress.humanindexmod_2020
