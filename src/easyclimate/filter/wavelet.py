@@ -3,7 +3,7 @@ Wavelet transform
 """
 
 from __future__ import annotations
-from .waveletFunctions import wave_signif, wavelet
+from easyclimate_backend.wavelet.waveletFunctions import wave_signif, wavelet
 import xarray as xr
 import pandas as pd
 import numpy as np
@@ -133,6 +133,7 @@ def calc_timeseries_wavelet_transform(
     Timeseries wavelet transform result (:py:class:`xarray.Dataset<xarray.Dataset>`).
 
     .. seealso::
+        - https://github.com/ct6502/wavelets
         - https://github.com/regeirk/pycwt, https://pycwt.readthedocs.io/en/latest/index.html
         - http://nicolasfauchereau.github.io/climatecode/posts/wavelet-analysis-in-python/
         - https://bbs.06climate.com/forum.php?mod=viewthread&tid=95016
