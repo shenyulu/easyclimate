@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Build-in WRF-python Package
+Build-in WRF-python
 ===================================
 
-xxxxxxxxxxxxxxxxxxxx.
+The `WRF-python Package <https://github.com/NCAR/wrf-python>`__ is that a collection of diagnostic and interpolation routines for use with output from the Weather Research and Forecasting (WRF-ARW) Model.
+
+The ``easyclimate`` provides a thin interface for easy access to wrf-python without a complicated installation process.
+
+This package provides over 30 diagnostic calculations, several interpolation routines, and utilities to help with plotting via cartopy. The functionality is similar to what is provided by the `NCL WRF package <https://www.ncl.ucar.edu/Document/Functions/wrf.shtml>`__.
+
+.. hint::
+
+    For more information, please visit `wrf-python official document <https://wrf-python.readthedocs.io/en/latest/>`__.
 
 Introduction
 ---------------
@@ -58,6 +66,8 @@ import xarray as xr
 
 data = xr.open_dataset("wrfout_d01_2022-05-01_00_00_00.nc4")
 ncfile = ecl.wrf.transfer_xarray2nctype(data)
+# Or open it directly
+ncfile = ecl.wrf.open_wrf_data("wrfout_d01_2022-05-01_00_00_00.nc4")
 
 # Get the Sea Level Pressure
 slp = ecl.wrf.getvar(ncfile, "slp")
