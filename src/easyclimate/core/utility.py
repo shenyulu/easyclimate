@@ -24,6 +24,7 @@ __all__ = [
     "transfer_units_coeff",
     "transfer_data_multiple_units",
     "transfer_data_difference_units",
+    "transfer_data_units",
     "generate_dataset_dispatcher",
     "generate_datatree_dispatcher",
     "transfer_xarray_lon_from180TO360",
@@ -418,6 +419,52 @@ def transfer_data_difference_units(
     output_data = input_data + coeff - 1
     output_data.attrs["units"] = output_units
     return output_data
+
+
+def transfer_data_units(
+    input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
+) -> xr.DataArray | xr.Dataset:
+    """
+    Data unit conversion for ANY type transition.
+    """
+    # Create a global unit registry
+    import pint
+
+    ureg = pint.UnitRegistry()
+    Q_ = ureg.Quantity
+
+    def transfer_unit(value, from_unit, to_unit):
+        """
+        Converts values from one unit to another.
+
+        Parameters
+        ----------
+        value (float):
+            The value to be converted.
+        from_unit (str):
+            The original unit (e.g. 'degC').
+        to_unit (str):
+            The target unit (e.g. 'degF').
+
+        Returns
+        -------
+            float: The converted value.
+        """
+        quantity = Q_(value, ureg(from_unit))
+        converted_quantity = quantity.to(to_unit)
+        return converted_quantity.magnitude
+
+    result = xr.apply_ufunc(
+        transfer_unit,
+        input_data,
+        input_units,
+        output_units,
+        vectorize=True,
+    )
+
+    result.attrs = input_data.attrs
+    result.attrs["units"] = output_units
+    return result
 
 
 def generate_dataset_dispatcher(func):
