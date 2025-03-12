@@ -157,14 +157,15 @@ You can directly install it via `pip` by using 🛒
     ./api_index/index.rst
     changes.md
     ./static_docs/cite
+    Open Source Licenses <https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html>
 
 .. toctree::
     :maxdepth: 1
     :hidden:
     :caption: Community
 
-    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
-    Source code on GitHub <https://github.com/shenyulu/easyclimate>
+    How to Contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
+    Source Code on GitHub <https://github.com/shenyulu/easyclimate>
 
 
 .. caution::

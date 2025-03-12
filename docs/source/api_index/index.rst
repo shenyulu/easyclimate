@@ -158,3 +158,12 @@ Heat Stress
 
     easyclimate.field.heat_stress
     easyclimate.field.heat_stress.humanindexmod_2020
+
+Detection
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.detection
+    easyclimate.field.detection.aerobulk

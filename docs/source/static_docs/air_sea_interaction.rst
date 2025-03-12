@@ -1,4 +1,4 @@
-Air–sea interactions
+Air–sea Interactions
 ====================================
 
 .. figure:: ../_static/fig2.jpg
