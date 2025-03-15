@@ -37,3 +37,7 @@ With **Easy Climate**, you can perform a variety of climate data analyses with e
 - Spectral analysis
 
 Our package is designed to be user-friendly🤗, flexible🥳, and compatible with popular data analysis libraries like NumPy, Pandas, and Matplotlib. With **Easy Climate**, you can focus on exploring the vast potential of climate data analysis without getting bogged down in complicated code. Join uson our journey 👨‍👩‍👧‍👦 to simplify climate data analysis and unlock new insights into the Earth's climate system🎉.
+
+.. tip::
+
+    For more information about the backend of easyclimate, please refer to the `website <https://easyclimate-backend.readthedocs.io/>`__.
