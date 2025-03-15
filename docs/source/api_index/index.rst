@@ -80,7 +80,7 @@ Build-in `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__
 
     easyclimate.wrf.interface
 
-Climate Field
+Meteorology Field
 ----------------------------------------
 
 Air–Sea Interaction
@@ -159,11 +159,11 @@ Heat Stress
     easyclimate.field.heat_stress
     easyclimate.field.heat_stress.humanindexmod_2020
 
-Detection
+Boundary-Layer Meteorology
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.detection
-    easyclimate.field.detection.aerobulk
+    easyclimate.field.boundary_layer
+    easyclimate.field.boundary_layer.aerobulk

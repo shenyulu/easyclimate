@@ -3,11 +3,22 @@
 Build-in WRF-python
 ===================================
 
-The `WRF-python Package <https://github.com/NCAR/wrf-python>`__ is that a collection of diagnostic and interpolation routines for use with output from the Weather Research and Forecasting (WRF-ARW) Model.
+The `WRF-python Package <https://github.com/NCAR/wrf-python>`__ is that a collection of diagnostic and interpolation routines
+for use with output from the Weather Research and Forecasting (WRF-ARW) Model.
 
-The ``easyclimate`` provides a thin interface for easy access to wrf-python without a complicated installation process.
+The ``easyclimate`` package offers a streamlined and user-friendly interface designed to simplify
+access to the functionalities of ``wrf-python``, a powerful tool for working with Weather Research
+and Forecasting (WRF) model data. One of the key advantages of ``easyclimate`` is its straightforward
+installation process, which eliminates many of the complexities typically associated with setting
+up scientific computing environments. Additionally, ``easyclimate`` ensures compatibility with
+newer versions of ``numpy``, a fundamental library for numerical computations in Python.
+This compatibility not only enhances performance but also allows users to leverage the latest
+features and optimizations available in modern ``numpy`` releases. By combining ease of use,
+seamless installation, and up-to-date dependencies, ``easyclimate`` provides an efficient and
+accessible solution for researchers and developers working with WRF model data.
 
-This package provides over 30 diagnostic calculations, several interpolation routines, and utilities to help with plotting via cartopy. The functionality is similar to what is provided by the `NCL WRF package <https://www.ncl.ucar.edu/Document/Functions/wrf.shtml>`__.
+This build-in package provides over 30 diagnostic calculations, several interpolation routines, and utilities to help with plotting via cartopy.
+The functionality is similar to what is provided by the `NCL WRF package <https://www.ncl.ucar.edu/Document/Functions/wrf.shtml>`__.
 
 .. hint::
 
@@ -404,8 +415,8 @@ x_y
 # define the map projection over the subset region.
 #
 #
-# Cartopy Example Using a Variable
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#  Example: Using a Variable with Cartopy
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In this example, we're going to extract the cartopy mapping object from a
 # diagnostic variable (slp), the lat,lon coordinates, and the geographic
@@ -433,8 +444,8 @@ slp_subset_bounds = ecl.wrf.geo_bounds(slp_subset)
 print (slp_subset_bounds)
 
 # %%
-# Cartopy Example Using WRF Output Files
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#  Example: Using WRF Output Files with Cartopy
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In this example, the cartopy mapping object and geographic boundaries
 # will be extracted directly from the netcdf variable.

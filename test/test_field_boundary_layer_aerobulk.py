@@ -9,7 +9,7 @@ import numpy as np
 
 
 def test_calc_turbulent_fluxes_without_skin_correction():
-    tmp = ecl.field.detection.calc_turbulent_fluxes_without_skin_correction(
+    tmp = ecl.field.boundary_layer.calc_turbulent_fluxes_without_skin_correction(
         xr.DataArray(np.array([273.15 + 22.0, 273.15 + 22.0])),
         "degC",
         xr.DataArray(np.array([273.15 + 20.0, 273.15 + 20.0])),
@@ -30,7 +30,7 @@ def test_calc_turbulent_fluxes_without_skin_correction():
 
 
 def test_calc_turbulent_fluxes_skin_correction():
-    tmp = ecl.field.detection.calc_turbulent_fluxes_skin_correction(
+    tmp = ecl.field.boundary_layer.calc_turbulent_fluxes_skin_correction(
         xr.DataArray(
             np.array([273.15 + 22.0, 273.15 + 22.0]),
         ),

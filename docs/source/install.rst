@@ -78,10 +78,3 @@ Required:
 Our examples use other packages as well which are not used within easyclimate itself.
 If you wish to **run the examples in the documentation**, you will also have to
 install:
-
-Acknowledgement
-------------------------------------
-- point2mesh: https://github.com/MeteoSwiss/fast-barnes-py by `MeteoSwiss <https://github.com/MeteoSwiss>`__.
-- windspharm: https://github.com/ajdawson/windspharm by `ajdawson <https://github.com/ajdawson>`__.
-- wavelets: https://github.com/ct6502/wavelets by `ct6502 <https://github.com/ct6502>`__ and `A Practical Guide to Wavelet Analysis <http://paos.colorado.edu/research/wavelets/>`__
-- pybarnes: https://github.com/LinOuyang/pybarnes by `LinOuyang <https://github.com/LinOuyang>`__.

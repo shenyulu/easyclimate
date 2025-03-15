@@ -140,7 +140,7 @@ You can directly install it via `pip` by using 🛒
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Climate Field
+   :caption: Meteorology Field
 
    ./static_docs/air_sea_interaction
    ./static_docs/teleconnections
