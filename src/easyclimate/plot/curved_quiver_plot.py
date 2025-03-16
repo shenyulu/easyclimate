@@ -48,6 +48,10 @@ def curved_quiver(
     """
     Plot streamlines of a vector flow.
 
+    .. warning::
+
+        This function is experimental and the API is subject to change. Please use with caution.
+
     Parameters
     ----------
     ds : :py:class:`xarray.Dataset`.
@@ -180,6 +184,10 @@ def add_curved_quiverkey(
     If labelpos is 'N' or 'S', X, Y give the position of the middle of the key arrow.
     If labelpos is 'E', X, Y positions the head, and if labelpos is 'W', X, Y positions the tail;
     in either of these two cases, X, Y is somewhere in the middle of the arrow+label key object.
+
+    .. warning::
+
+        This function is experimental and the API is subject to change. Please use with caution.
 
     Parameters
     ----------

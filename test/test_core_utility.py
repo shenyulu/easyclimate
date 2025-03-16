@@ -322,6 +322,16 @@ def test_transfer_data_difference_units():
     assert np.isclose(result_data, refer_data).all()
 
 
+def test_transfer_data_units():
+    result_data = ecl.utility.transfer_data_units(
+        xr.DataArray([104, 100, 92, 92, 86, 80, 80, 60, 30]), "degC", "degF"
+    ).data
+    refer_data = np.array(
+        [219.2, 212.0, 197.6, 197.6, 186.8, 176.0, 176.0, 140.0, 86.0]
+    )
+    assert np.isclose(result_data, refer_data).all()
+
+
 def test_generate_dataset_dispatcher():
     @ecl.utility.generate_dataset_dispatcher
     def func(testdata: xr.DataArray | xr.Dataset) -> xr.DataArray | xr.Dataset:

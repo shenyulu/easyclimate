@@ -15,6 +15,7 @@ from .utility import (
 )
 import xarray as xr
 import dask
+from typing import Literal
 
 __all__ = [
     "calc_gradient",
@@ -535,7 +536,7 @@ def calc_top2surface_integral(
     vertical_dim: str,
     surface_pressure_data_units: str,
     vertical_dim_units: str,
-    method: str = "Trenberth-vibeta",
+    method: Literal["Boer-vibeta", "Trenberth-vibeta"] = "Trenberth-vibeta",
     normalize: bool = True,
 ) -> xr.DataArray:
     """
@@ -1037,7 +1038,7 @@ def calc_water_flux_top2surface_integral(
     surface_pressure_data_units: str,
     vertical_dim: str,
     vertical_dim_units: str,
-    method: str = "Trenberth-vibeta",
+    method: Literal["Boer-vibeta", "Trenberth-vibeta"] = "Trenberth-vibeta",
     g: float = 9.8,
 ) -> xr.DataArray:
     """
@@ -1179,7 +1180,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
     spherical_coord: bool = True,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    method: str = "Trenberth-vibeta",
+    method: Literal["Boer-vibeta", "Trenberth-vibeta"] = "Trenberth-vibeta",
     g: float = 9.8,
     R: float = 6370000,
 ) -> xr.DataArray:

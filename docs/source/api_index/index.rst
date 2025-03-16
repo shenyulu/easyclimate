@@ -52,7 +52,7 @@ Interpolation
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.interp.point2mesh
+    easyclimate.interp.barnes
     easyclimate.interp.mesh2mesh
     easyclimate.interp.interp1d_vertical_model2pressure
     easyclimate.interp.interp1d_vertical_pressure2altitude
@@ -70,8 +70,17 @@ Plot
     easyclimate.plot.quick_draw
     easyclimate.plot.curved_quiver_plot
 
+WRF-python
+----------------------------------------
 
-Climate Field
+Build-in `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ library.
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.wrf.interface
+
+Meteorology Field
 ----------------------------------------
 
 Air–Sea Interaction
@@ -140,3 +149,21 @@ Mesoscale
 
     easyclimate.field.mesoscale
     easyclimate.field.mesoscale.potential_intensity
+
+Heat Stress
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.heat_stress
+    easyclimate.field.heat_stress.humanindexmod_2020
+
+Boundary-Layer Meteorology
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.boundary_layer
+    easyclimate.field.boundary_layer.aerobulk

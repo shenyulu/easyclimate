@@ -127,6 +127,7 @@ You can directly install it via `pip` by using 🛒
    ./auto_gallery_output/plot_time_scale_average
    ./auto_gallery_output/plot_geographic_finite_difference
    ./auto_gallery_output/plot_interp
+   ./auto_gallery_output/plot_wrf_tutorial
 
 .. toctree::
    :maxdepth: 1
@@ -139,7 +140,7 @@ You can directly install it via `pip` by using 🛒
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Climate Field
+   :caption: Meteorology Field
 
    ./static_docs/air_sea_interaction
    ./static_docs/teleconnections
@@ -156,14 +157,15 @@ You can directly install it via `pip` by using 🛒
     ./api_index/index.rst
     changes.md
     ./static_docs/cite
+    Open Source Licenses <https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html>
 
 .. toctree::
     :maxdepth: 1
     :hidden:
     :caption: Community
 
-    How to contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
-    Source code on GitHub <https://github.com/shenyulu/easyclimate>
+    How to Contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
+    Source Code on GitHub <https://github.com/shenyulu/easyclimate>
 
 
 .. caution::
