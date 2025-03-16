@@ -1,5 +1,23 @@
 # Changelog
 
+## v2025.3.0
+
+*Released on: 2025/3/16*
+
+### What's Changed
+
+* [fix: fast-barnes-py error](https://github.com/shenyulu/easyclimate/pull/91/commits/cff9df9b6c20ae847cf7de5a55ef9418ca6c853e "fix: fast-barnes-py error")
+* [feat: add wrf-python docs](https://github.com/shenyulu/easyclimate/pull/91/commits/fd53fcc6a75d0aa7487515c8a8ea13166ce2dfbe "feat: add wrf-python docs")
+* [feat: add test_transfer_data_units](https://github.com/shenyulu/easyclimate/pull/91/commits/5946c39ebc71ea18346aea2317c0e0deb32b99b9 "feat: add test_transfer_data_units")
+* [feat: add human index](https://github.com/shenyulu/easyclimate/pull/91/commits/68fc2187411fcf22651fcdf35c347a47a4568b7f "feat: add human index")
+* [update: move backend](https://github.com/shenyulu/easyclimate/pull/91/commits/b3a96f328dd0f325f603df1c81a24d7f67d7a38b "update: move backend")
+* [fix: redfit check](https://github.com/shenyulu/easyclimate/pull/91/commits/f1a662216e4846910221478f8fbb5eddbd845ed0 "fix: redfit check")
+* [feat: add aerobulk](https://github.com/shenyulu/easyclimate/pull/91/commits/341817604291703991946dcff0d20461dc7520a6 "feat: add aerobulk")
+
+> ⚠️ From this version, we uniformly migrated `fortran-related` code to the [easyclimate-backend](https://github.com/shenyulu/easyclimate-backend) repository 🛠️.
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.2.0...v2025.3.0
+
 ## v2025.2.0
 
 *Released on: 2025/2/17*
@@ -61,7 +79,7 @@
 * [feat: add water vapor parameter calculation function](https://github.com/shenyulu/easyclimate/pull/77/commits/5692972b44fcc712da6512976ca43da84739308b)
 * [fix: fix error introduced by xeofs 3.0.0](https://github.com/shenyulu/easyclimate/pull/77/commits/930444e720dae3a000bd262fb67e59cc91ce8380)
 * [fix: Type expression](https://github.com/shenyulu/easyclimate/pull/77/commits/125a161232a3879e6aab13046540685e61dbd29c)
-* [update: fix eof error for xeof>3.0.0](https://github.com/shenyulu/easyclimate/pull/77/commits/e6a32dabf54fdf2b7f0df5d27d37c466c34386ea)
+* [update: fix eof error for xeof&gt;3.0.0](https://github.com/shenyulu/easyclimate/pull/77/commits/e6a32dabf54fdf2b7f0df5d27d37c466c34386ea)
 * [test: add test for water vapor calculation](https://github.com/shenyulu/easyclimate/pull/77/commits/7314b5f38b3c605d38bb15626e496e521727ac09)
 * [fix: accuracy problem on linux](https://github.com/shenyulu/easyclimate/pull/77/commits/fa042c132701c9eb5c707d57514cf29bbc024490)
 * [depend: update dependency](https://github.com/shenyulu/easyclimate/pull/77/commits/d1486b0d298a29328bfbfe1b748d3122ed002975)
@@ -75,6 +93,7 @@
 *Released on: 2024/08/02*
 
 ### What's Changed
+
 * Update requirements text by @shenyulu in https://github.com/shenyulu/easyclimate/pull/51
 * Update sphinx from 6.2.1 to 7.3.7 in the requirements.txt by @shenyulu in https://github.com/shenyulu/easyclimate/pull/52
 * update sphinx version from 6.2.1 to 7.3.7 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/53
@@ -96,6 +115,7 @@
 *Released on: 2024/05/19*
 
 ### What's Changed
+
 * Add the calculation of virtual temperature and interpolating from the model levels to pressure levels by @shenyulu in https://github.com/shenyulu/easyclimate/pull/27
 * [pre-commit.ci] pre-commit autoupdate by @pre-commit-ci in https://github.com/shenyulu/easyclimate/pull/29
 * Bump pytest from 8.0.2 to 8.1.1 by @dependabot in https://github.com/shenyulu/easyclimate/pull/28
@@ -109,7 +129,6 @@
   * [refactor, test: rename populate_monmean2everymon and `populate_daym…](https://github.com/shenyulu/easyclimate/pull/36/commits/a82c636611690d571683554d93897991a5512332)
   * [docs: add more details for calc_daily_climatological_anomaly](https://github.com/shenyulu/easyclimate/pull/36/commits/0ef7ca145c74222e08fbd591181a26e0a00ab3d8)
   * [feat: supports the removal of seasonal cycles from the climate averag…](https://github.com/shenyulu/easyclimate/pull/36/commits/4930f0d40f5856fb4dc8582e64901145cd45336a)
-
 * chore: necessary update (2024.05.01) by @shenyulu in https://github.com/shenyulu/easyclimate/pull/43
 
   * [feat: The calculation of the PNA index](https://github.com/shenyulu/easyclimate/pull/43/commits/6570c97e62d32567f1d19f85637dbd7ca79150a0)
@@ -123,8 +142,8 @@
   * [feat: add IOBM index](https://github.com/shenyulu/easyclimate/pull/43/commits/a938a74e91f5a92076b368bcb2c7f2ed246effeb)
   * [fix: change module name `land_atm_interaction` to `land`](https://github.com/shenyulu/easyclimate/pull/43/commits/30903458cf71af2adf66dbe1593372fc1af519b0)
 
-
 ### New Contributors
+
 * @pre-commit-ci made their first contribution in https://github.com/shenyulu/easyclimate/pull/29
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.03.01...v2024.05.01
@@ -134,6 +153,7 @@
 *Released on: 2024/03/05*
 
 ### What's Changed
+
 * pin xarray version <=2023.12.0 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/13
 * modify eof functions and add test and add create .pre-commit-config.yaml by @shenyulu in https://github.com/shenyulu/easyclimate/pull/16
 * update requirement by @shenyulu in https://github.com/shenyulu/easyclimate/pull/23
@@ -145,6 +165,7 @@
 *Released on: 2024/01/04*
 
 ### What's Changed
+
 * Publish version 2024.01.01 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/9
 * Bump pytest from 7.4.3 to 7.4.4 by @dependabot in https://github.com/shenyulu/easyclimate/pull/8
 
@@ -153,12 +174,14 @@
 *Released on: 2023/12/10*
 
 ### What's Changed
+
 * Bump sphinx from 6.2.1 to 7.2.6 by @dependabot in https://github.com/shenyulu/easyclimate/pull/2
 * Publish version 2023.12.01 by @shenyulu in https://github.com/shenyulu/easyclimate/pull/3
 * Add pytest (codecov to 44.37%)
 * Improve requirements
 
 ### New Contributors
+
 * @shenyulu made their first contribution in https://github.com/shenyulu/easyclimate/pull/3
 
 ## v0.0.1
@@ -166,7 +189,9 @@
 *Released on: 2022/05/02*
 
 ### What's Changed
+
 * First release
 
 ### New Contributors
+
 * shenyulu
