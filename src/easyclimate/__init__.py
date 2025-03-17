@@ -8,4 +8,4 @@ from . import accessor
 from . import wrf
 
 # Version number
-__version__ = "2025.3.0"
+__version__ = "2025.4.0"
