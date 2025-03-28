@@ -29,3 +29,15 @@ repos:
     -   id: black
         types: [python]
         exclude: ^docs/
+
+-   repo: local
+    hooks:
+    -   id: check-deprecations
+        name: Check for deprecated functions
+        entry: bash -c "PYTHONIOENCODING=utf-8 python scripts/check_deprecations.py --next-version $(python -c 'from src.easyclimate.version import __version__; print(__version__)')"
+        language: system
+        types: [python]
+        verbose: true
+        stages: [commit]  # 设置为在push时运行
+        always_run: true
+        pass_filenames: false  # 重要：不传递文件名参数
