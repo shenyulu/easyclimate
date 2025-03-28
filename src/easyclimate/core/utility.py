@@ -8,6 +8,10 @@ from .datanode import DataNode
 import numpy as np
 import xarray as xr
 import warnings
+import sys
+from packaging import version
+from functools import wraps
+from ..version import __version__
 
 __all__ = [
     "assert_compared_version",
@@ -24,6 +28,7 @@ __all__ = [
     "transfer_units_coeff",
     "transfer_data_multiple_units",
     "transfer_data_difference_units",
+    "transfer_data_temperature_units",
     "transfer_data_units",
     "generate_dataset_dispatcher",
     "generate_datatree_dispatcher",
@@ -34,6 +39,7 @@ __all__ = [
     "reverse_bool_xarraydata",
     "compare_two_dataarray_coordinate",
     "compare_multi_dataarray_coordinate",
+    "deprecated",
 ]
 
 
@@ -421,11 +427,95 @@ def transfer_data_difference_units(
     return output_data
 
 
+def transfer_data_temperature_units(
+    input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
+) -> xr.DataArray | xr.Dataset:
+    """
+    将值从一个温度单位转换为另一个温度单位，支持别名。
+    """
+    # 定义标准单位及其别名
+    unit_aliases = {
+        "K": ["kelvin", "K", "degK", "开氏度"],
+        "degC": ["celsius", "degC", "摄氏度"],
+        "degF": ["fahrenheit", "degF"],
+        "degR": ["rankine", "degR", "兰氏度"],  # 兰氏度
+        "degRe": ["reaumur", "degRe", "列氏度"],  # 列氏度
+    }
+
+    def normalize_unit(unit, unit_aliases):
+        """将用户输入的单位名称标准化为标准单位。"""
+        unit_lower = unit.lower()
+        for std_unit, aliases in unit_aliases.items():
+            if unit_lower in [alias.lower() for alias in aliases]:
+                return std_unit
+        raise ValueError(f"不支持的单位: {unit}")
+
+    # 标准化单位名称
+    from_unit_std = normalize_unit(input_units, unit_aliases)
+    to_unit_std = normalize_unit(output_units, unit_aliases)
+
+    # 定义单位转换表（缩放因子, 偏移量）
+    unit_conversions = {
+        "degC": {
+            "degC": (1, 0),
+            "degF": (1.8, 32),
+            "K": (1, 273.15),
+            "degR": (1.8, 491.67),  # °R = (°C + 273.15) * 1.8
+            "degRe": (0.8, 0),  # °Re = °C * 0.8
+        },
+        "degF": {
+            "degF": (1, 0),
+            "degC": (5 / 9, -32 * 5 / 9),
+            "K": (5 / 9, 255.372222),  # K = (°F + 459.67) * 5/9
+            "degR": (1, 459.67),  # °R = °F + 459.67
+            "degRe": (4 / 9, -32 * 4 / 9),  # °Re = (°F - 32) * 4/9
+        },
+        "K": {
+            "K": (1, 0),
+            "degC": (1, -273.15),
+            "degF": (1.8, -459.67),
+            "degR": (1.8, 0),  # °R = K * 1.8
+            "degRe": (0.8, -273.15 * 0.8),  # °Re = (K - 273.15) * 0.8
+        },
+        "degR": {
+            "degR": (1, 0),
+            "K": (5 / 9, 0),  # K = °R * 5/9
+            "degC": (5 / 9, -273.15),  # °C = (°R - 491.67) * 5/9
+            "degF": (1, -459.67),  # °F = °R - 459.67
+            "degRe": (4 / 9, -491.67 * 4 / 9),  # °Re = (°R - 491.67) * 4/9
+        },
+        "degRe": {
+            "degRe": (1, 0),
+            "degC": (1.25, 0),  # °C = °Re * 1.25
+            "degF": (2.25, 32),  # °F = °Re * 2.25 + 32
+            "K": (1.25, 273.15),  # K = °Re * 1.25 + 273.15
+            "degR": (2.25, 491.67),  # °R = (°Re * 1.25 + 273.15) * 1.8
+        },
+    }
+
+    # 检查是否支持该转换
+    if (
+        from_unit_std not in unit_conversions
+        or to_unit_std not in unit_conversions[from_unit_std]
+    ):
+        raise ValueError(f"不支持从 {input_units} 到 {output_units} 的转换")
+
+    # 获取缩放因子和偏移量
+    scaling_factor, offset = unit_conversions[from_unit_std][to_unit_std]
+
+    # 执行转换
+    return np.multiply(input_data, scaling_factor) + offset
+
+
 def transfer_data_units(
     input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
 ) -> xr.DataArray | xr.Dataset:
     """
     Data unit conversion for ANY type transition.
+
+    .. warning::
+
+        NOT support ``dask``.
     """
     # Create a global unit registry
     import pint
@@ -460,6 +550,7 @@ def transfer_data_units(
         input_units,
         output_units,
         vectorize=True,
+        dask="parallelized",
     )
 
     result.attrs = input_data.attrs
@@ -907,3 +998,37 @@ def compare_multi_dataarray_coordinate(
         compare_two_dataarray_coordinate(
             item0, dataarray_item, time_dim=time_dim, exclude_dims=exclude_dims
         )
+
+
+def check_deprecation_status(current_version, removal_version):
+    """Check whether a deprecation warning should be turned into an error"""
+    return version.parse(current_version) >= version.parse(removal_version)
+
+
+def deprecated(version, removal_version, replacement=None):
+    """
+    Deprecate decorator
+
+    :param version: Current version (deprecated version)
+    :param removal_version: indicates the version to be removed
+    :param replacement: Name of the replacement function (optional)
+    """
+
+    def decorator(old_func):
+        @wraps(old_func)
+        def wrapped(*args, **kwargs):
+            if check_deprecation_status(__version__, removal_version):
+                raise RuntimeError(
+                    f"{old_func.__name__} was removed in version {removal_version}"
+                )
+
+            message = f"{old_func.__name__} is deprecated since {version} and will be removed in {removal_version}."
+            if replacement:
+                message += f" Use `{replacement}` instead."
+
+            warnings.warn(message, DeprecationWarning, stacklevel=2)
+            return old_func(*args, **kwargs)
+
+        return wrapped
+
+    return decorator

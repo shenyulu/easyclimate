@@ -3,23 +3,21 @@ Potential intensity of TC
 """
 
 import xarray as xr
-from typing import Literal
-from ..typhoon.potential_intensity import (
-    calc_potential_intensity_Bister_Emanuel_2002 as newfunc,
+from ...core.utility import (
+    transfer_data_difference_units,
+    transfer_data_multiple_units,
 )
-from ...core.utility import deprecated
+from ...core.diagnosis import transfer_specific_humidity_2_mixing_ratio
+from typing import Literal
+
+from tcpyPI import pi
+from tcpyPI.utilities import pi_efficiency, pi_diseq_resid, decompose_pi
 
 __all__ = [
     "calc_potential_intensity_Bister_Emanuel_2002",
 ]
 
 
-# 使用示例
-@deprecated(
-    version="2025.4.0",
-    removal_version="2025.7.0",
-    replacement="easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002",
-)
 def calc_potential_intensity_Bister_Emanuel_2002(
     sst_data: xr.DataArray,
     sst_data_units: Literal["celsius", "kelvin", "fahrenheit"],
@@ -40,10 +38,6 @@ def calc_potential_intensity_Bister_Emanuel_2002(
 ) -> xr.Dataset:
     """
     Calculate potential intensity of TC (tropical cyclone) according to the Bister and Emanuel (2002) algorithm.
-
-    .. warning::
-
-        Please use `easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002` instead.
 
     This function calculates the maximum wind speed and mimimum central pressure achievable
     in tropical cyclones, given a sounding and a sea surface temperature.
@@ -146,22 +140,176 @@ def calc_potential_intensity_Bister_Emanuel_2002(
     - Powell, M. D.: Evaluations of Diagnostic Marine Boundary-Layer Models Applied to Hurricanes, Mon. Weather Rev., 108, 757–766, https://doi.org/10.1175/1520-0493(1980)108<0757:EODMBL>2.0.CO;2, 1980.
     - Wing, A. A., Emanuel, K., and Solomon, S.: On the factors affecting trends and variability in tropical cyclone potential intensity, Geophys. Res. Lett., 42, 8669–8677, https://doi.org/10.1002/2015GL066145, 2015.
     """
-    result = newfunc(
-        sst_data,
-        sst_data_units,
-        surface_pressure_data,
-        surface_pressure_data_units,
-        temperature_data,
-        temperature_data_units,
-        specific_humidity_data,
-        specific_humidity_data_units,
-        vertical_dim,
-        vertical_dim_units,
-        CKCD,
-        ascent_flag,
-        diss_flag,
-        V_reduc,
-        ptop,
-        miss_handle,
+    # Transfer bool value to int value
+    ascent_flag = 1 if ascent_flag else 0
+    diss_flag = 1 if diss_flag else 0
+    miss_handle = 1 if miss_handle else 0
+
+    # Change the sea surface temperature data unit to `degC`
+    sst_data = transfer_data_difference_units(sst_data, sst_data_units, "celsius")
+
+    # Change the temperature data data unit to `degC`
+    temperature_data = transfer_data_difference_units(
+        temperature_data, temperature_data_units, "celsius"
     )
-    return result
+
+    # Change the surface pressure data unit to `hPa`
+    surface_pressure_data = transfer_data_multiple_units(
+        surface_pressure_data, surface_pressure_data_units, "hPa"
+    )
+
+    pressure_value = temperature_data[vertical_dim]
+    # Change the `pressure_value` unit to `hPa`
+    pressure_value = transfer_data_multiple_units(
+        pressure_value, vertical_dim_units, "hPa"
+    )
+
+    # transfer specific humidity to mixing ratio
+    mixing_ratio_data = transfer_specific_humidity_2_mixing_ratio(
+        specific_humidity_data=specific_humidity_data,
+        specific_humidity_data_units=specific_humidity_data_units,
+    )
+
+    # calculate PI over the whole data set using the xarray universal function
+    result = xr.apply_ufunc(
+        pi,
+        sst_data,
+        surface_pressure_data,
+        pressure_value,
+        temperature_data,
+        mixing_ratio_data,
+        kwargs=dict(
+            CKCD=CKCD,
+            ascent_flag=ascent_flag,
+            diss_flag=diss_flag,
+            V_reduc=V_reduc,
+            ptop=ptop,
+            miss_handle=miss_handle,
+        ),
+        input_core_dims=[
+            [],
+            [],
+            [
+                vertical_dim,
+            ],
+            [
+                vertical_dim,
+            ],
+            [
+                vertical_dim,
+            ],
+        ],
+        output_core_dims=[[], [], [], [], []],
+        vectorize=True,
+    )
+    vmax, pmin, ifl, t0, otl = result
+
+    # The analyses need SSTs are in kelvin
+    sst_data = transfer_data_difference_units(sst_data, "celsius", "kelvin")
+
+    # calculate efficiency
+    efficiency = xr.apply_ufunc(
+        pi_efficiency,
+        sst_data,
+        t0,
+        input_core_dims=[
+            [],
+            [],
+        ],
+        output_core_dims=[
+            [],
+        ],
+        vectorize=True,
+    )
+
+    diseq = xr.apply_ufunc(
+        pi_diseq_resid,
+        vmax,
+        sst_data,
+        t0,
+        kwargs=dict(CKCD=CKCD),
+        input_core_dims=[
+            [],
+            [],
+            [],
+        ],
+        output_core_dims=[
+            [],
+        ],
+        vectorize=True,
+    )
+
+    result1 = xr.apply_ufunc(
+        decompose_pi,
+        vmax,
+        sst_data,
+        t0,
+        kwargs=dict(CKCD=CKCD),
+        input_core_dims=[
+            [],
+            [],
+            [],
+        ],
+        output_core_dims=[
+            [],
+            [],
+            [],
+            [],
+        ],
+        vectorize=True,
+    )
+    lnpi, lneff, lndiseq, lnCKCD = result1
+
+    out_ds = xr.Dataset(
+        {
+            "vmax": vmax,
+            "pmin": pmin,
+            "ifl": ifl,
+            "t0": t0,
+            "otl": otl,
+            "eff": efficiency,
+            "diseq": diseq,
+            "lnpi": lnpi,
+            "lneff": lneff,
+            "lndiseq": lndiseq,
+            "lnCKCD": lnCKCD,
+        }
+    )
+
+    # add names and units
+    out_ds.vmax.attrs["standard_name"], out_ds.vmax.attrs["units"] = (
+        "Maximum Potential Intensity",
+        "m/s",
+    )
+    out_ds.pmin.attrs["standard_name"], out_ds.pmin.attrs["units"] = (
+        "Minimum Central Pressure",
+        "hPa",
+    )
+    out_ds.ifl.attrs["standard_name"] = "pyPI Flag"
+    out_ds.t0.attrs["standard_name"], out_ds.t0.attrs["units"] = (
+        "Outflow Temperature",
+        "K",
+    )
+    out_ds.otl.attrs["standard_name"], out_ds.otl.attrs["units"] = (
+        "Outflow Temperature Level",
+        "hPa",
+    )
+
+    out_ds.eff.attrs["standard_name"], out_ds.eff.attrs["units"] = (
+        "Tropical Cyclone Efficiency",
+        "unitless fraction",
+    )
+    out_ds.diseq.attrs["standard_name"], out_ds.diseq.attrs["units"] = (
+        "Thermodynamic Disequilibrium",
+        "J/kg",
+    )
+    out_ds.lnpi.attrs["standard_name"] = "Natural log(Potential Intensity)"
+    out_ds.lneff.attrs["standard_name"] = "Natural log(Tropical Cyclone Efficiency)"
+    out_ds.lndiseq.attrs["standard_name"] = "Natural log(Thermodynamic Disequilibrium)"
+    out_ds.lnCKCD.attrs["standard_name"], out_ds.lnCKCD.attrs["units"] = (
+        "Natural log(Ck/CD)",
+        "unitless constant",
+    )
+
+    # return the output as an xarray data structure
+    return out_ds

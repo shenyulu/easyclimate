@@ -42,6 +42,7 @@ Filter
 
     easyclimate.filter.butter_filter
     easyclimate.filter.lanczos_filter
+    easyclimate.filter.kf_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
     easyclimate.filter.redfit
@@ -141,14 +142,24 @@ Ocean
     easyclimate.field.ocean.stability
     easyclimate.field.ocean.thermal
 
-Mesoscale
+Typhoon
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.mesoscale
-    easyclimate.field.mesoscale.potential_intensity
+    easyclimate.field.typhoon
+    easyclimate.field.typhoon.potential_intensity
+
+Equatorial Wave
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.equatorial_wave
+    easyclimate.field.equatorial_wave.mjo
+    easyclimate.field.equatorial_wave.wk_spectra
 
 Heat Stress
 ::::::::::::::::::::::::::::::::::::::::

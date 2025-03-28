@@ -1,5 +1,5 @@
 """
-pytest for field/mesoscale/potential_intensity
+pytest for field/typhoon/potential_intensity
 """
 
 import pytest
@@ -179,7 +179,7 @@ testdata_q = xr.DataArray(
 
 
 def test_calc_potential_intensity_Bister_Emanuel_2002():
-    result_data = ecl.field.mesoscale.calc_potential_intensity_Bister_Emanuel_2002(
+    result_data = ecl.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002(
         sst_data=testdata_sst,
         sst_data_units="degC",
         surface_pressure_data=testdata_msl,

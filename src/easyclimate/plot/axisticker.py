@@ -3,13 +3,14 @@ Quick processing of special axes
 """
 
 import matplotlib
+import matplotlib.pyplot as plt
 import cartopy.mpl.ticker as geoticker
 import matplotlib.ticker as ticker
 
 __all__ = ["set_lon_format_axis", "set_lat_format_axis", "set_p_format_axis"]
 
 
-def set_lon_format_axis(ax: matplotlib.axes.Axes, axis: str = "x", **kwargs):
+def set_lon_format_axis(ax: matplotlib.axes.Axes = None, axis: str = "x", **kwargs):
     """
     Setting the axes in longitude format.
 
@@ -22,6 +23,9 @@ def set_lon_format_axis(ax: matplotlib.axes.Axes, axis: str = "x", **kwargs):
     **kwargs
         Additional keyword arguments to wrapped :py:func:`matplotlib.axis.Axis.set_major_formatter <matplotlib:matplotlib.axis.Axis.set_major_formatter>`.
     """
+    if ax is None:
+        ax = plt.gca()
+
     if axis == "x":
         axis = ax.xaxis
     elif axis == "y":
@@ -45,6 +49,9 @@ def set_lat_format_axis(ax: matplotlib.axes.Axes, axis: str = "y", **kwargs):
     **kwargs
         Additional keyword arguments to wrapped :py:func:`matplotlib.axis.Axis.set_major_formatter <matplotlib:matplotlib.axis.Axis.set_major_formatter>`.
     """
+    if ax is None:
+        ax = plt.gca()
+
     if axis == "x":
         axis = ax.xaxis
     elif axis == "y":
@@ -76,6 +83,9 @@ def set_p_format_axis(
     ticker_step: :py:class:`float`, default `100`.
         Assuming an isotropic series of coordinate distributions, the term sets the tolerance.
     """
+    if ax is None:
+        ax = plt.gca()
+
     if axis == "x":
         axis = ax.xaxis
         ax.set_xscale("log")
