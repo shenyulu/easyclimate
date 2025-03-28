@@ -38,6 +38,6 @@ repos:
         language: system
         types: [python]
         verbose: true
-        stages: [commit]  # 设置为在push时运行
+        stages: [push]  # 设置为在push时运行
         always_run: true
         pass_filenames: false  # 重要：不传递文件名参数
