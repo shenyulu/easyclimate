@@ -20,7 +20,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <div align="center">
-<center>English / <a href = "README_zh_CN.md">简体中文</a> / <a href = "README_ja_JP.md">日本語</a></center>
+<center>English / <a href = "scripts/README_zh_CN.md">简体中文</a> / <a href = "scripts/README_ja_JP.md">日本語</a></center>
 </div>
 
 ## 👋 Overview
