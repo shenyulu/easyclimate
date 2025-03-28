@@ -31,4 +31,6 @@ dependencies:
     - tcpypi
     - netCDF4
     - h5netcdf
+    - seaborn
+    - EMD-signal
     - easyclimate
