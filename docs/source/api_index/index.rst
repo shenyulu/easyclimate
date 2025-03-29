@@ -74,12 +74,15 @@ Plot
 WRF-python
 ----------------------------------------
 
-Build-in `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ library.
-
 .. autosummary::
     :toctree: generated/
 
     easyclimate.wrf.interface
+
+.. seealso::
+
+    This is the **built-in compiled** `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ package.
+    Please refer to the `User API <https://wrf-python.readthedocs.io/en/latest/user_api/index.html>`__ in the `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ package for related routines.
 
 Meteorology Field
 ----------------------------------------
