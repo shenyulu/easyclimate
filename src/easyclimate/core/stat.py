@@ -6,8 +6,8 @@ import numpy as np
 import xarray as xr
 import warnings
 
-from scipy import stats
-from scipy import signal
+from scipy import signal, stats
+from scipy.stats import pearsonr
 from .utility import generate_datatree_dispatcher, find_dims_axis
 
 from xarray import DataTree
@@ -16,6 +16,7 @@ from .datanode import DataNode
 __all__ = [
     "calc_linregress_spatial",
     "calc_detrend_spatial",
+    "calc_corr_spatial",
     "calc_ttestSpatialPattern_spatial",
     "calc_levenetestSpatialPattern_spatial",
     "calc_skewness_spatial",
@@ -33,7 +34,7 @@ def calc_linregress_spatial(
     returns_type: {"dataset_returns", "dataset_vars"} = "dataset_returns",
 ) -> xr.Dataset | DataTree:
     """
-    Calculate a linear least-squares regression for spatial data of time.
+    Calculate a linear least-squares regression (**trend**) for spatial data of time.
 
     Parameters
     ----------
@@ -176,7 +177,7 @@ def calc_detrend_spatial(
     ----------
     data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
          The spatio-temporal data of :py:class:`xarray.DataArray<xarray.DataArray>` to be detrended.
-    dim: :py:class:`str <str>`
+    time_dim: :py:class:`str <str>`
         Dimension(s) over which to detrend. By default dimension is applied over the `time` dimension.
 
     Returns
@@ -196,6 +197,114 @@ def calc_detrend_spatial(
     detrenddata_withoutmask = data_input.fillna(1).reduce(signal.detrend, dim=time_dim)
     result = detrenddata_withoutmask.where(mask_float < 0.5)
     return result
+
+
+def calc_corr_spatial(
+    data_input: xr.DataArray, x: xr.DataArray | np.ndarray, time_dim: str = "time"
+) -> xr.Dataset:
+    """
+    Calculate Pearson correlation coefficients and corresponding p-values between spatial data
+    and a time series using ``scipy.stats.pearsonr``.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Input spatial data with dimensions ``(time, ...)``.
+
+        NaN values are automatically skipped in calculations.
+    x : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.ndarray<numpy.ndarray>`
+        Time series data with dimension ``(time,)``. Must have the same length as data_input's time dimension.
+        NaN values are automatically skipped in calculations.
+    time_dim: :py:class:`str <str>`
+        Dimension(s) over which to detrend. By default dimension is applied over the `time` dimension.
+
+    Returns
+    -------
+    corr & pvalue (:py:class:`xarray.Dataset<xarray.Dataset>`)
+
+    corr : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Pearson correlation coefficients with dimensions.
+        Values range from -1 to 1 where:
+
+        - 1 means perfect positive correlation
+        - -1 means perfect negative correlation
+        - 0 means no correlation
+
+    pvalue : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Two-tailed p-values with dimensions.
+        Small p-values (<0.05) indicate statistically significant correlations.
+
+    Raises
+    ------
+    ValueError
+        If the time dimension length of ``data_input`` and ``x`` don't match.
+
+    Notes
+    -----
+    - The calculation automatically skips pairs where either value is NaN
+    - Requires at least 2 valid observations for each grid point to compute correlation
+    - Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for calculations
+    - Maintains input coordinates for the output arrays
+
+    Examples
+    --------
+    >>> data_input = xr.DataArray(np.random.rand(10, 3, 4),
+    ...                           dims=['time', 'lat', 'lon'],
+    ...                           coords={'time': pd.date_range('2000-01-01', periods=10)})
+    >>> x = xr.DataArray(np.random.rand(10), dims=['time'])
+    >>> corr_dataset = ecl.calc_corr_spatial(data_input, x)
+
+    .. seealso::
+        :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>`:
+        The underlying correlation function used for calculations.
+    """
+    # 检查时间维度是否一致
+    # Check whether the time dimensions are consistent
+    if len(data_input[time_dim]) != len(x):
+        raise ValueError(
+            f"The time dimension is not consistent! data_input.time Length:{len(data_input[time_dim])}, the length of `x`: {len(x)}"
+        )
+
+    # 定义处理每个网格点的函数
+    # Define a function that handles each grid point
+    def _pearsonr_wrapper(x1, x2):
+        # x1是空间数据的时间序列，x2是输入的时间序列
+        # 跳过NaN值
+        # x1 is the spatial data time series, x2 is the input time series
+        # Skip NaN values
+        mask = ~np.isnan(x1) & ~np.isnan(x2)
+        if np.sum(mask) < 2:  # 至少需要2个有效点 You need at least 2 valid points
+            return np.nan, np.nan
+        return pearsonr(x1[mask], x2[mask])
+
+    # 使用apply_ufunc计算
+    # # Calculate using apply_ufunc
+    result = xr.apply_ufunc(
+        _pearsonr_wrapper,
+        data_input,
+        x,
+        input_core_dims=[
+            [time_dim],
+            [time_dim],
+        ],  # 每个输入的核心维度 Core dimension for each input
+        output_core_dims=[[], []],  # 输出没有核心维度 The output has no core dimensions
+        vectorize=True,  # 自动循环处理非核心维度 Automatic loop handling of non-core dimensions
+        output_dtypes=[float, float],
+        dask=(
+            "parallelized" if data_input.chunks else False
+        ),  # 支持dask数组 Support dask array
+    )
+
+    # 分离相关性和p值
+    # Separate correlation and p-value
+    corr = result[0].rename("correlation")
+    pvalue = result[1].rename("pvalue")
+
+    result_dataset = xr.Dataset()
+    result_dataset["corr"] = corr
+    result_dataset["pvalue"] = pvalue
+
+    return result_dataset
 
 
 def calc_ttestSpatialPattern_spatial(

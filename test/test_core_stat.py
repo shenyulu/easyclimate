@@ -6,6 +6,8 @@ import pytest
 
 import easyclimate as ecl
 import numpy as np
+import xarray as xr
+import pandas as pd
 from .util import round_sf_np_new
 from xarray import DataTree
 
@@ -142,6 +144,62 @@ def test_calc_detrend_spatial():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_calculate_corr_pvalue():
+    rng = np.random.default_rng(seed=42)
+
+    times = pd.date_range("2000-01-01", periods=5)
+    lats = [10, 20, 30]
+    lons = [100, 110, 120, 130]
+    data = rng.random((5, 3, 4))
+    da = xr.DataArray(
+        data,
+        dims=["time", "lat", "lon"],
+        coords={"time": times, "lat": lats, "lon": lons},
+    )
+    x = xr.DataArray(
+        np.array([0.0276367, 0.67968458, 0.61436011, 0.587718, 0.88766532]),
+        dims=["time"],
+        coords={"time": times},
+    )
+    result = ecl.calc_corr_spatial(da, x)
+    result_data1 = result["corr"].data.flatten()
+    result_data2 = result["pvalue"].data.flatten()
+    refer_data1 = np.array(
+        [
+            -0.18430726,
+            -0.18548118,
+            -0.9047632,
+            -0.74794148,
+            0.80681898,
+            -0.52102108,
+            -0.19712648,
+            -0.07580053,
+            0.57095664,
+            0.1390009,
+            0.00566705,
+            -0.65137758,
+        ]
+    )
+    refer_data2 = np.array(
+        [
+            0.76666814,
+            0.76519923,
+            0.03477264,
+            0.14603029,
+            0.09891851,
+            0.36798864,
+            0.75064591,
+            0.90358027,
+            0.31473309,
+            0.82359014,
+            0.99278452,
+            0.23374293,
+        ]
+    )
+    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(result_data2, refer_data2).all()
 
 
 def test_calc_ttestSpatialPattern_spatial():
