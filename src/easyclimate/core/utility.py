@@ -12,6 +12,7 @@ import sys
 from packaging import version
 from functools import wraps
 from ..version import __version__
+from typing import Union, List, Tuple, Optional
 
 __all__ = [
     "assert_compared_version",
@@ -39,6 +40,7 @@ __all__ = [
     "reverse_bool_xarraydata",
     "compare_two_dataarray_coordinate",
     "compare_multi_dataarray_coordinate",
+    "validate_dataarrays",
     "deprecated",
 ]
 
@@ -998,6 +1000,119 @@ def compare_multi_dataarray_coordinate(
         compare_two_dataarray_coordinate(
             item0, dataarray_item, time_dim=time_dim, exclude_dims=exclude_dims
         )
+
+
+def validate_dataarrays(
+    dataarrays: Union[xr.DataArray, List[xr.DataArray], Tuple[xr.DataArray, ...]],
+    dims: Optional[List[str]] = None,
+    time_dims: Union[str, List[str], None] = "time",
+) -> bool:
+    """
+    Validate consistency of multiple DataArrays across specified dimensions.
+
+    Parameters:
+    ----------
+    dataarrays : xarray.DataArray or list/tuple of xarray.DataArray
+        DataArray(s) to be validated
+    dims : list of str, optional
+        List of dimension names to validate. If None, validates all dimensions.
+    time_dims : str or list of str, optional
+        Dimension names where only size is validated (coordinate values are not checked).
+        Default is "time".
+
+    Returns:
+    -------
+    bool
+        Returns True if all validations pass, otherwise raises an exception.
+
+    Raises:
+    ------
+    TypeError
+        If input is not a DataArray or list/tuple of DataArrays
+    ValueError
+        If fewer than 2 DataArrays are provided
+
+    Examples:
+    --------
+    >>> import xarray as xr
+    >>> da1 = xr.DataArray(np.random.rand(10, 5), dims=['time', 'x'])
+    >>> da2 = xr.DataArray(np.random.rand(10, 5), dims=['time', 'x'])
+    >>> validate_dataarrays([da1, da2])  # Validates all dimensions
+    True
+
+    >>> da3 = xr.DataArray(np.random.rand(10, 6), dims=['time', 'x'])
+    >>> validate_dataarrays([da1, da3])  # Raises ValueError for dimension mismatch
+    """
+    # Handle single DataArray input
+    if isinstance(dataarrays, xr.DataArray):
+        raise TypeError(
+            "At least two DataArrays required for comparison, but got a single DataArray"
+        )
+
+    # Ensure dataarrays is a list or tuple
+    if not isinstance(dataarrays, (list, tuple)):
+        raise TypeError("dataarrays parameter must be a list or tuple of DataArrays")
+
+    # Check number of DataArrays
+    if len(dataarrays) < 2:
+        raise ValueError("At least two DataArrays required for comparison")
+
+    # Convert time_dims to list format
+    if time_dims is None:
+        time_dims = []
+    elif isinstance(time_dims, str):
+        time_dims = [time_dims]
+
+    # Get first DataArray as reference
+    ref_da = dataarrays[0]
+
+    # If dims is None, validate all dimensions
+    if dims is None:
+        dims = list(ref_da.dims)
+
+    # Check if each DataArray has the specified dimensions
+    for da in dataarrays:
+        missing_dims = set(dims) - set(da.dims)
+        if missing_dims:
+            raise ValueError(f"DataArray missing required dimensions: {missing_dims}")
+
+    # Validate each dimension
+    for dim in dims:
+        # Check dimension sizes match
+        ref_size = ref_da.sizes[dim]
+        for i, da in enumerate(dataarrays[1:], 1):
+            if da.sizes[dim] != ref_size:
+                raise ValueError(
+                    f"Dimension size mismatch: on dimension '{dim}', "
+                    f"DataArray 0 has size {ref_size}, "
+                    f"DataArray {i} has size {da.sizes[dim]}"
+                )
+
+        # Check coordinate values (skip for time_dims dimensions)
+        if dim in time_dims:
+            # Special handling for time dimensions
+            ref_coords = ref_da[dim].values
+            for i, da in enumerate(dataarrays[1:], 1):
+                try:
+                    if not np.array_equal(da[dim].values, ref_coords):
+                        warnings.warn(
+                            f"Time coordinate values not identical: on dimension '{dim}', "
+                            f"DataArray 0 and DataArray {i} have different time coordinates"
+                        )
+                except AttributeError:
+                    # Skip if DataArray doesn't have this dimension
+                    pass
+        else:
+            # Strict check for non-time dimensions
+            ref_coords = ref_da[dim].values
+            for i, da in enumerate(dataarrays[1:], 1):
+                if not np.array_equal(da[dim].values, ref_coords):
+                    raise ValueError(
+                        f"Coordinate value mismatch: on dimension '{dim}', "
+                        f"DataArray 0 and DataArray {i} have different coordinates"
+                    )
+
+    return True
 
 
 def check_deprecation_status(current_version, removal_version):
