@@ -817,7 +817,7 @@ def transfer_xarray_lon_from180TO360(
     lon_array = data_input[lon_dim].data
 
     if (lon_array > 180).any():
-        raise ValueError(
+        warnings.warn(
             "It seems that the input data longitude range is not from -180° to 180°. Please carefully check your data."
         )
 
@@ -854,7 +854,7 @@ def transfer_xarray_lon_from360TO180(
     lon_array = data_input[lon_dim].data
 
     if (lon_array < 0).any():
-        raise ValueError(
+        warnings.warn(
             "It seems that the input data longitude range is not from 0° to 360°. Please carefully check your data."
         )
 
