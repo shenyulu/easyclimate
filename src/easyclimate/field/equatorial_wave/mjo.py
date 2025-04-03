@@ -8,7 +8,9 @@ from matplotlib import pyplot as plt
 import matplotlib.lines as lines
 
 
-def draw_mjo_phase_space_basemap(ax=None):
+def draw_mjo_phase_space_basemap(
+    ax=None, add_phase_text: bool = True, add_location_text: bool = True
+):
     """ """
     if ax is None:
         ax = plt.gca()
@@ -72,47 +74,49 @@ def draw_mjo_phase_space_basemap(ax=None):
     amp1_circ = plt.Circle((0, 0), 1, color="black", fill=False)
     ax.add_patch(amp1_circ)
 
-    # add phase diagram texts
-    ax.text(1, 3, "Phase 6", size="x-large", weight="semibold")
-    ax.text(-2, 3, "Phase 7", size="x-large", weight="semibold")
-    ax.text(2.8, 1, "Phase 5", size="x-large", weight="semibold", ha="center")
-    ax.text(-2.8, 1, "Phase 8", size="x-large", weight="semibold", ha="center")
+    if add_phase_text:
+        # add phase diagram texts
+        ax.text(1, 3, "Phase 6", size="x-large", weight="semibold")
+        ax.text(-2, 3, "Phase 7", size="x-large", weight="semibold")
+        ax.text(2.8, 1, "Phase 5", size="x-large", weight="semibold", ha="center")
+        ax.text(-2.8, 1, "Phase 8", size="x-large", weight="semibold", ha="center")
 
-    ax.text(1, -3, "Phase 3", size="x-large", weight="semibold")
-    ax.text(-2, -3, "Phase 2", size="x-large", weight="semibold")
-    ax.text(2.8, -1, "Phase 4", size="x-large", weight="semibold", ha="center")
-    ax.text(-2.8, -1, "Phase 1", size="x-large", weight="semibold", ha="center")
+        ax.text(1, -3, "Phase 3", size="x-large", weight="semibold")
+        ax.text(-2, -3, "Phase 2", size="x-large", weight="semibold")
+        ax.text(2.8, -1, "Phase 4", size="x-large", weight="semibold", ha="center")
+        ax.text(-2.8, -1, "Phase 1", size="x-large", weight="semibold", ha="center")
 
-    ax.text(
-        0,
-        3.7,
-        "Pacific Ocean",
-        ha="center",
-        bbox=dict(facecolor="white", edgecolor="white"),
-    )
-    ax.text(
-        0,
-        -3.8,
-        "Indian Ocean",
-        ha="center",
-        bbox=dict(facecolor="white", edgecolor="white"),
-    )
-    ax.text(
-        -3.8,
-        0,
-        "West. Hem., Africa",
-        va="center",
-        rotation="vertical",
-        bbox=dict(facecolor="white", edgecolor="white"),
-    )
-    ax.text(
-        3.7,
-        0,
-        "Maritime Continent",
-        va="center",
-        rotation="vertical",
-        bbox=dict(facecolor="white", edgecolor="white"),
-    )
+    if add_location_text:
+        ax.text(
+            0,
+            3.7,
+            "Pacific Ocean",
+            ha="center",
+            bbox=dict(facecolor="white", edgecolor="white"),
+        )
+        ax.text(
+            0,
+            -3.8,
+            "Indian Ocean",
+            ha="center",
+            bbox=dict(facecolor="white", edgecolor="white"),
+        )
+        ax.text(
+            -3.8,
+            0,
+            "West. Hem., Africa",
+            va="center",
+            rotation="vertical",
+            bbox=dict(facecolor="white", edgecolor="white"),
+        )
+        ax.text(
+            3.7,
+            0,
+            "Maritime Continent",
+            va="center",
+            rotation="vertical",
+            bbox=dict(facecolor="white", edgecolor="white"),
+        )
 
     ax.set_xlabel("RMM1")
     ax.set_ylabel("RMM2")
@@ -125,6 +129,8 @@ def draw_mjo_phase_space(
     time_dim: str = "time",
     ax=None,
     color="blue",
+    start_text="START",
+    add_start_text: bool = True,
 ):
     if ax is None:
         ax = plt.gca()
@@ -134,7 +140,7 @@ def draw_mjo_phase_space(
     ax.text(
         mjo_data[rmm1_dim].isel({time_dim: 0}) + 0.1,
         mjo_data[rmm2_dim].isel({time_dim: 0}),
-        "START",
+        start_text if add_start_text else "",
         ha="left",
         zorder=2,
     )

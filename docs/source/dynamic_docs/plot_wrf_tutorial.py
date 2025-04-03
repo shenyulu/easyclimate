@@ -74,6 +74,8 @@ from __future__ import print_function
 
 import easyclimate as ecl
 import xarray as xr
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
 
 data = xr.open_dataset("wrfout_d01_2022-05-01_00_00_00.nc4")
 ncfile = ecl.wrf.transfer_xarray2nctype(data)
@@ -442,6 +444,18 @@ print (bounds)
 slp_subset = slp[30:50, 40:70]
 slp_subset_bounds = ecl.wrf.geo_bounds(slp_subset)
 print (slp_subset_bounds)
+
+# %%
+# The parameters are passed into the plot as follows
+
+ax = plt.axes(projection=ccrs.PlateCarree())
+slp.plot(
+    ax = ax,
+    cbar_kwargs={"location": "bottom"},
+    transform=ecl.wrf.get_cartopy(slp)
+)
+ax.gridlines(draw_labels=True)
+
 
 # %%
 #  Example: Using WRF Output Files with Cartopy

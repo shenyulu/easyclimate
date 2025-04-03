@@ -116,7 +116,7 @@ You can directly install it via `pip` by using 🛒
 
     overview.rst
     install.rst
-    .. ./auto_gallery_output/index
+    ./auto_gallery_output/index
 
 .. toctree::
    :maxdepth: 1
