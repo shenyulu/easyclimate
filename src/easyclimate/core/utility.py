@@ -349,7 +349,7 @@ def get_weighted_spatial_data(
 
 
 def get_compress_xarraydata(
-    data: xr.DataArray | xr.Dataset, complevel: int
+    data: xr.DataArray | xr.Dataset, complevel: int = 5
 ) -> xr.DataArray | xr.Dataset:
     """
     Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
