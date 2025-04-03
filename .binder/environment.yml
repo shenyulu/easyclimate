@@ -33,4 +33,5 @@ dependencies:
     - h5netcdf
     - seaborn
     - EMD-signal
+    - pybarnes
     - easyclimate

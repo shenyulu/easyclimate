@@ -43,6 +43,7 @@ Filter
     easyclimate.filter.butter_filter
     easyclimate.filter.lanczos_filter
     easyclimate.filter.kf_filter
+    easyclimate.filter.barnes_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
     easyclimate.filter.redfit
@@ -78,11 +79,6 @@ WRF-python
     :toctree: generated/
 
     easyclimate.wrf.interface
-
-.. seealso::
-
-    This is the **built-in compiled** `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ package.
-    Please refer to the `User API <https://wrf-python.readthedocs.io/en/latest/user_api/index.html>`__ in the `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ package for related routines.
 
 Meteorology Field
 ----------------------------------------
@@ -173,7 +169,7 @@ Heat Stress
     easyclimate.field.heat_stress
     easyclimate.field.heat_stress.humanindexmod_2020
 
-Boundary-Layer Meteorology
+Boundary Layer
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::

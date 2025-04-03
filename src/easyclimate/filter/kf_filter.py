@@ -3,7 +3,7 @@ Extract equatorial waves by filtering in the Wheeler-Kiladis wavenumber-frequenc
 
 .. seealso::
     - Kiladis, G. N., M. C. Wheeler, P. T. Haertel, K. H. Straub, and P. E. Roundy (2009), Convectively coupled equatorial waves, Rev. Geophys., 47, RG2003, doi: https://doi.org/10.1029/2008RG000266.
-    - https://wyhtsai.github.io/pyaos-wks/docs/A6_tropical_waves.html
+    - https://k3.cicsnc.org/carl/monitor
 """
 
 import numpy as np

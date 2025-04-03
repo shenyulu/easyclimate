@@ -27,6 +27,7 @@ netCDF4
 h5netcdf
 seaborn
 EMD-signal
+pybarnes
 
 pytest == 8.3.3
 pytest-cov == 5.0.0
