@@ -464,8 +464,6 @@ def calc_TN_wave_activity_horizontal_flux(
 
     .. seealso::
         - http://www.atmos.rcast.u-tokyo.ac.jp/nishii/programs/index.html
-        - http://500hpa.cn/pyinmet/tnflux/
-        - http://tytd.gx.cn/exchange/tnflux/
         - https://github.com/laishenggx/T-N_Wave-Activity-Flux
     """
     coordinate_sample_data = z_prime_data
