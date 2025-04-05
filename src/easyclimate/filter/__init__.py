@@ -5,3 +5,4 @@ from .smooth import *
 from .wavelet import *
 from .redfit import *
 from .kf_filter import *
+from .spatial_pcf import *

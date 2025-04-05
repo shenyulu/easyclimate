@@ -12,13 +12,17 @@ import matplotlib.pyplot as plt
 
 # %%
 # The
-
-# mjo_ds = xr.open_dataset('http://iridl.ldeo.columbia.edu/SOURCES/.BoM/.MJO/.RMM/dods',
-#                          decode_times=False)
-# T = mjo_ds.T.values
-# mjo_ds['T'] = pd.date_range("1974-06-01", periods=len(T))
-# mjo_ds = ecl.utility.get_compress_xarraydata(mjo_ds)
-# mjo_ds.to_netcdf("mjo_data.nc")
+#
+# .. code-block:: python
+#
+#       mjo_ds = xr.open_dataset('http://iridl.ldeo.columbia.edu/SOURCES/.BoM/.MJO/.RMM/dods',
+#                                decode_times=False)
+#       T = mjo_ds.T.values
+#       mjo_ds['T'] = pd.date_range("1974-06-01", periods=len(T))
+#       mjo_ds = ecl.utility.get_compress_xarraydata(mjo_ds)
+#       mjo_ds.to_netcdf("mjo_data.nc")
+#
+# code
 
 mjo_data = xr.open_dataset("mjo_data.nc").rename({"T": "time"})
 mjo_data
