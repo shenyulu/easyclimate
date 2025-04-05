@@ -34,17 +34,11 @@ extensions = [
     "sphinx_markdown_tables",
     "sphinx.ext.mathjax",
     "sphinxcontrib.jupyter",
-    # 'sphinx_tabs.tabs',
     "sphinx_inline_tabs",  # Add inline tabbed content to your Sphinx documentation
-    # 'nbsphinx',  # 避免 ipynb, py, rst 重名识别错误
     "sphinx_gallery.gen_gallery",  # Add inline tabbed content to your Sphinx documentation
-    # 'sphinx_copybutton' # Add a convenient copy button to code blocks 目前有错误
-    #  Sphinx autodoc 方法
-    # 'sphinx.ext.autodoc',  # Core library for html generation from docstrings
-    # 'sphinx.ext.autosummary',  # Create neat summary tables
-    # Sphinx AutoAPI 方法
+    # Sphinx AutoAPI Method
     "autoapi.extension",
-    # 链接到其他项目的文档
+    # Links to documentation for other projects
     "sphinx.ext.intersphinx",
     # copy button
     "sphinx_copybutton",
@@ -98,13 +92,8 @@ today_fmt = "%Y-%m-%d"
 # using the given strftime format.
 html_last_updated_fmt = today_fmt
 
-# 添加编辑按钮
+# Add edit button
 html_theme_options = {
-    # furo
-    # "source_repository": "https://github.com/shenyulu/easyclimate/",
-    # "source_branch": "main",
-    # "source_directory": "docs/",
-    # book
     "repository_url": "https://github.com/shenyulu/easyclimate",
     "use_repository_button": True,
     "repository_branch": "main",
@@ -121,7 +110,7 @@ sphinx_gallery_conf = {
         "images",
         "thumbnails",
     ),  # require install `optipng`, download from http://optipng.sourceforge.net/
-    "line_numbers": False,  # 代码行号
+    "line_numbers": False,  # Line number
     "promote_jupyter_magic": True,
     #  Controlling what output is captured
     "capture_repr": ("_repr_html_", "__repr__", "__str__"),
@@ -132,7 +121,7 @@ sphinx_gallery_conf = {
     "show_signature": False,
 }
 
-# 链接文档
+# Linked document
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html#confval-intersphinx_mapping
 # https://pydoctor.readthedocs.io/en/latest/sphinx-integration.html
 # e.g., https://docs.python.org/3/objects.inv
