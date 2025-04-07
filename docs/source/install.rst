@@ -81,6 +81,9 @@ Building the Documentation
 Want to build the documentation yourself? 📚 Follow these steps:
 
 - Install the docs build requirements listed above.
+    .. code:: bash
+
+        pip install -r docs/requirements.txt
 - Go to the ``docs`` directory.
 - Run the build script:
     - On Windows:

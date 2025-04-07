@@ -20,13 +20,12 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <div align="center">
-<center>English / <a href = "scripts/README_zh_CN.md">简体中文</a> / <a href = "scripts/README_ja_JP.md">日本語</a></center>
+<center>English / <a href = "readme/README.zh_CN.md">简体中文</a> / <a href = "readme/README.ja_JP.md">日本語</a></center>
 </div>
 
 ## 👋 Overview
 
 **Easy Climate** is a Python package, aiming to use a line of code to analyze climate.
-
 
 We support Python >= 3.10.
 
@@ -65,7 +64,6 @@ By participating in this project you agree to abide by its terms.
 > enough to contribute. We assure you that the little voice in your head is
 > wrong. Most importantly, **there are many valuable ways to contribute besides
 > writing code**.
->
 
 ## 🤗 Contributors
 

@@ -1010,8 +1010,8 @@ def validate_dataarrays(
     """
     Validate consistency of multiple DataArrays across specified dimensions.
 
-    Parameters:
-    ----------
+    Parameters
+    -------------
     dataarrays : xarray.DataArray or list/tuple of xarray.DataArray
         DataArray(s) to be validated
     dims : list of str, optional
@@ -1020,20 +1020,20 @@ def validate_dataarrays(
         Dimension names where only size is validated (coordinate values are not checked).
         Default is "time".
 
-    Returns:
-    -------
+    Returns
+    ----------
     bool
         Returns True if all validations pass, otherwise raises an exception.
 
-    Raises:
-    ------
+    Raises
+    ---------
     TypeError
         If input is not a DataArray or list/tuple of DataArrays
     ValueError
         If fewer than 2 DataArrays are provided
 
-    Examples:
-    --------
+    Examples
+    -----------
     >>> import xarray as xr
     >>> da1 = xr.DataArray(np.random.rand(10, 5), dims=['time', 'x'])
     >>> da2 = xr.DataArray(np.random.rand(10, 5), dims=['time', 'x'])

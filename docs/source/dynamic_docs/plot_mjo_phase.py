@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-MJO Phase Diagram
+.. _mjo_phase_diagram_example:
+
+MJO Phase Space Trajectory Diagram
 ===================================
 
 Before proceeding with all the steps, first import some necessary libraries and packages

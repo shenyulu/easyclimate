@@ -2,7 +2,7 @@
 """
 .. _2D_spatial_parabolic_cylinder_function_example:
 
-Dancing with Equatorial Waves: A 2D Spatial Parabolic Cylinder Function Adventure
+2D Spatial Parabolic Cylinder Function
 =================================================================================
 
 Ever wondered how atmospheric waves boogie along the equator? Let's explore how to isolate these fascinating dancers (Kelvin waves, Rossby waves, and friends) using parabolic cylinder functions!
@@ -24,16 +24,16 @@ uvz_data = xr.open_dataset("uwnd_vwnd_hgt_equtorial_2021_2024.nc")
 uvz_data
 
 # %%
-# The Magic Filter: Isolating Wave Types
+# Isolating Wave Types
 # -------------------------------------------
-# Now for the star of our show - the 2D spatial parabolic cylinder function filter! This function works like a talented bouncer, only letting specific wave types into our analysis:
+# Now for the star of our show: the 2D spatial parabolic cylinder function filter :py:func:`easyclimate.filter.filter_2D_spatial_parabolic_cylinder_function <easyclimate.filter.filter_2D_spatial_parabolic_cylinder_function>`! This function works like a talented bouncer, only letting specific wave types into our analysis:
 #
 
 result = ecl.filter.filter_2D_spatial_parabolic_cylinder_function(uvz_data.uwnd, uvz_data.vwnd, uvz_data.hgt)
 result
 
 # %%
-# Visualizing the Wave Party
+# Visualizing the Waves
 # -------------------------------
 # Let's meet our wave dancers one by one and see their unique moves!
 #
@@ -67,7 +67,7 @@ result.sel(wave_type = "kelvin")[["u", "v"]].sel(time = "2023-12-15").thin(lon=1
 ax.set_title("Kelvin Waves")
 
 # %%
-# The Spirited WMRG Wave
+# The WMRG Wave
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Westward-moving Mixed Rossby-Gravity waves have more complex moves, like contemporary dancers:
 #
@@ -94,11 +94,11 @@ result.sel(wave_type = "wmrg")[["u", "v"]].sel(time = "2023-12-15").thin(lon=1, 
 ax.set_title("Westward Mixed Rossby-Gravity Waves")
 
 # %%
-# The Dynamic Rossby Waves
+# The Rossby Waves
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Rossby waves come in different "generations" - let's meet the first two:
+# Rossby waves come in different "generations", let's meet the first two:
 #
-# :math:`n=1` Rossby Wave
+# :math:`[n=1]` Rossby Wave
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 
@@ -124,7 +124,7 @@ result.sel(wave_type = "r1")[["u", "v"]].sel(time = "2023-12-15").thin(lon=1, la
 ax.set_title("$n = 1$ Equatorial Rossby Waves")
 
 # %%
-# :math:`n=2` Rossby Wave
+# :math:`[n=2]` Rossby Wave
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 
@@ -152,7 +152,7 @@ ax.set_title("$n = 2$ Equatorial Rossby Waves")
 # %%
 # Behind the Scenes: How the Magic Works
 # ----------------------------------------------
-# The ``filter_2D_spatial_parabolic_cylinder_function`` performs some serious atmospheric wizardry:
+# The :py:func:`easyclimate.filter.filter_2D_spatial_parabolic_cylinder_function <easyclimate.filter.filter_2D_spatial_parabolic_cylinder_function>` performs some serious atmospheric wizardry:
 #
 # 1. Detrending and Windowing: Prepares the data by removing trends and applying spectral windows
 # 2. Variable Transformation: Creates new variables that better represent wave structures
@@ -162,6 +162,7 @@ ax.set_title("$n = 2$ Equatorial Rossby Waves")
 # 6. Reconstruction: Brings everything back to physical space for visualization
 #
 # Each wave type has its own signature moves:
-# - Kelvin Waves: Eastward-moving, symmetric about the equator (:math:`n=0` mode)
-# - WMRG Waves: Westward-moving with mixed characteristics (:math:`n=1` mode)
-# - Rossby Waves: Westward-moving with more complex structures (:math:`n=2`, :math:`n=3` modes)
+#   - Kelvin Waves: Eastward-moving, symmetric about the equator (:math:`n=0` mode)
+#   - WMRG Waves: Westward-moving with mixed characteristics (:math:`n=1` mode)
+#   - Rossby Waves: Westward-moving with more complex structures (:math:`n=2`, :math:`n=3` modes)
+#
