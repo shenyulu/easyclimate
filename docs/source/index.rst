@@ -116,26 +116,26 @@ You can directly install it via `pip` by using 🛒
 
     overview.rst
     install.rst
-    ./auto_gallery_output/index
+    ./auto_gallery/index
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Data Processing
 
-   ./auto_gallery_output/plot_basic_statistical_analysis
-   ./auto_gallery_output/plot_time_scale_average
-   ./auto_gallery_output/plot_geographic_finite_difference
-   ./auto_gallery_output/plot_interp
-   ./auto_gallery_output/plot_wrf_tutorial
+   ./auto_gallery/plot_basic_statistical_analysis
+   ./auto_gallery/plot_time_scale_average
+   ./auto_gallery/plot_geographic_finite_difference
+   ./auto_gallery/plot_interp
+   ./auto_gallery/plot_wrf_tutorial
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Plotting
 
-   ./auto_gallery_output/plot_formatting_coordinates
-   ./auto_gallery_output/plot_taylor_diagram
+   ./auto_gallery/plot_formatting_coordinates
+   ./auto_gallery/plot_taylor_diagram
 
 .. toctree::
    :maxdepth: 1

@@ -121,7 +121,7 @@ html_theme_options = {
 # settings for sphinx-gallery
 sphinx_gallery_conf = {
     "examples_dirs": "./dynamic_docs",  # path to your example scripts
-    "gallery_dirs": "./auto_gallery_output",  # path to where to save gallery generated output
+    "gallery_dirs": "./auto_gallery",  # path to where to save gallery generated output
     "image_scrapers": ("matplotlib",),
     "compress_images": (
         "images",
