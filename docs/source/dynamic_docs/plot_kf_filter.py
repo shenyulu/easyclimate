@@ -3,9 +3,13 @@
 .. _wavelet_example:
 
 KF filter and Hovmöller Diagram
-======================
+============================================
 
-Extract equatorial waves by filtering in the Wheeler and Kiladis (1999) wavenumber-frequency domain.
+
+KF filter
+---------------------------------------
+The KF filter is a specialized spectral analysis technique designed to isolate and study tropical atmospheric waves by decomposing meteorological fields into their wavenumber-frequency components. Unlike traditional Fourier methods, the W-K filter applies a symmetric/antisymmetric separation to distinguish between different wave types, such as **Kelvin waves, Rossby waves, and mixed Rossby-gravity waves**, based on their theoretical dispersion relations. This approach is particularly effective in identifying **convectively coupled waves**, where tropical rainfall and large-scale circulation interact. In meteorology, the W-K filter is widely used to analyze **Madden-Julian Oscillation (MJO) dynamics**, monsoon variability, and other tropical wave disturbances, providing insights into their propagation characteristics and impacts on weather systems.
+
 
 .. seealso::
 
@@ -20,7 +24,7 @@ import cartopy.crs as ccrs
 import easyclimate as ecl
 
 # %%
-# The
+# Preprocessed data
 #
 # .. code-block:: python
 #
@@ -40,13 +44,13 @@ import easyclimate as ecl
 #       olr_data_interpolated = ecl.utility.get_compress_xarraydata(olr_data_interpolated)
 #       olr_data_interpolated.to_netcdf("olr_smooth_data.nc")
 #
-# The scripts are expecting data to be periodic (cyclic) in the longitude direction.
-# The latitude extent must include latitudes about the equator.
+# The example here is to avoid longer calculations, thus we open the pre-processed result data directly.
 
 olr_data_interpolated = xr.open_dataset("olr_smooth_data.nc").olr
 olr_data_interpolated
 
 # %%
+# Filtering equatorial waves with ``kf_filter``
 #
 lf_result = ecl.filter.kf_filter_lf_wave(olr_data_interpolated, steps_per_day = 1)
 mjo_result = ecl.filter.kf_filter_mjo_wave(olr_data_interpolated, steps_per_day = 1)
@@ -58,7 +62,7 @@ td_result = ecl.filter.kf_filter_td_wave(olr_data_interpolated, steps_per_day = 
 lf_result
 
 # %%
-#
+# Extract data in a specified time range
 time1, time2 = '2017-12-01', '2018-02-28'
 lon1, lon2, lats, latn = 39, 181, 5, 15
 
@@ -71,11 +75,26 @@ lf_result_ave
 # %%
 #
 # Hovmöller Diagram
+# ---------------------------------------
+#
+# Draw Hovmöller Diagram for every type of equatorial waves
+#
+#
+# A **Hovmöller Diagram** is a powerful visualization tool that plots atmospheric or oceanic variables along one spatial axis
+# (e.g., longitude or latitude) against time, revealing propagating wave patterns and persistent anomalies.
+# By compressing spatiotemporal data into a single image, it allows meteorologists to track the phase speed, direction,
+# and life cycle of large-scale waves, such as equatorial Kelvin waves or extratropical Rossby wave trains.
+# In tropical meteorology, Hovmöller diagrams are frequently used to study the **eastward progression of the MJO**
+# or the **westward movement of tropical cyclones**, while in climate science,
+# they help diagnose teleconnections like the **El Niño-Southern Oscillation (ENSO)** influence
+# on global weather. This method is essential for validating model simulations and understanding
+# the organization of atmospheric disturbances over time.
 #
 # .. seealso::
 #
 #       Persson, Anders. "The Story of the Hovmöller Diagram: An (Almost) Eyewitness Account". Bulletin of the American Meteorological Society 98.5 (2017): 949-957. https://doi.org/10.1175/BAMS-D-15-00234.1 Web.
 #
+# The first is given for equatorial waves with a frequency greater than 120 days of slow variation
 fig, ax = plt.subplots(figsize = (8, 5))
 
 lf_result_ave.plot.contourf(
@@ -86,7 +105,7 @@ lf_result_ave.plot.contourf(
 ecl.plot.set_lon_format_axis()
 
 # %%
-#
+# The MJO wave is extracted here
 fig, ax = plt.subplots(figsize = (8, 5))
 
 mjo_result_ave.plot.contourf(
@@ -98,7 +117,7 @@ ecl.plot.set_lon_format_axis()
 
 
 # %%
-#
+#The MJO waves are extracted here
 fig, ax = plt.subplots(figsize = (8, 5))
 
 mrg_result_ave.plot.contourf(
@@ -109,7 +128,7 @@ mrg_result_ave.plot.contourf(
 ecl.plot.set_lon_format_axis()
 
 # %%
-#
+# The mixed Rossby-gravity (MRG) waves are extracted here
 fig, ax = plt.subplots(figsize = (8, 5))
 
 td_result_ave.plot.contourf(
@@ -120,7 +139,7 @@ td_result_ave.plot.contourf(
 ecl.plot.set_lon_format_axis()
 
 # %%
-#
+# Finally we give the spatial planes of various equatorial waves
 fig, ax = plt.subplots(
     nrows=5,
     figsize = (10, 12),

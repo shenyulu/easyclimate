@@ -5,6 +5,16 @@
 Wavelets
 ======================
 
+Wavelet Analysis is a mathematical tool that decomposes signals or data into different frequency components, allowing localized analysis in both time and frequency domains. Unlike Fourier analysis, which provides only global frequency information, wavelets use scalable and shiftable basis functions ("wavelets") to capture transient features, trends, and discontinuities at multiple resolutions.
+
+- Extreme Event Detection: Identifies localized phenomena (e.g., hurricanes, heavy rainfall) by isolating abrupt changes in atmospheric data.
+- Climate Variability Studies: Analyzes multi-scale oscillations (e.g., El Niño, Madden-Julian Oscillation) and their time-frequency characteristics.
+- Turbulence & Boundary Layer Processes: Resolves eddy structures and energy cascades in high-resolution wind/temperature data.
+- Data Denoising: Separates meaningful signals from noise in observational datasets (e.g., satellite measurements).
+- Spatio-Temporal Patterns: Examines non-stationary relationships, such as teleconnections between distant climate variables.
+
+Wavelets are particularly valuable for non-stationary meteorological data, where traditional spectral methods fall short.
+
 .. seealso::
 
     - Torrence, C., & Compo, G. P. (1998). A Practical Guide to Wavelet Analysis. Bulletin of the American Meteorological Society, 79(1), 61-78. https://doi.org/10.1175/1520-0477(1998)079<0061:APGTWA>2.0.CO;2
@@ -18,20 +28,20 @@ import matplotlib.pyplot as plt
 import easyclimate as ecl
 
 # %%
-# The
+# Import the required nino3 data and perform wavelet analysis
 
 data_nino3 = xr.open_dataset('test_input_nino3_wavelet.nc')['nino3']
 result_data = ecl.filter.calc_timeseries_wavelet_transform(data_nino3, dt = 0.25)
 result_data
 
 # %%
-# The
+# Plotting the global wavelet spectrum
 
 fig, ax = plt.subplots()
 ecl.filter.draw_global_wavelet_spectrum(result_data, ax = ax)
 
 # %%
-# The
+# And plotting the wavelet transform
 
 fig, ax = plt.subplots()
 ecl.filter.draw_wavelet_transform(result_data, ax = ax)

@@ -13,7 +13,7 @@ import easyclimate as ecl
 import matplotlib.pyplot as plt
 
 # %%
-# The
+# Load MJO phase space data
 #
 # .. code-block:: python
 #
@@ -24,13 +24,13 @@ import matplotlib.pyplot as plt
 #       mjo_ds = ecl.utility.get_compress_xarraydata(mjo_ds)
 #       mjo_ds.to_netcdf("mjo_data.nc")
 #
-# code
+# Modify the name of the time parameter
 
 mjo_data = xr.open_dataset("mjo_data.nc").rename({"T": "time"})
 mjo_data
 
 # %%
-# The
+# Draw MJO Phase Space Trajectory Diagram
 
 fig, ax = plt.subplots(figsize = (7.5, 7.5))
 
