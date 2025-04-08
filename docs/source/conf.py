@@ -136,6 +136,8 @@ sphinx_gallery_conf = {
     "download_all_examples": False,
     #  'show_memory': True,
     "show_signature": False,
+    'remove_config_comments': True,
+    'parallel': 3,
 }
 # supress warnings in gallery output
 # https://sphinx-gallery.github.io/stable/configuration.html

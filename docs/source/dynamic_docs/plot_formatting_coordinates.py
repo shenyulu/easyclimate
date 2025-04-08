@@ -122,6 +122,8 @@ sic_data.plot.contourf(cmap="Blues", levels=11, transform=ccrs.PlateCarree())
 
 # %%
 # Adjusting `north_pad` and `south_pad` appropriately can help us compensate for not completing the circle boundaries.
+
+# sphinx_gallery_thumbnail_number = -1
 fig, ax = plt.subplots(subplot_kw={"projection": ccrs.NorthPolarStereo()})
 
 ax.coastlines(edgecolor="black", linewidths=0.5)

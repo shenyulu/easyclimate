@@ -43,5 +43,6 @@ ecl.filter.draw_global_wavelet_spectrum(result_data, ax = ax)
 # %%
 # And plotting the wavelet transform
 
+# sphinx_gallery_thumbnail_number = -1
 fig, ax = plt.subplots()
 ecl.filter.draw_wavelet_transform(result_data, ax = ax)

@@ -65,6 +65,8 @@ ecl.field.equatorial_wave.draw_wk_anti_analysis()
 
 # %%
 # And drawing symmetric parts
+
+# sphinx_gallery_thumbnail_number = -1
 fig, ax = plt.subplots()
 
 psum.psumsym_r.plot.contourf(ax = ax, levels=21, cmap = 'YlGnBu')

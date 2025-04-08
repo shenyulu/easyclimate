@@ -5,11 +5,7 @@
 KF filter and Hovmöller Diagram
 ============================================
 
-
-KF filter
----------------------------------------
 The KF filter is a specialized spectral analysis technique designed to isolate and study tropical atmospheric waves by decomposing meteorological fields into their wavenumber-frequency components. Unlike traditional Fourier methods, the W-K filter applies a symmetric/antisymmetric separation to distinguish between different wave types, such as **Kelvin waves, Rossby waves, and mixed Rossby-gravity waves**, based on their theoretical dispersion relations. This approach is particularly effective in identifying **convectively coupled waves**, where tropical rainfall and large-scale circulation interact. In meteorology, the W-K filter is widely used to analyze **Madden-Julian Oscillation (MJO) dynamics**, monsoon variability, and other tropical wave disturbances, providing insights into their propagation characteristics and impacts on weather systems.
-
 
 .. seealso::
 
@@ -74,13 +70,7 @@ lf_result_ave
 
 # %%
 #
-# Hovmöller Diagram
-# ---------------------------------------
-#
-# Draw Hovmöller Diagram for every type of equatorial waves
-#
-#
-# A **Hovmöller Diagram** is a powerful visualization tool that plots atmospheric or oceanic variables along one spatial axis
+# The **Hovmöller Diagram** is a powerful visualization tool that plots atmospheric or oceanic variables along one spatial axis
 # (e.g., longitude or latitude) against time, revealing propagating wave patterns and persistent anomalies.
 # By compressing spatiotemporal data into a single image, it allows meteorologists to track the phase speed, direction,
 # and life cycle of large-scale waves, such as equatorial Kelvin waves or extratropical Rossby wave trains.
@@ -106,6 +96,8 @@ ecl.plot.set_lon_format_axis()
 
 # %%
 # The MJO wave is extracted here
+
+# sphinx_gallery_thumbnail_number = 2
 fig, ax = plt.subplots(figsize = (8, 5))
 
 mjo_result_ave.plot.contourf(
