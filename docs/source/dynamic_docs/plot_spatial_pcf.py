@@ -19,6 +19,9 @@ import easyclimate as ecl
 # -------------------------------
 # First, we need some atmospheric data to work with - think of this as setting up the dance floor for our waves:
 #
+# .. tip::
+#
+#   You can download following datasets here: :download:`Download uwnd_vwnd_hgt_equtorial_2021_2024.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/uwnd_vwnd_hgt_equtorial_2021_2024.nc>`
 
 uvz_data = xr.open_dataset("uwnd_vwnd_hgt_equtorial_2021_2024.nc")
 uvz_data

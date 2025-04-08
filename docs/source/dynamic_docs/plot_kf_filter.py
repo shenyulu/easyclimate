@@ -22,6 +22,16 @@ import easyclimate as ecl
 # %%
 # Preprocessed data
 #
+# The example here is to avoid longer calculations, thus we open the pre-processed result data directly.
+#
+# .. tip::
+#
+#   You can download following datasets here:
+#
+#   - :download:`Download olr-daily_v01r02_19800101_20231231.nc <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/olr-daily_v01r02_19800101_20231231.nc>`
+#   - :download:`Download olr_smooth_data.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_smooth_data.nc>`
+#
+#
 # .. code-block:: python
 #
 #       lats, latn = -20, 20
@@ -40,7 +50,6 @@ import easyclimate as ecl
 #       olr_data_interpolated = ecl.utility.get_compress_xarraydata(olr_data_interpolated)
 #       olr_data_interpolated.to_netcdf("olr_smooth_data.nc")
 #
-# The example here is to avoid longer calculations, thus we open the pre-processed result data directly.
 
 olr_data_interpolated = xr.open_dataset("olr_smooth_data.nc").olr
 olr_data_interpolated

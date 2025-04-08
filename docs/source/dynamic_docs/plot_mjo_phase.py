@@ -25,6 +25,11 @@ import matplotlib.pyplot as plt
 #       mjo_ds.to_netcdf("mjo_data.nc")
 #
 # Modify the name of the time parameter
+#
+# .. tip::
+#
+#   You can download following datasets here: :download:`Download mjo_data.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/mjo_data.nc>`
+#
 
 mjo_data = xr.open_dataset("mjo_data.nc").rename({"T": "time"})
 mjo_data

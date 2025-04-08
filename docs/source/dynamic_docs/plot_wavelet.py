@@ -29,6 +29,11 @@ import easyclimate as ecl
 
 # %%
 # Import the required nino3 data and perform wavelet analysis
+#
+# .. tip::
+#
+#   You can download following datasets here: :download:`Download test_input_nino3_wavelet.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/test_input_nino3_wavelet.nc>`
+#
 
 data_nino3 = xr.open_dataset('test_input_nino3_wavelet.nc')['nino3']
 result_data = ecl.filter.calc_timeseries_wavelet_transform(data_nino3, dt = 0.25)
