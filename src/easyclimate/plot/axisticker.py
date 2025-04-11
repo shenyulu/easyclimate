@@ -36,7 +36,7 @@ def set_lon_format_axis(ax: matplotlib.axes.Axes = None, axis: str = "x", **kwar
     axis.set_major_formatter(geoticker.LongitudeFormatter(**kwargs))
 
 
-def set_lat_format_axis(ax: matplotlib.axes.Axes, axis: str = "y", **kwargs):
+def set_lat_format_axis(ax: matplotlib.axes.Axes = None, axis: str = "y", **kwargs):
     """
     Setting the axes in latitude format.
 
@@ -63,7 +63,7 @@ def set_lat_format_axis(ax: matplotlib.axes.Axes, axis: str = "y", **kwargs):
 
 
 def set_p_format_axis(
-    ax: matplotlib.axes.Axes,
+    ax: matplotlib.axes.Axes = None,
     axis: str = "y",
     axis_limits: tuple = (1000, 100),
     ticker_step: float = 100,

@@ -8,7 +8,7 @@ import warnings
 
 from scipy import signal, stats
 from scipy.stats import pearsonr
-from .utility import generate_datatree_dispatcher, find_dims_axis
+from .utility import generate_datatree_dispatcher, find_dims_axis, validate_dataarrays
 
 from xarray import DataTree
 from .datanode import DataNode
@@ -95,9 +95,9 @@ def calc_linregress_spatial(
         if x_shape != n:
             raise ValueError(
                 "`data_input` array size along dimension `dim` should be the same as the `x` array size, but data_input[dim]: "
-                + n
+                + str(n)
                 + "; x: "
-                + x_shape
+                + str(x_shape)
                 + "."
             )
 
@@ -335,8 +335,8 @@ def calc_ttestSpatialPattern_spatial(
         :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.
     """
 
-    if data_input1.dims != data_input2.dims:
-        raise InterruptedError("data_input1.dims and data_input2.dims must be same!")
+    new_dims = tuple(dim for dim in data_input1.dims if dim != dim)
+    validate_dataarrays([data_input1, data_input2], dims=new_dims, time_dims=dim)
 
     # scipy function scipy.stats.ttest_ind calculate the T-test for the means of two independent samples of scores.
     def _ttest_ind_scipy(data1, data2):
@@ -421,8 +421,8 @@ def calc_levenetestSpatialPattern_spatial(
         :py:func:`scipy.stats.levene <scipy:scipy.stats.levene>`.
     """
 
-    if data_input1.dims != data_input2.dims:
-        raise InterruptedError("data_input1.dims and data_input2.dims must be same!")
+    new_dims = tuple(dim for dim in data_input1.dims if dim != dim)
+    validate_dataarrays([data_input1, data_input2], dims=new_dims, time_dims=dim)
 
     # scipy function scipy.stats.levene calculate the F-test for the means of two independent samples of scores.
     def _levenetest_ind_scipy(data1, data2):
@@ -509,8 +509,8 @@ def calc_levenetestSpatialPattern_spatial(
         :py:func:`scipy.stats.levene <scipy:scipy.stats.levene>`.
     """
 
-    if data_input1.dims != data_input2.dims:
-        raise InterruptedError("data_input1.dims and data_input2.dims must be same!")
+    new_dims = tuple(dim for dim in data_input1.dims if dim != dim)
+    validate_dataarrays([data_input1, data_input2], dims=new_dims, time_dims=dim)
 
     # scipy function scipy.stats.levene calculate the F-test for the means of two independent samples of scores.
     def _levenetest_ind_scipy(data1, data2):
@@ -749,9 +749,9 @@ def calc_theilslopes_spatial(
         if x_shape != n:
             raise ValueError(
                 "`data_input` array size along dimension `dim` should be the same as the `x` array size, but data_input[dim]: "
-                + n
+                + str(n)
                 + "; x: "
-                + x_shape
+                + str(x_shape)
                 + "."
             )
 

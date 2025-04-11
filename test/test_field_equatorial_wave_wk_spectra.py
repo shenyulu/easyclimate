@@ -44,6 +44,50 @@ def test_decompose_symasym():
     return fig
 
 
+def test_decompose_symasym_value_error():
+    """Test that ValueError is raised when input DataArray lacks the specified lat_dim."""
+
+    # Create test data without latitude dimension
+    test_data = np.random.rand(10, 5)  # 10x5 array with no explicit latitude
+    da_no_lat = xr.DataArray(test_data, dims=["time", "lon"])
+
+    # Test with default lat_dim="lat"
+    with pytest.raises(ValueError) as excinfo:
+        ecl.field.equatorial_wave.decompose_symasym(da_no_lat)
+    assert "Input DataArray must have lat dimension" in str(excinfo.value)
+
+    # Test with custom lat_dim name
+    da_wrong_dim = xr.DataArray(test_data, dims=["time", "latitude"])
+    with pytest.raises(ValueError) as excinfo:
+        ecl.field.equatorial_wave.decompose_symasym(da_wrong_dim, lat_dim="lat")
+    assert "Input DataArray must have lat dimension" in str(excinfo.value)
+
+    # Test case where dimension exists but with different name
+    da_diff_lat_name = xr.DataArray(test_data, dims=["latitude", "lon"])
+    with pytest.raises(ValueError) as excinfo:
+        ecl.field.equatorial_wave.decompose_symasym(da_diff_lat_name)
+    assert "Input DataArray must have lat dimension" in str(excinfo.value)
+
+    # Test case where we specify the correct dimension name
+    # This should NOT raise an error
+    da_with_lat = xr.DataArray(test_data, dims=["lat", "lon"])
+    try:
+        ecl.field.equatorial_wave.decompose_symasym(da_with_lat)
+    except ValueError:
+        pytest.fail("Unexpected ValueError for DataArray with correct lat dimension")
+
+    # Test case with alternative dimension name when specified
+    da_with_latitude = xr.DataArray(test_data, dims=["latitude", "lon"])
+    try:
+        ecl.field.equatorial_wave.decompose_symasym(
+            da_with_latitude, lat_dim="latitude"
+        )
+    except ValueError:
+        pytest.fail(
+            "Unexpected ValueError when correct alternative lat_dim is specified"
+        )
+
+
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
 def test_calc_spectral_coefficients_1():
     fig, ax = plt.subplots()
