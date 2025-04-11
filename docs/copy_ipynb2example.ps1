@@ -1,2 +1,2 @@
 Remove-Item .\example\*.ipynb -Recurse
-Copy-Item .\source\auto_gallery_output\*.ipynb -Destination .\example -Recurse
+Copy-Item .\source\auto_gallery\*.ipynb -Destination .\example -Recurse

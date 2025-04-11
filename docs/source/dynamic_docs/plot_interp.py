@@ -15,6 +15,13 @@ import numpy as np
 # Interpolation from points to grid (European region only)
 # ------------------------------------------------------------------------
 # Open sample surface pressure data for the European region
+#
+#
+# .. warning::
+#
+#       The supported geographical domain and projection (as in Zürcher, B. K., 2023) is currently fixed to the European latitudes and Lambert conformal projection and cannot be freely chosen.
+
+
 data = ecl.open_tutorial_dataset("PressQFF_202007271200_872.csv")
 print(data)
 
@@ -55,13 +62,6 @@ meshdata.plot.contourf(
 
 # Draw observation stations
 ax.scatter(data["lon"], data["lat"], s=1, c="r", transform=ccrs.PlateCarree())
-
-# %%
-#
-# .. warning::
-#
-#       The supported geographical domain and projection (as in the paper) is currently fixed to the European latitudes and Lambert conformal projection and cannot be freely chosen.
-
 
 # %%
 # Regriding

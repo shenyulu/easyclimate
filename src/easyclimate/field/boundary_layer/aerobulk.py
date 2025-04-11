@@ -93,16 +93,65 @@ The focus in AeroBulk is readability, efficiency, and portability towards modern
 *Fig 2/ Comparison of the neutral drag (thick lines) and evaporation coefficients (thinner lines) as a function of the neutral wind speed at 10m.*
 """
 
-import easyclimate_backend.aerobulk.flux as eaf
+from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
+from easyclimate_backend.aerobulk import mod_aerobulk_wrap_skin as aeroskin
 import numpy as np
 import xarray as xr
+import warnings
 from typing import Literal
-from ...core.utility import transfer_data_units
+from ...core.utility import (
+    transfer_data_temperature_units,
+    transfer_data_multiple_units,
+    transfer_data_difference_units,
+)
 
 __all__ = [
     "calc_turbulent_fluxes_without_skin_correction",
     "calc_turbulent_fluxes_skin_correction",
 ]
+
+VALID_VALUE_RANGES = {
+    "sst": np.array([270, 320]),
+    "t_zt": np.array([180, 330]),
+    "hum_zt": np.array([0, 0.08]),
+    "u_zu": np.array([-50, 50]),
+    "v_zu": np.array([-50, 50]),
+    "slp": np.array([80000, 110000]),
+    "rad_sw": np.array([0, 1500]),
+    "rad_lw": np.array([0, 750]),
+}
+
+
+def check_value_range(var_name: str, var_value: xr.DataArray):
+    """
+    检查变量值是否在有效范围内。
+
+    参数:
+        var_name (str): 变量名，例如 "sst"
+        var_value (float/int): 变量的值
+
+    异常:
+        KeyError: 如果变量名不在 VALID_VALUE_RANGES 中
+        ValueError: 如果变量值不在有效范围内
+    """
+    # 检查变量名是否在字典中
+    if var_name not in VALID_VALUE_RANGES:
+        warnings.warn(f"The varable {var_name} don't have valid range.", UserWarning)
+        return
+
+    # 获取变量的有效范围
+    range_min, range_max = VALID_VALUE_RANGES[var_name]
+    try:
+        var_value = var_value.compute()
+    except:
+        var_value = var_value
+
+    # 检查值是否在范围内
+    if not (range_min <= var_value <= range_max):
+        warnings.warn(
+            f"The varable {var_name} of values {var_value} is beyond [{range_min}, {range_max}]。",
+            UserWarning,
+        )
 
 
 def calc_turbulent_fluxes_without_skin_correction(
@@ -112,16 +161,17 @@ def calc_turbulent_fluxes_without_skin_correction(
     absolute_temperature_data_units: Literal["degC", "degK", "degF"],
     specific_humidity_data: xr.DataArray,
     specific_humidity_data_units: Literal["g/g", "g/kg", "kg/kg"],
-    zonal_wind_speed: xr.DataArray,
-    zonal_wind_speed_units: Literal["m/s"],
-    meridional_wind_speed: xr.DataArray,
-    meridional_wind_speed_units: Literal["m/s"],
+    zonal_wind_speed_data: xr.DataArray,
+    meridional_wind_speed_data: xr.DataArray,
     mean_sea_level_pressure_data: xr.DataArray,
     mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"],
+    zonal_wind_speed_data_units: Literal["m/s"] = "m/s",
+    meridional_wind_speed_data_units: Literal["m/s"] = "m/s",
     algorithm: Literal["coare3p0", "coare3p6", "ecmwf", "ncar", "andreas"] = "coare3p0",
     height_for_temperature_specific_humidity: float = 2,
     height_for_wind: float = 10,
     iteration: int = 8,
+    check_data_valid=True,
 ) -> xr.Dataset:
     """
     Aerobulk without skin correction.
@@ -140,14 +190,14 @@ def calc_turbulent_fluxes_without_skin_correction(
         air humidity at ``height_for_temperature_specific_humidity``, given as specific humidity.
     specific_humidity_data_units: Literal["g/g", "g/kg", "kg/kg"]
         The units of ``specific_humidity_data``.
-    zonal_wind_speed: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    zonal_wind_speed_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         zonal wind speed at ``height_for_wind``.
-    zonal_wind_speed_units: Literal["m/s"]
-        The units of ``zonal_wind_speed``.
-    meridional_wind_speed: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    zonal_wind_speed_data_units: Literal["m/s"]
+        The units of ``zonal_wind_speed_data``.
+    meridional_wind_speed_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         meridional wind speed at ``height_for_wind``.
-    meridional_wind_speed_units: Literal["m/s"]
-        The units of ``meridional_wind_speed``.
+    meridional_wind_speed_data_units: Literal["m/s"]
+        The units of ``meridional_wind_speed_data``.
     mean_sea_level_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`, optional
         mean sea-level pressure. ~101000 Pa, by default 101000.0.
     mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"]
@@ -182,61 +232,85 @@ def calc_turbulent_fluxes_without_skin_correction(
         - https://github.com/xgcm/aerobulk-python
         - https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Session/63444
     """
-    sst_data = transfer_data_units(sst_data, sst_data_units, "degK")
-    absolute_temperature_data = transfer_data_units(
+    sst_data = transfer_data_temperature_units(sst_data, sst_data_units, "degK")
+    absolute_temperature_data = transfer_data_temperature_units(
         absolute_temperature_data, absolute_temperature_data_units, "degK"
     )
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
-    zonal_wind_speed = transfer_data_units(
-        zonal_wind_speed, zonal_wind_speed_units, "m/s"
+    zonal_wind_speed_data = transfer_data_multiple_units(
+        zonal_wind_speed_data, zonal_wind_speed_data_units, "m/s"
     )
-    meridional_wind_speed = transfer_data_units(
-        meridional_wind_speed, meridional_wind_speed_units, "m/s"
+    meridional_wind_speed_data = transfer_data_multiple_units(
+        meridional_wind_speed_data, meridional_wind_speed_data_units, "m/s"
     )
-    mean_sea_level_pressure_data = transfer_data_units(
+    mean_sea_level_pressure_data = transfer_data_multiple_units(
         mean_sea_level_pressure_data, mean_sea_level_pressure_data_units, "Pa"
     )
 
+    if check_data_valid:
+        check_value_range("sst", sst_data.max().data)
+        check_value_range("sst", sst_data.min().data)
+        check_value_range("t_zt", absolute_temperature_data.max().data)
+        check_value_range("t_zt", absolute_temperature_data.min().data)
+        check_value_range("hum_zt", specific_humidity_data.max().data)
+        check_value_range("hum_zt", specific_humidity_data.min().data)
+        check_value_range("u_zu", zonal_wind_speed_data.max().data)
+        check_value_range("u_zu", zonal_wind_speed_data.min().data)
+        check_value_range("v_zu", meridional_wind_speed_data.max().data)
+        check_value_range("v_zu", meridional_wind_speed_data.min().data)
+        check_value_range("slp", mean_sea_level_pressure_data.max().data)
+        check_value_range("slp", mean_sea_level_pressure_data.min().data)
+
     def _noskin(sst, t_zt, hum_zt, u_zu, v_zu, slp):
         arrays = np.array([sst, t_zt, hum_zt, u_zu, v_zu, slp])
-        if any(np.isnan(array).any() for array in arrays):
+        if np.isnan(arrays).any():
             return np.array([np.nan, np.nan, np.nan, np.nan, np.nan])
 
-        sst = np.array([sst])
-        t_zt = np.array([t_zt])
-        hum_zt = np.array([hum_zt])
-        u_zu = np.array([u_zu])
-        v_zu = np.array([v_zu])
-        slp = np.array([slp])
+        sst = arrays[0]
+        t_zt = arrays[1]
+        hum_zt = arrays[2]
+        u_zu = arrays[3]
+        v_zu = arrays[4]
+        slp = arrays[5]
 
-        ql, qh, taux, tauy, evap = eaf.noskin_np(
-            sst,
-            t_zt,
-            hum_zt,
-            u_zu,
-            v_zu,
-            slp,
-            algorithm,
-            height_for_temperature_specific_humidity,
-            height_for_wind,
-            iteration,
-            input_range_check=False,
+        args_shrunk = (
+            sst.reshape(1, 1, 1),
+            t_zt.reshape(1, 1, 1),
+            hum_zt.reshape(1, 1, 1),
+            u_zu.reshape(1, 1, 1),
+            v_zu.reshape(1, 1, 1),
+            slp.reshape(1, 1, 1),
         )
-        return np.array([ql, qh, taux, tauy, evap])[:, 0]
+
+        ql, qh, taux, tauy, evap = (
+            aeronoskin.mod_aerobulk_wrapper_noskin.aerobulk_model_noskin(
+                algorithm,
+                height_for_temperature_specific_humidity,
+                height_for_wind,
+                *args_shrunk,
+                iteration,
+            )
+        )
+
+        return np.array(
+            [ql[0][0][0], qh[0][0][0], taux[0][0][0], tauy[0][0][0], evap[0][0][0]]
+        )
 
     tmp_result = xr.apply_ufunc(
         _noskin,
         sst_data,
         absolute_temperature_data,
         specific_humidity_data,
-        zonal_wind_speed,
-        meridional_wind_speed,
+        zonal_wind_speed_data,
+        meridional_wind_speed_data,
         mean_sea_level_pressure_data,
         output_core_dims=[["parameter"]],
+        output_dtypes=["float32"],
         vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 1}, "allow_rechunk": True},
+        dask="parallelized",
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 5}, "allow_rechunk": True},
     )
 
     result1 = tmp_result[..., 0]
@@ -282,20 +356,21 @@ def calc_turbulent_fluxes_skin_correction(
     absolute_temperature_data_units: Literal["degC", "degK", "degF"],
     specific_humidity_data: xr.DataArray,
     specific_humidity_data_units: Literal["g/g", "g/kg", "kg/kg"],
-    zonal_wind_speed: xr.DataArray,
-    zonal_wind_speed_units: Literal["m/s"],
-    meridional_wind_speed: xr.DataArray,
-    meridional_wind_speed_units: Literal["m/s"],
+    zonal_wind_speed_data: xr.DataArray,
+    meridional_wind_speed_data: xr.DataArray,
     mean_sea_level_pressure_data: xr.DataArray,
     mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"],
     downwelling_shortwave_radiation: xr.DataArray,
     downwelling_shortwave_radiation_units: Literal["W/m^2"],
     downwelling_longwave_radiation: xr.DataArray,
     downwelling_longwave_radiation_units: Literal["W/m^2"],
+    zonal_wind_speed_data_units: Literal["m/s"] = "m/s",
+    meridional_wind_speed_data_units: Literal["m/s"] = "m/s",
     algorithm: Literal["coare3p0", "coare3p6", "ecmwf"] = "coare3p0",
     height_for_temperature_specific_humidity: float = 2,
     height_for_wind: float = 10,
     iteration: int = 8,
+    check_data_valid=True,
 ) -> xr.Dataset:
     """
     Aerobulk with skin correction.
@@ -314,25 +389,25 @@ def calc_turbulent_fluxes_skin_correction(
         air humidity at ``height_for_temperature_specific_humidity``, given as specific humidity.
     specific_humidity_data_units: Literal["g/g", "g/kg", "kg/kg"]
         The units of ``specific_humidity_data``.
-    zonal_wind_speed: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    zonal_wind_speed_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         zonal wind speed at ``height_for_wind``.
-    zonal_wind_speed_units: Literal["m/s"]
-        The units of ``zonal_wind_speed``.
-    meridional_wind_speed: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    zonal_wind_speed_data_units: Literal["m/s"]
+        The units of ``zonal_wind_speed_data``.
+    meridional_wind_speed_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         meridional wind speed at ``height_for_wind``.
-    meridional_wind_speed_units: Literal["m/s"]
-        The units of ``meridional_wind_speed``.
+    meridional_wind_speed_data_units: Literal["m/s"]
+        The units of ``meridional_wind_speed_data``.
     mean_sea_level_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`, optional
         mean sea-level pressure. ~101000 Pa, by default 101000.0.
     mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"]
         The units of ``mean_sea_level_pressure_data``.
     downwelling_shortwave_radiation: :py:class:`xarray.DataArray<xarray.DataArray>`.
         downwelling shortwave radiation at the surface (>0).
-    downwelling_shortwave_radiation_units: Literal["degC", "degK", "degF"]
+    downwelling_shortwave_radiation_units: Literal["W/m^2"]
         The units of ``downwelling_shortwave_radiation``.
     downwelling_longwave_radiation: :py:class:`xarray.DataArray<xarray.DataArray>`.
         downwelling longwave radiation at the surface (>0).
-    downwelling_longwave_radiation_units: Literal["degC", "degK", "degF"]
+    downwelling_longwave_radiation_units: Literal["W/m^2"]
         The units of ``downwelling_longwave_radiation``.
     algorithm: Literal["coare3p0", "coare3p6", "ecmwf"], default ``coare3p0``.
         Algorithm, can be one of: ``"coare3p0"``, ``"coare3p6"``, ``"ecmwf"``.
@@ -366,73 +441,108 @@ def calc_turbulent_fluxes_skin_correction(
         - https://github.com/xgcm/aerobulk-python
         - https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Session/63444
     """
-    sst_data = transfer_data_units(sst_data, sst_data_units, "degK")
-    absolute_temperature_data = transfer_data_units(
+    sst_data = transfer_data_temperature_units(sst_data, sst_data_units, "degK")
+    absolute_temperature_data = transfer_data_temperature_units(
         absolute_temperature_data, absolute_temperature_data_units, "degK"
     )
-    specific_humidity_data = transfer_data_units(
+    specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
-    zonal_wind_speed = transfer_data_units(
-        zonal_wind_speed, zonal_wind_speed_units, "m/s"
+    zonal_wind_speed_data = transfer_data_multiple_units(
+        zonal_wind_speed_data, zonal_wind_speed_data_units, "m/s"
     )
-    meridional_wind_speed = transfer_data_units(
-        meridional_wind_speed, meridional_wind_speed_units, "m/s"
+    meridional_wind_speed_data = transfer_data_multiple_units(
+        meridional_wind_speed_data, meridional_wind_speed_data_units, "m/s"
     )
-    mean_sea_level_pressure_data = transfer_data_units(
+    mean_sea_level_pressure_data = transfer_data_multiple_units(
         mean_sea_level_pressure_data, mean_sea_level_pressure_data_units, "Pa"
     )
-    downwelling_shortwave_radiation = transfer_data_units(
+    downwelling_shortwave_radiation = transfer_data_multiple_units(
         downwelling_shortwave_radiation, downwelling_shortwave_radiation_units, "W/m^2"
     )
-    downwelling_longwave_radiation = transfer_data_units(
+    downwelling_longwave_radiation = transfer_data_multiple_units(
         downwelling_longwave_radiation, downwelling_longwave_radiation_units, "W/m^2"
     )
 
-    def _noskin(sst, t_zt, hum_zt, u_zu, v_zu, slp, rad_sw, rad_lw):
-        arrays = np.array([sst, t_zt, hum_zt, u_zu, v_zu, slp])
-        if any(np.isnan(array).any() for array in arrays):
-            return np.array([np.nan, np.nan, np.nan, np.nan, np.nan])
+    if check_data_valid:
+        check_value_range("sst", sst_data.max().data)
+        check_value_range("sst", sst_data.min().data)
+        check_value_range("t_zt", absolute_temperature_data.max().data)
+        check_value_range("t_zt", absolute_temperature_data.min().data)
+        check_value_range("hum_zt", specific_humidity_data.max().data)
+        check_value_range("hum_zt", specific_humidity_data.min().data)
+        check_value_range("u_zu", zonal_wind_speed_data.max().data)
+        check_value_range("u_zu", zonal_wind_speed_data.min().data)
+        check_value_range("v_zu", meridional_wind_speed_data.max().data)
+        check_value_range("v_zu", meridional_wind_speed_data.min().data)
+        check_value_range("slp", mean_sea_level_pressure_data.max().data)
+        check_value_range("slp", mean_sea_level_pressure_data.min().data)
+        check_value_range("rad_sw", downwelling_shortwave_radiation.max().data)
+        check_value_range("rad_sw", downwelling_shortwave_radiation.min().data)
+        check_value_range("rad_lw", downwelling_longwave_radiation.max().data)
+        check_value_range("rad_lw", downwelling_longwave_radiation.min().data)
 
-        sst = np.array([sst])
-        t_zt = np.array([t_zt])
-        hum_zt = np.array([hum_zt])
-        u_zu = np.array([u_zu])
-        v_zu = np.array([v_zu])
-        slp = np.array([slp])
-        rad_sw = np.array([rad_sw])
-        rad_lw = np.array([rad_lw])
+    def _skin(sst, t_zt, hum_zt, u_zu, v_zu, slp, rad_sw, rad_lw):
+        arrays = np.array([sst, t_zt, hum_zt, u_zu, v_zu, slp, rad_sw, rad_lw])
+        if np.isnan(arrays).any():
+            return np.array([np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
-        ql, qh, taux, tauy, t_s, evap = eaf.skin_np(
-            sst,
-            t_zt,
-            hum_zt,
-            u_zu,
-            v_zu,
-            slp,
-            rad_sw,
-            rad_lw,
-            algorithm,
-            height_for_temperature_specific_humidity,
-            height_for_wind,
-            iteration,
-            input_range_check=False,
+        sst = arrays[0]
+        t_zt = arrays[1]
+        hum_zt = arrays[2]
+        u_zu = arrays[3]
+        v_zu = arrays[4]
+        slp = arrays[5]
+        rad_sw = arrays[6]
+        rad_lw = arrays[7]
+
+        args_shrunk = (
+            sst.reshape(1, 1, 1),
+            t_zt.reshape(1, 1, 1),
+            hum_zt.reshape(1, 1, 1),
+            u_zu.reshape(1, 1, 1),
+            v_zu.reshape(1, 1, 1),
+            slp.reshape(1, 1, 1),
+            rad_sw.reshape(1, 1, 1),
+            rad_lw.reshape(1, 1, 1),
         )
-        return np.array([ql, qh, taux, tauy, t_s, evap])[:, 0]
+
+        ql, qh, taux, tauy, t_s, evap = (
+            aeroskin.mod_aerobulk_wrapper_skin.aerobulk_model_skin(
+                algorithm,
+                height_for_temperature_specific_humidity,
+                height_for_wind,
+                *args_shrunk,
+                iteration,
+            )
+        )
+
+        return np.array(
+            [
+                ql[0][0][0],
+                qh[0][0][0],
+                taux[0][0][0],
+                tauy[0][0][0],
+                t_s[0][0][0],
+                evap[0][0][0],
+            ]
+        )
 
     tmp_result = xr.apply_ufunc(
-        _noskin,
+        _skin,
         sst_data,
         absolute_temperature_data,
         specific_humidity_data,
-        zonal_wind_speed,
-        meridional_wind_speed,
+        zonal_wind_speed_data,
+        meridional_wind_speed_data,
         mean_sea_level_pressure_data,
         downwelling_shortwave_radiation,
         downwelling_longwave_radiation,
         output_core_dims=[["parameter"]],
+        output_dtypes=["float64"],
         vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 1}, "allow_rechunk": True},
+        dask="parallelized",
+        dask_gufunc_kwargs={"output_sizes": {"parameter": 6}, "allow_rechunk": True},
     )
 
     result1 = tmp_result[..., 0]

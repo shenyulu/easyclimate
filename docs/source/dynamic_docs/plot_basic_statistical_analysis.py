@@ -14,6 +14,14 @@ import cartopy.crs as ccrs
 #
 # .. seealso::
 #   Luo, B., Luo, D., Ge, Y. et al. Origins of Barents-Kara sea-ice interannual variability modulated by the Atlantic pathway of El Niño–Southern Oscillation. Nat Commun 14, 585 (2023). https://doi.org/10.1038/s41467-023-36136-5
+#
+# .. tip::
+#
+#   You can download following datasets here:
+#
+#   - :download:`Download mini_HadISST_ice.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/mini_HadISST_ice.nc>`
+#   - :download:`Download mini_HadISST_sst.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/mini_HadISST_sst.nc>`
+#
 sic_data_Barents_Sea = ecl.open_tutorial_dataset("mini_HadISST_ice").sic
 sic_data_Barents_Sea
 

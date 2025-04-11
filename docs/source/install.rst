@@ -6,6 +6,14 @@ Installation Guide
 Welcome to the **easyclimate** installation guide! 🚀 We're excited to help you get started with our powerful climate analysis tool.
 Follow these simple steps to install **easyclimate** on your system.
 
+The easyclimate package is currently built and tested for specific platforms due to compatibility and dependency constraints.
+Below are the supported platforms and notes for users on other systems.
+
+- Windows x86-64/AMD64
+- Linux x86-64/AMD64
+
+These platforms are fully tested, and pre-built wheels (``.whl``) are available on PyPI for easy installation via following methods:
+
 .. tab-set::
 
     .. tab-item:: PyPI
@@ -25,7 +33,7 @@ Follow these simple steps to install **easyclimate** on your system.
     .. tab-item:: Development version
 
         You can use ``PyPI`` to install the latest **unreleased** version from
-        GitHub (⚠️ **not recommended** in most situations):
+        GitHub (⚠️ **NOT recommended** in most situations):
 
         .. code:: bash
 
@@ -39,7 +47,7 @@ Follow these simple steps to install **easyclimate** on your system.
 Python Version Requirement
 ------------------------------------
 
-**easyclimate** requires **Python 3.10** or higher. To check your Python version, run:
+**easyclimate** requires **Python 3.10 or higher**. To check your Python version, run:
 
 .. code:: bash
 
@@ -81,26 +89,42 @@ Building the Documentation
 Want to build the documentation yourself? 📚 Follow these steps:
 
 - Install the docs build requirements listed above.
+    .. code:: bash
+
+        pip install -r docs/requirements.txt
 - Go to the ``docs`` directory.
 - Run the build script:
-    - On Windows:
-        .. code:: powershell
+    .. tab-set::
 
-            .\build_docs_windows.ps1
+        .. tab-item:: Windows
 
-    - On Linux:
-        .. code:: bash
+            .. code:: powershell
 
-            ./build_docs_linux.sh
+                .\build_docs_windows.ps1
+
+            .. hint::
+
+                On Windows, we've included ``optipng.exe`` for you! 😉 You might **NOT** need to install `optipng <https://optipng.sourceforge.net/>`__ for image optimization.
+
+        .. tab-item:: Linux
+
+            .. code:: bash
+
+                ./build_docs_linux.sh
+
+            .. hint::
+
+                On Linux, you might need to install `optipng <https://optipng.sourceforge.net/>`__ for image optimization.
+
+                .. code:: bash
+
+                    sudo apt-get install optipng
 
 .. tip::
 
     For more control, you need to clean the build directory, build the HTML documentation, and copy example notebooks.
 
-.. hint::
 
-    On Linux, you might need to install `optipng <https://optipng.sourceforge.net/>`__ for image optimization.
-    Windows users, we've included ``optipng.exe`` for you! 😉
 
 We hope this guide makes installing **easyclimate** a breeze! If you have any questions or run into issues,
 feel free to reach out. Happy climate analyzing! 🌍

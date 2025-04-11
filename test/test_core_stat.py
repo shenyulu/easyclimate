@@ -6,6 +6,9 @@ import pytest
 
 import easyclimate as ecl
 import numpy as np
+import xarray as xr
+import pandas as pd
+import dask.array as da
 from .util import round_sf_np_new
 from xarray import DataTree
 
@@ -85,6 +88,77 @@ def test_calc_linregress_spatial_datatree():
     assert isinstance(result_data, DataTree)
 
 
+def test_chunk_handling_with_dask():
+    """Test that function properly handles chunked dask arrays"""
+    # Create a dask-backed DataArray
+    data = da.random.random((10, 5, 5), chunks=(2, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+
+    # Call function - should rechunk time dimension to -1
+    result = ecl.calc_linregress_spatial(data_input, dim="time")
+
+    # Verify the result is correct type and contains expected variables
+    assert isinstance(result, xr.Dataset)
+    assert all(
+        var in result.data_vars
+        for var in [
+            "slope",
+            "intercept",
+            "rvalue",
+            "pvalue",
+            "stderr",
+            "intercept_stderr",
+        ]
+    )
+
+
+def test_warning_for_numpy_array_x():
+    """Test that warning is raised when passing numpy array for x"""
+    data = np.random.random((10, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+    x = np.arange(10)
+
+    with pytest.warns(
+        UserWarning, match="Assuming that the coordinate value of 'time' in"
+    ):
+        ecl.calc_linregress_spatial(data_input, dim="time", x=x)
+
+
+def test_error_for_mismatched_dim_sizes():
+    """Test ValueError when x size doesn't match data_input dim size"""
+    data = np.random.random((10, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+    x = np.arange(8)  # Wrong size
+
+    with pytest.raises(ValueError, match="`data_input` array size along dimension"):
+        ecl.calc_linregress_spatial(data_input, dim="time", x=x)
+
+
+def test_error_for_mismatched_xarray_dims():
+    """Test ValueError when x DataArray has wrong dimension name"""
+    data = np.random.random((10, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+    x = xr.DataArray(np.arange(10), dims=["wrong_dim"])
+
+    with pytest.raises(ValueError, match="The coordinate name of `data_input` array"):
+        ecl.calc_linregress_spatial(data_input, dim="time", x=x)
+
+
+def test_error_for_mismatched_xarray_coords():
+    """Test ValueError when x DataArray has mismatched coordinates"""
+    data = np.random.random((10, 5, 5))
+    time_coords = np.arange(10)
+    data_input = xr.DataArray(
+        data, dims=["time", "lat", "lon"], coords={"time": time_coords}
+    )
+    x = xr.DataArray(
+        np.arange(10), dims=["time"], coords={"time": time_coords + 1}
+    )  # Offset coords
+
+    with pytest.raises(ValueError, match="Coordinate value of 'time' in"):
+        ecl.calc_linregress_spatial(data_input, dim="time", x=x)
+
+
 def test_calc_detrend_spatial():
     result_data = (
         ecl.calc_detrend_spatial(
@@ -142,6 +216,152 @@ def test_calc_detrend_spatial():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_calculate_corr_pvalue():
+    rng = np.random.default_rng(seed=42)
+
+    times = pd.date_range("2000-01-01", periods=5)
+    lats = [10, 20, 30]
+    lons = [100, 110, 120, 130]
+    data = rng.random((5, 3, 4))
+    da = xr.DataArray(
+        data,
+        dims=["time", "lat", "lon"],
+        coords={"time": times, "lat": lats, "lon": lons},
+    )
+    x = xr.DataArray(
+        np.array([0.0276367, 0.67968458, 0.61436011, 0.587718, 0.88766532]),
+        dims=["time"],
+        coords={"time": times},
+    )
+    result = ecl.calc_corr_spatial(da, x)
+    result_data1 = result["corr"].data.flatten()
+    result_data2 = result["pvalue"].data.flatten()
+    refer_data1 = np.array(
+        [
+            -0.18430726,
+            -0.18548118,
+            -0.9047632,
+            -0.74794148,
+            0.80681898,
+            -0.52102108,
+            -0.19712648,
+            -0.07580053,
+            0.57095664,
+            0.1390009,
+            0.00566705,
+            -0.65137758,
+        ]
+    )
+    refer_data2 = np.array(
+        [
+            0.76666814,
+            0.76519923,
+            0.03477264,
+            0.14603029,
+            0.09891851,
+            0.36798864,
+            0.75064591,
+            0.90358027,
+            0.31473309,
+            0.82359014,
+            0.99278452,
+            0.23374293,
+        ]
+    )
+    assert np.isclose(result_data1, refer_data1).all()
+    assert np.isclose(result_data2, refer_data2).all()
+
+
+def test_time_dimension_mismatch():
+    """Test that ValueError is raised when time dimensions don't match"""
+    # Create test data with different time lengths
+    data_input = xr.DataArray(
+        np.random.rand(10, 2, 2),
+        dims=["time", "lat", "lon"],
+        coords={"time": range(10)},
+    )
+    x = xr.DataArray(np.random.rand(8), dims=["time"])
+
+    with pytest.raises(ValueError) as excinfo:
+        ecl.calc_corr_spatial(data_input, x)
+    assert "time dimension is not consistent" in str(excinfo.value)
+
+
+def test_fewer_than_2_valid_points():
+    """Test that nan is returned when fewer than 2 valid points exist"""
+    # Create test data with only 1 valid point
+    data_input = xr.DataArray(
+        np.array(
+            [
+                [[1.0, np.nan], [np.nan, np.nan]],  # Only one valid point at [0,0,0]
+                [[np.nan, np.nan], [np.nan, np.nan]],
+            ]
+        ),
+        dims=["time", "lat", "lon"],
+    )
+    x = xr.DataArray([1.0, np.nan], dims=["time"])
+
+    result = ecl.calc_corr_spatial(data_input, x)
+
+    # Check all outputs are nan since we don't have enough valid points
+    assert np.isnan(result["corr"].values).all()
+    assert np.isnan(result["pvalue"].values).all()
+
+
+def test_exactly_2_valid_points():
+    """Test that correlation is calculated when exactly 2 valid points exist"""
+    # Create test data with exactly 2 valid points
+    data_input = xr.DataArray(
+        np.array([[[1.0, 2.0], [np.nan, np.nan]], [[3.0, 4.0], [np.nan, np.nan]]]),
+        dims=["time", "lat", "lon"],
+    )
+    x = xr.DataArray([1.0, 2.0], dims=["time"])
+
+    result = ecl.calc_corr_spatial(data_input, x)
+
+    # Check correlation is calculated for first two points (perfect correlation)
+    assert result["corr"].values[0, 0] == pytest.approx(1.0)
+    assert result["corr"].values[0, 1] == pytest.approx(1.0)
+    # Check pvalue is 0 for perfect correlation
+    assert result["pvalue"].values[0, 0] == pytest.approx(1.0)
+    assert result["pvalue"].values[0, 1] == pytest.approx(1.0)
+    # Other points should be nan
+    assert np.isnan(result["corr"].values[1, 0])
+    assert np.isnan(result["corr"].values[1, 1])
+    assert np.isnan(result["pvalue"].values[1, 0])
+    assert np.isnan(result["pvalue"].values[1, 1])
+
+
+def test_mixed_valid_and_invalid_points():
+    """Test behavior with some valid and some invalid grid points"""
+    data_input = xr.DataArray(
+        np.array(
+            [
+                [[1.0, 2.0, np.nan], [3.0, np.nan, np.nan]],
+                [[4.0, 5.0, np.nan], [6.0, np.nan, np.nan]],
+            ]
+        ),
+        dims=["time", "lat", "lon"],
+    )
+    x = xr.DataArray([1.0, 2.0], dims=["time"])
+
+    result = ecl.calc_corr_spatial(data_input, x)
+
+    # Check correlations are calculated where there are enough points
+    assert not np.isnan(result["corr"].values[0, 0])
+    assert not np.isnan(result["corr"].values[0, 1])
+    assert not np.isnan(result["pvalue"].values[0, 0])
+    assert not np.isnan(result["pvalue"].values[0, 1])
+
+    # Check nan where not enough points
+    assert np.isnan(result["corr"].values[0, 2])
+    assert np.isnan(result["corr"].values[1, 1])
+    assert np.isnan(result["corr"].values[1, 2])
+    assert np.isnan(result["pvalue"].values[0, 2])
+    assert np.isnan(result["pvalue"].values[1, 1])
+    assert np.isnan(result["pvalue"].values[1, 2])
 
 
 def test_calc_ttestSpatialPattern_spatial():
@@ -283,3 +503,67 @@ def test_calc_theilslopes_spatial():
     assert np.isclose(result_data2, refer_data2).all()
     assert np.isclose(result_data3, refer_data3).all()
     assert np.isclose(result_data4, refer_data4).all()
+
+
+def test_chunk_handling_with_dask_theilslopes_spatial():
+    """Test that function properly handles chunked dask arrays"""
+    # Create a dask-backed DataArray
+    data = da.random.random((10, 5, 5), chunks=(2, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+
+    # Call function - should rechunk time dimension to -1
+    result = ecl.calc_theilslopes_spatial(data_input, dim="time")
+
+    # Verify the result is correct type and contains expected variables
+    assert isinstance(result, xr.Dataset)
+    assert all(
+        var in result.data_vars
+        for var in ["slope", "intercept", "low_slope", "high_slope"]
+    )
+
+
+def test_warning_for_numpy_array_x_theilslopes_spatial():
+    """Test that warning is raised when passing numpy array for x"""
+    data = np.random.random((10, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+    x = np.arange(10)
+
+    with pytest.warns(
+        UserWarning, match="Assuming that the coordinate value of 'time' in"
+    ):
+        ecl.calc_theilslopes_spatial(data_input, dim="time", x=x)
+
+
+def test_error_for_mismatched_dim_sizes_theilslopes_spatial():
+    """Test ValueError when x size doesn't match data_input dim size"""
+    data = np.random.random((10, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+    x = np.arange(8)  # Wrong size
+
+    with pytest.raises(ValueError, match="`data_input` array size along dimension"):
+        ecl.calc_theilslopes_spatial(data_input, dim="time", x=x)
+
+
+def test_error_for_mismatched_xarray_dims_theilslopes_spatial():
+    """Test ValueError when x DataArray has wrong dimension name"""
+    data = np.random.random((10, 5, 5))
+    data_input = xr.DataArray(data, dims=["time", "lat", "lon"])
+    x = xr.DataArray(np.arange(10), dims=["wrong_dim"])
+
+    with pytest.raises(ValueError, match="The coordinate name of `data_input` array"):
+        ecl.calc_theilslopes_spatial(data_input, dim="time", x=x)
+
+
+def test_error_for_mismatched_xarray_coords_theilslopes_spatial():
+    """Test ValueError when x DataArray has mismatched coordinates"""
+    data = np.random.random((10, 5, 5))
+    time_coords = np.arange(10)
+    data_input = xr.DataArray(
+        data, dims=["time", "lat", "lon"], coords={"time": time_coords}
+    )
+    x = xr.DataArray(
+        np.arange(10), dims=["time"], coords={"time": time_coords + 1}
+    )  # Offset coords
+
+    with pytest.raises(ValueError, match="Coordinate value of 'time' in"):
+        ecl.calc_theilslopes_spatial(data_input, dim="time", x=x)

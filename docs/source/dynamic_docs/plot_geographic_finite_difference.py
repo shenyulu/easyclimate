@@ -12,6 +12,18 @@ import cartopy.crs as ccrs
 
 # %%
 # Then consider obtaining meridional and zonal wind variables in tutorial data
+#
+# .. tip::
+#
+#   You can download following datasets here:
+#
+#   - :download:`Download uwnd_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/uwnd_202201_mon_mean.nc>`
+#   - :download:`Download vwnd_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/vwnd_202201_mon_mean.nc>`
+#   - :download:`Download hgt_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/hgt_202201_mon_mean.nc>`
+#   - :download:`Download air_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/air_202201_mon_mean.nc>`
+#   - :download:`Download shum_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/shum_202201_mon_mean.nc>`
+#   - :download:`Download pressfc_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/pressfc_202201_mon_mean.nc>`
+#   - :download:`Download precip_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/precip_202201_mon_mean.nc>`
 
 u_data = ecl.tutorial.open_tutorial_dataset("uwnd_202201_mon_mean").sortby("lat").uwnd
 v_data = ecl.tutorial.open_tutorial_dataset("vwnd_202201_mon_mean").sortby("lat").vwnd

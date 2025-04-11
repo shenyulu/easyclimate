@@ -3,7 +3,10 @@ Indian Ocean Basin mode (IOBM) Index
 """
 
 import xarray as xr
-from ...core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import (
+    sort_ascending_latlon_coordinates,
+    transfer_xarray_lon_from180TO360,
+)
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_EOF_model, calc_EOF_analysis
 
@@ -55,6 +58,9 @@ def calc_index_IOBM_1point(
         1. `Yang, J., Q. Liu, S.-P. Xie, Z. Liu, and L. Wu (2007), Impact of the Indian Ocean SST basin mode on the Asian summer monsoon, Geophys. Res. Lett., 34, L02708 <https://doi.org/10.1029/2006GL028571>`__
         2. `Sun, Y., Zhu, Z., Yang, Y. et al. Decadal change in the connection between the Pacific–Japan pattern and the Indian Ocean SST basin mode. Clim Dyn (2024). <https://doi.org/10.1007/s00382-024-07132-2>`__
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
@@ -133,6 +139,9 @@ def calc_index_IOBM_EOF1(
     .. seealso::
         :py:func:`get_EOF_model <easyclimate.core.eof.get_EOF_model>`
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )

@@ -136,7 +136,6 @@ def calc_timeseries_wavelet_transform(
         - https://github.com/ct6502/wavelets
         - https://github.com/regeirk/pycwt, https://pycwt.readthedocs.io/en/latest/index.html
         - http://nicolasfauchereau.github.io/climatecode/posts/wavelet-analysis-in-python/
-        - https://bbs.06climate.com/forum.php?mod=viewthread&tid=95016
         - https://blog.csdn.net/weixin_43304836/article/details/119752767
 
     Reference

@@ -42,9 +42,12 @@ Filter
 
     easyclimate.filter.butter_filter
     easyclimate.filter.lanczos_filter
+    easyclimate.filter.kf_filter
+    easyclimate.filter.barnes_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
     easyclimate.filter.redfit
+    easyclimate.filter.spatial_pcf
 
 Interpolation
 ----------------------------------------
@@ -72,8 +75,6 @@ Plot
 
 WRF-python
 ----------------------------------------
-
-Build-in `wrf-python <https://wrf-python.readthedocs.io/en/latest/index.html>`__ library.
 
 .. autosummary::
     :toctree: generated/
@@ -141,14 +142,24 @@ Ocean
     easyclimate.field.ocean.stability
     easyclimate.field.ocean.thermal
 
-Mesoscale
+Typhoon
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.mesoscale
-    easyclimate.field.mesoscale.potential_intensity
+    easyclimate.field.typhoon
+    easyclimate.field.typhoon.potential_intensity
+
+Equatorial Wave
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.equatorial_wave
+    easyclimate.field.equatorial_wave.mjo
+    easyclimate.field.equatorial_wave.wk_spectra
 
 Heat Stress
 ::::::::::::::::::::::::::::::::::::::::
@@ -159,7 +170,7 @@ Heat Stress
     easyclimate.field.heat_stress
     easyclimate.field.heat_stress.humanindexmod_2020
 
-Boundary-Layer Meteorology
+Boundary Layer
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::

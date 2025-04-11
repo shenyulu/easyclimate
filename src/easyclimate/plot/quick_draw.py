@@ -18,6 +18,7 @@ __all__ = ["quick_draw_spatial_basemap", "quick_draw_rectangular_box"]
 def quick_draw_spatial_basemap(
     nrows: int = 1,
     ncols: int = 1,
+    figsize=None,
     central_longitude: float = 0.0,
     draw_labels: str | bool | list | dict = ["bottom", "left"],
     gridlines_color: str = "grey",
@@ -33,6 +34,8 @@ def quick_draw_spatial_basemap(
     ----------
     nrows, ncols :py:class:`int <int>`, default: 1
         Number of rows/columns of the subplot grid.
+    figsize: (:py:class:`float <float>`, :py:class:`float <float>`)
+        Width, height in inches.
     central_longitude: :py:class:`float <float>`, default: 0.
         The central longitude for `cartopy.crs.PlateCarree` projection.
     draw_labels: :py:class:`str <str>` | :py:class:`bool <bool>` | :py:class:`list <list>` | :py:class:`dict <dict>`, default: ["bottom", "left"].
@@ -66,6 +69,7 @@ def quick_draw_spatial_basemap(
     """
 
     fig, ax = plt.subplots(
+        figsize=figsize,
         nrows=nrows,
         ncols=ncols,
         subplot_kw={

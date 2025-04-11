@@ -330,7 +330,7 @@ def calc_redfit(
     input_str = "tmp_cfg_" + random_str + ".cfg"
     byte_str = input_str.encode("utf-8")  # 编码为字节
 
-    # 调整长度为80，用空字符填充（根据Fortran需求可选空格或空字符）
+    # 调整长度为80，用空字符填充
     padded = byte_str.ljust(80, b"\0")[:80]
 
     # 创建C字符数组
@@ -571,7 +571,7 @@ def calc_redfit(
         "Schulz, M. and Mudelsee, M. (2002) REDFIT: Estimating red-noise spectra directly from unevenly spaced paleoclimatic time series. Computers and Geosciences, 28, 421-426. https://doi.org/10.1016/S0098-3004(01)00044-9"
     )
     save_dataset.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-fortran"
+        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
     )
     # Add coordinate period (reciprocal of frequency)
     save_dataset = save_dataset.assign_coords({"period": 1 / save_dataset.freq})
@@ -727,7 +727,7 @@ def calc_redfit_cross(
     input_str = "tmp_cfg_" + random_str + ".cfg"
     byte_str = input_str.encode("utf-8")  # 编码为字节
 
-    # 调整长度为80，用空字符填充（根据Fortran需求可选空格或空字符）
+    # 调整长度为80，用空字符填充
     padded = byte_str.ljust(80, b"\0")[:80]
 
     # 创建C字符数组
@@ -922,7 +922,7 @@ def calc_redfit_cross(
         "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18. https://doi.org/10.1016/S0098-3004(01)00044-9"
     )
     save_dataset_gxx.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-fortran"
+        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
     )
 
     # Add coordinate period (reciprocal of frequency)
@@ -1116,7 +1116,7 @@ def calc_redfit_cross(
         "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
     )
     save_dataset_gyy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-fortran"
+        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
     )
     # Add coordinate period (reciprocal of frequency)
     save_dataset_gyy = save_dataset_gyy.assign_coords(
@@ -1251,7 +1251,7 @@ def calc_redfit_cross(
         "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
     )
     save_dataset_gxy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-fortran"
+        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
     )
     # Add coordinate period (reciprocal of frequency)
     save_dataset_gxy = save_dataset_gxy.assign_coords(
@@ -1431,7 +1431,7 @@ def calc_redfit_cross(
         "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
     )
     save_dataset_cxy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-fortran"
+        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
     )
     # Add coordinate period (reciprocal of frequency)
     save_dataset_cxy = save_dataset_cxy.assign_coords(
@@ -1606,7 +1606,7 @@ def calc_redfit_cross(
         "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
     )
     save_dataset_phxy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-fortran"
+        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
     )
     # Add coordinate period (reciprocal of frequency)
     save_dataset_phxy = save_dataset_phxy.assign_coords(

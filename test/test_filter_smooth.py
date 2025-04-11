@@ -1,5 +1,5 @@
 """
-pytest for interp.interp_mesh2mesh.py
+pytest for filter.smooth.py
 """
 
 import pytest

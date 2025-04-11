@@ -46,15 +46,30 @@ def lanczos_highpass_weights(window, cutoff):
         The length of the filter window.
     cutoff: float
         The cutoff frequency in inverse time steps.
+
+    .. seealso::
+        https://wyhtsai.github.io/pyaos-wks/docs/A3_lanczos_filter.html
     """
-    # Get low-pass filter weights
-    low_pass = lanczos_lowpass_weights(window, cutoff)
-    low_pass = low_pass.data
-    # Create a unit impulse
-    impulse = np.zeros_like(low_pass)
-    impulse[len(impulse) // 2] = 1
-    # Calculate high-pass filter weights
-    high_pass = impulse - low_pass
+    # # Get low-pass filter weights
+    # low_pass = lanczos_lowpass_weights(window, cutoff)
+    # low_pass = low_pass.data
+    # # Create a unit impulse
+    # impulse = np.zeros_like(low_pass)
+    # impulse[len(impulse) // 2] = 1
+    # # Calculate high-pass filter weights
+    # high_pass = impulse - low_pass
+    # return xr.DataArray(high_pass, dims=["window"])
+    order = ((window - 1) // 2) + 1
+    nwts = 2 * order + 1
+    w = np.zeros([nwts])
+    n = nwts // 2
+    w[n] = 1 - 2 * cutoff
+    k = np.arange(1.0, n)
+    sigma = np.sin(np.pi * k / n) * n / (np.pi * k)
+    firstfactor = np.sin(2.0 * np.pi * cutoff * k) / (np.pi * k)
+    w[n - 1 : 0 : -1] = -firstfactor * sigma
+    w[n + 1 : -1] = -firstfactor * sigma
+    high_pass = w[1:-1]
     return xr.DataArray(high_pass, dims=["window"])
 
 

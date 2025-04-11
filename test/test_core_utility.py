@@ -10,6 +10,7 @@ import xarray as xr
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from datetime import datetime
 from .const_define import TEST_DATA_PATH
 
 data_time_series = xr.DataArray(
@@ -421,3 +422,140 @@ def test_compare_multi_dataarray_coordinate():
     ecl.utility.compare_multi_dataarray_coordinate(
         data_input_list=[comparedata1, comparedata1, comparedata1]
     )
+
+
+# validate_dataarrays
+def test_validate_dataarrays_basic_functionality():
+    """Test basic validation with matching DataArrays"""
+    da1 = xr.DataArray(
+        np.random.rand(10, 5),
+        dims=["time", "x"],
+        coords={"time": np.arange(10), "x": np.arange(5)},
+    )
+    da2 = xr.DataArray(
+        np.random.rand(10, 5),
+        dims=["time", "x"],
+        coords={"time": np.arange(10), "x": np.arange(5)},
+    )
+
+    assert ecl.utility.validate_dataarrays([da1, da2]) is True
+
+
+def test_single_dataarray_raises_error():
+    """Test that single DataArray raises TypeError"""
+    da = xr.DataArray(np.random.rand(10))
+    with pytest.raises(TypeError, match="At least two DataArrays required"):
+        ecl.utility.validate_dataarrays(da)
+
+
+def test_non_list_input_raises_error():
+    """Test that non-list/tuple input raises TypeError"""
+    da = xr.DataArray(np.random.rand(10))
+    with pytest.raises(TypeError, match="must be a list or tuple"):
+        ecl.utility.validate_dataarrays({"not": "a list"})
+
+
+def test_empty_list_raises_error():
+    """Test that empty list raises ValueError"""
+    with pytest.raises(ValueError, match="At least two DataArrays required"):
+        ecl.utility.validate_dataarrays([])
+
+
+def test_single_item_list_raises_error():
+    """Test that single-item list raises ValueError"""
+    da = xr.DataArray(np.random.rand(10))
+    with pytest.raises(ValueError, match="At least two DataArrays required"):
+        ecl.utility.validate_dataarrays([da])
+
+
+def test_dimension_size_mismatch():
+    """Test detection of dimension size mismatch"""
+    da1 = xr.DataArray(np.random.rand(10, 5), dims=["time", "x"])
+    da2 = xr.DataArray(np.random.rand(8, 5), dims=["time", "x"])
+
+    with pytest.raises(ValueError, match="Dimension size mismatch"):
+        ecl.utility.validate_dataarrays([da1, da2])
+
+
+def test_missing_dimension():
+    """Test detection of missing dimensions"""
+    da1 = xr.DataArray(np.random.rand(10, 5), dims=["time", "x"])
+    da2 = xr.DataArray(np.random.rand(10, 5), dims=["time", "y"])
+
+    with pytest.raises(ValueError, match="missing required dimensions"):
+        ecl.utility.validate_dataarrays([da1, da2], dims=["x"])
+
+
+def test_coordinate_value_mismatch():
+    """Test strict coordinate value validation"""
+    da1 = xr.DataArray(np.random.rand(10), dims=["x"], coords={"x": np.arange(10)})
+    da2 = xr.DataArray(np.random.rand(10), dims=["x"], coords={"x": np.arange(1, 11)})
+
+    with pytest.raises(ValueError, match="Coordinate value mismatch"):
+        ecl.utility.validate_dataarrays([da1, da2])
+
+
+def test_time_dimension_warning():
+    """Test warning for time coordinate mismatch"""
+    times1 = [datetime(2020, 1, i) for i in range(1, 11)]
+    times2 = [datetime(2020, 1, i + 1) for i in range(1, 11)]
+
+    da1 = xr.DataArray(np.random.rand(10), dims=["time"], coords={"time": times1})
+    da2 = xr.DataArray(np.random.rand(10), dims=["time"], coords={"time": times2})
+
+    with pytest.warns(UserWarning, match="Time coordinate values not identical"):
+        ecl.utility.validate_dataarrays([da1, da2])
+
+
+def test_specific_dimension_validation():
+    """Test validation of specific dimensions only"""
+    da1 = xr.DataArray(np.random.rand(10, 5, 3), dims=["time", "x", "z"])
+    da2 = xr.DataArray(np.random.rand(10, 5, 4), dims=["time", "x", "z"])
+
+    # Should pass as we're only validating 'time' and 'x'
+    assert ecl.utility.validate_dataarrays([da1, da2], dims=["time", "x"]) is True
+
+    # Should fail when including 'z' in validation
+    with pytest.raises(ValueError):
+        ecl.utility.validate_dataarrays([da1, da2], dims=["time", "x", "z"])
+
+
+def test_multiple_time_dims():
+    """Test with multiple time-like dimensions"""
+    da1 = xr.DataArray(
+        np.random.rand(10, 5),
+        dims=["time", "depth"],
+        coords={"time": np.arange(10), "depth": np.arange(5)},
+    )
+    da2 = xr.DataArray(
+        np.random.rand(10, 5),
+        dims=["time", "depth"],
+        coords={"time": np.arange(1, 11), "depth": np.arange(5)},
+    )
+
+    # Should warn about time but not depth
+    with pytest.warns(UserWarning, match="Time coordinate values not identical"):
+        ecl.utility.validate_dataarrays([da1, da2], time_dims=["time", "depth"])
+
+    # Should raise error if time_dims doesn't include these dimensions
+    with pytest.raises(ValueError):
+        ecl.utility.validate_dataarrays([da1, da2], time_dims=None)
+
+
+def test_numpy_array_coordinates():
+    """Test with numpy array coordinates"""
+    da1 = xr.DataArray(
+        np.random.rand(10), dims=["x"], coords={"x": np.linspace(0, 1, 10)}
+    )
+    da2 = xr.DataArray(
+        np.random.rand(10), dims=["x"], coords={"x": np.linspace(0, 1, 10)}
+    )
+
+    assert ecl.utility.validate_dataarrays([da1, da2]) is True
+
+    da3 = xr.DataArray(
+        np.random.rand(10), dims=["x"], coords={"x": np.linspace(0, 2, 10)}
+    )
+
+    with pytest.raises(ValueError):
+        ecl.utility.validate_dataarrays([da1, da3])

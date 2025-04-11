@@ -4,6 +4,8 @@ This module calculate climate variability
 
 import numpy as np
 import xarray as xr
+from typing import Literal
+from scipy.fft import rfft, irfft
 from .extract import get_specific_months_data
 
 __all__ = [
@@ -16,6 +18,9 @@ __all__ = [
     "remove_seasonal_cycle_mean",
     "calc_monthly_climatological_std_without_seasonal_cycle_mean",
     "calc_monthly_climatological_var_without_seasonal_cycle_mean",
+    "smooth_daily_annual_cycle",
+    "calc_daily_annual_cycle_mean",
+    "remove_smooth_daily_annual_cycle_mean",
     "calc_horizontal_wind_components_std",
     "populate_monmean2everymon",
     "populate_daymean2everyday",
@@ -150,7 +155,7 @@ def calc_seasonal_cycle_var(
 def calc_seasonal_mean(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
-    extract_season=None,
+    extract_season: Literal["DJF", "MAM", "JJA", "SON", None] = None,
     **kwargs,
 ) -> xr.DataArray:
     """
@@ -275,6 +280,135 @@ def calc_monthly_climatological_var_without_seasonal_cycle_mean(
     return remove_seasonal_cycle_mean(data_input, dim=dim).var(dim=dim, **kwargs)
 
 
+def smooth_daily_annual_cycle(
+    daily_annual_cycle_data: xr.DataArray,
+    harmonics_num: int = 3,
+    time_dim: str = "dayofyear",
+) -> xr.DataArray:
+    """
+    Calculates a smooth mean daily annual cycle for an array nominally dimensioned.
+
+    Parameters
+    ----------
+    daily_annual_cycle_data : :py:class:`xarray.DataArray<xarray.DataArray>`
+        The input data array with time as the first dimension. The time dimension should be named as specified by `time_dim`.
+    harmonics_num : int, optional
+        The number of harmonics to retain in the FFT. Default is 3.
+    time_dim : str, optional
+        The name of the time dimension in the DataArray. Default is "dayofyear".
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`
+
+        The smoothed daily cycle data.
+
+    .. seealso::
+
+        - https://www.ncl.ucar.edu/Document/Functions/Contributed/smthClmDayTLL.shtml
+    """
+    # move time dimension to 1st
+    dims_order = daily_annual_cycle_data.dims
+    daily_annual_cycle_data = daily_annual_cycle_data.transpose(time_dim, ...)
+
+    # get time dimension size
+    nt = daily_annual_cycle_data[time_dim].shape[0]
+
+    cf = rfft(
+        daily_annual_cycle_data.values, axis=0
+    )  # xarray.DataArray -> numpy.ndarray
+    cf[harmonics_num, :, :] = 0.5 * cf[harmonics_num, :, :]  # mini-taper.
+    cf[harmonics_num + 1 :, :, :] = 0.0  # set all higher coef to 0.0
+    icf = irfft(cf, n=nt, axis=0)  # reconstructed series
+
+    # create `xarray.DataArray` and transpose original dimensions order
+    clmDaySmth = daily_annual_cycle_data.copy(data=icf, deep=True)
+    clmDaySmth = clmDaySmth.transpose(*dims_order)
+    return clmDaySmth
+
+
+def calc_daily_annual_cycle_mean(
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str = "time",
+    **kwargs,
+) -> xr.DataArray:
+    """
+    Calculation of the daily means per year over the entire time range.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+         The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+    .. caution::
+
+        `data_input` must be **daily** or **hourly** data.
+        At least one year of time range must be included in the `data_input`.
+
+    dim: :py:class:`str <str>`
+        Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
+    **kwargs:
+        Additional keyword arguments passed to the mean function.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`xarray.Dataset <xarray.Dataset>`.
+
+    .. caution::
+
+        - For complete coverage, the data should span at least one full year.
+        - If the data is sub-daily (e.g., hourly), the mean is taken over all sub-daily time points for each day of the year.
+    """
+    result_daily_cycle_mean = data_input.groupby(data_input[dim].dt.dayofyear).mean(
+        dim=dim, **kwargs
+    )
+
+    return result_daily_cycle_mean
+
+
+def remove_smooth_daily_annual_cycle_mean(
+    data_input: xr.DataArray,
+    daily_cycle_mean_time_range: slice = slice(None, None),
+    extract_time_range: slice = slice(None, None),
+    harmonics_num: int = 3,
+    dim: str = "time",
+):
+    """
+    Removes the smooth daily annual cycle mean from the input data.
+
+    This function first calculates the daily cycle mean over a specified time range,
+    smooths that mean using a specified number of harmonics, and then subtracts this
+    smoothed cycle from the input data over another specified time range.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        The input data from which to remove the smooth daily annual cycle mean.
+    daily_cycle_mean_time_range : slice, optional
+        The time range used to compute the daily annual cycle mean. Default is all time.
+    extract_time_range : slice, optional
+        The time range from which to extract the data and remove the daily annual cycle. Default is all time.
+    harmonics_num : int, optional
+        The number of harmonics to use in smoothing the daily annual cycle mean. Default is 3.
+    dim : str, optional
+        The name of the time dimension. Default is "time".
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>`
+
+        The input data with the smooth daily cycle mean removed.
+    """
+    day_clm = calc_daily_annual_cycle_mean(
+        data_input.sel({dim: daily_cycle_mean_time_range}), dim=dim
+    )
+    day_clm = day_clm.compute()
+    day_clm_sm = smooth_daily_annual_cycle(day_clm, harmonics_num, "dayofyear")
+    extract_input = data_input.sel({dim: extract_time_range})
+    smoothed_data = extract_input.groupby(extract_input[dim].dt.dayofyear) - day_clm_sm
+    return smoothed_data
+
+
 def calc_horizontal_wind_components_std(
     uv_dataset: xr.Dataset, u_dim="u", v_dim="v", time_dim="time", ddof=0
 ) -> xr.Dataset:
@@ -350,11 +484,11 @@ def populate_monmean2everymon(
 
     Parameters
     ----------
-    - data_monthly: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    data_monthly: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    - data_climatology_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`, default `None`.
+    data_climatology_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>`, default `None`.
         The monthly climatology dataset. If it is `None`, the climatology is derived from `data_monthly`.
-    - time_dim: :py:class:`str <str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
 
     Returns
@@ -364,7 +498,9 @@ def populate_monmean2everymon(
     if data_climatology_monthly_data is None:
         time_step_all = data_monthly[time_dim].shape[0]
         month_int = data_monthly.time.dt.month
-        month_climate = data_monthly.groupby(time_dim + ".month").mean(dim=time_dim)
+        month_climate = data_monthly.groupby(data_monthly[time_dim].dt.month).mean(
+            dim=time_dim
+        )
         data_monthly_empty = xr.full_like(data_monthly, fill_value=np.nan)
 
         for time_step in np.arange(0, time_step_all):
@@ -421,7 +557,7 @@ def populate_daymean2everyday(
     if data_climatology_daily_data is None:
         time_step_all = data_daily[time_dim].shape[0]
         day_int = data_daily.time.dt.day
-        day_climate = data_daily.groupby(time_dim + ".day").mean(dim=time_dim)
+        day_climate = data_daily.groupby(data_daily[time_dim].dt.day).mean(dim=time_dim)
         data_daily_empty = xr.full_like(data_daily, fill_value=np.nan)
 
         for time_step in np.arange(0, time_step_all):

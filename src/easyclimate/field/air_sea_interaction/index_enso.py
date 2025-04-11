@@ -3,7 +3,10 @@ ENSO Index
 """
 
 import xarray as xr
-from ...core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import (
+    sort_ascending_latlon_coordinates,
+    transfer_xarray_lon_from180TO360,
+)
 from ...core.variability import remove_seasonal_cycle_mean
 
 __all__ = [
@@ -54,6 +57,9 @@ def calc_index_nino1and2(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
@@ -121,6 +127,9 @@ def calc_index_nino3(
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     - Trenberth, K. E., 1997: The Definition of El Niño. Bull. Amer. Meteor. Soc., 78, 2771–2778, https://doi.org/10.1175/1520-0477(1997)078<2771:TDOENO>2.0.CO;2.
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
@@ -188,6 +197,9 @@ def calc_index_nino34(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
@@ -263,6 +275,9 @@ def calc_index_OMI(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
@@ -333,6 +348,9 @@ def calc_index_nino4(
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
