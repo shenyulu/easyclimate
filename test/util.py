@@ -1,6 +1,6 @@
 import numpy as np
 from pathlib import Path
-from typing import List
+from typing import Union, List
 
 
 def round_sf_np(x: np.array, significant_figure: int = 4) -> np.array:
@@ -29,12 +29,15 @@ def assert_path_dir_exist(folder_path):
         pass
 
 
-def is_mostly_true(bool_array: List[bool], threshold: float = 0.8) -> bool:
+def is_mostly_true(
+    bool_array: Union[List[bool], np.ndarray], threshold: float = 0.8
+) -> bool:
     """
     Checks if the proportion of True values in a boolean array exceeds the given threshold.
+    Supports both Python lists and NumPy arrays.
 
     Args:
-        bool_array: A list of boolean values
+        bool_array: A list or NumPy array of boolean values
         threshold: The minimum proportion required (default: 0.8 or 80%)
 
     Returns:
@@ -43,11 +46,17 @@ def is_mostly_true(bool_array: List[bool], threshold: float = 0.8) -> bool:
     Examples:
         >>> is_mostly_true([True, True, False])
         False
-        >>> is_mostly_true([True, True, True, False], threshold=0.7)
+        >>> is_mostly_true(np.array([True, True, True, False]), threshold=0.7)
         True
+        >>> is_mostly_true(np.array([True, False]))
+        False
     """
-    if not bool_array:
+    if len(bool_array) == 0:
         return False
-    true_count = sum(bool_array)
-    proportion = true_count / len(bool_array)
+
+    # Convert to NumPy array if it's a list
+    arr = np.array(bool_array) if isinstance(bool_array, list) else bool_array
+
+    true_count = np.sum(arr)
+    proportion = true_count / len(arr)
     return proportion > threshold  # Strictly greater than
