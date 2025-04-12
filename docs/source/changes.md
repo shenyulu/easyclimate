@@ -1,5 +1,40 @@
 # Changelog
 
+## v2025.4.0
+
+*Released on: 2025/4/12*
+
+### What's Changed
+
+
+* [feat: function enhancement](https://github.com/shenyulu/easyclimate/pull/92/commits/c689d06d5c55a2ff175d77525d93469448626e1e "feat: function enhancement")
+  - `transfer_data_temperature_units`
+  - `check_deprecation_status`
+  - `smooth_daily_annual_cycle`
+  - `calc_daily_annual_cycle_mean`
+  - `remove_smooth_daily_annual_cycle_mean`
+  - `draw_mjo_phase_space_basemap`
+  - `draw_mjo_phase_space`
+  - `remove_dominant_signals`
+  - `decompose_symasym`
+  - `calc_spectral_coefficients`
+  - `draw_wk_anti_analysis`
+  - `draw_wk_sym_analysis`
+* [feat: add dependency](https://github.com/shenyulu/easyclimate/pull/92/commits/867f6ece202db26860bc7030ba0b69705e15b0ea "feat: add dependency")
+* [feat: add check deprecations](https://github.com/shenyulu/easyclimate/pull/92/commits/b74f65e96a6dd49aaef8e9b5788994706ae66c4d "feat: add check deprecations")
+* [feat: add calc_corr_spatial](https://github.com/shenyulu/easyclimate/pull/92/commits/6dd4c2df55ee18e057eaed5191d26fd8e58559f0 "feat: add calc_corr_spatial")
+* [feat: add validate_dataarrays](https://github.com/shenyulu/easyclimate/pull/92/commits/fc81428f7688120bb17c57937add3a03c1005954 "feat: add validate_dataarrays")
+* [fix: add default args](https://github.com/shenyulu/easyclimate/pull/92/commits/839e1e351997c669d9ec1a93a8075d7a0bf2942e "fix: add default args")
+* [fix: auto repair lon error](https://github.com/shenyulu/easyclimate/pull/92/commits/96690699e7202062ab8e755f2602935b88eeafc0 "fix: auto repair lon error")
+* [feat: add barnes_filter](https://github.com/shenyulu/easyclimate/pull/92/commits/39be22854cd4bf1ef7ba1616f123353609da7203 "feat: add barnes_filter")
+* [feat: add gallery](https://github.com/shenyulu/easyclimate/pull/92/commits/edc00b01680160a5e38e1508b85fb9fcc397f4fc "feat: add gallery")
+* [feat: add spatial pcf](https://github.com/shenyulu/easyclimate/pull/92/commits/ce74ea028b39a53bfb2de6282e7cacc72e9b3d76 "feat: add spatial pcf")
+* [update: docs update](https://github.com/shenyulu/easyclimate/pull/92/commits/bebf4a2ec6f8703821475af9401cf269b77fda20 "update: docs update")
+
+> ⚠️ From this version, we migrated `calc_potential_intensity_Bister_Emanuel_2002` code from `easyclimate.field.mesoscale.potential_intensity.py` (Removal Version `v2025.7.0`) to `easyclimate.field.typhoon.potential_intensity.py` 🛠️.
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.3.0...v2025.4.0
+
 ## v2025.3.0
 
 *Released on: 2025/3/16*
