@@ -17,10 +17,11 @@ import ast
 import importlib.util
 import json
 import sys
+import io
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from packaging import version
 from rich.console import Console
@@ -29,9 +30,6 @@ from rich.syntax import Syntax
 from rich.table import Table
 from rich.text import Text
 from rich.style import Style
-
-import sys
-import io
 
 # Windows 编码兼容性处理
 if sys.platform == "win32":

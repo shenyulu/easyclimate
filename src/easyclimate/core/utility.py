@@ -4,15 +4,16 @@ Functions for package utility.
 
 from __future__ import annotations
 from xarray import DataTree
-from .datanode import DataNode
+
 import numpy as np
 import xarray as xr
 import warnings
-import sys
+
 from packaging import version
 from functools import wraps
-from ..version import __version__
 from typing import Union, List, Tuple, Optional
+from .datanode import DataNode
+from ..version import __version__
 
 __all__ = [
     "assert_compared_version",

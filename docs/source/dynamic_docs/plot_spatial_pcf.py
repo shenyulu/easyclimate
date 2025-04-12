@@ -10,7 +10,6 @@ Ever wondered how atmospheric waves boogie along the equator? Let's explore how 
 Before proceeding with all the steps, first import some necessary libraries and packages
 """
 import xarray as xr
-import xarray as xr
 import cartopy.crs as ccrs
 import easyclimate as ecl
 
