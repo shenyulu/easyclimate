@@ -3,7 +3,7 @@ name: Publish easyclimate to PyPI
 on:
   release:
     types:
-      - published
+      - [published, edited]
   push:
     tags:
       - 'v*'
