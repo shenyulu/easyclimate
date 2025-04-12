@@ -4,10 +4,16 @@ Functions for package utility.
 
 from __future__ import annotations
 from xarray import DataTree
-from .datanode import DataNode
+
 import numpy as np
 import xarray as xr
 import warnings
+
+from packaging import version
+from functools import wraps
+from typing import Union, List, Tuple, Optional
+from .datanode import DataNode
+from ..version import __version__
 
 __all__ = [
     "assert_compared_version",
@@ -24,6 +30,7 @@ __all__ = [
     "transfer_units_coeff",
     "transfer_data_multiple_units",
     "transfer_data_difference_units",
+    "transfer_data_temperature_units",
     "transfer_data_units",
     "generate_dataset_dispatcher",
     "generate_datatree_dispatcher",
@@ -34,6 +41,8 @@ __all__ = [
     "reverse_bool_xarraydata",
     "compare_two_dataarray_coordinate",
     "compare_multi_dataarray_coordinate",
+    "validate_dataarrays",
+    "deprecated",
 ]
 
 
@@ -341,7 +350,7 @@ def get_weighted_spatial_data(
 
 
 def get_compress_xarraydata(
-    data: xr.DataArray | xr.Dataset, complevel: int
+    data: xr.DataArray | xr.Dataset, complevel: int = 5
 ) -> xr.DataArray | xr.Dataset:
     """
     Export compressible netCDF files from xarray data (:py:class:`xarray.DataArray<xarray.DataArray>`, :py:class:`xarray.Dataset<xarray.Dataset>`)
@@ -421,11 +430,95 @@ def transfer_data_difference_units(
     return output_data
 
 
+def transfer_data_temperature_units(
+    input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
+) -> xr.DataArray | xr.Dataset:
+    """
+    将值从一个温度单位转换为另一个温度单位，支持别名。
+    """
+    # 定义标准单位及其别名
+    unit_aliases = {
+        "K": ["kelvin", "K", "degK", "开氏度"],
+        "degC": ["celsius", "degC", "摄氏度"],
+        "degF": ["fahrenheit", "degF"],
+        "degR": ["rankine", "degR", "兰氏度"],  # 兰氏度
+        "degRe": ["reaumur", "degRe", "列氏度"],  # 列氏度
+    }
+
+    def normalize_unit(unit, unit_aliases):
+        """将用户输入的单位名称标准化为标准单位。"""
+        unit_lower = unit.lower()
+        for std_unit, aliases in unit_aliases.items():
+            if unit_lower in [alias.lower() for alias in aliases]:
+                return std_unit
+        raise ValueError(f"不支持的单位: {unit}")
+
+    # 标准化单位名称
+    from_unit_std = normalize_unit(input_units, unit_aliases)
+    to_unit_std = normalize_unit(output_units, unit_aliases)
+
+    # 定义单位转换表（缩放因子, 偏移量）
+    unit_conversions = {
+        "degC": {
+            "degC": (1, 0),
+            "degF": (1.8, 32),
+            "K": (1, 273.15),
+            "degR": (1.8, 491.67),  # °R = (°C + 273.15) * 1.8
+            "degRe": (0.8, 0),  # °Re = °C * 0.8
+        },
+        "degF": {
+            "degF": (1, 0),
+            "degC": (5 / 9, -32 * 5 / 9),
+            "K": (5 / 9, 255.372222),  # K = (°F + 459.67) * 5/9
+            "degR": (1, 459.67),  # °R = °F + 459.67
+            "degRe": (4 / 9, -32 * 4 / 9),  # °Re = (°F - 32) * 4/9
+        },
+        "K": {
+            "K": (1, 0),
+            "degC": (1, -273.15),
+            "degF": (1.8, -459.67),
+            "degR": (1.8, 0),  # °R = K * 1.8
+            "degRe": (0.8, -273.15 * 0.8),  # °Re = (K - 273.15) * 0.8
+        },
+        "degR": {
+            "degR": (1, 0),
+            "K": (5 / 9, 0),  # K = °R * 5/9
+            "degC": (5 / 9, -273.15),  # °C = (°R - 491.67) * 5/9
+            "degF": (1, -459.67),  # °F = °R - 459.67
+            "degRe": (4 / 9, -491.67 * 4 / 9),  # °Re = (°R - 491.67) * 4/9
+        },
+        "degRe": {
+            "degRe": (1, 0),
+            "degC": (1.25, 0),  # °C = °Re * 1.25
+            "degF": (2.25, 32),  # °F = °Re * 2.25 + 32
+            "K": (1.25, 273.15),  # K = °Re * 1.25 + 273.15
+            "degR": (2.25, 491.67),  # °R = (°Re * 1.25 + 273.15) * 1.8
+        },
+    }
+
+    # 检查是否支持该转换
+    if (
+        from_unit_std not in unit_conversions
+        or to_unit_std not in unit_conversions[from_unit_std]
+    ):
+        raise ValueError(f"不支持从 {input_units} 到 {output_units} 的转换")
+
+    # 获取缩放因子和偏移量
+    scaling_factor, offset = unit_conversions[from_unit_std][to_unit_std]
+
+    # 执行转换
+    return np.multiply(input_data, scaling_factor) + offset
+
+
 def transfer_data_units(
     input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
 ) -> xr.DataArray | xr.Dataset:
     """
     Data unit conversion for ANY type transition.
+
+    .. warning::
+
+        NOT support ``dask``.
     """
     # Create a global unit registry
     import pint
@@ -460,6 +553,7 @@ def transfer_data_units(
         input_units,
         output_units,
         vectorize=True,
+        dask="parallelized",
     )
 
     result.attrs = input_data.attrs
@@ -724,7 +818,7 @@ def transfer_xarray_lon_from180TO360(
     lon_array = data_input[lon_dim].data
 
     if (lon_array > 180).any():
-        raise ValueError(
+        warnings.warn(
             "It seems that the input data longitude range is not from -180° to 180°. Please carefully check your data."
         )
 
@@ -761,7 +855,7 @@ def transfer_xarray_lon_from360TO180(
     lon_array = data_input[lon_dim].data
 
     if (lon_array < 0).any():
-        raise ValueError(
+        warnings.warn(
             "It seems that the input data longitude range is not from 0° to 360°. Please carefully check your data."
         )
 
@@ -907,3 +1001,150 @@ def compare_multi_dataarray_coordinate(
         compare_two_dataarray_coordinate(
             item0, dataarray_item, time_dim=time_dim, exclude_dims=exclude_dims
         )
+
+
+def validate_dataarrays(
+    dataarrays: Union[xr.DataArray, List[xr.DataArray], Tuple[xr.DataArray, ...]],
+    dims: Optional[List[str]] = None,
+    time_dims: Union[str, List[str], None] = "time",
+) -> bool:
+    """
+    Validate consistency of multiple DataArrays across specified dimensions.
+
+    Parameters
+    -------------
+    dataarrays : xarray.DataArray or list/tuple of xarray.DataArray
+        DataArray(s) to be validated
+    dims : list of str, optional
+        List of dimension names to validate. If None, validates all dimensions.
+    time_dims : str or list of str, optional
+        Dimension names where only size is validated (coordinate values are not checked).
+        Default is "time".
+
+    Returns
+    ----------
+    bool
+        Returns True if all validations pass, otherwise raises an exception.
+
+    Raises
+    ---------
+    TypeError
+        If input is not a DataArray or list/tuple of DataArrays
+    ValueError
+        If fewer than 2 DataArrays are provided
+
+    Examples
+    -----------
+    >>> import xarray as xr
+    >>> da1 = xr.DataArray(np.random.rand(10, 5), dims=['time', 'x'])
+    >>> da2 = xr.DataArray(np.random.rand(10, 5), dims=['time', 'x'])
+    >>> validate_dataarrays([da1, da2])  # Validates all dimensions
+    True
+
+    >>> da3 = xr.DataArray(np.random.rand(10, 6), dims=['time', 'x'])
+    >>> validate_dataarrays([da1, da3])  # Raises ValueError for dimension mismatch
+    """
+    # Handle single DataArray input
+    if isinstance(dataarrays, xr.DataArray):
+        raise TypeError(
+            "At least two DataArrays required for comparison, but got a single DataArray"
+        )
+
+    # Ensure dataarrays is a list or tuple
+    if not isinstance(dataarrays, (list, tuple)):
+        raise TypeError("dataarrays parameter must be a list or tuple of DataArrays")
+
+    # Check number of DataArrays
+    if len(dataarrays) < 2:
+        raise ValueError("At least two DataArrays required for comparison")
+
+    # Convert time_dims to list format
+    if time_dims is None:
+        time_dims = []
+    elif isinstance(time_dims, str):
+        time_dims = [time_dims]
+
+    # Get first DataArray as reference
+    ref_da = dataarrays[0]
+
+    # If dims is None, validate all dimensions
+    if dims is None:
+        dims = list(ref_da.dims)
+
+    # Check if each DataArray has the specified dimensions
+    for da in dataarrays:
+        missing_dims = set(dims) - set(da.dims)
+        if missing_dims:
+            raise ValueError(f"DataArray missing required dimensions: {missing_dims}")
+
+    # Validate each dimension
+    for dim in dims:
+        # Check dimension sizes match
+        ref_size = ref_da.sizes[dim]
+        for i, da in enumerate(dataarrays[1:], 1):
+            if da.sizes[dim] != ref_size:
+                raise ValueError(
+                    f"Dimension size mismatch: on dimension '{dim}', "
+                    f"DataArray 0 has size {ref_size}, "
+                    f"DataArray {i} has size {da.sizes[dim]}"
+                )
+
+        # Check coordinate values (skip for time_dims dimensions)
+        if dim in time_dims:
+            # Special handling for time dimensions
+            ref_coords = ref_da[dim].values
+            for i, da in enumerate(dataarrays[1:], 1):
+                try:
+                    if not np.array_equal(da[dim].values, ref_coords):
+                        warnings.warn(
+                            f"Time coordinate values not identical: on dimension '{dim}', "
+                            f"DataArray 0 and DataArray {i} have different time coordinates"
+                        )
+                except AttributeError:
+                    # Skip if DataArray doesn't have this dimension
+                    pass
+        else:
+            # Strict check for non-time dimensions
+            ref_coords = ref_da[dim].values
+            for i, da in enumerate(dataarrays[1:], 1):
+                if not np.array_equal(da[dim].values, ref_coords):
+                    raise ValueError(
+                        f"Coordinate value mismatch: on dimension '{dim}', "
+                        f"DataArray 0 and DataArray {i} have different coordinates"
+                    )
+
+    return True
+
+
+def check_deprecation_status(current_version, removal_version):
+    """Check whether a deprecation warning should be turned into an error"""
+    return version.parse(current_version) >= version.parse(removal_version)
+
+
+def deprecated(version, removal_version, replacement=None):
+    """
+    Deprecate decorator
+
+    :param version: Current version (deprecated version)
+    :param removal_version: indicates the version to be removed
+    :param replacement: Name of the replacement function (optional)
+    """
+
+    def decorator(old_func):
+        @wraps(old_func)
+        def wrapped(*args, **kwargs):
+            if check_deprecation_status(__version__, removal_version):
+                raise RuntimeError(
+                    f"{old_func.__name__} was removed in version {removal_version}"
+                )
+
+            message = f"{old_func.__name__} is deprecated since {version} and will be removed in {removal_version}."
+            if replacement:
+                message += f" Use `{replacement}` instead."
+
+            warnings.warn(message, DeprecationWarning, stacklevel=2)
+            return old_func(*args, **kwargs)
+
+        return wrapped
+
+    return decorator

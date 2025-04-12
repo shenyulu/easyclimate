@@ -69,11 +69,17 @@ omega, sea level pressure, etc. A table of all available diagnostics can be
 found here: :ref:`diagnostic-table`.
 
 In the example below, sea level pressure is calculated and printed.
+
+.. tip::
+
+  You can download following datasets here: :download:`Download wrfout_d01_2022-05-01_00_00_00.nc4 <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/wrfout_d01_2022-05-01_00_00_00.nc4>`
 """
 from __future__ import print_function
 
 import easyclimate as ecl
 import xarray as xr
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
 
 data = xr.open_dataset("wrfout_d01_2022-05-01_00_00_00.nc4")
 ncfile = ecl.wrf.transfer_xarray2nctype(data)
@@ -414,9 +420,10 @@ x_y
 # only want to work with subsets (slices) of a large domain, but don't want to
 # define the map projection over the subset region.
 #
-#
-#  Example: Using a Variable with Cartopy
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# %%
+#  Example: Example: Using a Variable with Cartopy
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In this example, we're going to extract the cartopy mapping object from a
 # diagnostic variable (slp), the lat,lon coordinates, and the geographic
@@ -444,11 +451,24 @@ slp_subset_bounds = ecl.wrf.geo_bounds(slp_subset)
 print (slp_subset_bounds)
 
 # %%
+# The parameters are passed into the plot as follows
+
+ax = plt.axes(projection=ccrs.PlateCarree())
+slp.plot(
+    ax = ax,
+    cbar_kwargs={"location": "bottom"},
+    transform=ecl.wrf.get_cartopy(slp)
+)
+ax.gridlines(draw_labels=True)
+
+
+# %%
 #  Example: Using WRF Output Files with Cartopy
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # In this example, the cartopy mapping object and geographic boundaries
 # will be extracted directly from the netcdf variable.
+#
 
 # Get the cartopy mapping object from the netcdf file
 cart_proj = ecl.wrf.get_cartopy(wrfin=ncfile)

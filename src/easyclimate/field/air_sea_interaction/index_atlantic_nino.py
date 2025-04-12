@@ -3,7 +3,10 @@ Atlantic Niños Index
 """
 
 import xarray as xr
-from ...core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import (
+    sort_ascending_latlon_coordinates,
+    transfer_xarray_lon_from180TO360,
+)
 from ...core.variability import remove_seasonal_cycle_mean
 
 
@@ -47,6 +50,9 @@ def calc_index_ATL3(
     - `Lee, S.-K., Lopez, H., Tuchen, F. P., Kim, D., Foltz, G. R., & Wittenberg, A. T. (2023). On the genesis of the 2021 Atlantic Niño. Geophysical Research Letters, 50, e2023GL104452. <https://doi.org/10.1029/2023GL104452>`__
     - Atlantic Niños. Website: https://www.jamstec.go.jp/aplinfo/climate/?page_id=1566
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )

@@ -5,7 +5,11 @@ Human index
 import xarray as xr
 import numpy as np
 from typing import Literal
-from ...core.utility import transfer_data_units
+from ...core.utility import (
+    transfer_data_temperature_units,
+    transfer_data_multiple_units,
+    transfer_data_difference_units,
+)
 from easyclimate_backend.heat_stress import human_index_mod, human_index_mod_old
 
 __all__ = [
@@ -58,13 +62,15 @@ def calc_apparent_temperature(
     - Steadman, R.G., 1994: Norms of apparent temperature in Australia, Aust. Met. Mag., 43, 1-16.
     """
     # conversion unit
-    temperature_data = transfer_data_units(
+    temperature_data = transfer_data_temperature_units(
         temperature_data, temperature_data_units, "degC"
     )
-    vapor_pressure_data = transfer_data_units(
+    vapor_pressure_data = transfer_data_multiple_units(
         vapor_pressure_data, vapor_pressure_data_units, "Pa"
     )
-    wind_10m_data = transfer_data_units(wind_10m_data, wind_10m_data_units, "m/s")
+    wind_10m_data = transfer_data_multiple_units(
+        wind_10m_data, wind_10m_data_units, "m/s"
+    )
 
     # core function
     def _apptemp(t, vp, w10):
@@ -117,10 +123,10 @@ def calc_simplified_human_discomfort_index(
     - Steadman, R.G., 1994: Norms of apparent temperature in Australia, Aust. Met. Mag., 43, 1-16.
     """
     # conversion unit
-    temperature_data = transfer_data_units(
+    temperature_data = transfer_data_temperature_units(
         temperature_data, temperature_data_units, "degC"
     )
-    vapor_pressure_data = transfer_data_units(
+    vapor_pressure_data = transfer_data_multiple_units(
         vapor_pressure_data, vapor_pressure_data_units, "Pa"
     )
 
@@ -180,13 +186,13 @@ def calc_simplified_human_discomfort_index_stull(
     - Epstein, Y., and D.S. Moran (2006) Thermal comfort and the heat stress indices, Ind. Health, 44, 388-398 doi:https://doi.org/10.2486/indhealth.44.388.
     """
     # conversion unit
-    temperature_2m_data = transfer_data_units(
+    temperature_2m_data = transfer_data_temperature_units(
         temperature_2m_data, temperature_2m_data_units, "degC"
     )
-    stull_wet_bulb_temperature_data = transfer_data_units(
+    stull_wet_bulb_temperature_data = transfer_data_temperature_units(
         stull_wet_bulb_temperature_data, stull_wet_bulb_temperature_data_units, "degC"
     )
-    relative_humidity_data = transfer_data_units(
+    relative_humidity_data = transfer_data_multiple_units(
         relative_humidity_data, relative_humidity_data_units, "%"
     )
 
@@ -240,10 +246,10 @@ def calc_swamp_cooler_temperatures(
     - Buzan, J. R., Oleson, K., and Huber, M.: Implementation and comparison of a suite of heat stress metrics within the Community Land Model version 4.5, Geosci. Model Dev., 8, 151–170, https://doi.org/10.5194/gmd-8-151-2015, 2015.
     """
     # conversion unit
-    temperature_data = transfer_data_units(
+    temperature_data = transfer_data_temperature_units(
         temperature_data, temperature_data_units, "degC"
     )
-    wet_bulb_temperature_data = transfer_data_units(
+    wet_bulb_temperature_data = transfer_data_temperature_units(
         wet_bulb_temperature_data, wet_bulb_temperature_data_units, "degC"
     )
 
@@ -316,10 +322,10 @@ def calc_heat_thic_thip(
     - Buzan, J. R., Oleson, K., and Huber, M.: Implementation and comparison of a suite of heat stress metrics within the Community Land Model version 4.5, Geosci. Model Dev., 8, 151–170, https://doi.org/10.5194/gmd-8-151-2015, 2015.
     """
     # conversion unit
-    temperature_data = transfer_data_units(
+    temperature_data = transfer_data_temperature_units(
         temperature_data, temperature_data_units, "degC"
     )
-    wet_bulb_temperature_data = transfer_data_units(
+    wet_bulb_temperature_data = transfer_data_temperature_units(
         wet_bulb_temperature_data, wet_bulb_temperature_data_units, "degC"
     )
 
@@ -381,10 +387,10 @@ def calc_simplified_wbgt_index(
     - Buzan, J. R., Oleson, K., and Huber, M.: Implementation and comparison of a suite of heat stress metrics within the Community Land Model version 4.5, Geosci. Model Dev., 8, 151–170, https://doi.org/10.5194/gmd-8-151-2015, 2015.
     """
     # conversion unit
-    temperature_data = transfer_data_units(
+    temperature_data = transfer_data_temperature_units(
         temperature_data, temperature_data_units, "degC"
     )
-    vapor_pressure_data = transfer_data_units(
+    vapor_pressure_data = transfer_data_multiple_units(
         vapor_pressure_data, vapor_pressure_data_units, "Pa"
     )
 
@@ -438,10 +444,10 @@ def calc_human_feels_temperature(
     - Buzan, J. R., Oleson, K., and Huber, M.: Implementation and comparison of a suite of heat stress metrics within the Community Land Model version 4.5, Geosci. Model Dev., 8, 151–170, https://doi.org/10.5194/gmd-8-151-2015, 2015.
     """
     # conversion unit
-    temperature_data_c = transfer_data_units(
+    temperature_data_c = transfer_data_temperature_units(
         temperature_data, temperature_data_units, "degC"
     )
-    vapor_pressure_data = transfer_data_units(
+    vapor_pressure_data = transfer_data_multiple_units(
         vapor_pressure_data, vapor_pressure_data_units, "Pa"
     )
 

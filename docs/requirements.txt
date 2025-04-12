@@ -12,7 +12,7 @@ dpcpp-cpp-rt
 scipy >=1.8.0
 statsmodels
 geocat-comp
-easyclimate-backend
+easyclimate-backend >= 2025.4.0
 dask
 pymannkendall
 flox
@@ -26,6 +26,8 @@ tcpypi
 netCDF4
 h5netcdf
 seaborn
+EMD-signal
+pybarnes
 
 sphinx == 8.1.3
 recommonmark == 0.7.1

@@ -12,6 +12,11 @@ import cartopy.crs as ccrs
 
 # %%
 # The data we use here is monthly data from Jan 2022 to Feb 2022 and contains 17 vertical levels.
+#
+# .. tip::
+#
+#   You can download following datasets here: :download:`Download uwnd_202201_mon_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate-data/refs/heads/main/uwnd_202201_mon_mean.nc>`
+#
 u_data = ecl.tutorial.open_tutorial_dataset("uwnd_202201_mon_mean").sortby("lat").uwnd
 u_data
 
@@ -122,6 +127,8 @@ sic_data.plot.contourf(cmap="Blues", levels=11, transform=ccrs.PlateCarree())
 
 # %%
 # Adjusting `north_pad` and `south_pad` appropriately can help us compensate for not completing the circle boundaries.
+
+# sphinx_gallery_thumbnail_number = -1
 fig, ax = plt.subplots(subplot_kw={"projection": ccrs.NorthPolarStereo()})
 
 ax.coastlines(edgecolor="black", linewidths=0.5)

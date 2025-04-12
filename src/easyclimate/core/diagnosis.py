@@ -11,6 +11,7 @@ from .utility import (
     transfer_units_coeff,
     transfer_data_multiple_units,
     transfer_data_difference_units,
+    transfer_data_temperature_units,
 )
 from typing import Literal
 import warnings
@@ -499,7 +500,7 @@ def calc_saturation_vapor_pressure(
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_vapor_pressure.html
     """
-    temperature_data = transfer_data_difference_units(
+    temperature_data = transfer_data_temperature_units(
         input_data=temperature_data,
         input_units=temperature_data_units,
         output_units="celsius",
@@ -725,12 +726,12 @@ def transfer_dewpoint_2_relative_humidity(
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_dewpoint.html
     """
-    temperature_data = transfer_data_difference_units(
+    temperature_data = transfer_data_temperature_units(
         input_data=temperature_data,
         input_units=temperature_data_units,
         output_units="celsius",
     )
-    dewpoint_data = transfer_data_difference_units(
+    dewpoint_data = transfer_data_temperature_units(
         input_data=dewpoint_data,
         input_units=dewpoint_data_units,
         output_units="celsius",

@@ -3,7 +3,10 @@ Indian Ocean Dipole (IOD) Index
 """
 
 import xarray as xr
-from ...core.utility import sort_ascending_latlon_coordinates
+from ...core.utility import (
+    sort_ascending_latlon_coordinates,
+    transfer_xarray_lon_from180TO360,
+)
 from ...core.variability import remove_seasonal_cycle_mean
 
 __all__ = [
@@ -48,6 +51,9 @@ def calc_index_IOD_Saji_1999(
     --------------
     - `Saji, N., Goswami, B., Vinayachandran, P. et al. A dipole mode in the tropical Indian Ocean. Nature 401, 360–363 (1999). <https://doi.org/10.1038/43854>`__
     """
+    sst_monthly_data = transfer_xarray_lon_from180TO360(
+        sst_monthly_data, lon_dim=lon_dim
+    )
     sst_monthly_data = sort_ascending_latlon_coordinates(
         sst_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )

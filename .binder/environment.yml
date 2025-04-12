@@ -2,7 +2,7 @@ name: easyclimate-examples
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
+  - python=3.11
   - pip:
     - numpy >= 1.24.3
     - xarray >= 2014.10.0
@@ -18,7 +18,7 @@ dependencies:
     - scipy >=1.8.0
     - statsmodels
     - geocat-comp
-    - easyclimate-backend
+    - easyclimate-backend >= 2025.4.0
     - dask
     - pymannkendall
     - flox
@@ -31,4 +31,7 @@ dependencies:
     - tcpypi
     - netCDF4
     - h5netcdf
+    - seaborn
+    - EMD-signal
+    - pybarnes
     - easyclimate

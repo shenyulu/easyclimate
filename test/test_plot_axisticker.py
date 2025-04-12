@@ -15,7 +15,7 @@ def test_set_lon_format_axis():
     ax.xaxis.set_ticks(np.linspace(0, 360, 10))
     ax.yaxis.set_ticks(np.linspace(-90, 90, 10))
 
-    ecl.plot.set_lon_format_axis(ax, axis="x")
+    ecl.plot.set_lon_format_axis(axis="x")
     result_data1 = str(ax.get_xticklabels())
     refer_data1 = "[Text(0.0, 0, '0°'), Text(40.0, 0, '40°E'), Text(80.0, 0, '80°E'), Text(120.0, 0, '120°E'), Text(160.0, 0, '160°E'), Text(200.0, 0, '160°W'), Text(240.0, 0, '120°W'), Text(280.0, 0, '80°W'), Text(320.0, 0, '40°W'), Text(360.0, 0, '0°')]"
     assert result_data1 == refer_data1
@@ -36,7 +36,7 @@ def test_set_lat_format_axis():
     ax.xaxis.set_ticks(np.linspace(0, 360, 10))
     ax.yaxis.set_ticks(np.linspace(-90, 90, 10))
 
-    ecl.plot.set_lat_format_axis(ax, axis="x")
+    ecl.plot.set_lat_format_axis(axis="x")
     result_data1 = str(ax.get_xticklabels())
     refer_data1 = "[Text(0.0, 0, '0°'), Text(40.0, 0, '40°N'), Text(80.0, 0, '80°N'), Text(120.0, 0, '120°N'), Text(160.0, 0, '160°N'), Text(200.0, 0, '200°N'), Text(240.0, 0, '240°N'), Text(280.0, 0, '280°N'), Text(320.0, 0, '320°N'), Text(360.0, 0, '360°N')]"
     assert result_data1 == refer_data1
@@ -53,7 +53,7 @@ def test_set_lat_format_axis():
 
 def test_set_p_format_axis():
     fig, ax = plt.subplots()
-    ecl.plot.set_p_format_axis(ax, axis="y")
+    ecl.plot.set_p_format_axis(axis="y")
     result_data1 = str(ax.get_yticklabels())
     refer_data1 = "[Text(0, 0.0, '0'), Text(0, 100.0, '100'), Text(0, 200.0, '200'), Text(0, 300.0, '300'), Text(0, 400.0, '400'), Text(0, 500.0, '500'), Text(0, 600.0, '600'), Text(0, 700.0, '700'), Text(0, 800.0, '800'), Text(0, 900.0, '900'), Text(0, 1000.0, '1000'), Text(0, 1100.0, '1100')]"
     result_data2 = ax.get_yscale()
