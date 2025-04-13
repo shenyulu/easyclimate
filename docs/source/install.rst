@@ -55,6 +55,9 @@ Python Version Requirement
 
 Make sure you're up to date! 🐍
 
+.. tips::
+
+    See more `Status of Python versions <https://devguide.python.org/versions/>`__.
 
 .. _dependencies:
 
