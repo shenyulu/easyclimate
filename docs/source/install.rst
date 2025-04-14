@@ -44,6 +44,15 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
             The commands above should be executed in a terminal. On Windows, use the
             ``cmd.exe`` or the "Anaconda Prompt" app if you're using Anaconda.
 
+        .. tip::
+
+            For users who have difficulty accessing GitHub, we set up a GIT official mirror to access
+
+            .. code:: bash
+
+                python -m pip install --upgrade git+https://gitee.com/shenyulu/easyclimate@dev
+
+
 Python Version Requirement
 ------------------------------------
 
