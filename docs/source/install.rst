@@ -108,7 +108,7 @@ Want to build the documentation yourself? 📚 Follow these steps:
 - Run the build script:
     .. tab-set::
 
-        .. tab-item:: Windows
+        .. tab-item:: Windows Powershell
 
             .. code:: powershell
 
@@ -118,7 +118,7 @@ Want to build the documentation yourself? 📚 Follow these steps:
 
                 On Windows, we've included ``optipng.exe`` for you! 😉 You might **NOT** need to install `optipng <https://optipng.sourceforge.net/>`__ for image optimization.
 
-        .. tab-item:: Linux
+        .. tab-item:: Linux Bash
 
             .. code:: bash
 
