@@ -36,6 +36,15 @@ __all__ = [
 ]
 
 
+def reformat_brace(element: xr.DataArray):
+    """
+    Solve `Invalid value for attr 'solver_kwargs': {}`
+    """
+    tmp = element.attrs["solver_kwargs"]
+    element.attrs["solver_kwargs"] = f"{tmp}"
+    return element
+
+
 def get_EOF_model(
     data_input: xr.DataArray,
     lat_dim: str,
@@ -209,11 +218,14 @@ def calc_EOF_analysis(
     - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
     """
     model_output = xr.Dataset()
-    model_output["EOF"] = model.components()
-    model_output["PC"] = model.scores(normalized=PC_normalized)
-    model_output["explained_variance"] = model.explained_variance()
-    model_output["explained_variance_ratio"] = model.explained_variance_ratio()
-    model_output["singular_values"] = model.singular_values()
+    # Solve `Invalid value for attr 'solver_kwargs': {}`
+    model_output["EOF"] = reformat_brace(model.components())
+    model_output["PC"] = reformat_brace(model.scores(normalized=PC_normalized))
+    model_output["explained_variance"] = reformat_brace(model.explained_variance())
+    model_output["explained_variance_ratio"] = reformat_brace(
+        model.explained_variance_ratio()
+    )
+    model_output["singular_values"] = reformat_brace(model.singular_values())
 
     return model_output
 
