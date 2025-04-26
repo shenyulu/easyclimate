@@ -7,7 +7,7 @@ import xarray as xr
 import numpy as np
 from .diagnosis import (
     get_coriolis_parameter,
-    calc_potential_temperature,
+    calc_potential_temperature_vertical,
     calc_brunt_vaisala_frequency_atm,
 )
 from .diff import (
@@ -90,7 +90,7 @@ def calc_eady_growth_rate(
     dudp = calc_gradient(u_daily_data, dim=vertical_dim) / dp
     dzdp = calc_gradient(z_daily_data, dim=vertical_dim) / dp
     dudz = dudp / dzdp
-    pt = calc_potential_temperature(
+    pt = calc_potential_temperature_vertical(
         temper_daily_data,
         vertical_dim=vertical_dim,
         vertical_dim_units=vertical_dim_units,
@@ -170,7 +170,7 @@ def calc_apparent_heat_source(
     # Convert the pressure unit to Pascal
     dp_base = transfer_units_coeff(vertical_dim_units, "Pa")
 
-    pt = calc_potential_temperature(
+    pt = calc_potential_temperature_vertical(
         temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
     dtheta_dt = calc_gradient(pt, dim=time_dim) / dt
