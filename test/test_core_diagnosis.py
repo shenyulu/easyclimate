@@ -206,8 +206,8 @@ def test_get_coriolis_parameter():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_potential_temperature():
-    pv = ecl.calc_potential_temperature(
+def test_calc_potential_temperature_vertical():
+    pv = ecl.calc_potential_temperature_vertical(
         t_data, vertical_dim="level", vertical_dim_units="hPa"
     )
 
