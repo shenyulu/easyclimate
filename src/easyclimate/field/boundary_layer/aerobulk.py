@@ -164,7 +164,7 @@ def calc_turbulent_fluxes_without_skin_correction(
     zonal_wind_speed_data: xr.DataArray,
     meridional_wind_speed_data: xr.DataArray,
     mean_sea_level_pressure_data: xr.DataArray,
-    mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"],
+    mean_sea_level_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     zonal_wind_speed_data_units: Literal["m/s"] = "m/s",
     meridional_wind_speed_data_units: Literal["m/s"] = "m/s",
     algorithm: Literal["coare3p0", "coare3p6", "ecmwf", "ncar", "andreas"] = "coare3p0",
@@ -200,7 +200,7 @@ def calc_turbulent_fluxes_without_skin_correction(
         The units of ``meridional_wind_speed_data``.
     mean_sea_level_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`, optional
         mean sea-level pressure. ~101000 Pa, by default 101000.0.
-    mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"]
+    mean_sea_level_pressure_data_units: Literal["hPa", "Pa", "mbar"]
         The units of ``mean_sea_level_pressure_data``.
     algorithm: Literal["coare3p0", "coare3p6", "ecmwf", "ncar", "andreas"], default ``coare3p0``.
         Algorithm, can be one of: ``"coare3p0"``, ``"coare3p6"``, ``"ecmwf"``, ``"ncar"``, ``"andreas"``.
@@ -359,7 +359,7 @@ def calc_turbulent_fluxes_skin_correction(
     zonal_wind_speed_data: xr.DataArray,
     meridional_wind_speed_data: xr.DataArray,
     mean_sea_level_pressure_data: xr.DataArray,
-    mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"],
+    mean_sea_level_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     downwelling_shortwave_radiation: xr.DataArray,
     downwelling_shortwave_radiation_units: Literal["W/m^2"],
     downwelling_longwave_radiation: xr.DataArray,
@@ -399,7 +399,7 @@ def calc_turbulent_fluxes_skin_correction(
         The units of ``meridional_wind_speed_data``.
     mean_sea_level_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`, optional
         mean sea-level pressure. ~101000 Pa, by default 101000.0.
-    mean_sea_level_pressure_data_units: Literal["Pa", "mb", "hPa"]
+    mean_sea_level_pressure_data_units: Literal["hPa", "Pa", "mbar"]
         The units of ``mean_sea_level_pressure_data``.
     downwelling_shortwave_radiation: :py:class:`xarray.DataArray<xarray.DataArray>`.
         downwelling shortwave radiation at the surface (>0).
