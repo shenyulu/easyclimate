@@ -43,6 +43,9 @@ __all__ = [
     "compare_multi_dataarray_coordinate",
     "validate_dataarrays",
     "deprecated",
+    "datetime_to_numeric",
+    "numeric_to_datetime",
+    "calculate_time_steps",
 ]
 
 
@@ -434,6 +437,8 @@ def transfer_data_temperature_units(
     input_data: xr.DataArray | xr.Dataset, input_units: str, output_units: str
 ) -> xr.DataArray | xr.Dataset:
     """
+    Converts a value from one temperature unit to another. Aliases are supported.
+
     将值从一个温度单位转换为另一个温度单位，支持别名。
     """
     # 定义标准单位及其别名
@@ -451,12 +456,14 @@ def transfer_data_temperature_units(
         for std_unit, aliases in unit_aliases.items():
             if unit_lower in [alias.lower() for alias in aliases]:
                 return std_unit
-        raise ValueError(f"不支持的单位: {unit}")
+        raise ValueError(f"Unsupported units: {unit}")
 
+    # Standardized unit name
     # 标准化单位名称
     from_unit_std = normalize_unit(input_units, unit_aliases)
     to_unit_std = normalize_unit(output_units, unit_aliases)
 
+    # Define unit conversion table (scale factor, offset)
     # 定义单位转换表（缩放因子, 偏移量）
     unit_conversions = {
         "degC": {
@@ -496,18 +503,26 @@ def transfer_data_temperature_units(
         },
     }
 
+    # Check if the conversion is supported
     # 检查是否支持该转换
     if (
         from_unit_std not in unit_conversions
         or to_unit_std not in unit_conversions[from_unit_std]
     ):
-        raise ValueError(f"不支持从 {input_units} 到 {output_units} 的转换")
+        raise ValueError(
+            f"Conversion from {input_units} to {output_units} is not supported"
+        )
 
+    # Get scale factor and offset
     # 获取缩放因子和偏移量
     scaling_factor, offset = unit_conversions[from_unit_std][to_unit_std]
 
+    # Perform conversion
     # 执行转换
-    return np.multiply(input_data, scaling_factor) + offset
+    result = np.multiply(input_data, scaling_factor) + offset
+    if isinstance(result, (xr.DataArray, xr.Dataset)):
+        result.attrs["units"] = output_units
+    return result
 
 
 def transfer_data_units(
@@ -1148,3 +1163,61 @@ def deprecated(version, removal_version, replacement=None):
         return wrapped
 
     return decorator
+
+
+def datetime_to_numeric(datetime_array, unit="ns"):
+    """
+    Convert datetime64[ns] array to numeric values
+
+    Args:
+        datetime_array: numpy datetime64[ns] array
+        unit: conversion unit, options: 'ns'(nanoseconds), 'us'(microseconds),
+              'ms'(milliseconds), 's'(seconds), 'm'(minutes), 'h'(hours), 'D'(days)
+
+    Returns:
+        Numeric array (typically int64)
+    """
+    if unit not in ["ns", "us", "ms", "s", "m", "h", "D", "W", "M", "Y"]:
+        raise ValueError(
+            "Unit must be one of: 'ns', 'us', 'ms', 's', 'm', 'h', 'D', 'W', 'M', 'Y'"
+        )
+
+    # First convert to specified unit, then to numeric
+    return datetime_array.astype(f"datetime64[{unit}]").astype("int64")
+
+
+def numeric_to_datetime(numeric_array, unit="ns"):
+    """
+    Convert numeric array back to datetime64[ns]
+
+    Args:
+        numeric_array: numeric array
+        unit: unit of the numeric values (must match conversion unit)
+
+    Returns:
+        datetime64[ns] array
+    """
+    if unit not in ["ns", "us", "ms", "s", "m", "h", "D", "W", "M", "Y"]:
+        raise ValueError(
+            "Unit must be one of: 'ns', 'us', 'ms', 's', 'm', 'h', 'D', 'W', 'M', 'Y'"
+        )
+
+    # Convert to timedelta, then add epoch time (1970-01-01)
+    return (
+        numeric_array.astype(f"timedelta64[{unit}]") + np.datetime64("1970-01-01")
+    ).astype("datetime64[ns]")
+
+
+def calculate_time_steps(datetime_array, unit="D"):
+    """
+    Calculate time steps between consecutive datetime values
+
+    Args:
+        datetime_array: datetime64[ns] array
+        unit: unit for the returned time steps
+
+    Returns:
+        Array of time differences between consecutive points (numeric)
+    """
+    numeric_values = datetime_to_numeric(datetime_array, unit)
+    return np.diff(numeric_values)
