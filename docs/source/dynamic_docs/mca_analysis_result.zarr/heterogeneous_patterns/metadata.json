@@ -1,0 +1,21 @@
+{
+  "name": "heterogeneous_patterns",
+  "attributes": {
+    "left_heterogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\heterogeneous_patterns\\left_heterogeneous_patterns.zarr"
+    },
+    "right_heterogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\heterogeneous_patterns\\right_heterogeneous_patterns.zarr"
+    },
+    "pvalues_of_left_heterogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\heterogeneous_patterns\\pvalues_of_left_heterogeneous_patterns.zarr"
+    },
+    "pvalues_of_right_heterogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\heterogeneous_patterns\\pvalues_of_right_heterogeneous_patterns.zarr"
+    }
+  }
+}

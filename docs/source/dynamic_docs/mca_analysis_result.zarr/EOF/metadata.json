@@ -1,0 +1,13 @@
+{
+  "name": "EOF",
+  "attributes": {
+    "left_EOF": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\EOF\\left_EOF.zarr"
+    },
+    "right_EOF": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\EOF\\right_EOF.zarr"
+    }
+  }
+}

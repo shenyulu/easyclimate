@@ -1,0 +1,21 @@
+{
+  "name": "homogeneous_patterns",
+  "attributes": {
+    "left_homogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\homogeneous_patterns\\left_homogeneous_patterns.zarr"
+    },
+    "right_homogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\homogeneous_patterns\\right_homogeneous_patterns.zarr"
+    },
+    "pvalues_of_left_homogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\homogeneous_patterns\\pvalues_of_left_homogeneous_patterns.zarr"
+    },
+    "pvalues_of_right_homogeneous_patterns": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr\\homogeneous_patterns\\pvalues_of_right_homogeneous_patterns.zarr"
+    }
+  }
+}
