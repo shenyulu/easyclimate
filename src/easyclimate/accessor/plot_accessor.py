@@ -11,3 +11,6 @@ class PlotAccessor:
 
     def curved_quiver(self, **kwargs):
         return eclplot.curved_quiver(self.ds, **kwargs)
+
+    def bar_plot_with_threshold(self, **kwargs):
+        return eclplot.bar_plot_with_threshold(self.ds, **kwargs)
