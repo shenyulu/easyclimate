@@ -28,7 +28,7 @@ def calc_apparent_temperature(
     vapor_pressure_data: xr.DataArray,
     wind_10m_data: xr.DataArray,
     temperature_data_units: Literal["degC", "degF", "degK"],
-    vapor_pressure_data_units: Literal["Pa", "hPa", "mb"],
+    vapor_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     wind_10m_data_units: Literal["m/s"] = "m/s",
 ) -> xr.DataArray:
     """
@@ -45,7 +45,7 @@ def calc_apparent_temperature(
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are ``degC``, ``degF``, ``degK`` and so on.
     vapor_pressure_data_units: :py:class:`str <str>`.
-        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mb`` and so on.
+        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mbar`` and so on.
     wind_10m_data_units: :py:class:`str <str>`, default ``m/s``.
         The unit corresponding to `wind_10m_data` value. default value is  ``m/s``.
 
@@ -84,6 +84,10 @@ def calc_apparent_temperature(
         vapor_pressure_data,
         wind_10m_data,
         vectorize=True,
+        dask="parallelized",
+        dask_gufunc_kwargs={
+            "allow_rechunk": True,
+        },
     )
     result.attrs["long_name"] = "apparent temperature"
     result.attrs["units"] = "degC"
@@ -95,7 +99,7 @@ def calc_simplified_human_discomfort_index(
     temperature_data: xr.DataArray,
     vapor_pressure_data: xr.DataArray,
     temperature_data_units: Literal["degC", "degF", "degK"],
-    vapor_pressure_data_units: Literal["Pa", "hPa", "mb"],
+    vapor_pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
     Calculate a simplified human discomfort index.
@@ -109,7 +113,7 @@ def calc_simplified_human_discomfort_index(
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are ``degC``, ``degF``, ``degK`` and so on.
     vapor_pressure_data_units: :py:class:`str <str>`.
-        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mb`` and so on.
+        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mbar`` and so on.
 
     Returns
     ---------
@@ -141,6 +145,10 @@ def calc_simplified_human_discomfort_index(
         temperature_data,
         vapor_pressure_data,
         vectorize=True,
+        dask="parallelized",
+        dask_gufunc_kwargs={
+            "allow_rechunk": True,
+        },
     )
     result.attrs["long_name"] = "discomfort index"
     result.attrs["units"] = "degC"
@@ -208,6 +216,10 @@ def calc_simplified_human_discomfort_index_stull(
         stull_wet_bulb_temperature_data,
         relative_humidity_data,
         vectorize=True,
+        dask="parallelized",
+        dask_gufunc_kwargs={
+            "allow_rechunk": True,
+        },
     )
     result.attrs["long_name"] = "discomfort index with Stull wet bulb temperature"
     result.attrs["units"] = "degC"
@@ -359,7 +371,7 @@ def calc_simplified_wbgt_index(
     temperature_data: xr.DataArray,
     vapor_pressure_data: xr.DataArray,
     temperature_data_units: Literal["degC", "degF", "degK"],
-    vapor_pressure_data_units: Literal["Pa", "hPa", "mb"],
+    vapor_pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
     Calculate Simplified WBGT index.
@@ -373,7 +385,7 @@ def calc_simplified_wbgt_index(
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are ``degC``, ``degF``, ``degK`` and so on.
     vapor_pressure_data_units: :py:class:`str <str>`.
-        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mb`` and so on.
+        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mbar`` and so on.
 
     Returns
     ---------
@@ -405,6 +417,10 @@ def calc_simplified_wbgt_index(
         temperature_data,
         vapor_pressure_data,
         vectorize=True,
+        dask="parallelized",
+        dask_gufunc_kwargs={
+            "allow_rechunk": True,
+        },
     )
     result.attrs["long_name"] = "simplified wet-bulb index"
     result.attrs["units"] = "dimensionless"
@@ -416,7 +432,7 @@ def calc_human_feels_temperature(
     temperature_data: xr.DataArray,
     vapor_pressure_data: xr.DataArray,
     temperature_data_units: Literal["degC", "degF", "degK"],
-    vapor_pressure_data_units: Literal["Pa", "hPa", "mb"],
+    vapor_pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
     Calculate the 'feels-like' temperature for humans.
@@ -430,7 +446,7 @@ def calc_human_feels_temperature(
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are ``degC``, ``degF``, ``degK`` and so on.
     vapor_pressure_data_units: :py:class:`str <str>`.
-        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mb`` and so on.
+        The unit corresponding to `vapor_pressure_data` value. Optional values are ``Pa``, ``hPa``, ``mbar`` and so on.
 
     Returns
     ---------
@@ -462,6 +478,10 @@ def calc_human_feels_temperature(
         temperature_data_c,
         vapor_pressure_data,
         vectorize=True,
+        dask="parallelized",
+        dask_gufunc_kwargs={
+            "allow_rechunk": True,
+        },
     )
     result.attrs["long_name"] = "Humidex"
     result.attrs["description"] = "human feels-like temperature"
