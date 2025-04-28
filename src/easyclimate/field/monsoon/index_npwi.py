@@ -1,5 +1,5 @@
 """
-Objective globally unified summer monsoon onset or retreat dates.
+Objective globally unified summer monsoon onset or retreat dates
 """
 
 import xarray as xr
@@ -29,17 +29,21 @@ def calc_index_NPWI(
 
     Reference
     --------------
-    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
+    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://journals.ametsoc.org/view/journals/clim/17/11/1520-0442_2004_017_2241_gumoar_2.0.co_2.xml.
     - Tang Xu, Chen Baode, Liang Ping, Qian Weihong. Definition and features of the north edge of Asian summer monsoon. Acta Meteorologica Sinica (Chinese), 2009, (1): 83-89. doi: http://dx.doi.org/10.11676/qxxb2009.009
     """
     # Calculate the PWmax, PWmin
     PWmax = (
-        precipitable_water_daily_data.groupby("time.year")
+        precipitable_water_daily_data.groupby(
+            precipitable_water_daily_data[time_dim].dt.year
+        )
         .max(dim=time_dim)
         .mean(dim="year")
     )
     PWmin = (
-        precipitable_water_daily_data.groupby("time.year")
+        precipitable_water_daily_data.groupby(
+            precipitable_water_daily_data[time_dim].dt.year
+        )
         .min(dim=time_dim)
         .mean(dim="year")
     )
@@ -74,12 +78,12 @@ def find_PW_monsoon_region(
 
     Reference
     --------------
-    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
+    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://journals.ametsoc.org/view/journals/clim/17/11/1520-0442_2004_017_2241_gumoar_2.0.co_2.xml.
     - Tang Xu, Chen Baode, Liang Ping, Qian Weihong. Definition and features of the north edge of Asian summer monsoon. Acta Meteorologica Sinica (Chinese), 2009, (1): 83-89. doi: http://dx.doi.org/10.11676/qxxb2009.009
     """
-    PW_averagemonth = precipitable_water_daily_data.groupby("time.month").mean(
-        dim=time_dim
-    )
+    PW_averagemonth = precipitable_water_daily_data.groupby(
+        precipitable_water_daily_data[time_dim].dt.month
+    ).mean(dim=time_dim)
     PWw = PW_averagemonth.sel(month=[6, 7, 8]).max(dim="month")
     PWc = PW_averagemonth.sel(month=[1, 2, 12]).max(dim="month")
     monsoonregionmask = (PWw - PWc) > 12
@@ -134,7 +138,7 @@ def calc_NPWI_monsoon_onset(
 
     Reference
     --------------
-    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
+    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://journals.ametsoc.org/view/journals/clim/17/11/1520-0442_2004_017_2241_gumoar_2.0.co_2.xml.
     - Tang Xu, Chen Baode, Liang Ping, Qian Weihong. Definition and features of the north edge of Asian summer monsoon. Acta Meteorologica Sinica (Chinese), 2009, (1): 83-89. doi: http://dx.doi.org/10.11676/qxxb2009.009
     """
     # Find parts with NPWI greater than threshold
@@ -174,7 +178,11 @@ def calc_NPWI_monsoon_onset(
     dateofyear_NPWI = dateofyear_dataarray.where(
         monsoonindex_start > 0, drop=True
     ).squeeze()
-    return dateofyear_NPWI.groupby("time.year").min().median(dim="year")
+    return (
+        dateofyear_NPWI.groupby(dateofyear_NPWI[time_dim].dt.year)
+        .min()
+        .median(dim="year")
+    )
 
 
 def calc_NPWI_monsoon_retreat(
@@ -228,7 +236,7 @@ def calc_NPWI_monsoon_retreat(
 
     Reference
     --------------
-    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://doi.org/10.1175/1520-0442(2004)017<2241:GUMOAR>2.0.CO;2.
+    - Zeng, X., and E. Lu, 2004: Globally Unified Monsoon Onset and Retreat Indexes. J. Climate, 17, 2241–2248, https://journals.ametsoc.org/view/journals/clim/17/11/1520-0442_2004_017_2241_gumoar_2.0.co_2.xml.
     - Tang Xu, Chen Baode, Liang Ping, Qian Weihong. Definition and features of the north edge of Asian summer monsoon. Acta Meteorologica Sinica (Chinese), 2009, (1): 83-89. doi: http://dx.doi.org/10.11676/qxxb2009.009
     """
     # Find parts with NPWI greater than threshold
@@ -272,4 +280,8 @@ def calc_NPWI_monsoon_retreat(
     dateofyear_NPWI = dateofyear_dataarray_overonset.where(
         monsoonindex_start > 0, drop=True
     ).squeeze()
-    return dateofyear_NPWI.groupby("time.year").min().median(dim="year")
+    return (
+        dateofyear_NPWI.groupby(dateofyear_NPWI[time_dim].dt.year)
+        .min()
+        .median(dim="year")
+    )
