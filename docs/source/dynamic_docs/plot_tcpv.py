@@ -11,6 +11,13 @@ import easyclimate as ecl
 
 # %%
 # Now open the sample dataset
+#
+# .. tip::
+#
+#   You can download following datasets here:
+#
+#   - :download:`Download tcpi_sample_data.nc (243 kB) <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/tcpi_sample_data.nc>`
+#
 ds = xr.open_dataset('tcpi_sample_data.nc')
 ds
 
