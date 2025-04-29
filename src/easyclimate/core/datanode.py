@@ -3,11 +3,9 @@ import html as html_escape
 from xarray.core.formatting_html import _load_static_files
 import xarray as xr
 import inspect
-
 import json
 from pathlib import Path
-from typing import Union, Optional
-
+from typing import Union
 import zarr
 
 
