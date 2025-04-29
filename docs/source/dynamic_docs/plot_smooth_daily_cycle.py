@@ -2,7 +2,7 @@
 """
 .. _smooth_daily_cycle_example:
 
-Smooth mean daily annual cycle
+Smooth Mean Daily Annual Cycle
 ============================================
 
 Calculates a smooth mean daily annual cycle.

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Barnes filter
+Barnes Filter
 ===================================
 
 Barnes filter is a commonly used spatial filtering method that mainly uses two constants g and c to calculate Gaussian weights,
