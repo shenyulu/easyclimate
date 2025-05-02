@@ -64,10 +64,10 @@ The following figure provides a schematic overview on the way turbulent fluxes a
 
 Currently, in AeroBulk, 5 bulk parameterizations are available to compute :math:`C_D`, :math:`C_E`, and :math:`C_H` used in the bulk formula:
 
-*   COARE v3.0 (`Fairall *et al.*, 2003 <https://journals.ametsoc.org/view/journals/clim/16/4/1520-0442_2003_016_0571_bpoasf_2.0.co_2.xml>`__)
-*   COARE v3.6 (`Edson *et al.*, 2013 <http://dx.doi.org/10.1175/jpo-d-12-0173.1>`__ + Chris Fairall, *private communication*, 2016)
+*   COARE v3.0 (`Fairall et al., 2003 <https://journals.ametsoc.org/view/journals/clim/16/4/1520-0442_2003_016_0571_bpoasf_2.0.co_2.xml>`__)
+*   COARE v3.6 (`Edson et al., 2013 <http://dx.doi.org/10.1175/jpo-d-12-0173.1>`__ + Chris Fairall, *private communication*, 2016)
 *   ECMWF (`IFS (Cy40) documentation <https://software.ecmwf.int/wiki/display/IFS/CY40R1+Official+IFS+Documentation>`__)
-*   ANDREAS (`Andreas *et al.*, 2015 <https://dx.doi.org/10.1002/qj.2424>`__)
+*   ANDREAS (`Andreas et al., 2015 <https://dx.doi.org/10.1002/qj.2424>`__)
 *   NCAR (Large & Yeager 2004, `2009 <http://dx.doi.org/10.1007/s00382-008-0441-3>`__)
 
 In the COARE and ECMWF algorithms, a cool-skin/warm layer scheme is included and can be activated if the input sea-surface temperature to be used is the bulk SST (usually measured a few tenths of meters below the surface). Activation of these cool-skin/warm layer schemes requires the surface downwelling shortwave and longwave radiative flux components to be provided. Other parameterizations, such as NCAR, are meant to be used with the bulk SST, and do not feature a cool-skin/warm layer scheme.
