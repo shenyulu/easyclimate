@@ -97,6 +97,8 @@ def calc_brunt_vaisala_frequency_atm(
     dz_dp = calc_gradient(z_data, dim=vertical_dim) / dp
     N = np.sqrt((g / potential_temperature_data) * (dtheta_dp / dz_dp))
 
+    # clean other attrs
+    N.attrs = dict()
     try:
         z_data_units = z_data.attrs["units"]
         N.attrs["units"] = f"{z_data_units}^(1/2)"
@@ -254,6 +256,8 @@ def calc_potential_temperature_vertical(
 
     return_data = temper_data * (P_0 / temper_data[vertical_dim]) ** (kappa)
 
+    # clean other attrs
+    return_data.attrs = dict()
     try:
         return_data.attrs["units"] = temper_data.attrs["units"]
     except:
@@ -340,6 +344,9 @@ def calc_equivalent_potential_temperature(
 
     # see (39) in Bolton (1980)
     theta_e = theta_dl * np.exp((3036.0 / t_l - 1.78) * w * (1 + 0.448 * w))
+
+    # clean other attrs
+    theta_e.attrs = dict()
     theta_e.name = "theta_e"
     theta_e.attrs["units"] = "K"
     return theta_e
@@ -425,6 +432,9 @@ def calc_equivalent_potential_temperature_davies_jones2009(
 
     # see (6.5) in Robert Davies-Jones (2009)
     theta_e = theta_dl * np.exp((L0 - L1 * (t_l - 273.15) + K2 * w) * w / c_pd / t_l)
+
+    # clean other attrs
+    theta_e.attrs = dict()
     theta_e.name = "theta_e"
     theta_e.attrs["units"] = "K"
     return theta_e
@@ -474,6 +484,9 @@ def calc_virtual_temperature(
     )
 
     T_v = (1 + epsilon * specific_humidity_data) * temper_data
+
+    # clean other attrs
+    T_v.attrs = dict()
 
     try:
         T_v.attrs["units"] = temper_data.attrs["units"]
@@ -536,6 +549,9 @@ def calc_virtual_temperature_Hobbs2006(
         (specific_humidity_data + epsilon) / (epsilon * (1 + specific_humidity_data))
     )
 
+    # clean other attrs
+    T_v.attrs = dict()
+
     try:
         T_v.attrs["units"] = temper_data.attrs["units"]
     except:
@@ -587,6 +603,8 @@ def calc_static_stability(
     )
     return_data = -temper_data * part
 
+    # clean other attrs
+    return_data.attrs = dict()
     try:
         temper_data_units = temper_data.attrs["units"]
         return_data.attrs["units"] = f"{temper_data_units}^2 {vertical_dim_units}^-1"
@@ -626,6 +644,8 @@ def calc_dewpoint(
 
     val = np.log(vapor_pressure_data / 6.112)
     dewpoint = 243.5 * val / (17.67 - val)
+    # clean other attrs
+    dewpoint.attrs = dict()
     dewpoint.attrs["units"] = "celsius"
     dewpoint.name = "dewpoint"
     return dewpoint
@@ -667,8 +687,10 @@ def calc_mixing_ratio(
         * partial_pressure_data
         / (total_pressure_data - partial_pressure_data)
     )
-    return_data.attrs["units"] = "dimensionless"
+    # clean other attrs
+    return_data.attrs = dict()
 
+    return_data.attrs["units"] = "dimensionless"
     return_data.attrs["standard_name"] = "humidity_mixing_ratio"
     return_data.name = "mixing_ratio"
     return return_data
@@ -702,6 +724,8 @@ def calc_vapor_pressure(
     """
     return_data = pressure_data * mixing_ratio_data / (mixing_ratio_data + epsilon)
 
+    # clean other attrs
+    return_data.attrs = dict()
     if pressure_data_units is None:
         pressure_data_units = pressure_data.attrs["units"]
         return_data.attrs["units"] = f"{pressure_data_units}"
@@ -740,6 +764,8 @@ def calc_saturation_vapor_pressure(
     )
     return_data = 6.112 * np.exp(17.67 * temperature_data / (temperature_data + 243.5))
 
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "hPa"
     return_data.name = "saturation_vapor_pressure"
     return return_data
@@ -785,6 +811,9 @@ def calc_saturation_mixing_ratio(
         partial_pressure_data=partial_pressure_data,
         total_pressure_data=total_pressure_data,
     )
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "dimensionless"
     return_data.name = "saturation_mixing_ratio"
     return return_data
@@ -921,6 +950,8 @@ def calc_wet_bulb_potential_temperature_iteration(
         },
     )
 
+    # clean other attrs
+    result.attrs = dict()
     result.name = "tw"
     result.attrs["standard_name"] = "wet_bulb_temperature"
     result.attrs["units"] = "degC"
@@ -1006,6 +1037,8 @@ def calc_wet_bulb_potential_temperature_davies_jones2008(
     # Assign the result to theta_w
     theta_w = xr.where(mask, theta_e - np.exp(a / b), theta_e)
 
+    # clean other attrs
+    theta_w.attrs = dict()
     theta_w.name = "tw"
     theta_w.attrs["standard_name"] = "wet_bulb_temperature"
     theta_w.attrs["units"] = "K"
@@ -1073,6 +1106,9 @@ def calc_wet_bulb_temperature_stull2011(
 
     # Convert back to Kelvin
     tw = transfer_data_temperature_units(tw_c, "degC", "K")
+
+    # clean other attrs
+    tw.attrs = dict()
     tw.name = "tw"
     tw.attrs["standard_name"] = "wet_bulb_temperature"
     tw.attrs["units"] = "K"
@@ -1155,6 +1191,9 @@ def calc_wet_bulb_temperature_sadeghi2013(
 
     # see (8a)
     tw = (-phi + np.sqrt(delta)) / (2 * lambda_value)
+
+    # clean other attrs
+    tw.attrs = dict()
     tw.name = "tw"
     tw.attrs["standard_name"] = "wet_bulb_temperature"
     tw.attrs["units"] = "degC"
@@ -1202,6 +1241,8 @@ def calc_lifting_condensation_level_bolton1980(
     part = (1 / t_k - 55) - (np.log(U / 100) / 2840)
     t_l = 1 / part + 55
 
+    # clean other attrs
+    t_l.attrs = dict()
     t_l.attrs["standard_name"] = "atmosphere_lifting_condensation_level"
     t_l.attrs["units"] = "K"
     return t_l
@@ -1334,6 +1375,8 @@ def calc_moist_adiabatic_lapse_rate(
 
     result = (1.0 / p) * (numerator / denominator)
 
+    # clean other attrs
+    result.attrs = dict()
     result.attrs["units"] = "K/hPa"
     return result
 
@@ -1357,6 +1400,9 @@ def transfer_mixing_ratio_2_specific_humidity(
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_mixing_ratio.html
     """
     return_data = mixing_ratio_data / (1 + mixing_ratio_data)
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "g/g"
     return_data.name = "specific_humidity"
     return return_data
@@ -1388,6 +1434,9 @@ def transfer_specific_humidity_2_mixing_ratio(
     )
 
     return_data = specific_humidity_data / (1 - specific_humidity_data)
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "dimensionless"
     return_data.name = "mixing_ratio"
     return return_data
@@ -1427,6 +1476,8 @@ def transfer_dewpoint_2_specific_humidity(
         total_pressure_data_units=pressure_data_units,
     )
     return_data = transfer_mixing_ratio_2_specific_humidity(mixing_ratio)
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "g/g"
     return_data.name = "specific_humidity"
     return return_data
@@ -1512,6 +1563,9 @@ def transfer_specific_humidity_2_dewpoint(
     return_data = calc_dewpoint(
         vapor_pressure_data=e, vapor_pressure_data_units=pressure_data_units
     )
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "Celsius"
     return_data.name = "dewpoint"
     return return_data
@@ -1564,6 +1618,9 @@ def transfer_dewpoint_2_relative_humidity(
         temperature_data=temperature_data, temperature_data_units=temperature_data_units
     )
     return_data = e / e_s
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "dimensionless"
     return_data.name = "relative_humidity"
     return return_data
@@ -1612,6 +1669,9 @@ def transfer_mixing_ratio_2_relative_humidity(
     return_data = (
         mixing_ratio_data / (epsilon + mixing_ratio_data) * (epsilon + w_s) / w_s
     )
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "dimensionless"
     return_data.name = "relative_humidity"
     return return_data
@@ -1661,6 +1721,9 @@ def transfer_specific_humidity_2_relative_humidity(
         pressure_data_units=pressure_data_units,
         temperature_data_units=temperature_data_units,
     )
+
+    # clean other attrs
+    return_data.attrs = dict()
     return_data.attrs["units"] = "dimensionless"
     return_data.name = "relative_humidity"
     return return_data
