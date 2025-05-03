@@ -48,6 +48,7 @@ Filter
     easyclimate.filter.wavelet
     easyclimate.filter.redfit
     easyclimate.filter.spatial_pcf
+    easyclimate.filter.emd
 
 Interpolation
 ----------------------------------------
