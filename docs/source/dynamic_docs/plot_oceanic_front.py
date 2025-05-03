@@ -24,7 +24,7 @@ eddy's dynamical forcing is a key player in such an interaction.
     - Wang, L., Hu, H. & Yang, X. The atmospheric responses to the intensity variability of subtropical front in the wintertime North Pacific. Clim Dyn 52, 5623–5639 (2019). https://doi.org/10.1007/s00382-018-4468-9
     - Huang, Q., Fang, J., Tao, L. et al. Wintertime ocean–atmosphere interaction processes associated with the SST variability in the North Pacific subarctic frontal zone. Clim Dyn 62, 1159–1177 (2024). https://doi.org/10.1007/s00382-023-06958-6
     - Fang, Z., Sun, X., Yang, X.-Q., & Zhu, Z. (2024). Interdecadal variations in the spatial pattern of the Arctic Oscillation Arctic center in wintertime. Geophysical Research Letters, 51, e2024GL111380. https://doi.org/10.1029/2024GL111380
-    - 姚瑶. (2018). 北太平洋风暴轴与中纬度海洋锋的相互作用研究（博士学位论文，国防科技大学）. 博士 https://link.cnki.net/doi/10.27052/d.cnki.gzjgu.2018.000410doi:10.27052/d.cnki.gzjgu.2018.000410.
+    - 姚瑶. (2018). 北太平洋风暴轴与中纬度海洋锋的相互作用研究（博士学位论文，国防科技大学）. 博士 https://link.cnki.net/doi/10.27052/d.cnki.gzjgu.2018.000410.
 
 Before proceeding with all the steps, first import some necessary libraries and packages
 """
