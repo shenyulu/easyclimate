@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Union
 import zarr
 
+__all__ = ["DataNode", "open_datanode"]
+
 
 class DataNode:
     def __init__(self, name="root"):
@@ -420,3 +422,29 @@ class DataNode:
                 node._attributes[key] = value
 
         return node
+
+
+def open_datanode(filepath: str) -> DataNode:
+    """
+    Load a DataNode object from a file path.
+
+    This function provides a convenient way to load a DataNode that was previously saved
+    using the DataNode.to_zarr() method.
+
+    Parameters
+    ----------
+    filepath : :py:class:`str <str>`
+        The path to the directory containing the saved DataNode data.
+        This should be the same path used with DataNode.to_zarr().
+
+    Returns
+    -------
+    :py:class:`DataNode <DataNode>`
+        The loaded DataNode object with all its attributes and nested structure.
+
+    Examples
+    --------
+    >>> node = open_datanode("path/to/saved_node")
+    >>> node.some_attribute  # Access attributes as usual
+    """
+    return DataNode.load(filepath)

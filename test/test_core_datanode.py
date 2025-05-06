@@ -3,10 +3,9 @@ pytest for core/datanode.py
 """
 
 import pytest
-from easyclimate.core.datanode import DataNode
+from easyclimate.core.datanode import DataNode, open_datanode
 import xarray as xr
 import numpy as np
-from pathlib import Path
 import json
 import shutil
 
@@ -134,6 +133,102 @@ def test_format_value():
 
     # Test simple value
     assert node._format_value(42) == "42"
+
+
+def test_open_datanode_basic(tmp_path, sample_node):
+    """Test basic loading functionality of open_datanode"""
+    save_path = tmp_path / "test_node"
+    sample_node.to_zarr(save_path)
+
+    # Load using open_datanode
+    loaded_node = open_datanode(save_path)
+
+    assert loaded_node.name == "root"
+    assert loaded_node.a == 42
+    assert loaded_node.b == "test"
+    assert isinstance(loaded_node.subnode, DataNode)
+    assert loaded_node.subnode.x == 3.14
+
+
+def test_open_datanode_nested_structure(tmp_path, sample_node):
+    """Test loading nested node structure"""
+    save_path = tmp_path / "nested_node"
+    sample_node.to_zarr(save_path)
+
+    loaded_node = open_datanode(save_path)
+
+    assert isinstance(loaded_node.subnode, DataNode)
+    assert loaded_node.subnode.name == "sub"
+    assert loaded_node.subnode.x == 3.14
+
+
+def test_open_datanode_path_types(tmp_path, sample_node):
+    """Test that open_datanode works with both str and Path inputs"""
+    save_path = tmp_path / "path_type_node"
+    sample_node.to_zarr(save_path)
+
+    # Test with Path object
+    loaded_path = open_datanode(save_path)
+    # Test with string path
+    loaded_str = open_datanode(str(save_path))
+
+    assert loaded_path.name == loaded_str.name
+    assert loaded_path.subnode.x == loaded_str.subnode.x
+    assert loaded_path.subnode.y.equals(loaded_str.subnode.y)
+
+
+def test_open_datanode_invalid_path():
+    """Test error handling for invalid paths"""
+    with pytest.raises(FileNotFoundError):
+        open_datanode("nonexistent/path")
+
+
+def test_open_datanode_missing_metadata(tmp_path):
+    """Test error handling when metadata is missing"""
+    invalid_path = tmp_path / "invalid_node"
+    invalid_path.mkdir()
+
+    with pytest.raises(FileNotFoundError):
+        open_datanode(invalid_path)
+
+
+def test_open_datanode_corrupted_metadata(tmp_path, sample_node):
+    """Test error handling for corrupted metadata"""
+    save_path = tmp_path / "corrupted_node"
+    sample_node.to_zarr(save_path)
+
+    # Corrupt the metadata file
+    with open(save_path / "metadata.json", "w") as f:
+        f.write("{invalid json")
+
+    with pytest.raises(json.JSONDecodeError):
+        open_datanode(save_path)
+
+
+def test_open_datanode_complex_hierarchy(tmp_path):
+    """Test loading a complex node hierarchy"""
+    # Create complex structure
+    node = DataNode(name="complex")
+    node.num = 123
+    node.text = "hello"
+    node.data = xr.DataArray(np.random.rand(2, 2), name="data")
+    node.group = DataNode(name="group")
+    node.group.a = 1
+    node.group.b = 2
+    node.group.sub = DataNode(name="sub")
+    node.group.sub.value = "deep"
+
+    save_path = tmp_path / "complex_node"
+    node.to_zarr(save_path)
+
+    # Load and verify
+    loaded = open_datanode(save_path)
+
+    assert loaded.num == 123
+    assert loaded.text == "hello"
+    assert loaded.group.a == 1
+    assert loaded.group.b == 2
+    assert loaded.group.sub.value == "deep"
 
 
 def test_cleanup(tmp_path):
