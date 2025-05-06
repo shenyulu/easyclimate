@@ -13,11 +13,11 @@ __all__ = ["DataNode", "open_datanode"]
 
 class DataNode:
     def __init__(self, name="root"):
-        self._attributes = {}  # 存储动态属性
-        self.name = name  # 为每个节点设置名称
+        self._attributes = {}  # Storing Dynamic Properties
+        self.name = name  # Setting names for each node
 
     def __getattr__(self, key):
-        # 过滤掉所有 IPython 的特殊属性请求
+        # Filter out all IPython requests for special attributes
         if (
             key.startswith("_repr_")
             or key.startswith("_ipython_")
@@ -26,19 +26,22 @@ class DataNode:
             or key.startswith("__dataframe__")
         ):
             raise AttributeError(key)
-        # 如果访问的属性不存在，自动创建嵌套的 DynamicClass
+        # Automatically creates a nested DynamicClass if the accessed property does not exist.
         if key not in self._attributes:
             self._attributes[key] = DataNode(name=key)
         return self._attributes[key]
 
     def __setattr__(self, key, value):
-        if key in ["_attributes", "name"]:  # 避免覆盖内部存储或名称
+        if key in [
+            "_attributes",
+            "name",
+        ]:  # Avoid overwriting internal storage or names
             super().__setattr__(key, value)
         else:
             self._attributes[key] = value
 
     def __getitem__(self, key):
-        # 支持路径风格访问
+        # Support for path style access
         if "/" in key:
             parts = key.split("/")
             node = self
@@ -50,11 +53,13 @@ class DataNode:
         return self._attributes[key]
 
     def __setitem__(self, key, value):
-        # 支持路径风格设置
+        # Support for path style settings
         if "/" in key:
             parts = key.split("/")
             node = self
-            for part in parts[:-1]:  # 遍历中间节点，自动创建
+            for part in parts[
+                :-1
+            ]:  # Iterate over intermediate nodes and automatically create
                 if part not in node._attributes:
                     node._attributes[part] = DataNode(name=part)
                 node = node._attributes[part]
@@ -63,12 +68,12 @@ class DataNode:
             self._attributes[key] = value
 
     def _repr_html_(self):
-        """生成类似 xarray 的 HTML 表示"""
-        # 直接返回字符串而不是 HTML 对象
+        """Generate an xarray-like HTML representation"""
+        # Returns a string directly instead of an HTML object
         return self._format_html()
 
     def _format_html(self):
-        """生成完整的 HTML 内容"""
+        """Generate full HTML content"""
         html = []
         icons_svg, css_style = _load_static_files()
 
@@ -158,7 +163,7 @@ class DataNode:
         """
         )
 
-        # 添加头部信息
+        # Add header information
         html.append(
             f"""
         <div class="datanode-container">
@@ -210,7 +215,7 @@ class DataNode:
         return "".join(html)
 
     def _format_node_html(self, node, level=0, parent_id=None):
-        """递归生成节点的 HTML 表示"""
+        """Recursively generate HTML representations of nodes"""
         node_id = (
             f"node-{id(node)}"
             if parent_id is None
@@ -220,12 +225,12 @@ class DataNode:
 
         html = []
 
-        # 节点标题行
+        # Node title line
         html.append(
             f"<div class='node-header{' root' if is_root else ''}' id='{node_id}-header'>"
         )
 
-        # 添加折叠/展开按钮（如果有子节点）
+        # Add collapse/expand buttons (if there are child nodes)
         has_children = any(
             not k.startswith("_ipython_") for k in node._attributes.keys()
         )
@@ -236,16 +241,16 @@ class DataNode:
         else:
             html.append("<span class='toggle-placeholder'></span>")
 
-        # 节点名称
+        # Node name
         html.append(f"<span class='node-name'>{html_escape.escape(node.name)}</span>")
         html.append("</div>")  # 关闭 node-header
 
-        # 子节点容器
+        # Child node container
         html.append(
             f"<div class='node-children{' collapsed' if not is_root else ''}' id='{node_id}-children'>"
         )
 
-        # 遍历属性，过滤掉 IPython 的特殊属性
+        # Iterate over properties, filtering out IPython specific properties
         for key, value in sorted(node._attributes.items()):
             if key.startswith("_ipython_"):
                 continue
@@ -255,7 +260,7 @@ class DataNode:
             if isinstance(value, DataNode):
                 html.append(self._format_node_html(value, level + 1, node_id))
             else:
-                # 所有属性都有折叠功能
+                # All properties have collapsing functionality
                 html.append(f"<div class='node-attribute'>")
                 html.append(
                     f"<div class='attr-header' onclick='easyclimateToggleAttr(\"{attr_id}\")'>"
@@ -265,7 +270,7 @@ class DataNode:
                     f"<span class='attr-name'>{html_escape.escape(key)}:</span>"
                 )
 
-                # 显示完整的类型信息
+                # Show full type information
                 if isinstance(value, (xr.DataArray, xr.Dataset, xr.DataTree)):
                     type_name = f"xarray.{type(value).__name__}"
                 else:
@@ -279,27 +284,27 @@ class DataNode:
                     else type(value).__name__
                 )
                 html.append(f"<span class='attr-type'>{type_name}</span>")
-                html.append("</div>")  # 关闭 attr-header
+                html.append("</div>")  # Close attr-header
 
-                # 属性内容区域
+                # Attribute Content Area
                 html.append(f"<div id='{attr_id}-content' style='display:none;'>")
                 if isinstance(value, (xr.DataArray, xr.Dataset, xr.DataTree)):
-                    # 使用xarray原生的HTML表示
+                    # Using xarray native HTML representation
                     html_repr = value._repr_html_()
                     html.append(f"<div class='xarray-html-repr'>{html_repr}</div>")
                 else:
                     html.append(
                         f"<div class='attr-value'>{html_escape.escape(str(self._format_value(value)))}</div>"
                     )
-                html.append("</div>")  # 关闭 content
-                html.append("</div>")  # 关闭 node-attribute
+                html.append("</div>")  # Close content
+                html.append("</div>")  # Close node-attribute
 
-        html.append("</div>")  # 关闭 node-children
+        html.append("</div>")  # Close node-children
 
         return "".join(html)
 
     def _format_value(self, value):
-        """格式化值以便显示"""
+        """Formatting values for display"""
         if isinstance(value, (list, tuple)) and len(value) > 3:
             return f"[{value[0]}, {value[1]}, ..., {value[-1]}] (length: {len(value)})"
         elif isinstance(value, dict):
@@ -312,10 +317,10 @@ class DataNode:
         return str(value)
 
     def format_tree(self, level=0, html=False):
-        """保留原有的树形结构输出方法"""
+        """Retain the original tree-structured output method"""
         if html:
             return self._format_html()
-        # 原有的纯文本格式输出
+        # Original plain text format output
         indent = "  " * level
         lines = [f"{indent}- {self.name}"]
         for key, value in sorted(self._attributes.items()):
@@ -328,7 +333,7 @@ class DataNode:
                     f"{indent}  {key}: <xarray.DataArray> (shape: {value.shape}, dtype: {value.dtype})"
                 )
             elif inspect.ismethod(value) or inspect.isfunction(value):
-                # 跳过方法和函数
+                # Skip methods and functions
                 continue
             else:
                 lines.append(f"{indent}  {key}: {value}")
@@ -338,19 +343,19 @@ class DataNode:
         return self.format_tree()
 
     def _repr_pretty_(self, p, cycle):
-        """支持 IPython 的 pretty printing"""
+        """Support the IPython of pretty printing"""
         if cycle:
             p.text(f"{self.name}(...)")
         else:
             p.text(self.format_tree())
 
-    # 明确禁用 _repr_mimebundle_
+    # Explicitly prohibited _repr_mimebundle_
     def _repr_mimebundle_(self, include=None, exclude=None):
         return None
 
-    # 或者更彻底地，禁用所有可能的表示方法
+    # Or, more radically, disable all possible representations
     def __dir__(self):
-        # 过滤掉所有 _repr_* 方法
+        # Filter out all _repr_* methods
         return [
             attr
             for attr in super().__dir__()
