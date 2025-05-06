@@ -52,8 +52,8 @@ def calc_index_IOBM_1point(
     --------------
     - (40°E-100°E, 20°S-20°N)
         1. `Wu, Y., Tang, Y. Seasonal predictability of the tropical Indian Ocean SST in the North American multimodel ensemble. Clim Dyn 53, 3361–3372 (2019). <https://doi.org/10.1007/s00382-019-04709-0>`__
-        1. `Xie, S., Hu, K., Hafner, J., Tokinaga, H., Du, Y., Huang, G., & Sampe, T. (2009). Indian Ocean Capacitor Effect on Indo–Western Pacific Climate during the Summer following El Niño. Journal of Climate, 22(3), 730-747. <https://doi.org/10.1175/2008JCLI2544.1>`__
-        1. `Wang, J., Liu, Y., Cheng, F., Song, C., Li, Q., Ding, Y., and Xu, X (2023). Potential modulation of Indian Ocean basin mode on the interdecadal variations of summer precipitation over the East Asian monsoon boundary zone, EGUsphere [preprint]. <https://doi.org/10.5194/egusphere-2023-1529>`__
+        2. `Xie, S., Hu, K., Hafner, J., Tokinaga, H., Du, Y., Huang, G., & Sampe, T. (2009). Indian Ocean Capacitor Effect on Indo–Western Pacific Climate during the Summer following El Niño. Journal of Climate, 22(3), 730-747. <https://doi.org/10.1175/2008JCLI2544.1>`__
+        3. `Wang, J., Liu, Y., Cheng, F., Song, C., Li, Q., Ding, Y., and Xu, X (2023). Potential modulation of Indian Ocean basin mode on the interdecadal variations of summer precipitation over the East Asian monsoon boundary zone, EGUsphere [preprint]. <https://doi.org/10.5194/egusphere-2023-1529>`__
     - (40°E-110°E, 20°S-20°N)
         1. `Yang, J., Q. Liu, S.-P. Xie, Z. Liu, and L. Wu (2007), Impact of the Indian Ocean SST basin mode on the Asian summer monsoon, Geophys. Res. Lett., 34, L02708 <https://doi.org/10.1029/2006GL028571>`__
         2. `Sun, Y., Zhu, Z., Yang, Y. et al. Decadal change in the connection between the Pacific–Japan pattern and the Indian Ocean SST basin mode. Clim Dyn (2024). <https://doi.org/10.1007/s00382-024-07132-2>`__
@@ -130,8 +130,8 @@ def calc_index_IOBM_EOF1(
     --------------
     - (40°E-100°E, 20°S-20°N)
         1. `Wu, Y., Tang, Y. Seasonal predictability of the tropical Indian Ocean SST in the North American multimodel ensemble. Clim Dyn 53, 3361–3372 (2019). <https://doi.org/10.1007/s00382-019-04709-0>`__
-        1. `Xie, S., Hu, K., Hafner, J., Tokinaga, H., Du, Y., Huang, G., & Sampe, T. (2009). Indian Ocean Capacitor Effect on Indo–Western Pacific Climate during the Summer following El Niño. Journal of Climate, 22(3), 730-747. <https://doi.org/10.1175/2008JCLI2544.1>`__
-        1. `Wang, J., Liu, Y., Cheng, F., Song, C., Li, Q., Ding, Y., and Xu, X (2023). Potential modulation of Indian Ocean basin mode on the interdecadal variations of summer precipitation over the East Asian monsoon boundary zone, EGUsphere [preprint]. <https://doi.org/10.5194/egusphere-2023-1529>`__
+        2. `Xie, S., Hu, K., Hafner, J., Tokinaga, H., Du, Y., Huang, G., & Sampe, T. (2009). Indian Ocean Capacitor Effect on Indo–Western Pacific Climate during the Summer following El Niño. Journal of Climate, 22(3), 730-747. <https://doi.org/10.1175/2008JCLI2544.1>`__
+        3. `Wang, J., Liu, Y., Cheng, F., Song, C., Li, Q., Ding, Y., and Xu, X (2023). Potential modulation of Indian Ocean basin mode on the interdecadal variations of summer precipitation over the East Asian monsoon boundary zone, EGUsphere [preprint]. <https://doi.org/10.5194/egusphere-2023-1529>`__
     - (40°E-110°E, 20°S-20°N)
         1. `Yang, J., Q. Liu, S.-P. Xie, Z. Liu, and L. Wu (2007), Impact of the Indian Ocean SST basin mode on the Asian summer monsoon, Geophys. Res. Lett., 34, L02708 <https://doi.org/10.1029/2006GL028571>`__
         2. `Sun, Y., Zhu, Z., Yang, Y. et al. Decadal change in the connection between the Pacific–Japan pattern and the Indian Ocean SST basin mode. Clim Dyn (2024). <https://doi.org/10.1007/s00382-024-07132-2>`__
