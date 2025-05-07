@@ -1,4 +1,3 @@
-from IPython.display import HTML
 import html as html_escape
 from xarray.core.formatting_html import _load_static_files
 import xarray as xr

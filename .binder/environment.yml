@@ -18,7 +18,7 @@ dependencies:
     - scipy >=1.8.0
     - statsmodels
     - geocat-comp
-    - easyclimate-backend >= 2025.4.0
+    - easyclimate-backend >= 2025.5.1
     - dask
     - pymannkendall
     - flox
