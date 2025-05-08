@@ -375,7 +375,9 @@ class DataNode:
                 value.to_zarr(child_path)
                 metadata["attributes"][key] = {
                     "__type__": "DataNode",
-                    "path": str(child_path),
+                    "path": str(child_path).replace(
+                        "\\", "/"
+                    ),  # Convert to forward slashes,
                 }
             elif isinstance(value, (xr.DataArray, xr.Dataset, xr.DataTree)):
                 zarr_path = filepath / f"{key}.zarr"
@@ -383,7 +385,9 @@ class DataNode:
                 value.to_zarr(zarr_path, consolidated=False, mode="w")
                 metadata["attributes"][key] = {
                     "__type__": "xarray",
-                    "path": str(zarr_path),
+                    "path": str(zarr_path).replace(
+                        "\\", "/"
+                    ),  # Convert to forward slashes,
                 }
             else:
                 metadata["attributes"][key] = value
@@ -414,12 +418,12 @@ class DataNode:
 
         for key, value in metadata["attributes"].items():
             if isinstance(value, dict) and value.get("__type__") == "DataNode":
-                # Recursively load child node
-                child_path = Path(value["path"])
+                # Recursively load child node - convert path to Path object
+                child_path = Path(value["path"].replace("\\", "/"))
                 node._attributes[key] = cls.load(child_path)
             elif isinstance(value, dict) and value.get("__type__") == "xarray":
-                # Load xarray data
-                zarr_path = Path(value["path"])
+                # Load xarray data - convert path to Path object
+                zarr_path = Path(value["path"].replace("\\", "/"))
                 node._attributes[key] = xr.open_zarr(zarr_path, consolidated=False)
             else:
                 # Load normal data
