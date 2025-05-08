@@ -1,5 +1,6 @@
 import html as html_escape
 from xarray.core.formatting_html import _load_static_files
+from typing import Literal
 import xarray as xr
 import inspect
 import json
@@ -363,7 +364,7 @@ class DataNode:
             and not attr.startswith("to_pandas")
         ]
 
-    def to_zarr(self, filepath: Union[str, Path]):
+    def to_zarr(self, filepath: Union[str, Path], zarr_format: Literal[2, 3] = 2):
         filepath = Path(filepath)
         filepath.mkdir(parents=True, exist_ok=True)
 
@@ -382,7 +383,9 @@ class DataNode:
             elif isinstance(value, (xr.DataArray, xr.Dataset, xr.DataTree)):
                 zarr_path = filepath / f"{key}.zarr"
                 # Disable consolidated metadata
-                value.to_zarr(zarr_path, consolidated=False, mode="w")
+                value.to_zarr(
+                    zarr_path, consolidated=False, mode="w", zarr_format=zarr_format
+                )
                 metadata["attributes"][key] = {
                     "__type__": "xarray",
                     "path": str(zarr_path).replace(

@@ -1,0 +1,12 @@
+{
+  "code": 228,
+  "table": 128,
+  "CDI_grid_type": "gaussian",
+  "CDI_grid_num_LPE": 80,
+  "coordinates": "level",
+  "_ARRAY_DIMENSIONS": [
+    "mode",
+    "lat",
+    "lon"
+  ]
+}

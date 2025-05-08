@@ -1,0 +1,10 @@
+{
+  "standard_name": "time",
+  "long_name": "time",
+  "axis": "T",
+  "units": "hours since 1900-01-01",
+  "calendar": "gregorian",
+  "_ARRAY_DIMENSIONS": [
+    "time"
+  ]
+}

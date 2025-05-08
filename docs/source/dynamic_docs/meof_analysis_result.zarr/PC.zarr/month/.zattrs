@@ -1,0 +1,8 @@
+{
+  "standard_name": "time",
+  "long_name": "time",
+  "axis": "T",
+  "_ARRAY_DIMENSIONS": [
+    "time"
+  ]
+}

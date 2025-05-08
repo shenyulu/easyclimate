@@ -1,0 +1,9 @@
+{
+  "standard_name": "time",
+  "axis": "T",
+  "units": "hours since 1978-12-31T18:00:00",
+  "calendar": "proleptic_gregorian",
+  "_ARRAY_DIMENSIONS": [
+    "time"
+  ]
+}

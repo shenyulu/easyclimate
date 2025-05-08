@@ -20,7 +20,7 @@ xarray_regrid
 gsw_xarray
 pooch
 tqdm
-zarr >= 3.0.0
+zarr
 metpy
 tcpypi
 netCDF4

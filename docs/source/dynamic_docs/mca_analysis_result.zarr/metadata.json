@@ -3,51 +3,51 @@
   "attributes": {
     "EOF": {
       "__type__": "DataNode",
-      "path": "mca_analysis_result.zarr\\EOF"
+      "path": "mca_analysis_result.zarr/EOF"
     },
     "PC": {
       "__type__": "DataNode",
-      "path": "mca_analysis_result.zarr\\PC"
+      "path": "mca_analysis_result.zarr/PC"
     },
     "correlation_coefficients_X": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\correlation_coefficients_X.zarr"
+      "path": "mca_analysis_result.zarr/correlation_coefficients_X.zarr"
     },
     "correlation_coefficients_Y": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\correlation_coefficients_Y.zarr"
+      "path": "mca_analysis_result.zarr/correlation_coefficients_Y.zarr"
     },
     "covariance_fraction": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\covariance_fraction.zarr"
+      "path": "mca_analysis_result.zarr/covariance_fraction.zarr"
     },
     "cross_correlation_coefficients": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\cross_correlation_coefficients.zarr"
+      "path": "mca_analysis_result.zarr/cross_correlation_coefficients.zarr"
     },
     "fraction_variance_X_explained_by_X": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\fraction_variance_X_explained_by_X.zarr"
+      "path": "mca_analysis_result.zarr/fraction_variance_X_explained_by_X.zarr"
     },
     "fraction_variance_Y_explained_by_X": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\fraction_variance_Y_explained_by_X.zarr"
+      "path": "mca_analysis_result.zarr/fraction_variance_Y_explained_by_X.zarr"
     },
     "fraction_variance_Y_explained_by_Y": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\fraction_variance_Y_explained_by_Y.zarr"
+      "path": "mca_analysis_result.zarr/fraction_variance_Y_explained_by_Y.zarr"
     },
     "squared_covariance_fraction": {
       "__type__": "xarray",
-      "path": "mca_analysis_result.zarr\\squared_covariance_fraction.zarr"
+      "path": "mca_analysis_result.zarr/squared_covariance_fraction.zarr"
     },
     "heterogeneous_patterns": {
       "__type__": "DataNode",
-      "path": "mca_analysis_result.zarr\\heterogeneous_patterns"
+      "path": "mca_analysis_result.zarr/heterogeneous_patterns"
     },
     "homogeneous_patterns": {
       "__type__": "DataNode",
-      "path": "mca_analysis_result.zarr\\homogeneous_patterns"
+      "path": "mca_analysis_result.zarr/homogeneous_patterns"
     }
   }
 }

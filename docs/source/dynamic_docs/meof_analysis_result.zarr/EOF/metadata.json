@@ -3,15 +3,15 @@
   "attributes": {
     "var0": {
       "__type__": "xarray",
-      "path": "meof_analysis_result.zarr\\EOF\\var0.zarr"
+      "path": "meof_analysis_result.zarr/EOF/var0.zarr"
     },
     "var1": {
       "__type__": "xarray",
-      "path": "meof_analysis_result.zarr\\EOF\\var1.zarr"
+      "path": "meof_analysis_result.zarr/EOF/var1.zarr"
     },
     "var2": {
       "__type__": "xarray",
-      "path": "meof_analysis_result.zarr\\EOF\\var2.zarr"
+      "path": "meof_analysis_result.zarr/EOF/var2.zarr"
     }
   }
 }
