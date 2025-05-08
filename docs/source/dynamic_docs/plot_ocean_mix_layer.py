@@ -127,6 +127,7 @@ for depth_value in np.arange(50):
 # We use :py:func:`easyclimate.field.ocean.calc_MLD_depth_weighted <easyclimate.field.ocean.calc_MLD_depth_weighted>` to calculate MLD internal average temperature.
 #
 # .. code-block:: python
+#
 #     weight = ecl.field.ocean.calc_MLD_depth_weighted(
 #         seawater_temperature_data = temper_data,
 #         mixed_layer_depth = mld_data

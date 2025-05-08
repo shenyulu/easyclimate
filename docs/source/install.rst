@@ -64,7 +64,7 @@ Python Version Requirement
 
 Make sure you're up to date! 🐍
 
-.. tips::
+.. tip::
 
     See more `Status of Python versions <https://devguide.python.org/versions/>`__.
 
