@@ -21,6 +21,7 @@ Core
     :toctree: generated/
 
     easyclimate.core.diagnosis
+    easyclimate.core.datanode
     easyclimate.core.diff
     easyclimate.core.eddy
     easyclimate.core.eof

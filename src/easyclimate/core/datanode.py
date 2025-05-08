@@ -1,3 +1,7 @@
+"""
+Hierarchical data structure that dynamically manages attributes and nested nodes
+"""
+
 import html as html_escape
 from xarray.core.formatting_html import _load_static_files
 from typing import Literal
@@ -12,11 +16,53 @@ __all__ = ["DataNode", "open_datanode"]
 
 
 class DataNode:
+    """
+    A hierarchical data structure that dynamically manages attributes and nested nodes.
+
+    The :py:class:`DataNode <DataNode>` class provides a flexible way to organize and access data in a tree-like
+    structure. It supports automatic creation of nested nodes, path-style access,
+    and rich HTML representation in Jupyter environments.
+
+    Parameters
+    ----------
+    name : :py:class:`str <str>`, optional
+        The name of the root node (default: ``"root"``).
+    """
+
     def __init__(self, name="root"):
+        """
+        Initialize a new DataNode instance.
+
+        Parameters
+        ----------
+        name : :py:class:`str <str>`, optional
+            The name of the node (default: "root").
+        """
         self._attributes = {}  # Storing Dynamic Properties
         self.name = name  # Setting names for each node
 
     def __getattr__(self, key):
+        """
+        Dynamically access or create node attributes.
+
+        Automatically creates nested :py:class:`DataNode <DataNode>` for non-existent attributes,
+        while filtering out special IPython/Jupyter attribute requests.
+
+        Parameters
+        ----------
+        key : :py:class:`str <str>`
+            The attribute name to access.
+
+        Returns
+        -------
+        Any
+            The requested attribute or a new :py:class:`DataNode <DataNode>` if attribute doesn't exist.
+
+        Raises
+        ------
+        AttributeError
+            If the attribute is a special IPython/Jupyter attribute.
+        """
         # Filter out all IPython requests for special attributes
         if (
             key.startswith("_repr_")
@@ -32,6 +78,16 @@ class DataNode:
         return self._attributes[key]
 
     def __setattr__(self, key, value):
+        """
+        Set node attributes while protecting internal attributes.
+
+        Parameters
+        ----------
+        key : :py:class:`str <str>`
+            The attribute name to set.
+        value : Any
+            The value to assign to the attribute.
+        """
         if key in [
             "_attributes",
             "name",
@@ -41,6 +97,24 @@ class DataNode:
             self._attributes[key] = value
 
     def __getitem__(self, key):
+        """
+        Access attributes using path-style notation (e.g., "path/to/attribute").
+
+        Parameters
+        ----------
+        key : :py:class:`str <str>`
+            The attribute path to access, with '/' separators for nested nodes.
+
+        Returns
+        -------
+        Any
+            The value at the specified path.
+
+        Raises
+        ------
+        KeyError
+            If any part of the path doesn't exist.
+        """
         # Support for path style access
         if "/" in key:
             parts = key.split("/")
@@ -53,6 +127,16 @@ class DataNode:
         return self._attributes[key]
 
     def __setitem__(self, key, value):
+        """
+        Set attributes using path-style notation, creating intermediate nodes as needed.
+
+        Parameters
+        ----------
+        key : :py:class:`str <str>`
+            The attribute path to set, with '/' separators for nested nodes.
+        value : Any
+            The value to assign at the specified path.
+        """
         # Support for path style settings
         if "/" in key:
             parts = key.split("/")
@@ -68,12 +152,26 @@ class DataNode:
             self._attributes[key] = value
 
     def _repr_html_(self):
-        """Generate an xarray-like HTML representation"""
+        """
+        Generate HTML representation for Jupyter notebooks.
+
+        Returns
+        -------
+        :py:class:`str <str>`
+            HTML string representing the node and its contents.
+        """
         # Returns a string directly instead of an HTML object
         return self._format_html()
 
     def _format_html(self):
-        """Generate full HTML content"""
+        """
+        Generate complete HTML representation including styles and scripts.
+
+        Returns
+        -------
+        :py:class:`str <str>`
+            Complete HTML document as a string.
+        """
         html = []
         icons_svg, css_style = _load_static_files()
 
@@ -215,7 +313,23 @@ class DataNode:
         return "".join(html)
 
     def _format_node_html(self, node, level=0, parent_id=None):
-        """Recursively generate HTML representations of nodes"""
+        """
+        Recursively generate HTML for a node and its children.
+
+        Parameters
+        ----------
+        node : :py:class:`DataNode <DataNode>`
+            The node to format.
+        level : :py:class:`int <int>`, optional
+            Current nesting level (default: 0).
+        parent_id : :py:class:`str <str>`, optional
+            ID of parent node for DOM construction (default: None).
+
+        Returns
+        -------
+        :py:class:`str <str>`
+            HTML string representing the node.
+        """
         node_id = (
             f"node-{id(node)}"
             if parent_id is None
@@ -304,7 +418,19 @@ class DataNode:
         return "".join(html)
 
     def _format_value(self, value):
-        """Formatting values for display"""
+        """
+        Format values for display, truncating long sequences.
+
+        Parameters
+        ----------
+        value : Any
+            The value to format.
+
+        Returns
+        -------
+        :py:class:`str <str>`
+            Formatted string representation of the value.
+        """
         if isinstance(value, (list, tuple)) and len(value) > 3:
             return f"[{value[0]}, {value[1]}, ..., {value[-1]}] (length: {len(value)})"
         elif isinstance(value, dict):
@@ -317,7 +443,21 @@ class DataNode:
         return str(value)
 
     def format_tree(self, level=0, html=False):
-        """Retain the original tree-structured output method"""
+        """
+        Generate a tree-structured representation of the node.
+
+        Parameters
+        ----------
+        level : :py:class:`int <int>`, optional
+            Current indentation level (default: 0).
+        html : :py:class:`bool <bool>`, optional
+            Whether to generate HTML output (default: False).
+
+        Returns
+        -------
+        :py:class:`str <str>`
+            Formatted tree representation.
+        """
         if html:
             return self._format_html()
         # Original plain text format output
@@ -365,6 +505,16 @@ class DataNode:
         ]
 
     def to_zarr(self, filepath: Union[str, Path], zarr_format: Literal[2, 3] = 2):
+        """
+        Save the DataNode and its contents to a Zarr storage format.
+
+        Parameters
+        ----------
+        filepath : Union[str, Path]
+            Directory path to save the data.
+        zarr_format : Literal[2, 3], optional
+            Zarr storage format version (default: 2).
+        """
         filepath = Path(filepath)
         filepath.mkdir(parents=True, exist_ok=True)
 
@@ -401,15 +551,17 @@ class DataNode:
     @classmethod
     def load(cls, filepath: Union[str, Path]):
         """
-        Load DataNode from file
+        Load a DataNode from a Zarr storage directory.
 
         Parameters
-        -------------------------
-            filepath: File path
+        ----------
+        filepath : Union[str, Path]
+            Directory path containing the saved DataNode.
 
         Returns
-        -------------------------
-            Loaded DataNode object
+        -------
+        :py:class:`DataNode <DataNode>`
+            The reconstructed DataNode with all its attributes.
         """
         filepath = Path(filepath)
 
@@ -437,10 +589,10 @@ class DataNode:
 
 def open_datanode(filepath: str) -> DataNode:
     """
-    Load a DataNode object from a file path.
+    Load a DataNode object from native location.
 
     This function provides a convenient way to load a DataNode that was previously saved
-    using the DataNode.to_zarr() method.
+    using the ``DataNode.to_zarr()`` method.
 
     Parameters
     ----------
