@@ -40,24 +40,6 @@ jobs:
           # make -C docs clean
           make -C docs html
 
-      # 新增：上传构建中间结果作为 artifact
-      - name: Upload HTML build artifacts
-        if: always()  # 即使后续步骤失败也上传
-        uses: actions/upload-artifact@v3
-        with:
-          name: docs-build-html
-          path: docs/build/html/
-          retention-days: 7  # 设置保留天数
-
-      # 新增：上传整个 docs 目录作为 artifact
-      - name: Upload docs source artifacts
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: docs-source-files
-          path: docs/
-          retention-days: 7
-
       - name: Init new repo in dist folder and commit generated files
         run: |
           cd docs/build/html/
