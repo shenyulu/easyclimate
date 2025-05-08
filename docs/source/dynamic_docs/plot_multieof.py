@@ -61,11 +61,12 @@ import easyclimate as ecl
 # and explained variance, saving results in Zarr format for efficient persistence and reuse.
 #
 # .. code-block:: python
+#
 #     meof_analysis_result = ecl.eof.calc_EOF_analysis(model)
 #     meof_analysis_result.to_zarr("meof_analysis_result.zarr")
 #
 # Here, we load the saved dataset.
-meof_analysis_result = ecl.open_datanode("meof_analysis_result.zarr")
+meof_analysis_result = ecl.open_datanode("./meof_analysis_result.zarr")
 meof_analysis_result
 
 # %%

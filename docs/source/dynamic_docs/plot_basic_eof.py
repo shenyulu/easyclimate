@@ -160,7 +160,7 @@ axi.set_ylim(-0.2, 0.2)
 #     mca_analysis_result.to_zarr("mca_analysis_result.zarr")
 #
 # Now load the data
-mca_analysis_result = ecl.open_datanode("mca_analysis_result.zarr")
+mca_analysis_result = ecl.open_datanode("./mca_analysis_result.zarr")
 mca_analysis_result
 
 # %%
