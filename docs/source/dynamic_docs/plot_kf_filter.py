@@ -2,7 +2,7 @@
 """
 .. _wavelet_example:
 
-KF filter and Hovmöller Diagram
+KF Filter and Hovmöller Diagram
 ============================================
 
 The KF filter is a specialized spectral analysis technique designed to isolate and study tropical atmospheric waves by decomposing meteorological fields into their wavenumber-frequency components. Unlike traditional Fourier methods, the W-K filter applies a symmetric/antisymmetric separation to distinguish between different wave types, such as **Kelvin waves, Rossby waves, and mixed Rossby-gravity waves**, based on their theoretical dispersion relations. This approach is particularly effective in identifying **convectively coupled waves**, where tropical rainfall and large-scale circulation interact. In meteorology, the W-K filter is widely used to analyze **Madden-Julian Oscillation (MJO) dynamics**, monsoon variability, and other tropical wave disturbances, providing insights into their propagation characteristics and impacts on weather systems.
@@ -22,13 +22,12 @@ import easyclimate as ecl
 # %%
 # Preprocessed data
 #
-# The example here is to avoid longer calculations, thus we open the pre-processed result data directly.
 #
 # .. tip::
 #
 #   You can download following datasets here:
 #
-#   - :download:`Download olr-daily_v01r02_19800101_20231231.nc <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/olr-daily_v01r02_19800101_20231231.nc>`
+#   - :download:`Download olr-daily_v01r02_19800101_20231231.nc (3.34 GB) <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/olr-daily_v01r02_19800101_20231231.nc>`
 #   - :download:`Download olr_smooth_data.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_smooth_data.nc>`
 #
 #
@@ -51,6 +50,8 @@ import easyclimate as ecl
 #       olr_data_interpolated.to_netcdf("olr_smooth_data.nc")
 #
 
+# %%
+# The example here is to avoid longer calculations, thus we open the pre-processed result data directly.
 olr_data_interpolated = xr.open_dataset("olr_smooth_data.nc").olr
 olr_data_interpolated
 

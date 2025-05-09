@@ -137,6 +137,11 @@ sphinx_gallery_conf = {
     #  'show_memory': True,
     "show_signature": False,
     'remove_config_comments': True,
+    # Modules for which function level galleries are created.  In
+    # this case sphinx_gallery and numpy in a tuple of strings.
+    "doc_module": "easyclimate",
+    # Insert links to documentation of objects in the examples
+    "reference_url": {"easyclimate": None},
     'parallel': 3,
 }
 # supress warnings in gallery output

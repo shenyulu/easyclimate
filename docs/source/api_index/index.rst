@@ -1,6 +1,6 @@
 .. _api:
 
-List of functions and classes (API)
+List of Functions and Classes (API)
 ===================================
 
 .. note::
@@ -21,6 +21,7 @@ Core
     :toctree: generated/
 
     easyclimate.core.diagnosis
+    easyclimate.core.datanode
     easyclimate.core.diff
     easyclimate.core.eddy
     easyclimate.core.eof
@@ -48,6 +49,7 @@ Filter
     easyclimate.filter.wavelet
     easyclimate.filter.redfit
     easyclimate.filter.spatial_pcf
+    easyclimate.filter.emd
 
 Interpolation
 ----------------------------------------

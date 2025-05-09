@@ -1,0 +1,13 @@
+{
+  "standard_name": "air_temperature",
+  "long_name": "Temperature",
+  "units": "K",
+  "CDI_grid_type": "gaussian",
+  "CDI_grid_num_LPE": 80,
+  "coordinates": "level",
+  "_ARRAY_DIMENSIONS": [
+    "mode",
+    "lat",
+    "lon"
+  ]
+}

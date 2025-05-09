@@ -1,0 +1,25 @@
+{
+  "name": "root",
+  "attributes": {
+    "EOF": {
+      "__type__": "DataNode",
+      "path": "meof_analysis_result.zarr/EOF"
+    },
+    "PC": {
+      "__type__": "xarray",
+      "path": "meof_analysis_result.zarr/PC.zarr"
+    },
+    "explained_variance": {
+      "__type__": "xarray",
+      "path": "meof_analysis_result.zarr/explained_variance.zarr"
+    },
+    "explained_variance_ratio": {
+      "__type__": "xarray",
+      "path": "meof_analysis_result.zarr/explained_variance_ratio.zarr"
+    },
+    "singular_values": {
+      "__type__": "xarray",
+      "path": "meof_analysis_result.zarr/singular_values.zarr"
+    }
+  }
+}

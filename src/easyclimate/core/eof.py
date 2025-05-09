@@ -6,6 +6,7 @@ The analysis of the EOF and MCA
 """
 
 import xarray as xr
+import numpy as np
 import xeofs
 import warnings
 from .variability import remove_seasonal_cycle_mean as remove_seasonal_cycle_mean_func
@@ -36,8 +37,17 @@ __all__ = [
 ]
 
 
+def reformat_brace(element: xr.DataArray):
+    """
+    Solve `Invalid value for attr 'solver_kwargs': {}`
+    """
+    tmp = element.attrs["solver_kwargs"]
+    element.attrs["solver_kwargs"] = f"{tmp}"
+    return element
+
+
 def get_EOF_model(
-    data_input: xr.DataArray,
+    data_input: xr.DataArray | list,
     lat_dim: str,
     lon_dim: str,
     time_dim: str = "time",
@@ -55,7 +65,7 @@ def get_EOF_model(
 
     Parameters
     ----------
-    data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
+    data_input: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`list <list>`
          The spatio-temporal data to be calculated.
     lat_dim: :py:class:`str <str>`.
         Latitude coordinate dimension name.
@@ -90,7 +100,14 @@ def get_EOF_model(
     from xeofs.utils.constants import VALID_LATITUDE_NAMES
 
     if remove_seasonal_cycle_mean == True:
-        data_input = remove_seasonal_cycle_mean_func(data_input, dim=time_dim)
+        if isinstance(data_input, xr.DataArray):
+            data_input = remove_seasonal_cycle_mean_func(data_input, dim=time_dim)
+        elif isinstance(data_input, list):
+            tmp = list()
+            for item in data_input:
+                tmp_data = remove_seasonal_cycle_mean_func(item, dim=time_dim)
+                tmp.append(tmp_data)
+            data_input = tmp
 
     if (lat_dim in VALID_LATITUDE_NAMES) == False:
         warnings.warn(
@@ -208,13 +225,28 @@ def calc_EOF_analysis(
 
     - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
     """
-    model_output = xr.Dataset()
-    model_output["EOF"] = model.components()
-    model_output["PC"] = model.scores(normalized=PC_normalized)
-    model_output["explained_variance"] = model.explained_variance()
-    model_output["explained_variance_ratio"] = model.explained_variance_ratio()
-    model_output["singular_values"] = model.singular_values()
+    if isinstance(model.components(), xr.DataArray or xr.Dataset):
+        model_output = xr.Dataset()
+        # Solve `Invalid value for attr 'solver_kwargs': {}`
+        model_output["EOF"] = reformat_brace(model.components())
+        model_output["PC"] = reformat_brace(model.scores(normalized=PC_normalized))
+        model_output["explained_variance"] = reformat_brace(model.explained_variance())
+        model_output["explained_variance_ratio"] = reformat_brace(
+            model.explained_variance_ratio()
+        )
+        model_output["singular_values"] = reformat_brace(model.singular_values())
+    elif isinstance(model.components(), list):
+        model_output = DataNode(name="root")
 
+        components_length = len(model.components())
+
+        for num in np.arange(components_length):
+            model_output[f"EOF/var{num}"] = model.components()[num]
+
+        model_output["PC"] = model.scores(normalized=PC_normalized)
+        model_output["explained_variance"] = model.explained_variance()
+        model_output["explained_variance_ratio"] = model.explained_variance_ratio()
+        model_output["singular_values"] = model.singular_values()
     return model_output
 
 

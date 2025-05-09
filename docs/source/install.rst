@@ -44,6 +44,15 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
             The commands above should be executed in a terminal. On Windows, use the
             ``cmd.exe`` or the "Anaconda Prompt" app if you're using Anaconda.
 
+        .. tip::
+
+            For users who have difficulty accessing GitHub, we set up a GIT official mirror to access
+
+            .. code:: bash
+
+                python -m pip install --upgrade git+https://gitee.com/shenyulu/easyclimate@dev
+
+
 Python Version Requirement
 ------------------------------------
 
@@ -55,6 +64,9 @@ Python Version Requirement
 
 Make sure you're up to date! 🐍
 
+.. tip::
+
+    See more `Status of Python versions <https://devguide.python.org/versions/>`__.
 
 .. _dependencies:
 
@@ -96,7 +108,7 @@ Want to build the documentation yourself? 📚 Follow these steps:
 - Run the build script:
     .. tab-set::
 
-        .. tab-item:: Windows
+        .. tab-item:: Windows Powershell
 
             .. code:: powershell
 
@@ -106,7 +118,7 @@ Want to build the documentation yourself? 📚 Follow these steps:
 
                 On Windows, we've included ``optipng.exe`` for you! 😉 You might **NOT** need to install `optipng <https://optipng.sourceforge.net/>`__ for image optimization.
 
-        .. tab-item:: Linux
+        .. tab-item:: Linux Bash
 
             .. code:: bash
 
@@ -131,7 +143,7 @@ feel free to reach out. Happy climate analyzing! 🌍
 
 About easyclimate-backend
 ------------------------------------
-`Easyclimate-backend <https://easyclimate-backend.readthedocs.io/>`__ is the *core* powerhouse behind the easyclimate front-end package,
+`Easyclimate-backend <https://easyclimate-backend.readthedocs.io/>`__ is the **core** powerhouse behind the easyclimate front-end package,
 providing a suite of high-performance,
 low-level functions for climate data analysis. Implemented in languages like ``Fortran`` and ``C``,
 these functions ensure that your climate data processing is both efficient and accurate.

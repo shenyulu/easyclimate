@@ -1,0 +1,8 @@
+{
+  "standard_name": "air_pressure",
+  "long_name": "pressure_level",
+  "units": "millibars",
+  "positive": "down",
+  "axis": "Z",
+  "_ARRAY_DIMENSIONS": []
+}

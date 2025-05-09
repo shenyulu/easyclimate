@@ -1,0 +1,52 @@
+{
+  "model": "Maximum Covariance Analysis",
+  "software": "xeofs",
+  "version": "3.0.4",
+  "date": "2025-05-08 21:40:42",
+  "n_modes": 2,
+  "center": [
+    "True",
+    "True"
+  ],
+  "standardize": [
+    "False",
+    "False"
+  ],
+  "use_coslat": [
+    "True",
+    "True"
+  ],
+  "check_nans": [
+    "True",
+    "True"
+  ],
+  "use_pca": [
+    "True",
+    "True"
+  ],
+  "n_pca_modes": [
+    2,
+    2
+  ],
+  "pca_init_rank_reduction": [
+    0.3,
+    0.3
+  ],
+  "alpha": [
+    1.0,
+    1.0
+  ],
+  "sample_name": "sample",
+  "feature_name": [
+    "feature1",
+    "feature2"
+  ],
+  "random_state": 0,
+  "compute": "True",
+  "solver": "auto",
+  "coordinates": "level",
+  "_ARRAY_DIMENSIONS": [
+    "mode_x",
+    "mode_y"
+  ]
+}

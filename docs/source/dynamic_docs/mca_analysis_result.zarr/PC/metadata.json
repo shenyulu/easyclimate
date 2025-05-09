@@ -1,0 +1,13 @@
+{
+  "name": "PC",
+  "attributes": {
+    "left_PC": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr/PC/left_PC.zarr"
+    },
+    "right_PC": {
+      "__type__": "xarray",
+      "path": "mca_analysis_result.zarr/PC/right_PC.zarr"
+    }
+  }
+}

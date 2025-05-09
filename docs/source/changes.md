@@ -1,5 +1,54 @@
 # Changelog
 
+## v2025.5.0
+
+*Released on: 2025/5/9*
+
+### What's Changed
+
+
+* [feat: add smooth_daily_annual_cycle gallery](https://github.com/shenyulu/easyclimate/pull/97/commits/e8fb01a110da712b9c5095af3413cf4c10377816)
+* [add: add bar and line](https://github.com/shenyulu/easyclimate/pull/97/commits/21b80f8d06e1c99ace985e35e36177d5c27547f1)
+  - `bar_plot_with_threshold`
+  - `line_plot_with_threshold`
+* [add: diagnosis func](https://github.com/shenyulu/easyclimate/pull/97/commits/478ba1ebe5ee77c509a50bad5be8f3c6ae11941c)
+  - `calc_potential_temperature`
+  - `calc_potential_temperature_vertical`
+  - `calc_equivalent_potential_temperature`
+  - `calc_equivalent_potential_temperature_davies_jones2009`
+  - `calc_wet_bulb_potential_temperature_iteration`
+  - `calc_wet_bulb_potential_temperature_davies_jones2008`
+  - `calc_wet_bulb_temperature_stull2011`
+  - `calc_wet_bulb_temperature_sadeghi2013`
+  - `calc_lifting_condensation_level_bolton1980`
+  - `calc_lifting_condensation_level_Bohren_Albrecht2023`
+  - `calc_moist_adiabatic_lapse_rate`
+  - `transfer_dewpoint_2_mixing_ratio`
+* [fix: Solve Invalid value for attr solver_kwargs: dict](https://github.com/shenyulu/easyclimate/pull/97/commits/40f6fedd141958e563db711f4b9c9e452f91d472)
+* [fix: units fix](https://github.com/shenyulu/easyclimate/pull/97/commits/dae2c447a28971d63bd2285da710671a0866ac23)
+* [fix: change calc_potential_temperature_vertical from calc_potential_temperature](https://github.com/shenyulu/easyclimate/pull/97/commits/06eefc3a44d546153bff44b4263588c1497591aa)
+* [feat: datanode enhance](https://github.com/shenyulu/easyclimate/pull/97/commits/9f94994352062f2e602fdc5aca305cc16e9f42f3)
+* [feat: add datatime steps](https://github.com/shenyulu/easyclimate/pull/97/commits/82dfb5d73f7239877f63d0aaf0649491e92dd4b4)
+  - `datetime_to_numeric`
+  - `numeric_to_datetime`
+  - `calculate_time_steps`
+* [fix: fix time-invariant dependence](https://github.com/shenyulu/easyclimate/pull/97/commits/a8841bc9930a3adbc3afb8b1b23fd6230c6135a3)
+* [docs: add example for tcpv](https://github.com/shenyulu/easyclimate/pull/97/commits/02471c1ce5be93c479afaafc63f07515fa6e0583)
+* [feat: add emd func](https://github.com/shenyulu/easyclimate/pull/97/commits/b28219cd66c4f03dcb5b318c2c194525c222dfbb)
+  - `filter_emd`
+  - `filter_eemd`
+* [fix: list errors](https://github.com/shenyulu/easyclimate/pull/97/commits/87002ab5575234a3f8cb0009c8f6153c5f779805)
+* [feat: add open_datanode](https://github.com/shenyulu/easyclimate/pull/97/commits/ac6e274e101afcddc4af0c20878a96a1a3818abf)
+  - `open_datanode`
+* [feat: add meof support](https://github.com/shenyulu/easyclimate/pull/97/commits/c2400ae8d00878329fc5cf69f10909533fdf8e83)
+  - `easyclimate.eof.get_EOF_model`
+* [fix: path support linux](https://github.com/shenyulu/easyclimate/pull/97/commits/761fbf0cb208c3ef90c8fce88cfe281b7f0093e6)
+* [fix: fix snowballstemmer version](https://github.com/shenyulu/easyclimate/pull/97/commits/288572e9d266cd363532582d320559cc15a8f726)
+* [docs: use zarr 2](https://github.com/shenyulu/easyclimate/pull/97/commits/f42e596d2faff5a7eb4fccb889abdcdd60098177)
+
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.4.0...v2025.5.0
+
 ## v2025.4.0
 
 *Released on: 2025/4/12*

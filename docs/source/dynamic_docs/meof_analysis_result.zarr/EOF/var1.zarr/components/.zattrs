@@ -1,0 +1,22 @@
+{
+  "model": "EOF analysis",
+  "software": "xeofs",
+  "version": "3.0.4",
+  "date": "2025-05-08 21:37:10",
+  "n_modes": 10,
+  "center": "False",
+  "standardize": "False",
+  "use_coslat": "True",
+  "check_nans": "True",
+  "sample_name": "sample",
+  "feature_name": "feature",
+  "random_state": "None",
+  "compute": "True",
+  "solver": "auto",
+  "solver_kwargs": {},
+  "_ARRAY_DIMENSIONS": [
+    "mode",
+    "lat",
+    "lon"
+  ]
+}
