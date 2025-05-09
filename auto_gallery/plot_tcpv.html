@@ -1,0 +1,2010 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Potential Intensity for Typhoon &#8212; easyclimate v2025.5.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=c203f5dd"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_gallery/plot_tcpv';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Estimate Red-noise Spectrum" href="plot_redfit.html" />
+    <link rel="prev" title="Thermocline Depth and 20°C Isotherm Depth" href="plot_thermal_layer.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2025-05-09"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/easyclimate-logo.svg" class="logo__image only-light" alt="easyclimate v2025.5.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/easyclimate-logo.svg" class="logo__image only-dark" alt="easyclimate v2025.5.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Gallery</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_oceanic_front.html">Oceanic Front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_interp.html">Interpolation and Regriding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Data Processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_interp.html">Interpolation and Regriding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_taylor_diagram.html">Taylor Diagram</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Meteorology Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/air_sea_interaction.html">Air–sea Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/mesoscale.html">Typhoons</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_index/index.html">List of Functions and Classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.diagnosis.html">easyclimate.core.diagnosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.yearstat.html">easyclimate.core.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.air_sea_interaction.html">easyclimate.field.air_sea_interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.html">easyclimate.field.teleconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.monsoon.html">easyclimate.field.monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.ocean.html">easyclimate.field.ocean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.typhoon.html">easyclimate.field.typhoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.equatorial_wave.html">easyclimate.field.equatorial_wave</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.heat_stress.html">easyclimate.field.heat_stress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.boundary_layer.html">easyclimate.field.boundary_layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../static_docs/cite.html">Citing Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Fauto_gallery/plot_tcpv.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/auto_gallery/plot_tcpv.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Potential Intensity for Typhoon</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-intensity-pi-v-max">Potential Intensity (PI, <span class="math notranslate nohighlight">\(V_{max}\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outflow-temperature-t-0">Outflow Temperature (<span class="math notranslate nohighlight">\(T_0\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outflow-temperature-level-otl">Outflow Temperature Level (OTL)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tc-efficiency-frac-t-s-t-0-t-0">TC Efficiency (<span class="math notranslate nohighlight">\(\frac{T_{s} - T_{0}}{T_{0}}\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disequlibrium-h-0-h">Disequlibrium (<span class="math notranslate nohighlight">\(h_0^* - h^*\)</span>)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-gallery-plot-tcpv-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="potential-intensity-for-typhoon">
+<span id="sphx-glr-auto-gallery-plot-tcpv-py"></span><h1>Potential Intensity for Typhoon<a class="headerlink" href="#potential-intensity-for-typhoon" title="Link to this heading">#</a></h1>
+<p>Before proceeding with all the steps, first import some necessary libraries and packages</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+</pre></div>
+</div>
+<p>Now open the sample dataset</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can download following datasets here:</p>
+<ul class="simple">
+<li><p><a class="reference download external" download="" href="https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/tcpi_sample_data.nc"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">tcpi_sample_data.nc</span> <span class="pre">(243</span> <span class="pre">kB)</span></code></a></p></li>
+</ul>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ds</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.open_dataset.html#xarray.open_dataset" title="xarray.open_dataset" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-function"><span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span></a><span class="p">(</span><span class="s1">&#39;tcpi_sample_data.nc&#39;</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ds</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1f1f1f;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 337kB
+Dimensions:  (level: 31, lat: 25, lon: 24)
+Coordinates:
+  * level    (level) float64 248B 1e+03 975.0 950.0 925.0 ... 30.0 20.0 10.0
+  * lat      (lat) float64 200B -30.0 -27.5 -25.0 -22.5 ... 22.5 25.0 27.5 30.0
+  * lon      (lon) float64 192B 120.0 122.5 125.0 127.5 ... 172.5 175.0 177.5
+    month    float64 8B ...
+Data variables:
+    lsm      (lat, lon) float64 5kB ...
+    sst      (lat, lon) float64 5kB ...
+    msl      (lat, lon) float64 5kB ...
+    t        (level, lat, lon) float64 149kB ...
+    q        (level, lat, lon) float64 149kB ...
+    Vmax     (lat, lon) float64 5kB ...
+    To       (lat, lon) float64 5kB ...
+    Pmin     (lat, lon) float64 5kB ...
+    LNB      (lat, lon) float64 5kB ...
+    PI_flag  (lat, lon) float64 5kB ...</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-47c5800c-cf05-4df4-88d3-36398b7bfd15' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-47c5800c-cf05-4df4-88d3-36398b7bfd15' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>level</span>: 31</li><li><span class='xr-has-index'>lat</span>: 25</li><li><span class='xr-has-index'>lon</span>: 24</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-54de602e-8e09-4b66-9f17-23b845ccfd0e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-54de602e-8e09-4b66-9f17-23b845ccfd0e' class='xr-section-summary' >Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>level</span></div><div class='xr-var-dims'>(level)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1e+03 975.0 950.0 ... 20.0 10.0</div><input id='attrs-266463d9-a747-4c9a-8b9e-a67a8423e63e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-266463d9-a747-4c9a-8b9e-a67a8423e63e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1d90774c-2e69-49e1-bcf0-467a1f9b53ce' class='xr-var-data-in' type='checkbox'><label for='data-1d90774c-2e69-49e1-bcf0-467a1f9b53ce' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Atmospheric Pressure</dd><dt><span>units :</span></dt><dd>hPa</dd></dl></div><div class='xr-var-data'><pre>array([1000.,  975.,  950.,  925.,  900.,  875.,  850.,  825.,  800.,  775.,
+        750.,  725.,  700.,  650.,  600.,  550.,  500.,  450.,  400.,  350.,
+        300.,  250.,  200.,  150.,  100.,   70.,   50.,   40.,   30.,   20.,
+         10.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-30.0 -27.5 -25.0 ... 27.5 30.0</div><input id='attrs-632e5915-dbb4-4e36-85ce-d3e2f07751b0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-632e5915-dbb4-4e36-85ce-d3e2f07751b0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b8f20e00-7678-41a0-99ca-5e5142e734d5' class='xr-var-data-in' type='checkbox'><label for='data-b8f20e00-7678-41a0-99ca-5e5142e734d5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees</dd></dl></div><div class='xr-var-data'><pre>array([-30. , -27.5, -25. , -22.5, -20. , -17.5, -15. , -12.5, -10. ,  -7.5,
+        -5. ,  -2.5,   0. ,   2.5,   5. ,   7.5,  10. ,  12.5,  15. ,  17.5,
+        20. ,  22.5,  25. ,  27.5,  30. ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>120.0 122.5 125.0 ... 175.0 177.5</div><input id='attrs-39b8799e-77b4-480c-bb27-e9f9c56fd46f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-39b8799e-77b4-480c-bb27-e9f9c56fd46f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4565e5c9-1883-4456-8d9a-fa8be10e0ef2' class='xr-var-data-in' type='checkbox'><label for='data-4565e5c9-1883-4456-8d9a-fa8be10e0ef2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees</dd></dl></div><div class='xr-var-data'><pre>array([120. , 122.5, 125. , 127.5, 130. , 132.5, 135. , 137.5, 140. , 142.5,
+       145. , 147.5, 150. , 152.5, 155. , 157.5, 160. , 162.5, 165. , 167.5,
+       170. , 172.5, 175. , 177.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>month</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-abeffc1e-ded7-4a63-b75c-323dd1f85057' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-abeffc1e-ded7-4a63-b75c-323dd1f85057' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8639fcce-e9ba-4f31-96ac-aad02ded5cb1' class='xr-var-data-in' type='checkbox'><label for='data-8639fcce-e9ba-4f31-96ac-aad02ded5cb1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Month</dd><dt><span>units :</span></dt><dd>Month Number</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-2785cf7f-6eb3-4287-9349-4e894a50de00' class='xr-section-summary-in' type='checkbox'  checked><label for='section-2785cf7f-6eb3-4287-9349-4e894a50de00' class='xr-section-summary' >Data variables: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>lsm</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c4c3d106-934d-4283-8412-0ea7915d9788' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c4c3d106-934d-4283-8412-0ea7915d9788' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0230af4b-88d7-43ed-bba0-8b1573deaa17' class='xr-var-data-in' type='checkbox'><label for='data-0230af4b-88d7-43ed-bba0-8b1573deaa17' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>ERA-I Land-sea Mask</dd><dt><span>units :</span></dt><dd>0=Ocean, 1=Land</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sst</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-ddabac8d-afb8-4998-8bb8-fd1940afb329' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ddabac8d-afb8-4998-8bb8-fd1940afb329' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c4e94119-e0f3-4dd3-a988-baf61a3c6d8f' class='xr-var-data-in' type='checkbox'><label for='data-c4e94119-e0f3-4dd3-a988-baf61a3c6d8f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Sea Surface Temperature</dd><dt><span>units :</span></dt><dd>degrees C</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>msl</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-bf02ca32-f987-450e-94b4-611438d31b90' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bf02ca32-f987-450e-94b4-611438d31b90' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-689df481-fdf8-49e2-a8a5-89b7d9d24a50' class='xr-var-data-in' type='checkbox'><label for='data-689df481-fdf8-49e2-a8a5-89b7d9d24a50' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Mean Sea Level Pressure</dd><dt><span>units :</span></dt><dd>hPa</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t</span></div><div class='xr-var-dims'>(level, lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-94860ed8-f33a-462a-9a9e-cbf983e8185f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-94860ed8-f33a-462a-9a9e-cbf983e8185f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dff9f180-268b-46c0-b251-55074dbd8273' class='xr-var-data-in' type='checkbox'><label for='data-dff9f180-268b-46c0-b251-55074dbd8273' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Atmospheric Temperature</dd><dt><span>units :</span></dt><dd>degrees C</dd></dl></div><div class='xr-var-data'><pre>[18600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>q</span></div><div class='xr-var-dims'>(level, lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f97bd98c-69e6-4482-b82e-b3d817168adf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f97bd98c-69e6-4482-b82e-b3d817168adf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e45ee69c-3c28-44ff-8b17-896962f7baad' class='xr-var-data-in' type='checkbox'><label for='data-e45ee69c-3c28-44ff-8b17-896962f7baad' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Specific Humidity</dd><dt><span>units :</span></dt><dd>g/kg</dd></dl></div><div class='xr-var-data'><pre>[18600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>Vmax</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-66d63266-3036-4cfa-ae08-bf1695ca0a6f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-66d63266-3036-4cfa-ae08-bf1695ca0a6f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4d7ffac9-b4e0-45c1-915e-31243de4138c' class='xr-var-data-in' type='checkbox'><label for='data-4d7ffac9-b4e0-45c1-915e-31243de4138c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Maximum Potential Intensity</dd><dt><span>units :</span></dt><dd>m/s</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>To</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-6924df28-b12a-4cb3-9fd8-2d256430ef92' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6924df28-b12a-4cb3-9fd8-2d256430ef92' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cb4d8738-89e3-4069-9c19-3c30450a13cd' class='xr-var-data-in' type='checkbox'><label for='data-cb4d8738-89e3-4069-9c19-3c30450a13cd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Outflow Temperature</dd><dt><span>units :</span></dt><dd>kelvin</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>Pmin</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-89d9b17f-211f-42d9-9a30-abc8f56b83fe' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-89d9b17f-211f-42d9-9a30-abc8f56b83fe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b22c3a6b-ae5c-4b50-bd64-4291c548c294' class='xr-var-data-in' type='checkbox'><label for='data-b22c3a6b-ae5c-4b50-bd64-4291c548c294' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Minimum Central Pressure</dd><dt><span>units :</span></dt><dd>hPa</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>LNB</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-9029bf6a-d301-4a82-aed4-2bef43b708ed' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9029bf6a-d301-4a82-aed4-2bef43b708ed' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d5ba19d5-02fd-4ef3-a2de-cf3b3c22232f' class='xr-var-data-in' type='checkbox'><label for='data-d5ba19d5-02fd-4ef3-a2de-cf3b3c22232f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Level of Neutral Bouyancy for a Parcel Reversibly Lifted from Sea Level</dd><dt><span>units :</span></dt><dd>hPa</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>PI_flag</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-663b7a58-ee08-4333-858c-501230b9fe1d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-663b7a58-ee08-4333-858c-501230b9fe1d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-768905b3-f87d-42e4-a7b9-b12d023345c4' class='xr-var-data-in' type='checkbox'><label for='data-768905b3-f87d-42e4-a7b9-b12d023345c4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Flag for BE02 algorithm</dd></dl></div><div class='xr-var-data'><pre>[600 values with dtype=float64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-bf80db6f-7c68-4dea-ac60-8051af71aba1' class='xr-section-summary-in' type='checkbox'  ><label for='section-bf80db6f-7c68-4dea-ac60-8051af71aba1' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>level</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-d9454825-9ae2-4850-9a2c-1555ca51f4a6' class='xr-index-data-in' type='checkbox'/><label for='index-d9454825-9ae2-4850-9a2c-1555ca51f4a6' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([1000.0,  975.0,  950.0,  925.0,  900.0,  875.0,  850.0,  825.0,  800.0,
+        775.0,  750.0,  725.0,  700.0,  650.0,  600.0,  550.0,  500.0,  450.0,
+        400.0,  350.0,  300.0,  250.0,  200.0,  150.0,  100.0,   70.0,   50.0,
+         40.0,   30.0,   20.0,   10.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;level&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-86e516bd-e795-4f7d-9f6d-7512013b8a94' class='xr-index-data-in' type='checkbox'/><label for='index-86e516bd-e795-4f7d-9f6d-7512013b8a94' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-30.0, -27.5, -25.0, -22.5, -20.0, -17.5, -15.0, -12.5, -10.0,  -7.5,
+        -5.0,  -2.5,   0.0,   2.5,   5.0,   7.5,  10.0,  12.5,  15.0,  17.5,
+        20.0,  22.5,  25.0,  27.5,  30.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-8681cd3e-a435-4989-9d1a-a0810daec462' class='xr-index-data-in' type='checkbox'/><label for='index-8681cd3e-a435-4989-9d1a-a0810daec462' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([120.0, 122.5, 125.0, 127.5, 130.0, 132.5, 135.0, 137.5, 140.0, 142.5,
+       145.0, 147.5, 150.0, 152.5, 155.0, 157.5, 160.0, 162.5, 165.0, 167.5,
+       170.0, 172.5, 175.0, 177.5],
+      dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-793f2a1b-99ef-437b-8e4e-348ca8f4ace6' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-793f2a1b-99ef-437b-8e4e-348ca8f4ace6' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>And then we use <a class="reference internal" href="../technical/api/easyclimate/field/typhoon/index.html#easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002" title="easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002</span></code></a> to calculate relative variables about potential intensity for typhoon</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a> <span class="o">=</span> <a href="../technical/api/easyclimate/field/typhoon/index.html#easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002" title="easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002" class="sphx-glr-backref-module-easyclimate-field-typhoon sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">typhoon</span><span class="o">.</span><span class="n">calc_potential_intensity_Bister_Emanuel_2002</span></a><span class="p">(</span>
+    <span class="n">sst_data</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ds</span><span class="o">.</span><span class="n">sst</span></a><span class="p">,</span>
+    <span class="n">sst_data_units</span> <span class="o">=</span> <span class="s1">&#39;degC&#39;</span><span class="p">,</span>
+    <span class="n">surface_pressure_data</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ds</span><span class="o">.</span><span class="n">msl</span></a><span class="p">,</span>
+    <span class="n">surface_pressure_data_units</span> <span class="o">=</span> <span class="s1">&#39;hPa&#39;</span><span class="p">,</span>
+    <span class="n">temperature_data</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ds</span><span class="o">.</span><span class="n">t</span></a><span class="p">,</span>
+    <span class="n">temperature_data_units</span> <span class="o">=</span> <span class="s1">&#39;degC&#39;</span><span class="p">,</span>
+    <span class="n">specific_humidity_data</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ds</span><span class="o">.</span><span class="n">q</span></a><span class="p">,</span>
+    <span class="n">specific_humidity_data_units</span> <span class="o">=</span> <span class="s1">&#39;g/kg&#39;</span><span class="p">,</span>
+    <span class="n">vertical_dim</span> <span class="o">=</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span>
+    <span class="n">vertical_dim_units</span> <span class="o">=</span> <span class="s1">&#39;hPa&#39;</span>
+<span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1f1f1f;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 53kB
+Dimensions:  (lat: 25, lon: 24)
+Coordinates:
+  * lat      (lat) float64 200B -30.0 -27.5 -25.0 -22.5 ... 22.5 25.0 27.5 30.0
+  * lon      (lon) float64 192B 120.0 122.5 125.0 127.5 ... 172.5 175.0 177.5
+    month    float64 8B 7.0
+Data variables:
+    vmax     (lat, lon) float64 5kB nan nan nan nan ... 65.87 68.51 65.77 63.86
+    pmin     (lat, lon) float64 5kB nan nan nan nan ... 957.8 953.6 958.9 962.5
+    ifl      (lat, lon) int64 5kB 0 0 0 0 0 0 0 0 0 0 0 ... 1 1 1 1 1 1 1 1 1 1
+    t0       (lat, lon) float64 5kB nan nan nan nan ... 205.4 205.5 205.8 205.9
+    otl      (lat, lon) float64 5kB nan nan nan nan ... 131.6 130.0 133.5 136.0
+    eff      (lat, lon) float64 5kB nan nan nan nan ... 0.4601 0.4566 0.4543
+    diseq    (lat, lon) float64 5kB nan nan nan ... 1.053e+04 9.973e+03
+    lnpi     (lat, lon) float64 5kB nan nan nan nan ... 8.375 8.454 8.372 8.313
+    lneff    (lat, lon) float64 5kB nan nan nan nan ... -0.7763 -0.7841 -0.789
+    lndiseq  (lat, lon) float64 5kB nan nan nan nan ... 9.257 9.336 9.262 9.208
+    lnCKCD   (lat, lon) float64 5kB -0.1054 -0.1054 -0.1054 ... -0.1054 -0.1054</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-646f8a35-4030-47e5-9baf-d7d4295bc23e' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-646f8a35-4030-47e5-9baf-d7d4295bc23e' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>lat</span>: 25</li><li><span class='xr-has-index'>lon</span>: 24</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-1816c5da-1132-4654-badc-b2017f734e66' class='xr-section-summary-in' type='checkbox'  checked><label for='section-1816c5da-1132-4654-badc-b2017f734e66' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-30.0 -27.5 -25.0 ... 27.5 30.0</div><input id='attrs-df4fb6ba-26ea-4eb7-81da-a36120b61a98' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-df4fb6ba-26ea-4eb7-81da-a36120b61a98' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b45181d0-9534-4e7e-ab92-7a585ef0f74f' class='xr-var-data-in' type='checkbox'><label for='data-b45181d0-9534-4e7e-ab92-7a585ef0f74f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Latitude</dd><dt><span>units :</span></dt><dd>degrees</dd></dl></div><div class='xr-var-data'><pre>array([-30. , -27.5, -25. , -22.5, -20. , -17.5, -15. , -12.5, -10. ,  -7.5,
+        -5. ,  -2.5,   0. ,   2.5,   5. ,   7.5,  10. ,  12.5,  15. ,  17.5,
+        20. ,  22.5,  25. ,  27.5,  30. ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>120.0 122.5 125.0 ... 175.0 177.5</div><input id='attrs-6b9b278f-9b72-4dc5-bd64-a05f0e1b6b27' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6b9b278f-9b72-4dc5-bd64-a05f0e1b6b27' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e23049de-3a7b-4199-a010-899d96982d92' class='xr-var-data-in' type='checkbox'><label for='data-e23049de-3a7b-4199-a010-899d96982d92' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Longitude</dd><dt><span>units :</span></dt><dd>degrees</dd></dl></div><div class='xr-var-data'><pre>array([120. , 122.5, 125. , 127.5, 130. , 132.5, 135. , 137.5, 140. , 142.5,
+       145. , 147.5, 150. , 152.5, 155. , 157.5, 160. , 162.5, 165. , 167.5,
+       170. , 172.5, 175. , 177.5])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>month</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>7.0</div><input id='attrs-e199fd8c-d2d2-476e-bcd0-d64bb12f94c3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e199fd8c-d2d2-476e-bcd0-d64bb12f94c3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-48ea845f-1a62-4b1f-aafd-96d598f736bc' class='xr-var-data-in' type='checkbox'><label for='data-48ea845f-1a62-4b1f-aafd-96d598f736bc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Month</dd><dt><span>units :</span></dt><dd>Month Number</dd></dl></div><div class='xr-var-data'><pre>array(7.)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-89d33dc4-40c7-498c-bcfa-13bb9bf0ccb0' class='xr-section-summary-in' type='checkbox'  checked><label for='section-89d33dc4-40c7-498c-bcfa-13bb9bf0ccb0' class='xr-section-summary' >Data variables: <span>(11)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>vmax</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 68.51 65.77 63.86</div><input id='attrs-dd0736e8-1b6a-4641-bbbc-77d87660a640' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-dd0736e8-1b6a-4641-bbbc-77d87660a640' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fa637366-0cc4-4e31-b223-5097fdfe3370' class='xr-var-data-in' type='checkbox'><label for='data-fa637366-0cc4-4e31-b223-5097fdfe3370' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Maximum Potential Intensity</dd><dt><span>units :</span></dt><dd>m/s</dd></dl></div><div class='xr-var-data'><pre>array([[         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,  52.4982266 ,  53.98311782,
+         49.94486483,  45.56009485,  41.08089234,  39.53565462,
+         35.2964347 ,  33.20871192,  29.28424033,  33.98099923],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,  46.04419493,  47.77936586,
+         44.64915364,  39.14663719,  42.90112062,  34.22004809,
+         34.2644004 ,  35.76682909,  31.51814943,  32.55685617],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,  19.68452252,  43.89160689,  39.97828131,
+         39.26555859,  38.95267526,  39.33151386,  34.32734935,
+         32.00651936,  31.83991902,  31.37323163,  37.76606321],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+...
+         90.200724  ,  89.8682497 ,  90.3865685 ,  87.82369973,
+         86.81510642,  81.62043826,  83.5523289 ,  83.3828715 ],
+       [ 63.6119621 ,          nan,  81.98280038,  86.82146125,
+         90.02669008,  88.74101148,  91.88704801,  92.61159224,
+         92.55555994,  70.43152761,  80.27594819,  84.37522287,
+         87.42696394,  89.94383116,  91.63306594,  88.20838562,
+         84.54262723,  83.936384  ,  83.65208128,  87.48551138,
+         84.76693119,  79.68474346,  77.14839262,  76.99498878],
+       [         nan,  65.22144031,  72.28426808,  82.34582313,
+         85.75233793,  83.97534686,  87.03028912,  83.4379988 ,
+         71.66610299,  59.67988104,  61.05512769,  64.99860375,
+         77.9072104 ,  78.52600689,  83.92210704,  84.66250094,
+         76.67486946,  74.70065376,  73.62566086,  79.40029202,
+         76.05530809,  76.77189122,  76.66182085,  72.82935049],
+       [         nan,  37.98320956,  61.82803067,  70.13749565,
+         75.88762657,  78.32587262,  74.38277892,  71.14941298,
+         60.56421552,  53.53903385,  53.87301521,  55.00954024,
+         61.5730355 ,  65.80680865,  61.36328879,  69.63553202,
+         70.34871754,  68.99531988,  62.2610876 ,  63.50911231,
+         65.8674043 ,  68.51399233,  65.77066712,  63.85673144]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>pmin</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 953.6 958.9 962.5</div><input id='attrs-7a886ff8-cc21-4801-82a9-ff7fa009b44f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7a886ff8-cc21-4801-82a9-ff7fa009b44f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-06f4c37b-58da-49d5-b532-f847874d2d75' class='xr-var-data-in' type='checkbox'><label for='data-06f4c37b-58da-49d5-b532-f847874d2d75' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Minimum Central Pressure</dd><dt><span>units :</span></dt><dd>hPa</dd></dl></div><div class='xr-var-data'><pre>array([[          nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+                  nan,           nan,  981.5963632 ,  978.62841623,
+         984.18962396,  989.80393745,  995.08438419,  996.65956823,
+        1000.85300884, 1002.61935896, 1005.928545  , 1001.67474928],
+       [          nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+                  nan,           nan,  990.53930183,  987.73478642,
+         991.39297122,  997.45562869,  992.97049751, 1001.97754426,
+        1001.7637672 , 1000.00439956, 1003.95259686, 1003.04768964],
+       [          nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+                  nan, 1014.8398442 ,  992.87556811,  997.06466548,
+         997.44611526,  997.36862091,  996.59916064, 1001.36977426,
+        1003.2519122 , 1003.2265554 , 1003.60357882,  997.45650732],
+       [          nan,           nan,           nan,           nan,
+                  nan,           nan,           nan,           nan,
+...
+         906.78866661,  907.66428144,  906.7786402 ,  912.82052177,
+         915.32755295,  926.56605609,  922.82626649,  923.50523816],
+       [ 953.41881173,           nan,  921.41496793,  912.15447385,
+         905.72050878,  908.80218322,  901.88488862,  900.19426497,
+         900.35513569,  945.70475481,  926.85818688,  918.39725717,
+         912.14531393,  907.07820067,  903.63163314,  911.59196682,
+         919.76103021,  921.25125441,  922.03654995,  914.19558666,
+         920.3890112 ,  931.3571462 ,  936.78923046,  937.4419555 ],
+       [          nan,  951.27051112,  940.19937914,  921.41993253,
+         914.80946137,  918.86420345,  912.45196525,  920.0224773 ,
+         943.12238902,  963.39406943,  961.38991152,  955.40989689,
+         932.27070699,  931.56364324,  920.89912351,  919.71378349,
+         936.32769259,  940.3405911 ,  942.66521542,  931.71447146,
+         938.74809221,  937.74000042,  938.38627751,  946.10060952],
+       [          nan,  987.18514126,  957.5070023 ,  944.50498116,
+         934.18142374,  929.60559146,  937.24986779,  943.0996618 ,
+         961.08467803,  971.70271608,  971.43875097,  970.73118285,
+         961.55977668,  955.19696641,  963.19910315,  949.41205588,
+         948.38854821,  951.12798332,  963.10014862,  961.39356987,
+         957.78705001,  953.60143596,  958.85315358,  962.50887415]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>ifl</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 1 1 1 1 1 1 1 1</div><input id='attrs-950b1149-7cc4-4afa-9233-7e8243f8b946' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-950b1149-7cc4-4afa-9233-7e8243f8b946' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cd6c1200-0753-4e82-8a67-c1019ec1cf93' class='xr-var-data-in' type='checkbox'><label for='data-cd6c1200-0753-4e82-8a67-c1019ec1cf93' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>pyPI Flag</dd><dt><span>units :</span></dt><dd>celsius</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1,
+        1, 1],
+       [1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+...
+       [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1],
+       [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t0</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 205.5 205.8 205.9</div><input id='attrs-ee68b16e-4d49-4537-a936-6ebd3401ee50' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ee68b16e-4d49-4537-a936-6ebd3401ee50' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-09c5f894-70e5-45c3-8d73-b1ead864c1ba' class='xr-var-data-in' type='checkbox'><label for='data-09c5f894-70e5-45c3-8d73-b1ead864c1ba' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Outflow Temperature</dd><dt><span>units :</span></dt><dd>K</dd></dl></div><div class='xr-var-data'><pre>array([[         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan, 226.99259126, 226.96665174,
+        228.36483374, 229.82095605, 231.37770332, 232.02526046,
+        234.49837494, 236.41728699, 239.91258597, 237.11148186],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan, 231.83457144, 231.31250868,
+        233.07039236, 236.30879984, 234.60545461, 239.53625733,
+        239.3961838 , 238.30490361, 241.6375505 , 240.99464831],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan, 256.28651407, 233.12679735, 236.92298232,
+        237.16351146, 237.14878941, 236.44817434, 240.60577686,
+        242.71150969, 242.67875088, 242.92905441, 234.90933448],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+...
+        200.4938291 , 200.86687148, 201.38592444, 201.91573066,
+        202.16791866, 202.66178021, 202.83414685, 203.03911906],
+       [201.20853642,          nan, 198.91380859, 199.30506668,
+        199.66701411, 199.48892593, 199.86648101, 200.03643625,
+        200.07923829, 200.51179424, 198.65046344, 199.05384408,
+        199.53952289, 200.09871484, 200.48667916, 200.48889916,
+        201.36516755, 202.15113466, 202.62192964, 202.69372456,
+        203.07567978, 203.51486236, 203.92821575, 204.30944   ],
+       [         nan, 202.00461614, 200.67980717, 199.5825796 ,
+        199.96627138, 199.84101651, 200.12586866, 199.71128204,
+        201.24160054, 203.1552559 , 202.95278459, 202.37554855,
+        200.51874172, 200.9125394 , 200.73939365, 201.43708619,
+        202.87543953, 203.53551225, 203.90655032, 203.98054722,
+        204.27097976, 204.48414069, 204.81302214, 205.2678928 ],
+       [         nan, 207.53794004, 203.6729835 , 202.27197408,
+        201.20494061, 200.94862829, 201.77877016, 202.21192933,
+        203.90579947, 204.92032807, 204.8747898 , 204.74649276,
+        204.03317313, 203.75264555, 204.40762201, 204.00187031,
+        204.41861388, 204.84886736, 205.21832401, 205.34716809,
+        205.37718408, 205.48140533, 205.76881105, 205.9235131 ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>otl</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 130.0 133.5 136.0</div><input id='attrs-bcf3e2b7-1aef-4414-a86c-d6493bdbaffc' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bcf3e2b7-1aef-4414-a86c-d6493bdbaffc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-878ee681-de04-4170-9432-e1fe47de3107' class='xr-var-data-in' type='checkbox'><label for='data-878ee681-de04-4170-9432-e1fe47de3107' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Outflow Temperature Level</dd><dt><span>units :</span></dt><dd>hPa</dd></dl></div><div class='xr-var-data'><pre>array([[         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan, 250.44921457, 247.4795752 ,
+        262.51420285, 278.07947453, 293.05024966, 297.15787925,
+        316.60929818, 328.46748881, 353.2596859 , 325.97232851],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan, 271.7697589 , 265.8600154 ,
+        280.34164593, 306.6959245 , 288.63261219, 331.72254317,
+        328.03573851, 315.6305574 , 341.03611414, 333.20356495],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan, 467.58649457, 265.25035958, 291.02739572,
+        293.07889719, 292.60940024, 287.07545789, 317.00530391,
+        331.54160873, 329.48205502, 330.17891024, 274.72421749],
+       [         nan,          nan,          nan,          nan,
+                 nan,          nan,          nan,          nan,
+...
+         97.91168053,  98.99704747,  99.64787418, 103.63931243,
+        105.53016136, 112.01571567, 110.63692968, 111.50162932],
+       [116.33951037,          nan,  98.21053775,  95.84506483,
+         94.24772686,  95.1265586 ,  93.49220667,  93.16396034,
+         93.24417641, 112.23203712, 100.14168248,  98.08401942,
+         96.92748678,  96.27452263,  95.90257736,  98.86857477,
+        104.28022558, 106.91858905, 108.66189841, 105.40693454,
+        109.3419083 , 115.73168493, 119.37134711, 120.67286988],
+       [         nan, 116.30052414, 108.60394297,  98.55458652,
+         97.00071743,  98.25156517,  96.69776229,  98.70816963,
+        111.86023701, 125.48636166, 124.20837799, 120.38021623,
+        106.12211768, 107.00344833, 102.09566172, 103.29752037,
+        114.55650515, 118.37005964, 120.66273061, 115.85773247,
+        120.1997473 , 120.44374488, 121.69211317, 126.70118777],
+       [         nan, 145.48912509, 122.22218656, 113.23575467,
+        106.46053937, 103.98517475, 109.39857286, 113.19687852,
+        125.44183522, 132.97892065, 132.92190044, 132.53708892,
+        126.84746177, 123.5789577 , 129.29668527, 122.24380818,
+        123.20960943, 126.06134851, 133.25146185, 133.04637886,
+        131.60855404, 129.99197204, 133.52471618, 135.98371667]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eff</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 0.4566 0.4543</div><input id='attrs-cb98b8a1-8136-433f-8239-611510899d97' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-cb98b8a1-8136-433f-8239-611510899d97' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b97a9ddc-dfba-44b8-b015-7a0b67ef1b51' class='xr-var-data-in' type='checkbox'><label for='data-b97a9ddc-dfba-44b8-b015-7a0b67ef1b51' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Tropical Cyclone Efficiency</dd><dt><span>units :</span></dt><dd>unitless fraction</dd></dl></div><div class='xr-var-data'><pre>array([[       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan, 0.29684755,
+        0.29798256, 0.2870289 , 0.27587326, 0.264138  , 0.26013696,
+        0.24455645, 0.23397995, 0.21411027, 0.23268095],
+       [       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan, 0.27130185,
+        0.2752217 , 0.26347052, 0.24210402, 0.25477806, 0.22296232,
+        0.22470408, 0.23249382, 0.21318782, 0.21791052],
+       [       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan, 0.13772684, 0.26914537,
+        0.2458808 , 0.24426055, 0.24449466, 0.24904488, 0.22464367,
+        0.2131955 , 0.21398967, 0.21298681, 0.25916149],
+       [       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan, 0.2338868 , 0.2838564 ,
+        0.22801751, 0.24414545, 0.25245508, 0.26117425, 0.2684607 ,
+        0.26188301, 0.30071933, 0.2416543 , 0.2741107 ],
+...
+       [0.52405959, 0.52447539, 0.52167783, 0.52148771, 0.51820315,
+        0.51662585, 0.51632384, 0.51647714, 0.5154826 , 0.52142718,
+        0.51916114, 0.51690969, 0.51607678, 0.51228839, 0.51162799,
+        0.50922931, 0.50685796, 0.50371323, 0.49994924, 0.4946708 ,
+        0.49217081, 0.48599408, 0.48561793, 0.48392277],
+       [0.49360523,        nan, 0.51748072, 0.5164459 , 0.51511442,
+        0.51570363, 0.51422164, 0.51331622, 0.51300331, 0.50014981,
+        0.51792559, 0.51653965, 0.51406396, 0.51080094, 0.5084701 ,
+        0.50653274, 0.49819489, 0.49193329, 0.48807954, 0.48911994,
+        0.48485573, 0.4790397 , 0.47467666, 0.4716959 ],
+       [       nan, 0.48899793, 0.50113386, 0.51318472, 0.51168667,
+        0.5116985 , 0.51078199, 0.51216036, 0.49593979, 0.47705238,
+        0.47893883, 0.48440521, 0.50318659, 0.50019653, 0.50353723,
+        0.49848476, 0.48399512, 0.47797638, 0.47447026, 0.47636744,
+        0.47242298, 0.4709227 , 0.46833978, 0.46299846],
+       [       nan, 0.44068985, 0.4758357 , 0.48909437, 0.49903441,
+        0.50182363, 0.49392653, 0.48934246, 0.47264394, 0.46256927,
+        0.46284223, 0.46380015, 0.47105167, 0.47436631, 0.46740184,
+        0.47337531, 0.47035814, 0.46609833, 0.46008189, 0.45937829,
+        0.45987825, 0.46012008, 0.45655026, 0.45428614]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>diseq</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 1.053e+04 9.973e+03</div><input id='attrs-2ab36b84-a8d5-43d6-9d7c-5fb159861a48' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2ab36b84-a8d5-43d6-9d7c-5fb159861a48' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d19405a8-4c56-4d8e-aff3-6e28864b876d' class='xr-var-data-in' type='checkbox'><label for='data-d19405a8-4c56-4d8e-aff3-6e28864b876d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Thermodynamic Disequilibrium</dd><dt><span>units :</span></dt><dd>J/kg</dd></dl></div><div class='xr-var-data'><pre>array([[           nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+                   nan,            nan, 10316.04634265, 10866.32215063,
+         9656.36234483,  8360.20880969,  7099.14983045,  6676.26091296,
+         5660.30769515,  5237.00403854,  4450.28594379,  5514.02785441],
+       [           nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+                   nan,            nan,  8682.69409192,  9216.27816591,
+         8407.21057963,  7033.06133837,  8026.62064949,  5835.62324646,
+         5805.40871514,  6113.73997199,  5177.45723092,  5404.60811455],
+       [           nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+                   nan,  3125.99789839,  7953.04679501,  7222.39284768,
+         7013.38570884,  6895.45131082,  6901.7814258 ,  5828.32612788,
+         5338.95602881,  5263.91160366,  5134.79717246,  6114.91538866],
+       [           nan,            nan,            nan,            nan,
+                   nan,            nan,            nan,            nan,
+...
+        17835.74541295, 17815.03562694, 18156.80271275, 17324.65815158,
+        17015.01122222, 15230.85759757, 15972.75743842, 15963.75760108],
+       [ 9108.67733068,            nan, 14431.4115852 , 16217.60943094,
+        17482.21078315, 16967.03878417, 18243.81835212, 18565.3526885 ,
+        18554.20476621, 11020.25390912, 13824.86861169, 15313.82547435,
+        16520.80197121, 17597.40254943, 18348.32835834, 17067.49230213,
+        15940.78487728, 15912.98982863, 15930.16926645, 17386.58930512,
+        16466.37050307, 14727.74785036, 13931.99716279, 13964.33650753],
+       [           nan,  9665.65399641, 11584.87412605, 14681.38146098,
+        15967.80895898, 15312.53019175, 16476.41679073, 15103.55878603,
+        11506.84097931,  8295.59087353,  8648.12036591,  9690.73555392,
+        13402.43591619, 13697.57990364, 15540.98919092, 15976.72633025,
+        13496.5447439 , 12971.78865137, 12694.24589492, 14704.81691344,
+        13604.59240727, 13906.32390701, 13942.95114091, 12728.89845971],
+       [           nan,  3637.53990541,  8926.29624376, 11175.45825287,
+        12822.38880897, 13583.66203812, 12446.29062352, 11494.42462011,
+         8622.94449005,  6885.28263909,  6967.34127882,  7249.40956181,
+         8942.72894025, 10143.44110578,  8951.26327418, 11381.87157306,
+        11690.71827746, 11347.99685232,  9361.72229968,  9755.71507567,
+        10482.27914809, 11335.60879402, 10527.69723609,  9973.35728307]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lnpi</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 8.454 8.372 8.313</div><input id='attrs-071aa735-eb4a-4ed5-9572-38fc4e7e8699' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-071aa735-eb4a-4ed5-9572-38fc4e7e8699' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-94feafc4-95b4-44bb-aeee-3084ccb56d0f' class='xr-var-data-in' type='checkbox'><label for='data-94feafc4-95b4-44bb-aeee-3084ccb56d0f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Natural log(Potential Intensity)</dd><dt><span>units :</span></dt><dd>celsius</dd></dl></div><div class='xr-var-data'><pre>array([[       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan, 7.92155878,
+        7.97734273, 7.82183939, 7.63806444, 7.43108621, 7.35440583,
+        7.12756392, 7.0056245 , 6.754099  , 7.05160304],
+       [       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan, 7.65920339,
+        7.73318774, 7.5976707 , 7.33462905, 7.51779589, 7.06562335,
+        7.06821385, 7.1540418 , 6.9011271 , 6.96597596],
+       [       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan, 5.95966534, 7.56344623,
+        7.37667268, 7.34069553, 7.32469491, 7.34405215, 7.07188479,
+        6.93187922, 6.92144164, 6.89191007, 7.2628218 ],
+       [       nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan,        nan,        nan,
+               nan,        nan,        nan, 7.06308408, 7.34012379,
+        7.02437206, 7.11129865, 7.13709678, 7.15404459, 7.16199504,
+        7.08085571, 7.2812575 , 6.85769024, 7.02677745],
+...
+       [8.86845282, 8.74873287, 8.89952781, 8.90214068, 9.05126873,
+        9.11522101, 9.10877484, 9.08921337, 9.11776523, 8.80110004,
+        8.9261627 , 9.02281894, 9.03501545, 9.11711856, 9.08966366,
+        9.05609362, 9.00407491, 8.99668941, 9.00819136, 8.95066279,
+        8.92756129, 8.8041594 , 8.85094626, 8.84688582],
+       [8.30560307,        nan, 8.81301895, 8.92770768, 9.00021237,
+        8.97144429, 9.04112017, 9.05682864, 9.05561822, 8.509282  ,
+        8.7709401 , 8.87054758, 8.94160749, 8.99837075, 9.03558438,
+        8.95940407, 8.87451174, 8.86011836, 8.85333262, 8.94294639,
+        8.87981101, 8.75615629, 8.69146149, 8.68748068],
+       [       nan, 8.35557651, 8.56121303, 8.82185547, 8.9029267 ,
+        8.86104653, 8.93251242, 8.84820765, 8.54403575, 8.17798993,
+        8.22355438, 8.34873158, 8.71103702, 8.72685974, 8.85977814,
+        8.87734555, 8.67914801, 8.62697769, 8.59798724, 8.74900409,
+        8.66292163, 8.68167715, 8.67880762, 8.57623808],
+       [       nan, 7.27428842, 8.24871366, 8.50091508, 8.6585073 ,
+        8.72175596, 8.6184489 , 8.52956415, 8.20740843, 7.96082199,
+        7.97325941, 8.01501326, 8.24044808, 8.37344662, 8.23362351,
+        8.48654991, 8.50692911, 8.46807735, 8.26267327, 8.30236679,
+        8.37528739, 8.45407598, 8.3723479 , 8.31328401]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lneff</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... -0.7841 -0.789</div><input id='attrs-aa739894-049d-4c1f-a8e7-8a2012d63055' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-aa739894-049d-4c1f-a8e7-8a2012d63055' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-713d1c0f-6cab-4b1f-adec-d317af54e8e8' class='xr-var-data-in' type='checkbox'><label for='data-713d1c0f-6cab-4b1f-adec-d317af54e8e8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Natural log(Tropical Cyclone Efficiency)</dd><dt><span>units :</span></dt><dd>celsius</dd></dl></div><div class='xr-var-data'><pre>array([[        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan, -1.21453656,
+        -1.21072033, -1.24817238, -1.28781373, -1.33128358, -1.34654702,
+        -1.4083091 , -1.45251985, -1.54126412, -1.45808708],
+       [        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan, -1.30452323,
+        -1.29017831, -1.3338138 , -1.4183878 , -1.36736247, -1.50075249,
+        -1.49297093, -1.45889165, -1.54558171, -1.52367074],
+       [        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan, -1.98248299, -1.31250363,
+        -1.4029084 , -1.4095198 , -1.40856182, -1.39012217, -1.49323982,
+        -1.54554567, -1.54182753, -1.54652504, -1.35030389],
+       [        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan, -1.45291806, -1.25928679,
+        -1.47833286, -1.40999113, -1.37652194, -1.34256748, -1.31505074,
+        -1.33985741, -1.2015779 , -1.4202471 , -1.29422323],
+...
+       [-0.64614989, -0.64535678, -0.65070507, -0.65106956, -0.65738793,
+        -0.66043636, -0.66102111, -0.66072425, -0.66265173, -0.65118564,
+        -0.65554097, -0.65988709, -0.66149972, -0.66886755, -0.6701575 ,
+        -0.67485685, -0.67952447, -0.68574815, -0.6932487 , -0.70386279,
+        -0.70892944, -0.72155884, -0.72233312, -0.72582995],
+       [-0.7060192 ,         nan, -0.65878301, -0.66078474, -0.66336624,
+        -0.66222304, -0.6651009 , -0.66686321, -0.66747297, -0.69284761,
+        -0.6579237 , -0.66060323, -0.66540758, -0.67177532, -0.67634886,
+        -0.68016632, -0.69676393, -0.70941215, -0.7172769 , -0.71514755,
+        -0.7239039 , -0.7359718 , -0.74512142, -0.75142077],
+       [        nan, -0.71539703, -0.69088203, -0.66711942, -0.67004282,
+        -0.67001969, -0.67181242, -0.66911751, -0.70130074, -0.74012899,
+        -0.73618238, -0.72483352, -0.68679422, -0.6927542 , -0.68609762,
+        -0.69618227, -0.72568046, -0.73819397, -0.74555634, -0.74156579,
+        -0.74988055, -0.75306131, -0.75856123, -0.77003156],
+       [        nan, -0.81941395, -0.74268265, -0.71519983, -0.69508024,
+        -0.68950656, -0.7053685 , -0.71469272, -0.74941295, -0.77095896,
+        -0.77036905, -0.76830153, -0.75278748, -0.74577545, -0.76056593,
+        -0.74786673, -0.75426087, -0.76335865, -0.77635078, -0.77788125,
+        -0.7767935 , -0.77626777, -0.78405648, -0.78902802]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lndiseq</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan ... 9.336 9.262 9.208</div><input id='attrs-7def6057-67fd-439a-af31-7cc404bf7a08' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7def6057-67fd-439a-af31-7cc404bf7a08' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-999c3c4a-c5b3-422e-815f-8975bc7c5f86' class='xr-var-data-in' type='checkbox'><label for='data-999c3c4a-c5b3-422e-815f-8975bc7c5f86' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Natural log(Thermodynamic Disequilibrium)</dd><dt><span>units :</span></dt><dd>celsius</dd></dl></div><div class='xr-var-data'><pre>array([[        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,  9.24145586,
+         9.29342357,  9.17537229,  9.03123868,  8.86773031,  8.80631337,
+         8.64123353,  8.56350487,  8.40072363,  8.61505064],
+       [        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,  9.06908714,
+         9.12872657,  9.03684502,  8.85837736,  8.99051888,  8.67173635,
+         8.6665453 ,  8.71829397,  8.55206933,  8.59500722],
+       [        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,  8.04750884,  8.98131038,
+         8.8849416 ,  8.85557585,  8.83861724,  8.83953483,  8.67048512,
+         8.58278541,  8.56862968,  8.54379562,  8.71848621],
+       [        nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,         nan,         nan,
+                nan,         nan,         nan,  8.62136266,  8.70477109,
+         8.60806543,  8.62665029,  8.61897924,  8.60197259,  8.5824063 ,
+         8.52607363,  8.58819591,  8.38329785,  8.4263612 ],
+...
+       [ 9.61996322,  9.49945016,  9.6555934 ,  9.65857075,  9.81401717,
+         9.88101789,  9.87515647,  9.85529814,  9.88577747,  9.5576462 ,
+         9.68706418,  9.78806655,  9.80187569,  9.89134663,  9.86518167,
+         9.83631098,  9.78895989,  9.78779808,  9.80680057,  9.75988609,
+         9.74185125,  9.63107875,  9.67863989,  9.67807628],
+       [ 9.11698279,         nan,  9.57716247,  9.69385293,  9.76893912,
+         9.73902785,  9.81158158,  9.82905236,  9.82845171,  9.30749012,
+         9.53422432,  9.63651133,  9.71237559,  9.77550659,  9.81729375,
+         9.7449309 ,  9.67663619,  9.67489103,  9.67597003,  9.76345446,
+         9.70907543,  9.5974886 ,  9.54194343,  9.54426197],
+       [        nan,  9.17633406,  9.35745557,  9.5943354 ,  9.67833003,
+         9.63642674,  9.70968535,  9.62268568,  9.35069701,  9.02347943,
+         9.06509728,  9.17892561,  9.50319175,  9.52497445,  9.65123628,
+         9.67888834,  9.51018899,  9.47053217,  9.44890409,  9.5959304 ,
+         9.51816269,  9.54009897,  9.54272936,  9.45163016],
+       [        nan,  8.19906288,  9.09675683,  9.32147543,  9.45894805,
+         9.51662303,  9.42917792,  9.34961738,  9.06218189,  8.83714146,
+         8.84898898,  8.8886753 ,  9.09859607,  9.22458258,  9.09954995,
+         9.33977716,  9.3665505 ,  9.33679652,  9.14438456,  9.18560855,
+         9.25744141,  9.33570427,  9.2617649 ,  9.20767254]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lnCKCD</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.1054 -0.1054 ... -0.1054 -0.1054</div><input id='attrs-909735df-cd48-4641-be71-58e49ecddcbd' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-909735df-cd48-4641-be71-58e49ecddcbd' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0a9c2f43-1539-4721-8ad8-e83d9fb8745b' class='xr-var-data-in' type='checkbox'><label for='data-0a9c2f43-1539-4721-8ad8-e83d9fb8745b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>Natural log(Ck/CD)</dd><dt><span>units :</span></dt><dd>unitless constant</dd></dl></div><div class='xr-var-data'><pre>array([[-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+...
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052],
+       [-0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052, -0.10536052,
+        -0.10536052, -0.10536052, -0.10536052, -0.10536052]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1d1d44e8-dea7-499a-8bf9-625d6c1c1c8b' class='xr-section-summary-in' type='checkbox'  ><label for='section-1d1d44e8-dea7-499a-8bf9-625d6c1c1c8b' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-5c84ea39-f05e-4ad8-8ec6-ec920b448499' class='xr-index-data-in' type='checkbox'/><label for='index-5c84ea39-f05e-4ad8-8ec6-ec920b448499' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-30.0, -27.5, -25.0, -22.5, -20.0, -17.5, -15.0, -12.5, -10.0,  -7.5,
+        -5.0,  -2.5,   0.0,   2.5,   5.0,   7.5,  10.0,  12.5,  15.0,  17.5,
+        20.0,  22.5,  25.0,  27.5,  30.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-2d218686-8dc2-49be-b039-4cf00ea7faec' class='xr-index-data-in' type='checkbox'/><label for='index-2d218686-8dc2-49be-b039-4cf00ea7faec' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([120.0, 122.5, 125.0, 127.5, 130.0, 132.5, 135.0, 137.5, 140.0, 142.5,
+       145.0, 147.5, 150.0, 152.5, 155.0, 157.5, 160.0, 162.5, 165.0, 167.5,
+       170.0, 172.5, 175.0, 177.5],
+      dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-af6e0500-d913-4b27-8129-b2187444e23c' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-af6e0500-d913-4b27-8129-b2187444e23c' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /><section id="potential-intensity-pi-v-max">
+<h2>Potential Intensity (PI, <span class="math notranslate nohighlight">\(V_{max}\)</span>)<a class="headerlink" href="#potential-intensity-pi-v-max" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a><span class="o">.</span><span class="n">vmax</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;bottom&#39;</span><span class="p">},</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s1">&#39;PI ($V_</span><span class="si">{max}</span><span class="s1">$)&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_tcpv_001.png" srcset="../_images/sphx_glr_plot_tcpv_001.png" alt="PI ($V_{max}$)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;PI ($V_{max}$)&#39;)
+</pre></div>
+</div>
+</section>
+<section id="outflow-temperature-t-0">
+<h2>Outflow Temperature (<span class="math notranslate nohighlight">\(T_0\)</span>)<a class="headerlink" href="#outflow-temperature-t-0" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a><span class="o">.</span><span class="n">t0</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;bottom&#39;</span><span class="p">},</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s1">&#39;Outflow Temperature ($T_0$)&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_tcpv_002.png" srcset="../_images/sphx_glr_plot_tcpv_002.png" alt="Outflow Temperature ($T_0$)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Outflow Temperature ($T_0$)&#39;)
+</pre></div>
+</div>
+</section>
+<section id="outflow-temperature-level-otl">
+<h2>Outflow Temperature Level (OTL)<a class="headerlink" href="#outflow-temperature-level-otl" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a><span class="o">.</span><span class="n">otl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;bottom&#39;</span><span class="p">},</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">vmax</span> <span class="o">=</span> <span class="mi">1050</span><span class="p">,</span>
+    <span class="n">levels</span> <span class="o">=</span><span class="mi">21</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s1">&#39;Outflow Temperature Level (OTL)&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_tcpv_003.png" srcset="../_images/sphx_glr_plot_tcpv_003.png" alt="Outflow Temperature Level (OTL)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Outflow Temperature Level (OTL)&#39;)
+</pre></div>
+</div>
+</section>
+<section id="tc-efficiency-frac-t-s-t-0-t-0">
+<h2>TC Efficiency (<span class="math notranslate nohighlight">\(\frac{T_{s} - T_{0}}{T_{0}}\)</span>)<a class="headerlink" href="#tc-efficiency-frac-t-s-t-0-t-0" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a><span class="o">.</span><span class="n">eff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;bottom&#39;</span><span class="p">},</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s1">&#39;TC Efficiency $</span><span class="se">\\</span><span class="s1">left(</span><span class="se">\\</span><span class="s1">frac{T_</span><span class="si">{s}</span><span class="s1"> - T_</span><span class="si">{0}</span><span class="s1">}{T_</span><span class="si">{0}</span><span class="s1">}</span><span class="se">\\</span><span class="s1">right)$&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_tcpv_004.png" srcset="../_images/sphx_glr_plot_tcpv_004.png" alt="TC Efficiency $\left(\frac{T_{s} - T_{0}}{T_{0}}\right)$" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0258451865594727, &#39;TC Efficiency $\\left(\\frac{T_{s} - T_{0}}{T_{0}}\\right)$&#39;)
+</pre></div>
+</div>
+</section>
+<section id="disequlibrium-h-0-h">
+<h2>Disequlibrium (<span class="math notranslate nohighlight">\(h_0^* - h^*\)</span>)<a class="headerlink" href="#disequlibrium-h-0-h" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pi_result</span></a><span class="o">.</span><span class="n">diseq</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;bottom&#39;</span><span class="p">},</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">vmin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">vmax</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">,</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s1">&#39;Disequlibrium ($h_0^* - h^*$)&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_tcpv_005.png" srcset="../_images/sphx_glr_plot_tcpv_005.png" alt="Disequlibrium ($h_0^* - h^*$)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0041228612657185, &#39;Disequlibrium ($h_0^* - h^*$)&#39;)
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 10.475 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-gallery-plot-tcpv-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/405073954e42063052b81ea4634bfe00/plot_tcpv.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_tcpv.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/304177599cd16aaef88cb6d1f1a53be2/plot_tcpv.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_tcpv.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/1c5959130fac473585badacd889ba3a0/plot_tcpv.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_tcpv.zip</span></code></a></p>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_thermal_layer.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Thermocline Depth and 20°C Isotherm Depth</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_redfit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estimate Red-noise Spectrum</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-intensity-pi-v-max">Potential Intensity (PI, <span class="math notranslate nohighlight">\(V_{max}\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outflow-temperature-t-0">Outflow Temperature (<span class="math notranslate nohighlight">\(T_0\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outflow-temperature-level-otl">Outflow Temperature Level (OTL)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tc-efficiency-frac-t-s-t-0-t-0">TC Efficiency (<span class="math notranslate nohighlight">\(\frac{T_{s} - T_{0}}{T_{0}}\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disequlibrium-h-0-h">Disequlibrium (<span class="math notranslate nohighlight">\(h_0^* - h^*\)</span>)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2025, shenyulu（深雨露）.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2025-05-09.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
