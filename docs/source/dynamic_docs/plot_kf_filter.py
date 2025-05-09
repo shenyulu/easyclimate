@@ -2,7 +2,7 @@
 """
 .. _wavelet_example:
 
-KF filter and Hovmöller Diagram
+KF Filter and Hovmöller Diagram
 ============================================
 
 The KF filter is a specialized spectral analysis technique designed to isolate and study tropical atmospheric waves by decomposing meteorological fields into their wavenumber-frequency components. Unlike traditional Fourier methods, the W-K filter applies a symmetric/antisymmetric separation to distinguish between different wave types, such as **Kelvin waves, Rossby waves, and mixed Rossby-gravity waves**, based on their theoretical dispersion relations. This approach is particularly effective in identifying **convectively coupled waves**, where tropical rainfall and large-scale circulation interact. In meteorology, the W-K filter is widely used to analyze **Madden-Julian Oscillation (MJO) dynamics**, monsoon variability, and other tropical wave disturbances, providing insights into their propagation characteristics and impacts on weather systems.

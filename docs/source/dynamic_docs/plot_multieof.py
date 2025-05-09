@@ -72,10 +72,10 @@ meof_analysis_result
 # %%
 # Extract and downsample (every 3rd grid point) EOF spatial patterns (precipitation and winds) for the first four modes to prepare visualized data.
 mode_num = 1
-tp_draw_mode1 = meof_analysis_result["EOF/var2"].sel(mode = mode_num)["components"]
+tp_draw_mode1 = meof_analysis_result["EOF/var2"].sel(mode = mode_num)["components"] *(-1)
 u_draw = meof_analysis_result["EOF/var0"].sel(mode = mode_num)["components"]
 v_draw = meof_analysis_result["EOF/var1"].sel(mode = mode_num)["components"]
-uv_draw_mode1 = xr.Dataset(data_vars={"u": u_draw, "v": v_draw}).thin(lon = 3, lat = 3)
+uv_draw_mode1 = xr.Dataset(data_vars={"u": u_draw, "v": v_draw}).thin(lon = 3, lat = 3) *(-1)
 
 #
 mode_num = 2

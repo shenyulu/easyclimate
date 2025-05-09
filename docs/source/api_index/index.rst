@@ -1,6 +1,6 @@
 .. _api:
 
-List of functions and classes (API)
+List of Functions and Classes (API)
 ===================================
 
 .. note::
