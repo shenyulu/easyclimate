@@ -16,7 +16,7 @@ def calc_seawater_thermocline_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     depth_dim: :py:class:`str <str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
@@ -68,7 +68,7 @@ def calc_Dx_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     value: float.
         The depth of ocean temperature to be calculated.
@@ -135,7 +135,7 @@ def calc_D14_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     value: float (:math:`\\mathrm{m}`).
         The depth of ocean temperature to be calculated.
@@ -163,7 +163,7 @@ def calc_D17_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     value: float (:math:`\\mathrm{m}`).
         The depth of ocean temperature to be calculated.
@@ -191,7 +191,7 @@ def calc_D20_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     value: float (:math:`\\mathrm{m}`).
         The depth of ocean temperature to be calculated.
@@ -219,7 +219,7 @@ def calc_D26_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     value: float (:math:`\\mathrm{m}`).
         The depth of ocean temperature to be calculated.
@@ -247,7 +247,7 @@ def calc_D28_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`  (:math:`\\mathrm{^\\circ C}`).
         ocean temperature :py:class:`xarray.DataArray<xarray.DataArray>` data to be calculated.
     value: float (:math:`\\mathrm{m}`).
         The depth of ocean temperature to be calculated.

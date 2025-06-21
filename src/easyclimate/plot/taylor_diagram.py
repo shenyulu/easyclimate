@@ -50,7 +50,7 @@ def calc_standard_deviation(f: xr.DataArray, ddof=0) -> xr.DataArray:
     """Calculate the standard deviation.
 
     .. math::
-        STD = \\frac{1}{N} \ \\sum_{n=1}^{N} \\left ( x_n - \\bar{x} \ \\right ) ^2
+        STD = \\frac{1}{N} \\ \\sum_{n=1}^{N} \\left ( x_n - \\bar{x} \\ \\right ) ^2
 
     Parameters
     ----------
