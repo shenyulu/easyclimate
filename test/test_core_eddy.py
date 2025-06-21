@@ -222,6 +222,49 @@ def test_calc_apparent_heat_source():
     assert np.isclose(result_data1, refer_data1).all()
 
 
+def test_calc_total_diabatic_heating():
+    result_data = ecl.calc_total_diabatic_heating(
+        u_data=uwnd_daily,
+        v_data=vwnd_daily,
+        omega_data=omega_daily,
+        temper_data=temp_daily,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        time_units="day",
+    )
+    result_data1 = result_data.sel(level=500).isel(time=4).data.flatten()
+    refer_data1 = np.array(
+        [
+            -0.05699683,
+            -0.04312915,
+            -0.02416359,
+            -0.01748616,
+            -0.03120409,
+            -0.02979126,
+            -0.01563774,
+            0.0014992,
+            0.00404129,
+            -0.01123914,
+            0.00908052,
+            0.03225594,
+            0.04678952,
+            0.03276326,
+            -0.0086737,
+            0.04798427,
+            0.06669269,
+            0.06484717,
+            0.04368201,
+            0.00017335,
+            0.03583446,
+            0.04942282,
+            0.04089638,
+            0.01673753,
+            -0.01564289,
+        ]
+    )
+    assert np.isclose(result_data1, refer_data1).all()
+
+
 def test_calc_apparent_moisture_sink():
     result_data = ecl.calc_apparent_moisture_sink(
         u_data=uwnd_daily,
