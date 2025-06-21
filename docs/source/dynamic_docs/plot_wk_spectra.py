@@ -25,7 +25,7 @@ Applications in Meteorology
 .. seealso::
     - https://github.com/mmaiergerber/wk_spectra
     - Wheeler, M., & Kiladis, G. N. (1999). Convectively Coupled Equatorial Waves: Analysis of Clouds and Temperature in the Wavenumber–Frequency Domain. Journal of the Atmospheric Sciences, 56(3), 374-399. https://journals.ametsoc.org/view/journals/atsc/56/3/1520-0469_1999_056_0374_ccewao_2.0.co_2.xml
-    - Kiladis, G. N., M. C. Wheeler, P. T. Haertel, K. H. Straub, and P. E. Roundy (2009), Convectively coupled equatorial waves, Rev. Geophys., 47, RG2003, doi:https://doi.org/10.1029/2008RG000266
+    - Kiladis, G. N., M. C. Wheeler, P. T. Haertel, K. H. Straub, and P. E. Roundy (2009), Convectively coupled equatorial waves, Rev. Geophys., 47, RG2003, doi: https://doi.org/10.1029/2008RG000266
     - Wheeler, M. C., & Nguyen, H. (2015). TROPICAL METEOROLOGY AND CLIMATE | Equatorial Waves. In Encyclopedia of Atmospheric Sciences (pp. 102–112). Elsevier. https://doi.org/10.1016/B978-0-12-382225-3.00414-X
     - Yoshikazu Hayashi, A Generalized Method of Resolving Disturbances into Progressive and Retrogressive Waves by Space Fourier and Time Cross-Spectral Analyses, Journal of the Meteorological Society of Japan. Ser. II, 1971, Volume 49, Issue 2, Pages 125-128, Released on J-STAGE May 27, 2008, Online ISSN 2186-9057, Print ISSN 0026-1165, https://doi.org/10.2151/jmsj1965.49.2_125, https://www.jstage.jst.go.jp/article/jmsj1965/49/2/49_2_125/_article/-char/en
 

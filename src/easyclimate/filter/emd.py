@@ -185,10 +185,10 @@ def filter_eemd(
     trials: :py:class:`int <int>`, default: 100
         Number of trials or EMD performance with added noise.
     noise_width: :py:class:`float <float>`, default: 0.05
-        Standard deviation of Gaussian noise (:math:`\hat\sigma`).
+        Standard deviation of Gaussian noise (:math:`\\hat\\sigma`).
         It's relative to absolute amplitude of the signal, i.e.
-        :math:`\hat\sigma = \sigma\cdot|\max(S)-\min(S)|`, where
-        :math:`\sigma` is noise_width.
+        :math:`\\hat\\sigma = \\sigma\\cdot|\\max(S)-\\min(S)|`, where
+        :math:`\\sigma` is noise_width.
     parallel: :py:class:`bool <bool>`, default: False
         Flag whether to use multiprocessing in EEMD execution. Since each EMD(s+noise) is independent this should improve execution speed considerably. Note that it’s disabled by default because it’s the most common problem when EEMD takes too long time to finish. If you set the flag to True, make also sure to set processes to some reasonable value.
     processes: :py:class:`int <int>` or None, default: None

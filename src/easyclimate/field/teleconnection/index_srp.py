@@ -6,6 +6,7 @@ import xarray as xr
 from ...core.utility import sort_ascending_latlon_coordinates
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_EOF_model, calc_EOF_analysis
+from typing import Literal
 
 __all__ = [
     "calc_index_SRP_EOF1_Yasui_Watanabe_2010",
@@ -24,9 +25,9 @@ def calc_index_SRP_EOF1_Yasui_Watanabe_2010(
     lat_range: slice = slice(20, 60),
     lon_range: slice = slice(0, 150),
     time_dim: str = "time",
-    random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    random_state: int | None = None,
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Yasui and Watanabe (2010):
@@ -107,8 +108,8 @@ def calc_index_SRP_EOF1_Kosaka_2009(
     lon_range: slice = slice(30, 130),
     time_dim: str = "time",
     random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Kosaka et al. (2009):
@@ -189,8 +190,8 @@ def calc_index_SRP_EOF1_Chen_Huang_2012(
     lon_range: slice = slice(30, 130),
     time_dim: str = "time",
     random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Chen and Huang (2009):
@@ -271,8 +272,8 @@ def calc_index_SRP_EOF1_Sato_Takahashi_2006(
     lon_range: slice = slice(80, 200),
     time_dim: str = "time",
     random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Sato and Takahashi (2006):

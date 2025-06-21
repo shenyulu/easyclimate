@@ -12,6 +12,7 @@ import xarray as xr
 from ...core.utility import sort_ascending_latlon_coordinates
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_REOF_model, calc_REOF_analysis
+from typing import Literal
 
 __all__ = [
     "calc_index_NAO_NH_REOF",
@@ -25,9 +26,9 @@ def calc_index_NAO_NH_REOF(
     lat_dim: str = "lat",
     lat_range: slice = slice(20, 85),
     time_dim: str = "time",
-    random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    random_state: int | None = None,
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean NAO index using rotated empirical orthogonal functions (REOFs) method:

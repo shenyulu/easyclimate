@@ -23,16 +23,16 @@ def calc_mixed_layer_depth(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`)
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`)
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).
     criterion: {'temperature', 'density', 'pdvar'}, default `'pdvar'`.
         Mixed layer depth criteria
 
-        - **temperature** : Computed based on constant temperature difference criterion, i.e., :math:`CT(0) - T[mld] = 0.5 \\mathrm{^\circ C}`.
+        - **temperature** : Computed based on constant temperature difference criterion, i.e., :math:`CT(0) - T[mld] = 0.5 \\mathrm{^\\circ C}`.
         - **density** : Computed based on the constant potential density difference criterion, i.e., :math:`pd[0] - pd[mld] = 0.125` in sigma units.
-        - **pdvar** : Computed based on variable potential density criterion :math:`pd[0] - pd[mld] = var(T[0], S[0])`, where var is a variable potential density difference which corresponds to constant temperature difference of :math:`0.5 \\mathrm{^\circ C}`.
+        - **pdvar** : Computed based on variable potential density criterion :math:`pd[0] - pd[mld] = var(T[0], S[0])`, where var is a variable potential density difference which corresponds to constant temperature difference of :math:`0.5 \\mathrm{^\\circ C}`.
 
     depth_dim: :py:class:`str <str>`, default: `depth`.
         `depth` like dimension over which to apply calculate. By default extracting is applied over the `depth` dimension.
@@ -108,7 +108,7 @@ def calc_MLD_depth_weighted(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`).
         Vertical seawater temperature data.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m}`).
         The mixed layer depth.
@@ -144,7 +144,7 @@ def calc_MLD_temper_tendency(
 
     Parameters
     ----------
-    seawater_temperature_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`).
         The anomaly of the vertical seawater temperature data.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m}`).
         The mixed layer depth.
@@ -226,7 +226,7 @@ def get_temper_within_MLD(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`)
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`)
         Vertical seawater temperature data.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m}`).
         The mixed layer depth.
@@ -293,7 +293,7 @@ def get_temper_average_within_MLD(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`)
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`)
         Vertical seawater temperature data.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m}`).
         The mixed layer depth.
@@ -333,11 +333,11 @@ def calc_MLD_average_horizontal_advection(
 
     Parameters
     ----------
-    u_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m \cdot s^{-1}}`).
+    u_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m \\cdot s^{-1}}`).
         The monthly ocean current data.
-    v_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m \cdot s^{-1}}`).
+    v_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m \\cdot s^{-1}}`).
         The monthly meridional ocean current data.
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`).
         Vertical seawater temperature data.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m}`).
         The mixed layer depth.
@@ -362,7 +362,7 @@ def calc_MLD_average_horizontal_advection(
 
     Returns
     -------
-    The average horizontal advection within the mixed layer (:math:`\\mathrm{^\circ C} \\cdot \mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
+    The average horizontal advection within the mixed layer (:math:`\\mathrm{^\\circ C} \\cdot \\mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
     """
     # Calculate $u \frac{\partial T}{\partial x}$
     u_advection = (
@@ -419,9 +419,9 @@ def calc_MLD_average_vertical_advection(
 
     Parameters
     ----------
-    w_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m \cdot s^{-1}}`).
+    w_monthly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m \\cdot s^{-1}}`).
         The monthly vertical ocean current data.
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`).
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`).
         Vertical seawater temperature data.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>`(:math:`\\mathrm{m}`).
         The mixed layer depth.
@@ -432,7 +432,7 @@ def calc_MLD_average_vertical_advection(
 
     Returns
     -------
-    The average vertical advection within the mixed layer (:math:`\\mathrm{^\circ C} \\cdot \mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
+    The average vertical advection within the mixed layer (:math:`\\mathrm{^\\circ C} \\cdot \\mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
     """
     # Calculate $w \frac{\partial T}{\partial z}$
     w_advection = (
@@ -461,18 +461,18 @@ def calc_ocean_surface_heat_flux(
 
     Parameters
     ----------
-    qnet_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{W \cdot m^{-2}}`).
+    qnet_monthly_anomaly_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{W \\cdot m^{-2}}`).
         The monthly anomaly of the downward net heat flux at the ocean surface.
     mixed_layer_depth: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m}`).
         The mixed layer depth.
-    rho_0: :py:class:`float <float>`, default: `1000` (:math:`\\mathrm{kg \cdot m^{-3}}`).
+    rho_0: :py:class:`float <float>`, default: `1000` (:math:`\\mathrm{kg \\cdot m^{-3}}`).
         The density of water.
-    c_p: :py:class:`float <float>`, default: `4000` (:math:`\\mathrm{J \cdot kg \cdot K^{-1}}`).
+    c_p: :py:class:`float <float>`, default: `4000` (:math:`\\mathrm{J \\cdot kg \\cdot K^{-1}}`).
         The specific heat of water.
 
     Returns
     -------
-    The ocean surface heat flux (:math:`\\mathrm{^\circ C} \\cdot \mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
+    The ocean surface heat flux (:math:`\\mathrm{^\\circ C} \\cdot \\mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
 
     Reference
     --------------

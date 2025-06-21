@@ -241,6 +241,7 @@ geostrophic_wind_data_500_202201 = ecl.calc_geostrophic_wind(
 # - :py:func:`easyclimate.calc_vorticity <easyclimate.calc_vorticity>`: calculate the horizontal relative vorticity term.
 #
 # .. math::
+#
 #   \zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} + \frac{u}{R} \tan \varphi
 #
 
@@ -269,6 +270,7 @@ vor_data_500_202201.sel(lat=slice(20, 80)).plot.contourf(levels=21)
 # In addition, the function :py:func:`easyclimate.calc_divergence <easyclimate.calc_divergence>` calculate the quasi-geostrophic divergence.
 #
 # .. math::
+#
 #   \mathrm{D} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} - \frac{v}{R} \tan \varphi
 #
 # - :py:func:`easyclimate.calc_divergence <easyclimate.calc_divergence>`: calculate the horizontal divergence term.
@@ -333,6 +335,7 @@ div_data_500_202201_windspharm.sortby("lat").sel(lat=slice(20, 80)).plot.contour
 # For zonal advection, we can calculate as follows.
 #
 # .. math::
+#
 #   -u \frac{\partial T}{\partial x}
 #
 
@@ -346,6 +349,7 @@ u_advection_500_202201.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(levels
 # Similarly, the meridional advection can acquire as follows.
 #
 # .. math::
+#
 #   -v \frac{\partial T}{\partial y}
 #
 
@@ -362,6 +366,7 @@ v_advection_500_202201.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(levels
 # - :py:func:`easyclimate.calc_horizontal_water_flux <easyclimate.calc_horizontal_water_flux>`: calculate horizontal water vapor flux at each vertical level.
 #
 # .. math::
+#
 #   \frac{1}{g} q \mathbf{V} = \frac{1}{g} (u q\ \mathbf{i} + vq\ \mathbf{j})
 #
 # - :py:func:`easyclimate.calc_vertical_water_flux <easyclimate.calc_vertical_water_flux>`: calculate vertical water vapor flux.
@@ -441,6 +446,7 @@ draw_pr.plot.contourf(
 # - :py:func:`easyclimate.calc_divergence_watervaporflux <easyclimate.calc_divergence_watervaporflux>`: calculate water vapor flux divergence at each vertical level.
 #
 # .. math::
+#
 #   \nabla \left( \frac{1}{g} q \mathbf{V} \right) = \frac{1}{g} \nabla \cdot \left( q \mathbf{V} \right)
 #
 # - :py:func:`easyclimate.calc_divergence_watervaporflux_top2surface_integral <easyclimate.calc_divergence_watervaporflux_top2surface_integral>`: calculate water vapor flux divergence across the vertical level.

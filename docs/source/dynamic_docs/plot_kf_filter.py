@@ -9,7 +9,10 @@ The KF filter is a specialized spectral analysis technique designed to isolate a
 
 .. seealso::
 
-    Wheeler, M., & Kiladis, G. N. (1999). Convectively Coupled Equatorial Waves: Analysis of Clouds and Temperature in the Wavenumber–Frequency Domain. Journal of the Atmospheric Sciences, 56(3), 374-399. https://journals.ametsoc.org/view/journals/atsc/56/3/1520-0469_1999_056_0374_ccewao_2.0.co_2.xml
+    - Wheeler, M., & Kiladis, G. N. (1999). Convectively Coupled Equatorial Waves: Analysis of Clouds and Temperature in the Wavenumber–Frequency Domain. Journal of the Atmospheric Sciences, 56(3), 374-399. https://journals.ametsoc.org/view/journals/atsc/56/3/1520-0469_1999_056_0374_ccewao_2.0.co_2.xml
+    - Kiladis, G. N., Thorncroft, C. D., & Hall, N. M. J. (2006). Three-Dimensional Structure and Dynamics of African Easterly Waves. Part I: Observations. Journal of the Atmospheric Sciences, 63(9), 2212-2230. https://doi.org/10.1175/JAS3741.1
+    - Hall, N. M. J., Kiladis, G. N., & Thorncroft, C. D. (2006). Three-Dimensional Structure and Dynamics of African Easterly Waves. Part II: Dynamical Modes. Journal of the Atmospheric Sciences, 63(9), 2231-2245. https://doi.org/10.1175/JAS3742.1
+    - Thorncroft, C. D., Hall, N. M. J., & Kiladis, G. N. (2008). Three-Dimensional Structure and Dynamics of African Easterly Waves. Part III: Genesis. Journal of the Atmospheric Sciences, 65(11), 3596-3607. https://doi.org/10.1175/2008JAS2575.1
 
 Before proceeding with all the steps, first import some necessary libraries and packages
 """

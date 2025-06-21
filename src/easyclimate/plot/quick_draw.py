@@ -113,11 +113,11 @@ def quick_draw_rectangular_box(
     Parameters
     ----------
     lon1, lon2: :py:class:`float <float>`.
-        Rectangular box longitude point. The applicable value should be between -180 :math:`^\circ` and 360 :math:`^\circ`.
+        Rectangular box longitude point. The applicable value should be between -180 :math:`^\\circ` and 360 :math:`^\\circ`.
         `lon1` and `lon2` must have a certain difference, should not be equal,
         do not strictly require the size relationship between `lon1` and `lon2`.
     lat1, lat2: :py:class:`float <float>`.
-        Rectangular box latitude point. The applicable value should be between -90 :math:`^\circ` and 90 :math:`^\circ`.
+        Rectangular box latitude point. The applicable value should be between -90 :math:`^\\circ` and 90 :math:`^\\circ`.
         `lat1` and `lat2` must have a certain difference, should not be equal,
         do not strictly require the size relationship between `lat1` and `lat2`.
     ax : :py:class:`matplotlib.axes.Axes`, optional.

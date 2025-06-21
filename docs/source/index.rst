@@ -166,6 +166,7 @@ You can directly install it via `pip` by using 🛒
 
     How to Contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
     Source Code on GitHub <https://github.com/shenyulu/easyclimate>
+    sponsor.rst
 
 
 .. caution::

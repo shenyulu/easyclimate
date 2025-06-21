@@ -9,6 +9,7 @@ from ...core.utility import (
 )
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_EOF_model, calc_EOF_analysis
+from typing import Literal
 
 __all__ = ["calc_index_IOBM_1point", "calc_index_IOBM_EOF1"]
 
@@ -91,9 +92,9 @@ def calc_index_IOBM_EOF1(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
-    random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    random_state: int | None = None,
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
     normalized: bool = True,
 ) -> xr.DataArray:
     """

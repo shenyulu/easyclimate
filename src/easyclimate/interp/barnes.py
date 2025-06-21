@@ -48,7 +48,7 @@ def interp_spatial_barnes(
     with Gaussian weights
 
     .. math::
-        w_k(\\boldsymbol{x})=\\text{e}^{-\\frac{1}{2\\sigma^2}\\left\|x-\\boldsymbol{x}_k\\right\\|^2}
+        w_k(\\boldsymbol{x})=\\text{e}^{-\\frac{1}{2\\sigma^2}\\left|x-\\boldsymbol{x}_k\\right|^2}
 
     Naive computation of Barnes interpolation leads to an algorithmic complexity of :math:`O(N \\times W \\times H)`,
     where :math:`N` is the number of sample points and :math:`W \\times H` the size of the underlying grid.

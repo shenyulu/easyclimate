@@ -6,6 +6,7 @@ import xarray as xr
 from ...core.utility import sort_ascending_latlon_coordinates
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_EOF_model, calc_EOF_analysis
+from typing import Literal
 
 __all__ = [
     "calc_index_CGT_1point_Ding_Wang_2005",
@@ -74,9 +75,9 @@ def calc_index_CGT_NH_EOF2_Ding_Wang_2005(
     lat_dim: str = "lat",
     lat_range: slice = slice(20, 85),
     time_dim: str = "time",
-    random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    random_state: int | None = None,
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean circumglobal teleconnection pattern (CGT) index using empirical orthogonal functions (EOFs) method over the entire Northern Hemisphere:

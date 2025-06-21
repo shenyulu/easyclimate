@@ -3,7 +3,7 @@
 Thermocline Depth and 20°C Isotherm Depth
 =========================================================================================================
 
-The ocean’s thermocline is a critical feature of the global marine environment,
+The ocean's thermocline is a critical feature of the global marine environment,
 representing a distinct layer where water temperature decreases rapidly with depth.
 This transition zone separates the warm, well-mixed surface layer (typically heated by solar radiation) from the colder,
 denser deep ocean below. In the equatorial Pacific—an area central to global climate dynamics
@@ -22,9 +22,9 @@ reliable proxy to represent the thermocline depth in the equatorial Pacific.
 
 A widely adopted solution is the 20°C isotherm depth :math:`Z_{20}`—the depth at which the water temperature equals 20°C.
 Over decades of oceanographic research, :math:`Z_{20}` has emerged as a robust and practical proxy for :math:`Z_{tc}` in the equatorial Pacific.
-Here’s why it has gained such prominence:
+Here's why it has gained such prominence:
 
-- **Proximity to the Main Thermocline Core**:The 20°C isotherm lies near the center of the *main thermocline* in the equatorial Pacific. This region, where temperature decreases most sharply, is the thermocline’s dynamical heart. By aligning with this core, :math:`Z_{20}` naturally captures the thermocline’s vertical structure, making it a physically meaningful indicator.
+- **Proximity to the Main Thermocline Core**:The 20°C isotherm lies near the center of the *main thermocline* in the equatorial Pacific. This region, where temperature decreases most sharply, is the thermocline's dynamical heart. By aligning with this core, :math:`Z_{20}` naturally captures the thermocline's vertical structure, making it a physically meaningful indicator.
 - **Consistency with :math:`Z_{tc}`**: In most parts of the equatorial Pacific (excluding the warm pool), :math:`Z_{20}` and :math:`Z_{tc}` overlap closely. Observational data show that the depth of the 20°C isotherm closely tracks the depth of maximum vertical temperature gradient. This congruence ensures that :math:`Z_{20}` reliably reflects :math:`Z_{tc}` without sacrificing accuracy, even in regions where :math:`Z_{tc}` might be operationally hard to define.
 - **Practicality in Analysis**: Beyond its physical relevance, :math:`Z_{20}` offers practical advantages. It simplifies the study of ocean dynamics by approximating the tropical Pacific as a *two-layer system*: a warm upper layer above 20°C and a colder deep layer below. This approximation facilitates analysis of processes like equatorial wave propagation (e.g., Kelvin and Rossby waves) and heat transport, which are critical to ENSO variability. Additionally, :math:`Z_{20}` aligns with isopycnal (constant density) surfaces, allowing researchers to link temperature structure to ocean circulation without complex 3D calculations.
 - **Dynamical Consistency in Steady Climates**: In a climate with a stable mean state (i.e., time-averaged conditions), using :math:`Z_{20}` as a proxy for :math:`Z_{tc}` introduces no significant dynamical inconsistency. This stability has been validated across multiple studies, confirming that :math:`Z_{20}` captures the same large-scale variations in thermocline depth as :math:`Z_{tc}`, whether during El Niño, La Niña, or neutral conditions.
@@ -33,7 +33,7 @@ The 20°C isotherm depth :math:`Z_{20}` has become a cornerstone of equatorial P
 Its proximity to the thermocline core, consistency with the traditional :math:`Z_{tc}` definition, analytical simplicity,
 and dynamical reliability make it an indispensable tool for climate scientists.
 By bridging the gap between theoretical definitions and practical applications,
-:math:`Z_{20}` enhances our ability to model and predict climate variability in one of the ocean’s most climatically active regions.
+:math:`Z_{20}` enhances our ability to model and predict climate variability in one of the ocean's most climatically active regions.
 As ocean observing systems continue to advance, :math:`Z_{20}` remains a testament to the power of finding elegant,
 physically grounded proxies in complex Earth system science.
 

@@ -37,6 +37,8 @@ import easyclimate as ecl
 #
 # .. seealso::
 #
+#    - Wang, B. (1992). The Vertical Structure and Development of the ENSO Anomaly Mode during 1979–1989. Journal of Atmospheric Sciences, 49(8), 698-712. https://journals.ametsoc.org/view/journals/atsc/49/8/1520-0469_1992_049_0698_tvsado_2_0_co_2.xml
+#    - Wang, B., Wu, Z., Li, J., Liu, J., Chang, C., Ding, Y., & Wu, G. (2008). How to Measure the Strength of the East Asian Summer Monsoon. Journal of Climate, 21(17), 4449-4463. https://doi.org/10.1175/2008JCLI2183.1
 #    - Wu Bingyi, Zhang Renhe. 2011: Interannual variability of the East Asian summer monsoon and its association with the anomalous atmospheric circulation over the mid-high latitudes and external forcing. Acta Meteorologica Sinica (Chinese), (2): 219-233. http://qxxb.cmsjournal.net/article/doi/10.11676/qxxb2011.019
 #    - 武炳义, 张人禾. 2011: 东亚夏季风年际变率及其与中、高纬度大气环流以及外强迫异常的联系. 气象学报, (2): 219-233. DOI: https://dx.doi.org/10.11676/qxxb2011.019
 #

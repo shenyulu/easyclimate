@@ -70,17 +70,17 @@ def calc_timeseries_wavelet_transform(
         .. tab:: Morlet
 
             - Name: Morlet (:math:`\\omega_0` = frequency)
-            - :math:`\\psi_0(\eta)`: :math:`\\pi^{-1/4} e^{i \\omega_{0} \\eta} e^{-\\eta^2/2}`.
+            - :math:`\\psi_0(\\eta)`: :math:`\\pi^{-1/4} e^{i \\omega_{0} \\eta} e^{-\\eta^2/2}`.
 
         .. tab:: Paul
 
             - Name: Paul (:math:`m` = order)
-            - :math:`\\psi_0(\eta)`: :math:`\\frac{2^m i^m m!}{\\sqrt{\\pi (2m)!}} (1-i \\eta)^{-(m+1)}`.
+            - :math:`\\psi_0(\\eta)`: :math:`\\frac{2^m i^m m!}{\\sqrt{\\pi (2m)!}} (1-i \\eta)^{-(m+1)}`.
 
         .. tab:: DOG
 
             - Name: DOG (:math:`m` = derivative)
-            - :math:`\\psi_0(\eta)`: :math:`\\frac{(-1)^{m+1}}{\\sqrt{\\Gamma (m+\\frac{1}{2})}} \\frac{d^m}{d \\eta^m} (e^{-\\eta^2 /2})`.
+            - :math:`\\psi_0(\\eta)`: :math:`\\frac{(-1)^{m+1}}{\\sqrt{\\Gamma (m+\\frac{1}{2})}} \\frac{d^m}{d \\eta^m} (e^{-\\eta^2 /2})`.
 
 
     mother_param: :py:class:`float<float>`.

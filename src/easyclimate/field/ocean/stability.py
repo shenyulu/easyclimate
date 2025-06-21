@@ -22,7 +22,7 @@ def calc_N2_from_temp_salt(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`)
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`)
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).
@@ -193,7 +193,7 @@ def calc_potential_density_from_temp_salt(
 
     Parameters
     ----------
-    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\circ C}`)
+    seawater_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{^\\circ C}`)
         Vertical seawater temperature data.
     seawater_practical_salinity_data: :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{PSU}`)
         Vertical seawater salinity data (practical salinity).

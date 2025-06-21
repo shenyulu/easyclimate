@@ -33,10 +33,10 @@ sample_data
 
 # %%
 # Convert 2m dewpoint temperature (d2m) and mean sea level pressure (msl) data to near-surface specific humidity (q)
-# using :py:func:`easyclimate.transfer_dewpoint_2_specific_humidity <easyclimate.transfer_dewpoint_2_specific_humidity>`,
+# using :py:func:`easyclimate.physics.transfer_dewpoint_2_specific_humidity <easyclimate.physics.transfer_dewpoint_2_specific_humidity>`,
 # leveraging thermodynamic relationships;
 # this specific humidity is a critical humidity parameter for calculating turbulent heat fluxes (latent heat flux).
-q_data = ecl.transfer_dewpoint_2_specific_humidity(
+q_data = ecl.physics.transfer_dewpoint_2_specific_humidity(
     dewpoint_data = sample_data.d2m,
     pressure_data = sample_data.msl,
     dewpoint_data_units = "K",

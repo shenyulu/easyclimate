@@ -56,9 +56,9 @@ def get_EOF_model(
     center: bool = False,
     standardize: bool = False,
     use_coslat: bool = True,
-    random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    random_state: int | None = None,
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xeofs.single.eof.EOF:
     """
     Build the model of the Empirical Orthogonal Functions (EOF) analysis, more commonly known as Principal Component Analysis (PCA).
@@ -292,7 +292,7 @@ def get_REOF_model(
     standardize: bool = False,
     use_coslat: bool = True,
     random_state=None,
-    solver="auto",
+    solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs={},
 ) -> xeofs.single.EOFRotator:
     """
@@ -513,7 +513,7 @@ def get_MCA_model(
     weights_left: xr.DataArray = None,
     weights_right: xr.DataArray = None,
     random_state: int = None,
-    solver: str = "auto",
+    solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
 ) -> xeofs.cross.MCA:
     """
@@ -782,7 +782,7 @@ def calc_MCA_analysis(
 
         FVE_{Y|X,i} = 1 - \\frac{\\|(X^TX)^{-1/2} \\mathbf{d}_{X,i}^T \\mathbf{d}_{Y,i}\\|_F^2}{\\|(X^TX)^{-1/2} X^TY\\|_F^2}
 
-    where :math:`\\mathbf{d}_{X,i}` and :math:`\mathbf{d}_{Y,i}` are the residuals of the input data :math:`X`
+    where :math:`\\mathbf{d}_{X,i}` and :math:`\\mathbf{d}_{Y,i}` are the residuals of the input data :math:`X`
     and :math:`Y` after reconstruction by the :math:`i` th scores of :math:`X` and :math:`Y`, respectively.
 
     - **fraction_variance_Y_explained_by_Y**: Get the fraction of variance explained (FVE Y).
@@ -805,7 +805,7 @@ def calc_MCA_analysis(
 
         SCF_{i} = 1 - \\frac{\\|\\mathbf{d}_{X,i}^T \\mathbf{d}_{Y,i}\\|_F^2}{\\|X^TY\\|_F^2}
 
-    where :math:`\\mathbf{d}_{X,i}` and :math:`\mathbf{d}_{Y,i}` are the residuals of the input data :math:`X`
+    where :math:`\\mathbf{d}_{X,i}` and :math:`\\mathbf{d}_{Y,i}` are the residuals of the input data :math:`X`
     and :math:`Y` after reconstruction by the :math:`i` th scores of :math:`X` and :math:`Y`, respectively.
 
     - **heterogeneous_patterns**: The heterogeneous patterns of the left and right field.

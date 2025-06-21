@@ -1,4 +1,3 @@
-from .diagnosis import *
 from .diff import *
 from .eddy import *
 from .extract import *
@@ -13,3 +12,4 @@ from . import utility
 from . import mk_test
 from . import eof
 from . import windspharm
+from . import spharm

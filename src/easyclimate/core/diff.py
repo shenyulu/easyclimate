@@ -405,7 +405,7 @@ def calc_time_gradient(
     -------
     The gradient along the time direction (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`).
 
-    .. caution:: The units for partial derivative of `time` are :math:`\mathrm{s^{-1}}`.
+    .. caution:: The units for partial derivative of `time` are :math:`\\mathrm{s^{-1}}`.
 
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
@@ -512,7 +512,7 @@ def calc_p_integral(
     # Get level data
     x = data_input[vertical_dim].data
     # Integrate along the given axis using the composite trapezoidal rule
-    data_trapz = np.trapz(data_input.data, x, axis=dim_index)
+    data_trapz = np.trapezoid(data_input.data, x, axis=dim_index)
     data_trapz = np.abs(data_trapz)
 
     if normalize == True:

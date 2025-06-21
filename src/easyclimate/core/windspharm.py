@@ -54,10 +54,10 @@ def calc_wind_speed(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -101,10 +101,10 @@ def calc_relative_vorticity_and_horizontal_divergence(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -153,10 +153,10 @@ def calc_relative_vorticity(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -201,10 +201,10 @@ def calc_divergence(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -241,7 +241,7 @@ def calc_planetary_vorticity(
     v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The meridional component of vector wind.
     omega: :py:class:`float <float>`.
-        Earth's angular velocity. The default value if not specified is :math:`7.292 \times 10^{-5} \mathrm{s^{-1}}`.
+        Earth's angular velocity. The default value if not specified is :math:`7.292 \\times 10^{-5} \\mathrm{s^{-1}}`.
     R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
@@ -249,10 +249,10 @@ def calc_planetary_vorticity(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -292,7 +292,7 @@ def calc_absolute_vorticity(
     truncation: :py:class:`int <int>`.
         Truncation limit (triangular truncation) for the spherical harmonic computation.
     omega: :py:class:`float <float>`.
-        Earth's angular velocity. The default value if not specified is :math:`7.292 \times 10^{-5} \mathrm{s^{-1}}`.
+        Earth's angular velocity. The default value if not specified is :math:`7.292 \\times 10^{-5} \\mathrm{s^{-1}}`.
     R: :py:class:`float <float>`.
         The radius in metres of the sphere used in the spherical
         harmonic computations. Default is 6371200 m, the approximate
@@ -300,10 +300,10 @@ def calc_absolute_vorticity(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -348,10 +348,10 @@ def calc_streamfunction_and_velocity_potential(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -400,10 +400,10 @@ def calc_streamfunction(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -448,10 +448,10 @@ def calc_velocity_potential(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -496,10 +496,10 @@ def calc_helmholtz(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -550,10 +550,10 @@ def calc_irrotational_component(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -602,10 +602,10 @@ def calc_nondivergent_component(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -659,10 +659,10 @@ def calc_rossby_wave_source(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -720,10 +720,10 @@ def calc_gradient(
     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
         If 'stored', associated legendre
         functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\mathrm{nlat}^3)` memory, but speeds up the spectral
+        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
         transforms. If 'computed', associated legendre functions are
         computed on the fly when transforms are requested. This uses
-        :math:`O(\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
