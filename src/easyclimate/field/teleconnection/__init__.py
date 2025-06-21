@@ -6,3 +6,4 @@ from .index_wp import *
 from .index_eu import *
 from .index_srp import *
 from .index_cgt import *
+from .index_ao_nam import *
