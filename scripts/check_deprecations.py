@@ -11,6 +11,31 @@ Example:
 
     # Specify the next version and save the JSON report
     python scripts/check_deprecations.py --next-version 2.0.0 --json deprecations.json
+
+Sample:
+    @deprecated(
+        version="2025.4.0",
+        removal_version="2025.7.0",
+        replacement="easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002",
+    )
+    def calc_potential_intensity_Bister_Emanuel_2002(
+        sst_data: xr.DataArray,
+        sst_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+        surface_pressure_data: xr.DataArray,
+        surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
+        temperature_data: xr.DataArray,
+        temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+        specific_humidity_data: xr.DataArray,
+        specific_humidity_data_units: str,
+        vertical_dim: str,
+        vertical_dim_units: str,
+        CKCD: float = 0.9,
+        ascent_flag: bool = False,
+        diss_flag: bool = True,
+        V_reduc: float = 0.8,
+        ptop: float = 50,
+        miss_handle: bool = True,
+    ) -> xr.Dataset:
 """
 
 import ast
@@ -31,14 +56,14 @@ from rich.table import Table
 from rich.text import Text
 from rich.style import Style
 
-# Windows 编码兼容性处理
+# Windows encoding compatibility processing
 if sys.platform == "win32":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 
 class DeprecationChecker:
     def __init__(self, package_name: str = "easyclimate"):
-        # 替换Unicode字符为Windows兼容的替代文本
+        # Replace Unicode characters with Windows-compatible alternative text
         if sys.platform == "win32":
             self.scan_icon = "[SEARCH]"
         else:
@@ -69,8 +94,10 @@ class DeprecationChecker:
             for node in ast.walk(tree):
                 if isinstance(node, ast.Assign) and len(node.targets) == 1:
                     if getattr(node.targets[0], "id", None) == "__version__":
-                        if isinstance(node.value, ast.Str):
-                            return node.value.s
+                        # if isinstance(node.value, ast.Str):
+                        # return node.value.s
+                        if isinstance(node.value, ast.Constant):
+                            return node.value.value
                         elif isinstance(node.value, ast.Constant):
                             return str(node.value.value)
         return "0.0.0"
@@ -141,8 +168,10 @@ class DeprecationChecker:
 
     def _get_ast_value(self, node: ast.AST) -> Optional[str]:
         """Extract value from AST node"""
-        if isinstance(node, ast.Str):
-            return node.s
+        # if isinstance(node, ast.Str):
+        #     return node.s
+        if isinstance(node, ast.Constant):
+            return node.value
         elif isinstance(node, ast.Constant):
             return str(node.value)
         elif isinstance(node, ast.Name):
