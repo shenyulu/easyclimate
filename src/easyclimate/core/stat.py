@@ -12,11 +12,13 @@ from .utility import generate_datatree_dispatcher, find_dims_axis, validate_data
 
 from xarray import DataTree
 from .datanode import DataNode
+from typing import List
 
 __all__ = [
     "calc_linregress_spatial",
     "calc_detrend_spatial",
     "calc_corr_spatial",
+    "calc_multiple_linear_regression_spatial",
     "calc_ttestSpatialPattern_spatial",
     "calc_levenetestSpatialPattern_spatial",
     "calc_skewness_spatial",
@@ -305,6 +307,167 @@ def calc_corr_spatial(
     result_dataset["pvalue"] = pvalue
 
     return result_dataset
+
+
+def calc_multiple_linear_regression_spatial(
+    y_data: xr.DataArray, x_datas: List[xr.DataArray], dim="time"
+) -> xr.Dataset:
+    """
+    Apply multiple linear regression to dataset across spatial dimensions.
+
+    .. math::
+
+        y = a_1 x_1 + a_2 x_2 + \\cdots
+
+    Parameters
+    -----------
+    y_data : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Dependent variable with dimensions, each with dimensions ``(time,)``.
+    x_datas : :py:class:`list <list>` of :py:class:`xarray.DataArray<xarray.DataArray>`
+        List of independent variables, each with dimensions ``(time,)``.
+    dim : :py:class:`str <str>`, optional
+        Time dimension name (default: ``'time'``)
+
+    Returns
+    --------
+    :py:class:`xarray.Dataset <xarray.Dataset>`
+        :py:class:`xarray.Dataset <xarray.Dataset>` containing regression results with:
+
+        - slopes: slope coefficients for each predictor ``(coef, lat, lon)``
+        - intercept: intercept values ``(lat, lon)``
+        - r_squared: coefficient of determination ``(lat, lon)``
+        - slopes_p: p-values for slope coefficients ``(coef, lat, lon)``
+        - intercept_p: p-values for intercept ``(lat, lon)``
+
+    Raises
+    -------
+    ValueError
+        If the time coordinates of input variables don't match.
+    """
+
+    def _multiple_linear_regression(y, *x_vars):
+        """
+        Perform multiple linear regression and compute relevant statistics.
+
+        Parameters:
+        -----------
+        y : numpy.ndarray
+            Dependent variable array with shape (time,)
+        *x_vars : tuple of numpy.ndarray
+            Independent variable arrays, each with shape (time,)
+
+        Returns:
+        --------
+        tuple
+            A tuple containing:
+
+            - slopes (numpy.ndarray): Array of slope coefficients
+            - intercept (float): Intercept value
+            - r_squared (float): Coefficient of determination (R²)
+            - slopes_p (numpy.ndarray): p-values for each slope coefficient
+            - intercept_p (float): p-value for the intercept
+
+        Notes:
+        ------
+        This function uses ordinary least squares (OLS) to estimate the regression coefficients.
+        The R-squared value is calculated as 1 - (SS_res / SS_tot).
+        Standard errors and p-values are computed using the residual mean squared error.
+        """
+        n_obs = len(y)
+        n_vars = len(x_vars)
+
+        # Stack the independent variables into a matrix (n_time, n_vars)
+        x_matrix = np.column_stack(x_vars)
+
+        # Add constant term (intercept)
+        x_matrix = np.column_stack([x_matrix, np.ones(x_matrix.shape[0])])
+
+        # Perform linear regression
+        coefficients, _, rank, _ = np.linalg.lstsq(x_matrix, y, rcond=None)
+
+        # Calculation of predicted values and residuals
+        y_pred = np.dot(x_matrix, coefficients)
+        residuals = y - y_pred
+
+        # Compute the residual sum of squares
+        ss_res = np.sum(residuals**2)
+
+        # Calculate the total sum of squares
+        y_mean = np.mean(y)
+        ss_tot = np.sum((y - y_mean) ** 2)
+
+        # Calculating R-squared
+        r_squared = 1 - (ss_res / ss_tot) if ss_tot > 0 else np.nan
+
+        # Standard error of calculated coefficients
+        if n_obs > rank:
+            dof = n_obs - rank
+            mse = ss_res / dof
+        else:
+            dof = 0
+            mse = np.nan
+
+        try:
+            cov = np.linalg.inv(x_matrix.T @ x_matrix) * mse
+            se = np.sqrt(np.diag(cov))
+
+            # Calculate t-statistics and p-values
+            t = coefficients / se
+            p_values = 2 * stats.t.sf(np.abs(t), dof)
+        except:
+            se = np.full_like(coefficients, np.nan)
+            p_values = np.full_like(coefficients, np.nan)
+
+        # Separate slopes and intercepts
+        slopes = coefficients[:-1]
+        intercept = coefficients[-1]
+
+        slopes_p = p_values[:-1]
+        intercept_p = p_values[-1]
+
+        return slopes, intercept, r_squared, slopes_p, intercept_p
+
+    # Ensure all data has the same time dimension
+    for x in x_datas:
+        if not np.array_equal(y_data[dim].values, x[dim].values):
+            warnings.warn("All variables must have the same time coordinates")
+
+    # Applying regression in the spatial dimension using apply_ufunc
+    result = xr.apply_ufunc(
+        _multiple_linear_regression,
+        y_data,
+        *x_datas,
+        input_core_dims=[[dim]] + [[dim]] * len(x_datas),
+        output_core_dims=[
+            ["coef"],
+            [],
+            [],
+            ["coef"],
+            [],
+        ],  # Slope, Intercept, R-squared, Slope p-value, Intercept p-value
+        exclude_dims=set((dim,)),
+        vectorize=True,
+    )
+
+    # Collation results
+    slopes = result[0].rename("slopes")
+    intercept = result[1].rename("intercept")
+    r_squared = result[2].rename("r_squared")
+    slopes_p = result[3].rename("slopes_p")
+    intercept_p = result[4].rename("intercept_p")
+
+    # Creating a Dataset
+    ds = xr.Dataset(
+        {
+            "slopes": slopes.assign_coords(coef=np.arange(len(x_datas))),
+            "intercept": intercept,
+            "r_squared": r_squared,
+            "slopes_p": slopes_p.assign_coords(coef=np.arange(len(x_datas))),
+            "intercept_p": intercept_p,
+        }
+    )
+
+    return ds
 
 
 def calc_ttestSpatialPattern_spatial(
