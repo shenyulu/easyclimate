@@ -20,7 +20,6 @@ Core
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.core.diagnosis
     easyclimate.core.datanode
     easyclimate.core.diff
     easyclimate.core.eddy
@@ -33,7 +32,59 @@ Core
     easyclimate.core.utility
     easyclimate.core.variability
     easyclimate.core.yearstat
+    easyclimate.core.spharm
     easyclimate.core.windspharm
+
+Physics
+----------------------------------------
+
+Geophysical Parameters Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.geo.coriolis
+
+Dry Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.dry
+
+Moisture Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.moisture.dewpoint
+    easyclimate.physics.moisture.lapse_rate
+    easyclimate.physics.moisture.mix
+    easyclimate.physics.moisture.vapor_pressure
+    easyclimate.physics.moisture.wet_bulb
+
+Temperature Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.temperature.equivalent_potential_temperature
+    easyclimate.physics.temperature.potential_temperature
+    easyclimate.physics.temperature.virtual_temperature
+
+Others
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.lcl
+    easyclimate.physics.stability
+    easyclimate.physics.transfer
 
 Filter
 ----------------------------------------
@@ -45,6 +96,7 @@ Filter
     easyclimate.filter.lanczos_filter
     easyclimate.filter.kf_filter
     easyclimate.filter.barnes_filter
+    easyclimate.filter.gaussian_filter
     easyclimate.filter.smooth
     easyclimate.filter.wavelet
     easyclimate.filter.redfit
@@ -83,6 +135,14 @@ WRF-python
 
     easyclimate.wrf.interface
 
+Satellite
+----------------------------------------
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.satellite.image
+
 Meteorology Field
 ----------------------------------------
 
@@ -114,6 +174,7 @@ Teleconnections
     easyclimate.field.teleconnection.index_eu
     easyclimate.field.teleconnection.index_srp
     easyclimate.field.teleconnection.index_cgt
+    easyclimate.field.teleconnection.index_ao_nam
 
 Land
 ::::::::::::::::::::::::::::::::::::::::

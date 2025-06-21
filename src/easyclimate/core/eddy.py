@@ -5,11 +5,9 @@ The calculation of transient eddy
 from __future__ import annotations
 import xarray as xr
 import numpy as np
-from .diagnosis import (
-    get_coriolis_parameter,
-    calc_potential_temperature_vertical,
-    calc_brunt_vaisala_frequency_atm,
-)
+from ..physics.geo import get_coriolis_parameter
+from ..physics.temperature import calc_potential_temperature_vertical
+from ..physics.stability import calc_brunt_vaisala_frequency_atm
 from .diff import (
     calc_gradient,
     calc_lon_gradient,
@@ -48,7 +46,7 @@ def calc_eady_growth_rate(
     Calculate the maximum Eady growth rate.
 
     .. math::
-        \\sigma = 0.3098 \\frac{f}{N} \\frac{\mathrm{d} U}{\mathrm{d} z}
+        \\sigma = 0.3098 \\frac{f}{N} \\frac{\\mathrm{d} U}{\\mathrm{d} z}
 
     .. caution::
         Eady growth rate (EGR) is a non-linear quantity. Hence, `calc_eady_growth_rate` should **NOT** be **directly applied to monthly means** variables.

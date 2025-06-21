@@ -7,7 +7,7 @@ from ...core.utility import (
     transfer_data_difference_units,
     transfer_data_multiple_units,
 )
-from ...core.diagnosis import transfer_specific_humidity_2_mixing_ratio
+from ...physics.transfer import transfer_specific_humidity_2_mixing_ratio
 from typing import Literal
 
 from tcpyPI import pi
