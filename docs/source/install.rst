@@ -143,7 +143,7 @@ feel free to reach out. Happy climate analyzing! 🌍
 
 About easyclimate-backend
 ------------------------------------
-`Easyclimate-backend <https://easyclimate-backend.readthedocs.io/>`__ is the **core** powerhouse behind the easyclimate front-end package,
+The `easyclimate-backend <https://easyclimate-backend.readthedocs.io/>`__ is the **core** powerhouse behind the easyclimate front-end package,
 providing a suite of high-performance,
 low-level functions for climate data analysis. Implemented in languages like ``Fortran`` and ``C``,
 these functions ensure that your climate data processing is both efficient and accurate.
