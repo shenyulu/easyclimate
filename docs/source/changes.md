@@ -1,5 +1,28 @@
 # Changelog
 
+## v2025.7.0
+
+*Released on: 2025/6/21*
+
+### What's Changed
+
+
+* [feat: seperate physics part](https://github.com/shenyulu/easyclimate/pull/99/commits/f273ae7c7b52cb16171293b1a2462ec8c3df7879)
+* [feat: add mesh2point](https://github.com/shenyulu/easyclimate/pull/99/commits/4b537b56fcf7d933f654e3351d93952263fc5fa0)
+* [feat: add emd](https://github.com/shenyulu/easyclimate/pull/99/commits/be566d107bb3bce99ec3c9b2cc80b12a50b81617)
+* [feat: add AO support](https://github.com/shenyulu/easyclimate/pull/99/commits/137c8fcd374ec3cb687dc32d198ebd2d3fef874c)
+* [feat: add spharm support](https://github.com/shenyulu/easyclimate/pull/99/commits/2ed3dec189f11787a47bc4fabd0515532012b45f)
+* [feat: add statellite support](https://github.com/shenyulu/easyclimate/pull/99/commits/f494de19e8cb823cf6e8b2cb06d7c85a13f539a5)
+* [feat: add plot of coriolis coefficient](https://github.com/shenyulu/easyclimate/pull/99/commits/c2d3a09fd7f358615f2b75edf9c6c494013bdd23)
+* [feat: add gaussian filter](https://github.com/shenyulu/easyclimate/pull/99/commits/f2471c7e5548b174585be373a3923b17df22f60e)
+
+> ⚠️ From this version:
+>
+> - We removed `calc_potential_intensity_Bister_Emanuel_2002` code from `easyclimate.field.mesoscale.potential_intensity.py`, please use `easyclimate.field.typhoon.potential_intensity.py` instead 🛠️.
+> - Seperate `easyclimate.core.diagnosis` to the part `easyclimate.physics`.
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.5.0...v2025.7.0
+
 ## v2025.5.0
 
 *Released on: 2025/5/9*
