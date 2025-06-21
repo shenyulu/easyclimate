@@ -12,7 +12,7 @@ promote convective overturning. Quantifying this stability is central to underst
 
 Key metrics include:
 
-- Brunt-Väisälä Frequency Squared (:math:`N^2`): Defined as :math:`N^2= -\\frac{g}{\\rho_0} \\frac{\\partial \\rho}{\\partial z}` (where :math:`g` is gravitational acceleration, :math:`\\rho_0` is reference density, and :math:`z` is depth), :math:`N^2` quantifies stratification strength. Positive :math:`N^2` indicates stable stratification (larger values = stronger stability), while :math:`N^2 < 0` signals convective instability.
+- Brunt-Väisälä Frequency Squared (:math:`N^2`): Defined as :math:`N^2= -\\dfrac{g}{\\rho_0} \\dfrac{\\partial \\rho}{\\partial z}` (where :math:`g` is gravitational acceleration, :math:`\\rho_0` is reference density, and :math:`z` is depth), :math:`N^2` quantifies stratification strength. Positive :math:`N^2` indicates stable stratification (larger values = stronger stability), while :math:`N^2 < 0` signals convective instability.
 - Potential Density (:math:`\\rho_0`): The density of a water parcel if adiabatically brought to a reference pressure (typically surface pressure, :math:`p=0` dbar). It isolates density variations due to T/S from pressure effects, enabling comparison of water masses across depths.
 
 Modern oceanographic analysis leverages TEOS-10 (Thermodynamic Equation of Seawater 2010) for accurate computation of these properties,
