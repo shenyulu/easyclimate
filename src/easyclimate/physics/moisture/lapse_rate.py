@@ -51,7 +51,7 @@ def calc_moist_adiabatic_lapse_rate(
     # Saturated air parcel
     w_s = transfer_dewpoint_2_mixing_ratio(
         pressure_data=pressure_data,
-        temperature_data=temperature_data,
+        dewpoint_data=temperature_data,
         pressure_data_units="hPa",
         dewpoint_data_units="K",
     )  # dimensionless
