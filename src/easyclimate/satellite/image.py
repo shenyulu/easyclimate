@@ -12,51 +12,6 @@ __all__ = [
 ]
 
 
-def stretch(data: np.ndarray | xr.DataArray):
-    """
-    Apply contrast stretching to input data (numpy array or xarray DataArray).
-
-    The stretching includes:
-    1. Normalization to 0-255 range
-    2. Piecewise linear interpolation with predefined breakpoints
-    3. Conversion to uint8
-
-    Parameters
-    -----------
-    data : Union[np.ndarray, xr.DataArray]
-        Input data to be stretched
-
-    Returns
-    --------
-    Union[np.ndarray, xr.DataArray]
-        Stretched data in the same format as input
-    """
-    # Extract numpy array if input is DataArray
-    if isinstance(data, xr.DataArray):
-        data_values = data.values
-    else:
-        data_values = data
-
-    # Normalize to 0-255 range (assuming input is 0-1)
-    data_norm = (data_values - 0) / (1 - 0) * 255
-
-    # Define stretching curve breakpoints
-    x = [0, 30, 60, 120, 190, 255]  # Input values
-    y = [0, 110, 160, 210, 240, 255]  # Output values
-    interp = interp1d(x, y, bounds_error=False, fill_value=255)
-
-    # Apply interpolation and convert to 8-bit unsigned integer
-    stretched_data = interp(data_norm).astype(np.uint8)
-
-    # Return DataArray if input was DataArray, otherwise return numpy array
-    if isinstance(data, xr.DataArray):
-        return xr.DataArray(
-            stretched_data, dims=data.dims, coords=data.coords, attrs=data.attrs
-        )
-    else:
-        return stretched_data
-
-
 def get_stretched_rgb_data(
     data_input: xr.DataArray, r_band: str, g_band: str, b_band: str
 ) -> xr.DataArray:
@@ -92,6 +47,51 @@ def get_stretched_rgb_data(
 
     Values are first normalized to 0-255 range before stretching.
     """
+
+    def stretch(data: np.ndarray | xr.DataArray):
+        """
+        Apply contrast stretching to input data (numpy array or xarray DataArray).
+
+        The stretching includes:
+        1. Normalization to 0-255 range
+        2. Piecewise linear interpolation with predefined breakpoints
+        3. Conversion to uint8
+
+        Parameters
+        -----------
+        data : Union[np.ndarray, xr.DataArray]
+            Input data to be stretched
+
+        Returns
+        --------
+        Union[np.ndarray, xr.DataArray]
+            Stretched data in the same format as input
+        """
+        # Extract numpy array if input is DataArray
+        if isinstance(data, xr.DataArray):
+            data_values = data.values
+        else:
+            data_values = data
+
+        # Normalize to 0-255 range (assuming input is 0-1)
+        data_norm = (data_values - 0) / (1 - 0) * 255
+
+        # Define stretching curve breakpoints
+        x = [0, 30, 60, 120, 190, 255]  # Input values
+        y = [0, 110, 160, 210, 240, 255]  # Output values
+        interp = interp1d(x, y, bounds_error=False, fill_value=255)
+
+        # Apply interpolation and convert to 8-bit unsigned integer
+        stretched_data = interp(data_norm).astype(np.uint8)
+
+        # Return DataArray if input was DataArray, otherwise return numpy array
+        if isinstance(data, xr.DataArray):
+            return xr.DataArray(
+                stretched_data, dims=data.dims, coords=data.coords, attrs=data.attrs
+            )
+        else:
+            return stretched_data
+
     # Extract the three bands from input DataArray
     R = data_input[r_band]
     G = data_input[g_band]
