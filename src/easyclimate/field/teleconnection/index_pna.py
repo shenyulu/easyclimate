@@ -29,6 +29,7 @@ import xarray as xr
 from ...core.utility import sort_ascending_latlon_coordinates
 from ...core.variability import remove_seasonal_cycle_mean
 from ...core.eof import get_REOF_model, calc_REOF_analysis
+from typing import Literal
 
 __all__ = [
     "calc_index_PNA_modified_pointwise",
@@ -175,8 +176,8 @@ def calc_index_PNA_NH_REOF(
     lat_range: slice = slice(20, 85),
     time_dim: str = "time",
     random_state=None,
-    solver="auto",
-    solver_kwargs={},
+    solver: Literal["auto", "full", "randomized"] = "auto",
+    solver_kwargs: dict = {},
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index using rotated empirical orthogonal functions (REOFs) method over the entire Northern Hemisphere:
