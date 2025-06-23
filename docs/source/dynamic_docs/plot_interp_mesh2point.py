@@ -25,6 +25,11 @@ import pandas as pd
 # %%
 # Load 2m temperature data from a NetCDF file (ERA5 reanalysis data)
 # The data contains temperature values on a regular latitude-longitude grid
+#
+# .. tip::
+#
+#   You can download following datasets here: :download:`Download js_t2m_ERA5_2025052000.nc <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/js_t2m_ERA5_2025052000.nc>`
+#
 t2m_data = xr.open_dataset("js_t2m_ERA5_2025052000.nc").t2m
 t2m_data
 
