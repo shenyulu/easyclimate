@@ -58,6 +58,9 @@ This project is released with a
 [Code of Conduct](https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
+❤️ **Sponsor This Project**
+We deeply appreciate the contributors who have improved our software through their valuable feedback and issue reports. As a community-driven project, we gratefully acknowledge our sponsors. You can find the list of sponsors [here❤️](https://easyclimate.readthedocs.io/en/latest/sponsor.html).
+
 > **Imposter syndrome disclaimer:**
 > We want your help. **No, really.** There may be a little voice inside your
 > head that is telling you that you're not ready, that you aren't skilled

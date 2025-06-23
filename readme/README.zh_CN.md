@@ -58,6 +58,9 @@ pip install easyclimate
 [行为准则](https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md)。
 参与本项目即表示您同意遵守其条款。
 
+❤️ **赞助支持本项目**
+衷心感谢所有通过提交反馈和问题报告来帮助改进本软件的贡献者。这是一个由社区驱动的项目，我们诚挚感谢每一位赞助者的支持。赞助者名单请见[此处❤️](https://easyclimate.readthedocs.io/en/latest/sponsor.html)。
+
 > **冒名顶替综合症免责声明：**
 > 我们需要你的帮助。**真的**。 你可能会有一个声音在你心里告诉你，你还没准备好，你不够有能力去做贡献。我们向你保证，那个声音是错的。最重要的是，除了写代码之外，**还有很多有价值的贡献方式**。
 
