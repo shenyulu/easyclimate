@@ -1,4 +1,4 @@
-# Changelog
+# Changelog♻️
 
 ## v2025.7.0
 

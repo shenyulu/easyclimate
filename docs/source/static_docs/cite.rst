@@ -1,6 +1,6 @@
 .. _citenote:
 
-Citing Easy Climate
+Citing Easy Climate📒
 ========================
 
 This is research software **made by scientists**. Citations help us justify the effort
