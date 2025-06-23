@@ -19,6 +19,8 @@ from ..temperature.equivalent_potential_temperature import (
 __all__ = [
     "calc_wet_bulb_potential_temperature_iteration",
     "calc_wet_bulb_potential_temperature_davies_jones2008",
+    "calc_wet_bulb_temperature_stull2011",
+    "calc_wet_bulb_temperature_sadeghi2013",
 ]
 
 
