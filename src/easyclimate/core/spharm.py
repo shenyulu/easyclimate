@@ -26,6 +26,10 @@ def calc_gaussian_latitudes(nlat: int):
     Returns
     -------
     The gaussian latitudes (in degrees north) and gaussian quadrature weights (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. seealso::
+
+        - https://www.ncl.ucar.edu/Document/Functions/Built-in/gaus.shtml
     """
     lats, wts = spharm.gaussian_lats_wts(nlat)
 
