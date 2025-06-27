@@ -7,7 +7,7 @@ import xarray as xr
 import numpy as np
 from ..physics.geo import get_coriolis_parameter
 from ..physics.temperature import calc_potential_temperature_vertical
-from ..physics.stability import calc_brunt_vaisala_frequency_atm
+from ..physics.convection.stability import calc_brunt_vaisala_frequency_atm
 from .diff import (
     calc_gradient,
     calc_lon_gradient,

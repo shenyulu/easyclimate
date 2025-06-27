@@ -7,7 +7,7 @@ import pytest
 import easyclimate as ecl
 import numpy as np
 import xarray as xr
-from easyclimate.physics.lcl import (
+from easyclimate.physics.condensation.lcl import (
     calc_lifting_condensation_level_bolton1980,
     calc_lifting_condensation_level_Bohren_Albrecht2023,
 )
