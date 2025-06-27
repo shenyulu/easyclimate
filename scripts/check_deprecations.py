@@ -65,7 +65,7 @@ class DeprecationChecker:
     def __init__(self, package_name: str = "easyclimate"):
         # Replace Unicode characters with Windows-compatible alternative text
         if sys.platform == "win32":
-            self.scan_icon = "[SEARCH]"
+            self.scan_icon = "🔎"
         else:
             self.scan_icon = "🔍"
 
