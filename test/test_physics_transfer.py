@@ -23,7 +23,8 @@ from .util import round_sf_np
 
 def test_transfer_mixing_ratio_2_specific_humidity():
     result_data = transfer_mixing_ratio_2_specific_humidity(
-        mixing_ratio_data=xr.DataArray([0.01594761, 0.01923578])
+        mixing_ratio_data=xr.DataArray([0.01594761, 0.01923578]),
+        mixing_ratio_data_units="g/g",
     ).data
     refer_data = np.array([0.01569728, 0.01887275])
     assert np.isclose(result_data, refer_data).all()
@@ -78,6 +79,7 @@ def test_transfer_mixing_ratio_2_relative_humidity():
         mixing_ratio_data=xr.DataArray([18 / 1000, 16 / 1000]),
         pressure_data_units="hPa",
         temperature_data_units="celsius",
+        mixing_ratio_data_units="g/g",
     ).data
     refer_data = np.array([0.67127708, 0.67260414])
     assert np.isclose(result_data, refer_data).all()

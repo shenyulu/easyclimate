@@ -27,6 +27,7 @@ __all__ = [
 
 def transfer_mixing_ratio_2_specific_humidity(
     mixing_ratio_data: xr.DataArray,
+    mixing_ratio_data_units: Literal["kg/kg", "g/g", "g/kg"],
 ) -> xr.DataArray:
     """
     Calculate the specific humidity from mixing ratio.
@@ -35,6 +36,9 @@ def transfer_mixing_ratio_2_specific_humidity(
     ----------
     mixing_ratio_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The mixing ratio of a gas.
+    mixing_ratio_data_units: :py:class:`str <str>`.
+        The unit corresponding to ``mixing_ratio_data`` value. Optional values are :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`, :math:`\\mathrm{g/kg}` and so on.
+
 
     Returns
     -------
@@ -43,6 +47,9 @@ def transfer_mixing_ratio_2_specific_humidity(
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_mixing_ratio.html
     """
+    mixing_ratio_data = transfer_data_multiple_units(
+        mixing_ratio_data, mixing_ratio_data_units, "g/g"
+    )  # g/g
     return_data = mixing_ratio_data / (1 + mixing_ratio_data)
 
     # clean other attrs
@@ -75,13 +82,13 @@ def transfer_specific_humidity_2_mixing_ratio(
     """
     specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "g/g"
-    )
+    )  # g/g
 
-    return_data = specific_humidity_data / (1 - specific_humidity_data)
+    return_data = specific_humidity_data / (1 - specific_humidity_data)  # g/g
 
     # clean other attrs
     return_data.attrs = dict()
-    return_data.attrs["units"] = "dimensionless"
+    return_data.attrs["units"] = "g/g"
     return_data.name = "mixing_ratio"
     return return_data
 
@@ -118,8 +125,8 @@ def transfer_dewpoint_2_specific_humidity(
         temperature_data=dewpoint_data,
         temperature_data_units=dewpoint_data_units,
         total_pressure_data_units=pressure_data_units,
-    )
-    return_data = transfer_mixing_ratio_2_specific_humidity(mixing_ratio)
+    )  # g/g
+    return_data = transfer_mixing_ratio_2_specific_humidity(mixing_ratio, "g/g")  # g/g
     # clean other attrs
     return_data.attrs = dict()
     return_data.attrs["units"] = "g/g"
@@ -156,11 +163,11 @@ def transfer_dewpoint_2_mixing_ratio(
         pressure_data=pressure_data,
         dewpoint_data_units=dewpoint_data_units,
         pressure_data_units=pressure_data_units,
-    )
+    )  # g/g
 
     mixing_ratio = transfer_specific_humidity_2_mixing_ratio(
         specific_humidity_data=q, specific_humidity_data_units="g/g"
-    )
+    )  # g/g
 
     return mixing_ratio
 
@@ -198,15 +205,15 @@ def transfer_specific_humidity_2_dewpoint(
     """
     specific_humidity_data = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "g/g"
-    )
+    )  # g/g
     w = transfer_specific_humidity_2_mixing_ratio(
         specific_humidity_data=specific_humidity_data,
-        specific_humidity_data_units=specific_humidity_data_units,
-    )
+        specific_humidity_data_units="g/g",
+    )  # g/g
     e = pressure_data * w / (epsilon + w)
     return_data = calc_dewpoint(
         vapor_pressure_data=e, vapor_pressure_data_units=pressure_data_units
-    )
+    )  # Celsius
 
     # clean other attrs
     return_data.attrs = dict()
@@ -248,19 +255,19 @@ def transfer_dewpoint_2_relative_humidity(
         input_data=temperature_data,
         input_units=temperature_data_units,
         output_units="celsius",
-    )
+    )  # Celsius
     dewpoint_data = transfer_data_temperature_units(
         input_data=dewpoint_data,
         input_units=dewpoint_data_units,
         output_units="celsius",
-    )
+    )  # Celsius
 
     e = calc_saturation_vapor_pressure(
-        temperature_data=dewpoint_data, temperature_data_units=dewpoint_data_units
-    )
+        temperature_data=dewpoint_data, temperature_data_units="celsius"
+    )  # hPa
     e_s = calc_saturation_vapor_pressure(
-        temperature_data=temperature_data, temperature_data_units=temperature_data_units
-    )
+        temperature_data=temperature_data, temperature_data_units="celsius"
+    )  # hPa
     return_data = e / e_s
 
     # clean other attrs
@@ -276,6 +283,7 @@ def transfer_mixing_ratio_2_relative_humidity(
     mixing_ratio_data: xr.DataArray,
     pressure_data_units: Literal["hPa", "Pa", "mbar"],
     temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
+    mixing_ratio_data_units: Literal["kg/kg", "g/g", "g/kg"],
     epsilon: float = 0.6219569100577033,
 ) -> xr.DataArray:
     """
@@ -293,6 +301,8 @@ def transfer_mixing_ratio_2_relative_humidity(
         The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+    mixing_ratio_data_units: :py:class:`str <str>`.
+        The unit corresponding to ``mixing_ratio_data`` value. Optional values are :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`, :math:`\\mathrm{g/kg}` and so on.
     epsilon: :py:class:`float <float>`.
         The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air.
         Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
@@ -309,10 +319,13 @@ def transfer_mixing_ratio_2_relative_humidity(
         temperature_data=temperature_data,
         total_pressure_data_units=pressure_data_units,
         temperature_data_units=temperature_data_units,
-    )
+    )  # g/g
+    mixing_ratio_data = transfer_data_multiple_units(
+        mixing_ratio_data, mixing_ratio_data_units, "g/g"
+    )  # g/g
     return_data = (
         mixing_ratio_data / (epsilon + mixing_ratio_data) * (epsilon + w_s) / w_s
-    )
+    )  # dimensionless
 
     # clean other attrs
     return_data.attrs = dict()
@@ -357,14 +370,15 @@ def transfer_specific_humidity_2_relative_humidity(
     mixing_ratio_data = transfer_specific_humidity_2_mixing_ratio(
         specific_humidity_data=specific_humidity_data,
         specific_humidity_data_units=specific_humidity_data_units,
-    )
+    )  # g/g
     return_data = transfer_mixing_ratio_2_relative_humidity(
         pressure_data=pressure_data,
         temperature_data=temperature_data,
         mixing_ratio_data=mixing_ratio_data,
         pressure_data_units=pressure_data_units,
         temperature_data_units=temperature_data_units,
-    )
+        mixing_ratio_data_units="g/g",
+    )  # dimensionless
 
     # clean other attrs
     return_data.attrs = dict()
@@ -419,16 +433,18 @@ def transfer_relative_humidity_2_dewpoint(
     GC = 461.5  # Gas constant for water vapor [J/(kg·K)]
     GCX = GC / (1000.0 * 4.186)  # Convert to [cal/(g·K)]
 
-    tk = transfer_data_temperature_units(temperature_data, temperature_data_units, "K")
+    tk = transfer_data_temperature_units(
+        temperature_data, temperature_data_units, "K"
+    )  # K
     rh = transfer_data_multiple_units(
         relative_humidity_data, relative_humidity_data_units, "%"
-    )
+    )  # %
 
     # Calculate latent heat of vaporization
     lhv = (597.3 - 0.57 * (tk - 273.0)) / GCX
 
     # Calculate dew point temperature
-    tdk = tk * lhv / (lhv - tk * np.log(rh * 0.01))
+    tdk = tk * lhv / (lhv - tk * np.log(rh * 0.01))  # K
 
     # clean other attrs
     tdk.attrs = dict()
