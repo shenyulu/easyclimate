@@ -36,7 +36,7 @@ def calc_lifting_condensation_level_bolton1980(
     relative_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The relative humidity.
     temperature_data_units: :py:class:`str <str>`.
-        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+        The unit corresponding to `temperature_data` value. Optional values are ``celsius``, ``kelvin``, ``fahrenheit``.
     relative_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `vapor_pressure_data` value. Optional values are ``%``, ``dimensionless``.
 
