@@ -45,6 +45,7 @@ Geophysical Parameters Related
     :toctree: generated/
 
     easyclimate.physics.geo.coriolis
+    easyclimate.physics.geo.linrood_latwgt
 
 Dry Related
 ::::::::::::::::::::::::::::::::::::::::
@@ -111,8 +112,10 @@ Interpolation
 
     easyclimate.interp.barnes
     easyclimate.interp.mesh2mesh
+    easyclimate.interp.mesh2point
     easyclimate.interp.interp1d_vertical_model2pressure
     easyclimate.interp.interp1d_vertical_pressure2altitude
+    easyclimate.interp.vinth2p_dp
 
 Plot
 ----------------------------------------
