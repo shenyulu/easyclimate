@@ -9,14 +9,16 @@ __all__ = ["calc_enthalpy"]
 
 
 import xarray as xr
-import numpy as np
 from typing import Literal
-from ..core.utility import transfer_data_temperature_units, transfer_data_multiple_units
-from ..core.utility import compare_multi_dataarray_coordinate
+from ...core.utility import (
+    transfer_data_temperature_units,
+    transfer_data_multiple_units,
+)
+from ...core.utility import compare_multi_dataarray_coordinate
 
 
 def calc_enthalpy(
-    temperature_data,
+    temperature_data: xr.DataArray,
     mixing_ratio_data: xr.DataArray,
     temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
     mixing_ratio_data_units: Literal["kg/kg", "g/g", "g/kg"],
