@@ -93,13 +93,21 @@ Convection Related
 
     easyclimate.physics.convection.stability
 
+Energy Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.energy.enthalpy
+    easyclimate.physics.energy.latent_heat_water
+
 Others
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.physics.enthalpy
     easyclimate.physics.transfer
 
 Filter🎹
