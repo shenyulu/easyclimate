@@ -5,7 +5,7 @@ Sponsor This Project❤️
 
 We express our sincere thanks to the individuals who have enhanced our software through their valuable issue reports and insightful feedback.
 
-This work is a **community project**. Thanks to the following people for their donations to this project on the WeChat public platform (@shenyulu2020).
+This work is a **community project**. Thanks to the following people for their donations to this project on the WeChat public platform.
 
 .. tip::
 
