@@ -28,7 +28,7 @@ def calc_potential_intensity_Bister_Emanuel_2002(
     specific_humidity_data: xr.DataArray,
     specific_humidity_data_units: str,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     CKCD: float = 0.9,
     ascent_flag: bool = False,
     diss_flag: bool = True,
