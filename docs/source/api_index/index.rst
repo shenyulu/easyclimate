@@ -126,6 +126,7 @@ Filter🎹
     easyclimate.filter.redfit
     easyclimate.filter.spatial_pcf
     easyclimate.filter.emd
+    easyclimate.filter.spectrum
 
 Interpolation🔗
 ----------------------------------------
@@ -138,7 +139,7 @@ Interpolation🔗
     easyclimate.interp.mesh2point
     easyclimate.interp.interp1d_vertical_model2pressure
     easyclimate.interp.interp1d_vertical_pressure2altitude
-    easyclimate.interp.vinth2p_dp
+    easyclimate.interp.vinth2p
 
 Plot🖊️
 ----------------------------------------
