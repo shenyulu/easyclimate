@@ -8,3 +8,4 @@ from . import heat_stress
 from . import boundary_layer
 from . import equatorial_wave
 from . import typhoon
+from . import satellite

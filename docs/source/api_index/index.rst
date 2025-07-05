@@ -99,6 +99,7 @@ Energy Related
 .. autosummary::
     :toctree: generated/
 
+    easyclimate.physics.energy.angmom_atm
     easyclimate.physics.energy.enthalpy
     easyclimate.physics.energy.latent_heat_water
 
@@ -161,14 +162,6 @@ WRF-python🌌
     :toctree: generated/
 
     easyclimate.wrf.interface
-
-Satellite🪐
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.satellite.image
 
 Meteorology Field🌂
 ----------------------------------------
@@ -244,6 +237,14 @@ Equatorial Wave
 
     easyclimate.field.equatorial_wave.mjo
     easyclimate.field.equatorial_wave.wk_spectra
+
+Satellite
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.satellite.image
 
 Heat Stress
 ::::::::::::::::::::::::::::::::::::::::

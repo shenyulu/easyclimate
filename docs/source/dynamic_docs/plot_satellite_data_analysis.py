@@ -51,7 +51,7 @@ js_data
 # - Band 3 (0.64μm) for Red channel
 # - Band 2 (0.51μm) for Green channel
 # - Band 1 (0.47μm) for Blue channel
-rgb_result = ecl.satellite.get_stretched_rgb_data(js_data, r_band='albedo_03', g_band='albedo_02', b_band='albedo_01')
+rgb_result = ecl.field.satellite.get_stretched_rgb_data(js_data, r_band='albedo_03', g_band='albedo_02', b_band='albedo_01')
 rgb_result
 
 # %%
