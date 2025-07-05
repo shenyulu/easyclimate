@@ -3,11 +3,6 @@ Atmospheric Enthalpy
 """
 
 from __future__ import annotations
-
-
-__all__ = ["calc_enthalpy"]
-
-
 import xarray as xr
 from typing import Literal
 from ...core.utility import (
@@ -15,6 +10,8 @@ from ...core.utility import (
     transfer_data_multiple_units,
 )
 from ...core.utility import compare_multi_dataarray_coordinate
+
+__all__ = ["calc_enthalpy"]
 
 
 def calc_enthalpy(
