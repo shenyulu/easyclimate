@@ -38,17 +38,17 @@ direction to the axis of rotation are parallel. This gives an indication that
 there isn't a Coriolis force acting on air moving along the equator,
 so there must be a relationship between latitude and the magnitude of Coriolis
 force. Coriolis force is proportional to sin(latitude), so it is at a maximum
-at the poles (:math:`\sin 90 ^\circ = 1`) and zero at the equator (:math:`\sin 0 ^\circ = 0`).
+at the poles (:math:`\\sin 90 ^\\circ = 1`) and zero at the equator (:math:`\\sin 0 ^\circ = 0`).
 In calculations, meteorologists use the Coriolis coefficient which is
 
 .. math::
 
-    f = 2 \Omega \sin(\phi)
+    f = 2 \Omega \\sin(\phi)
 
 Where
 
-- :math:`\Omega`: Earth's angular velocity (:math:`7.292 \cdot 10 ^{-5} \ \mathrm{rad/s}`).
-- :math:`\phi`: the latitude in degrees.
+- :math:`\\Omega`: Earth's angular velocity (:math:`7.292 \\cdot 10 ^{-5} \\ \\mathrm{rad/s}`).
+- :math:`\\phi`: the latitude in degrees.
 
 .. seealso::
 
