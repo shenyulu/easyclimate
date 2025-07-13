@@ -13,6 +13,7 @@ The KF filter is a specialized spectral analysis technique designed to isolate a
     - Kiladis, G. N., Thorncroft, C. D., & Hall, N. M. J. (2006). Three-Dimensional Structure and Dynamics of African Easterly Waves. Part I: Observations. Journal of the Atmospheric Sciences, 63(9), 2212-2230. https://doi.org/10.1175/JAS3741.1
     - Hall, N. M. J., Kiladis, G. N., & Thorncroft, C. D. (2006). Three-Dimensional Structure and Dynamics of African Easterly Waves. Part II: Dynamical Modes. Journal of the Atmospheric Sciences, 63(9), 2231-2245. https://doi.org/10.1175/JAS3742.1
     - Thorncroft, C. D., Hall, N. M. J., & Kiladis, G. N. (2008). Three-Dimensional Structure and Dynamics of African Easterly Waves. Part III: Genesis. Journal of the Atmospheric Sciences, 65(11), 3596-3607. https://doi.org/10.1175/2008JAS2575.1
+    - http://www.bom.gov.au/climate/mjo/
 
 Before proceeding with all the steps, first import some necessary libraries and packages
 """
@@ -108,7 +109,11 @@ lf_result_ave.plot.contourf(
 ecl.plot.set_lon_format_axis()
 
 # %%
-# The MJO wave is extracted here
+# The MJO wave is extracted here.
+#
+# The Madden–Julian Oscillation (MJO) is the major fluctuation in tropical weather on weekly to monthly timescales.
+# It can be characterised as an eastward moving pulse or wave of cloud and rainfall near
+# the equator that typically recurs every 30 to 60 days.
 
 # sphinx_gallery_thumbnail_number = 2
 fig, ax = plt.subplots(figsize = (8, 5))
@@ -122,7 +127,14 @@ ecl.plot.set_lon_format_axis()
 
 
 # %%
-#The MJO waves are extracted here
+# The mixed Rossby-Gravity (MRG) waves are extracted here.
+#
+# The MRG waves move towards the west, but MRG waves have their pressure centres arranged anti-symmetrically
+# on either side of the equator. This means a low pressure centre on one side of the equator will be opposite
+# a high pressure centre in the other hemisphere. Satellite analysis of mixed Rossby-Gravity waves shows
+# favoured zones for deep convection, often with thunderstorm clusters, in an antisymmetric arrangement
+# about the equator. Their speed of movement to the west is faster than that of an ER wave.
+
 fig, ax = plt.subplots(figsize = (8, 5))
 
 mrg_result_ave.plot.contourf(
@@ -133,7 +145,7 @@ mrg_result_ave.plot.contourf(
 ecl.plot.set_lon_format_axis()
 
 # %%
-# The mixed Rossby-gravity (MRG) waves are extracted here
+# The tropical depression (TD) waves are extracted here
 fig, ax = plt.subplots(figsize = (8, 5))
 
 td_result_ave.plot.contourf(
