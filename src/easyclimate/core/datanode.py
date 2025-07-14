@@ -126,6 +126,9 @@ class DataNode:
             return node
         return self._attributes[key]
 
+    def __contains__(self, key):
+        return key in self._attributes
+
     def __setitem__(self, key, value):
         """
         Set attributes using path-style notation, creating intermediate nodes as needed.
