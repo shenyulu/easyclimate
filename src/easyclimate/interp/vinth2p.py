@@ -36,8 +36,9 @@ def interp_vinth2p_dp(
     vertical_output_dim_units: str,
     interp_method: Literal["linear", "log", "loglog"] = "linear",
     extrapolation: bool = False,
-    lon_dim="lon",
-    lat_dim="lat",
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    time_dim: str = "time",
     p0_hPa=1000.0,
 ) -> xr.DataArray:
     """
@@ -82,6 +83,8 @@ def interp_vinth2p_dp(
         Name of the longitude dimension. Default is ``"lon"``.
     lat_dim : :py:class:`str <str>`., optional
         Name of the latitude dimension. Default is ``"lat"``.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name. Default is ``"time"``.
     p0_hPa : :py:class:`float <float>`., optional
         Reference pressure in hPa for hybrid level calculation. Default is ``1000.0`` hPa.
 
@@ -153,10 +156,13 @@ def interp_vinth2p_dp(
     # Validate input shapes
     compare_multi_dataarray_coordinate(
         [hybrid_A_coefficients, hybrid_B_coefficients, plevi],
+        time_dim=time_dim,
         exclude_dims=[vertical_input_dim],
     )
     compare_multi_dataarray_coordinate(
-        [data_input, surface_pressure_data], exclude_dims=[vertical_input_dim]
+        [data_input, surface_pressure_data],
+        time_dim=time_dim,
+        exclude_dims=[vertical_input_dim],
     )
 
     def vinth2p(
@@ -344,6 +350,7 @@ def interp_vinth2p_ecmwf(
     extrapolation: bool = True,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
+    time_dim: str = "time",
     p0_hPa: float = 1000.0,
 ) -> xr.DataArray:
     """
@@ -384,7 +391,7 @@ def interp_vinth2p_ecmwf(
     temperature_bottom_data : Optional[:py:class:`xarray.DataArray <xarray.DataArray>`], optional
         Temperature at the lowest model level (required for 'Z' extrapolation).
         Dimensions, e.g., (time, lat, lon). Default is None.
-    surface_geopotentia_data : Optional[:py:class:`xarray.DataArray <xarray.DataArray>`], optional
+    surface_geopotential_data : Optional[:py:class:`xarray.DataArray <xarray.DataArray>`], optional
         Surface geopotential (required for 'T' or 'Z' extrapolation).
         Dimensions, e.g., (time, lat, lon). Default is None.
     interp_method : ``Literal["linear", "log", "loglog"]``, optional
@@ -402,6 +409,8 @@ def interp_vinth2p_ecmwf(
         Name of the longitude dimension. Default is "lon".
     lat_dim : :py:class:`str <str>`, optional
         Name of the latitude dimension. Default is "lat".
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name. Default is "time".
     p0_hPa : :py:class:`float <float>`, optional
         Reference pressure in **hPa** for hybrid level calculation. Default is ``1000.0 hPa``.
 
@@ -416,8 +425,8 @@ def interp_vinth2p_ecmwf(
     - The hybrid level pressure is calculated as: :math:`P = A \\cdot p_0 + B \\cdot \\mathrm{psfc}`
     - Output pressure levels are converted to hPa internally for calculations.
     - Missing values are converted to NaN in the output.
-    - ECMWF extrapolation is applied only when extrapolation=True and variable_flag is 'T' or 'Z'.
-    - For 'T' or 'Z', tbot and phis must be provided when extrapolation=True.
+    - ECMWF extrapolation is applied only when ``extrapolation=True`` and variable_flag is 'T' or 'Z'.
+    - For 'T' or 'Z', tbot and phis must be provided when ``extrapolation=True``.
 
     .. seealso::
 
@@ -437,8 +446,8 @@ def interp_vinth2p_ecmwf(
     ...     vertical_output_dim="plev",
     ...     vertical_output_dim_units="hPa",
     ...     variable_flag="T",
-    ...     tbot=tbot_data,
-    ...     phis=phis_data,
+    ...     temperature_bottom_data=tbot_data,
+    ...     surface_geopotential_data=phis_data,
     ...     interp_method="log",
     ...     extrapolation=True
     ... )
@@ -469,7 +478,7 @@ def interp_vinth2p_ecmwf(
     if extrapolation and (variable_flag == "T" or variable_flag == "Z"):
         if temperature_bottom_data is None or surface_geopotential_data is None:
             raise ValueError(
-                "`temperature_bottom_data` and `surface_geopotentia_data` must be provided when extrapolation=True for 'T' or 'Z'."
+                "`temperature_bottom_data` and `surface_geopotential_data` must be provided when extrapolation=True for 'T' or 'Z'."
             )
 
     # Convert units
@@ -497,14 +506,25 @@ def interp_vinth2p_ecmwf(
     # Validate input shapes
     compare_multi_dataarray_coordinate(
         [hybrid_A_coefficients, hybrid_B_coefficients, plevi],
+        time_dim=time_dim,
         exclude_dims=[vertical_input_dim],
     )
     compare_multi_dataarray_coordinate(
         [
             data_input,
             surface_pressure_data,
+            temperature_bottom_data,
         ],
+        time_dim=time_dim,
         exclude_dims=[vertical_input_dim],
+    )
+    compare_multi_dataarray_coordinate(
+        [
+            surface_pressure_data,
+            surface_geopotential_data,
+        ],
+        time_dim=time_dim,
+        exclude_dims=[vertical_input_dim, time_dim],
     )
 
     def vinth2pecmwf(
@@ -746,6 +766,7 @@ def interp_vintp2p_ecmwf(
     extrapolation: bool = False,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
+    time_dim: str = "time",
 ) -> xr.DataArray:
     """
     Interpolates data at multidimensional pressure levels to constant pressure coordinates and uses an ECMWF formulation to extrapolate values below ground.
@@ -785,7 +806,7 @@ def interp_vintp2p_ecmwf(
     temperature_bottom_data : Optional[:py:class:`xarray.DataArray <xarray.DataArray>`], optional
         Temperature at the lowest model level (required for 'Z' extrapolation).
         Dimensions, e.g., (time, lat, lon). Default is None.
-    surface_geopotentia_data : Optional[:py:class:`xarray.DataArray <xarray.DataArray>`], optional
+    surface_geopotential_data : Optional[:py:class:`xarray.DataArray <xarray.DataArray>`], optional
         Surface geopotential (required for 'T' or 'Z' extrapolation).
         Dimensions, e.g., (time, lat, lon). Default is None.
     interp_method : ``Literal["linear", "log", "loglog"]``, optional
@@ -803,6 +824,8 @@ def interp_vintp2p_ecmwf(
         Name of the longitude dimension. Default is "lon".
     lat_dim : :py:class:`str <str>`, optional
         Name of the latitude dimension. Default is "lat".
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name. Default is "time".
 
     Returns
     -------
@@ -815,12 +838,12 @@ def interp_vintp2p_ecmwf(
     - The input pressure levels are provided directly via ``pressure_data``.
     - Output pressure levels and surface pressure are converted to hPa internally for calculations.
     - Missing values are converted to NaN in the output.
-    - ECMWF extrapolation is applied only when extrapolation=True and variable_flag is 'T' or 'Z'.
-    - For 'T' or 'Z', tbot and phis must be provided when extrapolation=True.
+    - ECMWF extrapolation is applied only when ``extrapolation=True`` and variable_flag is 'T' or 'Z'.
+    - For 'T' or 'Z', ``temperature_bottom_data`` and ``surface_geopotential_data`` must be provided when ``extrapolation=True``.
 
     .. seealso::
 
-    - https://www.ncl.ucar.edu/Document/Functions/Built-in/vintp2p_ecmwf.shtml
+        - https://www.ncl.ucar.edu/Document/Functions/Built-in/vintp2p_ecmwf.shtml
 
     Examples
     --------
@@ -836,8 +859,8 @@ def interp_vintp2p_ecmwf(
     ...     vertical_output_dim="plev",
     ...     vertical_output_dim_units="hPa",
     ...     variable_flag="T",
-    ...     tbot=tbot_data,
-    ...     phis=phis_data,
+    ...     temperature_bottom_data=tbot_data,
+    ...     surface_geopotential_data=phis_data,
     ...     interp_method="log",
     ...     extrapolation=True
     ... )
@@ -905,6 +928,7 @@ def interp_vintp2p_ecmwf(
     # Validate input shapes
     compare_multi_dataarray_coordinate(
         [data_input, pressure_data, surface_pressure_data],
+        time_dim=time_dim,
         exclude_dims=[vertical_input_dim],
     )
     if extrapolation and (variable_flag == "T" or variable_flag == "Z"):
@@ -916,6 +940,7 @@ def interp_vintp2p_ecmwf(
                 temperature_bottom_data,
                 surface_geopotential_data,
             ],
+            time_dim=time_dim,
             exclude_dims=[vertical_input_dim],
         )
 
