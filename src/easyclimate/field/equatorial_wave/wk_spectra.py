@@ -17,7 +17,7 @@ of equatorial wave dispersion relationships.
 import xarray as xr
 import numpy as np
 import matplotlib.pyplot as plt
-from easyclimate_backend.wk_spectra import wk_analysis, matsuno_plot
+from ...backend import wk_analysis, matsuno_plot
 
 __all__ = [
     "remove_dominant_signals",

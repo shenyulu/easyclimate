@@ -4,7 +4,7 @@ Easy climate top interface for the Pyspharm
 This is the top layer of packaging for the Pyspharm package.
 """
 
-from easyclimate_backend.pyspharm import spharm
+from ..backend import spharm
 import xarray as xr
 import numpy as np
 from typing import Literal

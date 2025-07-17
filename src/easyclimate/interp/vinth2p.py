@@ -12,9 +12,7 @@ from __future__ import annotations
 
 import numpy as np
 import xarray as xr
-from easyclimate_backend.vinth2p._vinth2p_dp import vinth2p as _vinth2p_dp
-from easyclimate_backend.vinth2p._vinth2p_ecmwf import vinth2pecmwf as _vinth2p_ecmwf
-from easyclimate_backend.vinth2p._vintp2p_ecmwf import vintp2pecmwf as _vintp2p_ecmwf
+from ..backend import _vinth2p_dp, _vinth2p_ecmwf, _vintp2p_ecmwf
 from ..core.utility import (
     compare_multi_dataarray_coordinate,
     transfer_data_multiple_units,

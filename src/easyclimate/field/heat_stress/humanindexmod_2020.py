@@ -10,7 +10,7 @@ from ...core.utility import (
     transfer_data_multiple_units,
     transfer_data_difference_units,
 )
-from easyclimate_backend.heat_stress import human_index_mod, human_index_mod_old
+from ...backend import human_index_mod, human_index_mod_old
 
 __all__ = [
     "calc_apparent_temperature",

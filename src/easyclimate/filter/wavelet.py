@@ -3,7 +3,7 @@ Wavelet transform
 """
 
 from __future__ import annotations
-from easyclimate_backend.wavelet.waveletFunctions import wave_signif, wavelet
+from ..backend import wave_signif, wavelet
 import xarray as xr
 import pandas as pd
 import numpy as np
