@@ -209,6 +209,7 @@ Monsoon
     :toctree: generated/
 
     easyclimate.field.monsoon.index_npwi
+    easyclimate.field.monsoon.bsiso
 
 Ocean
 ::::::::::::::::::::::::::::::::::::::::
