@@ -1,5 +1,7 @@
 """
 pytest for core/utility.py
+
+Part1
 """
 
 import pytest
@@ -341,9 +343,9 @@ def test_generate_dataset_dispatcher():
     assert isinstance(func(ds3.to_dataset(name="test")), xr.Dataset)
 
 
-def test_generate_datatree_dispatcher():
-    # see `test_calc_linregress_spatial_datatree` in test_core_stat.py
-    pass
+# def test_generate_datatree_dispatcher():
+# see `test_calc_linregress_spatial_datatree` in test_core_stat.py
+# pass
 
 
 def test_transfer_xarray_lon_from180TO360():

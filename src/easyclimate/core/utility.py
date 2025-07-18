@@ -3,7 +3,6 @@ Functions for package utility.
 """
 
 from __future__ import annotations
-from xarray import DataTree
 
 import numpy as np
 import xarray as xr
@@ -605,104 +604,104 @@ def generate_dataset_dispatcher(func):
     return wrapper
 
 
-def generate_datatree_dispatcher(func):
-    """
-    Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
-    """
+# def generate_datatree_dispatcher(func):
+#     """
+#     Function Dispensers: Iterate over the variables in the `xarray.Dataset` data using a function that only supports `xarray.DataArray` data
+#     """
 
-    def apply_to_dataset(data, func, returns_type, *args, **kwargs):
-        # Apply the function to each variable in `xarray.Dataset`.
-        result = {}
-        for var_name, data_array in data.data_vars.items():
-            try:
-                result[var_name] = func(data_array, *args, **kwargs)
-            except Exception as e:
-                warnings.warn(
-                    f"Variable '{var_name}' cannot be processed with the provided function. Ignoring."
-                )
+#     def apply_to_dataset(data, func, returns_type, *args, **kwargs):
+#         # Apply the function to each variable in `xarray.Dataset`.
+#         result = {}
+#         for var_name, data_array in data.data_vars.items():
+#             try:
+#                 result[var_name] = func(data_array, *args, **kwargs)
+#             except Exception as e:
+#                 warnings.warn(
+#                     f"Variable '{var_name}' cannot be processed with the provided function. Ignoring."
+#                 )
 
-        if returns_type == "dataset_returns":
-            return sort_datatree_by_dataset_returns(result)
-        elif returns_type == "dataset_vars":
-            return sort_datatree_by_dataset_vars(result)
-        raise ValueError(
-            "Unsupported input type. Expected 'dataset_returns' or 'dataset_vars'."
-        )
+#         if returns_type == "dataset_returns":
+#             return sort_datatree_by_dataset_returns(result)
+#         elif returns_type == "dataset_vars":
+#             return sort_datatree_by_dataset_vars(result)
+#         raise ValueError(
+#             "Unsupported input type. Expected 'dataset_returns' or 'dataset_vars'."
+#         )
 
-    def sort_datatree_by_dataset_returns(dataset_list):
-        """
-        The dictionary containing `xarray.Dataset` data is returned as a Datatree according to the returns.
-        """
+#     def sort_datatree_by_dataset_returns(dataset_list):
+#         """
+#         The dictionary containing `xarray.Dataset` data is returned as a Datatree according to the returns.
+#         """
 
-        def are_sets_equal(lists):
-            """
-            Check that multiple lists that do not depend on order are identical
-            """
-            if len(lists) < 2:
-                return True
+#         def are_sets_equal(lists):
+#             """
+#             Check that multiple lists that do not depend on order are identical
+#             """
+#             if len(lists) < 2:
+#                 return True
 
-            first_list = lists[0]
-            for i in range(1, len(lists)):
-                if len(first_list) != len(lists[i]):
-                    return False
+#             first_list = lists[0]
+#             for i in range(1, len(lists)):
+#                 if len(first_list) != len(lists[i]):
+#                     return False
 
-                if (set(first_list) == set(lists[i])) == False:
-                    return False
-                else:
-                    return True
+#                 if (set(first_list) == set(lists[i])) == False:
+#                     return False
+#                 else:
+#                     return True
 
-        # dataset var list
-        key_var_list = list(dataset_list.keys())
+#         # dataset var list
+#         key_var_list = list(dataset_list.keys())
 
-        # dataset returns list
-        key_type_list = []
-        for type_out in list(dataset_list.keys()):
-            tmp = list(dataset_list[type_out].keys())
-            key_type_list.append(tmp)
+#         # dataset returns list
+#         key_type_list = []
+#         for type_out in list(dataset_list.keys()):
+#             tmp = list(dataset_list[type_out].keys())
+#             key_type_list.append(tmp)
 
-        # Checking dimensional consistency
-        if are_sets_equal(key_type_list) == False:
-            raise ValueError(
-                "Make sure that the Dataset for each key contains the exact same variables!"
-            )
+#         # Checking dimensional consistency
+#         if are_sets_equal(key_type_list) == False:
+#             raise ValueError(
+#                 "Make sure that the Dataset for each key contains the exact same variables!"
+#             )
 
-        dt = DataTree(name="root")
-        for key_type, _ in dataset_list[key_var_list[0]].items():
-            # Get data for each returns about all `xarray.Dataset` variables
-            tmp = xr.Dataset()
-            for key_var, _ in dataset_list.items():
-                tmp[key_var] = dataset_list[key_var][key_type]
+#         dt = DataTree(name="root")
+#         for key_type, _ in dataset_list[key_var_list[0]].items():
+#             # Get data for each returns about all `xarray.Dataset` variables
+#             tmp = xr.Dataset()
+#             for key_var, _ in dataset_list.items():
+#                 tmp[key_var] = dataset_list[key_var][key_type]
 
-            # Add each returns to Datatree
-            dt[key_type] = tmp
+#             # Add each returns to Datatree
+#             dt[key_type] = tmp
 
-        return dt
+#         return dt
 
-    def sort_datatree_by_dataset_vars(dataset_list):
-        """
-        The dictionary containing `xarray.Dataset` data is returned as a Datatree according to the variable name.
-        """
-        # Create DataTree object
-        dt = DataTree(name="root")
-        # Add items to the object
-        for key, value in dataset_list.items():
-            dt[key] = DataTree(name=key, data=value)
+#     def sort_datatree_by_dataset_vars(dataset_list):
+#         """
+#         The dictionary containing `xarray.Dataset` data is returned as a Datatree according to the variable name.
+#         """
+#         # Create DataTree object
+#         dt = DataTree(name="root")
+#         # Add items to the object
+#         for key, value in dataset_list.items():
+#             dt[key] = DataTree(name=key, dataset=value)
 
-        return dt
+#         return dt
 
-    def wrapper(data, returns_type="dataset_returns", *args, **kwargs):
-        """
-        Closure core functions
-        """
-        # Type determination
-        if isinstance(data, xr.Dataset):
-            return apply_to_dataset(data, func, returns_type, *args, **kwargs)
-        elif isinstance(data, xr.DataArray):
-            return func(data, *args, **kwargs)
-        else:
-            raise ValueError("Unsupported input type. Expected DataArray or Dataset.")
+#     def wrapper(data, returns_type="dataset_returns", *args, **kwargs):
+#         """
+#         Closure core functions
+#         """
+#         # Type determination
+#         if isinstance(data, xr.Dataset):
+#             return apply_to_dataset(data, func, returns_type, *args, **kwargs)
+#         elif isinstance(data, xr.DataArray):
+#             return func(data, *args, **kwargs)
+#         else:
+#             raise ValueError("Unsupported input type. Expected DataArray or Dataset.")
 
-    return wrapper
+#     return wrapper
 
 
 def generate_datanode_dispatcher(func):

@@ -9,7 +9,7 @@ import warnings
 from scipy import signal, stats
 from scipy.stats import pearsonr
 from scipy.signal import correlate
-from .utility import generate_datatree_dispatcher, find_dims_axis, validate_dataarrays
+from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
 
 from xarray import DataTree
 from .datanode import DataNode
@@ -29,7 +29,7 @@ __all__ = [
 ]
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_linregress_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -170,7 +170,7 @@ def calc_linregress_spatial(
     return _calc_linregress_spatial_scipy_linregress(data_input, dim, x, alternative)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_detrend_spatial(
     data_input: xr.DataArray | xr.Dataset, time_dim: str = "time"
 ) -> xr.DataArray | DataTree:
@@ -706,7 +706,7 @@ def calc_levenetestSpatialPattern_spatial(
     )
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_skewness_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -776,7 +776,7 @@ def calc_skewness_spatial(
     return dateset
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_kurtosis_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -843,7 +843,7 @@ def calc_kurtosis_spatial(
     return kurtosis
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_theilslopes_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
