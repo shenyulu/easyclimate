@@ -812,9 +812,9 @@ def calc_bsiso_analysis(
     olr_data : :py:class:`xarray.DataArray`
         Outgoing longwave radiation data with time, latitude, and longitude dimensions.
     u850_data : :py:class:`xarray.DataArray`
-        850-hPa zonal wind data with the same dimensions as olr_data.
+        850-hPa zonal wind data with the same dimensions as ``olr_data``.
     v850_data : :py:class:`xarray.DataArray`
-        850-hPa meridional wind data with the same dimensions as olr_data.
+        850-hPa meridional wind data with the same dimensions as ``olr_data``.
     daily_cycle_mean_time_range : :py:class:`slice`, default ``slice(None, None)``
         Time range for computing the daily annual cycle mean.
     extract_time_range : :py:class:`slice`, default ``slice(None, None)``
