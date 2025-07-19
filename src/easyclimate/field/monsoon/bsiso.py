@@ -39,6 +39,7 @@ from ...core.stat import (
     calc_linregress_spatial,
     calc_lead_lag_correlation_coefficients,
 )
+from ...core.utility import sort_ascending_latlon_coordinates
 import logging
 from tqdm import tqdm
 
@@ -864,6 +865,16 @@ def calc_bsiso_analysis(
     """
     logger.info("Starting BSISO analysis...")
     result_node = DataNode()
+
+    olr_data = sort_ascending_latlon_coordinates(
+        olr_data, lat_dim=lat_dim, lon_dim=lon_dim
+    ).sel(lon_dim=slice(40, 160), lat_dim=slice(-10, 40))
+    u850_data = sort_ascending_latlon_coordinates(
+        u850_data, lat_dim=lat_dim, lon_dim=lon_dim
+    ).sel(lon_dim=slice(40, 160), lat_dim=slice(-10, 40))
+    v850_data = sort_ascending_latlon_coordinates(
+        v850_data, lat_dim=lat_dim, lon_dim=lon_dim
+    ).sel(lon_dim=slice(40, 160), lat_dim=slice(-10, 40))
 
     # Step 1: Remove daily annual cycle
     logger.info("Removing smooth daily annual cycle...")
