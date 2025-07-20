@@ -39,3 +39,5 @@ API
     easyclimate.field.teleconnection.index_srp
     easyclimate.field.teleconnection.index_cgt
     easyclimate.field.teleconnection.index_ao_nam
+    easyclimate.field.teleconnection.index_da
+    easyclimate.field.teleconnection.index_bbo

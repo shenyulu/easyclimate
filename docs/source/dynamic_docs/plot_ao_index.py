@@ -40,6 +40,13 @@ import cartopy.crs as ccrs
 # %%
 # Load monthly mean sea level pressure (SLP) data for the Northern Hemisphere
 # The data is read from a NetCDF file containing SLP monthly means
+#
+# .. tip::
+#
+#   You can download following datasets here:
+#
+#   - :download:`Download slp_monmean_NH.nc <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/slp_monmean_NH.nc>`
+#
 slp_data = xr.open_dataset("slp_monmean_NH.nc").slp
 
 # %%
