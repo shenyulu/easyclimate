@@ -17,6 +17,7 @@ from easyclimate.core.utility import (
     datetime_to_numeric,
     numeric_to_datetime,
     calculate_time_steps,
+    clean_extra_coords,
 )
 
 
@@ -205,3 +206,47 @@ class TestCalculateTimeSteps:
         single_date = np.array(["2023-01-01"], dtype="datetime64[ns]")
         result = calculate_time_steps(single_date, unit="D")
         assert len(result) == 0
+
+
+class TestCleanExtraCoords:
+    @pytest.fixture
+    def sample_dataarray(self):
+        """Create a test DataArray with extra coordinates"""
+        data = np.random.rand(3, 4)
+        da = xr.DataArray(
+            data,
+            dims=["x", "y"],
+            coords={
+                "x": [1, 2, 3],
+                "y": [10, 20, 30, 40],
+                "extra": 1.1,
+            },
+        )
+        return da
+
+    def test_removes_extra_coords(self, sample_dataarray):
+        """Test that extra coordinates are removed"""
+        cleaned = clean_extra_coords(sample_dataarray)
+
+        # Verify extra coordinates are gone
+        assert "time" not in cleaned.coords
+        assert "extra" not in cleaned.coords
+
+        # Verify original coordinates remain
+        assert "x" in cleaned.dims and "x" in cleaned.coords
+        assert "y" in cleaned.dims and "y" in cleaned.coords
+
+        # Verify data is unchanged
+        assert np.isclose(cleaned.data, sample_dataarray.data).all()
+
+    def test_no_extra_coords(self):
+        """Test with DataArray that has no extra coordinates"""
+        da = xr.DataArray([1, 2, 3], dims=["x"], coords={"x": [1, 2, 3]})
+        cleaned = clean_extra_coords(da)
+        xr.testing.assert_equal(cleaned, da)
+
+    def test_empty_dataarray(self):
+        """Test with empty DataArray"""
+        da = xr.DataArray([])
+        cleaned = clean_extra_coords(da)
+        xr.testing.assert_equal(cleaned, da)

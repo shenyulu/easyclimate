@@ -45,6 +45,7 @@ __all__ = [
     "datetime_to_numeric",
     "numeric_to_datetime",
     "calculate_time_steps",
+    "clean_extra_coords",
 ]
 
 
@@ -1220,3 +1221,49 @@ def calculate_time_steps(datetime_array, unit="D"):
     """
     numeric_values = datetime_to_numeric(datetime_array, unit)
     return np.diff(numeric_values)
+
+
+def clean_extra_coords(
+    data_input: xr.DataArray,
+) -> xr.DataArray:
+    """
+    Remove coordinate dimensions that exist in coordinates but not in dimensions.
+
+    This function cleans up a DataArray by removing any coordinate variables that
+    are not listed in the array's dimensions. This is useful for ensuring
+    consistent data structures and avoiding potential issues with operations
+    that expect dimension coordinates to match actual array dimensions.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        The input DataArray to be cleaned.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`
+        The cleaned DataArray with only coordinates that match its dimensions.
+
+    Examples
+    --------
+    >>> import xarray as xr
+    >>> import numpy as np
+    >>> da = xr.DataArray(np.random.rand(3, 4),
+    ...                   dims=['x', 'y'],
+    ...                   coords={'x': [1,2,3],
+    ...                           'y': [1,2,3,4],
+    ...                           'time': [1,2,3],
+    ...                           'extra': ('z', [1.1, 2.2])})
+    >>> cleaned = clean_extra_coords(da)
+    >>> 'time' in cleaned.coords  # Returns False
+    False
+    >>> 'extra' in cleaned.coords  # Returns False
+    False
+    """
+    # Find coordinates that aren't in dimensions
+    extra_dims = [dim for dim in data_input.coords if dim not in data_input.dims]
+
+    # Remove extra coordinates if any exist
+    if extra_dims:
+        return data_input.reset_coords(extra_dims, drop=True)
+    return data_input
