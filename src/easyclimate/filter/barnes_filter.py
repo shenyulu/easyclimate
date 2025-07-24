@@ -41,12 +41,26 @@ def calc_barnes_lowpass(
 
     Parameters
     ----------
-    g : :py:class:`float <float>`, generally between (0, 1]
+    data : :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The spatio-temporal data to be calculated.
+    g : :py:class:`float <float>`, generally between (0, 1], default `0.3`.
         Constant parameter.
-    c : :py:class:`int <int>`
+    c : :py:class:`int <int>`, default `150000`.
         Constant parameter. When *c* takes a larger value, the filter function converges
         at a larger wavelength, and the response function slowly approaches the maximum value,
         which means that high-frequency fluctuations have been filtered out.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
+        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
+        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+    radius_degree : :py:class:`int <int>` or :py:class:`tuple <tuple>` (degree), default `8`.
+        The radius of each point when caculating the distance of each other.
+
+        It is recommended to set this with your schemes.
+        For the constant ``c``, this parameter is recommended to be:
+
+        for the ``c`` is ``[500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000]``
+        ``radius_degree`` is recommended for ``[1, 1.5, 2, 3, 4, 5, 7, 8, 12]``
     print_progress : :py:class:`bool <bool>`
         Whether to print the progress bar when executing computation.
 
@@ -92,17 +106,31 @@ def calc_barnes_bandpass(
 
     Parameters
     ----------
-    g1 : :py:class:`float <float>`, generally between (0, 1]
+    data : :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The spatio-temporal data to be calculated.
+    g1 : :py:class:`float <float>`, generally between (0, 1], default `0.3`.
         Constant parameter of scheme1.
-    c1 : :py:class:`int <int>`
-        Constant parameterof scheme1.
-    g2 : :py:class:`float <float>`, generally between (0, 1]
+    g2 : :py:class:`float <float>`, generally between (0, 1], default `0.3`.
         Constant parameter of scheme2.
-    c2 : :py:class:`int <int>`
+    c1 : :py:class:`int <int>`, default `30000`.
+        Constant parameterof scheme1.
+    c2 : :py:class:`int <int>`, default `150000`.
         Constant parameterof scheme2.
-    r :  :py:class:`float <float>`
+    r :  :py:class:`float <float>`, default `1.2`.
         The inverse of the maximum response differenc.
         It is prevented from being unduly large and very small difference fields are not greatly amplified.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
+        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
+        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+    radius_degree : :py:class:`int <int>` or :py:class:`tuple <tuple>` (degree), default `8`.
+        The radius of each point when caculating the distance of each other.
+
+        It is recommended to set this with your schemes.
+        For the constant ``c``, this parameter is recommended to be:
+
+        for the ``c`` is ``[500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000]``,
+        ``radius_degree`` is recommended for ``[1, 1.5, 2, 3, 4, 5, 7, 8, 12]``
     print_progress : :py:class:`bool <bool>`
         Whether to print the progress bar when executing computation.
 
