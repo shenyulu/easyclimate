@@ -40,6 +40,13 @@ import cartopy.crs as ccrs
 # %%
 # Load monthly mean sea level pressure (SLP) data for the Northern Hemisphere
 # The data is read from a NetCDF file containing SLP monthly means
+#
+# .. tip::
+#
+#   You can download following datasets here:
+#
+#   - :download:`Download slp_monmean_NH.nc <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/slp_monmean_NH.nc>`
+#
 slp_data = xr.open_dataset("slp_monmean_NH.nc").slp
 
 # %%
@@ -81,12 +88,12 @@ index_ao_filtered
 # Perform linear regression between SLP anomalies and AO index
 # Calculates the spatial pattern of SLP associated with AO variability
 slp_reg_ao = ecl.calc_linregress_spatial(slp_data_DJF_anormaly, x = index_ao)
-slp_reg_ao_slope = slp_reg_ao.slope
+slp_reg_ao_rvalue = slp_reg_ao.rvalue
 slp_reg_ao_pvalue = slp_reg_ao.pvalue
 
 # %%
 # Add cyclic point for plotting (avoids gap at 0/360° longitude)
-slp_reg_ao_slope = ecl.plot.add_lon_cyclic(slp_reg_ao_slope, inter = 2.5)
+slp_reg_ao_rvalue = ecl.plot.add_lon_cyclic(slp_reg_ao_rvalue, inter = 2.5)
 slp_reg_ao_pvalue = ecl.plot.add_lon_cyclic(slp_reg_ao_pvalue, inter = 2.5)
 
 # %%
@@ -128,6 +135,15 @@ ecl.plot.draw_Circlemap_PolarStereo(
 )
 
 # Plot regression coefficients (SLP pattern)
-slp_reg_ao_slope.plot.contourf(cmap="RdBu_r", levels=11, transform=ccrs.PlateCarree())
+slp_reg_ao_rvalue.plot.contourf(
+    cmap="RdBu_r",
+    levels=11,
+    transform=ccrs.PlateCarree(),
+    cbar_kwargs = {'location': 'bottom'}
+)
 # Highlight statistically significant areas
-ecl.plot.draw_significant_area_contourf(slp_reg_ao_pvalue, transform=ccrs.PlateCarree())
+ecl.plot.draw_significant_area_contourf(
+    slp_reg_ao_pvalue,
+    transform=ccrs.PlateCarree(),
+    hatches = ".."
+)

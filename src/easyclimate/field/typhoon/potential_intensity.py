@@ -28,7 +28,7 @@ def calc_potential_intensity_Bister_Emanuel_2002(
     specific_humidity_data: xr.DataArray,
     specific_humidity_data_units: str,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     CKCD: float = 0.9,
     ascent_flag: bool = False,
     diss_flag: bool = True,
@@ -169,6 +169,8 @@ def calc_potential_intensity_Bister_Emanuel_2002(
         specific_humidity_data=specific_humidity_data,
         specific_humidity_data_units=specific_humidity_data_units,
     )
+    # Mixing ratio profile in g/kg
+    mixing_ratio_data = transfer_data_multiple_units(mixing_ratio_data, "g/g", "g/kg")
 
     # calculate PI over the whole data set using the xarray universal function
     result = xr.apply_ufunc(

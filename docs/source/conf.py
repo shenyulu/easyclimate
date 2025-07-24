@@ -23,7 +23,7 @@ localtime = time.localtime(time.time())
 str_year = str(localtime[0])
 
 project = "easyclimate"
-copyright = f"2022-{datetime.datetime.now().year}, shenyulu（深雨露）"
+copyright = f"2022-{datetime.datetime.now().year}, Shenyulu（深雨露） and easyclimate Developers."
 author = "shenyulu"
 release = "v" + ecl.__version__
 
@@ -35,8 +35,9 @@ extensions = [
     "sphinx_markdown_tables",
     "sphinx.ext.mathjax",
     "sphinxcontrib.jupyter",
-    "sphinx_inline_tabs",  # Add inline tabbed content to your Sphinx documentation
-    "sphinx_gallery.gen_gallery",  # Add inline tabbed content to your Sphinx documentation
+    # Add inline tabbed content to your Sphinx documentation
+    "sphinx_inline_tabs",
+    "sphinx_gallery.gen_gallery",
     # Sphinx AutoAPI Method
     "autoapi.extension",
     # Links to documentation for other projects

@@ -1,4 +1,40 @@
-# Changelog
+# Changelog♻️
+
+## v2025.8.0
+
+*Released on: 2025/7/24*
+
+### What's Changed
+
+
+* [feat: add wet bulk](https://github.com/shenyulu/easyclimate/pull/100/commits/792dbe411933569c6493da9b4f957d3e0dd18e07)
+* [feat: add calc_lat_weight_lin_rood](https://github.com/shenyulu/easyclimate/pull/100/commits/af185298fee706f08afdb9b244e4adcef1044d0c)
+* [feat: add transfer_relative_humidity_2_dewpoint](https://github.com/shenyulu/easyclimate/pull/100/commits/736616c0a52e9e10182a8ebcc8bdce9a3267a814)
+* [feat: add condensation and convection](https://github.com/shenyulu/easyclimate/pull/100/commits/7b003eec652f5fcf02aa2a164702182ea9d1881b)
+* [fix: icon error win32](https://github.com/shenyulu/easyclimate/pull/100/commits/a1697b6bb52555d293ba9d57e6c43769687fe040)
+* [feat: add vinth2p_dp](https://github.com/shenyulu/easyclimate/pull/100/commits/827604b9060d7783c8e8732240d2880390b33ae0)
+* [feat: add enthalpy](https://github.com/shenyulu/easyclimate/pull/100/commits/24b6d9219659c17e3a26bccff19abb65b056a3ea)
+* [fix: add mixing_ratio_data_units](https://github.com/shenyulu/easyclimate/pull/100/commits/e20857e0899ed3081cda780aa2371e0da96079b8)
+* [fix: q unit error](https://github.com/shenyulu/easyclimate/pull/100/commits/435b7f7918a4bf8362c7852a51b0cc6b8ce255b1)
+* [feat: add latent heat water](https://github.com/shenyulu/easyclimate/pull/100/commits/614f1a90ddd7a9971ab494c75a8883836000e1ed)
+* [feat: add vinth2p](https://github.com/shenyulu/easyclimate/pull/100/commits/8f799791c8b323955175a91adae3dc993827fe10)
+* [feat: add calc_enthalpy](https://github.com/shenyulu/easyclimate/pull/100/commits/004e899ce687e6137e2365f537a97aabed168c0b)
+* [feat: add calc_relative_angular_momentum](https://github.com/shenyulu/easyclimate/pull/100/commits/688f58f4974ad0d4531b672ef009f9061b144ac0)
+* [feat: add daily std var signal](https://github.com/shenyulu/easyclimate/pull/100/commits/c04565b895177c78a41de28362f97182953e2e3b)
+* [feat: add pytest parallel support](https://github.com/shenyulu/easyclimate/pull/100/commits/eb8d99238766d57f15d2ed032b908acbd0388044)
+* [feat: add vinth2p](https://github.com/shenyulu/easyclimate/pull/100/commits/ad21fe275feddc4b75194e28ce812b5b701732e5)
+* [feat: add spectrum](https://github.com/shenyulu/easyclimate/pull/100/commits/ad61ecb28db27f2ef2fd5b706a6ab7f94868500e)
+* [feat: center files in backend](https://github.com/shenyulu/easyclimate/pull/100/commits/d5ef0bec3311e15c8cdeacddd33b515d61cda1b9)
+* [feat: add calc_lead_lag_correlation_coefficients](https://github.com/shenyulu/easyclimate/pull/100/commits/0dcc68fe43dd6507a62da4e4396be6ecfbc4ae40)
+* [feat: add bsiso](https://github.com/shenyulu/easyclimate/pull/100/commits/06ad3e24fef8f06b47edbd7b517dcd835be2fa04)
+* [fix: fix datanode plain text](https://github.com/shenyulu/easyclimate/pull/100/commits/30a8df61f060e76fad1101ed3838a1d3d9012250)
+* [feat: migrate datatree to datanode](https://github.com/shenyulu/easyclimate/pull/100/commits/042c56bd86cb847f17b338c0f52dda48c18b6377)
+* [feat: add da and bbo](https://github.com/shenyulu/easyclimate/pull/100/commits/0a386caa2f50ad42ddcc79d93707a59bbcdcb55b)
+* [feat: add clean_extra_coords](https://github.com/shenyulu/easyclimate/pull/100/commits/29facafa653dd2afe65765a677d4cfd32e2af034)
+* [feat: add interp_mesh2point_withtime](https://github.com/shenyulu/easyclimate/pull/100/commits/adb5ae532f7810903afa0351f88e6dd14fcb0e9b)
+
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.7.0...v2025.8.0
 
 ## v2025.7.0
 

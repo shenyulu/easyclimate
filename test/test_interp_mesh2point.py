@@ -11,7 +11,7 @@ import pandas as pd
 from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 from .util import round_sf_np_new
-from easyclimate.interp import interp_mesh2point
+from easyclimate.interp import interp_mesh2point, interp_mesh2point_withtime
 
 t2m_data = xr.open_dataset(str(Path(DOCS_DATA_PATH, "js_t2m_ERA5_2025052000.nc"))).t2m
 
@@ -150,3 +150,54 @@ def test_interp_mesh2point_edge_cases():
     )
     assert len(result) == 2
     assert not result["interpolated_value"].isna().any()
+
+
+def test_interp_mesh2point_withtime():
+    # Set the random number seed
+    np.random.seed(42)
+    # Create sample grid
+    times = pd.date_range("2020-01-01", periods=5)
+    lats = np.linspace(-45, -10, 100)
+    lons = np.linspace(110, 156, 120)
+    data = xr.DataArray(
+        np.random.rand(5, 100, 120),
+        dims=["time", "lat", "lon"],
+        coords={"time": times, "lat": lats, "lon": lons},
+    )
+    # Create stations
+    stations = pd.DataFrame(
+        {
+            "station_id_col": [1001, 1002, 1003],
+            "lat_col": [-15.5, -20.3, 0.0],
+            "lon_col": [125.5, 130.2, 112.0],
+        }
+    )
+    # Interpolate
+    result = interp_mesh2point_withtime(
+        data,
+        stations,
+        lon_dim_df="lon_col",
+        lat_dim_df="lat_col",
+        station_dim_df="station_id_col",
+    )
+    result_data = result.interpolated_value.data.flatten()
+    refer_data = np.array(
+        [
+            0.22494999,
+            0.71982919,
+            0.38652211,
+            0.53725334,
+            0.39874745,
+            0.640323,
+            0.65750595,
+            0.51837553,
+            0.51428686,
+            0.78778669,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, equal_nan=True).all()

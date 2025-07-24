@@ -7,8 +7,8 @@ import numpy as np
 import xarray as xr
 import warnings
 from typing import Literal
-from ..core.diff import calc_gradient, calc_p_gradient
-from .temperature.potential_temperature import calc_potential_temperature_vertical
+from ...core.diff import calc_gradient, calc_p_gradient
+from ..temperature.potential_temperature import calc_potential_temperature_vertical
 
 __all__ = ["calc_brunt_vaisala_frequency_atm", "calc_static_stability"]
 

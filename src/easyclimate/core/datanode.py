@@ -126,6 +126,9 @@ class DataNode:
             return node
         return self._attributes[key]
 
+    def __contains__(self, key):
+        return key in self._attributes
+
     def __setitem__(self, key, value):
         """
         Set attributes using path-style notation, creating intermediate nodes as needed.
@@ -442,7 +445,7 @@ class DataNode:
             )
         return str(value)
 
-    def format_tree(self, level=0, html=False):
+    def format_tree(self, level=0, html=False, is_last_list=None):
         """
         Generate a tree-structured representation of the node.
 
@@ -452,6 +455,8 @@ class DataNode:
             Current indentation level (default: 0).
         html : :py:class:`bool <bool>`, optional
             Whether to generate HTML output (default: False).
+        is_last_list : :py:class:`list <list>` of :py:class:`bool <bool>`, optional
+            Track position in hierarchy for proper indentation (default: None).
 
         Returns
         -------
@@ -460,23 +465,79 @@ class DataNode:
         """
         if html:
             return self._format_html()
-        # Original plain text format output
-        indent = "  " * level
-        lines = [f"{indent}- {self.name}"]
-        for key, value in sorted(self._attributes.items()):
+
+        if is_last_list is None:
+            is_last_list = []
+
+        # Header line
+        if level == 0:
+            lines = [f"<easyclimate.DataNode '{self.name}'>"]
+            lines.append(f"{self.name}: /")
+        else:
+            lines = []
+
+        # Get sorted attributes
+        sorted_attrs = sorted(self._attributes.items())
+
+        for i, (key, value) in enumerate(sorted_attrs):
             if key.startswith("_ipython_"):
                 continue
+
+            current_is_last = i == len(sorted_attrs) - 1
+
+            # Build the prefix for this line
+            prefix = ""
+            for is_last in is_last_list:
+                prefix += "    " if is_last else "│   "
+
+            connector = "└── " if current_is_last else "├── "
+
             if isinstance(value, DataNode):
-                lines.append(value.format_tree(level + 1, html))
-            elif isinstance(value, xr.DataArray):
+                lines.append(f"{prefix}{connector}{key}: /")
+                # For DataNodes, we need to handle both attributes and xarray objects
+                child_lines = value.format_tree(
+                    level + 1, html, is_last_list + [current_is_last]
+                ).split("\n")
+                # Skip the header line and add the rest
+                if len(child_lines) > 1:
+                    lines.extend(child_lines[0:])
+            elif isinstance(value, (xr.DataArray, xr.Dataset)):
+                dims = ", ".join(f"{k}: {v}" for k, v in value.sizes.items())
                 lines.append(
-                    f"{indent}  {key}: <xarray.DataArray> (shape: {value.shape}, dtype: {value.dtype})"
+                    f"{prefix}{connector}{key}: <xarray.{type(value).__name__}>"
                 )
-            elif inspect.ismethod(value) or inspect.isfunction(value):
-                # Skip methods and functions
-                continue
+                lines.append(
+                    f"{prefix}{'    ' if current_is_last else '│   '}Dimensions:  ({dims})"
+                )
+
+                # Handle coordinates
+                if hasattr(value, "coords") and value.coords:
+                    lines.append(
+                        f"{prefix}{'    ' if current_is_last else '│   '}Coordinates:"
+                    )
+                    for coord in sorted(value.coords):
+                        coord_dims = ", ".join(
+                            f"{k}: {v}" for k, v in value.coords[coord].sizes.items()
+                        )
+                        lines.append(
+                            f"{prefix}{'    ' if current_is_last else '│   '}  * {coord.ljust(10)} ({coord_dims}): {value.coords[coord].dtype}"
+                        )
+
+                # Handle data variables for Datasets
+                if hasattr(value, "data_vars") and value.data_vars:
+                    lines.append(
+                        f"{prefix}{'    ' if current_is_last else '│   '}Data variables:"
+                    )
+                    for var in sorted(value.data_vars):
+                        var_dims = ", ".join(
+                            f"{k}: {v}" for k, v in value.data_vars[var].sizes.items()
+                        )
+                        lines.append(
+                            f"{prefix}{'    ' if current_is_last else '│   '}    {var.ljust(10)} ({var_dims}): {value.data_vars[var].dtype}"
+                        )
             else:
-                lines.append(f"{indent}  {key}: {value}")
+                lines.append(f"{prefix}{connector}{key}: {value}")
+
         return "\n".join(lines)
 
     def __repr__(self):

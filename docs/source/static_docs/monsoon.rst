@@ -31,3 +31,4 @@ API
 .. autosummary::
 
     easyclimate.field.monsoon.index_npwi
+    easyclimate.field.monsoon.bsiso

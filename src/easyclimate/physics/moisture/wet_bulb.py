@@ -6,7 +6,8 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 from typing import Literal
-from easyclimate_backend.wet_bulb import _wet_bulb_temperature
+
+from ...backend import _wet_bulb_temperature
 from ...core.utility import (
     transfer_data_multiple_units,
     transfer_data_temperature_units,
@@ -19,6 +20,8 @@ from ..temperature.equivalent_potential_temperature import (
 __all__ = [
     "calc_wet_bulb_potential_temperature_iteration",
     "calc_wet_bulb_potential_temperature_davies_jones2008",
+    "calc_wet_bulb_temperature_stull2011",
+    "calc_wet_bulb_temperature_sadeghi2013",
 ]
 
 

@@ -1,5 +1,5 @@
 """
-pytest for plot.taylor_diagrams.py
+pytest for field/satellite/image.py
 """
 
 import pytest
@@ -19,7 +19,7 @@ js_data = xr.open_dataset(
 
 @pytest.mark.mpl_image_compare(remove_text=True)
 def test_get_stretched_rgb_data_base():
-    rgb_result = ecl.satellite.get_stretched_rgb_data(
+    rgb_result = ecl.field.satellite.get_stretched_rgb_data(
         js_data, r_band="albedo_03", g_band="albedo_02", b_band="albedo_01"
     )
 

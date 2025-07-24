@@ -8,6 +8,9 @@ import easyclimate as ecl
 import numpy as np
 import xarray as xr
 import pandas as pd
+from easyclimate.core.eddy import calc_Plumb_wave_activity_horizontal_flux
+
+time_coder = xr.coders.CFDatetimeCoder(use_cftime=True)
 
 uwnd_daily = (
     ecl.open_tutorial_dataset("uwnd_2022_day5")
@@ -41,17 +44,23 @@ q_daily = (
 )
 
 z_climate_data = (
-    ecl.open_tutorial_dataset("hgt_day_ltm_1991_2020_0to6day.nc")
+    ecl.open_tutorial_dataset(
+        "hgt_day_ltm_1991_2020_0to6day.nc", decode_times=time_coder
+    )
     .hgt.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 u_climate_data = (
-    ecl.open_tutorial_dataset("uwnd_day_ltm_1991_2020_0to6day.nc")
+    ecl.open_tutorial_dataset(
+        "uwnd_day_ltm_1991_2020_0to6day.nc", decode_times=time_coder
+    )
     .uwnd.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 v_climate_data = (
-    ecl.open_tutorial_dataset("vwnd_day_ltm_1991_2020_0to6day.nc")
+    ecl.open_tutorial_dataset(
+        "vwnd_day_ltm_1991_2020_0to6day.nc", decode_times=time_coder
+    )
     .vwnd.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
@@ -480,3 +489,181 @@ def test_calc_EP_horizontal_flux():
     )
     assert np.isclose(result_data1, refer_data1).all()
     assert np.isclose(result_data2, refer_data2).all()
+
+
+class CalcPlumbWaveActivityHorizontalFlux:
+    @pytest.fixture
+    def create_test_data(self):
+        """Create test data for Plumb wave activity calculations."""
+        # Create latitude and longitude arrays
+        lats = np.linspace(-90, 90, 10)
+        lons = np.linspace(0, 360, 12)
+        levels = np.array([1000, 850, 700, 500, 300])  # in hPa
+
+        # Create synthetic geopotential height anomaly data
+        time = np.array(["2020-01-01", "2020-01-02"], dtype="datetime64")
+        z_prime = np.random.randn(len(time), len(levels), len(lats), len(lons)) * 1000
+
+        # Create xarray DataArray
+        da = xr.DataArray(
+            z_prime,
+            dims=("time", "level", "lat", "lon"),
+            coords={"time": time, "level": levels, "lat": lats, "lon": lons},
+            name="z_prime",
+        )
+
+        return da
+
+    def test_basic_functionality(self, create_test_data):
+        """Test basic functionality with default parameters."""
+        result = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=create_test_data,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+        )
+
+        # Check the returned object is a Dataset
+        assert isinstance(result, xr.Dataset)
+
+        # Check expected variables are present
+        assert "psi_p" in result
+        assert "fx" in result
+        assert "fy" in result
+
+        # Check dimensions are preserved
+        assert set(result.dims) == set(create_test_data.dims)
+
+        # Check values are finite
+        assert np.all(np.isfinite(result.psi_p.values))
+        assert np.all(np.isfinite(result.fx.values))
+        assert np.all(np.isfinite(result.fy.values))
+
+    def test_different_units(self, create_test_data):
+        """Test function with different vertical unit inputs."""
+        # Test with Pa units (convert from hPa)
+        data_pa = create_test_data.copy()
+        data_pa["level"] = data_pa.level * 100
+
+        result_pa = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=data_pa, vertical_dim="level", vertical_dim_units="Pa"
+        )
+
+        # Test with mbar units (should be same as hPa)
+        result_mbar = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=create_test_data,
+            vertical_dim="level",
+            vertical_dim_units="mbar",
+        )
+
+        # Results should be similar (within numerical precision)
+        xr.testing.assert_allclose(result_pa, result_mbar, rtol=1e-3)
+
+    def test_custom_dimension_names(self):
+        """Test function with custom dimension names."""
+        # Create data with custom dimension names
+        lats = np.linspace(-90, 90, 5)
+        lons = np.linspace(0, 360, 6)
+        levels = np.array([1000, 850, 700])  # in hPa
+        z_prime = np.random.randn(len(levels), len(lats), len(lons)) * 1000
+
+        da = xr.DataArray(
+            z_prime,
+            dims=("pressure", "latitude", "longitude"),
+            coords={"pressure": levels, "latitude": lats, "longitude": lons},
+            name="z_prime",
+        )
+
+        result = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=da,
+            vertical_dim="pressure",
+            vertical_dim_units="hPa",
+            lon_dim="longitude",
+            lat_dim="latitude",
+        )
+
+        assert isinstance(result, xr.Dataset)
+        assert set(result.dims) == set(da.dims)
+
+    def test_invalid_units(self, create_test_data):
+        """Test function with invalid vertical units."""
+        with pytest.raises(ValueError, match="Invalid vertical_dim_units"):
+            calc_Plumb_wave_activity_horizontal_flux(
+                z_prime_data=create_test_data,
+                vertical_dim="level",
+                vertical_dim_units="invalid_unit",
+            )
+
+    def test_missing_dimension(self, create_test_data):
+        """Test function with missing dimension."""
+        with pytest.raises(KeyError):
+            calc_Plumb_wave_activity_horizontal_flux(
+                z_prime_data=create_test_data,
+                vertical_dim="missing_dim",
+                vertical_dim_units="hPa",
+            )
+
+    def test_zero_coriolis(self):
+        """Test behavior near equator where Coriolis parameter approaches zero."""
+        # Create data with latitudes near equator
+        lats = np.linspace(-5, 5, 5)
+        lons = np.linspace(0, 360, 6)
+        levels = np.array([1000, 850])  # in hPa
+        z_prime = np.random.randn(len(levels), len(lats), len(lons)) * 1000
+
+        da = xr.DataArray(
+            z_prime,
+            dims=("level", "lat", "lon"),
+            coords={"level": levels, "lat": lats, "lon": lons},
+            name="z_prime",
+        )
+
+        result = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=da, vertical_dim="level", vertical_dim_units="hPa"
+        )
+
+        # Check we get finite results even near equator
+        assert np.all(np.isfinite(result.psi_p.values))
+        assert np.all(np.isfinite(result.fx.values))
+        assert np.all(np.isfinite(result.fy.values))
+
+    def test_custom_parameters(self, create_test_data):
+        """Test function with custom physical parameters."""
+        custom_omega = 7.0e-5
+        custom_g = 9.81
+        custom_R = 6371000
+
+        result = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=create_test_data,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+            omega=custom_omega,
+            g=custom_g,
+            R=custom_R,
+        )
+
+        assert isinstance(result, xr.Dataset)
+
+        # Compare with default parameters result
+        default_result = calc_Plumb_wave_activity_horizontal_flux(
+            z_prime_data=create_test_data,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+        )
+
+        # Should be different due to parameter changes
+        with pytest.raises(AssertionError):
+            xr.testing.assert_allclose(result, default_result)
+
+    def test_single_point(self):
+        """Test function with single point data (should fail on gradient calculations)."""
+        da = xr.DataArray(
+            [[[[100]]]],  # single time, level, lat, lon
+            dims=("time", "level", "lat", "lon"),
+            coords={"time": ["2020-01-01"], "level": [1000], "lat": [0], "lon": [0]},
+            name="z_prime",
+        )
+
+        with pytest.raises(Exception):
+            calc_Plumb_wave_activity_horizontal_flux(
+                z_prime_data=da, vertical_dim="level", vertical_dim_units="hPa"
+            )

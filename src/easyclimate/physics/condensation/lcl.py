@@ -6,7 +6,10 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 from typing import Literal
-from ..core.utility import transfer_data_multiple_units, transfer_data_temperature_units
+from ...core.utility import (
+    transfer_data_multiple_units,
+    transfer_data_temperature_units,
+)
 
 
 __all__ = [
@@ -36,7 +39,7 @@ def calc_lifting_condensation_level_bolton1980(
     relative_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The relative humidity.
     temperature_data_units: :py:class:`str <str>`.
-        The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
+        The unit corresponding to `temperature_data` value. Optional values are ``celsius``, ``kelvin``, ``fahrenheit``.
     relative_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `vapor_pressure_data` value. Optional values are ``%``, ``dimensionless``.
 

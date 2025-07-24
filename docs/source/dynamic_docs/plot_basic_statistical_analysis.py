@@ -282,7 +282,7 @@ ax[1].legend()
 # surface areas on the Earth. Since the Earth is approximately a spheroid, areas
 # closer to the poles have a different distribution of surface area on the spherical surface.
 #
-# One common way to incorporate weights is by using the cosine of latitude, i.e., multiplying by :math:`\cos (\varphi)`,
+# One common way to incorporate weights is by using the cosine of latitude, i.e., multiplying by :math:`\\cos (\\varphi)`,
 # where :math:`\varphi` represents the latitude of a location. This is because areas at higher latitudes,
 # close to the poles, have higher latitudes and smaller cosine values, allowing for a
 # smaller weight to be applied to these regions when calculating averages.

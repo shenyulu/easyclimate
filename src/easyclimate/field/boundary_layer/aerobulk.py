@@ -93,8 +93,7 @@ The focus in AeroBulk is readability, efficiency, and portability towards modern
 *Fig 2/ Comparison of the neutral drag (thick lines) and evaporation coefficients (thinner lines) as a function of the neutral wind speed at 10m.*
 """
 
-from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
-from easyclimate_backend.aerobulk import mod_aerobulk_wrap_skin as aeroskin
+from ...backend import aeronoskin, aeroskin
 import numpy as np
 import xarray as xr
 import warnings

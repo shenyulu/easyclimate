@@ -37,7 +37,7 @@ def calc_mixing_ratio(
 
     Returns
     -------
-    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless (e.g. Kg/Kg or g/g).
+    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), kg/kg or g/g.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio.html
@@ -46,11 +46,11 @@ def calc_mixing_ratio(
         molecular_weight_ratio
         * partial_pressure_data
         / (total_pressure_data - partial_pressure_data)
-    )
+    )  # dimensionless, g/g
+
     # clean other attrs
     return_data.attrs = dict()
-
-    return_data.attrs["units"] = "dimensionless"
+    return_data.attrs["units"] = "g/g"
     return_data.attrs["standard_name"] = "humidity_mixing_ratio"
     return_data.name = "mixing_ratio"
     return return_data
@@ -80,25 +80,25 @@ def calc_saturation_mixing_ratio(
 
     Returns
     -------
-    The saturation mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The saturation mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), g/g.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_mixing_ratio.html
     """
     total_pressure_data = transfer_data_multiple_units(
         total_pressure_data, total_pressure_data_units, "hPa"
-    )
+    )  # hPa
 
     partial_pressure_data = calc_saturation_vapor_pressure(
         temperature_data=temperature_data, temperature_data_units=temperature_data_units
-    )
+    )  # hPa
     return_data = calc_mixing_ratio(
         partial_pressure_data=partial_pressure_data,
         total_pressure_data=total_pressure_data,
-    )
+    )  # dimensionless, g/g
 
     # clean other attrs
     return_data.attrs = dict()
-    return_data.attrs["units"] = "dimensionless"
+    return_data.attrs["units"] = "g/g"
     return_data.name = "saturation_mixing_ratio"
     return return_data

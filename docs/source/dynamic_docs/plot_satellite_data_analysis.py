@@ -33,6 +33,11 @@ import easyclimate as ecl
 #
 # The satellite data is loaded from a NetCDF file containing Himawari-9 observations.
 # The decode_timedelta parameter is disabled as temporal data processing is not required.
+#
+# .. tip::
+#
+#   You can download following datasets here: :download:`Download js_H09_20250617_0500.nc <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/js_H09_20250617_0500.nc>`
+#
 js_data = xr.open_dataset("js_H09_20250617_0500.nc", decode_timedelta = False)
 js_data
 
@@ -46,7 +51,7 @@ js_data
 # - Band 3 (0.64μm) for Red channel
 # - Band 2 (0.51μm) for Green channel
 # - Band 1 (0.47μm) for Blue channel
-rgb_result = ecl.satellite.get_stretched_rgb_data(js_data, r_band='albedo_03', g_band='albedo_02', b_band='albedo_01')
+rgb_result = ecl.field.satellite.get_stretched_rgb_data(js_data, r_band='albedo_03', g_band='albedo_02', b_band='albedo_01')
 rgb_result
 
 # %%

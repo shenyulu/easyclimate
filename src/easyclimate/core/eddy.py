@@ -7,7 +7,7 @@ import xarray as xr
 import numpy as np
 from ..physics.geo import get_coriolis_parameter
 from ..physics.temperature import calc_potential_temperature_vertical
-from ..physics.stability import calc_brunt_vaisala_frequency_atm
+from ..physics.convection.stability import calc_brunt_vaisala_frequency_atm
 from .diff import (
     calc_gradient,
     calc_lon_gradient,
@@ -21,6 +21,7 @@ from .utility import (
     transfer_deg2rad,
     transfer_dFdp2dFdz,
 )
+from typing import Literal
 
 __all__ = [
     "calc_eady_growth_rate",
@@ -38,7 +39,7 @@ def calc_eady_growth_rate(
     z_daily_data: xr.DataArray,
     temper_daily_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     lat_dim="lat",
     g=9.8,
 ) -> xr.Dataset:
@@ -114,7 +115,7 @@ def calc_apparent_heat_source(
     omega_data: xr.DataArray,
     temper_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     time_units: str,
     lon_dim="lon",
     lat_dim="lat",
@@ -193,7 +194,7 @@ def calc_total_diabatic_heating(
     omega_data: xr.DataArray,
     temper_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     time_units: str,
     lat_dim="lat",
     lon_dim="lon",
@@ -263,7 +264,7 @@ def calc_apparent_moisture_sink(
     omega_data: xr.DataArray,
     specific_humidity_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     time_units: str,
     specific_humidity_data_units: str,
     lon_dim="lon",
@@ -344,7 +345,7 @@ def calc_apparent_moisture_sink(
 def calc_Plumb_wave_activity_horizontal_flux(
     z_prime_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     lon_dim="lon",
     lat_dim="lat",
     omega=7.292e-5,
@@ -417,7 +418,7 @@ def calc_TN_wave_activity_horizontal_flux(
     u_climatology_data: xr.DataArray,
     v_climatology_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     omega: float = 7.292e-5,
@@ -509,7 +510,7 @@ def calc_TN_wave_activity_horizontal_flux(
 #     v_climatology_data: xr.DataArray,
 #     temper_data: xr.DataArray,
 #     vertical_dim: str,
-#     vertical_dim_units: str,
+#     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
 #     z_data: xr.DataArray | None = None,
 #     lon_dim: str = 'lon',
 #     lat_dim: str = 'lat',

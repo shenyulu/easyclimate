@@ -14,7 +14,7 @@ List of Functions and Classes (API)
 
 .. automodule:: easyclimate
 
-Core
+Core❤️
 ----------------------------------------
 
 .. autosummary::
@@ -35,7 +35,7 @@ Core
     easyclimate.core.spharm
     easyclimate.core.windspharm
 
-Physics
+Physics🗺️
 ----------------------------------------
 
 Geophysical Parameters Related
@@ -45,6 +45,7 @@ Geophysical Parameters Related
     :toctree: generated/
 
     easyclimate.physics.geo.coriolis
+    easyclimate.physics.geo.linrood_latwgt
 
 Dry Related
 ::::::::::::::::::::::::::::::::::::::::
@@ -76,17 +77,41 @@ Temperature Related
     easyclimate.physics.temperature.potential_temperature
     easyclimate.physics.temperature.virtual_temperature
 
+Condensation Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.condensation.lcl
+
+Convection Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.convection.stability
+
+Energy Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.physics.energy.angmom_atm
+    easyclimate.physics.energy.enthalpy
+    easyclimate.physics.energy.latent_heat_water
+
 Others
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.physics.lcl
-    easyclimate.physics.stability
     easyclimate.physics.transfer
 
-Filter
+Filter🎹
 ----------------------------------------
 
 .. autosummary::
@@ -102,8 +127,9 @@ Filter
     easyclimate.filter.redfit
     easyclimate.filter.spatial_pcf
     easyclimate.filter.emd
+    easyclimate.filter.spectrum
 
-Interpolation
+Interpolation🔗
 ----------------------------------------
 
 .. autosummary::
@@ -111,10 +137,12 @@ Interpolation
 
     easyclimate.interp.barnes
     easyclimate.interp.mesh2mesh
+    easyclimate.interp.mesh2point
     easyclimate.interp.interp1d_vertical_model2pressure
     easyclimate.interp.interp1d_vertical_pressure2altitude
+    easyclimate.interp.vinth2p
 
-Plot
+Plot🖊️
 ----------------------------------------
 
 .. autosummary::
@@ -127,7 +155,7 @@ Plot
     easyclimate.plot.quick_draw
     easyclimate.plot.curved_quiver_plot
 
-WRF-python
+WRF-python🌌
 ----------------------------------------
 
 .. autosummary::
@@ -135,15 +163,7 @@ WRF-python
 
     easyclimate.wrf.interface
 
-Satellite
-----------------------------------------
-
-.. autosummary::
-    :toctree: generated/
-
-    easyclimate.satellite.image
-
-Meteorology Field
+Meteorology Field🌂
 ----------------------------------------
 
 Air–Sea Interaction
@@ -152,7 +172,6 @@ Air–Sea Interaction
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.air_sea_interaction
     easyclimate.field.air_sea_interaction.index_enso
     easyclimate.field.air_sea_interaction.index_iod
     easyclimate.field.air_sea_interaction.index_iobm
@@ -165,7 +184,6 @@ Teleconnections
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.teleconnection
     easyclimate.field.teleconnection.index_pna
     easyclimate.field.teleconnection.index_nao
     easyclimate.field.teleconnection.index_ea
@@ -175,6 +193,8 @@ Teleconnections
     easyclimate.field.teleconnection.index_srp
     easyclimate.field.teleconnection.index_cgt
     easyclimate.field.teleconnection.index_ao_nam
+    easyclimate.field.teleconnection.index_da
+    easyclimate.field.teleconnection.index_bbo
 
 Land
 ::::::::::::::::::::::::::::::::::::::::
@@ -190,8 +210,8 @@ Monsoon
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.monsoon
     easyclimate.field.monsoon.index_npwi
+    easyclimate.field.monsoon.bsiso
 
 Ocean
 ::::::::::::::::::::::::::::::::::::::::
@@ -199,7 +219,6 @@ Ocean
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.ocean
     easyclimate.field.ocean.mixlayer
     easyclimate.field.ocean.oceanic_front
     easyclimate.field.ocean.stability
@@ -211,7 +230,6 @@ Typhoon
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.typhoon
     easyclimate.field.typhoon.potential_intensity
 
 Equatorial Wave
@@ -220,9 +238,16 @@ Equatorial Wave
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.equatorial_wave
     easyclimate.field.equatorial_wave.mjo
     easyclimate.field.equatorial_wave.wk_spectra
+
+Satellite
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.satellite.image
 
 Heat Stress
 ::::::::::::::::::::::::::::::::::::::::
@@ -230,7 +255,6 @@ Heat Stress
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.heat_stress
     easyclimate.field.heat_stress.humanindexmod_2020
 
 Boundary Layer
@@ -239,5 +263,4 @@ Boundary Layer
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.field.boundary_layer
     easyclimate.field.boundary_layer.aerobulk

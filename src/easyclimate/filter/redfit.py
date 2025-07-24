@@ -9,8 +9,7 @@ import os
 from ctypes import c_char
 from typing import Literal
 
-from easyclimate_backend.redfit import _ecl_redfit
-from easyclimate_backend.redfit import _ecl_redfit_x
+from ..backend import _ecl_redfit, _ecl_redfit_x
 
 __all__ = ["calc_redfit", "calc_redfit_cross"]
 

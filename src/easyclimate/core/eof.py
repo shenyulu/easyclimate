@@ -148,7 +148,7 @@ def save_EOF_model(
     Parameters
     ----------
     model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
-        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.core.eof.get_EOF_model>` or :py:func:`xeofs.single.eof.EOF.fit <xeofs.single.eof.EOF.fit>`.
     path: :py:class:`str <str>`
         Path to save the model.
     overwrite: :py:class:`bool <bool>`, default `False`
@@ -182,7 +182,7 @@ def load_EOF_model(
 
     Returns
     -------
-    The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+    The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.core.eof.get_EOF_model>` or :py:func:`xeofs.single.eof.EOF.fit <xeofs.single.eof.EOF.fit>`.
     """
     return xeofs.single.eof.EOF.load(path=path, engine=engine, **kwargs)
 
@@ -196,7 +196,7 @@ def calc_EOF_analysis(
     Parameters
     ----------
     model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
-        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.core.eof.get_EOF_model>` or :py:func:`xeofs.single.eof.EOF.fit <xeofs.single.eof.EOF.fit>`.
     PC_normalized: :py:class:`bool`, default `True`.
         Whether to normalize the scores by the L2 norm (singular values).
     Returns
@@ -261,7 +261,7 @@ def get_EOF_projection(
     Parameters
     ----------
     model: :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
-        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.eof.get_EOF_model>` or :py:func:`xeofs.models.EOF.fit <xeofs.models.EOF.fit>`.
+        The model of :py:class:`xeofs.single.EOF<xeofs.single.EOF>` is the results from :py:func:`easyclimate.eof.get_EOF_model <easyclimate.core.eof.get_EOF_model>` or :py:func:`xeofs.single.eof.EOF.fit <xeofs.single.eof.EOF.fit>`.
     data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Data to be transformed.
     normalized: :py:class:`bool<bool>`, default `True`.
@@ -384,7 +384,7 @@ def save_REOF_model(
     Parameters
     ----------
     model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
-        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.core.eof.get_REOF_model>` or :py:func:`xeofs.single.EOFRotator.fit <xeofs.single.EOFRotator.fit>`.
     path: :py:class:`str <str>`
         Path to save the model.
     overwrite: :py:class:`bool <bool>`, default `False`
@@ -418,7 +418,7 @@ def load_REOF_model(
 
     Returns
     -------
-    The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+    The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.core.eof.get_REOF_model>` or :py:func:`xeofs.single.EOFRotator.fit <xeofs.single.EOFRotator.fit>`.
     """
     return xeofs.single.EOFRotator.load(path=path, engine=engine, **kwargs)
 
@@ -432,7 +432,7 @@ def calc_REOF_analysis(
     Parameters
     ----------
     model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
-        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.core.eof.get_REOF_model>` or :py:func:`xeofs.single.EOFRotator.fit <xeofs.single.EOFRotator.fit>`.
     PC_normalized: :py:class:`bool`, default `True`.
         Whether to normalize the scores by the L2 norm (singular values).
 
@@ -482,7 +482,7 @@ def get_REOF_projection(
     Parameters
     ----------
     model: :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>`
-        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.eof.get_REOF_model>` or :py:func:`xeofs.models.EOFRotator.fit <xeofs.models.EOFRotator.fit>`.
+        The model of :py:class:`xeofs.single.EOFRotator <xeofs.single.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_REOF_model <easyclimate.core.eof.get_REOF_model>` or :py:func:`xeofs.single.EOFRotator.fit <xeofs.single.EOFRotator.fit>`.
     data: :py:class:`xarray.DataArray<xarray.DataArray>`
         Data to be transformed.
     normalized: :py:class:`bool<bool>`, default `True`.
@@ -528,11 +528,11 @@ def get_MCA_model(
         Left input data.
     data_right: :py:class:`xarray.DataArray <xarray.DataArray>`
         Right input data.
-    lat_dim: :py:class:`str <python.str>`.
+    lat_dim: :py:class:`str <str>`.
         Latitude coordinate dimension name.
-    lon_dim: :py:class:`str <python.str>`.
+    lon_dim: :py:class:`str <str>`.
         Longitude coordinate dimension name.
-    time_dim: :py:class:`str <python.str>`, default: `time`.
+    time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
     n_modes: :py:class:`int <int>`, default `10`.
         Number of modes to calculate.
@@ -627,7 +627,7 @@ def save_MCA_model(
     Parameters
     ----------
     model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
-        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.core.eof.get_MCA_model>` or :py:func:`xeofs.cross.mca.MCA.fit <xeofs.cross.mca.MCA.fit>`.
     path: :py:class:`str <str>`
         Path to save the model.
     overwrite: :py:class:`bool <bool>`, default `False`
@@ -661,7 +661,7 @@ def load_MCA_model(
 
     Returns
     -------
-    The model of :py:class:`xeofs.cross.MCA <xeofs.cross.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+    The model of :py:class:`xeofs.cross.MCA <xeofs.cross.EOFRotator>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.core.eof.get_MCA_model>` or :py:func:`xeofs.cross.mca.MCA.fit <xeofs.cross.mca.MCA.fit>`.
     """
     return xeofs.cross.MCA.load(path=path, engine=engine, **kwargs)
 
@@ -675,7 +675,7 @@ def calc_MCA_analysis(
     Parameters
     ----------
     model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
-        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.core.eof.get_MCA_model>` or :py:func:`xeofs.cross.mca.MCA.fit <xeofs.cross.mca.MCA.fit>`.
     correction: :py:class:`str <str>`, default `None`
         Method to apply a multiple testing correction. If None, no correction is applied. Available methods are:
 
@@ -697,7 +697,7 @@ def calc_MCA_analysis(
 
     Returns
     -------
-    The results of the MCA model (:py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
+    The results of the MCA model (:py:class:`easyclimate.DataNode <easyclimate.core.datanode.DataNode>`).
 
     - **EOF**: The singular vectors of the left and right field.
     - **PC**: The scores of the left and right field. The scores in MCA are the projection of the left and right field onto the left and right singular vector of the cross-covariance matrix.
@@ -950,19 +950,20 @@ def get_MCA_projection(
     Parameters
     ----------
     model: :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>`
-        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.eof.get_MCA_model>` or :py:func:`xeofs.models.MCA.fit <xeofs.models.MCA.fit>`.
+        The model of :py:class:`xeofs.cross.MCA <xeofs.cross.MCA>` is the results from :py:func:`easyclimate.eof.get_MCA_model <easyclimate.core.eof.get_MCA_model>` or :py:meth:`xeofs.cross.mca.MCA.fit <xeofs.cross.mca.MCA.fit>`.
     data_left: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-        Left input data. Must be provided if `data_right` is not provided.
+        Left input data. Must be provided if ``data_right`` is not provided.
     data_right: :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-        Right input data. Must be provided if `data_left` is not provided.
+        Right input data. Must be provided if ``data_left`` is not provided.
     normalized: :py:class:`bool`, default `False`.
         Whether to return L2 normalized scores.
 
     Returns
     -------
-    scores: :py:class:`easyclimate.DataNode <easyclimate.DataNode>`
-        - **scores1**: Left scores.
-        - **scores2**: Right scores.
+    scores: :py:class:`easyclimate.DataNode <easyclimate.core.datanode.DataNode>`
+
+    - **scores1**: Left scores.
+    - **scores2**: Right scores.
     """
     scores1, scores2 = model.transform(
         data1=data_left, data2=data_right, normalized=normalized

@@ -20,11 +20,14 @@ __all__ = [
     "calc_monthly_climatological_var_without_seasonal_cycle_mean",
     "smooth_daily_annual_cycle",
     "calc_daily_annual_cycle_mean",
+    "calc_daily_annual_cycle_std",
+    "calc_daily_annual_cycle_var",
     "remove_smooth_daily_annual_cycle_mean",
     "calc_horizontal_wind_components_std",
     "populate_monmean2everymon",
     "populate_daymean2everyday",
     "calc_daily_climatological_anomaly",
+    "remove_low_frequency_signal",
 ]
 
 
@@ -366,6 +369,84 @@ def calc_daily_annual_cycle_mean(
     return result_daily_cycle_mean
 
 
+def calc_daily_annual_cycle_std(
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str = "time",
+    **kwargs,
+) -> xr.DataArray:
+    """
+    Calculation of the daily standard deviation per year over the entire time range.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+         The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+    .. caution::
+
+        `data_input` must be **daily** or **hourly** data.
+        At least one year of time range must be included in the `data_input`.
+
+    dim: :py:class:`str <str>`
+        Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
+    **kwargs:
+        Additional keyword arguments passed to the standard deviation function.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`xarray.Dataset <xarray.Dataset>`.
+
+    .. caution::
+
+        - For complete coverage, the data should span at least one full year.
+        - If the data is sub-daily (e.g., hourly), the std is taken over all sub-daily time points for each day of the year.
+    """
+    result_daily_cycle_std = data_input.groupby(data_input[dim].dt.dayofyear).std(
+        dim=dim, **kwargs
+    )
+
+    return result_daily_cycle_std
+
+
+def calc_daily_annual_cycle_var(
+    data_input: xr.DataArray | xr.Dataset,
+    dim: str = "time",
+    **kwargs,
+) -> xr.DataArray:
+    """
+    Calculation of the daily variance per year over the entire time range.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+         The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+
+    .. caution::
+
+        `data_input` must be **daily** or **hourly** data.
+        At least one year of time range must be included in the `data_input`.
+
+    dim: :py:class:`str <str>`
+        Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
+    **kwargs:
+        Additional keyword arguments passed to the variance function.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`xarray.Dataset <xarray.Dataset>`.
+
+    .. caution::
+
+        - For complete coverage, the data should span at least one full year.
+        - If the data is sub-daily (e.g., hourly), the var is taken over all sub-daily time points for each day of the year.
+    """
+    result_daily_cycle_var = data_input.groupby(data_input[dim].dt.dayofyear).var(
+        dim=dim, **kwargs
+    )
+
+    return result_daily_cycle_var
+
+
 def remove_smooth_daily_annual_cycle_mean(
     data_input: xr.DataArray,
     daily_cycle_mean_time_range: slice = slice(None, None),
@@ -452,8 +533,7 @@ def calc_horizontal_wind_components_std(
 
     Reference
     --------------
-    G. R. Ackermann. (1983). Means and Standard Deviations of Horizontal Wind Components.
-    Website: https://doi.org/10.1175/1520-0450(1983)022%3C0959:MASDOH%3E2.0.CO;2
+    - G. R. Ackermann. (1983). Means and Standard Deviations of Horizontal Wind Components. https://doi.org/10.1175/1520-0450(1983)022%3C0959:MASDOH%3E2.0.CO;2
     """
     U = uv_dataset[u_dim].mean(dim=time_dim)
     V = uv_dataset[v_dim].mean(dim=time_dim)
@@ -617,3 +697,50 @@ def calc_daily_climatological_anomaly(
     )
     data_daily_anomaly = data_daily_anomaly.drop_vars("dayofyear")
     return data_daily_anomaly
+
+
+def remove_low_frequency_signal(
+    da: xr.DataArray, window: int = 120, center: bool = False, time_dim: str = "time"
+) -> xr.DataArray:
+    """
+    Remove low-frequency signal by subtracting the running mean from a time series.
+
+    This function removes the effect of interannual variability by subtracting the
+    running mean of the specified window (default 120 days), as described in Wheeler
+    and Hendon (2004). The method is commonly used in the context of the Madden-Julian
+    Oscillation (MJO) index calculation for monitoring and prediction.
+
+    Parameters
+    ----------
+    da : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Input time series data array with a time dimension.
+    window : :py:class:`int <int>`, optional
+        Size of the moving average window in days (default is 120).
+    center : :py:class:`bool <bool>`, optional
+        If ``True``, the moving average is centered (mean of window around each point).
+        If ``False``, the moving average is trailing (mean of last window days).
+        Default is ``False``.
+    time_dim : :py:class:`str <str>`, optional
+        Name of the time dimension in the input DataArray (default is "time").
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`
+        The input data array with the low-frequency signal (running mean) removed.
+
+    References
+    ----------
+    - Wheeler, M. C., & Hendon, H. H. (2004). An All-Season Real-Time Multivariate MJO Index: Development of an Index for Monitoring and Prediction. Monthly Weather Review, 132(8), 1917-1932. https://journals.ametsoc.org/view/journals/mwre/132/8/1520-0493_2004_132_1917_aarmmi_2.0.co_2.xml
+
+    Examples
+    --------
+    >>> import xarray as xr
+    >>> da = xr.DataArray([...], dims=['time'], coords={'time': [...]})
+    >>> result = remove_low_frequency_signal(da, window=120, center=False, time_dim='time')
+    """
+    # Calculate moving average over the specified time dimension
+    # Using rolling mean with center=False for trailing window
+    rolling_mean = da.rolling({time_dim: window}, center=center).mean()
+    result = da - rolling_mean
+
+    return result

@@ -345,7 +345,9 @@ def calc_lon_lat_mixed_derivatives(
 
 
 def calc_p_gradient(
-    data_input: xr.DataArray, vertical_dim: str, vertical_dim_units: str
+    data_input: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
     Calculate the gradient along the barometric pressure direction in the p-coordinate system.
@@ -378,6 +380,15 @@ def calc_p_gradient(
 
     dp = calc_gradient(data_input[vertical_dim], dim=vertical_dim) * dp_base
     dF_dp = calc_gradient(data_input, dim=vertical_dim) / dp
+
+    # clean other attrs
+    if "units" in data_input.attrs:
+        original_units = data_input.attrs["units"]
+        dF_dp.attrs = dict()
+        dF_dp.attrs["units"] = str(original_units) + " Pa^-1"
+    else:
+        dF_dp.attrs = dict()
+        dF_dp.attrs["units"] = "[data_input units] Pa^-1"
     return dF_dp
 
 

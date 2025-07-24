@@ -8,7 +8,8 @@ import warnings
 
 from scipy import signal, stats
 from scipy.stats import pearsonr
-from .utility import generate_datatree_dispatcher, find_dims_axis, validate_dataarrays
+from scipy.signal import correlate
+from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
 
 from xarray import DataTree
 from .datanode import DataNode
@@ -24,10 +25,11 @@ __all__ = [
     "calc_skewness_spatial",
     "calc_kurtosis_spatial",
     "calc_theilslopes_spatial",
+    "calc_lead_lag_correlation_coefficients",
 ]
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_linregress_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -168,7 +170,7 @@ def calc_linregress_spatial(
     return _calc_linregress_spatial_scipy_linregress(data_input, dim, x, alternative)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_detrend_spatial(
     data_input: xr.DataArray | xr.Dataset, time_dim: str = "time"
 ) -> xr.DataArray | DataTree:
@@ -704,7 +706,7 @@ def calc_levenetestSpatialPattern_spatial(
     )
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_skewness_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -774,7 +776,7 @@ def calc_skewness_spatial(
     return dateset
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_kurtosis_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -841,7 +843,7 @@ def calc_kurtosis_spatial(
     return kurtosis
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def calc_theilslopes_spatial(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
@@ -977,3 +979,94 @@ def calc_theilslopes_spatial(
     return _calc_theilslopes_spatial_scipy_theilslopes(
         data_input, dim, x, alpha, method
     )
+
+
+def calc_lead_lag_correlation_coefficients(
+    pcs: dict, pairs: List[tuple], max_lag: int
+) -> xr.Dataset:
+    """
+    Compute lead-lag correlation coefficients for specified pairs of indexes.
+
+    This function calculates the cross-correlation between pairs of time series (e.g., MJO/BSISO principal components PC1 vs. PC2)
+    to determine their lead-lag relationships. The correlation coefficients are computed for a range
+    of lags, and the maximum correlation and corresponding lag are stored as attributes in the output
+    dataset.
+
+    Parameters
+    ----------
+    pcs : py:class:`dict <dict>`
+        Dictionary mapping PC names (e.g., 'PC1', 'PC2') to :py:class:`xarray.DataArray<xarray.DataArray>` objects, where each
+        DataArray represents a principal component time series with a ``'time'`` dimension.
+    pairs : py:class:`list <list>` of tuples
+        List of tuples, where each tuple contains (pair_name, pc_name1, pc_name2). For example,
+        [('PC1_vs_PC2', 'PC1', 'PC2'), ('PC3_vs_PC4', 'PC3', 'PC4')].
+    max_lag : py:class:`int <int>`
+        Maximum lag (in time steps) to consider for the cross-correlation. The function computes
+        correlations for lags from ``-max_lag`` to ``+max_lag``.
+
+    Returns
+    -------
+    corr_da : :py:class:`xarray.Dataset<xarray.Dataset>`
+        Dataset containing correlation coefficients for each pair, with a 'lag' dimension.
+        Each variable (e.g., 'PC1_vs_PC2') has attributes ``'max_correlation' (float)`` and
+        ``'lag_at_max_correlation' (int)`` indicating the maximum correlation and the lag at which it occurs.
+
+    Notes
+    -----
+
+    - Positive lags indicate that the first PC leads the second; negative lags indicate the opposite.
+    - The input PCs should have no missing values. Use ``fillna`` or ``interpolate_na`` if needed.
+    - The correlation coefficients are normalized to range between :math:`-1` and :math:`1`.
+    """
+
+    def cross_correlation(da1, da2, max_lag):
+        """
+        Compute cross-correlation between two xarray DataArrays for a range of lags.
+
+        Parameters
+        ----------
+        da1, da2 : xarray.DataArray
+            Time series to correlate, with a 'time' dimension.
+        max_lag : int
+            Maximum lag to consider (in time steps).
+
+        Returns
+        -------
+        lags : numpy.ndarray
+            Array of lags from -max_lag to +max_lag.
+        corr : numpy.ndarray
+            Array of correlation coefficients corresponding to the lags.
+        """
+        x = da1.values - da1.mean().values
+        y = da2.values - da2.mean().values
+        corr = correlate(x, y, mode="full", method="auto")
+        corr = corr / (np.std(x) * np.std(y) * len(x))
+        lags = np.arange(-len(x) + 1, len(x))
+        mask = (lags >= -max_lag) & (lags <= max_lag)
+        return lags[mask], corr[mask]
+
+    # Compute correlations for each pair
+    results = {}
+    for pair_name, pc_name1, pc_name2 in pairs:
+        lags, corr = cross_correlation(pcs[pc_name1], pcs[pc_name2], max_lag)
+        results[pair_name] = (lags, corr)
+
+    # Create xarray Dataset
+    corr_da = xr.Dataset(
+        {
+            pair_name: xr.DataArray(
+                corr, dims=["lag"], coords={"lag": lags}, name=pair_name
+            )
+            for pair_name, (lags, corr) in results.items()
+        }
+    )
+
+    # Add maximum correlation and lag as attributes
+    for pair_name, (lags, corr) in results.items():
+        max_corr_idx = np.argmax(np.abs(corr))
+        max_lag = lags[max_corr_idx]
+        max_corr = corr[max_corr_idx]
+        corr_da[pair_name].attrs["max_correlation"] = float(max_corr)
+        corr_da[pair_name].attrs["lag_at_max_correlation"] = int(max_lag)
+
+    return corr_da

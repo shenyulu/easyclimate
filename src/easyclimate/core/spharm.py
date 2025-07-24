@@ -1,4 +1,10 @@
-from easyclimate_backend.pyspharm import spharm
+"""
+Easy climate top interface for the Pyspharm
+
+This is the top layer of packaging for the Pyspharm package.
+"""
+
+from ..backend import spharm
 import xarray as xr
 import numpy as np
 from typing import Literal
@@ -26,6 +32,10 @@ def calc_gaussian_latitudes(nlat: int):
     Returns
     -------
     The gaussian latitudes (in degrees north) and gaussian quadrature weights (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. seealso::
+
+        - https://www.ncl.ucar.edu/Document/Functions/Built-in/gaus.shtml
     """
     lats, wts = spharm.gaussian_lats_wts(nlat)
 
@@ -77,7 +87,7 @@ def calc_spherical_harmonic_coefficients(ntrunc: int):
     Parameters
     ----------
     ntrunc: :py:class:`int <int>`.
-        The spherical harmonic triangular truncation limit, i.e, truncation wavenumber (e.g., T42).
+        The spherical harmonic triangular truncation limit, i.e, truncation wavenumber (e.g., ``T42``).
 
     Returns
     -------
@@ -106,11 +116,11 @@ def calc_legendre_functions(lat: float, ntrunc: int) -> xr.DataArray:
     lat: :py:class:`float <float>`.
         The latitude (in degrees) to compute the associate legendre functions.
     ntrunc: :py:class:`int <int>`.
-        The spherical harmonic triangular truncation limit, i.e, truncation wavenumber (e.g., `T42`).
+        The spherical harmonic triangular truncation limit, i.e, truncation wavenumber (e.g., ``T42``).
 
     Returns
     -------
-    :math:`(\\mathrm{ntrunc} + 1) (\\mathrm{ntrunc} + 2) /2` associated legendre functions at latitude `lat`.
+    :math:`(\\mathrm{ntrunc} + 1) (\\mathrm{ntrunc} + 2) /2` associated legendre functions at latitude ``lat``.
     """
     pnm = spharm.legendre(lat, ntrunc)
     pnm_array = xr.DataArray(pnm, name="pnm")
@@ -135,15 +145,16 @@ def transfer_grid2spectral_transform(
     grid_data_type:
         Type of grid ('regular' or 'gaussian')
     lon_dim: :py:class:`str <str>`.
-        Name of longitude dimension, default is 'lon'
+        Name of longitude dimension, default is ``'lon'``.
     lat_dim: :py:class:`str <str>`.
-        Name of latitude dimension, default is 'lat'
+        Name of latitude dimension, default is ``'lat'``.
     ntrunc: :py:class:`int <int>`.
-        Spectral truncation wavenumber, defaults to `nlat-1`.
+        Spectral truncation wavenumber, defaults to ``nlat-1``.
 
     Returns
     ------------
-    DataArray containing complex spherical harmonic coefficients with triangular spectral dimension
+
+    :py:class:`xarray.DataArray <xarray.DataArray>` containing complex spherical harmonic coefficients with triangular spectral dimension
     """
     # Get number of latitude and longitude points
     nlat = len(grid_data[lat_dim])
@@ -204,23 +215,24 @@ def transfer_spectral_transform2grid(
     Parameters
     ------------
     spec_data: :py:class:`xarray.DataArray <xarray.DataArray>`.
-        Input spectral coefficient data, must contain the spectral dimension
+        Input spectral coefficient data, must contain the spectral dimension.
     nlon: :py:class:`int <int>`.
-        Number of longitude points in output grid
+        Number of longitude points in output grid.
     nlat: :py:class:`int <int>`.
-        Number of latitude points in output grid
+        Number of latitude points in output grid.
     grid_data_type:
-        Type of output grid ('regular' or 'gaussian')
+        Type of output grid (``'regular'`` or ``'gaussian'``).
     spec_dim:
-        Name of spectral dimension, default is 'spec_dim'
+        Name of spectral dimension, default is ``'spec_dim'``.
     lon_dim: :py:class:`str <str>`.
-        Name for output longitude dimension, default is 'lon'
+        Name for output longitude dimension, default is ``'lon'``.
     lat_dim: :py:class:`str <str>`.
-        Name for output latitude dimension, default is 'lat'
+        Name for output latitude dimension, default is ``'lat'``.
 
     Returns
     ------------
-        DataArray in grid space representation with (lat, lon) dimensions
+
+    :py:class:`xarray.DataArray <xarray.DataArray>` in grid space representation with ``(lat, lon)`` dimensions
     """
     # Initialize spherical harmonic transform object with specified grid parameters
     sph = spharm.Spharmt(nlon, nlat, gridtype=grid_data_type)

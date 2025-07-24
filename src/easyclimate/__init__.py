@@ -8,4 +8,3 @@ from . import plot
 from . import field
 from . import accessor
 from . import wrf
-from . import satellite

@@ -7,3 +7,5 @@ from .index_eu import *
 from .index_srp import *
 from .index_cgt import *
 from .index_ao_nam import *
+from .index_bbo import *
+from .index_da import *

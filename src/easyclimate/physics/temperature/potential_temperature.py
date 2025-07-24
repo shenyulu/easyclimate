@@ -66,7 +66,7 @@ def calc_potential_temperature(
 def calc_potential_temperature_vertical(
     temper_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     kappa: float = 287 / 1005.7,
 ) -> xr.DataArray:
     """

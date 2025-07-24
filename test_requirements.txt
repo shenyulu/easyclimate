@@ -12,7 +12,7 @@ dpcpp-cpp-rt
 scipy >=1.8.0
 statsmodels
 geocat-comp
-easyclimate-backend >= 2025.5.1
+easyclimate-backend >= 2025.8.0
 dask
 pymannkendall
 flox
@@ -32,6 +32,7 @@ pybarnes
 pytest == 8.3.3
 pytest-cov == 5.0.0
 pytest-mpl == 0.17.0
+pytest-xdist
 pre-commit
 rich
 twine

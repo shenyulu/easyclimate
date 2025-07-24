@@ -12,8 +12,7 @@ import numpy as np
 import xarray as xr
 import pymannkendall as mk
 
-from .utility import generate_datatree_dispatcher
-from xarray import DataTree
+from .utility import generate_datanode_dispatcher
 from .datanode import DataNode
 
 __all__ = [
@@ -30,13 +29,13 @@ __all__ = [
 ]
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def original_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     Original Mann-Kendall test is a nonparametric test, which does not consider serial correlation or seasonal effects.
 
@@ -53,7 +52,7 @@ def original_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -141,16 +140,19 @@ def original_test(
     return _top_test(data_input, dim, alpha)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def hamed_rao_modification_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     lag: int = None,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
-    This modified MK test proposed by Hamed and Rao (1998) to address serial autocorrelation issues. They suggested a variance correction approach to improve trend analysis. User can consider first n significant lag by insert lag number in this function. By default, it considered all significant lags.
+    This modified MK test proposed by Hamed and Rao (1998) to address serial autocorrelation issues.
+    They suggested a variance correction approach to improve trend analysis. User can consider
+    first :math:`n` significant lag by insert lag number in this function.
+    By default, it considered all significant lags.
 
     .. seealso::
         Hamed, K. H., & Rao, A. R. (1998). A modified Mann-Kendall trend test for autocorrelated data. Journal of hydrology, 204(1-4), 182-196. doi: http://doi.org/10.1016/S0022-1694(97)00125-X
@@ -170,7 +172,7 @@ def hamed_rao_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -258,16 +260,17 @@ def hamed_rao_modification_test(
     return _top_test(data_input, dim, alpha, lag=lag)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def yue_wang_modification_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     lag: int = None,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
-    This is also a variance correction method for considered serial autocorrelation proposed by Yue, S., & Wang, C. Y. (2004). User can also set their desired significant n lags for the calculation.
+    This is also a variance correction method for considered serial autocorrelation proposed by Yue, S., & Wang, C. Y. (2004).
+    User can also set their desired significant n lags for the calculation.
 
     .. seealso::
         Yue, S., & Wang, C. (2004). The Mann-Kendall test modified by effective sample size to detect trend in serially correlated hydrological series. Water resources management, 18(3), 201-218. doi: http://doi.org/10.1023/B:WARM.0000043140.61082.60
@@ -287,7 +290,7 @@ def yue_wang_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -375,13 +378,13 @@ def yue_wang_modification_test(
     return _top_test(data_input, dim, alpha, lag=lag)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def pre_whitening_modification_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     This test suggested by Yue and Wang (2002) to using Pre-Whitening the time series before the application of trend test.
 
@@ -401,7 +404,7 @@ def pre_whitening_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -489,13 +492,13 @@ def pre_whitening_modification_test(
     return _top_test(data_input, dim, alpha)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def trend_free_pre_whitening_modification_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     This test also proposed by Yue and Wang (2002) to remove trend component and then Pre-Whitening the time series before application of trend test.
 
@@ -515,7 +518,7 @@ def trend_free_pre_whitening_modification_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -607,14 +610,14 @@ def trend_free_pre_whitening_modification_test(
     return _top_test(data_input, dim, alpha)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def seasonal_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     period: int = 12,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     For seasonal time series data, Hirsch, R.M., Slack, J.R. and Smith, R.A. (1982) proposed this test to calculate the seasonal trend.
 
@@ -636,7 +639,7 @@ def seasonal_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -724,13 +727,13 @@ def seasonal_test(
     return _top_test(data_input, dim, alpha, period)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def regional_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     Based on Hirsch (1982) proposed seasonal mk test, Helsel, D.R. and Frans, L.M., (2006) suggest regional mk test to calculate the overall trend in a regional scale.
 
@@ -750,7 +753,7 @@ def regional_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -838,14 +841,14 @@ def regional_test(
     return _top_test(data_input, dim, alpha)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def correlated_seasonal_test(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     alpha: float = 0.05,
     period: int = 12,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     This method proposed by Hipel (1994) used, when time series significantly correlated with the preceding one or more months/seasons.
 
@@ -867,7 +870,7 @@ def correlated_seasonal_test(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)
@@ -957,12 +960,12 @@ def correlated_seasonal_test(
     return _top_test(data_input, dim, alpha, period)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def sens_slope(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     This method proposed by Theil (1950) and Sen (1968) to estimate the magnitude of the monotonic trend. Intercept is calculate using Conover, W.J. (1980) method.
 
@@ -983,7 +986,7 @@ def sens_slope(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **slope**: Theil-Sen estimator/slope
     - **intercept**: intercept of Kendall-Theil Robust Line, for seasonal test, full period cycle consider as unit time step.
@@ -1030,13 +1033,13 @@ def sens_slope(
     return _top_test(data_input, dim)
 
 
-@generate_datatree_dispatcher
+@generate_datanode_dispatcher
 def seasonal_sens_slope(
     data_input: xr.DataArray | xr.Dataset,
     dim: str,
     period: int = 12,
     returns_type: str = "dataset_returns",
-) -> xr.Dataset | DataTree:
+) -> xr.Dataset | DataNode:
     """
     This method proposed by Hipel (1994) to estimate the magnitude of the monotonic trend, when data has seasonal effects. Intercept is calculate using Conover, W.J. (1980) method.
 
@@ -1056,7 +1059,7 @@ def seasonal_sens_slope(
 
     Returns
     -------
-    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`xarray.DataTree <xarray.DataTree>`).
+    Mann-Kendall Test results (:py:class:`xarray.Dataset <xarray.Dataset>` or :py:class:`easyclimate.DataNode <easyclimate.DataNode>`).
 
     - **trend**: tells the trend (increasing, decreasing or no trend)
     - **h**: True (if trend is present) or False (if the trend is absence)

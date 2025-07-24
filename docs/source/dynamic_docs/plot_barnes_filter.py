@@ -14,12 +14,13 @@ The difference between the filtering results of the two methods can result in me
 
 Before proceeding with all the steps, first import some necessary libraries and packages
 """
-import matplotlib.pyplot as plt
+import numpy as np
+import cartopy.crs as ccrs
 import easyclimate as ecl
 
 # %%
 # Open tuturial dataset
-hgt_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt.sel(level = 500)
+hgt_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt.sel(level = 1000)
 hgt_data
 
 # %%
@@ -29,26 +30,29 @@ hgt_data1
 
 # %%
 # Draw results and differences.
-fig, ax = plt.subplots(3,1, figsize = (5, 15))
+fig, ax = ecl.plot.quick_draw_spatial_basemap(3, 1, figsize=(5, 12), central_longitude=180)
 
 axi = ax[0]
 hgt_data.isel(time = 0).plot.contourf(
     ax = axi, levels = 21,
-    cbar_kwargs={"location": "right", "aspect": 30},
+    transform = ccrs.PlateCarree(),
+    cbar_kwargs={"location": "bottom", "aspect": 30, "label": ""},
 )
 axi.set_title("Raw data")
 
 axi = ax[1]
 hgt_data1.isel(time = 0).plot.contourf(
     ax = axi, levels = 21,
-    cbar_kwargs={"location": "right", "aspect": 30},
+    transform = ccrs.PlateCarree(),
+    cbar_kwargs={"location": "bottom", "aspect": 30, "label": ""},
 )
 axi.set_title("Filtered data")
 
 axi = ax[2]
 draw_dta = hgt_data.isel(time = 0) - hgt_data1.isel(time = 0)
 draw_dta.plot.contourf(
-    ax = axi, levels = 21,
-    cbar_kwargs={"location": "right", "aspect": 30},
+    ax = axi, levels = np.linspace(-30, 30, 21),
+    transform = ccrs.PlateCarree(),
+    cbar_kwargs={"location": "bottom", "aspect": 30, "label": ""},
 )
-axi.set_title("Mesoscale fluctuations")
+axi.set_title("Difference: Mesoscale fluctuations")
