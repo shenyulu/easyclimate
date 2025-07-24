@@ -46,6 +46,14 @@ pip install easyclimate
 
 有关安装的更多信息，请查阅文档。
 
+### 🤖 人工智能助手（实验性）
+
+DeepWiki 是由 Devin 团队开发的一款智能的、基于人工智能的 GitHub 仓库助手。它允许用户直接就代码仓库提问，借助自然语言处理技术提供详细的、文档级别的答案。DeepWiki 支持深度研究模式，可用于复杂问题的深入分析。
+
+尝试为本项目使用 DeepWiki：
+
+🔗 https://deepwiki.com/shenyulu/easyclimate
+
 ## 💫 参与其中
 
 👩🏾‍💻 **参与项目开发：**

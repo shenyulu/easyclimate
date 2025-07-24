@@ -46,6 +46,14 @@ pip install easyclimate
 
 For more information about installation, please chech the documentation.
 
+## 🤖 AI Assistant (Experimental)
+
+[DeepWiki](https://deepwiki.com/shenyulu/easyclimate) is an intelligent **AI-powered** GitHub repository assistant developed by the Devin team. It allows users to ask questions directly about code repositories, leveraging natural language processing to provide detailed, documentation-level answers. DeepWiki supports a deep research mode for in-depth analysis of complex issues.
+
+Try DeepWiki for this project:
+
+🔗 https://deepwiki.com/shenyulu/easyclimate
+
 ## 💫 Getting involved
 
 👩🏾‍💻 **Contributing to project development:**
