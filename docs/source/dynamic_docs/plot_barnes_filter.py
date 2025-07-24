@@ -8,7 +8,12 @@ and performs spatial interpolation for each grid point, thus becoming a low-pass
 When using two different schemes of constant g and c schemes, both retain low-frequency fluctuations of different scales.
 The difference between the filtering results of the two methods can result in mesoscale fluctuations.
 
+.. raw:: html
+
+    <iframe width="100%" height="422" src="https://player.bilibili.com/player.html?isOutside=true&aid=569810777&bvid=BV1tv4y1H79z&cid=1089298762&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+
 .. seealso::
+
     - Maddox, R. A. (1980). An Objective Technique for Separating Macroscale and Mesoscale Features in Meteorological Data. Monthly Weather Review, 108(8), 1108-1121. https://journals.ametsoc.org/view/journals/mwre/108/8/1520-0493_1980_108_1108_aotfsm_2_0_co_2.xml
     - https://github.com/LinOuyang/pybarnes
 
