@@ -1,0 +1,6 @@
+recursive-exclude test *
+recursive-exclude docs *
+recursive-exclude .binder *
+recursive-exclude .github *
+recursive-exclude readme *
+recursive-exclude scripts *

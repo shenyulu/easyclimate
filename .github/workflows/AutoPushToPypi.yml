@@ -3,9 +3,6 @@ name: Publish easyclimate to PyPI
 on:
   release:
     types: [published, edited]
-  push:
-    tags:
-      - 'v*'
 
 jobs:
   UnitTesting:
