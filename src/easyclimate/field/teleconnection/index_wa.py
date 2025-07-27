@@ -54,9 +54,9 @@ def calc_index_WA_Wallace_Gutzler_1981(
     )
 
     # Z*(55°N,55°W)
-    part1 = z_anomaly_data.sel(lat=55, lon=305, method="nearest")
+    part1 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 305}, method="nearest")
     # Z*(30°N,55°W)
-    part2 = z_anomaly_data.sel(lat=30, lon=305, method="nearest")
+    part2 = z_anomaly_data.sel({lat_dim: 30, lon_dim: 305}, method="nearest")
     index_WA = 0.5 * (part1 - part2)
 
     # Normalized

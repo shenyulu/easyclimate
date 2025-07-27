@@ -58,9 +58,9 @@ def calc_index_CGT_1point_Ding_Wang_2005(
     )
 
     # Z200*(35°N-40°N, 60-70°E)
-    index_CGT = z_anomaly_data.sel(lat=slice(35, 40), lon=slice(60, 70)).mean(
-        dim=(lat_dim, lon_dim)
-    )
+    index_CGT = z_anomaly_data.sel(
+        {lat_dim: slice(35, 40), lon_dim: slice(60, 70)}
+    ).mean(dim=(lat_dim, lon_dim))
 
     # Normalized
     index_normalized_std = index_CGT.sel({time_dim: time_range}).std(dim=time_dim).data
@@ -119,7 +119,7 @@ def calc_index_CGT_NH_EOF2_Ding_Wang_2005(
         z200_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    z_monthly_data_NH = z200_monthly_data.sel(lat=lat_range)
+    z_monthly_data_NH = z200_monthly_data.sel({lat_dim: lat_range})
     z_anomaly_data_NH = remove_seasonal_cycle_mean(
         z_monthly_data_NH, dim=time_dim, time_range=time_range
     )

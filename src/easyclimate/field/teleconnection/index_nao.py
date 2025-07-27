@@ -71,7 +71,7 @@ def calc_index_NAO_NH_REOF(
         z_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    z_monthly_data_NH = z_monthly_data.sel(lat=lat_range)
+    z_monthly_data_NH = z_monthly_data.sel({lat_dim: lat_range})
     z_anomaly_data_NH = remove_seasonal_cycle_mean(
         z_monthly_data_NH, dim=time_dim, time_range=time_range
     )

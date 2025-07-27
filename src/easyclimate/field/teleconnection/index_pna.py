@@ -83,19 +83,19 @@ def calc_index_PNA_modified_pointwise(
     )
 
     # Z*(15°N-25°N,180-140°W)
-    part1 = z_anomaly_data.sel(lat=slice(15, 25), lon=slice(180, 220)).mean(
+    part1 = z_anomaly_data.sel({lat_dim: slice(15, 25), lon_dim: slice(180, 220)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Z*(40°N-50°N,180-140°W)
-    part2 = z_anomaly_data.sel(lat=slice(40, 50), lon=slice(180, 220)).mean(
+    part2 = z_anomaly_data.sel({lat_dim: slice(40, 50), lon_dim: slice(180, 220)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Z*(45°N-60°N,125°W-105°W)
-    part3 = z_anomaly_data.sel(lat=slice(45, 60), lon=slice(235, 255)).mean(
+    part3 = z_anomaly_data.sel({lat_dim: slice(45, 60), lon_dim: slice(235, 255)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Z*(25°N-35°N,90°W-70°W)
-    part4 = z_anomaly_data.sel(lat=slice(25, 35), lon=slice(270, 290)).mean(
+    part4 = z_anomaly_data.sel({lat_dim: slice(25, 35), lon_dim: slice(270, 290)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Summation
@@ -153,13 +153,13 @@ def calc_index_PNA_Wallace_Gutzler_1981(
     )
 
     # Z*(20°N,160°W)
-    part1 = z_anomaly_data.sel(lat=20, lon=200, method="nearest")
+    part1 = z_anomaly_data.sel({lat_dim: 20, lon_dim: 200}, method="nearest")
     # Z*(45°N,165°W)
-    part2 = z_anomaly_data.sel(lat=45, lon=195, method="nearest")
+    part2 = z_anomaly_data.sel({lat_dim: 45, lon_dim: 195}, method="nearest")
     # Z*(55°N,115°W)
-    part3 = z_anomaly_data.sel(lat=55, lon=245, method="nearest")
+    part3 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 245}, method="nearest")
     # Z*(30°N,85°W)
-    part4 = z_anomaly_data.sel(lat=30, lon=275, method="nearest")
+    part4 = z_anomaly_data.sel({lat_dim: 30, lon_dim: 275}, method="nearest")
     index_PNA = (part1 - part2 + part3 - part4) / 4
 
     # Normalized
@@ -221,7 +221,7 @@ def calc_index_PNA_NH_REOF(
         z_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    z_monthly_data_NH = z_monthly_data.sel(lat=lat_range)
+    z_monthly_data_NH = z_monthly_data.sel({lat_dim: lat_range})
     z_anomaly_data_NH = remove_seasonal_cycle_mean(
         z_monthly_data_NH, dim=time_dim, time_range=time_range
     )

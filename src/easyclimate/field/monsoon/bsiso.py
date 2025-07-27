@@ -967,15 +967,15 @@ def calc_bsiso_analysis(
     )
     bsiso2_coeff = (
         1
-        if arr2.sel(lon=100, lat=10, method="nearest") < 0
-        and arr2.sel(lon=140, lat=20, method="nearest") > 0
+        if arr2.sel({lon_dim: 100, lat_dim: 10}, method="nearest") < 0
+        and arr2.sel({lon_dim: 140, lat_dim: 20}, method="nearest") > 0
         else -1
     )
-    bsiso3_coeff = 1 if arr3.sel(lon=100, method="nearest") > 0 else -1
+    bsiso3_coeff = 1 if arr3.sel({lon_dim: 100}, method="nearest") > 0 else -1
     bsiso4_coeff = (
         1
-        if arr4.sel(lat=10, method="nearest") > 0
-        and arr4.sel(lat=30, method="nearest") < 0
+        if arr4.sel({lat_dim: 10}, method="nearest") > 0
+        and arr4.sel({lat_dim: 30}, method="nearest") < 0
         else -1
     )
 

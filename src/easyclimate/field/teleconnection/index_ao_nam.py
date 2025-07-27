@@ -98,7 +98,7 @@ def calc_index_AO_EOF_Thompson_Wallace_1998(
         slp_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    slp_monthly_data_NH = slp_monthly_data.sel(lat=lat_range)
+    slp_monthly_data_NH = slp_monthly_data.sel({lat_dim: lat_range})
     slp_monthly_data_NH = remove_seasonal_cycle_mean(
         slp_monthly_data_NH, dim=time_dim, time_range=time_range
     )

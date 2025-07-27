@@ -54,11 +54,11 @@ def calc_index_EA_Wallace_Gutzler_1981(
     )
 
     # Z*(55°N,20°W)
-    part1 = z_anomaly_data.sel(lat=55, lon=340, method="nearest")
+    part1 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 340}, method="nearest")
     # Z*(25°N,25°W)
-    part2 = z_anomaly_data.sel(lat=25, lon=335, method="nearest")
+    part2 = z_anomaly_data.sel({lat_dim: 25, lon_dim: 335}, method="nearest")
     # Z*(50°N,40°E)
-    part3 = z_anomaly_data.sel(lat=50, lon=320, method="nearest")
+    part3 = z_anomaly_data.sel({lat_dim: 50, lon_dim: 320}, method="nearest")
     index_PNA = 0.5 * part1 - 0.25 * part2 - 0.25 * part3
 
     # Normalized

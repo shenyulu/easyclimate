@@ -54,11 +54,11 @@ def calc_index_EU_Wallace_Gutzler_1981(
     )
 
     # Scandinavia and Poland: Z*(55°N,20°E)
-    part1 = z_anomaly_data.sel(lat=55, lon=20, method="nearest")
+    part1 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 20}, method="nearest")
     # Siberia: Z*(55°N,75°E)
-    part2 = z_anomaly_data.sel(lat=55, lon=75, method="nearest")
+    part2 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 75}, method="nearest")
     # Japan: Z*(40°N,145°E)
-    part3 = z_anomaly_data.sel(lat=40, lon=145, method="nearest")
+    part3 = z_anomaly_data.sel({lat_dim: 40, lon_dim: 145}, method="nearest")
     index_EU = -0.25 * part1 + 0.5 * part2 - 0.25 * part3
 
     # Normalized

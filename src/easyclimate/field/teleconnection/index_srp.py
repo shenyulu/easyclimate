@@ -73,7 +73,9 @@ def calc_index_SRP_EOF1_Yasui_Watanabe_2010(
         v200_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    v200_monthly_data_area = v200_monthly_data.sel(lat=lat_range, lon=lon_range)
+    v200_monthly_data_area = v200_monthly_data.sel(
+        {lat_dim: lat_range, lon_dim: lon_range}
+    )
     v200_monthly_data_area = remove_seasonal_cycle_mean(
         v200_monthly_data_area, dim=time_dim, time_range=time_range
     )
@@ -155,7 +157,9 @@ def calc_index_SRP_EOF1_Kosaka_2009(
         v200_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    v200_monthly_data_area = v200_monthly_data.sel(lat=lat_range, lon=lon_range)
+    v200_monthly_data_area = v200_monthly_data.sel(
+        {lat_dim: lat_range, lon_dim: lon_range}
+    )
     v200_monthly_data_area = remove_seasonal_cycle_mean(
         v200_monthly_data_area, dim=time_dim, time_range=time_range
     )
@@ -237,7 +241,9 @@ def calc_index_SRP_EOF1_Chen_Huang_2012(
         v200_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    v200_monthly_data_area = v200_monthly_data.sel(lat=lat_range, lon=lon_range)
+    v200_monthly_data_area = v200_monthly_data.sel(
+        {lat_dim: lat_range, lon_dim: lon_range}
+    )
     v200_monthly_data_area = remove_seasonal_cycle_mean(
         v200_monthly_data_area, dim=time_dim, time_range=time_range
     )
@@ -319,7 +325,9 @@ def calc_index_SRP_EOF1_Sato_Takahashi_2006(
         v200_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    v200_monthly_data_area = v200_monthly_data.sel(lat=lat_range, lon=lon_range)
+    v200_monthly_data_area = v200_monthly_data.sel(
+        {lat_dim: lat_range, lon_dim: lon_range}
+    )
     v200_monthly_data_area = remove_seasonal_cycle_mean(
         v200_monthly_data_area, dim=time_dim, time_range=time_range
     )
@@ -388,7 +396,7 @@ def calc_index_SRP_1point_Lu_2002(
     )
 
     # V200 (42.5°N, 105°E)
-    index_SRP = v200_anomaly_data.sel(lat=42.5, lon=105, method="nearest")
+    index_SRP = v200_anomaly_data.sel({lat_dim: 42.5, lon_dim: 105}, method="nearest")
 
     # Normalized
     index_normalized_std = index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data

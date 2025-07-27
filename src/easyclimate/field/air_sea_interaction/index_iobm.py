@@ -70,9 +70,9 @@ def calc_index_IOBM_1point(
         sst_monthly_data, dim=time_dim, time_range=time_range
     )
 
-    index_IOBM = sst_anomaly_data.sel(lon=lon_range, lat=slice(-20, 20)).mean(
-        dim=(lat_dim, lon_dim)
-    )
+    index_IOBM = sst_anomaly_data.sel(
+        {lon_dim: lon_range, lat_dim: slice(-20, 20)}
+    ).mean(dim=(lat_dim, lon_dim))
 
     # Normalized
     if normalized == True:
@@ -153,7 +153,7 @@ def calc_index_IOBM_EOF1(
 
     # EOF
     sst_EOF_model = get_EOF_model(
-        sst_anomaly_data.sel(lon=lon_range, lat=slice(-20, 20)),
+        sst_anomaly_data.sel({lon_dim: lon_range, lat_dim: slice(-20, 20)}),
         lat_dim=lat_dim,
         lon_dim=lon_dim,
         time_dim=time_dim,
