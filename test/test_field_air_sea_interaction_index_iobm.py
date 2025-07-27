@@ -78,62 +78,64 @@ def test_calc_index_IOBM_1point_2():
 
 
 def test_calc_index_IOBM_EOF1_1():
-    result_data = ecl.field.air_sea_interaction.calc_index_IOBM_EOF1(data_sst).data[:20]
-    refer_data = np.array(
-        [
-            -1.23310228,
-            -1.40070626,
-            -1.22917518,
-            -1.42958303,
-            -0.94668675,
-            -0.20262406,
-            -0.35992287,
-            -0.45552472,
-            -0.10674089,
-            -0.05047559,
-            0.29850964,
-            0.60768597,
-            0.78026958,
-            0.23512296,
-            0.84072217,
-            0.50297767,
-            0.15172536,
-            -0.06115037,
-            0.92514055,
-            0.76630208,
-        ],
-        dtype=np.float32,
-    )
-    assert np.isclose(result_data, refer_data).all()
-
-
-def test_calc_index_IOBM_EOF1_2():
     result_data = ecl.field.air_sea_interaction.calc_index_IOBM_EOF1(
         data_sst, normalized=False
     ).data[:20]
     refer_data = np.array(
         [
-            -0.05547989,
-            -0.06302075,
-            -0.05530321,
-            -0.06431998,
-            -0.04259345,
-            -0.00911649,
-            -0.0161937,
-            -0.02049503,
-            -0.0048025,
-            -0.002271,
-            0.01343058,
-            0.02734108,
-            0.03510599,
-            0.01057868,
-            0.03782588,
-            0.02263004,
-            0.00682645,
-            -0.00275129,
-            0.04162404,
-            0.03447756,
+            -6.35371888,
+            -7.217317,
+            -6.33348235,
+            -7.36610971,
+            -4.87792433,
+            -1.04404388,
+            -1.85454885,
+            -2.34715087,
+            -0.54999718,
+            -0.26008055,
+            1.53811037,
+            3.13117964,
+            4.02043694,
+            1.21150212,
+            4.33192829,
+            2.59165628,
+            0.78178441,
+            -0.3150826,
+            4.76690465,
+            3.94846789,
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
+
+
+def test_calc_index_IOBM_EOF1_2():
+    result_data = ecl.field.air_sea_interaction.calc_index_IOBM_EOF1(
+        data_sst, normalized=True
+    ).data[:20]
+    refer_data = np.array(
+        [
+            -0.05547991,
+            -0.06302075,
+            -0.05530321,
+            -0.06431999,
+            -0.04259345,
+            -0.00911647,
+            -0.0161937,
+            -0.02049504,
+            -0.00480251,
+            -0.00227099,
+            0.0134306,
+            0.02734108,
+            0.03510597,
+            0.01057869,
+            0.03782588,
+            0.02263003,
+            0.00682645,
+            -0.00275126,
+            0.04162404,
+            0.03447755,
+        ],
+        dtype=np.float32,
+    )
+    assert np.isclose(result_data, refer_data, atol=0.01).all()

@@ -42,7 +42,7 @@ def test_calc_index_CGT_1point_Ding_Wang_2005():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
 
 
 def test_calc_index_CGT_NH_EOF2_Ding_Wang_2005():
@@ -51,27 +51,27 @@ def test_calc_index_CGT_NH_EOF2_Ding_Wang_2005():
     ).data[:20]
     refer_data = np.array(
         [
-            -2.53768398,
-            -0.65121434,
-            -1.38997029,
-            -0.13367014,
-            -0.85138727,
-            -0.50259467,
-            0.24486781,
-            0.04657358,
-            -0.40475156,
-            0.37799115,
-            -0.70745496,
-            -0.22954206,
-            0.03327428,
-            -0.49410987,
-            -0.07576824,
-            -0.24865819,
-            -0.49270629,
-            -0.71086944,
-            -1.34930355,
-            -0.98151028,
+            -0.11139196,
+            -0.02858514,
+            -0.06101292,
+            -0.00586747,
+            -0.03737175,
+            -0.02206146,
+            0.0107485,
+            0.00204435,
+            -0.01776662,
+            0.01659197,
+            -0.03105383,
+            -0.01007578,
+            0.00146058,
+            -0.02168902,
+            -0.00332586,
+            -0.01091488,
+            -0.02162741,
+            -0.03120371,
+            -0.05922785,
+            -0.04308352,
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()

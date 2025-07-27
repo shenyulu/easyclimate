@@ -21,6 +21,7 @@ def calc_index_BBO_EOF3_Wu_2007(
     random_state: int | None = None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean Barents-Beaufort Oscillation (BBO) index using empirical orthogonal functions (EOFs) method
@@ -49,6 +50,8 @@ def calc_index_BBO_EOF3_Wu_2007(
         Solver to use for the EOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the EOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -84,10 +87,6 @@ def calc_index_BBO_EOF3_Wu_2007(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    slp_EOF_result = calc_EOF_analysis(slp_EOF_model)
+    slp_EOF_result = calc_EOF_analysis(slp_EOF_model, PC_normalized=normalized)
     index_BBO = slp_EOF_result["PC"].sel(mode=3)
-
-    # Normalized
-    index_normalized_std = index_BBO.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_BBO / index_normalized_std).drop_vars("month")
-    return result.drop_vars("mode")
+    return index_BBO

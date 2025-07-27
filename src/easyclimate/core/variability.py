@@ -740,7 +740,7 @@ def remove_low_frequency_signal(
     """
     # Calculate moving average over the specified time dimension
     # Using rolling mean with center=False for trailing window
-    rolling_mean = da.rolling({time_dim: window}, center=center).mean(dim=time_dim)
+    rolling_mean = da.rolling({time_dim: window}, center=center).mean()
     result = da - rolling_mean
 
     return result

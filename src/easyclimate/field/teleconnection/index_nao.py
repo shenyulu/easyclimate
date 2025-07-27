@@ -29,6 +29,7 @@ def calc_index_NAO_NH_REOF(
     random_state: int | None = None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean NAO index using rotated empirical orthogonal functions (REOFs) method:
@@ -53,6 +54,8 @@ def calc_index_NAO_NH_REOF(
         Solver to use for the SVD computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the SVD solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -87,9 +90,6 @@ def calc_index_NAO_NH_REOF(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    z_REOF_result = calc_REOF_analysis(z_REOF_model)
+    z_REOF_result = calc_REOF_analysis(z_REOF_model, PC_normalized=normalized)
     index_NAO = z_REOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    index_normalized_std = index_NAO.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_NAO / index_normalized_std).drop_vars(["month", "mode"])
+    return index_NAO

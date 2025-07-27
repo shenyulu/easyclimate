@@ -28,6 +28,7 @@ def calc_index_SRP_EOF1_Yasui_Watanabe_2010(
     random_state: int | None = None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Yasui and Watanabe (2010):
@@ -91,14 +92,10 @@ def calc_index_SRP_EOF1_Yasui_Watanabe_2010(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    v_EOF_result = calc_EOF_analysis(v_EOF_model)
+    v_EOF_result = calc_EOF_analysis(v_EOF_model, PC_normalized=normalized)
     index_SRP = v_EOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    index_normalized_std = index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_SRP / index_normalized_std).drop_vars(["month", "mode"])
-    result.name = "SRPI"
-    return result
+    index_SRP.name = "SRPI"
+    return index_SRP
 
 
 def calc_index_SRP_EOF1_Kosaka_2009(
@@ -112,6 +109,7 @@ def calc_index_SRP_EOF1_Kosaka_2009(
     random_state=None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Kosaka et al. (2009):
@@ -140,6 +138,8 @@ def calc_index_SRP_EOF1_Kosaka_2009(
         Solver to use for the EOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the EOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -175,14 +175,10 @@ def calc_index_SRP_EOF1_Kosaka_2009(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    v_EOF_result = calc_EOF_analysis(v_EOF_model)
+    v_EOF_result = calc_EOF_analysis(v_EOF_model, PC_normalized=normalized)
     index_SRP = v_EOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    index_normalized_std = index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_SRP / index_normalized_std).drop_vars(["month", "mode"])
-    result.name = "SRPI"
-    return result
+    index_SRP.name = "SRPI"
+    return index_SRP
 
 
 def calc_index_SRP_EOF1_Chen_Huang_2012(
@@ -196,6 +192,7 @@ def calc_index_SRP_EOF1_Chen_Huang_2012(
     random_state=None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Chen and Huang (2009):
@@ -224,6 +221,8 @@ def calc_index_SRP_EOF1_Chen_Huang_2012(
         Solver to use for the EOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the EOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -259,14 +258,10 @@ def calc_index_SRP_EOF1_Chen_Huang_2012(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    v_EOF_result = calc_EOF_analysis(v_EOF_model)
+    v_EOF_result = calc_EOF_analysis(v_EOF_model, PC_normalized=normalized)
     index_SRP = v_EOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    index_normalized_std = index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_SRP / index_normalized_std).drop_vars(["month", "mode"])
-    result.name = "SRPI"
-    return result
+    index_SRP.name = "SRPI"
+    return index_SRP
 
 
 def calc_index_SRP_EOF1_Sato_Takahashi_2006(
@@ -280,6 +275,7 @@ def calc_index_SRP_EOF1_Sato_Takahashi_2006(
     random_state=None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index using empirical orthogonal functions (EOFs) method based on Sato and Takahashi (2006):
@@ -308,6 +304,8 @@ def calc_index_SRP_EOF1_Sato_Takahashi_2006(
         Solver to use for the EOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the EOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -343,14 +341,10 @@ def calc_index_SRP_EOF1_Sato_Takahashi_2006(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    v_EOF_result = calc_EOF_analysis(v_EOF_model)
+    v_EOF_result = calc_EOF_analysis(v_EOF_model, PC_normalized=normalized)
     index_SRP = v_EOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    index_normalized_std = index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_SRP / index_normalized_std).drop_vars(["month", "mode"])
-    result.name = "SRPI"
-    return result
+    index_SRP.name = "SRPI"
+    return index_SRP
 
 
 def calc_index_SRP_1point_Lu_2002(
@@ -359,6 +353,7 @@ def calc_index_SRP_1point_Lu_2002(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean SRP index based on Lu et al. (2002):
@@ -377,6 +372,8 @@ def calc_index_SRP_1point_Lu_2002(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -399,7 +396,13 @@ def calc_index_SRP_1point_Lu_2002(
     index_SRP = v200_anomaly_data.sel({lat_dim: 42.5, lon_dim: 105}, method="nearest")
 
     # Normalized
-    index_normalized_std = index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_SRP / index_normalized_std).drop_vars("month")
-    result.name = "SRPI"
-    return result
+    if normalized == True:
+        index_normalized_std = (
+            index_SRP.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_SRP / index_normalized_std).drop_vars("month")
+        result.name = "SRPI"
+        return result
+    elif normalized == False:
+        index_SRP.name = "SRPI"
+        return index_SRP

@@ -162,15 +162,6 @@ def calc_index_IOBM_EOF1(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    sst_EOF_result = calc_EOF_analysis(sst_EOF_model)
+    sst_EOF_result = calc_EOF_analysis(sst_EOF_model, PC_normalized=normalized)
     index_IOBM = sst_EOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    if normalized == True:
-        index_normalized_std = (
-            index_IOBM.sel({time_dim: time_range}).std(dim=time_dim).data
-        )
-        result = (index_IOBM / index_normalized_std).drop_vars("month")
-        return result
-    elif normalized == False:
-        return index_IOBM
+    return index_IOBM

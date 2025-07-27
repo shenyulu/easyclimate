@@ -15,6 +15,7 @@ def calc_index_EA_Wallace_Gutzler_1981(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean eastern Atlantic (EA) index using Pointwise method following Wallace and Gutzler (1981):
@@ -59,8 +60,14 @@ def calc_index_EA_Wallace_Gutzler_1981(
     part2 = z_anomaly_data.sel({lat_dim: 25, lon_dim: 335}, method="nearest")
     # Z*(50°N,40°E)
     part3 = z_anomaly_data.sel({lat_dim: 50, lon_dim: 320}, method="nearest")
-    index_PNA = 0.5 * part1 - 0.25 * part2 - 0.25 * part3
+    index_EA = 0.5 * part1 - 0.25 * part2 - 0.25 * part3
 
     # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_PNA / index_normalized_std).drop_vars("month")
+    if normalized == True:
+        index_normalized_std = (
+            index_EA.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_EA / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_EA

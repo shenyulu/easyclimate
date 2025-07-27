@@ -44,6 +44,7 @@ def calc_index_PNA_modified_pointwise(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index is constructed by following modified pointwise method:
@@ -65,6 +66,8 @@ def calc_index_PNA_modified_pointwise(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -102,9 +105,14 @@ def calc_index_PNA_modified_pointwise(
     index_PNA = (part1 - part2 + part3 - part4) / 4
 
     # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_PNA / index_normalized_std).drop_vars("month")
-    return result
+    if normalized == True:
+        index_normalized_std = (
+            index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_PNA / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_PNA
 
 
 def calc_index_PNA_Wallace_Gutzler_1981(
@@ -113,6 +121,7 @@ def calc_index_PNA_Wallace_Gutzler_1981(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index using Pointwise method following Wallace and Gutzler (1981):
@@ -134,6 +143,8 @@ def calc_index_PNA_Wallace_Gutzler_1981(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -163,9 +174,14 @@ def calc_index_PNA_Wallace_Gutzler_1981(
     index_PNA = (part1 - part2 + part3 - part4) / 4
 
     # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_PNA / index_normalized_std).drop_vars("month")
-    return result
+    if normalized == True:
+        index_normalized_std = (
+            index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_PNA / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_PNA
 
 
 def calc_index_PNA_NH_REOF(
@@ -178,6 +194,7 @@ def calc_index_PNA_NH_REOF(
     random_state=None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index using rotated empirical orthogonal functions (REOFs) method over the entire Northern Hemisphere:
@@ -202,6 +219,8 @@ def calc_index_PNA_NH_REOF(
         Solver to use for the REOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the REOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -237,10 +256,6 @@ def calc_index_PNA_NH_REOF(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    z_REOF_result = calc_REOF_analysis(z_REOF_model)
+    z_REOF_result = calc_REOF_analysis(z_REOF_model, PC_normalized=normalized)
     index_PNA = z_REOF_result["PC"].sel(mode=2)
-
-    # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_PNA / index_normalized_std).drop_vars("month")
-    return result
+    return index_PNA

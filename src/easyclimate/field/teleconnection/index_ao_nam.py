@@ -50,6 +50,7 @@ def calc_index_AO_EOF_Thompson_Wallace_1998(
     random_state: int | None = None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean Arctic Oscillation (AO) index using empirical orthogonal functions (EOFs) method over the entire Northern Hemisphere:
@@ -78,6 +79,8 @@ def calc_index_AO_EOF_Thompson_Wallace_1998(
         Solver to use for the EOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the EOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -114,13 +117,9 @@ def calc_index_AO_EOF_Thompson_Wallace_1998(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    slp_EOF_result = calc_EOF_analysis(slp_EOF_model)
+    slp_EOF_result = calc_EOF_analysis(slp_EOF_model, PC_normalized=normalized)
     index_AO = slp_EOF_result["PC"].sel(mode=1)
-
-    # Normalized
-    index_normalized_std = index_AO.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_AO / index_normalized_std).drop_vars("month")
-    return result.drop_vars("mode")
+    return index_AO
 
 
 def calc_index_NAH_zonal_lat_Li_Wang_2003(
@@ -129,6 +128,7 @@ def calc_index_NAH_zonal_lat_Li_Wang_2003(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of Monthly Northern Hemisphere Annular Mode (NAM) Index using normalized monthly zonal-mean sea level pressure (SLP) between 35°N and 65°N.
@@ -149,6 +149,8 @@ def calc_index_NAH_zonal_lat_Li_Wang_2003(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
 
     Returns
@@ -170,4 +172,11 @@ def calc_index_NAH_zonal_lat_Li_Wang_2003(
         {lat_dim: 35}, method="nearest"
     ) - slp_data_nocycle.sel({lat_dim: 65}, method="nearest")
     index = index.mean(dim=lon_dim)
-    return index
+
+    # Normalized
+    if normalized == True:
+        index_normalized_std = index.sel({time_dim: time_range}).std(dim=time_dim).data
+        result = index / index_normalized_std
+        return result
+    elif normalized == False:
+        return index

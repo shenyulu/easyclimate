@@ -15,6 +15,7 @@ def calc_index_WA_Wallace_Gutzler_1981(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean western Atlantic (WA) index using Pointwise method following Wallace and Gutzler (1981):
@@ -36,6 +37,8 @@ def calc_index_WA_Wallace_Gutzler_1981(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -60,5 +63,11 @@ def calc_index_WA_Wallace_Gutzler_1981(
     index_WA = 0.5 * (part1 - part2)
 
     # Normalized
-    index_normalized_std = index_WA.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_WA / index_normalized_std).drop_vars("month")
+    if normalized == True:
+        index_normalized_std = (
+            index_WA.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_WA / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_WA
