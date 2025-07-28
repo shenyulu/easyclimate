@@ -26,6 +26,7 @@ Core❤️
     easyclimate.core.eof
     easyclimate.core.extract
     easyclimate.core.mk_test
+    easyclimate.core.normalized
     easyclimate.core.read
     easyclimate.core.stat
     easyclimate.core.tutorial
