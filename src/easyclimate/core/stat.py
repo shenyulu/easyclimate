@@ -27,6 +27,7 @@ __all__ = [
     "calc_kurtosis_spatial",
     "calc_theilslopes_spatial",
     "calc_lead_lag_correlation_coefficients",
+    "calc_timeseries_correlations",
 ]
 
 
@@ -1093,5 +1094,78 @@ def calc_lead_lag_correlation_coefficients(
         max_corr = corr[max_corr_idx]
         corr_da[pair_name].attrs["max_correlation"] = float(max_corr)
         corr_da[pair_name].attrs["lag_at_max_correlation"] = int(max_lag)
+
+    return corr_da
+
+
+def calc_timeseries_correlations(
+    da: dict[str, xr.DataArray] | list[xr.DataArray],
+    dim: str = "time",
+) -> xr.DataArray:
+    """
+    Calculate the correlation matrix between multiple DataArray time series.
+
+    This function calculates pairwise correlations between time series in the input DataArrays
+    using the specified correlation method along the given dimension. The output is a symmetric
+    correlation matrix stored as an xarray DataArray with dimensions (var1, var2).
+
+    Parameters
+    ----------
+    da : :py:class:`dict[str, xarray.DataArray<xarray.DataArray>]` or :py:class:`list[xarray.DataArray<xarray.DataArray>]`.
+        A dictionary with names as keys and DataArrays as values, or a list of DataArrays.
+        Each DataArray must contain the specified dimension.
+    dim : :py:class:`str <str>`, default: `time`.
+        The dimension along which to compute correlations. All DataArrays must have this dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.
+        A DataArray containing the correlation matrix with dimensions (var1, var2).
+        Coordinates are set to the names of the input time series.
+
+    Examples
+    --------
+    >>> time = pd.date_range('2020-01-01', '2020-12-31', freq='D')
+    >>> da1 = xr.DataArray(np.random.randn(len(time)), dims='time', coords={'time': time}, name='series1')
+    >>> da2 = xr.DataArray(da1 * 0.5 + np.random.randn(len(time)) * 0.5, dims='time', coords={'time': time}, name='series2')
+    >>> data = {'series1': da1, 'series2': da2}
+    >>> corr_matrix = calc_timeseries_correlations(data, method='pearson')
+    >>> print(corr_matrix)
+    """
+    # Handle input format
+    if isinstance(da, dict):
+        names = list(da.keys())
+        arrays = list(da.values())
+    else:
+        names = [f"var_{i}" for i in range(len(da))]
+        arrays = da
+
+    # Validate inputs
+    if not arrays:
+        raise ValueError("data_arrays cannot be empty")
+    if not all(isinstance(da, xr.DataArray) for da in arrays):
+        raise TypeError("All inputs must be xarray.DataArray")
+    if not all(dim in da.dims for da in arrays):
+        raise ValueError(f"All DataArrays must contain the '{dim}' dimension")
+
+    # Initialize correlation matrix
+    n = len(arrays)
+    corr_matrix = np.zeros((n, n))
+
+    # Compute pairwise correlations
+    for i in range(n):
+        for j in range(i, n):  # Compute upper triangle (including diagonal)
+            corr = xr.corr(arrays[i], arrays[j], dim=dim)
+            corr_matrix[i, j] = corr
+            if i != j:  # Fill lower triangle (symmetric matrix)
+                corr_matrix[j, i] = corr
+
+    # Create DataArray output
+    corr_da = xr.DataArray(
+        corr_matrix,
+        dims=("var1", "var2"),
+        coords={"var1": names, "var2": names},
+        name="correlation",
+    )
 
     return corr_da
