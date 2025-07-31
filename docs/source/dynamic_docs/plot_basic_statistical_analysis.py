@@ -172,21 +172,18 @@ sst_data_0_360
 # .. seealso::
 #   Philander, S. Meteorology: Anomalous El Niño of 1982–83. Nature 305, 16 (1983). https://doi.org/10.1038/305016a0
 sst_data_anormaly = ecl.remove_seasonal_cycle_mean(sst_data_0_360)
+sst_data_anormaly
 
-fig, ax = plt.subplots(
-    figsize=(10, 4), subplot_kw={"projection": ccrs.PlateCarree(central_longitude=180)}
-)
+# %%
+fig, ax = ecl.plot.quick_draw_spatial_basemap(central_longitude=180)
 
 sst_data_anormaly.sel(lon=slice(120, 290)).isel(time=22).plot.contourf(
     ax=ax,
     transform=ccrs.PlateCarree(),
-    cbar_kwargs={"location": "bottom", "pad": 0.1},
+    cbar_kwargs={"location": "bottom", "aspect": 30, "pad": 0.1},
     cmap="RdBu_r",
     levels=21,
 )
-
-ax.gridlines(draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--")
-ax.coastlines(edgecolor="black", linewidths=0.5)
 
 # %%
 # The Niño3.4 index is commonly used as an indicator for detecting ENSO,
@@ -194,11 +191,12 @@ ax.coastlines(edgecolor="black", linewidths=0.5)
 #
 # .. seealso::
 #   Anthony G. Bamston, Muthuvel Chelliah & Stanley B. Goldenberg (1997) Documentation of a highly ENSO‐related sst region in the equatorial pacific: Research note, Atmosphere-Ocean, 35:3, 367-383, DOI: https://doi.org/10.1080/07055900.1997.9649597
-nino34_monthly_index = ecl.field.air_sea_interaction.calc_index_nino34(sst_data_0_360)
+nino34_monthly_index = ecl.field.air_sea_interaction.calc_index_nino34(sst_data_0_360, running_mean=0)
+nino34_monthly_index
 
-nino34_monthly_index.plot(
-    figsize=(8, 3),
-)
+# %%
+fig, ax = plt.subplots(figsize = (10, 3))
+ecl.plot.line_plot_with_threshold(nino34_monthly_index)
 
 # %%
 # :py:func:`easyclimate.calc_yearly_climatological_mean <easyclimate.calc_yearly_climatological_mean>` is then used to solve for the annual average of the monthly index data
@@ -207,17 +205,16 @@ nino34_dec_yearly_index = ecl.calc_yearly_climatological_mean(nino34_12_index)
 nino34_dec_yearly_index
 
 # %%
-# Unlike solving for linear trend without passing in `x`, regression analysis must use the parameter `x` to pass in the object to be regressed.
-# Care must be taken to ensure that the `time` dimensions are identical.
-sic_reg_nino34 = ecl.calc_linregress_spatial(
-    sic_data_Barents_Sea_12, x=nino34_dec_yearly_index.data
+# :py:func:`easyclimate.calc_corr_spatial <easyclimate.calc_corr_spatial>` is then used to do regression, please care must be taken to ensure that the `time` dimensions are identical.
+sic_data_Barents_Sea_12["time"] = nino34_dec_yearly_index["time"].data
+sic_reg_nino34 = ecl.calc_corr_spatial(
+    sic_data_Barents_Sea_12, x=nino34_dec_yearly_index
 )
-sic_reg_nino34 = sic_reg_nino34.compute()
 sic_reg_nino34
 
 # %%
 # Here is an attempt to plot the results of the regression analysis.
-draw_sic_slope = sic_reg_nino34.slope
+draw_sic_reg_coeff = sic_reg_nino34.reg_coeff
 draw_sic_pvalue = sic_reg_nino34.pvalue
 
 fig, ax = plt.subplots(
@@ -229,7 +226,7 @@ fig, ax = plt.subplots(
 ax.gridlines(draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--")
 ax.coastlines(edgecolor="black", linewidths=0.5)
 
-draw_sic_slope.plot.contourf(
+draw_sic_reg_coeff.plot.contourf(
     ax=ax,
     transform=ccrs.PlateCarree(),
     cbar_kwargs={"location": "right"},

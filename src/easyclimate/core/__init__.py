@@ -13,3 +13,4 @@ from . import mk_test
 from . import eof
 from . import windspharm
 from . import spharm
+from . import normalized

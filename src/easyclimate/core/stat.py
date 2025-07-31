@@ -10,10 +10,11 @@ from scipy import signal, stats
 from scipy.stats import pearsonr
 from scipy.signal import correlate
 from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
+from .normalized import normalize_zscore
 
 from xarray import DataTree
 from .datanode import DataNode
-from typing import List
+from typing import List, Literal
 
 __all__ = [
     "calc_linregress_spatial",
@@ -204,7 +205,10 @@ def calc_detrend_spatial(
 
 
 def calc_corr_spatial(
-    data_input: xr.DataArray, x: xr.DataArray | np.ndarray, time_dim: str = "time"
+    data_input: xr.DataArray,
+    x: xr.DataArray | np.ndarray,
+    time_dim: str = "time",
+    method: Literal["scipy", "xarray"] = "xarray",
 ) -> xr.Dataset:
     """
     Calculate Pearson correlation coefficients and corresponding p-values between spatial data
@@ -238,10 +242,6 @@ def calc_corr_spatial(
         Two-tailed p-values with dimensions.
         Small p-values (<0.05) indicate statistically significant correlations.
 
-    Raises
-    ------
-    ValueError
-        If the time dimension length of ``data_input`` and ``x`` don't match.
 
     Notes
     -----
@@ -262,53 +262,78 @@ def calc_corr_spatial(
         :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>`:
         The underlying correlation function used for calculations.
     """
-    # 检查时间维度是否一致
     # Check whether the time dimensions are consistent
     if len(data_input[time_dim]) != len(x):
         raise ValueError(
             f"The time dimension is not consistent! data_input.time Length:{len(data_input[time_dim])}, the length of `x`: {len(x)}"
         )
 
-    # 定义处理每个网格点的函数
-    # Define a function that handles each grid point
-    def _pearsonr_wrapper(x1, x2):
-        # x1是空间数据的时间序列，x2是输入的时间序列
-        # 跳过NaN值
-        # x1 is the spatial data time series, x2 is the input time series
-        # Skip NaN values
-        mask = ~np.isnan(x1) & ~np.isnan(x2)
-        if np.sum(mask) < 2:  # 至少需要2个有效点 You need at least 2 valid points
-            return np.nan, np.nan
-        return pearsonr(x1[mask], x2[mask])
+    # Covariance (regression coefficient)
+    reg_coeff = xr.cov(data_input, normalize_zscore(x, dim=time_dim), dim=time_dim)
 
-    # 使用apply_ufunc计算
-    # # Calculate using apply_ufunc
-    result = xr.apply_ufunc(
-        _pearsonr_wrapper,
-        data_input,
-        x,
-        input_core_dims=[
-            [time_dim],
-            [time_dim],
-        ],  # 每个输入的核心维度 Core dimension for each input
-        output_core_dims=[[], []],  # 输出没有核心维度 The output has no core dimensions
-        vectorize=True,  # 自动循环处理非核心维度 Automatic loop handling of non-core dimensions
-        output_dtypes=[float, float],
-        dask=(
-            "parallelized" if data_input.chunks else False
-        ),  # 支持dask数组 Support dask array
-    )
+    if method == "scipy":
+        # Define a function that handles each grid point
+        def _pearsonr_wrapper(x1, x2):
+            # x1 is the spatial data time series, x2 is the input time series
+            # Skip NaN values
+            mask = ~np.isnan(x1) & ~np.isnan(x2)
+            if np.sum(mask) < 2:  # You need at least 2 valid points
+                return np.nan, np.nan
+            return pearsonr(x1[mask], x2[mask])
 
-    # 分离相关性和p值
-    # Separate correlation and p-value
-    corr = result[0].rename("correlation")
-    pvalue = result[1].rename("pvalue")
+        # # Calculate using apply_ufunc
+        result = xr.apply_ufunc(
+            _pearsonr_wrapper,
+            data_input,
+            x,
+            input_core_dims=[
+                [time_dim],
+                [time_dim],
+            ],  # Core dimension for each input
+            output_core_dims=[[], []],  # The output has no core dimensions
+            vectorize=True,  # Automatic loop handling of non-core dimensions
+            output_dtypes=[float, float],
+            dask=("parallelized" if data_input.chunks else False),  # Support dask array
+        )
 
-    result_dataset = xr.Dataset()
-    result_dataset["corr"] = corr
-    result_dataset["pvalue"] = pvalue
+        # Separate correlation and p-value
+        corr = result[0].rename("correlation")
+        pvalue = result[1].rename("pvalue")
 
-    return result_dataset
+    elif method == "xarray":
+        # Calculate the correlation coefficient
+        corr = xr.corr(data_input, x, dim=time_dim)
+
+        # Calculate the t-statistic
+        N = len(data_input[time_dim])
+        t_stats = (corr * np.sqrt(N - 2)) / np.sqrt(1 - corr**2)
+        # Degree of freedom
+        df = N - 2
+
+        def _t_test_func(t):
+            if np.isnan(t).any():
+                return np.nan
+            else:
+                return 2 * (1 - stats.t.cdf(np.abs(t), df))
+
+        pvalue = xr.apply_ufunc(
+            _t_test_func,
+            t_stats,
+            vectorize=True,
+            dask="parallelized",
+            dask_gufunc_kwargs={
+                "allow_rechunk": True,
+            },
+        )
+
+    else:
+        raise ValueError("")
+
+    result = xr.Dataset()
+    result["reg_coeff"] = reg_coeff
+    result["corr"] = corr
+    result["pvalue"] = pvalue
+    return result
 
 
 def calc_multiple_linear_regression_spatial(
