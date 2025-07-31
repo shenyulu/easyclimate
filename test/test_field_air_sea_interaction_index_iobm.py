@@ -8,9 +8,9 @@ import easyclimate as ecl
 import xarray as xr
 import numpy as np
 from pathlib import Path
-from .const_define import TEST_DATA_PATH
+from .const_define import DOCS_DATA_PATH
 
-data_sst = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_oisst_data.nc")))["sst"]
+data_sst = xr.open_dataset(str(Path(DOCS_DATA_PATH, "test_input_oisst_data.nc")))["sst"]
 
 
 def test_calc_index_IOBM_1point_1():
