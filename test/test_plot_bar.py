@@ -7,6 +7,7 @@ import pytest
 import xarray as xr
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from easyclimate.plot.bar import bar_plot_with_threshold
 
 
@@ -35,6 +36,22 @@ def test_bar_plot_with_threshold2():
 
     fig, ax = plt.subplots()
     bar_plot_with_threshold(data, threshold=0, ax=ax)
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_bar_plot_with_threshold3():
+    np.random.seed(10)
+
+    # Create sample data
+    data = xr.DataArray(
+        np.array([-0.0133197, -0.09011592, 0.03289608, -0.17159361, -0.50632054]),
+        dims="time",
+        coords={"time": pd.date_range("1981-12-01", freq="ME", periods=5)},
+    )
+
+    fig, ax = plt.subplots()
+    bar_plot_with_threshold(data, threshold=0)
     return fig
 
 
