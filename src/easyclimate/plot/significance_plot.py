@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import pandas as pd
 import matplotlib.patches as patches
+import warnings
 
 __all__ = [
     "draw_significant_area_contourf",
@@ -48,6 +49,11 @@ def draw_significant_area_contourf(
         A list of cross hatch patterns to use on the filled areas. If None, no hatching will be added to the contour. Hatching is supported in the PostScript, PDF, SVG and Agg backends only.
     hatch_colors: :py:class:`str <str>`, default: `k`.
         The colors of the hatches.
+
+        .. warning::
+
+            The parameter ``hatch_colors`` is not support to changed now.
+
     reverse_level_plot: :py:class:`bool<bool>`, default: `False`.
         Whether to reverse the drawing area.
     **kwargs, optional:
@@ -89,16 +95,20 @@ def draw_significant_area_contourf(
     # https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.8.0.html#contourset-collections
     #
     # Manually add hatches and set the hatch color without using collections
-    for i, path in enumerate(cs.get_paths()):
-        # Create a Patch for each contour path
-        patch = patches.PathPatch(
-            path,
-            facecolor="none",
-            edgecolor=hatch_colors[i % len(hatch_colors)],
-            hatch=hatches_value[i % len(hatches_value)],
-            lw=0,
-        )
-        ax.add_patch(patch)  # Add patch to the axis
+    # for i, path in enumerate(cs.get_paths()):
+    #     # Create a Patch for each contour path
+    #     patch = patches.PathPatch(
+    #         path,
+    #         facecolor="none",
+    #         edgecolor=hatch_colors[i % len(hatch_colors)],
+    #         hatch=hatches_value[i % len(hatches_value)],
+    #         lw=0,
+    #         transform=ax.projection
+    #     )
+    #     ax.add_patch(patch)  # Add patch to the axis
+    if hatch_colors != "k":
+        warnings.warn("The parameter `hatch_colors` is not support to changed!")
+    return cs
 
 
 def get_significance_point(
