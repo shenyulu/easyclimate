@@ -19,7 +19,6 @@ flox
 xarray_regrid
 gsw_xarray
 pooch
-tqdm
 zarr
 metpy
 tcpypi
@@ -28,3 +27,4 @@ h5netcdf
 seaborn
 EMD-signal
 pybarnes
+rich
