@@ -38,12 +38,16 @@ def remove_dominant_signals(
     lat_dim: str = "lat",
 ) -> xr.DataArray:
     """
-    Remove dominant signals (linear trend and annual cycle) from input data.
+    Removes the dominant signals by removing the long term linear trend (conserving the mean) and
+    by eliminating the annual cycle by removing all time periods less than a corresponding critical frequency.
 
     Parameters
     ----------
     data : :py:class:`xarray.DataArray<xarray.DataArray>`
         Input data array with time, lat, lon dimensions
+
+    .. caution:: `data` must be **daily** data, and the length of time should be longer than one year (i.e., >365 day).
+
     spd : :py:class:`float <float>`
         Samples per day (frequency of observations)
     nDayWin : :py:class:`float <float>`
@@ -64,7 +68,7 @@ def remove_dominant_signals(
 
     Example
     -------
-    >>> data = xr.DataArray(np.random.rand(365, 10, 20),
+    >>> data = xr.DataArray(np.random.rand(730, 10, 20),
     ...                    dims=['time', 'lat', 'lon'])
     >>> cleaned = remove_dominant_signals(data, spd=1, nDayWin=90, nDaySkip=30)
     """
@@ -142,7 +146,10 @@ def calc_spectral_coefficients(
     Parameters
     ----------
     data : :py:class:`xarray.DataArray<xarray.DataArray>`
-        Input data array
+        Input data array.
+
+    .. caution:: `data` must be **daily** data, and the length of time should be longer than one year (i.e., >365 day).
+
     spd : :py:class:`float <float>`
         Samples per day
     nDayWin : :py:class:`float <float>`
@@ -162,17 +169,17 @@ def calc_spectral_coefficients(
 
     Returns
     -------
-    xr.Dataset
+    :py:class:`xarray.Dataset<xarray.Dataset>`
         Dataset containing:
-        - psumanti_r: Antisymmetric power spectrum (background removed)
-        - psumsym_r: Symmetric power spectrum (background removed)
+
+        - ``psumanti_r``: Antisymmetric power spectrum (background removed)
+        - ``psumsym_r``: Symmetric power spectrum (background removed)
 
     Example
     -------
-    >>> data = xr.DataArray(np.random.rand(365, 10, 20),
+    >>> data = xr.DataArray(np.random.rand(730, 10, 20),
     ...                    dims=['time', 'lat', 'lon'])
-    >>> spectra = calc_spectral_coefficients(data, spd=1,
-    ...                                     nDayWin=90, nDaySkip=30)
+    >>> spectra = calc_spectral_coefficients(data, spd=1, nDayWin=90, nDaySkip=30)
     """
     data = data.transpose(time_dim, lat_dim, lon_dim)
 

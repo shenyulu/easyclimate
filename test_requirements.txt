@@ -19,7 +19,6 @@ flox
 xarray_regrid
 gsw_xarray
 pooch
-tqdm
 zarr
 metpy
 tcpypi
@@ -28,11 +27,11 @@ h5netcdf
 seaborn
 EMD-signal
 pybarnes
+rich
 
 pytest == 8.3.3
 pytest-cov == 5.0.0
 pytest-mpl == 0.17.0
 pytest-xdist
 pre-commit
-rich
 twine

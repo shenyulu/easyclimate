@@ -41,7 +41,7 @@ from ...core.stat import (
 )
 from ...core.utility import sort_ascending_latlon_coordinates
 import logging
-from tqdm import tqdm
+from rich.progress import Progress, BarColumn, TimeRemainingColumn, TextColumn
 
 # Configure logging for progress updates
 logging.basicConfig(level=logging.INFO)
@@ -876,233 +876,260 @@ def calc_bsiso_analysis(
         v850_data, lat_dim=lat_dim, lon_dim=lon_dim
     ).sel({lon_dim: slice(40, 160), lat_dim: slice(-10, 40)})
 
-    # Step 1: Remove daily annual cycle
-    logger.info("Removing smooth daily annual cycle...")
-    olr_daily_smoothed = remove_smooth_daily_annual_cycle_mean(
-        olr_data,
-        daily_cycle_mean_time_range=daily_cycle_mean_time_range,
-        extract_time_range=extract_time_range,
-        harmonics_num=harmonics_num,
-        dim=time_dim,
-    )
-    u850_daily_smoothed = remove_smooth_daily_annual_cycle_mean(
-        u850_data,
-        daily_cycle_mean_time_range=daily_cycle_mean_time_range,
-        extract_time_range=extract_time_range,
-        harmonics_num=harmonics_num,
-        dim=time_dim,
-    )
-    v850_daily_smoothed = remove_smooth_daily_annual_cycle_mean(
-        v850_data,
-        daily_cycle_mean_time_range=daily_cycle_mean_time_range,
-        extract_time_range=extract_time_range,
-        harmonics_num=harmonics_num,
-        dim=time_dim,
-    )
-
-    # Step 2: Remove low-frequency signals
-    logger.info("Removing low-frequency signals...")
-    olr_anomaly = remove_low_frequency_signal(
-        olr_daily_smoothed, window=120, center=False, time_dim=time_dim
-    )
-    u850_anomaly = remove_low_frequency_signal(
-        u850_daily_smoothed, window=120, center=False, time_dim=time_dim
-    )
-    v850_anomaly = remove_low_frequency_signal(
-        v850_daily_smoothed, window=120, center=False, time_dim=time_dim
-    )
-
-    # Step 3: Normalize anomalies
-    logger.info("Normalizing anomalies...")
-    olr_factor = olr_anomaly.std(dim=time_dim).mean().data
-    u850_factor = u850_anomaly.std(dim=time_dim).mean().data
-    v850_factor = v850_anomaly.std(dim=time_dim).mean().data
-
-    olr_anomaly_normalized = olr_anomaly / olr_factor
-    u850_anomaly_normalized = u850_anomaly / u850_factor
-    v850_anomaly_normalized = v850_anomaly / v850_factor
-
-    # Step 4: Extract May-October data
-    logger.info("Extracting May-October data...")
-    olr_anomaly_may2oct = get_specific_months_data(
-        olr_anomaly_normalized, [5, 6, 7, 8, 9, 10]
-    )
-    u850_anomaly_may2oct = get_specific_months_data(
-        u850_anomaly_normalized, [5, 6, 7, 8, 9, 10]
-    )
-    v850_anomaly_may2oct = get_specific_months_data(
-        v850_anomaly_normalized, [5, 6, 7, 8, 9, 10]
-    )
-
-    # Step 5: Perform multivariate EOF analysis
-    logger.info("Performing multivariate EOF analysis...")
-    model = get_EOF_model(
-        [olr_anomaly_may2oct.fillna(0), u850_anomaly_may2oct.fillna(0)],
-        lat_dim=lat_dim,
-        lon_dim=lon_dim,
-        use_coslat=True,
-    )
-    meof_analysis_result = calc_EOF_analysis(model, PC_normalized=False)
-    result_node["explained_variance_ratio"] = meof_analysis_result[
-        "explained_variance_ratio"
+    # 创建进度条配置
+    progress_columns = [
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        TimeRemainingColumn(),
     ]
 
-    # Step 6: Adjust EOF coefficients
-    logger.info("Adjusting EOF coefficients...")
-    arr1 = meof_analysis_result["EOF/var0"].sel(mode=1).mean(dim=lat_dim)
-    arr2 = meof_analysis_result["EOF/var0"].sel(mode=2)
-    arr3 = meof_analysis_result["EOF/var0"].sel(mode=3).mean(dim=lat_dim)
-    arr4 = (
-        meof_analysis_result["EOF/var0"]
-        .sel(mode=4)
-        .sel({lon_dim: slice(100, None)})
-        .mean(dim=lon_dim)
-    )
-
-    bsiso1_coeff = (
-        1
-        if arr1.sel({lon_dim: 80}, method="nearest") > 0
-        and arr1.sel({lon_dim: 140}, method="nearest") < 0
-        else -1
-    )
-    bsiso2_coeff = (
-        1
-        if arr2.sel(lon=100, lat=10, method="nearest") < 0
-        and arr2.sel(lon=140, lat=20, method="nearest") > 0
-        else -1
-    )
-    bsiso3_coeff = 1 if arr3.sel(lon=100, method="nearest") > 0 else -1
-    bsiso4_coeff = (
-        1
-        if arr4.sel(lat=10, method="nearest") > 0
-        and arr4.sel(lat=30, method="nearest") < 0
-        else -1
-    )
-
-    # Step 7: Compute principal components
-    logger.info("Computing principal components...")
-    pc1 = meof_analysis_result["PC"].sel(mode=1) * bsiso1_coeff
-    pc2 = meof_analysis_result["PC"].sel(mode=2) * bsiso2_coeff
-    pc3 = meof_analysis_result["PC"].sel(mode=3) * bsiso3_coeff
-    pc4 = meof_analysis_result["PC"].sel(mode=4) * bsiso4_coeff
-
-    result_node["PC/pc1"] = pc1
-    result_node["PC/pc2"] = pc2
-    result_node["PC/pc3"] = pc3
-    result_node["PC/pc4"] = pc4
-
-    # Step 8: Normalize principal components
-    logger.info("Normalizing principal components...")
-    pc12_normalized = xr.Dataset()
-    pc12_normalized["PC1"] = pc1 / pc1.std(dim=time_dim)
-    pc12_normalized["PC2"] = pc2 / pc2.std(dim=time_dim)
-    pc34_normalized = xr.Dataset()
-    pc34_normalized["PC3"] = pc3 / pc3.std(dim=time_dim)
-    pc34_normalized["PC4"] = pc4 / pc4.std(dim=time_dim)
-
-    result_node["PC_normalized/pc12"] = pc12_normalized
-    result_node["PC_normalized/pc34"] = pc34_normalized
-
-    # Step 9: Store EOF patterns
-    logger.info("Storing EOF patterns...")
-    result_node["EOF/olr1"] = (
-        meof_analysis_result["EOF/var0"].sel(mode=1) * bsiso1_coeff
-    )
-    result_node["EOF/olr2"] = (
-        meof_analysis_result["EOF/var0"].sel(mode=2) * bsiso2_coeff
-    )
-    result_node["EOF/olr3"] = (
-        meof_analysis_result["EOF/var0"].sel(mode=3) * bsiso3_coeff
-    )
-    result_node["EOF/olr4"] = (
-        meof_analysis_result["EOF/var0"].sel(mode=4) * bsiso4_coeff
-    )
-
-    for mode in tqdm(range(1, 5), desc="Computing wind EOFs"):
-        uvdata = xr.Dataset()
-        uvdata["u"] = meof_analysis_result["EOF/var1"].sel(mode=mode)
-        uvdata["v"] = calc_linregress_spatial(
-            v850_anomaly_may2oct, meof_analysis_result["PC"].sel(mode=mode)
-        ).rvalue
-        result_node[f"EOF/uv850_{mode}"] = uvdata * locals()[f"bsiso{mode}_coeff"]
-
-    # Step 10: Compute lead-lag correlations
-    logger.info("Computing lead-lag correlations...")
-    pcs = {"PC1": pc1, "PC2": pc2, "PC3": pc3, "PC4": pc4}
-    pairs = [("PC1_vs_PC2", "PC1", "PC2"), ("PC3_vs_PC4", "PC3", "PC4")]
-    max_lag = 30
-    corr_da = calc_lead_lag_correlation_coefficients(
-        pcs=pcs, pairs=pairs, max_lag=max_lag
-    )
-    result_node["lead_lag_correlation_coefficients"] = corr_da
-
-    # Step 11: Calculate BSISO phases
-    logger.info("Calculating BSISO phases...")
-    dpc1_2 = xr.Dataset()
-    dpc1_2["PC1"] = pc1
-    dpc1_2["PC2"] = pc2
-    phase1_2 = calc_bsiso1_phase(
-        dpc1_2, amplitude_threshold=1.5, pc1_dim="PC1", pc2_dim="PC2"
-    )
-    result_node["Phase/PC1_2"] = phase1_2
-
-    dpc3_4 = xr.Dataset()
-    dpc3_4["PC3"] = pc3
-    dpc3_4["PC4"] = pc4
-    phase3_4 = calc_bsiso1_phase(
-        dpc3_4, amplitude_threshold=1.5, pc1_dim="PC3", pc2_dim="PC4"
-    )
-    result_node["Phase/PC3_4"] = phase3_4
-
-    # Step 12: Perform composite analysis for BSISO1
-    logger.info("Performing composite analysis for BSISO1...")
-    for phase in tqdm(range(1, 9), desc="BSISO1 composite analysis"):
-        olr_anomaly_phase = olr_daily_smoothed.where(
-            get_times_for_phase(phase1_2, phase, time_dim=time_dim)
+    with Progress(*progress_columns) as progress:
+        # Step 1: Remove daily annual cycle
+        logger.info("Removing smooth daily annual cycle...")
+        olr_daily_smoothed = remove_smooth_daily_annual_cycle_mean(
+            olr_data,
+            daily_cycle_mean_time_range=daily_cycle_mean_time_range,
+            extract_time_range=extract_time_range,
+            harmonics_num=harmonics_num,
+            dim=time_dim,
         )
-        uv850_anomaly_phase = xr.Dataset(
-            {"u": u850_daily_smoothed, "v": v850_daily_smoothed}
-        ).where(get_times_for_phase(phase1_2, phase, time_dim=time_dim))
-
-        olr_pvalue = calc_ttestSpatialPattern_spatial(
-            olr_daily_smoothed.fillna(0), olr_anomaly_phase.fillna(0)
-        ).pvalue
-        u850_pvalue = calc_ttestSpatialPattern_spatial(
-            u850_daily_smoothed.fillna(0), uv850_anomaly_phase["u"].fillna(0)
-        ).pvalue
-
-        uv850_mean = uv850_anomaly_phase.mean(dim=time_dim).where(
-            u850_pvalue < threshold
+        u850_daily_smoothed = remove_smooth_daily_annual_cycle_mean(
+            u850_data,
+            daily_cycle_mean_time_range=daily_cycle_mean_time_range,
+            extract_time_range=extract_time_range,
+            harmonics_num=harmonics_num,
+            dim=time_dim,
         )
-        uv850_mean["olr"] = olr_anomaly_phase.mean(dim=time_dim).where(
-            olr_pvalue < threshold
+        v850_daily_smoothed = remove_smooth_daily_annual_cycle_mean(
+            v850_data,
+            daily_cycle_mean_time_range=daily_cycle_mean_time_range,
+            extract_time_range=extract_time_range,
+            harmonics_num=harmonics_num,
+            dim=time_dim,
         )
-        result_node[f"composite_analysis/bsiso1/phase{phase}"] = uv850_mean
 
-    # Step 13: Perform composite analysis for BSISO2
-    logger.info("Performing composite analysis for BSISO2...")
-    for phase in tqdm(range(1, 9), desc="BSISO2 composite analysis"):
-        olr_anomaly_phase = olr_daily_smoothed.where(
-            get_times_for_phase(phase3_4, phase, time_dim=time_dim)
+        # Step 2: Remove low-frequency signals
+        logger.info("Removing low-frequency signals...")
+        olr_anomaly = remove_low_frequency_signal(
+            olr_daily_smoothed, window=120, center=False, time_dim=time_dim
         )
-        uv850_anomaly_phase = xr.Dataset(
-            {"u": u850_daily_smoothed, "v": v850_daily_smoothed}
-        ).where(get_times_for_phase(phase3_4, phase, time_dim=time_dim))
-
-        olr_pvalue = calc_ttestSpatialPattern_spatial(
-            olr_daily_smoothed.fillna(0), olr_anomaly_phase.fillna(0)
-        ).pvalue
-        u850_pvalue = calc_ttestSpatialPattern_spatial(
-            u850_daily_smoothed.fillna(0), uv850_anomaly_phase["u"].fillna(0)
-        ).pvalue
-
-        uv850_mean = uv850_anomaly_phase.mean(dim=time_dim).where(
-            u850_pvalue < threshold
+        u850_anomaly = remove_low_frequency_signal(
+            u850_daily_smoothed, window=120, center=False, time_dim=time_dim
         )
-        uv850_mean["olr"] = olr_anomaly_phase.mean(dim=time_dim).where(
-            olr_pvalue < threshold
+        v850_anomaly = remove_low_frequency_signal(
+            v850_daily_smoothed, window=120, center=False, time_dim=time_dim
         )
-        result_node[f"composite_analysis/bsiso2/phase{phase}"] = uv850_mean
 
-    logger.info("BSISO analysis completed.")
+        # Step 3: Normalize anomalies
+        logger.info("Normalizing anomalies...")
+        olr_factor = olr_anomaly.std(dim=time_dim).mean().data
+        u850_factor = u850_anomaly.std(dim=time_dim).mean().data
+        v850_factor = v850_anomaly.std(dim=time_dim).mean().data
+
+        olr_anomaly_normalized = olr_anomaly / olr_factor
+        u850_anomaly_normalized = u850_anomaly / u850_factor
+        v850_anomaly_normalized = v850_anomaly / v850_factor
+
+        # Step 4: Extract May-October data
+        logger.info("Extracting May-October data...")
+        olr_anomaly_may2oct = get_specific_months_data(
+            olr_anomaly_normalized, [5, 6, 7, 8, 9, 10]
+        )
+        u850_anomaly_may2oct = get_specific_months_data(
+            u850_anomaly_normalized, [5, 6, 7, 8, 9, 10]
+        )
+        v850_anomaly_may2oct = get_specific_months_data(
+            v850_anomaly_normalized, [5, 6, 7, 8, 9, 10]
+        )
+
+        # Step 5: Perform multivariate EOF analysis
+        logger.info("Performing multivariate EOF analysis...")
+        model = get_EOF_model(
+            [olr_anomaly_may2oct.fillna(0), u850_anomaly_may2oct.fillna(0)],
+            lat_dim=lat_dim,
+            lon_dim=lon_dim,
+            use_coslat=True,
+        )
+        meof_analysis_result = calc_EOF_analysis(model, PC_normalized=False)
+        result_node["explained_variance_ratio"] = meof_analysis_result[
+            "explained_variance_ratio"
+        ]
+
+        # Step 6: Adjust EOF coefficients
+        logger.info("Adjusting EOF coefficients...")
+        arr1 = meof_analysis_result["EOF/var0"].sel(mode=1).mean(dim=lat_dim)
+        arr2 = meof_analysis_result["EOF/var0"].sel(mode=2)
+        arr3 = meof_analysis_result["EOF/var0"].sel(mode=3).mean(dim=lat_dim)
+        arr4 = (
+            meof_analysis_result["EOF/var0"]
+            .sel(mode=4)
+            .sel({lon_dim: slice(100, None)})
+            .mean(dim=lon_dim)
+        )
+
+        bsiso1_coeff = (
+            1
+            if arr1.sel({lon_dim: 80}, method="nearest") > 0
+            and arr1.sel({lon_dim: 140}, method="nearest") < 0
+            else -1
+        )
+        bsiso2_coeff = (
+            1
+            if arr2.sel({lon_dim: 100, lat_dim: 10}, method="nearest") < 0
+            and arr2.sel({lon_dim: 140, lat_dim: 20}, method="nearest") > 0
+            else -1
+        )
+        bsiso3_coeff = 1 if arr3.sel({lon_dim: 100}, method="nearest") > 0 else -1
+        bsiso4_coeff = (
+            1
+            if arr4.sel({lat_dim: 10}, method="nearest") > 0
+            and arr4.sel({lat_dim: 30}, method="nearest") < 0
+            else -1
+        )
+
+        # Step 7: Compute principal components
+        logger.info("Computing principal components...")
+        pc1 = meof_analysis_result["PC"].sel(mode=1) * bsiso1_coeff
+        pc2 = meof_analysis_result["PC"].sel(mode=2) * bsiso2_coeff
+        pc3 = meof_analysis_result["PC"].sel(mode=3) * bsiso3_coeff
+        pc4 = meof_analysis_result["PC"].sel(mode=4) * bsiso4_coeff
+
+        result_node["PC/pc1"] = pc1
+        result_node["PC/pc2"] = pc2
+        result_node["PC/pc3"] = pc3
+        result_node["PC/pc4"] = pc4
+
+        # Step 8: Normalize principal components
+        logger.info("Normalizing principal components...")
+        pc12_normalized = xr.Dataset()
+        pc12_normalized["PC1"] = pc1 / pc1.std(dim=time_dim)
+        pc12_normalized["PC2"] = pc2 / pc2.std(dim=time_dim)
+        pc34_normalized = xr.Dataset()
+        pc34_normalized["PC3"] = pc3 / pc3.std(dim=time_dim)
+        pc34_normalized["PC4"] = pc4 / pc4.std(dim=time_dim)
+
+        result_node["PC_normalized/pc12"] = pc12_normalized
+        result_node["PC_normalized/pc34"] = pc34_normalized
+
+        # Step 9: Store EOF patterns
+        logger.info("Storing EOF patterns...")
+        result_node["EOF/olr1"] = (
+            meof_analysis_result["EOF/var0"].sel(mode=1) * bsiso1_coeff
+        )
+        result_node["EOF/olr2"] = (
+            meof_analysis_result["EOF/var0"].sel(mode=2) * bsiso2_coeff
+        )
+        result_node["EOF/olr3"] = (
+            meof_analysis_result["EOF/var0"].sel(mode=3) * bsiso3_coeff
+        )
+        result_node["EOF/olr4"] = (
+            meof_analysis_result["EOF/var0"].sel(mode=4) * bsiso4_coeff
+        )
+
+        wind_eof_task = progress.add_task("[cyan]Computing wind EOFs...", total=4)
+        for mode in range(1, 5):
+            uvdata = xr.Dataset()
+            uvdata["u"] = meof_analysis_result["EOF/var1"].sel(mode=mode)
+            uvdata["v"] = calc_linregress_spatial(
+                v850_anomaly_may2oct, meof_analysis_result["PC"].sel(mode=mode)
+            ).rvalue
+            result_node[f"EOF/uv850_{mode}"] = uvdata * locals()[f"bsiso{mode}_coeff"]
+            progress.update(
+                wind_eof_task,
+                advance=1,
+                description=f"[cyan]Computing wind EOF {mode}/4",
+            )
+
+        # Step 10: Compute lead-lag correlations
+        logger.info("Computing lead-lag correlations...")
+        pcs = {"PC1": pc1, "PC2": pc2, "PC3": pc3, "PC4": pc4}
+        pairs = [("PC1_vs_PC2", "PC1", "PC2"), ("PC3_vs_PC4", "PC3", "PC4")]
+        max_lag = 30
+        corr_da = calc_lead_lag_correlation_coefficients(
+            pcs=pcs, pairs=pairs, max_lag=max_lag
+        )
+        result_node["lead_lag_correlation_coefficients"] = corr_da
+
+        # Step 11: Calculate BSISO phases
+        logger.info("Calculating BSISO phases...")
+        dpc1_2 = xr.Dataset()
+        dpc1_2["PC1"] = pc1
+        dpc1_2["PC2"] = pc2
+        phase1_2 = calc_bsiso1_phase(
+            dpc1_2, amplitude_threshold=1.5, pc1_dim="PC1", pc2_dim="PC2"
+        )
+        result_node["Phase/PC1_2"] = phase1_2
+
+        dpc3_4 = xr.Dataset()
+        dpc3_4["PC3"] = pc3
+        dpc3_4["PC4"] = pc4
+        phase3_4 = calc_bsiso1_phase(
+            dpc3_4, amplitude_threshold=1.5, pc1_dim="PC3", pc2_dim="PC4"
+        )
+        result_node["Phase/PC3_4"] = phase3_4
+
+        # Step 12: Perform composite analysis for BSISO1
+        logger.info("Performing composite analysis for BSISO1...")
+        bsiso1_task = progress.add_task("[green]BSISO1 composite analysis...", total=8)
+        for phase in range(1, 9):
+            olr_anomaly_phase = olr_daily_smoothed.where(
+                get_times_for_phase(phase1_2, phase, time_dim=time_dim)
+            )
+            uv850_anomaly_phase = xr.Dataset(
+                {"u": u850_daily_smoothed, "v": v850_daily_smoothed}
+            ).where(get_times_for_phase(phase1_2, phase, time_dim=time_dim))
+
+            olr_pvalue = calc_ttestSpatialPattern_spatial(
+                olr_daily_smoothed.fillna(0), olr_anomaly_phase.fillna(0)
+            ).pvalue
+            u850_pvalue = calc_ttestSpatialPattern_spatial(
+                u850_daily_smoothed.fillna(0), uv850_anomaly_phase["u"].fillna(0)
+            ).pvalue
+
+            uv850_mean = uv850_anomaly_phase.mean(dim=time_dim).where(
+                u850_pvalue < threshold
+            )
+            uv850_mean["olr"] = olr_anomaly_phase.mean(dim=time_dim).where(
+                olr_pvalue < threshold
+            )
+            result_node[f"composite_analysis/bsiso1/phase{phase}"] = uv850_mean
+            progress.update(
+                bsiso1_task, advance=1, description=f"[green]BSISO1 phase {phase}/8"
+            )
+
+        # Step 13: Perform composite analysis for BSISO2
+        logger.info("Performing composite analysis for BSISO2...")
+        bsiso2_task = progress.add_task("[blue]BSISO2 composite analysis...", total=8)
+        for phase in range(1, 9):
+            olr_anomaly_phase = olr_daily_smoothed.where(
+                get_times_for_phase(phase3_4, phase, time_dim=time_dim)
+            )
+            uv850_anomaly_phase = xr.Dataset(
+                {"u": u850_daily_smoothed, "v": v850_daily_smoothed}
+            ).where(get_times_for_phase(phase3_4, phase, time_dim=time_dim))
+
+            olr_pvalue = calc_ttestSpatialPattern_spatial(
+                olr_daily_smoothed.fillna(0), olr_anomaly_phase.fillna(0)
+            ).pvalue
+            u850_pvalue = calc_ttestSpatialPattern_spatial(
+                u850_daily_smoothed.fillna(0), uv850_anomaly_phase["u"].fillna(0)
+            ).pvalue
+
+            uv850_mean = uv850_anomaly_phase.mean(dim=time_dim).where(
+                u850_pvalue < threshold
+            )
+            uv850_mean["olr"] = olr_anomaly_phase.mean(dim=time_dim).where(
+                olr_pvalue < threshold
+            )
+            result_node[f"composite_analysis/bsiso2/phase{phase}"] = uv850_mean
+            progress.update(
+                bsiso2_task, advance=1, description=f"[blue]BSISO2 phase {phase}/8"
+            )
+
+        # 确保所有进度条完成
+        progress.update(wind_eof_task, completed=4, refresh=True)
+        progress.update(bsiso1_task, completed=8, refresh=True)
+        progress.update(bsiso2_task, completed=8, refresh=True)
+        logger.info("BSISO analysis completed.")
     return result_node

@@ -26,25 +26,29 @@ def line_plot_with_threshold(
 
     Parameters:
     -----------
-    da : xarray.DataArray
+    da : :py:class:`xarray.DataArray <xarray.DataArray>`
         1-dimensional data array
-    threshold : float, optional
+    threshold : :py:class:`float <float>`, optional
         Color separation threshold (default: 0)
-    pos_color : str, optional
+    pos_color : :py:class:`str <str>`, optional
         Color for values ≥ threshold (default: 'red')
-    neg_color : str, optional
+    neg_color : :py:class:`str <str>`, optional
         Color for values < threshold (default: 'blue')
     ax : matplotlib axes, optional
         Axes to plot on (default: current axes)
-    line_kwargs : dict, optional
+    line_kwargs : :py:class:`dict <dict>`, optional
         Arguments for plt.plot
-    fill_kwargs : dict, optional
+    fill_kwargs : :py:class:`dict <dict>`, optional
         Arguments for plt.fill_between
 
     Returns:
     --------
     tuple
         (line plot, fill objects)
+
+    .. seealso::
+
+        :py:func:`matplotlib.lines.Line2D <matplotlib.lines.Line2D>`
     """
     # Input validation
     if len(da.dims) != 1:

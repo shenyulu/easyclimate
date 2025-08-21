@@ -25,7 +25,6 @@ dependencies:
     - xarray_regrid
     - gsw_xarray
     - pooch
-    - tqdm
     - zarr
     - metpy
     - tcpypi
@@ -34,4 +33,5 @@ dependencies:
     - seaborn
     - EMD-signal
     - pybarnes
+    - rich
     - easyclimate

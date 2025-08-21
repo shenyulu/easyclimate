@@ -64,12 +64,12 @@ def calc_index_IOD_Saji_1999(
 
     # The difference in SST anomaly between the tropical western Indian Ocean (50°E-70°E, 10°S-10°N)
     # and the tropical south-eastern Indian Ocean (90°E-110°E, 10°S-Equator)
-    westIOD = sst_anomaly_data.sel(lon=slice(50, 70), lat=slice(-10, 10)).mean(
-        dim=(lat_dim, lon_dim)
-    )
-    eastIOD = sst_anomaly_data.sel(lon=slice(90, 110), lat=slice(-10, 0)).mean(
-        dim=(lat_dim, lon_dim)
-    )
+    westIOD = sst_anomaly_data.sel(
+        {lon_dim: slice(50, 70), lat_dim: slice(-10, 10)}
+    ).mean(dim=(lat_dim, lon_dim))
+    eastIOD = sst_anomaly_data.sel(
+        {lon_dim: slice(90, 110), lat_dim: slice(-10, 0)}
+    ).mean(dim=(lat_dim, lon_dim))
     index_IOD = westIOD - eastIOD
 
     # Normalized

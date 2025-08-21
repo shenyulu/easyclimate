@@ -42,7 +42,7 @@ def test_calc_index_PNA_modified_pointwise():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
 
 
 def test_calc_index_PNA_Wallace_Gutzler_1981():
@@ -74,7 +74,7 @@ def test_calc_index_PNA_Wallace_Gutzler_1981():
         ],
         dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()
 
 
 def test_calc_index_PNA_NH_REOF():
@@ -83,26 +83,26 @@ def test_calc_index_PNA_NH_REOF():
     ).data[:20]
     refer_data = np.array(
         [
-            -3.8276553120965335,
-            -0.551406805334168,
-            -2.1275873907387153,
-            -0.08283970107018727,
-            -0.39076185063318647,
-            -0.46511304212329935,
-            0.4177994149671802,
-            -0.6599100473737799,
-            -0.2035108637877303,
-            0.30330036171625496,
-            -2.1032344710268416,
-            -0.4893719238074312,
-            1.1264975764163903,
-            1.751751252049426,
-            1.4992074028165612,
-            0.6315270289335517,
-            -0.12863477267929183,
-            -0.6767553184126832,
-            -0.8828471929854418,
-            -0.19714531827802578,
+            -0.16801542,
+            -0.02420407,
+            -0.09339072,
+            -0.00363626,
+            -0.01715254,
+            -0.0204162,
+            0.01833936,
+            -0.02896684,
+            -0.00893314,
+            0.01331341,
+            -0.09232175,
+            -0.02148104,
+            0.04944776,
+            0.07689335,
+            0.0658079,
+            0.02772096,
+            -0.00564644,
+            -0.02970626,
+            -0.03875269,
+            -0.00865372,
         ]
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.01).all()

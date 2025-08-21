@@ -215,7 +215,7 @@ def calc_index_nino34(
         nino34_index = nino34_index.mean(dim=(lat_dim, lon_dim))
     else:
         nino34_index = (
-            nino34_index.rolling(time=running_mean, center=True)
+            nino34_index.rolling({time_dim: running_mean}, center=True)
             .mean()
             .mean(dim=(lat_dim, lon_dim))
         )
@@ -293,7 +293,7 @@ def calc_index_OMI(
         omi_index = omi_index.mean(dim=(lat_dim, lon_dim))
     else:
         omi_index = (
-            omi_index.rolling(time=running_mean, center=True)
+            omi_index.rolling({time_dim: running_mean}, center=True)
             .mean()
             .mean(dim=(lat_dim, lon_dim))
         )

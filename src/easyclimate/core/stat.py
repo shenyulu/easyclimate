@@ -10,15 +10,17 @@ from scipy import signal, stats
 from scipy.stats import pearsonr
 from scipy.signal import correlate
 from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
-
+from .normalized import normalize_zscore
+from rich.progress import Progress, BarColumn, TimeRemainingColumn
 from xarray import DataTree
 from .datanode import DataNode
-from typing import List
+from typing import List, Literal
 
 __all__ = [
     "calc_linregress_spatial",
     "calc_detrend_spatial",
     "calc_corr_spatial",
+    "calc_leadlag_corr_spatial",
     "calc_multiple_linear_regression_spatial",
     "calc_ttestSpatialPattern_spatial",
     "calc_levenetestSpatialPattern_spatial",
@@ -26,6 +28,7 @@ __all__ = [
     "calc_kurtosis_spatial",
     "calc_theilslopes_spatial",
     "calc_lead_lag_correlation_coefficients",
+    "calc_timeseries_correlations",
 ]
 
 
@@ -204,7 +207,10 @@ def calc_detrend_spatial(
 
 
 def calc_corr_spatial(
-    data_input: xr.DataArray, x: xr.DataArray | np.ndarray, time_dim: str = "time"
+    data_input: xr.DataArray,
+    x: xr.DataArray | np.ndarray,
+    time_dim: str = "time",
+    method: Literal["scipy", "xarray"] = "xarray",
 ) -> xr.Dataset:
     """
     Calculate Pearson correlation coefficients and corresponding p-values between spatial data
@@ -215,12 +221,26 @@ def calc_corr_spatial(
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         Input spatial data with dimensions ``(time, ...)``.
 
-        NaN values are automatically skipped in calculations.
+        .. note::
+
+            NaN values are automatically skipped in calculations.
+
     x : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.ndarray<numpy.ndarray>`
         Time series data with dimension ``(time,)``. Must have the same length as data_input's time dimension.
-        NaN values are automatically skipped in calculations.
+
+        .. note::
+
+            NaN values are automatically skipped in calculations.
+
     time_dim: :py:class:`str <str>`
         Dimension(s) over which to detrend. By default dimension is applied over the `time` dimension.
+    method : {'scipy', 'xarray'}, optional
+        Method used to compute correlations:
+
+        - 'scipy': Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for direct calculation
+        - 'xarray': Uses xarray's built-in correlation with t-test conversion (faster)
+
+        Default is 'xarray'.
 
     Returns
     -------
@@ -238,18 +258,6 @@ def calc_corr_spatial(
         Two-tailed p-values with dimensions.
         Small p-values (<0.05) indicate statistically significant correlations.
 
-    Raises
-    ------
-    ValueError
-        If the time dimension length of ``data_input`` and ``x`` don't match.
-
-    Notes
-    -----
-    - The calculation automatically skips pairs where either value is NaN
-    - Requires at least 2 valid observations for each grid point to compute correlation
-    - Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for calculations
-    - Maintains input coordinates for the output arrays
-
     Examples
     --------
     >>> data_input = xr.DataArray(np.random.rand(10, 3, 4),
@@ -262,53 +270,198 @@ def calc_corr_spatial(
         :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>`:
         The underlying correlation function used for calculations.
     """
-    # 检查时间维度是否一致
     # Check whether the time dimensions are consistent
     if len(data_input[time_dim]) != len(x):
         raise ValueError(
             f"The time dimension is not consistent! data_input.time Length:{len(data_input[time_dim])}, the length of `x`: {len(x)}"
         )
 
-    # 定义处理每个网格点的函数
-    # Define a function that handles each grid point
-    def _pearsonr_wrapper(x1, x2):
-        # x1是空间数据的时间序列，x2是输入的时间序列
-        # 跳过NaN值
-        # x1 is the spatial data time series, x2 is the input time series
-        # Skip NaN values
-        mask = ~np.isnan(x1) & ~np.isnan(x2)
-        if np.sum(mask) < 2:  # 至少需要2个有效点 You need at least 2 valid points
-            return np.nan, np.nan
-        return pearsonr(x1[mask], x2[mask])
+    # Covariance (regression coefficient)
+    reg_coeff = xr.cov(data_input, normalize_zscore(x, dim=time_dim), dim=time_dim)
 
-    # 使用apply_ufunc计算
-    # # Calculate using apply_ufunc
-    result = xr.apply_ufunc(
-        _pearsonr_wrapper,
-        data_input,
-        x,
-        input_core_dims=[
-            [time_dim],
-            [time_dim],
-        ],  # 每个输入的核心维度 Core dimension for each input
-        output_core_dims=[[], []],  # 输出没有核心维度 The output has no core dimensions
-        vectorize=True,  # 自动循环处理非核心维度 Automatic loop handling of non-core dimensions
-        output_dtypes=[float, float],
-        dask=(
-            "parallelized" if data_input.chunks else False
-        ),  # 支持dask数组 Support dask array
-    )
+    if method == "scipy":
+        # Define a function that handles each grid point
+        def _pearsonr_wrapper(x1, x2):
+            # x1 is the spatial data time series, x2 is the input time series
+            # Skip NaN values
+            mask = ~np.isnan(x1) & ~np.isnan(x2)
+            if np.sum(mask) < 2:  # You need at least 2 valid points
+                return np.nan, np.nan
+            return pearsonr(x1[mask], x2[mask])
 
-    # 分离相关性和p值
-    # Separate correlation and p-value
-    corr = result[0].rename("correlation")
-    pvalue = result[1].rename("pvalue")
+        # # Calculate using apply_ufunc
+        result = xr.apply_ufunc(
+            _pearsonr_wrapper,
+            data_input,
+            x,
+            input_core_dims=[
+                [time_dim],
+                [time_dim],
+            ],  # Core dimension for each input
+            output_core_dims=[[], []],  # The output has no core dimensions
+            vectorize=True,  # Automatic loop handling of non-core dimensions
+            output_dtypes=[float, float],
+            dask=("parallelized" if data_input.chunks else False),  # Support dask array
+        )
 
-    result_dataset = xr.Dataset()
-    result_dataset["corr"] = corr
-    result_dataset["pvalue"] = pvalue
+        # Separate correlation and p-value
+        corr = result[0].rename("correlation")
+        pvalue = result[1].rename("pvalue")
 
-    return result_dataset
+    elif method == "xarray":
+        # Calculate the correlation coefficient
+        corr = xr.corr(data_input, x, dim=time_dim)
+
+        # Calculate the t-statistic
+        N = len(data_input[time_dim])
+        t_stats = (corr * np.sqrt(N - 2)) / np.sqrt(1 - corr**2)
+        # Degree of freedom
+        df = N - 2
+
+        def _t_test_func(t):
+            if np.isnan(t).any():
+                return np.nan
+            else:
+                return 2 * (1 - stats.t.cdf(np.abs(t), df))
+
+        pvalue = xr.apply_ufunc(
+            _t_test_func,
+            t_stats,
+            vectorize=True,
+            dask="parallelized",
+            dask_gufunc_kwargs={
+                "allow_rechunk": True,
+            },
+        )
+
+    else:
+        raise ValueError("The parameter of `method` should be `xarray` or `scipy.`")
+
+    result = xr.Dataset()
+    result["reg_coeff"] = reg_coeff
+    result["corr"] = corr
+    result["pvalue"] = pvalue
+    return result
+
+
+def calc_leadlag_corr_spatial(
+    data_input: xr.DataArray,
+    x: xr.DataArray | np.ndarray,
+    leadlag_array: np.array | List[int],
+    time_dim: str = "time",
+    method: Literal["scipy", "xarray"] = "xarray",
+):
+    """
+    Calculate Pearson correlation coefficients and corresponding p-values between spatial data
+    and a time series with specified lead or lag shifts, using ``scipy.stats.pearsonr`` or xarray methods.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Input spatial data with dimensions ``(time, ...)`` representing spatial fields over time.
+
+        .. note::
+            NaN values are automatically skipped in calculations.
+
+    x : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.ndarray<numpy.ndarray>`
+        Time series data with dimension ``(time,)``. Must have the same length as ``data_input``'s time dimension.
+
+        .. note::
+            NaN values are automatically skipped in calculations.
+
+    leadlag_array : :py:class:`numpy.ndarray<numpy.ndarray>` or :py:class:`List[int]<list>`
+        Array or list of integers specifying the lead or lag shifts (in time steps) to apply to the time series `x`
+        relative to `data_input`.
+
+        - **Positive values** indicate a **lag**: the time series `x` is shifted forward in time (e.g., a value of +2 means `x` is delayed by 2 time steps relative to `data_input`).
+        - **Negative values** indicate a **lead**: the time series `x` is shifted backward in time (e.g., a value of -2 means `x` leads `data_input` by 2 time steps).
+        - A value of **0** means no shift (synchronous correlation).
+
+        Example: If ``leadlag_array = [-2, 0, 2]``, correlations are computed for :math:`x` leading by 2 time steps, no shift, and lagging by 2 time steps, respectively.
+
+    time_dim : :py:class:`str<str>`
+        Name of the time dimension in `data_input` and `x`. Default is `"time"`.
+
+    method : {'scipy', 'xarray'}, optional
+        Method used to compute correlations:
+
+        - `'scipy'`: Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for direct calculation, which may be more precise but slower.
+        - `'xarray'`: Uses xarray's built-in correlation function with t-test conversion, which is typically faster.
+
+        Default is `'xarray'`.
+
+    Returns
+    -------
+    result : :py:class:`xarray.Dataset<xarray.Dataset>`
+        Dataset containing two variables:
+
+        - **corr** : :py:class:`xarray.DataArray<xarray.DataArray>`
+            Pearson correlation coefficients with dimensions ``(leadlag, ...)``.
+            Values range from -1 to 1, where:
+            - 1 indicates a perfect positive correlation.
+            - -1 indicates a perfect negative correlation.
+            - 0 indicates no correlation.
+
+        - **pvalue** : :py:class:`xarray.DataArray<xarray.DataArray>`
+            Two-tailed p-values with dimensions ``(leadlag, ...)``.
+            Small p-values (<0.05) indicate statistically significant correlations.
+
+    Notes
+    -----
+    - The function iterates over each lead/lag value in `leadlag_array`, computes the correlation between the shifted `x` and `data_input`, and concatenates results along a new `leadlag` dimension.
+    - Shifting `x` may introduce NaN values at the edges of the time series, which are handled automatically during correlation calculations.
+    - Ensure `data_input` and `x` have compatible time dimensions to avoid errors.
+
+    Examples
+    --------
+    >>> import xarray as xr
+    >>> import numpy as np
+    >>> data = xr.DataArray(np.random.rand(100, 10, 10), dims=["time", "lat", "lon"])
+    >>> ts = xr.DataArray(np.random.rand(100), dims=["time"])
+    >>> leadlag = [-2, 0, 2]
+    >>> result = calc_leadlag_corr_spatial(data, ts, leadlag, time_dim="time", method="xarray")
+    >>> print(result)
+    Processing leadlag: 2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+    <xarray.Dataset> Size: 7kB
+    Dimensions:    (leadlag: 3, lat: 10, lon: 10)
+    Coordinates:
+    * leadlag    (leadlag) int64 24B -2 0 2
+    Dimensions without coordinates: lat, lon
+    Data variables:
+        reg_coeff  (leadlag, lat, lon) float64 2kB 0.006322 0.002647 ... -0.02781
+        corr       (leadlag, lat, lon) float64 2kB 0.02141 0.00894 ... -0.09169
+        pvalue     (leadlag, lat, lon) float64 2kB 0.8326 0.9297 ... 0.3053 0.3643
+    """
+    leadlag_list = []
+
+    with Progress(
+        "[progress.description]{task.description}",
+        BarColumn(),
+        "[progress.percentage]{task.percentage:>3.0f}%",
+        TimeRemainingColumn(),
+    ) as progress:
+        task = progress.add_task(
+            "[cyan]Calculating correlations...", total=len(leadlag_array)
+        )
+
+        for leadlag_item in leadlag_array:
+            tmp = calc_corr_spatial(
+                data_input,
+                x=x.shift({time_dim: leadlag_item}),
+                time_dim=time_dim,
+                method=method,
+            )
+            tmp = tmp.assign_coords({"leadlag": leadlag_item}).expand_dims("leadlag")
+            leadlag_list.append(tmp)
+            progress.update(
+                task, advance=1, description=f"[cyan]Processing leadlag: {leadlag_item}"
+            )
+
+        result = xr.concat(leadlag_list, dim="leadlag")
+        # Make sure the progress bar refreshes to 100%.
+        progress.update(task, completed=len(leadlag_array), refresh=True)
+
+    return result
 
 
 def calc_multiple_linear_regression_spatial(
@@ -1068,5 +1221,78 @@ def calc_lead_lag_correlation_coefficients(
         max_corr = corr[max_corr_idx]
         corr_da[pair_name].attrs["max_correlation"] = float(max_corr)
         corr_da[pair_name].attrs["lag_at_max_correlation"] = int(max_lag)
+
+    return corr_da
+
+
+def calc_timeseries_correlations(
+    da: dict[str, xr.DataArray] | list[xr.DataArray],
+    dim: str = "time",
+) -> xr.DataArray:
+    """
+    Calculate the correlation matrix between multiple DataArray time series.
+
+    This function calculates pairwise correlations between time series in the input DataArrays
+    using the specified correlation method along the given dimension. The output is a symmetric
+    correlation matrix stored as an xarray DataArray with dimensions (var1, var2).
+
+    Parameters
+    ----------
+    da : :py:class:`dict[str, xarray.DataArray<xarray.DataArray>]` or :py:class:`list[xarray.DataArray<xarray.DataArray>]`.
+        A dictionary with names as keys and DataArrays as values, or a list of DataArrays.
+        Each DataArray must contain the specified dimension.
+    dim : :py:class:`str <str>`, default: `time`.
+        The dimension along which to compute correlations. All DataArrays must have this dimension.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`.
+        A DataArray containing the correlation matrix with dimensions (var1, var2).
+        Coordinates are set to the names of the input time series.
+
+    Examples
+    --------
+    >>> time = pd.date_range('2020-01-01', '2020-12-31', freq='D')
+    >>> da1 = xr.DataArray(np.random.randn(len(time)), dims='time', coords={'time': time}, name='series1')
+    >>> da2 = xr.DataArray(da1 * 0.5 + np.random.randn(len(time)) * 0.5, dims='time', coords={'time': time}, name='series2')
+    >>> data = {'series1': da1, 'series2': da2}
+    >>> corr_matrix = calc_timeseries_correlations(data, method='pearson')
+    >>> print(corr_matrix)
+    """
+    # Handle input format
+    if isinstance(da, dict):
+        names = list(da.keys())
+        arrays = list(da.values())
+    else:
+        names = [f"var_{i}" for i in range(len(da))]
+        arrays = da
+
+    # Validate inputs
+    if not arrays:
+        raise ValueError("data_arrays cannot be empty")
+    if not all(isinstance(da, xr.DataArray) for da in arrays):
+        raise TypeError("All inputs must be xarray.DataArray")
+    if not all(dim in da.dims for da in arrays):
+        raise ValueError(f"All DataArrays must contain the '{dim}' dimension")
+
+    # Initialize correlation matrix
+    n = len(arrays)
+    corr_matrix = np.zeros((n, n))
+
+    # Compute pairwise correlations
+    for i in range(n):
+        for j in range(i, n):  # Compute upper triangle (including diagonal)
+            corr = xr.corr(arrays[i], arrays[j], dim=dim)
+            corr_matrix[i, j] = corr
+            if i != j:  # Fill lower triangle (symmetric matrix)
+                corr_matrix[j, i] = corr
+
+    # Create DataArray output
+    corr_da = xr.DataArray(
+        corr_matrix,
+        dims=("var1", "var2"),
+        coords={"var1": names, "var2": names},
+        name="correlation",
+    )
 
     return corr_da

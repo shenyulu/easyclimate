@@ -1,5 +1,34 @@
 # Changelog♻️
 
+## v2025.9.0
+
+*Released on: 2025/8/21*
+
+* [docs: add uv](https://github.com/shenyulu/easyclimate/pull/102/commits/a7a801fbaa7ff3b47dee9dc219d6309a84f96cb2)
+* [docs: add video](https://github.com/shenyulu/easyclimate/pull/102/commits/1ec9d296b0f8c56adb69560edd1b9300a0d354c0)
+* [update: black version](https://github.com/shenyulu/easyclimate/pull/102/commits/6cd9019faa831f18b3d24cf19665911d44cdf9e1)
+* [update: black exclude](https://github.com/shenyulu/easyclimate/pull/102/commits/ea9d3a235369ae2411ae3987b96f729ef2c7a9fa)
+* [fix: build process error](https://github.com/shenyulu/easyclimate/pull/102/commits/264f6e92e88bc700f01dca48c30b8184178ed778)
+* [fix: remove_low_frequency_signal](https://github.com/shenyulu/easyclimate/pull/102/commits/a526fe7e397cbf292081fe4c71302c850c1e1e86)
+* [fix: fixed dims](https://github.com/shenyulu/easyclimate/pull/102/commits/f60b9a3b5d15deb998c420f26adfb0f38b3db680)
+* [fix: explicit normalized](https://github.com/shenyulu/easyclimate/pull/102/commits/39127b776d6fd4e068896442b2a526468b583734)
+* [feat: add normalized](https://github.com/shenyulu/easyclimate/pull/102/commits/ea13c89069944dcfe3aacad6fc51cf04f1a7f241)
+* [fix: fix bar and line](https://github.com/shenyulu/easyclimate/pull/102/commits/29d6a57e12fde5a3e9a5b3e47e2e49dd2eff4b05)
+* [fix: corr fix](https://github.com/shenyulu/easyclimate/pull/102/commits/9b1d6a7d980b4562821b42287997ba9745046f4d)
+* [fix: fix pdo](https://github.com/shenyulu/easyclimate/pull/102/commits/3b403ff87e8fa3321cf9d1a753888bd9bb9d7be4)
+* [text: fix file](https://github.com/shenyulu/easyclimate/pull/102/commits/a9e18f436ab065b336c1abf75b69a69c08a23c4f)
+* [feat: add calc_timeseries_correlations](https://github.com/shenyulu/easyclimate/pull/102/commits/d50a012a88fda692e0d5e521700882e1727ad205)
+* [feat: use rich instead](https://github.com/shenyulu/easyclimate/pull/102/commits/c5c6a029748aa8b4e769152a0322d42a41ebc9f6)
+* [fix: fix draw_significant_area_contourf](https://github.com/shenyulu/easyclimate/pull/102/commits/523ee935bb77063cdbeaa5f5957814c14bb42587)
+* [fix: fix cgt error](https://github.com/shenyulu/easyclimate/pull/102/commits/488c66acd3daa83af27e4218c4ca8b0c7544b829)
+* [feat: add calc_leadlag_corr_spatial](https://github.com/shenyulu/easyclimate/pull/102/commits/3ebf91f2aeaec7300f47fe645dd1c4a1eef382f6)
+* [update: update version](https://github.com/shenyulu/easyclimate/pull/102/commits/d4088cedb7b535a3d67148e85f741f453a26bdab)
+* [fix: wk_spectra docs](https://github.com/shenyulu/easyclimate/pull/102/commits/d5f949de877f398139d058700ec53b9831758bd5)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.8.0...v2025.9.0
+
+### What's Changed
+
 ## v2025.8.0
 
 *Released on: 2025/7/24*

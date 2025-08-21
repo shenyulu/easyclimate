@@ -26,6 +26,26 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
         If you don't have ``pip`` installed, this `Python installation guide <https://docs.python-guide.org/starting/installation/>`__ can guide you through the process.
 
+    .. tab-item:: uv
+
+        1. Install `uv <https://docs.astral.sh/uv/>`__
+
+        .. code:: bash
+
+            pip install uv
+
+        2. Install `numba <https://numba.pydata.org/>`__ and `numpy <https://numpy.org/>`__ solely.
+
+        .. code:: bash
+
+            pip install numba numpy
+
+        3. Install ``easyclimate`` by `uv <https://docs.astral.sh/uv/>`__
+
+        .. code:: bash
+
+            uv pip install easyclimate
+
     .. tab-item:: conda/mamba
 
         🛠️ Support is coming soon! Stay tuned for updates—we're working on it!

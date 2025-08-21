@@ -146,8 +146,8 @@ def calc_NPWI_monsoon_onset(
 
     # Find parts that meet the threshold requirement for 3 consecutive days
     NPWI_overthresh_conti3 = NPWI_overthresh.rolling(
-        time=consecutive_days, center=True
-    ).sum()
+        {time_dim: consecutive_days}, center=True
+    ).sum(dim=time_dim)
     NPWI_overthresh_over3 = (NPWI_overthresh_conti3 > (consecutive_days - 1)).astype(
         int
     )
@@ -244,8 +244,8 @@ def calc_NPWI_monsoon_retreat(
 
     # Find parts that meet the threshold requirement for 3 consecutive days
     NPWI_overthresh_conti3 = NPWI_overthresh.rolling(
-        time=consecutive_days, center=True
-    ).sum()
+        {time_dim: consecutive_days}, center=True
+    ).sum(dim=time_dim)
     NPWI_overthresh_over3 = (NPWI_overthresh_conti3 > (consecutive_days - 1)).astype(
         int
     )

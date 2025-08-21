@@ -15,6 +15,7 @@ def calc_index_EU_Wallace_Gutzler_1981(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean Eurasian pattern (EU) index using Pointwise method following Wallace and Gutzler (1981):
@@ -36,6 +37,8 @@ def calc_index_EU_Wallace_Gutzler_1981(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -54,13 +57,19 @@ def calc_index_EU_Wallace_Gutzler_1981(
     )
 
     # Scandinavia and Poland: Z*(55°N,20°E)
-    part1 = z_anomaly_data.sel(lat=55, lon=20, method="nearest")
+    part1 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 20}, method="nearest")
     # Siberia: Z*(55°N,75°E)
-    part2 = z_anomaly_data.sel(lat=55, lon=75, method="nearest")
+    part2 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 75}, method="nearest")
     # Japan: Z*(40°N,145°E)
-    part3 = z_anomaly_data.sel(lat=40, lon=145, method="nearest")
+    part3 = z_anomaly_data.sel({lat_dim: 40, lon_dim: 145}, method="nearest")
     index_EU = -0.25 * part1 + 0.5 * part2 - 0.25 * part3
 
     # Normalized
-    index_normalized_std = index_EU.sel({time_dim: time_range}).std(dim=time_dim).data
-    return (index_EU / index_normalized_std).drop_vars("month")
+    if normalized == True:
+        index_normalized_std = (
+            index_EU.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_EU / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_EU

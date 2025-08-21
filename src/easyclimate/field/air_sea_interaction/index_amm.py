@@ -66,12 +66,12 @@ def calc_index_AMM_Doi_2009(
 
     # The difference in SST anomaly between the tropical western Indian Ocean (50°E-70°E, 10°S-10°N)
     # and the tropical south-eastern Indian Ocean (90°E-110°E, 10°S-Equator)
-    northern_index = sst_anomaly_data.sel(lon=slice(-50, -20), lat=slice(5, 15)).mean(
-        dim=(lat_dim, lon_dim)
-    )
-    southern_index = sst_anomaly_data.sel(lon=slice(-20, 10), lat=slice(-15, -5)).mean(
-        dim=(lat_dim, lon_dim)
-    )
+    northern_index = sst_anomaly_data.sel(
+        {lon_dim: slice(-50, -20), lat_dim: slice(5, 15)}
+    ).mean(dim=(lat_dim, lon_dim))
+    southern_index = sst_anomaly_data.sel(
+        {lon_dim: slice(-20, 10), lat_dim: slice(-15, -5)}
+    ).mean(dim=(lat_dim, lon_dim))
     index_AMM = northern_index - southern_index
 
     # Normalized

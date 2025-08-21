@@ -584,7 +584,7 @@ def populate_monmean2everymon(
         data_monthly_empty = xr.full_like(data_monthly, fill_value=np.nan)
 
         for time_step in np.arange(0, time_step_all):
-            time_step_month = month_int.isel(time=time_step).data
+            time_step_month = month_int.isel({time_dim: time_step}).data
             data_monthly_empty[{time_dim: time_step}] = month_climate.sel(
                 month=time_step_month
             )
@@ -641,7 +641,7 @@ def populate_daymean2everyday(
         data_daily_empty = xr.full_like(data_daily, fill_value=np.nan)
 
         for time_step in np.arange(0, time_step_all):
-            time_step_day = day_int.isel(time=time_step).data
+            time_step_day = day_int.isel({time_dim: time_step}).data
             data_daily_empty[{time_dim: time_step}] = day_climate.sel(day=time_step_day)
 
         return data_daily_empty

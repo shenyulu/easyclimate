@@ -152,26 +152,28 @@ def transfer_int2datetime(data: np.array) -> np.datetime64:
     return pd.to_datetime(data, format="%Y").to_numpy()
 
 
-def split_datetime2yearday(ds: xr.DataArray) -> xr.DataArray:
+def split_datetime2yearday(ds: xr.DataArray, time_dim: str = "time") -> xr.DataArray:
     """
     Convert `np.datetime64` type with years and days to `year` and `day` coordinates.
 
     Parameters
     ----------
-    - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
 
     .. seealso::
         `Function in xarray to regroup monthly data into months and # of years <https://github.com/pydata/xarray/discussions/5119>`__.
     """
-    year = ds.time.dt.year
-    month = ds.time.dt.month
+    year = ds[time_dim].dt.year
+    month = ds[time_dim].dt.month
 
     # assign new coords
-    ds = ds.assign_coords(year=("time", year.data), month=("time", month.data))
+    ds = ds.assign_coords(year=(time_dim, year.data), month=(time_dim, month.data))
 
     # reshape the array to (..., "month", "year")
-    return ds.set_index(time=("year", "month")).unstack("time")
+    return ds.set_index({time_dim: ("year", "month")}).unstack(time_dim)
 
 
 def transfer_deg2rad(ds: xr.DataArray) -> xr.DataArray:

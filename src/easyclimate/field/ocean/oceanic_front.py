@@ -56,7 +56,10 @@ def calc_intensity_STFZ(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     data = sst_DtDy_data.sel(
-        lon=slice(lon_range[0], lon_range[1]), lat=slice(lat_range[0], lat_range[1])
+        {
+            lon_dim: slice(lon_range[0], lon_range[1]),
+            lat_dim: slice(lat_range[0], lat_range[1]),
+        }
     ).mean(dim=lon_dim)
     return get_weighted_spatial_data(data.where(data > criteria)).mean(dim=lat_dim)
 
@@ -109,7 +112,10 @@ def calc_intensity_SAFZ(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     data = sst_DtDy_data.sel(
-        lon=slice(lon_range[0], lon_range[1]), lat=slice(lat_range[0], lat_range[1])
+        {
+            lon_dim: slice(lon_range[0], lon_range[1]),
+            lat_dim: slice(lat_range[0], lat_range[1]),
+        }
     ).mean(dim=lon_dim)
     return get_weighted_spatial_data(data.where(data > criteria)).mean(dim=lat_dim)
 
@@ -162,7 +168,10 @@ def calc_location_STFZ(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     data_tmp = sst_DtDy_data.sel(
-        lon=slice(lon_range[0], lon_range[1]), lat=slice(lat_range[0], lat_range[1])
+        {
+            lon_dim: slice(lon_range[0], lon_range[1]),
+            lat_dim: slice(lat_range[0], lat_range[1]),
+        }
     ).mean(dim=lon_dim)
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim=lat_dim)
@@ -221,7 +230,10 @@ def calc_location_SAFZ(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     data_tmp = sst_DtDy_data.sel(
-        lon=slice(lon_range[0], lon_range[1]), lat=slice(lat_range[0], lat_range[1])
+        {
+            lon_dim: slice(lon_range[0], lon_range[1]),
+            lat_dim: slice(lat_range[0], lat_range[1]),
+        }
     ).mean(dim=lon_dim)
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim=lat_dim)
@@ -280,7 +292,10 @@ def calc_location_line_STFZ(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     data_tmp = sst_DtDy_data.sel(
-        lon=slice(lon_range[0], lon_range[1]), lat=slice(lat_range[0], lat_range[1])
+        {
+            lon_dim: slice(lon_range[0], lon_range[1]),
+            lat_dim: slice(lat_range[0], lat_range[1]),
+        }
     )
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim=lat_dim)
@@ -339,7 +354,10 @@ def calc_location_line_SAFZ(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     data_tmp = sst_DtDy_data.sel(
-        lon=slice(lon_range[0], lon_range[1]), lat=slice(lat_range[0], lat_range[1])
+        {
+            lon_dim: slice(lon_range[0], lon_range[1]),
+            lat_dim: slice(lat_range[0], lat_range[1]),
+        }
     )
     data_tmp = data_tmp.where(data_tmp > criteria)
     g_i = get_weighted_spatial_data(data_tmp).sum(dim=lat_dim)

@@ -26,6 +26,7 @@ Core❤️
     easyclimate.core.eof
     easyclimate.core.extract
     easyclimate.core.mk_test
+    easyclimate.core.normalized
     easyclimate.core.read
     easyclimate.core.stat
     easyclimate.core.tutorial
@@ -154,6 +155,8 @@ Plot🖊️
     easyclimate.plot.taylor_diagram
     easyclimate.plot.quick_draw
     easyclimate.plot.curved_quiver_plot
+    easyclimate.plot.bar
+    easyclimate.plot.line
 
 WRF-python🌌
 ----------------------------------------
@@ -177,6 +180,7 @@ Air–Sea Interaction
     easyclimate.field.air_sea_interaction.index_iobm
     easyclimate.field.air_sea_interaction.index_amm
     easyclimate.field.air_sea_interaction.index_atlantic_nino
+    easyclimate.field.air_sea_interaction.index_pdo
 
 Teleconnections
 ::::::::::::::::::::::::::::::::::::::::

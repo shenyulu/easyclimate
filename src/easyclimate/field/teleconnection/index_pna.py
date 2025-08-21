@@ -44,6 +44,7 @@ def calc_index_PNA_modified_pointwise(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index is constructed by following modified pointwise method:
@@ -65,6 +66,8 @@ def calc_index_PNA_modified_pointwise(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -83,28 +86,33 @@ def calc_index_PNA_modified_pointwise(
     )
 
     # Z*(15°N-25°N,180-140°W)
-    part1 = z_anomaly_data.sel(lat=slice(15, 25), lon=slice(180, 220)).mean(
+    part1 = z_anomaly_data.sel({lat_dim: slice(15, 25), lon_dim: slice(180, 220)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Z*(40°N-50°N,180-140°W)
-    part2 = z_anomaly_data.sel(lat=slice(40, 50), lon=slice(180, 220)).mean(
+    part2 = z_anomaly_data.sel({lat_dim: slice(40, 50), lon_dim: slice(180, 220)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Z*(45°N-60°N,125°W-105°W)
-    part3 = z_anomaly_data.sel(lat=slice(45, 60), lon=slice(235, 255)).mean(
+    part3 = z_anomaly_data.sel({lat_dim: slice(45, 60), lon_dim: slice(235, 255)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Z*(25°N-35°N,90°W-70°W)
-    part4 = z_anomaly_data.sel(lat=slice(25, 35), lon=slice(270, 290)).mean(
+    part4 = z_anomaly_data.sel({lat_dim: slice(25, 35), lon_dim: slice(270, 290)}).mean(
         dim=(lat_dim, lon_dim)
     )
     # Summation
     index_PNA = (part1 - part2 + part3 - part4) / 4
 
     # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_PNA / index_normalized_std).drop_vars("month")
-    return result
+    if normalized == True:
+        index_normalized_std = (
+            index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_PNA / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_PNA
 
 
 def calc_index_PNA_Wallace_Gutzler_1981(
@@ -113,6 +121,7 @@ def calc_index_PNA_Wallace_Gutzler_1981(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     time_dim: str = "time",
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index using Pointwise method following Wallace and Gutzler (1981):
@@ -134,6 +143,8 @@ def calc_index_PNA_Wallace_Gutzler_1981(
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
     time_dim: :py:class:`str <str>`, default: `time`.
         The time coordinate dimension name.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -153,19 +164,24 @@ def calc_index_PNA_Wallace_Gutzler_1981(
     )
 
     # Z*(20°N,160°W)
-    part1 = z_anomaly_data.sel(lat=20, lon=200, method="nearest")
+    part1 = z_anomaly_data.sel({lat_dim: 20, lon_dim: 200}, method="nearest")
     # Z*(45°N,165°W)
-    part2 = z_anomaly_data.sel(lat=45, lon=195, method="nearest")
+    part2 = z_anomaly_data.sel({lat_dim: 45, lon_dim: 195}, method="nearest")
     # Z*(55°N,115°W)
-    part3 = z_anomaly_data.sel(lat=55, lon=245, method="nearest")
+    part3 = z_anomaly_data.sel({lat_dim: 55, lon_dim: 245}, method="nearest")
     # Z*(30°N,85°W)
-    part4 = z_anomaly_data.sel(lat=30, lon=275, method="nearest")
+    part4 = z_anomaly_data.sel({lat_dim: 30, lon_dim: 275}, method="nearest")
     index_PNA = (part1 - part2 + part3 - part4) / 4
 
     # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_PNA / index_normalized_std).drop_vars("month")
-    return result
+    if normalized == True:
+        index_normalized_std = (
+            index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
+        )
+        result = (index_PNA / index_normalized_std).drop_vars("month")
+        return result
+    elif normalized == False:
+        return index_PNA
 
 
 def calc_index_PNA_NH_REOF(
@@ -178,6 +194,7 @@ def calc_index_PNA_NH_REOF(
     random_state=None,
     solver: Literal["auto", "full", "randomized"] = "auto",
     solver_kwargs: dict = {},
+    normalized: bool = True,
 ) -> xr.DataArray:
     """
     The calculation of monthly mean PNA index using rotated empirical orthogonal functions (REOFs) method over the entire Northern Hemisphere:
@@ -202,6 +219,8 @@ def calc_index_PNA_NH_REOF(
         Solver to use for the REOFs computation.
     solver_kwargs: :py:class:`dict<dict>`, default `{}`.
         Additional keyword arguments to be passed to the REOFs solver.
+    normalized: :py:class:`bool <bool>`, default `True`, optional.
+        Whether to standardize the index based on standard deviation over `time_range`.
 
     Returns
     -------
@@ -221,7 +240,7 @@ def calc_index_PNA_NH_REOF(
         z_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
     )
     # anomaly
-    z_monthly_data_NH = z_monthly_data.sel(lat=lat_range)
+    z_monthly_data_NH = z_monthly_data.sel({lat_dim: lat_range})
     z_anomaly_data_NH = remove_seasonal_cycle_mean(
         z_monthly_data_NH, dim=time_dim, time_range=time_range
     )
@@ -237,10 +256,6 @@ def calc_index_PNA_NH_REOF(
         solver=solver,
         solver_kwargs=solver_kwargs,
     )
-    z_REOF_result = calc_REOF_analysis(z_REOF_model)
+    z_REOF_result = calc_REOF_analysis(z_REOF_model, PC_normalized=normalized)
     index_PNA = z_REOF_result["PC"].sel(mode=2)
-
-    # Normalized
-    index_normalized_std = index_PNA.sel({time_dim: time_range}).std(dim=time_dim).data
-    result = (index_PNA / index_normalized_std).drop_vars("month")
-    return result
+    return index_PNA
