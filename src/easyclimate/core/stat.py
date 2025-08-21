@@ -11,7 +11,7 @@ from scipy.stats import pearsonr
 from scipy.signal import correlate
 from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
 from .normalized import normalize_zscore
-
+from rich.progress import Progress, BarColumn, TimeRemainingColumn
 from xarray import DataTree
 from .datanode import DataNode
 from typing import List, Literal
@@ -20,6 +20,7 @@ __all__ = [
     "calc_linregress_spatial",
     "calc_detrend_spatial",
     "calc_corr_spatial",
+    "calc_leadlag_corr_spatial",
     "calc_multiple_linear_regression_spatial",
     "calc_ttestSpatialPattern_spatial",
     "calc_levenetestSpatialPattern_spatial",
@@ -220,12 +221,26 @@ def calc_corr_spatial(
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
         Input spatial data with dimensions ``(time, ...)``.
 
-        NaN values are automatically skipped in calculations.
+        .. note::
+
+            NaN values are automatically skipped in calculations.
+
     x : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.ndarray<numpy.ndarray>`
         Time series data with dimension ``(time,)``. Must have the same length as data_input's time dimension.
-        NaN values are automatically skipped in calculations.
+
+        .. note::
+
+            NaN values are automatically skipped in calculations.
+
     time_dim: :py:class:`str <str>`
         Dimension(s) over which to detrend. By default dimension is applied over the `time` dimension.
+    method : {'scipy', 'xarray'}, optional
+        Method used to compute correlations:
+
+        - 'scipy': Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for direct calculation
+        - 'xarray': Uses xarray's built-in correlation with t-test conversion (faster)
+
+        Default is 'xarray'.
 
     Returns
     -------
@@ -242,14 +257,6 @@ def calc_corr_spatial(
     pvalue : :py:class:`xarray.DataArray<xarray.DataArray>`
         Two-tailed p-values with dimensions.
         Small p-values (<0.05) indicate statistically significant correlations.
-
-
-    Notes
-    -----
-    - The calculation automatically skips pairs where either value is NaN
-    - Requires at least 2 valid observations for each grid point to compute correlation
-    - Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for calculations
-    - Maintains input coordinates for the output arrays
 
     Examples
     --------
@@ -328,12 +335,132 @@ def calc_corr_spatial(
         )
 
     else:
-        raise ValueError("")
+        raise ValueError("The parameter of `method` should be `xarray` or `scipy.`")
 
     result = xr.Dataset()
     result["reg_coeff"] = reg_coeff
     result["corr"] = corr
     result["pvalue"] = pvalue
+    return result
+
+
+def calc_leadlag_corr_spatial(
+    data_input: xr.DataArray,
+    x: xr.DataArray | np.ndarray,
+    leadlag_array: np.array | List[int],
+    time_dim: str = "time",
+    method: Literal["scipy", "xarray"] = "xarray",
+):
+    """
+    Calculate Pearson correlation coefficients and corresponding p-values between spatial data
+    and a time series with specified lead or lag shifts, using ``scipy.stats.pearsonr`` or xarray methods.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>`
+        Input spatial data with dimensions ``(time, ...)`` representing spatial fields over time.
+
+        .. note::
+            NaN values are automatically skipped in calculations.
+
+    x : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.ndarray<numpy.ndarray>`
+        Time series data with dimension ``(time,)``. Must have the same length as ``data_input``'s time dimension.
+
+        .. note::
+            NaN values are automatically skipped in calculations.
+
+    leadlag_array : :py:class:`numpy.ndarray<numpy.ndarray>` or :py:class:`List[int]<list>`
+        Array or list of integers specifying the lead or lag shifts (in time steps) to apply to the time series `x`
+        relative to `data_input`.
+
+        - **Positive values** indicate a **lag**: the time series `x` is shifted forward in time (e.g., a value of +2 means `x` is delayed by 2 time steps relative to `data_input`).
+        - **Negative values** indicate a **lead**: the time series `x` is shifted backward in time (e.g., a value of -2 means `x` leads `data_input` by 2 time steps).
+        - A value of **0** means no shift (synchronous correlation).
+
+        Example: If ``leadlag_array = [-2, 0, 2]``, correlations are computed for :math:`x` leading by 2 time steps, no shift, and lagging by 2 time steps, respectively.
+
+    time_dim : :py:class:`str<str>`
+        Name of the time dimension in `data_input` and `x`. Default is `"time"`.
+
+    method : {'scipy', 'xarray'}, optional
+        Method used to compute correlations:
+
+        - `'scipy'`: Uses :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>` for direct calculation, which may be more precise but slower.
+        - `'xarray'`: Uses xarray's built-in correlation function with t-test conversion, which is typically faster.
+
+        Default is `'xarray'`.
+
+    Returns
+    -------
+    result : :py:class:`xarray.Dataset<xarray.Dataset>`
+        Dataset containing two variables:
+
+        - **corr** : :py:class:`xarray.DataArray<xarray.DataArray>`
+            Pearson correlation coefficients with dimensions ``(leadlag, ...)``.
+            Values range from -1 to 1, where:
+            - 1 indicates a perfect positive correlation.
+            - -1 indicates a perfect negative correlation.
+            - 0 indicates no correlation.
+
+        - **pvalue** : :py:class:`xarray.DataArray<xarray.DataArray>`
+            Two-tailed p-values with dimensions ``(leadlag, ...)``.
+            Small p-values (<0.05) indicate statistically significant correlations.
+
+    Notes
+    -----
+    - The function iterates over each lead/lag value in `leadlag_array`, computes the correlation between the shifted `x` and `data_input`, and concatenates results along a new `leadlag` dimension.
+    - Shifting `x` may introduce NaN values at the edges of the time series, which are handled automatically during correlation calculations.
+    - Ensure `data_input` and `x` have compatible time dimensions to avoid errors.
+
+    Examples
+    --------
+    >>> import xarray as xr
+    >>> import numpy as np
+    >>> data = xr.DataArray(np.random.rand(100, 10, 10), dims=["time", "lat", "lon"])
+    >>> ts = xr.DataArray(np.random.rand(100), dims=["time"])
+    >>> leadlag = [-2, 0, 2]
+    >>> result = calc_leadlag_corr_spatial(data, ts, leadlag, time_dim="time", method="xarray")
+    >>> print(result)
+    Processing leadlag: 2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+    <xarray.Dataset> Size: 7kB
+    Dimensions:    (leadlag: 3, lat: 10, lon: 10)
+    Coordinates:
+    * leadlag    (leadlag) int64 24B -2 0 2
+    Dimensions without coordinates: lat, lon
+    Data variables:
+        reg_coeff  (leadlag, lat, lon) float64 2kB 0.006322 0.002647 ... -0.02781
+        corr       (leadlag, lat, lon) float64 2kB 0.02141 0.00894 ... -0.09169
+        pvalue     (leadlag, lat, lon) float64 2kB 0.8326 0.9297 ... 0.3053 0.3643
+    """
+    leadlag_list = []
+
+    with Progress(
+        "[progress.description]{task.description}",
+        BarColumn(),
+        "[progress.percentage]{task.percentage:>3.0f}%",
+        TimeRemainingColumn(),
+    ) as progress:
+        task = progress.add_task(
+            "[cyan]Calculating correlations...", total=len(leadlag_array)
+        )
+
+        for leadlag_item in leadlag_array:
+            tmp = calc_corr_spatial(
+                data_input,
+                x=x.shift({time_dim: leadlag_item}),
+                time_dim=time_dim,
+                method=method,
+            )
+            tmp = tmp.assign_coords({"leadlag": leadlag_item}).expand_dims("leadlag")
+            leadlag_list.append(tmp)
+            progress.update(
+                task, advance=1, description=f"[cyan]Processing leadlag: {leadlag_item}"
+            )
+
+        result = xr.concat(leadlag_list, dim="leadlag")
+        # Make sure the progress bar refreshes to 100%.
+        progress.update(task, completed=len(leadlag_array), refresh=True)
+
     return result
 
 
