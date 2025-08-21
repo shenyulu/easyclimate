@@ -5,9 +5,16 @@ Spatio-temporal Spectrum Analysis
 from __future__ import annotations
 import numpy as np
 import xarray as xr
+from scipy.fft import fft, ifft, fftfreq
+from scipy.signal.windows import hann
+from typing import Literal
 from ..core.datanode import DataNode
 
-__all__ = ["calc_time_spectrum", "calc_mean_fourier_amplitude"]
+__all__ = [
+    "calc_time_spectrum",
+    "calc_mean_fourier_amplitude",
+    "filter_fourier_harmonic_analysis",
+]
 
 
 def calc_time_spectrum(
@@ -148,3 +155,149 @@ def calc_mean_fourier_amplitude(
     amp_scaled.name = data.name or "mean_amplitude"
 
     return amp_scaled
+
+
+def filter_fourier_harmonic_analysis(
+    da: xr.DataArray,
+    time_dim: str = "time",
+    period_bounds: tuple = (None, None),
+    filter_type: Literal["highpass", "lowpass", "bandpass"] = "bandpass",
+    sampling_interval: float = 1.0,
+    apply_window: bool = True,
+) -> xr.DataArray:
+    """
+    Apply Fourier harmonic analysis to filter an dataset along a time dimension.
+
+    Parameters
+    ----------
+    da : :py:class:`xarray.DataArray <xarray.DataArray>`
+        Input data array with a time dimension (e.g., z200 with dims [time, lat, lon]).
+    time_dim : :py:class:`str <str>`, optional
+        Name of the time dimension (default: 'time').
+    period_bounds : :py:class:`tuple <tuple>`, optional
+        Period range for filtering in units of sampling_interval (e.g., years if sampling_interval=1).
+        Format: ``(min_period, max_period)``. Use None for unbounded limits.
+
+        - High-pass: ``(None, max_period)`` to retain periods < max_period.
+        - Low-pass: ``(min_period, None)`` to retain periods > min_period.
+        - Bandpass: ``(min_period, max_period)`` to retain min_period < periods < max_period.
+
+    filter_type : :py:class:`str <str>`, optional
+        Type of filter: ``'highpass'``, ``'lowpass'``, or ``'bandpass'`` (default: ``'bandpass'``).
+    sampling_interval : :py:class:`float <float>`, optional
+        Sampling interval of the time dimension (default: 1.0, e.g., 1 year for annual data).
+    apply_window : :py:class:`bool <bool>`, optional
+        Apply a Hann window to reduce boundary effects (default: True).
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>`
+        Filtered data array with same dimensions and coordinates as input.
+
+    Examples
+    --------
+    >>> # Create example data
+    >>> ds = xr.DataArray(
+    ...    np.random.randn(56, 90, 180),
+    ...    dims=['time', 'lat', 'lon'],
+    ...    coords={
+    ...        'time': np.arange(1948, 2004),
+    ...        'lat': np.linspace(-90, 90, 90),
+    ...        'lon': np.linspace(0, 360, 180, endpoint=False)
+    ...    },
+    ...    name='z200'
+    ... )
+    >>> # Apply low-pass filter to retain periods > 8 years
+    >>> ds_filtered = filter_fourier_harmonic_analysis(
+    ...    da=ds,
+    ...    time_dim='time',
+    ...    period_bounds=(8.0, None),
+    ...    filter_type='lowpass',
+    ...    sampling_interval=1.0,
+    ...    apply_window=True
+    ... )
+
+    """
+    # Input validation
+    if time_dim not in da.dims:
+        raise ValueError(
+            f"Time dimension '{time_dim}' not found in DataArray dims: {da.dims}"
+        )
+    if filter_type not in ["highpass", "lowpass", "bandpass"]:
+        raise ValueError(
+            f"Invalid filter_type: {filter_type}. Choose 'highpass', 'lowpass', or 'bandpass'."
+        )
+
+    min_period, max_period = period_bounds
+    if filter_type == "highpass" and max_period is None:
+        raise ValueError("High-pass filter requires max_period to be specified.")
+    if filter_type == "lowpass" and min_period is None:
+        raise ValueError("Low-pass filter requires min_period to be specified.")
+    if filter_type == "bandpass" and (min_period is None or max_period is None):
+        raise ValueError("Bandpass filter requires both min_period and max_period.")
+    if min_period is not None and max_period is not None and min_period >= max_period:
+        raise ValueError(
+            f"min_period ({min_period}) must be less than max_period ({max_period})."
+        )
+
+    # Check for NaN values
+    if np.any(np.isnan(da.values)):
+        raise ValueError(
+            "Input DataArray contains NaN values. Please handle missing data first."
+        )
+
+    # Get time dimension size
+    n = len(da[time_dim])
+    time_axis = da.dims.index(time_dim)
+
+    # Apply window function if requested
+    if apply_window:
+        window = hann(n)
+        # Reshape window to broadcast along time axis
+        window_shape = [-1 if i == time_axis else 1 for i in range(da.ndim)]
+        da_windowed = da * window.reshape(window_shape)
+    else:
+        da_windowed = da
+
+    # Compute FFT
+    z_fft = fft(da_windowed.values, axis=time_axis)
+
+    # Compute frequencies and periods
+    freq = fftfreq(n, d=sampling_interval)
+    periods = np.where(freq != 0, 1.0 / np.abs(freq), np.inf)
+
+    # Create frequency mask based on filter type
+    if filter_type == "highpass":
+        mask = (periods < max_period) | (
+            freq == 0
+        )  # Retain periods < max_period and zero frequency
+    elif filter_type == "lowpass":
+        mask = (periods > min_period) | (
+            freq == 0
+        )  # Retain periods > min_period and zero frequency
+    else:  # bandpass
+        mask = ((periods > min_period) & (periods < max_period)) | (freq == 0)
+
+    # Reshape mask to broadcast along time axis
+    mask_shape = [n if i == time_axis else 1 for i in range(da.ndim)]
+    mask = mask.reshape(mask_shape)
+
+    # Apply mask to FFT coefficients
+    z_fft_filtered = z_fft.copy()
+    z_fft_filtered = z_fft * mask
+
+    # Inverse FFT
+    z_filtered = ifft(z_fft_filtered, axis=time_axis).real
+
+    # Create output DataArray
+    da_filtered = xr.DataArray(
+        z_filtered, dims=da.dims, coords=da.coords, name=da.name, attrs=da.attrs
+    )
+
+    # Add filter metadata to attributes
+    da_filtered.attrs["filter_type"] = filter_type
+    da_filtered.attrs["period_bounds"] = period_bounds
+    da_filtered.attrs["sampling_interval"] = sampling_interval
+    da_filtered.attrs["window_applied"] = apply_window
+
+    return da_filtered

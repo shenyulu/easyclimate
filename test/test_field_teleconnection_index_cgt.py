@@ -7,71 +7,74 @@ import pytest
 import easyclimate as ecl
 import numpy as np
 import xarray as xr
+import matplotlib.pyplot as plt
 from pathlib import Path
 from .const_define import TEST_DATA_PATH
 
 z200_data = xr.open_dataset(str(Path(TEST_DATA_PATH, "test_input_z200_mon.nc")))["hgt"]
 
 
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
 def test_calc_index_CGT_1point_Ding_Wang_2005():
-    result_data = ecl.field.teleconnection.calc_index_CGT_1point_Ding_Wang_2005(
+    cgt_index1 = ecl.field.teleconnection.calc_index_CGT_1point_Ding_Wang_2005(
         z200_data
-    ).data[:20]
-    refer_data = np.array(
-        [
-            3.7474614e-01,
-            -1.7882865e-02,
-            2.4786426e-02,
-            5.6887108e-01,
-            6.2733793e-01,
-            -1.6665318e00,
-            8.7259931e-04,
-            7.5344339e-02,
-            -2.5329903e-01,
-            -1.2525458e00,
-            1.1981032e-01,
-            -3.7184653e-01,
-            -5.5903262e-01,
-            -1.9215151e00,
-            -8.5765535e-01,
-            1.2265400e00,
-            4.5251453e-01,
-            -3.0124459e-01,
-            -1.1771039e00,
-            1.8773080e-01,
-        ],
-        dtype=np.float32,
     )
-    assert np.isclose(result_data, refer_data, atol=0.01).all()
+    cgt_index1 = ecl.get_specific_months_data(cgt_index1, [6, 7, 8, 9])
+    cgt_index1_normalized = ecl.normalized.normalize_zscore(cgt_index1, dim="time")
+
+    z200_anomaly_data = ecl.remove_seasonal_cycle_mean(z200_data)
+    z200_anormaly_JJAS = ecl.get_specific_months_data(
+        z200_anomaly_data, month_array=[6, 7, 8, 9]
+    )
+
+    z200_reg_cgt_result1 = ecl.calc_corr_spatial(
+        z200_anormaly_JJAS, cgt_index1_normalized
+    )
+
+    fig, ax = plt.subplots()
+    z200_reg_cgt_result1.reg_coeff.plot.contourf(levels=21)
+    return fig
 
 
-def test_calc_index_CGT_NH_EOF2_Ding_Wang_2005():
-    result_data = ecl.field.teleconnection.calc_index_CGT_NH_EOF2_Ding_Wang_2005(
-        z200_data, solver="randomized", random_state=1
-    ).data[:20]
-    refer_data = np.array(
-        [
-            -0.11139196,
-            -0.02858514,
-            -0.06101292,
-            -0.00586747,
-            -0.03737175,
-            -0.02206146,
-            0.0107485,
-            0.00204435,
-            -0.01776662,
-            0.01659197,
-            -0.03105383,
-            -0.01007578,
-            0.00146058,
-            -0.02168902,
-            -0.00332586,
-            -0.01091488,
-            -0.02162741,
-            -0.03120371,
-            -0.05922785,
-            -0.04308352,
-        ],
-        dtype=np.float32,
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_index_CGT_NH_Ding_Wang_2005():
+    cgt_monthly_index = ecl.field.teleconnection.calc_index_CGT_NH_Ding_Wang_2005(
+        z200_data, output_freq="monthly"
     )
-    assert np.isclose(result_data, refer_data, atol=0.01).all()
+    cgt_seasonally_index = ecl.field.teleconnection.calc_index_CGT_NH_Ding_Wang_2005(
+        z200_data, output_freq="seasonally"
+    )
+
+    def get_anormaly_dataset(ds, freq):
+        ds_anormaly = ecl.remove_seasonal_cycle_mean(ds)
+        ds_JJAS_anormaly = ecl.get_specific_months_data(
+            ds_anormaly, month_array=[6, 7, 8, 9]
+        )
+        if freq == "monthly":
+            return ecl.calc_detrend_spatial(ds_JJAS_anormaly)
+        elif freq == "seasonally":
+            yearly_mean = ecl.calc_yearly_climatological_mean(ds_JJAS_anormaly)
+            return ecl.calc_detrend_spatial(yearly_mean)
+        else:
+            return 0
+
+    z200_anormaly_JJAS_monthly_data = get_anormaly_dataset(z200_data, freq="monthly")
+    z200_anormaly_JJAS_seasonally_data = get_anormaly_dataset(
+        z200_data, freq="seasonally"
+    )
+
+    z200_reg_cgt_result1 = ecl.calc_corr_spatial(
+        z200_anormaly_JJAS_monthly_data, cgt_monthly_index
+    )
+    z200_reg_cgt_result1 = ecl.plot.add_lon_cyclic(z200_reg_cgt_result1, 2.5)
+
+    z200_reg_cgt_result2 = ecl.calc_corr_spatial(
+        z200_anormaly_JJAS_seasonally_data, cgt_seasonally_index
+    )
+    z200_reg_cgt_result2 = ecl.plot.add_lon_cyclic(z200_reg_cgt_result2, 2.5)
+    z200_reg_cgt_result2
+
+    fig, ax = plt.subplots(2)
+    z200_reg_cgt_result1.reg_coeff.plot.contourf(ax=ax[0], levels=21)
+    z200_reg_cgt_result2.reg_coeff.plot.contourf(ax=ax[1], levels=21)
+    return fig
