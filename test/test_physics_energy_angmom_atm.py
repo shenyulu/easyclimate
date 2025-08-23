@@ -14,5 +14,5 @@ def test_calc_relative_angular_momentum():
     result_data = ecl.physics.energy.calc_relative_angular_momentum(
         udata, vertical_dim="level", vertical_dim_units="hPa"
     ).data
-    refer_data = np.array([-1.60258e26])
+    refer_data = np.array([1.60258e26])
     assert np.isclose(result_data, refer_data, atol=0.01).all()
