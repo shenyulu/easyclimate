@@ -81,7 +81,7 @@ def calc_relative_angular_momentum(
     uwnd_level_data = transfer_data_multiple_units(
         uwnd_level_data, vertical_dim_units, "Pa"
     )
-    dp = calc_gradient(uwnd_level_data, dim=vertical_dim)
+    dp = calc_gradient(uwnd_level_data, dim=vertical_dim) * (-1)
 
     # Latitude
     lat = zonal_wind_speed_data[lat_dim].sortby(lat_dim, ascending=False)
