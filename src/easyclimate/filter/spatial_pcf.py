@@ -214,6 +214,11 @@ def filter_2D_spatial_parabolic_cylinder_function(
     - Li, X.f., Cho, HR. Development and propagation of equatorial waves. Adv. Atmos. Sci. 14, 323–338 (1997). https://doi.org/10.1007/s00376-997-0053-6
     - Yang, G.-Y., Hoskins, B., & Slingo, J. (2003). Convectively coupled equatorial waves: A new methodology for identifying wave structures in observational data. *Journal of the Atmospheric Sciences*, 60(14), 1637-1654.
     - Knippertz, P., Gehne, M., Kiladis, G.N., Kikuchi, K., Rasheeda Satheesh, A., Roundy, P.E., et al. (2022) The intricacies of identifying equatorial waves. Quarterly Journal of the Royal Meteorological Society, 148(747), 2814–2852. Available from: https://doi.org/10.1002/qj.4338
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_spatial_pcf.py
     """
     # Constants
     GRAVITY = 9.8

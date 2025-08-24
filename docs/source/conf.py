@@ -144,6 +144,16 @@ sphinx_gallery_conf = {
     # Insert links to documentation of objects in the examples
     "reference_url": {"easyclimate": None},
     'parallel': 3,
+    # mini-galleries
+    ## directory where function/class granular galleries are stored
+    'backreferences_dir'  : 'gen_modules/backreferences',
+    ## Modules for which function/class level galleries are created. In
+    ## this case sphinx_gallery and numpy in a tuple of strings.
+    'doc_module'          : ('sphinx_gallery', 'easyclimate'),
+    ## Regexes to match objects to exclude from implicit backreferences.
+    ## The default option is an empty set, i.e. exclude nothing.
+    ## To exclude everything, use: '.*'
+    'exclude_implicit_doc': {r'pyplot\.show'},
 }
 # supress warnings in gallery output
 # https://sphinx-gallery.github.io/stable/configuration.html

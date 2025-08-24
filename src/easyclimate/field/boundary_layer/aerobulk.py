@@ -230,6 +230,11 @@ def calc_turbulent_fluxes_without_skin_correction(
         - https://github.com/brodeau/aerobulk
         - https://github.com/xgcm/aerobulk-python
         - https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Session/63444
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_aerobulk.py
     """
     sst_data = transfer_data_temperature_units(sst_data, sst_data_units, "degK")
     absolute_temperature_data = transfer_data_temperature_units(
@@ -439,6 +444,11 @@ def calc_turbulent_fluxes_skin_correction(
         - https://github.com/brodeau/aerobulk
         - https://github.com/xgcm/aerobulk-python
         - https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Session/63444
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_aerobulk.py
     """
     sst_data = transfer_data_temperature_units(sst_data, sst_data_units, "degK")
     absolute_temperature_data = transfer_data_temperature_units(

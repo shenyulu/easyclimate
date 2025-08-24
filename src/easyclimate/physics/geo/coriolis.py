@@ -39,6 +39,11 @@ def get_coriolis_parameter(
     .. seealso::
         - `coriolis_parameter — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.coriolis_parameter.html>`__
         - `coriolis_param - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/coriolis_param.shtml>`__
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_co_coeff.py
     """
     lat_data = lat_data.astype("float64")
     return_data = 2 * omega * np.sin(transfer_deg2rad(lat_data))

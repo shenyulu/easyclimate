@@ -112,6 +112,11 @@ def open_wrf_data(
 
     .. seealso::
         https://unidata.github.io/netcdf4-python/#netCDF4.Dataset
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_wrf_tutorial.py
     """
 
     ncfile = Dataset(

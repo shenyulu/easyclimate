@@ -25,8 +25,8 @@ def calc_relative_angular_momentum(
 
     Parameters
     -----------
-    zonal_wind_speed_data : :py:class:`xarray.DataArray <xarray.DataArray>`
-        Zonal wind component ``(m/s)`` with the least similar dimensions ``(lon, lat, lev)``
+    zonal_wind_speed_data : :py:class:`xarray.DataArray <xarray.DataArray>` ( :math:`\\mathrm{m/s}` )
+        Zonal wind component with the least similar dimensions ``(vertical_dim, lon_dim, lat_dim)``
     vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
     vertical_dim_units: :py:class:`str <str>`.
@@ -41,8 +41,8 @@ def calc_relative_angular_momentum(
 
     Returns
     --------
-    aam : :py:class:`xarray.DataArray <xarray.DataArray>`
-        Atmospheric angular momentum (:math:`\\mathrm{kg} \\cdot \\mathrm{m^2/s}`)
+    aam : :py:class:`xarray.DataArray <xarray.DataArray>` ( :math:`\\mathrm{kg} \\cdot \\mathrm{m^2/s}` )
+        Atmospheric angular momentum.
 
     .. seealso::
 

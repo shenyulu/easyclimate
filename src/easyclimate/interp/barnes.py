@@ -127,6 +127,11 @@ def interp_spatial_barnes(
     .. seealso::
         - https://github.com/MeteoSwiss/fast-barnes-py
         - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_interp.py
     """
     # definition of a (grid_x)° x (grid_y)° grid starting at point[0]°W / point[1]°N
     step = 1.0 / resolution

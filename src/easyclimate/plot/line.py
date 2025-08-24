@@ -49,6 +49,11 @@ def line_plot_with_threshold(
     .. seealso::
 
         :py:func:`matplotlib.lines.Line2D <matplotlib.lines.Line2D>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     # Input validation
     if len(da.dims) != 1:

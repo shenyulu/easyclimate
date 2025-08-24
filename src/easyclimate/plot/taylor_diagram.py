@@ -165,8 +165,12 @@ def calc_TaylorDiagrams_values(
 
     Reference
     --------------
-    Taylor, K. E. (2001), Summarizing multiple aspects of model performance in a single diagram, J. Geophys. Res., 106(D7), 7183-7192, doi:`10.1029/2000JD900719 <https://doi.org/10.1029/2000JD900719>`__.
+    - Taylor, K. E. (2001), Summarizing multiple aspects of model performance in a single diagram, J. Geophys. Res., 106(D7), 7183-7192, doi:`10.1029/2000JD900719 <https://doi.org/10.1029/2000JD900719>`__.
 
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_taylor_diagram.py
     """
     if weighted == True:
         # Spatial weighting
@@ -300,6 +304,10 @@ def calc_TaylorDiagrams_metadata(
         1   f1  0.404621  -0.4293981636461462     1.229311  0.003210
         2   f2  2.056470    0.984086060161888     1.087006  0.600409
 
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_taylor_diagram.py
     """
     # Check that the list lengths of `f`, `r` and `models_name` are aligned.
     length_models = len(f)
@@ -416,6 +424,11 @@ def draw_TaylorDiagrams_base(
     Returns
     -------
     :py:class:`matplotlib.collections.Collection <matplotlib.collections.Collection>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_taylor_diagram.py
     """
 
     # Get Axes
@@ -894,6 +907,11 @@ def draw_TaylorDiagrams_metadata(
     Returns
     -------
     :py:class:`matplotlib.collections.Collection <matplotlib.collections.Collection>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_taylor_diagram.py
     """
     # Get Axes
     if ax == None:

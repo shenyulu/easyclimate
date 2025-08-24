@@ -37,7 +37,12 @@ def calc_gaussian_filter(
     Returns
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`
-        Smoothed data with the same dimensions as input
+        Smoothed data with the same dimensions as input.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_ao_index.py
     """
     # Calculate sigma if not provided
     if sigma is None:

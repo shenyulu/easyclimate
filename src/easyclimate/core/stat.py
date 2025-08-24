@@ -193,6 +193,11 @@ def calc_detrend_spatial(
 
     .. seealso::
         :py:func:`scipy.signal.detrend <scipy:scipy.signal.detrend>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
 
     # Because `scipy.signal.detrend` cannot detrend `np.nan`,
@@ -498,6 +503,11 @@ def calc_multiple_linear_regression_spatial(
     -------
     ValueError
         If the time coordinates of input variables don't match.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_multi_linear_reg.py
     """
 
     def _multiple_linear_regression(y, *x_vars):
@@ -902,6 +912,11 @@ def calc_skewness_spatial(
 
     .. seealso::
         :py:func:`scipy.stats.skew <scipy:scipy.stats.skew>`, :py:func:`scipy.stats.normaltest <scipy:scipy.stats.normaltest>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     # Find the index of `dim` in the xarray DataArray for `time`.
     time_dim_index = find_dims_axis(data_input, dim=dim)
@@ -981,6 +996,11 @@ def calc_kurtosis_spatial(
 
     .. seealso::
         :py:func:`scipy.stats.kurtosis <scipy:scipy.stats.kurtosis>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
 
     # Calculate kurtosis

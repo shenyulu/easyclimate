@@ -53,6 +53,11 @@ def bar_plot_with_threshold(
     .. seealso::
 
         :py:func:`matplotlib.pyplot.bar <matplotlib.pyplot.bar>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_ao_index.py
     """
     # Verify 1D data
     if len(da.dims) != 1:
