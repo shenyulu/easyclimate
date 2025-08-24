@@ -45,7 +45,8 @@ def calc_lifting_condensation_level_bolton1980(
 
     Returns
     -------
-    The lifting condensation level (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    The lifting condensation level ( :math:`\\mathrm{K}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - Bolton, D. (1980). The Computation of Equivalent Potential Temperature. Monthly Weather Review, 108(7), 1046-1053. https://journals.ametsoc.org/view/journals/mwre/108/7/1520-0493_1980_108_1046_tcoept_2_0_co_2.xml
@@ -77,7 +78,7 @@ def calc_lifting_condensation_level_Bohren_Albrecht2023(
     """
     Calculate lifting condensation level using Bohren & Albrecht (2023) approximation.
 
-    According to  formulation (6.32) in Bohren & Albrecht (2023),
+    According to formulation (6.32) in Bohren & Albrecht (2023),
 
     .. math::
 
@@ -113,7 +114,10 @@ def calc_lifting_condensation_level_Bohren_Albrecht2023(
 
     Returns
     -------
-    The lifting condensation level (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    The lifting condensation level (:py:class:`xarray.Dataset<xarray.Dataset>`)
+
+    - p_lcl: lifting condensation level pressure ( :math:`\\mathrm{hPa}` ).
+    - t_lcl: lifting condensation level temperature ( :math:`\\mathrm{K}` ).
 
     .. seealso::
         Bohren, C. F., and B. A. Albrecht, 2023: Atmospheric Thermodynamics Second Edition. Oxford University Press, 579 pp. Website: http://gen.lib.rus.ec/book/index.php?md5=AA3B25841BE3AEBA2628EF9961F58C52

@@ -39,7 +39,7 @@ def calc_equivalent_potential_temperature(
     temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Atmospheric temperature.
     dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The dewpoint temperature.
+        The dew point temperature.
     pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
     temperature_data_units: :py:class:`str <str>`.
@@ -49,7 +49,8 @@ def calc_equivalent_potential_temperature(
 
     Returns
     -------
-    Equivalent potential temperature (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Equivalent potential temperature ( :math:`\\mathrm{K}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - Bolton, D. (1980). The Computation of Equivalent Potential Temperature. Monthly Weather Review, 108(7), 1046-1053. https://journals.ametsoc.org/view/journals/mwre/108/7/1520-0493_1980_108_1046_tcoept_2_0_co_2.xml
@@ -122,7 +123,7 @@ def calc_equivalent_potential_temperature_davies_jones2009(
     temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Atmospheric temperature.
     dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The dewpoint temperature.
+        The dew point temperature.
     pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `pressure_data` value. Optional values are `hPa`, `Pa`.
     temperature_data_units: :py:class:`str <str>`.
@@ -132,7 +133,8 @@ def calc_equivalent_potential_temperature_davies_jones2009(
 
     Returns
     -------
-    Equivalent potential temperature (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Equivalent potential temperature ( :math:`\\mathrm{K}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - Davies-Jones, R. (2009). On Formulas for Equivalent Potential Temperature. Monthly Weather Review, 137(9), 3137-3148. https://doi.org/10.1175/2009MWR2774.1

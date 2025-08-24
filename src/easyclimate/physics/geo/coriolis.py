@@ -25,12 +25,13 @@ def get_coriolis_parameter(
     ----------
     lat_data: :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.array <numpy.array>`.
         Latitude at each point.
-    omega: :py:class:`float <float>`, default: `7.292e-5`.
+    omega: :py:class:`float <float>`, default: `7.292e-5` ( :math:`\\mathrm{rad/s}` ).
         The angular speed of the earth.
 
     Returns
     -------
-    Corresponding Coriolis force at each point (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.array <numpy.array>`).
+    Corresponding Coriolis force at each point ( :math:`\\mathrm{s^{-1}}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`numpy.array <numpy.array>`.
 
     Reference
     --------------

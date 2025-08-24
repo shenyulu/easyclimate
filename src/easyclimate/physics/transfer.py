@@ -42,7 +42,8 @@ def transfer_mixing_ratio_2_specific_humidity(
 
     Returns
     -------
-    The specific humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless (e.g. :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`).
+    The specific humidity, dimensionless (e.g. :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_mixing_ratio.html
@@ -75,7 +76,8 @@ def transfer_specific_humidity_2_mixing_ratio(
 
     Returns
     -------
-    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The mixing ratio, dimensionless (e.g. :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio_from_specific_humidity.html
@@ -100,12 +102,12 @@ def transfer_dewpoint_2_specific_humidity(
     pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
-    Calculate the specific humidity from the dewpoint temperature and pressure.
+    Calculate the specific humidity from the dew point temperature and pressure.
 
     Parameters
     ----------
     dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The dewpoint temperature.
+        The dew point temperature.
     pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The pressure data set.
     dewpoint_data_units: :py:class:`str <str>`.
@@ -115,7 +117,8 @@ def transfer_dewpoint_2_specific_humidity(
 
     Returns
     -------
-    The specific humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The specific humidity, dimensionless (e.g. :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.specific_humidity_from_dewpoint.html
@@ -141,12 +144,12 @@ def transfer_dewpoint_2_mixing_ratio(
     pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ):
     """
-    Calculate the mixing ratio from the dewpoint temperature and pressure.
+    Calculate the mixing ratio from the dew point temperature and pressure.
 
     Parameters
     ----------
     dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The dewpoint temperature.
+        The dew point temperature.
     pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The pressure data set.
     dewpoint_data_units: :py:class:`str <str>`.
@@ -156,7 +159,8 @@ def transfer_dewpoint_2_mixing_ratio(
 
     Returns
     -------
-    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The mixing ratio, dimensionless (e.g. :math:`\\mathrm{kg/kg}`, :math:`\\mathrm{g/g}`).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
     q = transfer_dewpoint_2_specific_humidity(
         dewpoint_data=dewpoint_data,
@@ -180,7 +184,7 @@ def transfer_specific_humidity_2_dewpoint(
     epsilon: float = 0.6219569100577033,
 ) -> xr.DataArray:
     """
-    Calculate the dewpoint from specific humidity and pressure.
+    Calculate the dew point temperature from specific humidity and pressure.
 
     Parameters
     ----------
@@ -198,7 +202,8 @@ def transfer_specific_humidity_2_dewpoint(
 
     Returns
     -------
-    The dewpoint (:py:class:`xarray.DataArray<xarray.DataArray>`), degrees Celsius.
+    The dew point temperature ( :math:`\\mathrm{degC}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.dewpoint_from_specific_humidity.html
@@ -229,16 +234,16 @@ def transfer_dewpoint_2_relative_humidity(
     dewpoint_data_units: Literal["celsius", "kelvin", "fahrenheit"],
 ) -> xr.DataArray:
     """
-    Calculate the relative humidity from dewpoint.
+    Calculate the relative humidity from dew point temperature.
 
-    Uses temperature and dewpoint to calculate relative humidity as the ratio of vapor pressure to saturation vapor pressures.
+    Uses temperature and dew point temperature to calculate relative humidity as the ratio of vapor pressure to saturation vapor pressures.
 
     Parameters
     ----------
     temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Atmospheric temperature.
     dewpoint_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The dewpoint temperature.
+        The dew point temperature.
     temperature_data_units: :py:class:`str <str>`.
         The unit corresponding to `temperature_data` value. Optional values are `celsius`, `kelvin`, `fahrenheit`.
     dewpoint_data_units: :py:class:`str <str>`.
@@ -246,7 +251,8 @@ def transfer_dewpoint_2_relative_humidity(
 
     Returns
     -------
-    The relative humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The relative humidity, dimensionless.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_dewpoint.html
@@ -309,7 +315,8 @@ def transfer_mixing_ratio_2_relative_humidity(
 
     Returns
     -------
-    The relative humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The relative humidity, dimensionless.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_mixing_ratio.html
@@ -362,7 +369,8 @@ def transfer_specific_humidity_2_relative_humidity(
 
     Returns
     -------
-    The relative humidity (:py:class:`xarray.DataArray<xarray.DataArray>`), dimensionless.
+    The relative humidity, dimensionless.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.relative_humidity_from_specific_humidity.html
@@ -394,7 +402,7 @@ def transfer_relative_humidity_2_dewpoint(
     temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
 ) -> xr.DataArray:
     """
-    Calculate dewpoint temperature from temperature and relative humidity.
+    Calculate dew point temperature from temperature and relative humidity.
 
     The dew point temperature given temperature and relative humidity using the equations from John Dutton's "Ceaseless Wind" (pp 273-274). Missing values are ignored.
 
@@ -418,7 +426,7 @@ def transfer_relative_humidity_2_dewpoint(
 
     Returns
     -------
-    dewpoint : :py:class:`xarray.DataArray<xarray.DataArray>`
+    dewpoint : :py:class:`xarray.DataArray<xarray.DataArray>` ( :math:`\\mathrm{K}` )
         Dew point temperature.
 
     Reference

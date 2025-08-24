@@ -36,8 +36,8 @@ def calc_moist_adiabatic_lapse_rate(
 
     Returns:
     --------
-    dtdp : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        Moist adiabatic lapse rate [K/hPa]
+    dtdp : :py:class:`xarray.DataArray<xarray.DataArray>` ( :math:`\\mathrm{K/hPa}` ).
+        Moist adiabatic lapse rate.
     """
     # Constants
     AIR_R_d = 287.0  # Dry air gas constant [J/K/kg]

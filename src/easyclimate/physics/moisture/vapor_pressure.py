@@ -35,7 +35,8 @@ def calc_vapor_pressure(
 
     Returns
     -------
-    The water vapor (partial) pressure (:py:class:`xarray.DataArray<xarray.DataArray>`), units according to `pressure_data_units`.
+    The water vapor (partial) pressure, units according to ``pressure_data_units``.
+        :py:class:`xarray.DataArray<xarray.DataArray>`
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.vapor_pressure.html
@@ -69,7 +70,8 @@ def calc_saturation_vapor_pressure(
 
     Returns
     -------
-    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), hPa.
+    The saturation water vapor (partial) pressure ( :math:`\\mathrm{hPa}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - Bolton, D. (1980). The Computation of Equivalent Potential Temperature. Monthly Weather Review, 108(7), 1046-1053. https://journals.ametsoc.org/view/journals/mwre/108/7/1520-0493_1980_108_1046_tcoept_2_0_co_2.xml

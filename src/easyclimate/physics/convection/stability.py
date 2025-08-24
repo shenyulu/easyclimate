@@ -30,7 +30,7 @@ def calc_brunt_vaisala_frequency_atm(
     ----------
     potential_temperature_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Vertical atmospheric potential temperature.
-    z_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+    z_data: :py:class:`xarray.DataArray<xarray.DataArray>` ( :math:`\\mathrm{m}` ).
         Vertical atmospheric geopotential height.
 
     .. attention:: The unit of `z_data` should be **meters**, NOT :math:`\\mathrm{m^2 \\cdot s^2}` which is the unit used in the representation of potential energy.
@@ -42,7 +42,8 @@ def calc_brunt_vaisala_frequency_atm(
 
     Returns
     -------
-    Brunt-väisälä frequency (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Brunt-väisälä frequency, units according to ``potential_temperature_data`` :math:`^{1/2}`.
+        :py:class:`xarray.DataArray<xarray.DataArray>`
 
     Reference
     --------------
@@ -95,11 +96,12 @@ def calc_static_stability(
 
     Returns
     -------
-    Static stability (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Static stability, units according to ``temper_data_units^2 vertical_dim_units^-1``.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     Reference
     --------------
-    Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1
+    - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1
 
     .. seealso::
         - `static_stability - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/static_stability.shtml>`__
