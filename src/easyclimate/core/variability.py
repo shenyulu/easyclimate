@@ -24,6 +24,8 @@ __all__ = [
     "calc_daily_annual_cycle_var",
     "remove_smooth_daily_annual_cycle_mean",
     "calc_horizontal_wind_components_std",
+    "calc_windspeed_dataset",
+    "calc_windspeed_dataarray",
     "populate_monmean2everymon",
     "populate_daymean2everyday",
     "calc_daily_climatological_anomaly",
@@ -241,6 +243,7 @@ def remove_seasonal_cycle_mean(
         ./dynamic_docs/plot_multieof.py
         ./dynamic_docs/plot_ocean_mix_layer.py
         ./dynamic_docs/plot_time_scale_average.py
+        ./dynamic_docs/plot_corr_reg.py
     """
     gb = data_input.groupby(data_input[dim].dt.month)
     data_input_mean = data_input.sel({dim: time_range})
@@ -574,6 +577,89 @@ def calc_horizontal_wind_components_std(
     ) * S ** (-2)
 
     return uv_dataset.assign({"sigma_s": sigma_s, "sigma_d": sigma_d})
+
+
+def calc_windspeed_dataset(
+    uv_dataset: xr.Dataset, u_dim: str = "u", v_dim: str = "v"
+) -> xr.Dataset:
+    """
+    Calculate the horizontal wind speed from zonal and meridional wind components in a :py:class:`xarray.Dataset<xarray.Dataset>`.
+
+    The wind speed is computed as the magnitude of the horizontal wind vector:
+
+    .. math::
+
+        S = \\sqrt{u^2 + v^2},
+
+    where :math:`u` is the zonal wind component and :math:`v` is the meridional wind component.
+
+    Parameters
+    ----------
+    uv_dataset : :py:class:`xarray.Dataset<xarray.Dataset>`
+        :py:class:`xarray.Dataset<xarray.Dataset>` containing zonal and meridional wind components.
+    u_dim : :py:class:`str <str>`, default: `u`
+        Variable name for the zonal wind component (in x direction).
+    v_dim : :py:class:`str <str>`, default: `v`
+        Variable name for the meridional wind component (in y direction).
+
+    Returns
+    -------
+    :py:class:`xarray.Dataset<xarray.Dataset>`
+        A copy of the input dataset with an additional variable `speed` containing the wind speed.
+
+    Examples
+    --------
+    >>> ds = xr.Dataset({"u": (("time",), [1, 2, 3]), "v": (("time",), [4, 5, 6])})
+    >>> ds_with_speed = calc_windspeed_dataset(ds, u_dim="u", v_dim="v")
+    >>> print(ds_with_speed["speed"])
+    <xarray.DataArray 'speed' (time: 3)> Size: 24B
+    array([4.12310563, 5.38516481, 6.70820393])
+    Dimensions without coordinates: time
+    """
+    ds_ = uv_dataset.copy(deep=True)
+    ds_["speed"] = np.sqrt(uv_dataset[u_dim] ** 2 + uv_dataset[v_dim] ** 2)
+    return ds_
+
+
+def calc_windspeed_dataarray(
+    u_data: xr.DataArray, v_data: xr.DataArray
+) -> xr.DataArray:
+    """
+    Calculate the horizontal wind speed from zonal and meridional wind components in :py:class:`xarray.DataArray<xarray.DataArray>`.
+
+    The wind speed is computed as the magnitude of the horizontal wind vector:
+
+    .. math::
+
+        S = \\sqrt{u^2 + v^2},
+
+    where :math:`u` is the zonal wind component and :math:`v` is the meridional wind component.
+
+    Parameters
+    ----------
+    u_data : :py:class:`xarray.DataArray<xarray.DataArray>`
+        :py:class:`xarray.DataArray<xarray.DataArray>` containing the zonal wind component (in x direction).
+    v_data : :py:class:`xarray.DataArray<xarray.DataArray>`
+        :py:class:`xarray.DataArray<xarray.DataArray>` containing the meridional wind component (in y direction).
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`
+        A :py:class:`xarray.DataArray<xarray.DataArray>` containing the wind speed.
+
+    Examples
+    --------
+    >>> u = xr.DataArray([1, 2, 3], dims="time")
+    >>> v = xr.DataArray([4, 5, 6], dims="time")
+    >>> speed = calc_windspeed_dataarray(u, v)
+    >>> print(speed)
+    <xarray.DataArray (time: 3)> Size: 24B
+    array([4.12310563, 5.38516481, 6.70820393])
+    Dimensions without coordinates: time
+    """
+    ds_ = np.sqrt(u_data**2 + v_data**2)
+    ds_.attrs = dict()
+    return ds_
 
 
 def populate_monmean2everymon(
