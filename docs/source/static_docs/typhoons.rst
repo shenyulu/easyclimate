@@ -24,3 +24,5 @@ API
 .. autosummary::
 
     easyclimate.field.typhoon.potential_intensity
+    easyclimate.field.typhoon.track
+    easyclimate.field.typhoon.axisymmetric
