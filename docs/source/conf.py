@@ -143,7 +143,7 @@ sphinx_gallery_conf = {
     "doc_module": "easyclimate",
     # Insert links to documentation of objects in the examples
     "reference_url": {"easyclimate": None},
-    'parallel': 3,
+    'parallel': 4,
     # mini-galleries
     ## directory where function/class granular galleries are stored
     'backreferences_dir'  : 'gen_modules/backreferences',
