@@ -249,15 +249,18 @@ def calc_corr_spatial(
 
     Returns
     -------
-    corr & pvalue (:py:class:`xarray.Dataset<xarray.Dataset>`)
+    reg_coeff, corr & pvalue (:py:class:`xarray.Dataset<xarray.Dataset>`)
+
+    reg_coeff: :py:class:`xarray.DataArray<xarray.DataArray>`
+        Regression coefficient, in units of ``data_input`` per standard deviation of the index.
 
     corr : :py:class:`xarray.DataArray<xarray.DataArray>`
         Pearson correlation coefficients with dimensions.
         Values range from -1 to 1 where:
 
-        - 1 means perfect positive correlation
-        - -1 means perfect negative correlation
-        - 0 means no correlation
+        - 1: perfect positive correlation
+        - -1: perfect negative correlation
+        - 0: no correlation
 
     pvalue : :py:class:`xarray.DataArray<xarray.DataArray>`
         Two-tailed p-values with dimensions.
@@ -274,6 +277,11 @@ def calc_corr_spatial(
     .. seealso::
         :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>`:
         The underlying correlation function used for calculations.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_corr_reg.py
     """
     # Check whether the time dimensions are consistent
     if len(data_input[time_dim]) != len(x):

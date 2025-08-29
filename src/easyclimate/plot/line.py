@@ -54,6 +54,7 @@ def line_plot_with_threshold(
         :add-heading: Example(s) related to the function
 
         ./dynamic_docs/plot_basic_statistical_analysis.py
+        ./dynamic_docs/plot_corr_reg.py
     """
     # Input validation
     if len(da.dims) != 1:
