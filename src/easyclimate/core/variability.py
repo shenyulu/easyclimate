@@ -286,7 +286,7 @@ def calc_monthly_climatological_var_without_seasonal_cycle_mean(
     Parameters
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-        The data of :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
+        The data of :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>` to be calculated.
 
     .. caution:: `data_input` must be **monthly** data.
 
@@ -502,7 +502,6 @@ def remove_smooth_daily_annual_cycle_mean(
     Returns
     -------
     :py:class:`xarray.DataArray <xarray.DataArray>`
-
         The input data with the smooth daily cycle mean removed.
     """
     day_clm = calc_daily_annual_cycle_mean(
