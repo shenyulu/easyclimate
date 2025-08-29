@@ -144,21 +144,9 @@ ecl.plot.draw_significant_area_contourf(
 )
 
 # %%
-# Regression
-# ------------------------------------
-# Regression analysis is a statistical technique used to investigate the connection between a dependent variable and one or more independent variables.
+# Boreal Winter ENSO Annual Average Index
+# --------------------------------------------
 #
-# It is frequently employed in climatology to analyze trends and patterns in climatic data, identify correlations between different climatic parameters, and create models that can predict future changes. By identifying patterns and connections in massive datasets, regression analysis offers several benefits for weather research. For instance, regression analysis can be used to pinpoint the elements that affect global temperatures, such as solar radiation, atmospheric greenhouse gases, and volcanic eruptions. Climate scientists can create models that can accurately predict future changes by including these variables in a regression model.
-#
-# Moreover, regression analysis can assist climate experts in spotting natural fluctuations in climate data, like El Niño events, and in determining how human activities like deforestation and fossil fuel combustion affect the environment. Regression analysis can also evaluate the effectiveness of various mitigation tactics, such as carbon pricing policies or renewable energy initiatives.
-#
-# Overall, regression analysis is a potent tool for analyzing complex climate data and producing reliable projections of upcoming alterations.
-#
-# .. seealso::
-#   - Regression Analysis: Definition, Types, Usage & Advantages. Website: https://www.questionpro.com/blog/regression-analysis/
-#   - The Advantages of Regression Analysis & Forecasting. Website: https://smallbusiness.chron.com/advantages-regression-analysis-forecasting-61800.html
-#
-# In this subsection we try to regress the Niño 3.4 index on the Barents-Kara December SIC data.
 # Before performing the regression analysis, we can see that the longitude range of the SST data is **-180°~180°**,
 # try to convert the longitude range to **0°~360°** using :py:func:`easyclimate.utility.transfer_xarray_lon_from180TO360 <easyclimate.utility.transfer_xarray_lon_from180TO360>`.
 sst_data_0_360 = ecl.utility.transfer_xarray_lon_from180TO360(sst_data)
@@ -190,7 +178,7 @@ sst_data_anormaly.sel(lon=slice(120, 290)).isel(time=22).plot.contourf(
 # and `easyclimate` provides :py:func:`easyclimate.field.air_sea_interaction.calc_index_nino34 <easyclimate.field.air_sea_interaction.calc_index_nino34>` to calculate the index using SST original dataset.
 #
 # .. seealso::
-#   Anthony G. Bamston, Muthuvel Chelliah & Stanley B. Goldenberg (1997) Documentation of a highly ENSO‐related sst region in the equatorial pacific: Research note, Atmosphere-Ocean, 35:3, 367-383, DOI: https://doi.org/10.1080/07055900.1997.9649597
+#   - Anthony G. Bamston, Muthuvel Chelliah & Stanley B. Goldenberg (1997) Documentation of a highly ENSO‐related sst region in the equatorial pacific: Research note, Atmosphere-Ocean, 35:3, 367-383, DOI: https://doi.org/10.1080/07055900.1997.9649597
 nino34_monthly_index = ecl.field.air_sea_interaction.calc_index_nino34(sst_data_0_360, running_mean=0)
 nino34_monthly_index
 
@@ -203,40 +191,6 @@ ecl.plot.line_plot_with_threshold(nino34_monthly_index)
 nino34_12_index = ecl.get_specific_months_data(nino34_monthly_index, 12)
 nino34_dec_yearly_index = ecl.calc_yearly_climatological_mean(nino34_12_index)
 nino34_dec_yearly_index
-
-# %%
-# :py:func:`easyclimate.calc_corr_spatial <easyclimate.calc_corr_spatial>` is then used to do regression, please care must be taken to ensure that the `time` dimensions are identical.
-sic_data_Barents_Sea_12["time"] = nino34_dec_yearly_index["time"].data
-sic_reg_nino34 = ecl.calc_corr_spatial(
-    sic_data_Barents_Sea_12, x=nino34_dec_yearly_index
-)
-sic_reg_nino34
-
-# %%
-# Here is an attempt to plot the results of the regression analysis.
-draw_sic_reg_coeff = sic_reg_nino34.reg_coeff
-draw_sic_pvalue = sic_reg_nino34.pvalue
-
-fig, ax = plt.subplots(
-    subplot_kw={
-        "projection": ccrs.Orthographic(central_longitude=70, central_latitude=70)
-    }
-)
-
-ax.gridlines(draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--")
-ax.coastlines(edgecolor="black", linewidths=0.5)
-
-draw_sic_reg_coeff.plot.contourf(
-    ax=ax,
-    transform=ccrs.PlateCarree(),
-    cbar_kwargs={"location": "right"},
-    cmap="RdBu_r",
-    levels=21,
-)
-
-ecl.plot.draw_significant_area_contourf(
-    draw_sic_pvalue, ax=ax, thresh=0.05, transform=ccrs.PlateCarree()
-)
 
 # %%
 # Detrend

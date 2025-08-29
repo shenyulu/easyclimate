@@ -87,13 +87,13 @@ index_ao_filtered
 # %%
 # Perform linear regression between SLP anomalies and AO index
 # Calculates the spatial pattern of SLP associated with AO variability
-slp_reg_ao = ecl.calc_linregress_spatial(slp_data_DJF_anormaly, x = index_ao)
-slp_reg_ao_rvalue = slp_reg_ao.rvalue
+slp_reg_ao = ecl.calc_corr_spatial(slp_data_DJF_anormaly, x = index_ao)
+slp_reg_ao_reg_coeff = slp_reg_ao.reg_coeff
 slp_reg_ao_pvalue = slp_reg_ao.pvalue
 
 # %%
 # Add cyclic point for plotting (avoids gap at 0/360° longitude)
-slp_reg_ao_rvalue = ecl.plot.add_lon_cyclic(slp_reg_ao_rvalue, inter = 2.5)
+slp_reg_ao_reg_coeff = ecl.plot.add_lon_cyclic(slp_reg_ao_reg_coeff, inter = 2.5)
 slp_reg_ao_pvalue = ecl.plot.add_lon_cyclic(slp_reg_ao_pvalue, inter = 2.5)
 
 # %%
@@ -135,7 +135,7 @@ ecl.plot.draw_Circlemap_PolarStereo(
 )
 
 # Plot regression coefficients (SLP pattern)
-slp_reg_ao_rvalue.plot.contourf(
+slp_reg_ao_reg_coeff.plot.contourf(
     cmap="RdBu_r",
     levels=11,
     transform=ccrs.PlateCarree(),
