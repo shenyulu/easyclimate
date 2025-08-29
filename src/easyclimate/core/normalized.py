@@ -43,6 +43,11 @@ def normalize_zscore(
         - **Applicable Scenarios**: Suitable for data that is approximately normally distributed or when comparing variables with different units in machine learning or statistical analysis.
         - **Advantages**: Retains the relative distribution characteristics of the data, widely used in algorithms requiring standardized inputs.
         - **Disadvantages**: Sensitive to outliers, which can skew the mean and standard deviation.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_corr_reg.py
     """
     mean = da.mean(dim=dim)
     std = da.std(dim=dim, ddof=ddof)
