@@ -1,4 +1,4 @@
-from .version import __version__
+from .version import __version__, show_versions
 from .core import *
 
 from . import physics
