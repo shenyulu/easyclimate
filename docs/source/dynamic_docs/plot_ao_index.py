@@ -137,7 +137,7 @@ ecl.plot.draw_Circlemap_PolarStereo(
 # Plot regression coefficients (SLP pattern)
 slp_reg_ao_reg_coeff.plot.contourf(
     cmap="RdBu_r",
-    levels=11,
+    levels=np.linspace(-5, 5, 11),
     transform=ccrs.PlateCarree(),
     cbar_kwargs = {'location': 'bottom'}
 )
