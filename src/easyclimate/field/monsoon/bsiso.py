@@ -36,7 +36,7 @@ from ...core.extract import get_specific_months_data
 from ...core.eof import get_EOF_model, calc_EOF_analysis
 from ...core.stat import (
     calc_ttestSpatialPattern_spatial,
-    calc_linregress_spatial,
+    calc_corr_spatial,
     calc_lead_lag_correlation_coefficients,
 )
 from ...core.utility import sort_ascending_latlon_coordinates
@@ -1030,10 +1030,12 @@ def calc_bsiso_analysis(
         wind_eof_task = progress.add_task("[cyan]Computing wind EOFs...", total=4)
         for mode in range(1, 5):
             uvdata = xr.Dataset()
-            uvdata["u"] = meof_analysis_result["EOF/var1"].sel(mode=mode)
-            uvdata["v"] = calc_linregress_spatial(
+            uvdata["u"] = calc_corr_spatial(
+                u850_anomaly_may2oct, meof_analysis_result["PC"].sel(mode=mode)
+            ).reg_coeff
+            uvdata["v"] = calc_corr_spatial(
                 v850_anomaly_may2oct, meof_analysis_result["PC"].sel(mode=mode)
-            ).rvalue
+            ).reg_coeff
             result_node[f"EOF/uv850_{mode}"] = uvdata * locals()[f"bsiso{mode}_coeff"]
             progress.update(
                 wind_eof_task,
