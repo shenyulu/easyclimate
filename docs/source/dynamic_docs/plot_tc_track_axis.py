@@ -139,6 +139,7 @@ ax.scatter(
 #
 # .. seealso::
 #
+#     - https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html
 #     - Ritchie, H. (1987). Semi-Lagrangian Advection on a Gaussian Grid. Monthly Weather Review, 115(2), 608-619. https://journals.ametsoc.org/view/journals/mwre/115/2/1520-0493_1987_115_0608_slaoag_2_0_co_2.xml
 #     - Nakamura, H., Nakamura, M., & Anderson, J. L. (1997). The Role of High- and Low-Frequency Dynamics in Blocking Formation. Monthly Weather Review, 125(9), 2074-2093. https://journals.ametsoc.org/view/journals/mwre/125/9/1520-0493_1997_125_2074_trohal_2.0.co_2.xml.
 #
