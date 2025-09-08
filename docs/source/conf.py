@@ -23,8 +23,8 @@ localtime = time.localtime(time.time())
 str_year = str(localtime[0])
 
 project = "easyclimate"
-copyright = f"2022-{datetime.datetime.now().year}, Shenyulu（深雨露） and easyclimate Developers."
-author = "shenyulu"
+copyright = f"2022-{datetime.datetime.now().year}, Shenyulu（深雨露） and easyclimate developers"
+author = "shenyulu and easyclimate developers"
 release = "v" + ecl.__version__
 
 # -- General configuration ---------------------------------------------------

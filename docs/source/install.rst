@@ -72,6 +72,14 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
                 python -m pip install --upgrade git+https://gitee.com/shenyulu/easyclimate@dev
 
+.. tip::
+
+    For *Linux* users who use *older systems*, special attention is required! It is necessary to install a relatively recent version of the GCC and G++ compiler suites to meet the **C++17** requirements. The latest versions of these suites can also be installed using conda:
+
+    .. code:: bash
+
+        conda install -c conda-forge gcc gxx
+
 
 Python Version Requirement
 ------------------------------------
