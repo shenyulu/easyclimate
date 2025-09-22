@@ -124,9 +124,11 @@ ax.scatter(
 #     x = \cos \lambda \sin \theta, \quad y = \sin \lambda \sin \theta, \quad z = \cos \theta
 #
 # - Applying two rotations to align the cyclone center at the North Pole:
+#
 #   - Rotate by :math:`-\theta_c` around the y-axis.
 #   - Rotate by :math:`\lambda_c` around the z-axis.
 #   - The combined rotation matrix is:
+#
 # .. math::
 #
 #     A = \begin{bmatrix}
