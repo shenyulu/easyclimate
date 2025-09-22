@@ -980,7 +980,7 @@ def calc_geostrophic_wind_vorticity(
     """
     Calculate the geostrophic vorticity.
 
-    rectangular coordinates
+    Rectangular coordinates
 
     .. math::
         \\zeta_g = \\frac{\\partial v_g}{\\partial x} - \\frac{\\partial u_g}{\\partial y}
