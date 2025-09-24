@@ -39,6 +39,29 @@ def create_test_dataset(size=365 * 3, start_date="2000-01-01"):
     )
 
 
+# Fixture for sample Dataset
+@pytest.fixture
+def sample_dataset():
+    time = pd.date_range("2023-01-01", periods=3, freq="D")
+    data = xr.Dataset(
+        {
+            "u": (("time",), [1.0, 2.0, 3.0]),
+            "v": (("time",), [4.0, 5.0, 6.0]),
+        },
+        coords={"time": time},
+    )
+    return data
+
+
+# Fixture for sample DataArrays
+@pytest.fixture
+def sample_dataarrays():
+    time = pd.date_range("2023-01-01", periods=3, freq="D")
+    u_data = xr.DataArray([1.0, 2.0, 3.0], dims="time", coords={"time": time})
+    v_data = xr.DataArray([4.0, 5.0, 6.0], dims="time", coords={"time": time})
+    return u_data, v_data
+
+
 class TestSmoothDailyAnnualCycle:
     """Test class for smooth_daily_annual_cycle function"""
 
@@ -304,3 +327,68 @@ class TestRemoveLowFrequencySignal:
         residual_10day = np.abs(np.fft.fft(result.values)[365 // 10])
         original_10day = np.abs(np.fft.fft(data.values)[365 // 10])
         assert residual_10day != original_10day
+
+
+class TestCalcWindspeedDataset:
+    def test_calc_windspeed_dataset_basic(self, sample_dataset):
+        """Test calc_windspeed_dataset with default u_dim and v_dim."""
+        result = ecl.calc_windspeed_dataset(sample_dataset, u_dim="u", v_dim="v")
+        expected_speed = np.sqrt(sample_dataset["u"] ** 2 + sample_dataset["v"] ** 2)
+        xr.testing.assert_allclose(result["speed"], expected_speed)
+        assert "speed" in result.data_vars
+        assert result["u"].equals(sample_dataset["u"])  # Ensure original data unchanged
+        assert result["v"].equals(sample_dataset["v"])
+
+    def test_calc_windspeed_dataset_custom_dims(self, sample_dataset):
+        """Test calc_windspeed_dataset with custom dimension names."""
+        ds = sample_dataset.rename({"u": "uwind", "v": "vwind"})
+        result = ecl.calc_windspeed_dataset(ds, u_dim="uwind", v_dim="vwind")
+        expected_speed = np.sqrt(ds["uwind"] ** 2 + ds["vwind"] ** 2)
+        xr.testing.assert_allclose(result["speed"], expected_speed)
+        assert "speed" in result.data_vars
+
+    def test_calc_windspeed_dataset_missing_dim(self, sample_dataset):
+        """Test calc_windspeed_dataset with missing dimension raises KeyError."""
+        with pytest.raises(KeyError):
+            ecl.calc_windspeed_dataset(sample_dataset, u_dim="missing", v_dim="v")
+
+    def test_calc_windspeed_dataset_zero_values(self):
+        """Test calc_windspeed_dataset with zero wind components."""
+        ds = xr.Dataset(
+            {
+                "u": (("time",), [0.0, 0.0, 0.0]),
+                "v": (("time",), [0.0, 0.0, 0.0]),
+            },
+            coords={"time": pd.date_range("2023-01-01", periods=3, freq="D")},
+        )
+        result = ecl.calc_windspeed_dataset(ds, u_dim="u", v_dim="v")
+        expected_speed = xr.DataArray([0.0, 0.0, 0.0], dims="time", coords=ds.coords)
+        xr.testing.assert_allclose(result["speed"], expected_speed)
+
+
+class TestCalcWindspeedDataArray:
+    def test_calc_windspeed_dataarray_basic(self, sample_dataarrays):
+        """Test calc_windspeed_dataarray with sample DataArrays."""
+        u_data, v_data = sample_dataarrays
+        result = ecl.calc_windspeed_dataarray(u_data, v_data)
+        expected_speed = np.sqrt(u_data**2 + v_data**2)
+        xr.testing.assert_allclose(result, expected_speed)
+        assert result.attrs == {}  # Ensure attributes are cleared
+
+    def test_calc_windspeed_dataarray_zero_values(self):
+        """Test calc_windspeed_dataarray with zero wind components."""
+        time = pd.date_range("2023-01-01", periods=3, freq="D")
+        u_data = xr.DataArray([0.0, 0.0, 0.0], dims="time", coords={"time": time})
+        v_data = xr.DataArray([0.0, 0.0, 0.0], dims="time", coords={"time": time})
+        result = ecl.calc_windspeed_dataarray(u_data, v_data)
+        expected_speed = xr.DataArray(
+            [0.0, 0.0, 0.0], dims="time", coords={"time": time}
+        )
+        xr.testing.assert_allclose(result, expected_speed)
+        assert result.attrs == {}
+
+    def test_calc_windspeed_dataarray_preserved_coords(self, sample_dataarrays):
+        """Test calc_windspeed_dataarray preserves coordinates."""
+        u_data, v_data = sample_dataarrays
+        result = ecl.calc_windspeed_dataarray(u_data, v_data)
+        assert result.coords["time"].equals(u_data.coords["time"])

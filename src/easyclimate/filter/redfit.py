@@ -290,6 +290,11 @@ def calc_redfit(
     .. seealso::
         - Schulz, M., & Mudelsee, M. (2002). REDFIT: estimating red-noise spectra directly from unevenly spaced paleoclimatic time series [Software]. Computers & Geosciences, 28(3), 421-426. https://doi.org/10.1016/S0098-3004(01)00044-9
         - https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_redfit.py
     """
 
     # Generate datainput

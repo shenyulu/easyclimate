@@ -8,6 +8,16 @@ from ...core.utility import sort_ascending_latlon_coordinates
 import xarray as xr
 
 
+__all__ = [
+    "calc_intensity_STFZ",
+    "calc_intensity_SAFZ",
+    "calc_location_STFZ",
+    "calc_location_SAFZ",
+    "calc_location_line_STFZ",
+    "calc_location_line_SAFZ",
+]
+
+
 def calc_intensity_STFZ(
     sst_DtDy_data: xr.DataArray,
     criteria=0.45 * 1e-5,
@@ -48,9 +58,12 @@ def calc_intensity_STFZ(
 
     Reference
     --------------
-    Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017),
-    Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts
-    and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+    - Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_oceanic_front.py
     """
     sst_DtDy_data = sort_ascending_latlon_coordinates(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
@@ -104,9 +117,12 @@ def calc_intensity_SAFZ(
 
     Reference
     --------------
-    Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017),
-    Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts
-    and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+    - Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_oceanic_front.py
     """
     sst_DtDy_data = sort_ascending_latlon_coordinates(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
@@ -160,9 +176,12 @@ def calc_location_STFZ(
 
     Reference
     --------------
-    Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017),
-    Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts
-    and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+    - Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_oceanic_front.py
     """
     sst_DtDy_data = sort_ascending_latlon_coordinates(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
@@ -222,9 +241,12 @@ def calc_location_SAFZ(
 
     Reference
     --------------
-    Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017),
-    Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts
-    and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+    - Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_oceanic_front.py
     """
     sst_DtDy_data = sort_ascending_latlon_coordinates(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
@@ -284,9 +306,12 @@ def calc_location_line_STFZ(
 
     Reference
     --------------
-    Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017),
-    Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts
-    and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+    - Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_oceanic_front.py
     """
     sst_DtDy_data = sort_ascending_latlon_coordinates(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim
@@ -346,9 +371,12 @@ def calc_location_line_SAFZ(
 
     Reference
     --------------
-    Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017),
-    Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts
-    and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+    - Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: https://doi.org/10.1002/asl.766
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_oceanic_front.py
     """
     sst_DtDy_data = sort_ascending_latlon_coordinates(
         sst_DtDy_data, lat_dim=lat_dim, lon_dim=lon_dim

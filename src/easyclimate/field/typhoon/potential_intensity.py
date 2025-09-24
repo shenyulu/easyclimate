@@ -139,6 +139,11 @@ def calc_potential_intensity_Bister_Emanuel_2002(
     - Gilford, D. M.: pyPI (v1.3): Tropical Cyclone Potential Intensity Calculations in Python, Geosci. Model Dev., 14, 2351–2369, https://doi.org/10.5194/gmd-14-2351-2021, 2021.
     - Powell, M. D.: Evaluations of Diagnostic Marine Boundary-Layer Models Applied to Hurricanes, Mon. Weather Rev., 108, 757–766, https://doi.org/10.1175/1520-0493(1980)108<0757:EODMBL>2.0.CO;2, 1980.
     - Wing, A. A., Emanuel, K., and Solomon, S.: On the factors affecting trends and variability in tropical cyclone potential intensity, Geophys. Res. Lett., 42, 8669–8677, https://doi.org/10.1002/2015GL066145, 2015.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_tcpv.py
     """
     # Transfer bool value to int value
     ascent_flag = 1 if ascent_flag else 0

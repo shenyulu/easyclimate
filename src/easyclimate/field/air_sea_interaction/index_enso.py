@@ -196,6 +196,12 @@ def calc_index_nino34(
     --------------
     - Trenberth, Kevin & National Center for Atmospheric Research Staff (Eds). Last modified 2023-07-25 "The Climate Data Guide: Nino SST Indices (Nino 1+2, 3, 3.4, 4; ONI and TNI)." Retrieved from https://climatedataguide.ucar.edu/climate-data/nino-sst-indices-nino-12-3-34-4-oni-and-tni on 2023-11-12.
     - El Niño Index Dashboard. Website: https://psl.noaa.gov/enso/dashboard.html
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
+        ./dynamic_docs/plot_multi_linear_reg.py
     """
     sst_monthly_data = transfer_xarray_lon_from180TO360(
         sst_monthly_data, lon_dim=lon_dim

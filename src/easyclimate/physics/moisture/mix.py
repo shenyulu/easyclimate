@@ -37,7 +37,8 @@ def calc_mixing_ratio(
 
     Returns
     -------
-    The mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), kg/kg or g/g.
+    The mixing ratio ( :math:`\\mathrm{g/g}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.mixing_ratio.html
@@ -80,7 +81,8 @@ def calc_saturation_mixing_ratio(
 
     Returns
     -------
-    The saturation mixing ratio (:py:class:`xarray.DataArray<xarray.DataArray>`), g/g.
+    The saturation mixing ratio ( :math:`\\mathrm{g/g}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
         - https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.saturation_mixing_ratio.html

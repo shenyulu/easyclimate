@@ -8,6 +8,9 @@ from matplotlib import pyplot as plt
 import matplotlib.lines as lines
 
 
+__all__ = ["draw_mjo_phase_space_basemap", "draw_mjo_phase_space"]
+
+
 def draw_mjo_phase_space_basemap(
     ax=None, add_phase_text: bool = True, add_location_text: bool = True
 ):
@@ -54,6 +57,11 @@ def draw_mjo_phase_space_basemap(
     .. seealso::
 
         https://www.ncl.ucar.edu/Applications/mjoclivar.shtml
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_mjo_phase.py
     """
     if ax is None:
         ax = plt.gca()
@@ -240,6 +248,11 @@ def draw_mjo_phase_space(
     .. seealso::
 
         https://www.ncl.ucar.edu/Applications/mjoclivar.shtml
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_mjo_phase.py
     """
     if ax is None:
         ax = plt.gca()

@@ -22,6 +22,11 @@ def set_lon_format_axis(ax: matplotlib.axes.Axes = None, axis: str = "x", **kwar
         The axis to which the parameters are applied.
     **kwargs
         Additional keyword arguments to wrapped :py:func:`matplotlib.axis.Axis.set_major_formatter <matplotlib:matplotlib.axis.Axis.set_major_formatter>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_formatting_coordinates.py
     """
     if ax is None:
         ax = plt.gca()
@@ -48,6 +53,11 @@ def set_lat_format_axis(ax: matplotlib.axes.Axes = None, axis: str = "y", **kwar
         The axis to which the parameters are applied.
     **kwargs
         Additional keyword arguments to wrapped :py:func:`matplotlib.axis.Axis.set_major_formatter <matplotlib:matplotlib.axis.Axis.set_major_formatter>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_formatting_coordinates.py
     """
     if ax is None:
         ax = plt.gca()
@@ -82,6 +92,11 @@ def set_p_format_axis(
         this item sets the maximum value (near surface air pressure) and the minimum value (near overhead air pressure).
     ticker_step: :py:class:`float`, default `100`.
         Assuming an isotropic series of coordinate distributions, the term sets the tolerance.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_formatting_coordinates.py
     """
     if ax is None:
         ax = plt.gca()

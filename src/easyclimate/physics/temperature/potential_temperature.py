@@ -43,7 +43,8 @@ def calc_potential_temperature(
 
     Returns
     -------
-    Potential temperature corresponding to the temperature and pressure (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Potential temperature, units according to ``temper_data``.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     Reference
     --------------
@@ -60,6 +61,16 @@ def calc_potential_temperature(
         pressure_data, pressure_data_units, "hPa"
     )
     pt = temper_data * (1000.0 / pressure_data) ** (kappa)
+
+    # clean other attrs
+    pt.attrs = dict()
+    try:
+        pt.attrs["units"] = temper_data.attrs["units"]
+    except:
+        pt.attrs["units"] = "[T]"
+        warnings.warn(
+            "The variable of `temper_data` do not have `units` attribution, so the attribution of units in it is assigned to the symbol for dimension!"
+        )
     return pt
 
 
@@ -93,7 +104,8 @@ def calc_potential_temperature_vertical(
 
     Returns
     -------
-    Potential temperature corresponding to the temperature and pressure (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    Potential temperature, units according to ``temper_data``.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     Reference
     --------------

@@ -104,6 +104,11 @@ def kf_filter_wheeler_and_kiladis_1999(
         - https://www.ncl.ucar.edu/Document/Functions/User_contributed/kf_filter.shtml
         - https://ncics.org/portfolio/monitor/mjo/
         - https://k3.cicsnc.org/carl/monitor
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     mis = -999
 
@@ -314,6 +319,11 @@ def kf_filter_lf_wave(
     --------
     :py:class:`xarray.DataArray<xarray.DataArray>`
         Filtered data with the same shape as `data_input`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,
@@ -392,6 +402,11 @@ def kf_filter_mjo_wave(
     Reference
     --------------
     - Kiladis, G. N., Straub, K. H., & Haertel, P. T. (2005). Zonal and Vertical Structure of the Madden–Julian Oscillation. Journal of the Atmospheric Sciences, 62(8), 2790-2809. https://doi.org/10.1175/JAS3520.1
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,
@@ -470,6 +485,11 @@ def kf_filter_er_wave(
     Reference
     --------------
     - Kiladis, G. N., M. C. Wheeler, P. T. Haertel, K. H. Straub, and P. E. Roundy (2009), Convectively coupled equatorial waves, Rev. Geophys., 47, RG2003, doi:https://doi.org/10.1029/2008RG000266.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,
@@ -548,6 +568,11 @@ def kf_filter_kelvin_wave(
     Reference
     --------------
     - Straub, K. H., & Kiladis, G. N. (2002). Observations of a Convectively Coupled Kelvin Wave in the Eastern Pacific ITCZ. Journal of the Atmospheric Sciences, 59(1), 30-53. https://journals.ametsoc.org/view/journals/atsc/59/1/1520-0469_2002_059_0030_ooacck_2.0.co_2.xml
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,
@@ -626,6 +651,11 @@ def kf_filter_mt_wave(
     Reference
     --------------
     - Frank, W. M., & Roundy, P. E. (2006). The Role of Tropical Waves in Tropical Cyclogenesis. Monthly Weather Review, 134(9), 2397-2417. https://doi.org/10.1175/MWR3204.1
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,
@@ -700,6 +730,11 @@ def kf_filter_mrg_wave(
     --------
     :py:class:`xarray.DataArray<xarray.DataArray>`
         Filtered data with the same shape as `data_input`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,
@@ -774,6 +809,11 @@ def kf_filter_td_wave(
     --------
     :py:class:`xarray.DataArray<xarray.DataArray>`
         Filtered data with the same shape as `data_input`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_kf_filter.py
     """
     result = kf_filter_wheeler_and_kiladis_1999(
         input_data,

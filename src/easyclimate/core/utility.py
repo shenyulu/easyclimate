@@ -260,6 +260,11 @@ def get_weighted_spatial_data(
         - Kevin Cowtan, Peter Jacobs, Peter Thorne, Richard Wilkinson,
           Statistical analysis of coverage error in simple global temperature estimators,
           Dynamics and Statistics of the Climate System, Volume 3, Issue 1, 2018, dzy003, https://doi.org/10.1093/climsys/dzy003.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     if method == "cos_lat":
         weights = np.cos(np.deg2rad(data_input[lat_dim]))

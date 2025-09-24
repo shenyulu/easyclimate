@@ -49,9 +49,8 @@ def calc_latent_heat_water(
 
     Returns
     --------
-    :py:class:`xarray.DataArray <xarray.DataArray>`
-
-        Latent heat values.
+    Latent heat flux for water ( :math:`\\mathrm{J/kg}` ).
+        :py:class:`xarray.DataArray <xarray.DataArray>`.
 
     .. seealso::
 

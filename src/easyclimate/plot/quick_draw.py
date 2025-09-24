@@ -25,7 +25,7 @@ def quick_draw_spatial_basemap(
     gridlines_alpha: float = 0.5,
     gridlines_linestyle: str = "--",
     coastlines_edgecolor: str = "black",
-    coastlines_linewidths: float = 0.5,
+    coastlines_kwargs: dict = {"lw": 0.5},
 ):
     """
     Create geographical and spatial base map.
@@ -53,9 +53,9 @@ def quick_draw_spatial_basemap(
     gridlines_linestyle: :py:class:`str <str>`, default: `"--"`.
         The parameter `linestyle` for `ax.gridlines`.
     coastlines_edgecolor: :py:class:`str <str>`, default: `"black"`.
-        The parameter `edgecolor` for `ax.coastlines`.
-    coastlines_linewidths: :py:class:`float <float>`, default: `0.5`.
-        The parameter `linewidths` for `ax.coastlines`.
+        The parameter `color` for `ax.coastlines`.
+    coastlines_kwargs: :py:class:`float <float>`, default: ``{"lw": 0.5}``.
+        The kwargs for `ax.coastlines`.
 
     Returns
     -------
@@ -84,7 +84,7 @@ def quick_draw_spatial_basemap(
             alpha=gridlines_alpha,
             linestyle=gridlines_linestyle,
         )
-        ax.coastlines(edgecolor=coastlines_edgecolor, linewidths=coastlines_linewidths)
+        ax.coastlines(color=coastlines_edgecolor, **coastlines_kwargs)
     else:
         for axi in ax.flat:
             axi.gridlines(
@@ -93,9 +93,7 @@ def quick_draw_spatial_basemap(
                 alpha=gridlines_alpha,
                 linestyle=gridlines_linestyle,
             )
-            axi.coastlines(
-                edgecolor=coastlines_edgecolor, linewidths=coastlines_linewidths
-            )
+            axi.coastlines(color=coastlines_edgecolor, **coastlines_kwargs)
     return fig, ax
 
 

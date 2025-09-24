@@ -4,7 +4,9 @@
 **/docs/source/auto_gallery
 **/docs/source/api_index/generated
 **/docs/source/technical/api
+**/docs/source/gen_modules
 **/src/easyclimate.egg-info
+**/build
 docs/optipng.exe
 docs/source/sg_execution_times.rst
 docs/source/relay

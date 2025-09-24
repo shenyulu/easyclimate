@@ -47,9 +47,8 @@ def calc_enthalpy(
 
     Returns
     --------
-    :py:class:`xarray.DataArray<xarray.DataArray>`
-
-        Enthalpy with the same size and shape as ``temperature_data``.
+    Atmospheric enthalpy ( :math:`\\mathrm{kJ/kg}` ).
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
 
     .. seealso::
 

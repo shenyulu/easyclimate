@@ -99,6 +99,11 @@ def filter_emd(
 
         - https://pyemd.readthedocs.io/
         - https://www.ncl.ucar.edu/Applications/eemd.shtml
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_emd.py
     """
     if time_array is None:
         t = datetime_to_numeric(input_data[time_dim].data, unit=time_step)
@@ -229,6 +234,11 @@ def filter_eemd(
         - :func:`filter_emd` : Standard Empirical Mode Decomposition
         - https://pyemd.readthedocs.io/
         - https://www.ncl.ucar.edu/Applications/eemd.shtml
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_emd.py
     """
     if time_array is None:
         t = datetime_to_numeric(input_data[time_dim].data, unit=time_step)

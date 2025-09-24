@@ -83,6 +83,11 @@ def calc_gradient(
 
     .. seealso::
         :py:func:`numpy.gradient <numpy:numpy.gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
 
     def _calc_gradient(data_input, dim, varargs, edge_order) -> xr.DataArray:
@@ -132,6 +137,11 @@ def calc_lon_gradient(
 
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lon_array = data_input[lon_dim].astype("float64")
@@ -180,6 +190,11 @@ def calc_lat_gradient(
 
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lat_array = data_input[lat_dim].astype("float64")
@@ -228,6 +243,11 @@ def calc_lon_laplacian(
 
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lon_array = data_input[lon_dim].astype("float64")
@@ -279,6 +299,11 @@ def calc_lat_laplacian(
 
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     lat_array = data_input[lat_dim].astype("float64")
 
@@ -328,6 +353,11 @@ def calc_lon_lat_mixed_derivatives(
 
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     lon_array = data_input[lon_dim].astype("float64")
     lat_array = data_input[lat_dim].astype("float64")
@@ -771,6 +801,11 @@ def calc_divergence(
     Returns
     -------
     The horizontal divergence term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     if u_data.shape != v_data.shape:
         raise ValueError(
@@ -838,6 +873,11 @@ def calc_vorticity(
     Returns
     -------
     The horizontal relative vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     if u_data.shape != v_data.shape:
         raise ValueError(
@@ -903,6 +943,11 @@ def calc_geostrophic_wind(
     The geostrophic wind term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
         - ug
         - vg
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     dlon = transfer_deg2rad(calc_gradient(z_data[lon_dim], dim=lon_dim))
     dlat = transfer_deg2rad(calc_gradient(z_data[lat_dim], dim=lat_dim))
@@ -935,7 +980,7 @@ def calc_geostrophic_wind_vorticity(
     """
     Calculate the geostrophic vorticity.
 
-    rectangular coordinates
+    Rectangular coordinates
 
     .. math::
         \\zeta_g = \\frac{\\partial v_g}{\\partial x} - \\frac{\\partial u_g}{\\partial y}
@@ -1005,6 +1050,11 @@ def calc_horizontal_water_flux(
 
     - :math:`qu`: zonal water vapor flux.
     - :math:`qv`: meridional water vapor flux.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     water_flux = xr.Dataset(
         data_vars={
@@ -1036,6 +1086,11 @@ def calc_vertical_water_flux(
     Returns
     -------
     The vertical water flux. (:py:class:`xarray.DataArray <xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     water_flux = -omega_data * specific_humidity_data / g
     return water_flux
@@ -1085,6 +1140,11 @@ def calc_water_flux_top2surface_integral(
 
     .. seealso::
         :py:func:`calc_top2surface_integral <calc_top2surface_integral>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     # Calculate the single-layer water flux
     water_flux_single_layer = calc_horizontal_water_flux(
@@ -1163,6 +1223,11 @@ def calc_divergence_watervaporflux(
     Returns
     -------
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     specific_humidity = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
@@ -1230,6 +1295,11 @@ def calc_divergence_watervaporflux_top2surface_integral(
     Returns
     -------
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     specific_humidity = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
@@ -1300,6 +1370,11 @@ def calc_u_advection(
     Returns
     -------
     The zonal temperature advection. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     return (
         (-1)
@@ -1341,6 +1416,11 @@ def calc_v_advection(
     Returns
     -------
     The meridional temperature advection. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
     """
     return (
         (-1)

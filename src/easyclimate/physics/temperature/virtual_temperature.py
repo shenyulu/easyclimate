@@ -41,9 +41,14 @@ def calc_virtual_temperature(
     epsilon: :py:class:`float <float>`.
         A constant.
 
+    Returns
+    -------
+    The virtual temperature, units according to ``temper_data``.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
+
     Reference
     --------------
-    - Doswell , C. A., and E. N. Rasmussen, 1994: The Effect of Neglecting the Virtual Temperature Correction on CAPE Calculations. Wea. Forecasting, 9, 625–629, https://doi.org/10.1175/1520-0434(1994)009<0625:TEONTV>2.0.CO;2.
+    - Doswell, C. A., and E. N. Rasmussen, 1994: The Effect of Neglecting the Virtual Temperature Correction on CAPE Calculations. Wea. Forecasting, 9, 625–629, https://journals.ametsoc.org/view/journals/wefo/9/4/1520-0434_1994_009_0625_teontv_2_0_co_2.xml
     - https://en.wikipedia.org/wiki/Virtual_temperature
     - https://glossary.ametsoc.org/wiki/Virtual_temperature
 
@@ -102,10 +107,15 @@ def calc_virtual_temperature_Hobbs2006(
     epsilon: :py:class:`float <float>`.
         The molecular weight ratio, which is molecular weight of the constituent gas to that assumed for air. Defaults to the ratio for water vapor to dry air. (:math:`\\epsilon \\approx 0.622`)
 
+    Returns
+    -------
+    The virtual temperature, units according to ``temper_data``.
+        :py:class:`xarray.DataArray<xarray.DataArray>`.
+
     Reference
     --------------
     - Hobbs, P. V., and J. M. Wallace, 2006: Atmospheric Science: An Introductory Survey. 2nd ed. Academic Press, 504 pp. https://www.sciencedirect.com/book/9780127329512/atmospheric-science
-    - Doswell , C. A., and E. N. Rasmussen, 1994: The Effect of Neglecting the Virtual Temperature Correction on CAPE Calculations. Wea. Forecasting, 9, 625–629, https://doi.org/10.1175/1520-0434(1994)009<0625:TEONTV>2.0.CO;2.
+    - Doswell, C. A., and E. N. Rasmussen, 1994: The Effect of Neglecting the Virtual Temperature Correction on CAPE Calculations. Wea. Forecasting, 9, 625–629, https://journals.ametsoc.org/view/journals/wefo/9/4/1520-0434_1994_009_0625_teontv_2_0_co_2.xml
     - https://en.wikipedia.org/wiki/Virtual_temperature
     - https://glossary.ametsoc.org/wiki/Virtual_temperature
 

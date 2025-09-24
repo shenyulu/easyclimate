@@ -69,6 +69,11 @@ def get_specific_months_data(
     Returns
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     months = data_input[dim].dt.month
     months_idx = months.isin(month_array)
@@ -331,6 +336,11 @@ def get_year_exceed_index_upper_bound(
     Returns
     -------
     :py:class:`numpy.array <numpy:numpy.array>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     if data_input.dims == (time_dim,):
         pass
@@ -359,6 +369,11 @@ def get_year_exceed_index_lower_bound(
     Returns
     -------
     :py:class:`numpy.array <numpy:numpy.array>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     if data_input.dims == (time_dim,):
         pass
@@ -387,6 +402,11 @@ def get_time_exceed_index_upper_bound(
     Returns
     -------
     Time array.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_da_bbo.py
     """
     if data_input.dims == (time_dim,):
         pass
@@ -415,6 +435,11 @@ def get_time_exceed_index_lower_bound(
     Returns
     -------
     Time array.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_da_bbo.py
     """
     if data_input.dims == (time_dim,):
         pass

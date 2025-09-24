@@ -193,6 +193,11 @@ def calc_detrend_spatial(
 
     .. seealso::
         :py:func:`scipy.signal.detrend <scipy:scipy.signal.detrend>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
 
     # Because `scipy.signal.detrend` cannot detrend `np.nan`,
@@ -244,15 +249,18 @@ def calc_corr_spatial(
 
     Returns
     -------
-    corr & pvalue (:py:class:`xarray.Dataset<xarray.Dataset>`)
+    reg_coeff, corr & pvalue (:py:class:`xarray.Dataset<xarray.Dataset>`)
+
+    reg_coeff: :py:class:`xarray.DataArray<xarray.DataArray>`
+        Regression coefficient, in units of ``data_input`` per standard deviation of the index.
 
     corr : :py:class:`xarray.DataArray<xarray.DataArray>`
         Pearson correlation coefficients with dimensions.
         Values range from -1 to 1 where:
 
-        - 1 means perfect positive correlation
-        - -1 means perfect negative correlation
-        - 0 means no correlation
+        - 1: perfect positive correlation
+        - -1: perfect negative correlation
+        - 0: no correlation
 
     pvalue : :py:class:`xarray.DataArray<xarray.DataArray>`
         Two-tailed p-values with dimensions.
@@ -269,6 +277,11 @@ def calc_corr_spatial(
     .. seealso::
         :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>`:
         The underlying correlation function used for calculations.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_corr_reg.py
     """
     # Check whether the time dimensions are consistent
     if len(data_input[time_dim]) != len(x):
@@ -498,6 +511,11 @@ def calc_multiple_linear_regression_spatial(
     -------
     ValueError
         If the time coordinates of input variables don't match.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_multi_linear_reg.py
     """
 
     def _multiple_linear_regression(y, *x_vars):
@@ -902,6 +920,11 @@ def calc_skewness_spatial(
 
     .. seealso::
         :py:func:`scipy.stats.skew <scipy:scipy.stats.skew>`, :py:func:`scipy.stats.normaltest <scipy:scipy.stats.normaltest>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     # Find the index of `dim` in the xarray DataArray for `time`.
     time_dim_index = find_dims_axis(data_input, dim=dim)
@@ -981,6 +1004,11 @@ def calc_kurtosis_spatial(
 
     .. seealso::
         :py:func:`scipy.stats.kurtosis <scipy:scipy.stats.kurtosis>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
 
     # Calculate kurtosis

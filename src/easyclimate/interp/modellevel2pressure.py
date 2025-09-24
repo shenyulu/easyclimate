@@ -56,6 +56,11 @@ def interp1d_vertical_model2pressure(
 
     .. seealso::
         - `scipy.interpolate.interp1d <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html#scipy-interpolate-interp1d>`__
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_interp.py
     """
     from scipy.interpolate import interp1d
 

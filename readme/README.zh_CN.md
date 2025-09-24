@@ -3,7 +3,7 @@
 <h2 align="center">一行代码分析气候学数据</h2>
 
 <p align="center">
-<a href="https://easyclimate.readthedocs.io/en/latest/"><strong>文档</strong> (latest)</a> •
+<a href="https://easyclimate.readthedocs.io/en/latest/"><strong>文档</strong> （最新）</a> •
 <a href="https://easyclimate.readthedocs.io/en/main/"><strong>文档</strong> （主分支）</a> •
 <a href="https://shenyulu.github.io/easyclimate/"><strong>文档</strong> （开发分支）</a> •
 <a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md"><strong>贡献</strong></a>

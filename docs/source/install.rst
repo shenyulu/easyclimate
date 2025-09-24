@@ -72,6 +72,78 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
                 python -m pip install --upgrade git+https://gitee.com/shenyulu/easyclimate@dev
 
+.. tip::
+
+    For *Linux* users who use *older systems*, special attention is required! It is necessary to install a relatively recent version of the `gcc <https://gcc.gnu.org/projects/c-status.html>`__ and `g++ <https://gcc.gnu.org/projects/cxx-status.html>`__ compiler suites to meet the **C++17** requirements. The latest versions of these suites can also be installed as follows:
+
+    .. tab-set::
+
+        .. tab-item:: conda (Recommended)
+
+            .. code:: bash
+
+                conda install -c conda-forge gcc gxx
+
+        .. tab-item:: Ubuntu/Debian
+
+            1. Update package list
+
+            .. code:: bash
+
+                sudo apt update
+
+            2. Install the ``build-essential`` package by typing the following command:
+
+            .. code:: bash
+
+                sudo apt install build-essential
+
+            This command installs a bunch of new software packages, including gcc, g++, and make.
+
+            3. You may also need to install the manual pages for development using GNU/Linux:
+
+            .. code:: bash
+
+                sudo apt-get install manpages-dev
+
+            4. To verify whether the GCC compiler has been successfully installed, use the following command to print the GCC version:
+
+            .. code:: bash
+
+                gcc --version
+
+        .. tab-item:: CentOS/RHEL/Fedora
+
+            1. Start a login shell as the root user.
+
+            .. code:: bash
+
+                sudo -i
+
+            2. Install the ``gcc``.
+
+            .. code:: bash
+
+                yum install gcc
+
+            Press Y and Enter to confirm. Or use the command without confirmation:
+
+            .. code:: bash
+
+                yum -y install gcc
+
+            3. Install the ``g++``.
+
+            .. code:: bash
+
+                yum install gcc-c++
+
+            Press Y and Enter to confirm. Or use the command without confirmation:
+
+            .. code:: bash
+
+                yum -y install gcc-c++
+
 
 Python Version Requirement
 ------------------------------------

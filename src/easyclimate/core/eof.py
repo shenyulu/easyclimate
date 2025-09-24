@@ -94,6 +94,12 @@ def get_EOF_model(
     Returns
     -------
     :py:class:`xeofs.single.EOF<xeofs.single.EOF>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_multieof.py
+        ./dynamic_docs/plot_basic_eof.py
     """
     from xeofs.single import EOF
     from xeofs.utils.constants import VALID_LONGITUDE_NAMES
@@ -224,6 +230,12 @@ def calc_EOF_analysis(
     where :math:`\\lambda_i` is the explained variance of the :math:`i`-th mode and :math:`M` is the total number of modes.
 
     - **singular_values**: The singular values of the Singular Value Decomposition (SVD).
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_multieof.py
+        ./dynamic_docs/plot_basic_eof.py
     """
     if isinstance(model.components(), xr.DataArray or xr.Dataset):
         model_output = xr.Dataset()
@@ -566,6 +578,11 @@ def get_MCA_model(
     --------------
     - Bretherton, C. S., Smith, C., & Wallace, J. M. (1992). An Intercomparison of Methods for Finding Coupled Patterns in Climate Data. Journal of Climate, 5(6), 541-560. https://doi.org/10.1175/1520-0442(1992)005<0541:AIOMFF>2.0.CO;2
     - Cherry, S. (1996). Singular Value Decomposition Analysis and Canonical Correlation Analysis. Journal of Climate, 9(9), 2003-2009. https://doi.org/10.1175/1520-0442(1996)009<2003:SVDAAC>2.0.CO;2
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_eof.py
     """
     from xeofs.cross import MCA
     from xeofs.utils.constants import VALID_LONGITUDE_NAMES
@@ -836,6 +853,11 @@ def calc_MCA_analysis(
     --------------
     - Cheng, X., & Dunkerton, T. J. (1995). Orthogonal Rotation of Spatial Patterns Derived from Singular Value Decomposition Analysis. Journal of Climate, 8(11), 2631-2643. https://doi.org/10.1175/1520-0442(1995)008<2631:OROSPD>2.0.CO;2
     - Swenson, E. (2015). Continuum Power CCA: A Unified Approach for Isolating Coupled Modes. Journal of Climate, 28(3), 1016-1030. https://doi.org/10.1175/JCLI-D-14-00451.1
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_eof.py
     """
     model_output = DataNode(name="root")
 

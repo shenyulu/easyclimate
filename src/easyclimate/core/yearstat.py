@@ -56,6 +56,11 @@ def calc_yearly_climatological_mean(
         :py:func:`numpy.mean <numpy:numpy.mean>`, :py:func:`dask.array.mean <dask:dask.array.mean>`,
         :py:meth:`xarray.DataArray.mean <xarray:xarray.DataArray.mean>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.mean <xarray:xarray.core.groupby.DataArrayGroupBy.mean>`.
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_basic_statistical_analysis.py
     """
     gb = data_input.groupby(data_input[dim].dt.year)
     yearave_int_time = gb.mean(dim=dim, **kwargs)

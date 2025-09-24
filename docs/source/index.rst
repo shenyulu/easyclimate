@@ -147,7 +147,7 @@ You can directly install it via `pip` by using 🛒
    ./static_docs/ocean
    ./static_docs/monsoon
    ./static_docs/land
-   ./static_docs/mesoscale
+   ./static_docs/typhoons
 
 .. toctree::
     :maxdepth: 1
@@ -164,6 +164,7 @@ You can directly install it via `pip` by using 🛒
     :hidden:
     :caption: Community
 
+    ./contributing.rst
     How to Contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
     Source Code on GitHub <https://github.com/shenyulu/easyclimate>
     sponsor.rst
