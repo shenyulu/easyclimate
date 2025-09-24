@@ -1,5 +1,23 @@
 # Changelog♻️
 
+## v2025.10.0
+
+*Released on: 2025/9/24*
+
+* [fix: dp error](https://github.com/shenyulu/easyclimate/pull/103/commits/4068441335625c862239a8b1261f832e4e2b2afe)
+* [feat: add mini*gallery](https://github.com/shenyulu/easyclimate/pull/103/commits/5ca9dab4e611370cdecf5d13b36955cbd6a5c061)
+* [feat: add show_versions](https://github.com/shenyulu/easyclimate/pull/103/commits/468a5eeb64bb4879641cc546dad86b5307cca1b2)
+* [feat: add windspeed](https://github.com/shenyulu/easyclimate/pull/103/commits/cc510f264e71ffefbac3e1f2167cf604c06d94bd)
+* [fix: reg error](https://github.com/shenyulu/easyclimate/pull/103/commits/c37e67e50f79b213abccdb09eb2f05f60aa7ee04)
+* [feat: add track and axisymmetric](https://github.com/shenyulu/easyclimate/pull/103/commits/023ea84117170d003e6301228c6315a85b2aaa35)
+* [feat: add contributing](https://github.com/shenyulu/easyclimate/pull/103/commits/bf379dbb8aba9eb3fa905e91ebf9ee4c6bc42ca2)
+* [fix: system info](https://github.com/shenyulu/easyclimate/pull/103/commits/3b45793bbd18d25a7d09ecbc51fe6b504039e3ef)
+* [fix: para error in color](https://github.com/shenyulu/easyclimate/pull/103/commits/6f4f534500a4fca9d2ed969d9ec938b0076db34c)
+* [feat: add linux install docs](https://github.com/shenyulu/easyclimate/pull/103/commits/592537ca8ec30246b902231641b9b1f734f7326e)
+* [feat: change coastlines_linewidths to coastlines_kwargs](https://github.com/shenyulu/easyclimate/pull/103/commits/d06827f69bd5473b341067182795d8b4d1bd4195)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.9.0...v2025.10.0
+
 ## v2025.9.0
 
 *Released on: 2025/8/21*
