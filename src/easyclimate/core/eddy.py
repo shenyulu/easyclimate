@@ -60,6 +60,9 @@ def calc_eady_growth_rate(
         The zonal wind daily data.
     z_daily_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Daily atmospheric geopotential height.
+
+    .. attention:: The unit of `z_daily_data` should be **meters**, NOT :math:`\\mathrm{m^2 \\cdot s^2}` which is the unit used in the representation of potential energy.
+
     temper_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         Daily air temperature.
     vertical_dim: :py:class:`str <str>`.
@@ -97,7 +100,7 @@ def calc_eady_growth_rate(
     brunt_vaisala_atm = calc_brunt_vaisala_frequency_atm(
         pt, z_daily_data, vertical_dim=vertical_dim
     )
-    eady_growth_rate = 0.3098 * g * np.abs(f) * np.abs(dudz) / brunt_vaisala_atm
+    eady_growth_rate = 0.3098 * np.abs(f) * np.abs(dudz) / brunt_vaisala_atm
     eady_growth_rate = eady_growth_rate.transpose(*dim_tuple)
     result_dataset = xr.Dataset(
         data_vars={
