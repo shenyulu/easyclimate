@@ -34,6 +34,7 @@ __all__ = [
     "load_MCA_model",
     "calc_MCA_analysis",
     "get_MCA_projection",
+    "calc_eof_projection_coefficient",
 ]
 
 
@@ -997,3 +998,128 @@ def get_MCA_projection(
     projection_output["scores1"] = scores1
     projection_output["scores2"] = scores2
     return projection_output
+
+
+def calc_eof_projection_coefficient(
+    data_field: xr.DataArray,
+    eof_mode: xr.DataArray,
+    time_dim: str = "time",
+):
+    """
+    Compute the EOF projection coefficients for projecting a data field onto an EOF mode over common
+    spatial dimensions. This is useful in EOF (Empirical Orthogonal Function) analysis for climate or
+    geophysical data, where the field is projected onto spatial modes to obtain time-varying coefficients.
+
+    The mathematical foundation is based on the decomposition (:math:`\\mathbf{X} = \\mathbf{V} \\mathbf{T}`),
+    solving for the coefficients (:math:`\\mathbf{T} = \\mathbf{V}^{-1} \\mathbf{X}`). For a single normalized
+    EOF mode (:math:`\\mathbf{V}`), this simplifies to the projection:
+
+    .. math::
+
+        t = \\frac{\\sum (x \\cdot v)}{\\sum v^2}
+
+    where the summation is over the stacked spatial (pattern) dimensions, and (:math:`\\mathbf{X}`) is the
+    data field (potentially with a 'time' dimension), (:math:`\\mathbf{V}`) is the EOF mode (spatial pattern).
+
+    The spatial pattern dimensions are automatically detected as the intersection of the input dimensions,
+    excluding 'time' (if present). Both inputs are stacked along these pattern dimensions into a temporary
+    'pattern' dimension, and the projection is computed along it. NaN values are filled with 0 before computation.
+
+    - If `data_field` lacks 'time', the result is a scalar.
+    - If `data_field` has 'time' and `eof_mode` does not, the result preserves the 'time' dimension.
+    - Broadcasting occurs automatically for compatible shapes.
+
+    Parameters
+    ----------
+    data_field : :py:class:`xarray.DataArray`
+        The input data field to project (e.g., time series of spatial fields :math:`\\mathbf{X}`).
+    eof_mode : :py:class:`xarray.DataArray`
+        The EOF spatial mode :math:`\\mathbf{V}` (must have compatible spatial dimensions).
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+
+    Returns
+    -------
+    coefficients : :py:class:`xarray.DataArray` or scalar
+        The EOF projection coefficients (:math:`\\mathbf{T}`). Dimensions match the non-spatial dimensions of `data_field`
+        (e.g., 'time' if present).
+
+    .. note::
+        - Assumes inputs have compatible shapes and the only differing dimension is 'time' in `data_field`.
+        - NaNs are filled with 0 to avoid propagation; adjust if needed.
+        - For zero-norm cases in the denominator, the result is set to 0.
+
+    Examples
+    --------
+    Scalar projection for a single spatial field:
+
+    >>> import xarray as xr
+    >>> import numpy as np
+    >>> import easyclimate as ecl
+    >>> # Create a random number generator with a fixed seed.
+    >>> rng = np.random.default_rng(42)
+    >>> field = xr.DataArray(rng.random((2, 3)), dims=['lat', 'lon'])
+    >>> eof_v = xr.DataArray(rng.random((2, 3)), dims=['lat', 'lon'])
+    >>> coeff = ecl.eof.calc_eof_projection_coefficient(field, eof_v)
+    >>> print(coeff)
+    <xarray.DataArray 'eof_projection' ()> Size: 8B
+    array(0.95208032)
+    Attributes:
+        long_name:  EOF Projection Coefficient
+        units:
+
+    Time series projection:
+
+    >>> # Create a random number generator with a fixed seed.
+    >>> rng = np.random.default_rng(42)
+    >>> time = xr.DataArray(np.arange(4), dims=['time'])
+    >>> timed_field = xr.DataArray(rng.random((4, 2, 3)), dims=['time', 'lat', 'lon'])
+    >>> coeff_time = calc_eof_projection_coefficient(timed_field, eof_v)
+    >>> print(coeff_time)
+    <xarray.DataArray 'eof_projection' (time: 4)> Size: 32B
+    array([0.95208032, 1.        , 0.64684219, 1.06549741])
+    Dimensions without coordinates: time
+    Attributes:
+        long_name:  EOF Projection Coefficient
+        units:
+    """
+    # Ensure inputs are DataArray
+    if not isinstance(data_field, xr.DataArray) or not isinstance(
+        eof_mode, xr.DataArray
+    ):
+        raise TypeError("Inputs must be xarray.DataArray objects")
+
+    # Detect common spatial dimensions (exclude 'time')
+    dims_field = set(data_field.dims)
+    dims_mode = set(eof_mode.dims)
+    common_dims = dims_field.intersection(dims_mode)
+    pattern_dims_set = common_dims - {time_dim}
+    if not pattern_dims_set:
+        raise ValueError("No common spatial (non-time) dimensions found between inputs")
+    pattern_dims = sorted(pattern_dims_set)  # Sorted for consistent stacking
+
+    # Fill NaNs with 0
+    data_field_filled = data_field.fillna(0)
+    eof_mode_filled = eof_mode.fillna(0)
+
+    # Stack both inputs along pattern dimensions
+    field_stacked = data_field_filled.stack(pattern=tuple(pattern_dims))
+    mode_stacked = eof_mode_filled.stack(pattern=tuple(pattern_dims))
+
+    # Compute projection: dot product along pattern / norm^2 of mode
+    numerator = (field_stacked * mode_stacked).sum(dim="pattern")
+    denominator = (mode_stacked**2).sum()
+
+    # Avoid division by zero
+    coefficients = xr.where(denominator != 0, numerator / denominator, 0)
+
+    # Add necessary name and attributes
+    coefficients.name = "eof_projection_coefficient"
+    coefficients.attrs = {
+        "long_name": "EOF Projection Coefficient",
+        "units": data_field.attrs.get(
+            "units", ""
+        ),  # Inherit units from data_field if available
+    }
+
+    return coefficients

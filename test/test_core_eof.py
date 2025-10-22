@@ -12,6 +12,7 @@ from pathlib import Path
 from .const_define import TEST_DATA_PATH
 from .const_define import TEST_TMP_PATH
 from .util import assert_path_dir_exist
+from easyclimate.core.eof import calc_eof_projection_coefficient
 
 
 def test_get_EOF_model_and_calc_EOF_analysis():
@@ -741,6 +742,22 @@ def test_get_MCA_model_and_calc_MCA_analysis():
 #     )
 #     mymodel = ecl.eof.load_MCA_model(path=outputfile_path, engine="zarr")
 #     assert isinstance(mymodel, xeofs.cross.MCA)
+
+
+def test_calc_eof_projection_coefficient():
+    rng = np.random.default_rng(42)
+    field = xr.DataArray(rng.random((2, 3)), dims=["lat", "lon"])
+    eof_v = xr.DataArray(rng.random((2, 3)), dims=["lat", "lon"])
+    result_data1 = calc_eof_projection_coefficient(field, eof_v)
+
+    time = xr.DataArray(np.arange(4), dims=["time"])
+    timed_field = xr.DataArray(rng.random((4, 2, 3)), dims=["time", "lat", "lon"])
+    result_data2 = calc_eof_projection_coefficient(timed_field, eof_v)
+
+    refer_data1 = np.array([0.95208032])
+    refer_data2 = np.array([0.64684219, 1.06549741, 0.62797062, 0.78151191])
+    assert np.isclose(result_data1, refer_data1, atol=0.01).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.01).all()
 
 
 def test_clean_tmp_file():
