@@ -33,7 +33,8 @@ jobs:
 
       - name: Install dependencies 💻
         run: |
-          pip install -r docs/requirements.txt
+          pip install uv numba numpy
+          uv pip install -r docs/requirements.txt
 
       - name: make the sphinx docs
         run: |

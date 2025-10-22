@@ -20,7 +20,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r test_requirements.txt
+          pip install uv numba numpy
+          uv pip install -r test_requirements.txt
 
       - name: Run unit tests
         run: pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
@@ -43,7 +44,8 @@ jobs:
       - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip build setuptools wheel setuptools-scm
-          pip install -r release_requirements.txt
+          pip install uv numba numpy
+          uv pip install -r release_requirements.txt
 
       - name: Build package
         run: |

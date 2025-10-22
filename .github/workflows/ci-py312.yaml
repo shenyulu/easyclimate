@@ -14,7 +14,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
-        run: pip install -r test_requirements.txt
+        run: |
+          pip install uv numba numpy
+          uv pip install -r test_requirements.txt
       - name: Run tests and collect coverage
         run: pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
       - name: Upload coverage reports to Codecov
