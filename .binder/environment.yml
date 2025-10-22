@@ -28,7 +28,7 @@ dependencies:
     - zarr
     - metpy
     - tcpypi
-    - netCDF4
+    - netCDF4 <= 1.7.2
     - h5netcdf
     - seaborn
     - EMD-signal
