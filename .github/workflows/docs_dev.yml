@@ -25,7 +25,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5.3.0
         with:
-          python-version: '3.10'
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Create virtual environment
+        run: uv venv .venv
 
       - name: Install OptiPNG and Build 🔧
         run: |
@@ -33,11 +41,13 @@ jobs:
 
       - name: Install dependencies 💻
         run: |
-          pip install uv numba numpy
+          source .venv/bin/activate
+          uv pip install numba numpy
           uv pip install -r docs/requirements.txt
 
       - name: make the sphinx docs
         run: |
+          source .venv/bin/activate
           # make -C docs clean
           make -C docs html
 
