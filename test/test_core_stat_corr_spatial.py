@@ -5,6 +5,7 @@ pytest for stat.py
 import pytest
 import matplotlib.pyplot as plt
 import numpy as np
+import xarray as xr
 import easyclimate as ecl
 
 sst_data = ecl.open_tutorial_dataset("sst_mnmean_oisst").sst
@@ -67,3 +68,20 @@ def test_calc_leadlag_corr_spatial():
         ax=axi,
     )
     return fig
+
+
+def test_calc_pattern_corr():
+    rng = np.random.default_rng(42)
+    pat1 = xr.DataArray(rng.random((2, 3)), dims=["lat", "lon"])
+    pat2 = xr.DataArray(rng.random((2, 3)), dims=["lat", "lon"])
+    result_data1 = ecl.calc_pattern_corr(pat1, pat2).data
+
+    time = xr.DataArray(np.arange(4), dims=["time"])
+    timed_pat = xr.DataArray(rng.random((4, 2, 3)), dims=["time", "lat", "lon"])
+    result_data2 = ecl.calc_pattern_corr(timed_pat, pat2)
+
+    refer_data1 = np.array([0.8573063858310881])
+    refer_data2 = np.array([0.78188174, 0.88162673, 0.83833534, 0.86043622])
+
+    assert np.isclose(result_data1, refer_data1, atol=0.01).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.01).all()
