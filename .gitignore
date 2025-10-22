@@ -16,3 +16,7 @@ test/tmpfile
 **/.pytest_cache
 .coverage
 .coverage*
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
