@@ -35,7 +35,7 @@ sphinx-markdown-tables == 0.0.17
 sphinxcontrib-jupyter == 0.5.10
 sphinx-inline-tabs == 2023.4.21
 sphinx-gallery == 0.19.0
-sphinx-autoapi == 3.6.0
+sphinx-autoapi == 3.6.1
 sphinx-copybutton == 0.5.2
 sphinx-book-theme == 1.1.4
 sphinx_design == 0.6.1
