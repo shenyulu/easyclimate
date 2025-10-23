@@ -13,10 +13,10 @@ jobs:
         with:
           fetch-depth: 0  # Avoid shallow clone for version detection
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
@@ -34,10 +34,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
           architecture: 'x64'
 
       - name: Install build dependencies

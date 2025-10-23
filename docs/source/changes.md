@@ -1,5 +1,27 @@
 # Changelog♻️
 
+## v2025.11.0
+
+*Released on: 2025/10/23*
+
+* [fix: EGR error](https://github.com/shenyulu/easyclimate/pull/105/commits/ab0979beac3dbbd36bd16174df23a869252f24da)
+
+> ⚠️ From this version:
+>
+> - We addressed the issue in ``calc_eady_growth_rate`` where there was an unnecessary multiplication by the gravitational acceleration g. This extra part was confirmed to be incorrect🛠️, so there is now an order of magnitude difference between the current version and the previous version.
+
+* [feat: add time_range for normalize](https://github.com/shenyulu/easyclimate/pull/105/commits/d27d962e8d78b7668caecdfc25fe797f2665d328)
+* [feat: add calc_eof_projection_coefficient](https://github.com/shenyulu/easyclimate/pull/105/commits/61a62184d04a360ad1c5a71f1cfb40ece3cf9cb4)
+* [feat: add func](https://github.com/shenyulu/easyclimate/pull/105/commits/934a46e0b9b7bd0cfae06550b77d7a3a40984fb1)
+
+  - ``calc_windmask_ttestSpatialPattern_spatial``
+  - ``calc_non_centered_corr``
+  - ``calc_pattern_corr``
+
+* [fix: fix codacy.instructions](https://github.com/shenyulu/easyclimate/pull/105/commits/d5dc7d06eda628da186bcbd802e90566343f5f03)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.10.0...v2025.11.0
+
 ## v2025.10.0
 
 *Released on: 2025/9/24*

@@ -10,6 +10,7 @@ __all__ = ["normalize_zscore", "normalize_minmax", "normalize_robust", "normaliz
 def normalize_zscore(
     da: xr.DataArray,
     dim: str = "time",
+    time_range: slice = slice(None, None),
     ddof: int = 1,
 ) -> xr.DataArray:
     """
@@ -30,6 +31,8 @@ def normalize_zscore(
         The input time series data to be standardized.
     dim: :py:class:`str <str>`, default: `time`.
         The dimension along which to compute the mean and standard deviation. By default, standardization is applied over the `time` dimension.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of ``da`` to be normalized. The default value is the entire time range.
     ddof: :py:class:`int <int>`, default: `1`.
         Delta degrees of freedom for standard deviation calculation. The divisor used in calculations is :math:`N - \\mathrm{ddof}`, where :math:`N` is the number of elements.
 
@@ -49,14 +52,16 @@ def normalize_zscore(
 
         ./dynamic_docs/plot_corr_reg.py
     """
-    mean = da.mean(dim=dim)
-    std = da.std(dim=dim, ddof=ddof)
+    da_ = da.sel({dim: time_range})
+    mean = da_.mean(dim=dim)
+    std = da_.std(dim=dim, ddof=ddof)
     return (da - mean) / std
 
 
 def normalize_minmax(
     da: xr.DataArray,
     dim: str = "time",
+    time_range: slice = slice(None, None),
     feature_range: tuple[float, float] = (0, 1),
 ) -> xr.DataArray:
     """
@@ -76,6 +81,8 @@ def normalize_minmax(
         The input time series data to be standardized.
     dim: :py:class:`str <str>`, default: `time`.
         The dimension along which to compute the minimum and maximum values. By default, standardization is applied over the `time` dimension.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of ``da`` to be normalized. The default value is the entire time range.
     feature_range: :py:class:`tuple[float, float] <tuple>`, default: ``(0, 1)``.
         The target range for scaling the data, specified as (min, max).
 
@@ -90,8 +97,9 @@ def normalize_minmax(
         - **Advantages**: Simple and intuitive, preserves relative relationships in the data.
         - **Disadvantages**: Sensitive to outliers, as the range depends on the minimum and maximum values.
     """
-    min_val = da.min(dim=dim)
-    max_val = da.max(dim=dim)
+    da_ = da.sel({dim: time_range})
+    min_val = da_.min(dim=dim)
+    max_val = da_.max(dim=dim)
     a, b = feature_range
     return (da - min_val) / (max_val - min_val) * (b - a) + a
 
@@ -99,6 +107,7 @@ def normalize_minmax(
 def normalize_robust(
     da: xr.DataArray,
     dim: str = "time",
+    time_range: slice = slice(None, None),
     q_low: float = 0.25,
     q_high: float = 0.75,
 ) -> xr.DataArray:
@@ -119,6 +128,8 @@ def normalize_robust(
         The input time series data to be standardized.
     dim: :py:class:`str <str>`, default: `time`.
         The dimension along which to compute the median and IQR. By default, standardization is applied over the `time` dimension.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of ``da`` to be normalized. The default value is the entire time range.
     q_low: :py:class:`float <float>`, default: `0.25`.
         The lower quantile for IQR calculation (:math:`Q_1`).
     q_high: :py:class:`float <float>`, default: `0.75`.
@@ -135,9 +146,10 @@ def normalize_robust(
         - **Advantages**: Robust to outliers, providing a more stable standardization for skewed data.
         - **Disadvantages**: May lose some distribution information compared to Z-Score standardization.
     """
-    median = da.median(dim=dim)
-    q75 = da.quantile(q_high, dim=dim)
-    q25 = da.quantile(q_low, dim=dim)
+    da_ = da.sel({dim: time_range})
+    median = da_.median(dim=dim)
+    q75 = da_.quantile(q_high, dim=dim)
+    q25 = da_.quantile(q_low, dim=dim)
     iqr = q75 - q25
     return (da - median) / iqr
 
@@ -145,6 +157,7 @@ def normalize_robust(
 def normalize_mean(
     da: xr.DataArray,
     dim: str = "time",
+    time_range: slice = slice(None, None),
 ) -> xr.DataArray:
     """
     Perform Mean normalization on an xarray time series.
@@ -163,6 +176,8 @@ def normalize_mean(
         The input time series data to be standardized.
     dim: :py:class:`str <str>`, default: `time`.
         The dimension along which to compute the mean and range. By default, standardization is applied over the `time` dimension.
+    time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
+        The time range of ``da`` to be normalized. The default value is the entire time range.
 
     Returns
     -------
@@ -175,7 +190,8 @@ def normalize_mean(
         - **Advantages**: Simple, partially preserves data distribution characteristics.
         - **Disadvantages**: Sensitive to outliers, and the scaling range is not fixed.
     """
-    mean = da.mean(dim=dim)
-    min_val = da.min(dim=dim)
-    max_val = da.max(dim=dim)
+    da_ = da.sel({dim: time_range})
+    mean = da_.mean(dim=dim)
+    min_val = da_.min(dim=dim)
+    max_val = da_.max(dim=dim)
     return (da - mean) / (max_val - min_val)

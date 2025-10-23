@@ -23,12 +23,15 @@ __all__ = [
     "calc_leadlag_corr_spatial",
     "calc_multiple_linear_regression_spatial",
     "calc_ttestSpatialPattern_spatial",
+    "calc_windmask_ttestSpatialPattern_spatial",
     "calc_levenetestSpatialPattern_spatial",
     "calc_skewness_spatial",
     "calc_kurtosis_spatial",
     "calc_theilslopes_spatial",
     "calc_lead_lag_correlation_coefficients",
     "calc_timeseries_correlations",
+    "calc_non_centered_corr",
+    "calc_pattern_corr",
 ]
 
 
@@ -644,7 +647,12 @@ def calc_multiple_linear_regression_spatial(
 
 
 def calc_ttestSpatialPattern_spatial(
-    data_input1: xr.DataArray, data_input2: xr.DataArray, dim: str = "time"
+    data_input1: xr.DataArray,
+    data_input2: xr.DataArray,
+    dim: str = "time",
+    equal_var: bool = True,
+    alternative: Literal["two-sided", "less", "greater"] = "two-sided",
+    method: Literal["scipy", "xarray"] = "xarray",
 ) -> xr.Dataset:
     """
     Calculate the T-test for the means of two independent sptial samples along with other axis (i.e. 'time') of scores.
@@ -663,6 +671,26 @@ def calc_ttestSpatialPattern_spatial(
     dim: :py:class:`str <str>`
         Dimension(s) over which to apply the test. By default the test is applied over the `time` dimension.
 
+    equal_var: :py:class:`bool <bool>`
+        If True (default), perform a standard independent 2 sample test that assumes equal population variances (see https://en.wikipedia.org/wiki/T-test#Independent_two-sample_t-test).
+        If False, perform Welch’s t-test, which does not assume equal population variance (see https://en.wikipedia.org/wiki/Welch%27s_t-test).
+
+    alternative : {'two-sided', 'less', 'greater'}, optional
+        Defines the alternative hypothesis.
+        The following options are available (default is 'two-sided'):
+
+        - 'two-sided': the means of the distributions underlying the samples are unequal.
+        - 'less': the mean of the distribution underlying the first sample is less than the mean of the distribution underlying the second sample.
+        - 'greater': the mean of the distribution underlying the first sample is greater than the mean of the distribution underlying the second sample.
+
+    method : {'scipy', 'xarray'}, optional
+        Method used to compute correlations:
+
+        - 'scipy': Uses :py:func:`scipy.stats.ttest_ind<scipy:scipy.stats.ttest_ind>` for direct calculation
+        - 'xarray': Uses xarray's built-in method to calculate (faster)
+
+        Default is 'xarray'.
+
     Returns
     -------
     - **statistic**, **pvalue**: :py:class:`xarray.Dataset<xarray.Dataset>`.
@@ -674,31 +702,206 @@ def calc_ttestSpatialPattern_spatial(
     new_dims = tuple(dim for dim in data_input1.dims if dim != dim)
     validate_dataarrays([data_input1, data_input2], dims=new_dims, time_dims=dim)
 
-    # scipy function scipy.stats.ttest_ind calculate the T-test for the means of two independent samples of scores.
-    def _ttest_ind_scipy(data1, data2):
-        statistic, pvalue = stats.ttest_ind(data1, data2)
-        return np.array([statistic, pvalue])
+    if method == "scipy":
+        # scipy function scipy.stats.ttest_ind calculate the T-test for the means of two independent samples of scores.
+        def _ttest_ind_scipy(data1, data2):
+            # Check if there are any NaN values in data1 or data2.
+            if np.isnan(data1).any() or np.isnan(data2).any():
+                return np.array([np.nan, np.nan])
+            statistic, pvalue = stats.ttest_ind(
+                data1, data2, equal_var=equal_var, alternative=alternative
+            )
+            return np.array([statistic, pvalue])
 
-    # Use xarray apply_ufunc to create DataArray
-    ttest_ind_dataarray = xr.apply_ufunc(
-        _ttest_ind_scipy,
-        data_input1,
-        data_input2,
-        input_core_dims=[[dim], [dim]],
-        output_core_dims=[["parameter"]],
-        output_dtypes=["float64"],
-        dask="parallelized",
-        vectorize=True,
-        dask_gufunc_kwargs={"output_sizes": {"parameter": 2}, "allow_rechunk": True},
-        exclude_dims=set((dim,)),  # allow change size
-    )
+        # Use xarray apply_ufunc to create DataArray
+        ttest_ind_dataarray = xr.apply_ufunc(
+            _ttest_ind_scipy,
+            data_input1,
+            data_input2,
+            input_core_dims=[[dim], [dim]],
+            output_core_dims=[["parameter"]],
+            output_dtypes=["float64"],
+            dask="parallelized",
+            vectorize=True,
+            dask_gufunc_kwargs={
+                "output_sizes": {"parameter": 2},
+                "allow_rechunk": True,
+            },
+            exclude_dims=set((dim,)),  # allow change size
+        )
 
-    return xr.Dataset(
-        data_vars={
-            "statistic": ttest_ind_dataarray[..., 0],
-            "pvalue": ttest_ind_dataarray[..., 1],
-        }
-    )
+        return xr.Dataset(
+            data_vars={
+                "statistic": ttest_ind_dataarray[..., 0],
+                "pvalue": ttest_ind_dataarray[..., 1],
+            }
+        )
+
+    elif method == "xarray":
+        # Compute mask for points with no NaNs along the test dimension (nan_policy='propagate')
+        has_nan1 = data_input1.isnull().any(dim=dim)
+        has_nan2 = data_input2.isnull().any(dim=dim)
+        mask = ~(has_nan1 | has_nan2)
+
+        # Compute means and sample variances along the dimension (skipna=True, but masked points will be NaN)
+        mean1 = data_input1.mean(dim=dim).where(mask)
+        mean2 = data_input2.mean(dim=dim).where(mask)
+        var1 = data_input1.var(dim=dim, ddof=1).where(mask)
+        var2 = data_input2.var(dim=dim, ddof=1).where(mask)
+
+        # Sample sizes (scalars; for valid points, full lengths apply as no NaNs)
+        n1 = data_input1.sizes[dim]
+        n2 = data_input2.sizes[dim]
+
+        # Compute t-statistic and df based on equal_var
+        diff = mean1 - mean2
+        if equal_var:
+            # Pooled variance for equal_var=True
+            sp2 = ((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2)
+            denom = np.sqrt(sp2 * (1 / n1 + 1 / n2))
+            df = n1 + n2 - 2
+        else:
+            # Welch's t-test (equal_var=False)
+            denom = np.sqrt(var1 / n1 + var2 / n2)
+            var_term = var1 / n1 + var2 / n2
+            df = var_term**2 / (
+                (var1 / n1) ** 2 / (n1 - 1) + (var2 / n2) ** 2 / (n2 - 1)
+            )
+
+        statistic = diff / denom
+
+        # Compute p-value based on alternative
+        def _pvalue_func(x, df_val):
+            t_abs = np.abs(x)
+            if alternative == "two-sided":
+                return 2 * stats.t.sf(t_abs, df_val)
+            elif alternative == "less":
+                return stats.t.cdf(x, df_val)
+            elif alternative == "greater":
+                return stats.t.sf(x, df_val)
+            else:
+                raise ValueError(
+                    f"Invalid alternative: {alternative}. Must be 'two-sided', 'less', or 'greater'."
+                )
+
+        pvalue = xr.apply_ufunc(
+            _pvalue_func,
+            statistic,
+            df,
+            input_core_dims=[[], []],
+            output_core_dims=[[]],
+            output_dtypes=["float64"],
+            dask="parallelized",
+        )
+
+        return xr.Dataset(
+            data_vars={
+                "statistic": statistic,
+                "pvalue": pvalue,
+            }
+        )
+
+
+def calc_windmask_ttestSpatialPattern_spatial(
+    data_input1: xr.Dataset,
+    data_input2: xr.Dataset,
+    dim: str = "time",
+    u_dim: str = "u",
+    v_dim: str = "v",
+    mask_method: Literal["or", "and"] = "or",
+    thresh: float = 0.05,
+    equal_var: bool = True,
+    alternative: Literal["two-sided", "less", "greater"] = "two-sided",
+    method: Literal["scipy", "xarray"] = "xarray",
+):
+    """
+    Generate a significance mask for T-tests on the means of two independent spatial zonal (u) and meridional (v) wind samples,
+    aggregated over the specified dimension (default 'time').
+
+    Parameters
+    ----------
+    data_input1 : :py:class:`xarray.Dataset`
+         The first spatio-temporal data of xarray Dataset to be calculated. It is necessary to include the zonal wind component (u_dim) and the meridional wind component (v_dim).
+    data_input2 : :py:class:`xarray.Dataset`
+         The second spatio-temporal data of xarray Dataset to be calculated. It is necessary to include the zonal wind component (u_dim) and the meridional wind component (v_dim).
+
+    .. note::
+        - The order of `data_input1` and `data_input2` has no effect on the calculation result.
+        - The non-time dimensions of the two data sets must be exactly the same, and the dimensionality values must be arranged in the same order (ascending or descending).
+
+    dim : :py:class:`str`, default: `time`
+        Dimension(s) over which to apply the test. By default the test is applied over the `time` dimension.
+    u_dim : :py:class:`str`, default: `u`
+        Variable name for the u velocity (zonal wind, in x direction).
+    v_dim : :py:class:`str`, default: `v`
+        Variable name for the v velocity (meridional wind, in y direction).
+    mask_method : Literal["or", "and"], default: "or"
+        Method to combine the significance masks for u and v components:
+
+        - "or": A grid point is considered significant if either the u or v component is significant (p <= thresh).
+        - "and": A grid point is considered significant if both the u and v components are significant (p <= thresh).
+
+    thresh : :py:class:`float`, default: 0.05
+        The significance level (alpha) for the p-value threshold used to create the mask.
+    equal_var : :py:class:`bool`, default: True
+        If True (default), perform a standard independent 2 sample test that assumes equal population variances (see https://en.wikipedia.org/wiki/T-test#Independent_two-sample_t-test).
+        If False, perform Welch’s t-test, which does not assume equal population variance (see https://en.wikipedia.org/wiki/Welch%27s_t-test).
+
+    alternative : {'two-sided', 'less', 'greater'}, optional=
+        Defines the alternative hypothesis.
+        The following options are available (default is 'two-sided'):
+
+        - 'two-sided': the means of the distributions underlying the samples are unequal.
+        - 'less': the mean of the distribution underlying the first sample is less than the mean of the distribution underlying the second sample.
+        - 'greater': the mean of the distribution underlying the first sample is greater than the mean of the distribution underlying the second sample.
+
+    method : {'scipy', 'xarray'}, optional
+        Method used to compute t-tests:
+
+        - 'scipy': Uses :py:func:`scipy.stats.ttest_ind<scipy:scipy.stats.ttest_ind>` for direct calculation
+        - 'xarray': Uses xarray's built-in method to calculate (faster)
+
+        Default is 'xarray'.
+
+    Returns
+    -------
+    masked_pvalue : :py:class:`xarray.DataArray`
+        A boolean mask indicating significant regions (True where p <= thresh, combined via mask_method for u and v).
+
+    .. seealso::
+        :py:func:`scipy.stats.ttest_ind <scipy:scipy.stats.ttest_ind>`.
+    """
+
+    def _get_wind_mask(u_pvalue, v_pvalue, p_thresh=thresh):
+        if mask_method == "or":
+            return (u_pvalue <= p_thresh) | (v_pvalue <= p_thresh)
+        elif mask_method == "and":
+            return (u_pvalue <= p_thresh) & (v_pvalue <= p_thresh)
+        else:
+            raise ValueError(
+                f"Invalid mask_method: {mask_method}. Must be 'or' or 'and'."
+            )
+
+    uwnd_pvalue = calc_ttestSpatialPattern_spatial(
+        data_input1[u_dim],
+        data_input2[u_dim],
+        dim=dim,
+        equal_var=equal_var,
+        alternative=alternative,
+        method=method,
+    ).pvalue
+
+    vwnd_pvalue = calc_ttestSpatialPattern_spatial(
+        data_input1[v_dim],
+        data_input2[v_dim],
+        dim=dim,
+        equal_var=equal_var,
+        alternative=alternative,
+        method=method,
+    ).pvalue
+
+    uvwnd_pvalue = _get_wind_mask(uwnd_pvalue, vwnd_pvalue)
+    return uvwnd_pvalue
 
 
 def calc_levenetestSpatialPattern_spatial(
@@ -1324,3 +1527,201 @@ def calc_timeseries_correlations(
     )
 
     return corr_da
+
+
+def calc_non_centered_corr(data_input1, data_input2, dim=None):
+    """
+    Compute the non-centered (uncentered) correlation coefficient between two xarray DataArrays.
+    This is equivalent to the cosine similarity, calculated as the sum of the product of the two arrays
+    divided by the product of their L2 norms (Euclidean norms), without subtracting the means.
+
+    The formula is:
+
+    .. math::
+
+        r = \\frac{\\sum (x \\cdot y)}{\\sqrt{\\sum x^2} \\cdot \\sqrt{\\sum y^2}}
+
+    Parameters
+    ----------
+    data_input1 : :py:class:`xarray.DataArray`
+        The first input data array to be correlated.
+    data_input2 : :py:class:`xarray.DataArray`
+        The second input data array to be correlated.
+
+    .. note::
+        - Both inputs must be xarray DataArray objects.
+        - The arrays must have compatible shapes: if `dim` is specified, it must be a shared dimension;
+          if `dim` is None, all dimensions are flattened into a single vector for computation.
+        - The result is set to 0 where the denominator (product of norms) is zero to avoid division by zero.
+
+    dim : :py:class:`str` or None, optional
+        Dimension(s) over which to compute the correlation. If None (default), the arrays are flattened
+        across all dimensions into a single vector before computation. If a string, the correlation is
+        computed along the specified dimension, preserving other dimensions.
+
+    Returns
+    -------
+    corr : :py:class:`xarray.DataArray`
+        The non-centered correlation coefficient, with the same dimensions as the input arrays
+        (or broadcasted appropriately).
+
+    .. seealso::
+        :py:func:`scipy.spatial.distance.cosine <scipy:scipy.spatial.distance.cosine>`
+        (for the related cosine distance metric).
+
+    Examples
+    --------
+    Compute correlation along a dimension:
+
+    >>> import xarray as xr
+    >>> import numpy as np
+    >>> import easyclimate as ecl
+    >>> da1 = xr.DataArray(np.array([[1, 2], [3, 4]]), dims=['x', 'y'])
+    >>> da2 = xr.DataArray(np.array([[2, 3], [4, 5]]), dims=['x', 'y'])
+    >>> corr = ecl.calc_non_centered_corr(da1, da2, dim='y')
+    >>> print(corr)
+    <xarray.DataArray (x: 2)> Size: 16B
+    array([0.99227788, 0.99951208])
+
+    Flatten and compute scalar correlation:
+
+    >>> corr_flat = calc_non_centered_corr(da1, da2)
+    >>> print(corr_flat)
+    Dimensions without coordinates: x
+    <xarray.DataArray ()> Size: 8B
+    array(0.99380799)
+    """
+    # Ensure inputs are DataArray
+    if not isinstance(data_input1, xr.DataArray) or not isinstance(
+        data_input2, xr.DataArray
+    ):
+        raise TypeError("Inputs must be xarray.DataArray objects")
+
+    # If no dimension is specified, flatten the data
+    if dim is None:
+        da1_flat = data_input1.stack(flat_dim=data_input1.dims)
+        da2_flat = data_input2.stack(flat_dim=data_input2.dims)
+        numerator = (da1_flat * da2_flat).sum()
+        denominator = np.sqrt((da1_flat**2).sum() * (da2_flat**2).sum())
+    else:
+        # Compute along the specified dimension
+        numerator = (data_input1 * data_input2).sum(dim=dim)
+        denominator = np.sqrt(
+            (data_input1**2).sum(dim=dim) * (data_input2**2).sum(dim=dim)
+        )
+
+    # Avoid division by zero error
+    return xr.where(denominator != 0, numerator / denominator, 0)
+
+
+def calc_pattern_corr(
+    data_input1: xr.DataArray, data_input2: xr.DataArray, time_dim: str = "time"
+):
+    """
+    Compute the pattern correlation (non-centered) between two xarray DataArrays over their common
+    spatial dimensions. This is useful for comparing spatial patterns, such as in climate data.
+
+    It uses the non-centered correlation formula:
+
+    .. math::
+
+        r = \\frac{\\sum (x \\cdot y)}{\\sqrt{\\sum x^2} \\cdot \\sqrt{\\sum y^2}}
+
+    where the summation is over the stacked spatial (pattern) dimensions.
+
+    The spatial pattern dimensions are automatically detected as the intersection of the input dimensions,
+    excluding 'time' (if present). Both inputs are stacked along these pattern dimensions into a temporary
+    'pattern' dimension, and the non-centered correlation is computed along it.
+
+    - If both inputs lack 'time', the result is a scalar.
+    - If one input has 'time' and the other does not, the result preserves the 'time' dimension from the timed input.
+    - Broadcasting occurs automatically for compatible shapes.
+
+    Parameters
+    ----------
+    data_input1 : :py:class:`xarray.DataArray`
+        The first input data array (e.g., spatial pattern or time series of patterns).
+    data_input2 : :py:class:`xarray.DataArray`
+        The second input data array (must have compatible spatial dimensions).
+    time_dim: :py:class:`str <str>`, default: `time`.
+        The time coordinate dimension name.
+
+    Returns
+    -------
+    corr : :py:class:`xarray.DataArray` or scalar
+        The pattern correlation coefficient(s). Dimensions match the non-spatial dimensions of the inputs
+        (e.g., 'time' if present in one input).
+
+    .. note::
+        - Assumes inputs have compatible shapes and the only differing dimension is 'time'.
+        - Equivalent to cosine similarity over the spatial pattern.
+        - For zero-norm cases, correlation is set to 0.
+
+    .. seealso::
+        - `pattern_cor -NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/pattern_cor.shtml>`__
+        - :py:func:`calc_non_centered_corr`
+
+    Examples
+    --------
+    Scalar correlation between two spatial patterns:
+
+    >>> import xarray as xr
+    >>> import numpy as np
+    >>> import easyclimate as ecl
+    >>> # Create a random number generator with a fixed seed.
+    >>> rng = np.random.default_rng(42)
+    >>> pat1 = xr.DataArray(rng.random((2, 3)), dims=['lat', 'lon'])
+    >>> pat2 = xr.DataArray(rng.random((2, 3)), dims=['lat', 'lon'])
+    >>> pcc = ecl.calc_pattern_corr(pat1, pat2)
+    >>> print(pcc)
+    <xarray.DataArray 'pcc' ()> Size: 8B
+    array(0.85730639)
+    Attributes:
+        long_name:  Pattern Correlation Coefficient (non-centered)
+        units:      dimensionless
+
+    Time series correlation (one with time):
+
+    >>> # Create a random number generator with a fixed seed.
+    >>> rng = np.random.default_rng(42)
+    >>> time = xr.DataArray(np.arange(4), dims=['time'])
+    >>> timed_pat = xr.DataArray(rng.random((4, 2, 3)), dims=['time', 'lat', 'lon'])
+    >>> pcc_time = ecl.calc_pattern_corr(timed_pat, pat2)
+    >>> print(pcc_time)
+    <xarray.DataArray 'pcc' (time: 4)> Size: 32B
+    array([0.85730639, 1.        , 0.78188174, 0.88162673])
+    Dimensions without coordinates: time
+    Attributes:
+        long_name:  Pattern Correlation Coefficient (non-centered)
+        units:      dimensionless
+    """
+    # Ensure inputs are DataArray
+    if not isinstance(data_input1, xr.DataArray) or not isinstance(
+        data_input2, xr.DataArray
+    ):
+        raise TypeError("Inputs must be xarray.DataArray objects")
+
+    # Detect common spatial dimensions (exclude 'time')
+    dims1 = set(data_input1.dims)
+    dims2 = set(data_input2.dims)
+    common_dims = dims1.intersection(dims2)
+    pattern_dims_set = common_dims - {time_dim}
+    if not pattern_dims_set:
+        raise ValueError("No common spatial (non-time) dimensions found between inputs")
+    pattern_dims = sorted(pattern_dims_set)  # Sorted for consistent stacking
+
+    # Stack both inputs along pattern dimensions
+    data1_stacked = data_input1.stack(pattern=tuple(pattern_dims))
+    data2_stacked = data_input2.stack(pattern=tuple(pattern_dims))
+
+    # Compute correlation along the pattern dimension
+    pcc = calc_non_centered_corr(data1_stacked, data2_stacked, dim="pattern")
+
+    # Add necessary name and attributes
+    pcc.name = "pcc"
+    pcc.attrs = {
+        "long_name": "Pattern Correlation Coefficient (non-centered)",
+        "units": "dimensionless",
+    }
+
+    return pcc
