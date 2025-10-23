@@ -2,7 +2,7 @@
 
 ## v2025.11.0
 
-*Released on: 2025/10/22*
+*Released on: 2025/10/23*
 
 * [fix: EGR error](https://github.com/shenyulu/easyclimate/pull/105/commits/ab0979beac3dbbd36bd16174df23a869252f24da)
 
