@@ -18,24 +18,12 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-
-      - name: Create virtual environment
-        run: uv venv .venv
-
       - name: Install dependencies
         run: |
-          source .venv/bin/activate
-          uv pip install numba numpy
-          uv pip install -r test_requirements.txt
+          pip install -r test_requirements.txt
 
       - name: Run unit tests
-        run: |
-          source .venv/bin/activate
-          pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+        run: pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
 
   BuildAndPublish:
     needs: UnitTesting
@@ -46,29 +34,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
           architecture: 'x64'
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-
-      - name: Create virtual environment
-        run: uv venv .venv
 
       - name: Install build dependencies
         run: |
-          source .venv/bin/activate
-          uv pip install --upgrade pip build setuptools wheel setuptools-scm numba numpy
-          uv pip install -r release_requirements.txt
+          python -m pip install --upgrade pip build setuptools wheel setuptools-scm
+          pip install -r release_requirements.txt
 
       - name: Build package
         run: |
-          source .venv/bin/activate
           python -m build --wheel --no-isolation
           python -m build --no-isolation --sdist .
           python setup.py clean --all

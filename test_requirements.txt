@@ -12,7 +12,7 @@ dpcpp-cpp-rt
 scipy >=1.8.0
 statsmodels
 geocat-comp
-easyclimate-backend >= 2025.8.0
+easyclimate-backend >= 2025.11.0
 dask
 pymannkendall
 flox
@@ -22,7 +22,7 @@ pooch
 zarr
 metpy
 tcpypi
-netCDF4 <= 1.7.2
+netCDF4
 h5netcdf
 seaborn
 EMD-signal
