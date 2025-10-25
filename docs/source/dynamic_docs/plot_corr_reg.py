@@ -241,7 +241,7 @@ plt.title("Niño 3.4 index")
 # %%
 # Since :math:`x(t)` is standardized, :math:`\mathrm{Var}(x) = 1`, so :math:`a_1` directly reflects the covariance, with units of :math:`\frac{\text{ K (local SST change) }}{ \sigma \text{(ENSO index)} } = \mathrm{K}`.
 #
-# - :py:func:`easyclimate.normalized.normalize_zscore <easyclimate.normalized.normalize_zscore>`: Standardizes the Niño 3.4 index (mean = 0, standard deviation = 1) using:
+# - :py:func:`easyclimate.normalized.timeseries_normalize_zscore <easyclimate.normalized.timeseries_normalize_zscore>`: Standardizes the Niño 3.4 index (mean = 0, standard deviation = 1) using:
 #
 # .. math::
 #
@@ -254,7 +254,7 @@ plt.title("Niño 3.4 index")
 #     Standardization puts the index in “standard units,” making it easier to compare and use in regression analysis! 📏
 #
 
-nino34_index_normalized = ecl.normalized.normalize_zscore(nino34_index)
+nino34_index_normalized = ecl.normalized.timeseries_normalize_zscore(nino34_index)
 
 plt.figure(figsize=(10, 3))
 ecl.plot.line_plot_with_threshold(nino34_index_normalized)

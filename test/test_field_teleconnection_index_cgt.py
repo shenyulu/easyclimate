@@ -20,7 +20,9 @@ def test_calc_index_CGT_1point_Ding_Wang_2005():
         z200_data
     )
     cgt_index1 = ecl.get_specific_months_data(cgt_index1, [6, 7, 8, 9])
-    cgt_index1_normalized = ecl.normalized.normalize_zscore(cgt_index1, dim="time")
+    cgt_index1_normalized = ecl.normalized.timeseries_normalize_zscore(
+        cgt_index1, dim="time"
+    )
 
     z200_anomaly_data = ecl.remove_seasonal_cycle_mean(z200_data)
     z200_anormaly_JJAS = ecl.get_specific_months_data(

@@ -10,7 +10,7 @@ from scipy import signal, stats
 from scipy.stats import pearsonr
 from scipy.signal import correlate
 from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
-from .normalized import normalize_zscore
+from .normalized import timeseries_normalize_zscore
 from rich.progress import Progress, BarColumn, TimeRemainingColumn
 from xarray import DataTree
 from .datanode import DataNode
@@ -293,7 +293,9 @@ def calc_corr_spatial(
         )
 
     # Covariance (regression coefficient)
-    reg_coeff = xr.cov(data_input, normalize_zscore(x, dim=time_dim), dim=time_dim)
+    reg_coeff = xr.cov(
+        data_input, timeseries_normalize_zscore(x, dim=time_dim), dim=time_dim
+    )
 
     if method == "scipy":
         # Define a function that handles each grid point

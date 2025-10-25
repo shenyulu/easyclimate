@@ -19,7 +19,9 @@ def test_calc_index_PDO_EOF1():
     pdo_index = ecl.field.air_sea_interaction.calc_index_PDO_EOF1(
         data_sst, normalized=True, detrend_spatial=True
     )
-    pdo_index_normalized = ecl.normalized.normalize_zscore(pdo_index, dim="time")
+    pdo_index_normalized = ecl.normalized.timeseries_normalize_zscore(
+        pdo_index, dim="time"
+    )
 
     fig, ax = plt.subplots()
     ecl.plot.bar_plot_with_threshold(pdo_index_normalized)

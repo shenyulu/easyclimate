@@ -6,10 +6,10 @@ import pytest
 import xarray as xr
 import numpy as np
 from easyclimate.core.normalized import (
-    normalize_zscore,
-    normalize_minmax,
-    normalize_robust,
-    normalize_mean,
+    timeseries_normalize_zscore,
+    timeseries_normalize_minmax,
+    timeseries_normalize_robust,
+    timeseries_normalize_mean,
 )
 
 
@@ -59,10 +59,10 @@ def sample_da_constant():
     )
 
 
-# Test class for normalize_zscore
+# Test class for timeseries_normalize_zscore
 class TestNormalizeZscore:
     def test_correctness(self, sample_da):
-        result = normalize_zscore(sample_da, dim="time", ddof=1)
+        result = timeseries_normalize_zscore(sample_da, dim="time", ddof=1)
         # Check output type
         assert isinstance(result, xr.DataArray)
         # Check mean and std along time dimension
@@ -74,18 +74,20 @@ class TestNormalizeZscore:
 
     # def test_invalid_dim(self, sample_da):
     #     with pytest.raises(ValueError, match=".*invalid_dim.*"):
-    #         normalize_zscore(sample_da, dim="invalid_dim")
+    #         timeseries_normalize_zscore(sample_da, dim="invalid_dim")
 
     def test_constant_data(self, sample_da_constant):
-        result = normalize_zscore(sample_da_constant, dim="time", ddof=1)
+        result = timeseries_normalize_zscore(sample_da_constant, dim="time", ddof=1)
         # Constant data should result in NaN due to zero standard deviation
         assert np.all(np.isnan(result))
 
 
-# Test class for normalize_minmax
+# Test class for timeseries_normalize_minmax
 class TestNormalizeMinmax:
     def test_correctness(self, sample_da):
-        result = normalize_minmax(sample_da, dim="time", feature_range=(0, 1))
+        result = timeseries_normalize_minmax(
+            sample_da, dim="time", feature_range=(0, 1)
+        )
         # Check output type
         assert isinstance(result, xr.DataArray)
         # Check range
@@ -96,7 +98,9 @@ class TestNormalizeMinmax:
         assert result.coords["time"].equals(sample_da.coords["time"])
 
     def test_custom_range(self, sample_da):
-        result = normalize_minmax(sample_da, dim="time", feature_range=(-1, 1))
+        result = timeseries_normalize_minmax(
+            sample_da, dim="time", feature_range=(-1, 1)
+        )
         assert np.allclose(result.min(dim="time"), -1.0, atol=1e-6)
         assert np.allclose(result.max(dim="time"), 1.0, atol=1e-6)
 
@@ -105,15 +109,17 @@ class TestNormalizeMinmax:
     #         normalize_minmax(sample_da, dim="invalid_dim")
 
     def test_constant_data(self, sample_da_constant):
-        result = normalize_minmax(sample_da_constant, dim="time")
+        result = timeseries_normalize_minmax(sample_da_constant, dim="time")
         # Constant data should result in NaN due to zero range
         assert np.all(np.isnan(result))
 
 
-# Test class for normalize_robust
+# Test class for timeseries_normalize_robust
 class TestNormalizeRobust:
     def test_correctness(self, sample_da):
-        result = normalize_robust(sample_da, dim="time", q_low=0.25, q_high=0.75)
+        result = timeseries_normalize_robust(
+            sample_da, dim="time", q_low=0.25, q_high=0.75
+        )
         # Check output type
         assert isinstance(result, xr.DataArray)
         # Check median is approximately zero
@@ -124,18 +130,18 @@ class TestNormalizeRobust:
 
     # def test_invalid_dim(self, sample_da):
     #     with pytest.raises(ValueError, match=".*invalid_dim.*"):
-    #         normalize_robust(sample_da, dim="invalid_dim")
+    #         timeseries_normalize_robust(sample_da, dim="invalid_dim")
 
     def test_constant_data(self, sample_da_constant):
-        result = normalize_robust(sample_da_constant, dim="time")
+        result = timeseries_normalize_robust(sample_da_constant, dim="time")
         # Constant data should result in NaN due to zero IQR
         assert np.all(np.isnan(result))
 
 
-# Test class for normalize_mean
+# Test class for timeseries_normalize_mean
 class TestNormalizeMean:
     def test_correctness(self, sample_da):
-        result = normalize_mean(sample_da, dim="time")
+        result = timeseries_normalize_mean(sample_da, dim="time")
         # Check output type
         assert isinstance(result, xr.DataArray)
         # Check mean is approximately zero
@@ -146,9 +152,9 @@ class TestNormalizeMean:
 
     # def test_invalid_dim(self, sample_da):
     #     with pytest.raises(ValueError, match=".*invalid_dim.*"):
-    #         normalize_mean(sample_da, dim="invalid_dim")
+    #         timeseries_normalize_mean(sample_da, dim="invalid_dim")
 
     def test_constant_data(self, sample_da_constant):
-        result = normalize_mean(sample_da_constant, dim="time")
+        result = timeseries_normalize_mean(sample_da_constant, dim="time")
         # Constant data should result in NaN due to zero range
         assert np.all(np.isnan(result))

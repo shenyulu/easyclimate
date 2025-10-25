@@ -8,7 +8,7 @@ from ...core.variability import remove_seasonal_cycle_mean
 from ...core.yearstat import calc_yearly_climatological_mean
 from ...core.extract import get_specific_months_data
 from ...core.stat import calc_detrend_spatial
-from ...core.normalized import normalize_zscore
+from ...core.normalized import timeseries_normalize_zscore
 from ...filter.spectrum import filter_fourier_harmonic_analysis
 from typing import Literal
 
@@ -170,7 +170,7 @@ def calc_index_CGT_NH_Ding_Wang_2005(
             f"`output_freq` should be `monthly` or `seasonally`, not {output_freq}"
         )
 
-    index_cgt = normalize_zscore(
+    index_cgt = timeseries_normalize_zscore(
         z_anomaly_data_NH_JJAS_detrend_filtered.sel(
             lon=slice(60, 70), lat=slice(35, 40)
         ).mean(dim=("lat", "lon"))
