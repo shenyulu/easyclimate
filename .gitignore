@@ -7,6 +7,7 @@
 **/docs/source/gen_modules
 **/src/easyclimate.egg-info
 **/build
+**/.github/instructions
 docs/optipng.exe
 docs/source/sg_execution_times.rst
 docs/source/relay
@@ -19,6 +20,6 @@ test/tmpfile
 
 
 #Ignore vscode AI rules
-.github\instructions\codacy.instructions.md
+.github/instructions/codacy.instructions.md
 # Virtual environment
 .venv
