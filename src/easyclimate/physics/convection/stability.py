@@ -7,7 +7,6 @@ import numpy as np
 import xarray as xr
 import warnings
 from typing import Literal
-from ...core.diff import calc_gradient, calc_p_gradient
 from ..temperature.potential_temperature import calc_potential_temperature_vertical
 
 __all__ = ["calc_brunt_vaisala_frequency_atm", "calc_static_stability"]
@@ -54,6 +53,8 @@ def calc_brunt_vaisala_frequency_atm(
         - `brunt_vaisala_atm - NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/brunt_vaisala_atm.shtml>`__
 
     """
+    from ...core.diff import calc_gradient
+
     dp = 1.0
     dtheta_dp = calc_gradient(potential_temperature_data, dim=vertical_dim) / dp
     dz_dp = calc_gradient(z_data, dim=vertical_dim) / dp
@@ -108,6 +109,8 @@ def calc_static_stability(
         - `static_stability — MetPy 1.5 <https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.static_stability.html>`__
         - `Static stability parameters · Issue #2535 · Unidata/MetPy <https://github.com/Unidata/MetPy/issues/2535>`__
     """
+    from ...core.diff import calc_p_gradient
+
     theta = calc_potential_temperature_vertical(
         temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
