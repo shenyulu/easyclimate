@@ -1,5 +1,5 @@
 numpy >= 1.24.3
-xarray >= 2014.10.0
+xarray >= 2025.06.0
 geocat.viz
 cartopy >= 0.20
 xeofs >= 3.0.0
@@ -23,7 +23,6 @@ zarr
 metpy
 tcpypi
 netCDF4
-h5netcdf
 seaborn
 EMD-signal
 pybarnes

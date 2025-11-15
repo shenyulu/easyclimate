@@ -1,5 +1,5 @@
 numpy >= 1.24.3
-xarray >= 2014.10.0
+xarray >= 2025.06.0
 geocat.viz
 cartopy >= 0.20
 xeofs >= 3.0.0
@@ -23,13 +23,12 @@ zarr
 metpy
 tcpypi
 netCDF4
-h5netcdf
 seaborn
 EMD-signal
 pybarnes
 rich
 
-sphinx == 8.1.3
+sphinx == 8.2.3
 recommonmark == 0.7.1
 sphinx-markdown-tables == 0.0.17
 sphinxcontrib-jupyter == 0.5.10
@@ -39,4 +38,4 @@ sphinx-autoapi == 3.6.1
 sphinx-copybutton == 0.5.2
 sphinx-book-theme == 1.1.4
 sphinx_design == 0.6.1
-snowballstemmer == 2.2.0
+snowballstemmer == 3.1.0
