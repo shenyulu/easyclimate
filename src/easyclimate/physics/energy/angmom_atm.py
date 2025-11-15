@@ -6,7 +6,7 @@ from __future__ import annotations
 import xarray as xr
 import numpy as np
 from ...core.diff import calc_gradient
-from ...core.utility import transfer_data_multiple_units
+from ...core.units import transfer_data_multiple_units
 from typing import Literal
 
 __all__ = ["calc_relative_angular_momentum"]

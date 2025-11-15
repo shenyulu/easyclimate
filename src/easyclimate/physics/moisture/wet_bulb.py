@@ -8,7 +8,7 @@ import xarray as xr
 from typing import Literal
 
 from ...backend import _wet_bulb_temperature
-from ...core.utility import (
+from ...core.units import (
     transfer_data_multiple_units,
     transfer_data_temperature_units,
 )

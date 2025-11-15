@@ -11,7 +11,7 @@ __all__ = ["calc_latent_heat_water"]
 import numpy as np
 import xarray as xr
 from typing import Literal
-from ...core.utility import transfer_data_temperature_units
+from ...core.units import transfer_data_temperature_units
 
 
 def calc_latent_heat_water(

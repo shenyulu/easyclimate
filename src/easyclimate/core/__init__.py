@@ -5,8 +5,10 @@ from .read import *
 from .stat import *
 from .variability import *
 from .yearstat import *
+from .monthstat import *
 from .tutorial import *
 from .datanode import *
+from .units import *
 
 from . import utility
 from . import mk_test

@@ -13,10 +13,8 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 from ..backend import _vinth2p_dp, _vinth2p_ecmwf, _vintp2p_ecmwf
-from ..core.utility import (
-    compare_multi_dataarray_coordinate,
-    transfer_data_multiple_units,
-)
+from ..core.utility import compare_multi_dataarray_coordinate
+from ..core.units import transfer_data_multiple_units
 from typing import Literal, Optional
 
 __all__ = ["interp_vinth2p_dp", "interp_vinth2p_ecmwf", "interp_vintp2p_ecmwf"]

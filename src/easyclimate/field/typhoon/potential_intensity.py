@@ -3,7 +3,7 @@ Potential intensity of TC
 """
 
 import xarray as xr
-from ...core.utility import (
+from ...core.units import (
     transfer_data_difference_units,
     transfer_data_multiple_units,
 )

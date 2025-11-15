@@ -167,7 +167,7 @@ temp_tc_polar_result
 # - **Unit Conversion**: ``r2`` converts the symmetric temperature from Kelvin ( :math:`\mathrm{K}` ) to Celsius ( :math:`\mathrm{^\circC}` ) .
 ds_sym = temp_tc_polar_result["rotated_symmetric"]
 r1 = (ds_sym - ds_sym.isel(y = 0))
-r2 = ecl.utility.transfer_data_temperature_units(ds_sym, "K", "degC")
+r2 = ecl.transfer_data_temperature_units(ds_sym, "K", "degC")
 
 # %%
 # Here, we visualizes the symmetric temperature anomaly and absolute temperature.

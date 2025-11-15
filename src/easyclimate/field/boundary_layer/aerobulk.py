@@ -98,10 +98,9 @@ import numpy as np
 import xarray as xr
 import warnings
 from typing import Literal
-from ...core.utility import (
+from ...core.units import (
     transfer_data_temperature_units,
     transfer_data_multiple_units,
-    transfer_data_difference_units,
 )
 
 __all__ = [

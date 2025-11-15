@@ -6,7 +6,7 @@ import pytest
 import numpy as np
 import xarray as xr
 from easyclimate.physics.energy.latent_heat_water import calc_latent_heat_water
-from easyclimate.core.utility import transfer_data_multiple_units
+from easyclimate.core.units import transfer_data_multiple_units
 
 
 # https://www.ncl.ucar.edu/Document/Functions/Contributed/latent_heat_water.shtml

@@ -5,10 +5,9 @@ Human index
 import xarray as xr
 import numpy as np
 from typing import Literal
-from ...core.utility import (
+from ...core.units import (
     transfer_data_temperature_units,
     transfer_data_multiple_units,
-    transfer_data_difference_units,
 )
 from ...backend import human_index_mod, human_index_mod_old
 
