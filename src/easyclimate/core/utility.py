@@ -10,7 +10,7 @@ import warnings
 
 from packaging import version
 from functools import wraps
-from typing import Union, List, Tuple, Optional
+from typing import Union, List, Tuple, Optional, Hashable, Iterable
 from .datanode import DataNode
 from ..version import __version__
 
@@ -100,7 +100,9 @@ def assert_compared_version(ver1: float, ver2: float) -> int:
         return 1
 
 
-def find_dims_axis(data: xr.DataArray, dim: str) -> int:
+def find_dims_axis(
+    data: xr.DataArray, dim: Hashable | Iterable[Hashable]
+) -> int | tuple[int, ...]:
     """
     Find the index of `dim` in the xarray DataArray.
 
@@ -108,14 +110,16 @@ def find_dims_axis(data: xr.DataArray, dim: str) -> int:
     ----------
     - data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         :py:class:`xarray.DataArray<xarray.DataArray>` to be calculated.
-    - dim : :py:class:`str <str>`
+    - dim : :py:class:`str <str>` or iterable of str
         Dimension(s) over which to find axis.
 
     Returns
     -------
-    :py:class:`int <int>`.
+    :py:class:`int <int>` or tuple of :py:class:`int <int>`
+        Axis number or numbers corresponding to the given dimensions.
     """
-    return data.dims.index(dim)
+    # return data.dims.index(dim)
+    return data.get_axis_num(dim)
 
 
 def transfer_int2datetime(data: np.array) -> np.datetime64:
@@ -189,7 +193,7 @@ def transfer_deg2rad(ds: xr.DataArray) -> xr.DataArray:
     -------
     - Radians data.: :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
-    return ds * np.pi / 180
+    return ds * np.pi / 180.0
 
 
 def transfer_inf2nan(ds: xr.DataArray) -> xr.DataArray:
