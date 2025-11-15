@@ -12,6 +12,7 @@ docs/optipng.exe
 docs/source/sg_execution_times.rst
 docs/source/relay
 docs/build
+docs/example/*.ipynb
 dist/
 test/tmpfile
 **/.pytest_cache
