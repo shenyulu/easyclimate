@@ -15,8 +15,8 @@ data_nino34_area = xr.open_dataset(
 ).sst
 
 
-def test_calc_yearly_climatological_mean():
-    result_data = ecl.calc_yearly_climatological_mean(data_nino34_area).data
+def test_calc_yearly_mean():
+    result_data = ecl.calc_yearly_mean(data_nino34_area).data
     refer_data = np.array(
         [
             28.05561,
@@ -65,8 +65,8 @@ def test_calc_yearly_climatological_mean():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_yearly_climatological_sum():
-    result_data = ecl.calc_yearly_climatological_sum(data_nino34_area).data
+def test_calc_yearly_sum():
+    result_data = ecl.calc_yearly_sum(data_nino34_area).data
     refer_data = np.array(
         [
             336.66733,
@@ -115,8 +115,8 @@ def test_calc_yearly_climatological_sum():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_yearly_climatological_std():
-    result_data = ecl.calc_yearly_climatological_std(data_nino34_area).data
+def test_calc_yearly_std():
+    result_data = ecl.calc_yearly_std(data_nino34_area).data
     refer_data = np.array(
         [
             0.781642,
@@ -165,8 +165,8 @@ def test_calc_yearly_climatological_std():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_yearly_climatological_var():
-    result_data = ecl.calc_yearly_climatological_var(data_nino34_area).data
+def test_calc_yearly_var():
+    result_data = ecl.calc_yearly_var(data_nino34_area).data
     refer_data = np.array(
         [
             0.61096424,
@@ -215,8 +215,8 @@ def test_calc_yearly_climatological_var():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_yearly_climatological_max():
-    result_data = ecl.calc_yearly_climatological_max(data_nino34_area).data
+def test_calc_yearly_max():
+    result_data = ecl.calc_yearly_max(data_nino34_area).data
     refer_data = np.array(
         [
             29.209,
@@ -265,8 +265,8 @@ def test_calc_yearly_climatological_max():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_yearly_climatological_min():
-    result_data = ecl.calc_yearly_climatological_min(data_nino34_area).data
+def test_calc_yearly_min():
+    result_data = ecl.calc_yearly_min(data_nino34_area).data
     refer_data = np.array(
         [
             26.69558,

@@ -5,7 +5,7 @@ Circumglobal teleconnection pattern (CGT) Index
 import xarray as xr
 from ...core.utility import sort_ascending_latlon_coordinates
 from ...core.variability import remove_seasonal_cycle_mean
-from ...core.yearstat import calc_yearly_climatological_mean
+from ...core.yearstat import calc_yearly_mean
 from ...core.extract import get_specific_months_data
 from ...core.stat import calc_detrend_spatial
 from ...core.normalized import timeseries_normalize_zscore
@@ -150,7 +150,7 @@ def calc_index_CGT_NH_Ding_Wang_2005(
         )
     elif output_freq == "seasonally":
         # Detrend
-        z_anomaly_data_NH_JJAS_yearly = calc_yearly_climatological_mean(
+        z_anomaly_data_NH_JJAS_yearly = calc_yearly_mean(
             z_anomaly_data_NH_JJAS, dim=time_dim
         )
         z_anomaly_data_NH_JJAS_yearly_detrend = calc_detrend_spatial(

@@ -1,24 +1,21 @@
 """
-This module computes statistical values over timesteps of the same year
+This module calculates statistical values over timesteps of the same year
 """
 
 from __future__ import annotations
 import xarray as xr
-from .utility import transfer_int2datetime
 
 __all__ = [
-    "calc_yearly_climatological_mean",
-    "calc_yearly_climatological_sum",
-    "calc_yearly_climatological_std",
-    "calc_yearly_climatological_var",
-    "calc_yearly_climatological_max",
-    "calc_yearly_climatological_min",
+    "calc_yearly_mean",
+    "calc_yearly_sum",
+    "calc_yearly_std",
+    "calc_yearly_var",
+    "calc_yearly_max",
+    "calc_yearly_min",
 ]
 
 
-def calc_yearly_climatological_mean(
-    data_input: xr.DataArray, dim: str = "time", **kwargs
-):
+def calc_yearly_mean(data_input: xr.DataArray, dim: str = "time", **kwargs):
     """
     Calculate yearly mean.
 
@@ -62,17 +59,11 @@ def calc_yearly_climatological_mean(
 
         ./dynamic_docs/plot_basic_statistical_analysis.py
     """
-    gb = data_input.groupby(data_input[dim].dt.year)
-    yearave_int_time = gb.mean(dim=dim, **kwargs)
-    yearave_int_time_renamed = yearave_int_time.rename({"year": dim})
-    Datatime_time = transfer_int2datetime(yearave_int_time_renamed[dim].data)
-    yearave_int_time_renamed[dim] = Datatime_time
-    return yearave_int_time_renamed
+    ds_year = data_input.resample({dim: "YS"}).mean(**kwargs)
+    return ds_year
 
 
-def calc_yearly_climatological_sum(
-    data_input: xr.DataArray, dim: str = "time", **kwargs
-):
+def calc_yearly_sum(data_input: xr.DataArray, dim: str = "time", **kwargs):
     """
     Calculate yearly sum.
 
@@ -111,17 +102,11 @@ def calc_yearly_climatological_sum(
         :py:meth:`xarray.DataArray.sum <xarray:xarray.DataArray.sum>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.sum <xarray:xarray.core.groupby.DataArrayGroupBy.sum>`.
     """
-    gb = data_input.groupby(data_input[dim].dt.year)
-    yearsum_int_time = gb.sum(dim=dim, **kwargs)
-    yearsum_int_time_renamed = yearsum_int_time.rename({"year": dim})
-    Datatime_time = transfer_int2datetime(yearsum_int_time_renamed[dim].data)
-    yearsum_int_time_renamed[dim] = Datatime_time
-    return yearsum_int_time_renamed
+    ds_year = data_input.resample({dim: "YS"}).sum(**kwargs)
+    return ds_year
 
 
-def calc_yearly_climatological_std(
-    data_input: xr.DataArray, dim: str = "time", **kwargs
-):
+def calc_yearly_std(data_input: xr.DataArray, dim: str = "time", **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -164,17 +149,11 @@ def calc_yearly_climatological_std(
         :py:meth:`xarray.DataArray.std <xarray:xarray.DataArray.std>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.std <xarray:xarray.core.groupby.DataArrayGroupBy.std>`.
     """
-    gb = data_input.groupby(data_input[dim].dt.year)
-    yearstd_int_time = gb.std(dim=dim, **kwargs)
-    yearstd_int_time_renamed = yearstd_int_time.rename({"year": dim})
-    Datatime_time = transfer_int2datetime(yearstd_int_time_renamed[dim].data)
-    yearstd_int_time_renamed[dim] = Datatime_time
-    return yearstd_int_time_renamed
+    ds_year = data_input.resample({dim: "YS"}).std(**kwargs)
+    return ds_year
 
 
-def calc_yearly_climatological_var(
-    data_input: xr.DataArray, dim: str = "time", **kwargs
-):
+def calc_yearly_var(data_input: xr.DataArray, dim: str = "time", **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -217,17 +196,11 @@ def calc_yearly_climatological_var(
         :py:meth:`xarray.DataArray.var <xarray:xarray.DataArray.var>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.var <xarray:xarray.core.groupby.DataArrayGroupBy.var>`.
     """
-    gb = data_input.groupby(data_input[dim].dt.year)
-    yearvar_int_time = gb.var(dim=dim, **kwargs)
-    yearvar_int_time_renamed = yearvar_int_time.rename({"year": dim})
-    Datatime_time = transfer_int2datetime(yearvar_int_time_renamed[dim].data)
-    yearvar_int_time_renamed[dim] = Datatime_time
-    return yearvar_int_time_renamed
+    ds_year = data_input.resample({dim: "YS"}).var(**kwargs)
+    return ds_year
 
 
-def calc_yearly_climatological_max(
-    data_input: xr.DataArray, dim: str = "time", **kwargs
-):
+def calc_yearly_max(data_input: xr.DataArray, dim: str = "time", **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -266,17 +239,11 @@ def calc_yearly_climatological_max(
         :py:meth:`xarray.DataArray.max <xarray:xarray.DataArray.max>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.max <xarray:xarray.core.groupby.DataArrayGroupBy.max>`.
     """
-    gb = data_input.groupby(data_input[dim].dt.year)
-    yearmax_int_time = gb.max(dim=dim, **kwargs)
-    yearmax_int_time_renamed = yearmax_int_time.rename({"year": dim})
-    Datatime_time = transfer_int2datetime(yearmax_int_time_renamed[dim].data)
-    yearmax_int_time_renamed[dim] = Datatime_time
-    return yearmax_int_time_renamed
+    ds_year = data_input.resample({dim: "YS"}).max(**kwargs)
+    return ds_year
 
 
-def calc_yearly_climatological_min(
-    data_input: xr.DataArray, dim: str = "time", **kwargs
-):
+def calc_yearly_min(data_input: xr.DataArray, dim: str = "time", **kwargs):
     """
     Calculate yearly standard deviation.
 
@@ -315,9 +282,5 @@ def calc_yearly_climatological_min(
         :py:meth:`xarray.DataArray.min <xarray:xarray.DataArray.min>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.min <xarray:xarray.core.groupby.DataArrayGroupBy.min>`.
     """
-    gb = data_input.groupby(data_input[dim].dt.year)
-    yearmin_int_time = gb.min(dim=dim, **kwargs)
-    yearmin_int_time_renamed = yearmin_int_time.rename({"year": dim})
-    Datatime_time = transfer_int2datetime(yearmin_int_time_renamed[dim].data)
-    yearmin_int_time_renamed[dim] = Datatime_time
-    return yearmin_int_time_renamed
+    ds_year = data_input.resample({dim: "YS"}).min(**kwargs)
+    return ds_year

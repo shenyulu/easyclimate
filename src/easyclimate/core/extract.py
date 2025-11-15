@@ -4,7 +4,7 @@ Obtain data within a specified time period
 
 import xarray as xr
 import numpy as np
-from .yearstat import calc_yearly_climatological_mean
+from .yearstat import calc_yearly_mean
 from typing import List
 
 __all__ = [
@@ -311,9 +311,7 @@ def get_yearmean_for_specific_months_data(
     data_get_specific_months_data = get_specific_months_data(
         data_input, month_array, dim=dim
     )
-    return calc_yearly_climatological_mean(
-        data_get_specific_months_data, dim=dim, **kwargs
-    )
+    return calc_yearly_mean(data_get_specific_months_data, dim=dim, **kwargs)
 
 
 def get_year_exceed_index_upper_bound(

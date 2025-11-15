@@ -55,7 +55,7 @@ def test_calc_index_CGT_NH_Ding_Wang_2005():
         if freq == "monthly":
             return ecl.calc_detrend_spatial(ds_JJAS_anormaly)
         elif freq == "seasonally":
-            yearly_mean = ecl.calc_yearly_climatological_mean(ds_JJAS_anormaly)
+            yearly_mean = ecl.calc_yearly_mean(ds_JJAS_anormaly)
             return ecl.calc_detrend_spatial(yearly_mean)
         else:
             return 0
