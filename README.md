@@ -18,6 +18,7 @@
 [![DOI](https://zenodo.org/badge/465206111.svg)](https://zenodo.org/doi/10.5281/zenodo.10279567)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:53294fc5285255eae60d8cf5d50ec86f28bb970a/)](https://archive.softwareheritage.org/swh:1:dir:53294fc5285255eae60d8cf5d50ec86f28bb970a;origin=https://doi.org/10.5281/zenodo.10279567;visit=swh:1:snp:85515406366d3bdbb39344f4fd07373a49cd1f42;anchor=swh:1:rel:12cab9c3f8cd0bd24229e4d9a5c778fe9b10df63;path=/shenyulu-easyclimate-b0b85e0/)
 
 <div align="center">
 <center>English / <a href = "readme/README.zh_CN.md">简体中文</a> / <a href = "readme/README.ja_JP.md">日本語</a></center>
