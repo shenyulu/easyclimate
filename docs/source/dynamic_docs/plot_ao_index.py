@@ -58,7 +58,7 @@ slp_data_DJF_mean
 # %%
 # Remove the seasonal cycle mean to obtain anomalies
 # This creates anomalies by subtracting the long-term seasonal mean
-slp_data_DJF_anormaly = ecl.remove_seasonal_cycle_mean(slp_data_DJF_mean)
+slp_data_DJF_anormaly = ecl.remove_seasonal_cycle_mean(slp_data_DJF_mean, time_range=slice("1991-01-01", "2020-12-31"))
 slp_data_DJF_anormaly
 
 # %%
