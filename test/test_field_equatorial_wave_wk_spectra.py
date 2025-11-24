@@ -11,7 +11,7 @@ from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
 data = (
-    xr.open_dataset(str(Path(DOCS_DATA_PATH, "olr_smooth_data.nc")))
+    ecl.open_tutorial_dataset("olr_smooth_data")
     .sortby("lat")
     .olr.sel(lat=slice(-15, 15))
 )

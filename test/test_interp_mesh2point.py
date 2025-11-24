@@ -13,7 +13,7 @@ from .const_define import DOCS_DATA_PATH
 from .util import round_sf_np_new
 from easyclimate.interp import interp_mesh2point, interp_mesh2point_withtime
 
-t2m_data = xr.open_dataset(str(Path(DOCS_DATA_PATH, "js_t2m_ERA5_2025052000.nc"))).t2m
+t2m_data = ecl.open_tutorial_dataset("js_t2m_ERA5_2025052000").t2m
 
 data = {
     "Site": [

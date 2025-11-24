@@ -13,13 +13,9 @@ from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
 # Data
-t_data = xr.open_dataset(str(Path(DOCS_DATA_PATH, "test_t_typhoon_201919.nc"))).t
-slp_data = xr.open_dataset(
-    str(Path(DOCS_DATA_PATH, "test_slp_typhoon_201919.nc"))
-).msl.isel(time=0)
-tp_data = (
-    xr.open_dataset(str(Path(DOCS_DATA_PATH, "test_pr_typhoon_201919.nc"))).tp * 1000
-)
+t_data = ecl.open_tutorial_dataset("test_t_typhoon_201919").t
+slp_data = ecl.open_tutorial_dataset("test_slp_typhoon_201919").msl.isel(time=0)
+tp_data = ecl.open_tutorial_dataset("test_pr_typhoon_201919").tp * 1000
 tp_data.attrs["units"] = "mm/h"
 
 
