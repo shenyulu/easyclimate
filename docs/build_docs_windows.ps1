@@ -1,3 +1,3 @@
-.\clean.ps1
+.\clean_all.ps1
 .\make.bat html
 .\copy_ipynb2example.ps1
