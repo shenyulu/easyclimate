@@ -19,6 +19,9 @@ _vinth2p_dp = None
 _vinth2p_ecmwf = None
 _vintp2p_ecmwf = None
 _wet_bulb_temperature = None
+dvibeta = None
+dvrfidf = None
+ddvfidf = None
 
 
 # Cross platform module
@@ -199,6 +202,8 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
             cache_item,
             get_cached_item,
         )
+        from easyclimate_backend.vibeta._vibeta_dp import dvibeta
+        from easyclimate_backend.rvdv._rvdv import ddvfidf, dvrfidf
 
     except ImportError as e:
         warnings.warn(
