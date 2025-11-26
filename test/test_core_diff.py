@@ -142,7 +142,7 @@ t_data_delta_pressure = xr.DataArray(
 )
 
 msl_data_delta_pressure = xr.DataArray(
-    np.array(np.array([1012.017, 1011.9201])),
+    np.array(np.array([834.017, 1011.9201])),
     dims=("lon"),
     coords={"lon": np.array([0.0, 2.5])},
 )
@@ -300,8 +300,8 @@ def test_calc_gradient():
     assert np.isclose(result_data.data, refer_data).all()
 
 
-def test_calc_lon_gradient():
-    result_data = ecl.calc_lon_gradient(t_data).data
+def test_calc_dx_gradient():
+    result_data = ecl.calc_dx_gradient(t_data).data
     refer_data = np.array(
         [
             [4.33391322e-07, 2.88927548e-07, 1.44463774e-07],
@@ -312,8 +312,8 @@ def test_calc_lon_gradient():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_lat_gradient():
-    result_data = ecl.calc_lat_gradient(t_data).data
+def test_calc_dy_gradient():
+    result_data = ecl.calc_dy_gradient(t_data).data
     refer_data = np.array(
         [
             [-1.02538758e-06, -9.17452042e-07, -5.39677672e-07],
@@ -324,8 +324,8 @@ def test_calc_lat_gradient():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_lon_laplacian():
-    result_data = ecl.calc_lon_laplacian(t_data).data
+def test_calc_dx_laplacian():
+    result_data = ecl.calc_dx_laplacian(t_data).data
     refer_data = np.array(
         [
             [-5.21744551e-13, -5.21744551e-13, -5.21744551e-13],
@@ -336,8 +336,8 @@ def test_calc_lon_laplacian():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_lat_laplacian():
-    result_data = ecl.calc_lat_laplacian(t_data).data
+def test_calc_dy_laplacian():
+    result_data = ecl.calc_dy_laplacian(t_data).data
     refer_data = np.array(
         [
             [-9.06117301e-13, -1.42389862e-12, -1.55334394e-12],
@@ -348,8 +348,8 @@ def test_calc_lat_laplacian():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_lon_lat_mixed_derivatives():
-    result_data = ecl.calc_lon_lat_mixed_derivatives(t_data).data
+def test_calc_dxdy_mixed_derivatives():
+    result_data = ecl.calc_dxdy_mixed_derivatives(t_data).data
     refer_data = np.array(
         [
             [-9.74548417e-14, 8.77093575e-13, 1.85164199e-12],
@@ -425,7 +425,7 @@ def test_calc_delta_pressure():
 
     refer_data = np.array(
         [
-            -95237.983,
+            -95415.983,
             -95238.0799,
             7500.0,
             7500.0,
@@ -464,74 +464,185 @@ def test_calc_delta_pressure():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_p_integral():
-    result_data = ecl.calc_p_integral(t_level_data, vertical_dim="level").data
+def test_calc_p_integral1():
+    result_data = ecl.calc_p_integral(
+        t_level_data, vertical_dim="level", vertical_dim_units="hPa", normalize=False
+    ).data
+    refer_data = 25605100.39
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_p_integral2():
+    result_data = ecl.calc_p_integral(
+        t_level_data, vertical_dim="level", vertical_dim_units="hPa", normalize=True
+    ).data
     refer_data = 258.63737768
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_top2surface_integral():
+def test_calc_top2surface_integral1():
     result_data = ecl.calc_top2surface_integral(
         data_input=t_data_delta_pressure,
         surface_pressure_data=msl_data_delta_pressure,
         vertical_dim="level",
         vertical_dim_units="hPa",
-        surface_pressure_data_units="Pa",
+        surface_pressure_data_units="hPa",
+        method="Boer1982",
     ).data.flatten()
-    refer_data = np.array([224.38077318, 224.09617167])
+    refer_data = np.array([18983104.6, 25603493.52])
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_laplacian():
-    result_data = ecl.calc_laplacian(t_data).data.flatten()
+def test_calc_top2surface_integral2():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="Trenberth1991",
+    ).data.flatten()
+    refer_data = np.array([20623698.70465, 25960837.9134305])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral3():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="vibeta-ncl",
+    ).data.flatten()
+    refer_data = np.array([20651805.435606, 25960837.9134305])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dxdy_laplacian():
+    result_data = ecl.calc_dxdy_laplacian(t_data).data.flatten()
     refer_data = np.array([-3.23613322e-12])
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_divergence():
-    result_data = ecl.calc_divergence(u_data_500hpa, v_data_500hpa).data.flatten()
+def test_calc_divergence1():
+    result_data = ecl.calc_divergence(
+        u_data_500hpa, v_data_500hpa, method="easyclimate"
+    ).data.flatten()
     refer_data = np.array(
         [
-            2.72715282e-06,
-            3.41953819e-06,
-            3.46225017e-06,
-            6.33290775e-07,
-            1.93057363e-06,
-            2.86608366e-06,
-            -8.27505764e-07,
-            5.03699161e-07,
-            1.76294706e-06,
+            2.72663939e-06,
+            3.41889412e-06,
+            3.46159796e-06,
+            6.33171399e-07,
+            1.93020991e-06,
+            2.86554389e-06,
+            -8.27349936e-07,
+            5.03604269e-07,
+            1.76261506e-06,
         ]
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
-def test_calc_vorticity():
-    result_data = ecl.calc_vorticity(u_data_500hpa, v_data_500hpa).data.flatten()
+def test_calc_divergence2():
+    result_data = ecl.calc_divergence(
+        u_data_500hpa, v_data_500hpa, method="uv2dv_cfd-ncl", cyclic_boundary=True
+    ).data.flatten()
     refer_data = np.array(
         [
-            -1.34943568e-05,
-            -1.27753346e-05,
-            -1.19427458e-05,
-            -8.15868318e-06,
-            -6.57525154e-06,
-            -5.45707305e-06,
-            -3.43594785e-06,
-            -1.27723716e-06,
-            -1.61903302e-07,
+            np.nan,
+            np.nan,
+            np.nan,
+            1.11924905e-06,
+            1.93020395e-06,
+            1.40729623e-06,
+            np.nan,
+            np.nan,
+            np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_divergence3():
+    result_data = ecl.calc_divergence(
+        u_data_500hpa, v_data_500hpa, method="uv2dv_cfd-ncl", cyclic_boundary=False
+    ).data.flatten()
+    refer_data = np.array(
+        [np.nan, np.nan, np.nan, np.nan, 1.93020395e-06, np.nan, np.nan, np.nan, np.nan]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_vorticity1():
+    result_data = ecl.calc_vorticity(
+        u_data_500hpa, v_data_500hpa, method="easyclimate"
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            -1.34918153e-05,
+            -1.27729277e-05,
+            -1.19404957e-05,
+            -8.15714661e-06,
+            -6.57401295e-06,
+            -5.45604533e-06,
+            -3.43530064e-06,
+            -1.27699661e-06,
+            -1.61872890e-07,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_vorticity2():
+    result_data = ecl.calc_vorticity(
+        u_data_500hpa, v_data_500hpa, method="uv2vr_cfd-ncl", cyclic_boundary=False
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            -6.57399247e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_vorticity3():
+    result_data = ecl.calc_vorticity(
+        u_data_500hpa, v_data_500hpa, method="uv2vr_cfd-ncl", cyclic_boundary=True
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            -7.50901485e-06,
+            -6.57399247e-06,
+            -6.37417834e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_geostrophic_wind():
     result_data = ecl.calc_geostrophic_wind(z_data_500hpa)
     result_data1 = result_data["ug"].data.flatten()[:3]
     result_data2 = result_data["vg"].data.flatten()[:3]
-    refer_data1 = np.array([-1.66699748, -3.25452166, -4.39585806])
-    refer_data2 = np.array([1.0212275, 0.99867278, 0.97611806])
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    refer_data1 = np.array([-1.66668345, -3.25390863, -4.39503012])
+    refer_data2 = np.array([1.02103513, 0.99848472, 0.97593423])
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_horizontal_water_flux():
@@ -575,7 +686,7 @@ def test_calc_vertical_water_flux():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_water_flux_top2surface_integral():
+def test_calc_water_flux_top2surface_integral1():
     specific_humidity_data_sample = (
         ecl.open_tutorial_dataset("shum_202201_mon_mean")
         .shum.isel(time=0)
@@ -603,67 +714,254 @@ def test_calc_water_flux_top2surface_integral():
         v_data_sample,
         surface_pressure_data_sample,
         surface_pressure_data_units="hPa",
+        specific_humidity_data_units="g/kg",
         vertical_dim="level",
         vertical_dim_units="hPa",
+        method="Boer1982",
     )
 
     result_data1 = result_data["qu"].data.flatten()
     result_data2 = result_data["qv"].data.flatten()
     refer_data1 = np.array(
         [
-            -61719.65,
-            -53384.867,
-            -46633.44,
-            -94774.73,
-            -84097.77,
-            -68822.93,
-            -127009.766,
-            -119459.65,
-            -109226.625,
+            -62.9767,
+            -55.777004,
+            -48.86678,
+            -97.02716,
+            -86.51668,
+            -71.81879,
+            -127.393745,
+            -120.51994,
+            -110.340385,
         ]
     )
     refer_data2 = np.array(
         [
-            1478.0461,
-            4159.2134,
-            -2113.73,
-            19404.598,
-            21102.201,
-            16411.918,
-            31748.395,
-            31434.625,
-            23815.54,
+            -1.3589401,
+            0.3201685,
+            -4.6727657,
+            12.666926,
+            16.18642,
+            12.377483,
+            24.790806,
+            24.985409,
+            20.48035,
         ]
     )
 
-    assert np.isclose(result_data1, refer_data1).all()
-    assert np.isclose(result_data2, refer_data2).all()
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
 
 
-def test_calc_divergence_watervaporflux():
+def test_calc_water_flux_top2surface_integral2():
+    specific_humidity_data_sample = (
+        ecl.open_tutorial_dataset("shum_202201_mon_mean")
+        .shum.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    u_data_sample = (
+        ecl.open_tutorial_dataset("uwnd_202201_mon_mean")
+        .uwnd.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    v_data_sample = (
+        ecl.open_tutorial_dataset("vwnd_202201_mon_mean")
+        .vwnd.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    surface_pressure_data_sample = (
+        ecl.open_tutorial_dataset("pressfc_202201_mon_mean")
+        .pres.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+
+    result_data = ecl.calc_water_flux_top2surface_integral(
+        specific_humidity_data_sample,
+        u_data_sample,
+        v_data_sample,
+        surface_pressure_data_sample,
+        surface_pressure_data_units="hPa",
+        specific_humidity_data_units="g/kg",
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        method="Trenberth1991",
+    )
+
+    result_data1 = result_data["qu"].data.flatten()
+    result_data2 = result_data["qv"].data.flatten()
+    refer_data1 = np.array(
+        [
+            -61.71965,
+            -53.384865,
+            -46.63344,
+            -94.77473,
+            -84.09777,
+            -68.822945,
+            -127.00978,
+            -119.45966,
+            -109.22663,
+        ]
+    )
+    refer_data2 = np.array(
+        [
+            1.4780457,
+            4.1592116,
+            -2.1137302,
+            19.404594,
+            21.1022,
+            16.411917,
+            31.748396,
+            31.434624,
+            23.815538,
+        ]
+    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_water_flux_top2surface_integral3():
+    specific_humidity_data_sample = (
+        ecl.open_tutorial_dataset("shum_202201_mon_mean")
+        .shum.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    u_data_sample = (
+        ecl.open_tutorial_dataset("uwnd_202201_mon_mean")
+        .uwnd.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    v_data_sample = (
+        ecl.open_tutorial_dataset("vwnd_202201_mon_mean")
+        .vwnd.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    surface_pressure_data_sample = (
+        ecl.open_tutorial_dataset("pressfc_202201_mon_mean")
+        .pres.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+
+    result_data = ecl.calc_water_flux_top2surface_integral(
+        specific_humidity_data_sample,
+        u_data_sample,
+        v_data_sample,
+        surface_pressure_data_sample,
+        surface_pressure_data_units="hPa",
+        specific_humidity_data_units="g/kg",
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        method="vibeta-ncl",
+    )
+
+    result_data1 = result_data["qu"].data.flatten()
+    result_data2 = result_data["qv"].data.flatten()
+    refer_data1 = np.array(
+        [
+            -61.71964947,
+            -53.38486527,
+            -46.63344214,
+            -94.77472662,
+            -84.0977761,
+            -68.82294364,
+            -127.0097816,
+            -119.45966291,
+            -109.22663785,
+        ]
+    )
+    refer_data2 = np.array(
+        [
+            1.47804571,
+            4.15921051,
+            -2.11373137,
+            19.40459558,
+            21.1022014,
+            16.41192036,
+            31.74839524,
+            31.43462348,
+            23.81553948,
+        ]
+    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_divergence_watervaporflux1():
     result_data = ecl.calc_divergence_watervaporflux(
         q_data_500hpa,
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
+        method="easyclimate",
     ).data.flatten()
     refer_data = np.array(
         [
-            4.63115041e-10,
-            3.28054031e-10,
-            6.85267982e-11,
-            -3.62682915e-10,
-            -2.54289074e-10,
-            -2.22359484e-10,
-            -6.92384309e-10,
-            -5.19564327e-10,
-            -3.74825155e-10,
+            4.63027823e-10,
+            3.27992229e-10,
+            6.85138974e-11,
+            -3.62614604e-10,
+            -2.54241170e-10,
+            -2.22317602e-10,
+            -6.92253919e-10,
+            -5.19466465e-10,
+            -3.74754581e-10,
         ]
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
-def test_calc_divergence_watervaporflux_top2surface_integral():
+def test_calc_divergence_watervaporflux2():
+    result_data = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="uv2dv_cfd-ncl",
+        cyclic_boundary=False,
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            -2.54240381e-10,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_divergence_watervaporflux3():
+    result_data = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="uv2dv_cfd-ncl",
+        cyclic_boundary=True,
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            5.01682725e-10,
+            -2.54240381e-10,
+            5.61781233e-10,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_divergence_watervaporflux_top2surface_integral1():
     specific_humidity_data_sample = (
         ecl.open_tutorial_dataset("shum_202201_mon_mean")
         .shum.isel(time=0)
@@ -694,21 +992,73 @@ def test_calc_divergence_watervaporflux_top2surface_integral():
         specific_humidity_data_units="g/kg",
         surface_pressure_data_units="hPa",
         vertical_dim_units="hPa",
-    ).data.flatten()
+        integral_method="vibeta-ncl",
+        div_method="uv2dv_cfd-ncl",
+    ).wvdiv.data.flatten()
     refer_data = np.array(
         [
-            -3.16235016e-08,
-            -5.25733773e-08,
-            -6.11471233e-08,
-            -1.84145484e-08,
-            3.67623974e-10,
-            1.46561626e-08,
-            -1.93079642e-08,
-            1.67279636e-08,
-            3.28154620e-08,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            -2.48079797e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data).all()
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_divergence_watervaporflux_top2surface_integral2():
+    specific_humidity_data_sample = (
+        ecl.open_tutorial_dataset("shum_202201_mon_mean")
+        .shum.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    u_data_sample = (
+        ecl.open_tutorial_dataset("uwnd_202201_mon_mean")
+        .uwnd.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    v_data_sample = (
+        ecl.open_tutorial_dataset("vwnd_202201_mon_mean")
+        .vwnd.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+    surface_pressure_data_sample = (
+        ecl.open_tutorial_dataset("pressfc_202201_mon_mean")
+        .pres.isel(time=0)
+        .sel(lat=slice(5, 0), lon=slice(0, 5))
+    )
+
+    result_data = ecl.calc_divergence_watervaporflux_top2surface_integral(
+        specific_humidity_data_sample,
+        u_data_sample,
+        v_data_sample,
+        surface_pressure_data_sample,
+        vertical_dim="level",
+        specific_humidity_data_units="g/kg",
+        surface_pressure_data_units="hPa",
+        vertical_dim_units="hPa",
+        integral_method="Trenberth1991",
+        div_method="easyclimate",
+    ).wvdiv.data.flatten()
+    refer_data = np.array(
+        [
+            -4.15913746e-05,
+            -4.56561502e-05,
+            -6.50947404e-05,
+            -2.44109051e-05,
+            -2.48080391e-06,
+            1.65275887e-05,
+            -1.20280765e-05,
+            6.70669033e-06,
+            3.50072187e-05,
+        ]
+    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_u_advection():

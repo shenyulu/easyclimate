@@ -9,27 +9,35 @@ from .utility import (
     find_dims_axis,
     transfer_deg2rad,
     transfer_inf2nan,
+    generate_dataset_dispatcher,
+    compare_multi_dataarray_coordinate,
+)
+from .units import (
     transfer_units_coeff,
     transfer_data_multiple_units,
-    generate_dataset_dispatcher,
 )
+from ..backend import dvibeta, dvrfidf, ddvfidf
 import xarray as xr
 import dask
 from typing import Literal
 
 __all__ = [
     "calc_gradient",
-    "calc_lon_gradient",
-    "calc_lat_gradient",
-    "calc_lon_laplacian",
-    "calc_lat_laplacian",
-    "calc_lon_lat_mixed_derivatives",
+    "calc_dx_gradient",
+    "calc_dlon_radian_gradient",
+    "calc_dlon_degree_gradient",
+    "calc_dy_gradient",
+    "calc_dlat_radian_gradient",
+    "calc_dlat_degree_gradient",
+    "calc_dx_laplacian",
+    "calc_dy_laplacian",
+    "calc_dxdy_mixed_derivatives",
     "calc_p_gradient",
     "calc_time_gradient",
     "calc_delta_pressure",
     "calc_p_integral",
     "calc_top2surface_integral",
-    "calc_laplacian",
+    "calc_dxdy_laplacian",
     "calc_divergence",
     "calc_vorticity",
     "calc_geostrophic_wind",
@@ -42,6 +50,7 @@ __all__ = [
     "calc_u_advection",
     "calc_v_advection",
     "calc_p_advection",
+    "calc_shear_stretch_deform",
 ]
 
 
@@ -75,7 +84,7 @@ def calc_gradient(
         4. Any combination of N scalars/arrays with the meaning of 2. and 3.
 
     edge_order: {1, 2}, optional
-        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
+        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 2.
 
     Returns
     -------
@@ -98,45 +107,71 @@ def calc_gradient(
         )
         return data_input.copy(data=data_gradient, deep=True)
 
-    return _calc_gradient(data_input, dim, varargs, edge_order)
+    result = _calc_gradient(data_input, dim, varargs, edge_order)
+
+    # clean attrs
+    result.attrs = dict()
+    return result
 
 
-def calc_lon_gradient(
+def calc_dx_gradient(
     data_input: xr.DataArray | xr.Dataset,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     min_dx: float = 1.0,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray | xr.Dataset:
     """
-    Calculate the gradient along the longitude.
+    Calculate the zonal gradient of the input data in physical units (meters).
+
+    This function computes the partial derivative :math:`\\partial F / \\partial x`,
+    where :math:`x` is the eastward distance along a parallel (in meters). It is
+    the full physical zonal gradient on a sphere, given by:
 
     .. math::
-        \\frac{\\partial F}{\\partial x} = \\frac{1}{R \\cos\\varphi} \\cdot \\frac{\\partial F}{\\partial \\lambda}
+
+        \\frac{\\partial F}{\\partial x} = \\frac{1}{R \\cos \\varphi} \\cdot \\frac{\\partial F}{\\partial \\lambda}
+
+    where :math:`R` is the Earth's radius, :math:`\\varphi` is latitude, and
+    :math:`\\lambda` is longitude in radians. This is essential for dynamical
+    calculations like advection or wave propagation in atmospheric/oceanic models.
+
+    The computation uses finite differences along the longitude dimension:
+    :math:`\\partial F / \\partial x = (\\partial F / \\partial i) / (\\partial x / \\partial i)`,
+    where :math:`i` is the grid index. Longitude is assumed in degrees and
+    converted to radians; latitude is broadcasted for the cosine factor.
 
     Parameters
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-        The spatio-temporal data to be calculated.
+        The spatio-temporal data to be calculated. If a Dataset, the gradient is applied to all
+        data variables.
     lon_dim: :py:class:`str <str>`, default: `lon`.
-        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+        Longitude coordinate dimension name. By default, the gradient is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dx: :py:class:`float <float>`, default: `1.0`.
-        The minimum acceptable value of `dx`, below which parts will set `nan` to avoid large computational errors.
-        The unit is m. You can set it to a negative value in order to remove this benefit.
+        Latitude coordinate dimension name. Used to compute the cosine factor; broadcasted if necessary.
+    min_dx: :py:class:`float <float>`, default: `1.0` (:math:`\\mathrm{m}`).
+        The minimum acceptable value of `dx` (zonal spacing in meters), below which the output
+        is set to NaN to avoid numerical instabilities from very small grid spacings.
+        Set to a negative value to disable this check.
     edge_order: {1, 2}, optional
-        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 2.
-    R: :py:class:`float <float>`, default: `6370000`.
-        Radius of the Earth.
+        Order of the finite difference used at the boundaries. 1 uses first-order accurate
+        one-sided differences; 2 uses second-order accurate one-sided differences. Default: 2.
+    R: :py:class:`float <float>`, default: `6370000` (:math:`\\mathrm{m}`).
+        Radius of the Earth in meters (approximate mean radius). Can be adjusted for specific models.
 
     Returns
     -------
-    The gradient along the longitude (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`).
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The zonal gradient :math:`\\partial F / \\partial x`, with the same shape and coordinates
+        as the input. Units are those of the input data divided by meters (e.g., if F is in K,
+        output is K/m). Invalid regions (dx < min_dx) are NaN.
 
     .. seealso::
-        :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_dlon_radian_gradient <calc_dlon_radian_gradient>`
+        - :py:func:`calc_dy_gradient <calc_dy_gradient>`
 
     .. minigallery::
         :add-heading: Example(s) related to the function
@@ -154,42 +189,248 @@ def calc_lon_gradient(
 
     dFdx_raw = calc_gradient(data_input, dim=lon_dim, edge_order=edge_order)
     dFdx = dFdx_raw / dx
+    dFdx = dFdx.astype("float32")
+
+    # Add attributes for clarity
+    if isinstance(dFdx, xr.DataArray):
+        input_units = data_input.attrs.get("units", "dimensionless")
+        dFdx.attrs.update(
+            {
+                "long_name": f'Zonal gradient of {data_input.name if data_input.name else "data"}',
+                "units": f"{input_units} per meter",
+                "standard_name": "partial_derivative_of_data_with_respect_to_zonal_distance",
+            }
+        )
+        dFdx.name = f'd{dFdx.name or "data"}_dx' if dFdx.name else "dF_dx"
+    elif isinstance(dFdx, xr.Dataset):
+        for var_name, var in dFdx.data_vars.items():
+            input_units = (
+                data_input[var_name].attrs.get("units", "dimensionless")
+                if var_name in data_input
+                else "dimensionless"
+            )
+            var.attrs.update(
+                {
+                    "long_name": f"Zonal gradient of {var_name}",
+                    "units": f"{input_units} per meter",
+                    "standard_name": f"partial_derivative_of_{var_name}_with_respect_to_zonal_distance",
+                }
+            )
+            dFdx[var_name].name = f"d{var_name}_dx"
+
     return dFdx
 
 
-def calc_lat_gradient(
+def calc_dlon_radian_gradient(
     data_input: xr.DataArray | xr.Dataset,
-    lat_dim: str = "lat",
-    min_dy: float = 1.0,
+    lon_dim: str = "lon",
     edge_order: int = 2,
-    R: float = 6370000,
 ) -> xr.DataArray | xr.Dataset:
     """
-    Calculate the gradient along the latitude.
+    Calculate the gradient of the input data with respect to longitude in radians.
+
+    This function computes the partial derivative :math:`\\partial F / \\partial \\lambda`,
+    where :math:`\\lambda` is the longitude in radians. It is useful for spherical coordinate
+    calculations, such as in wave activity flux (WAF) formulations, where angular gradients
+    must be in radians for consistency with trigonometric functions and the Earth's radius.
+
+    The computation uses finite differences:
 
     .. math::
-        \\frac{\\partial F}{\\partial y} = \\frac{1}{R} \\cdot \\frac{\\partial F}{\\partial \\varphi}
+
+        \\frac{\\partial F}{\\partial \\lambda} = \\frac{\\partial F}{\\partial i } / \\frac{\\partial \\lambda}{\\partial i},
+
+    where :math:`i` is the grid index along the longitude dimension. Longitude values are
+    assumed to be in degrees initially and converted to radians for the denominator.
 
     Parameters
     ----------
     data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
-        The spatio-temporal data to be calculated.
-    lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    min_dy: :py:class:`float <float>`, default: `1.0`.
-        The minimum acceptable value of `dy`, below which parts will set `nan` to avoid large computational errors.
-        The unit is m. You can set it to a negative value in order to remove this benefit.
+        The spatio-temporal data to be calculated. If a Dataset, the gradient is applied to all data variables.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
+        Longitude coordinate dimension name. By default, the gradient is applied over the `lon` dimension.
     edge_order: {1, 2}, optional
-        Gradient is calculated using N-th order accurate differences at the boundaries. Default: 1.
-    R: :py:class:`float <float>`, default: `6370000`.
-        Radius of the Earth.
+        Order of the finite difference used at the boundaries. 1 uses first-order accurate
+        one-sided differences; 2 uses second-order accurate one-sided differences. Default: 2.
 
     Returns
     -------
-    The gradient along the latitude (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`).
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The gradient :math:`\\partial F / \\partial \\lambda` (in radians), with the same shape
+        and coordinates as the input. Units are inherited from the input data divided by radians
+        (e.g., if F is in K, output is K/rad).
+    """
+    # Set to `float64` for more accurate results in trigonometric calculations.
+    lon_array = data_input[lon_dim].astype("float64")
+    dlon = transfer_deg2rad(calc_gradient(lon_array, dim=lon_dim))
+
+    dFdx_raw = calc_gradient(data_input, dim=lon_dim, edge_order=edge_order)
+    dFdx = dFdx_raw / dlon
+    dFdx = dFdx.astype("float32")
+
+    # Add attributes for clarity
+    if isinstance(dFdx, xr.DataArray):
+        dFdx.attrs.update(
+            {
+                "long_name": f'Gradient of {data_input.name if data_input.name else "data"} with respect to longitude (radians)',
+                "units": f'{data_input.attrs.get("units", "dimensionless")} per radian',
+                "standard_name": "partial_derivative_of_data_with_respect_to_longitude_radians",
+            }
+        )
+        dFdx.name = (
+            f'd{dFdx.name or "data"}_dlambda_rad' if dFdx.name else "dF_dlambda_rad"
+        )
+    elif isinstance(dFdx, xr.Dataset):
+        for var_name, var in dFdx.data_vars.items():
+            var.attrs.update(
+                {
+                    "long_name": f"Gradient of {var_name} with respect to longitude (radians)",
+                    "units": f'{data_input[var_name].attrs.get("units", "dimensionless")} per radian',
+                    "standard_name": f"partial_derivative_of_{var_name}_with_respect_to_longitude_radians",
+                }
+            )
+            dFdx[var_name].name = f"d{var_name}_dlambda_rad"
+
+    return dFdx
+
+
+def calc_dlon_degree_gradient(
+    data_input: xr.DataArray | xr.Dataset,
+    lon_dim: str = "lon",
+    edge_order: int = 2,
+) -> xr.DataArray | xr.Dataset:
+    """
+    Calculate the gradient of the input data with respect to longitude in degrees.
+
+    This function computes the partial derivative :math:`\\partial F / \\partial \\lambda`,
+    where :math:`\\lambda` is the longitude in degrees. It is suitable for general-purpose
+    gradient calculations where degree units are preferred for interpretability.
+
+    The computation uses finite differences:
+
+    .. math::
+
+        \\frac{\\partial F}{\\partial \\lambda} = \\frac{\\partial F}{\\partial i} / \\frac{\\partial \\lambda}{\\partial i},
+
+    where :math:`i` is the grid index along the longitude dimension. Longitude values remain
+    in degrees for the denominator.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated. If a Dataset, the gradient is applied to all
+        data variables.
+    lon_dim: :py:class:`str <str>`, default: `lon`.
+        Longitude coordinate dimension name. By default, the gradient is applied over the `lon` dimension.
+    edge_order: {1, 2}, optional
+        Order of the finite difference used at the boundaries. 1 uses first-order accurate
+        one-sided differences; 2 uses second-order accurate one-sided differences. Default: 2.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The gradient :math:`\\partial F / \\partial \\lambda` (in degrees), with the same shape
+        and coordinates as the input. Units are inherited from the input data divided by degrees
+        (e.g., if F is in K, output is K/deg).
 
     .. seealso::
-        :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_dlon_radian_gradient <calc_dlon_radian_gradient>`
+        - :py:func:`calc_dlat_degree_gradient <calc_dlat_degree_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
+    """
+    # Set to `float64` for more accurate results in trigonometric calculations.
+    lon_array = data_input[lon_dim].astype("float64")
+    dlon = calc_gradient(lon_array, dim=lon_dim)
+
+    dFdx_raw = calc_gradient(data_input, dim=lon_dim, edge_order=edge_order)
+    dFdx = dFdx_raw / dlon
+    dFdx = dFdx.astype("float32")
+
+    # Add attributes for clarity
+    if isinstance(dFdx, xr.DataArray):
+        dFdx.attrs.update(
+            {
+                "long_name": f'Gradient of {data_input.name if data_input.name else "data"} with respect to longitude (degrees)',
+                "units": f'{data_input.attrs.get("units", "dimensionless")} per degree',
+                "standard_name": "partial_derivative_of_data_with_respect_to_longitude_degrees",
+            }
+        )
+        dFdx.name = (
+            f'd{dFdx.name or "data"}_dlambda_deg' if dFdx.name else "dF_dlambda_deg"
+        )
+    elif isinstance(dFdx, xr.Dataset):
+        for var_name, var in dFdx.data_vars.items():
+            var.attrs.update(
+                {
+                    "long_name": f"Gradient of {var_name} with respect to longitude (degrees)",
+                    "units": f'{data_input[var_name].attrs.get("units", "dimensionless")} per degree',
+                    "standard_name": f"partial_derivative_of_{var_name}_with_respect_to_longitude_degrees",
+                }
+            )
+            dFdx[var_name].name = f"d{var_name}_dlambda_deg"
+
+    return dFdx
+
+
+def calc_dy_gradient(
+    data_input: xr.DataArray | xr.Dataset,
+    lat_dim: str = "lat",
+    min_dy: float = 1.0,
+    edge_order: int = 2,
+    R: float = 6371200.0,
+) -> xr.DataArray | xr.Dataset:
+    """
+    Calculate the meridional gradient of the input data in physical units (meters).
+
+    This function computes the partial derivative :math:`\\partial F / \\partial y`,
+    where :math:`y` is the northward distance along a meridian (in meters). It is
+    the full physical meridional gradient on a sphere, given by:
+
+    .. math::
+
+        \\frac{\\partial F}{\\partial y} = \\frac{1}{R} \\cdot \\frac{\\partial F}{\\partial \\varphi}
+
+    where :math:`R` is the Earth's radius and :math:`\\varphi` is latitude in radians.
+    This is essential for dynamical calculations like advection or vorticity in models.
+
+    The computation uses finite differences along the latitude dimension:
+    :math:`\\partial F / \\partial y = (\\partial F / \\partial j) / (\\partial y / \\partial j)`,
+    where :math:`j` is the grid index. Latitude is assumed in degrees and
+    converted to radians.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated. If a Dataset, the gradient is applied to all
+        data variables.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
+        Latitude coordinate dimension name. By default, the gradient is applied over the `lat` dimension.
+    min_dy: :py:class:`float <float>`, default: `1.0`.
+        The minimum acceptable value of `dy` (meridional spacing in meters), below which the output
+        is set to NaN to avoid numerical instabilities from very small grid spacings.
+        Set to a negative value to disable this check. Unit: meters.
+    edge_order: {1, 2}, optional
+        Order of the finite difference used at the boundaries. 1 uses first-order accurate
+        one-sided differences; 2 uses second-order accurate one-sided differences. Default: 2.
+    R: :py:class:`float <float>`, default: `6370000`.
+        Radius of the Earth in meters (approximate mean radius). Can be adjusted for specific models.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The meridional gradient :math:`\\partial F / \\partial y`, with the same shape and coordinates
+        as the input. Units are those of the input data divided by meters (e.g., if F is in K,
+        output is K/m). Invalid regions (dy < min_dy) are NaN.
+
+    .. seealso::
+        - :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_dlat_radian_gradient <calc_dlat_radian_gradient>`
+        - :py:func:`calc_dx_gradient <calc_dx_gradient>`
 
     .. minigallery::
         :add-heading: Example(s) related to the function
@@ -204,16 +445,207 @@ def calc_lat_gradient(
 
     dFdy_raw = calc_gradient(data_input, dim=lat_dim, edge_order=edge_order)
     dFdy = dFdy_raw / dy
+    dFdy = dFdy.astype("float32")
+
+    # Add attributes for clarity
+    if isinstance(dFdy, xr.DataArray):
+        input_units = data_input.attrs.get("units", "dimensionless")
+        dFdy.attrs.update(
+            {
+                "long_name": f'Meridional gradient of {data_input.name if data_input.name else "data"}',
+                "units": f"{input_units} per meter",
+                "standard_name": "partial_derivative_of_data_with_respect_to_meridional_distance",
+            }
+        )
+        dFdy.name = f'd{dFdy.name or "data"}_dy' if dFdy.name else "dF_dy"
+    elif isinstance(dFdy, xr.Dataset):
+        for var_name, var in dFdy.data_vars.items():
+            input_units = (
+                data_input[var_name].attrs.get("units", "dimensionless")
+                if var_name in data_input
+                else "dimensionless"
+            )
+            var.attrs.update(
+                {
+                    "long_name": f"Meridional gradient of {var_name}",
+                    "units": f"{input_units} per meter",
+                    "standard_name": f"partial_derivative_of_{var_name}_with_respect_to_meridional_distance",
+                }
+            )
+            dFdy[var_name].name = f"d{var_name}_dy"
+
     return dFdy
 
 
-def calc_lon_laplacian(
+def calc_dlat_radian_gradient(
+    data_input: xr.DataArray | xr.Dataset,
+    lat_dim: str = "lat",
+    edge_order: int = 2,
+) -> xr.DataArray | xr.Dataset:
+    """
+    Calculate the gradient of the input data with respect to latitude in radians.
+
+    This function computes the partial derivative :math:`\\partial F / \\partial \\phi`,
+    where :math:`\\phi` is the latitude in radians. It is useful for spherical coordinate
+    calculations, such as in wave activity flux (WAF) formulations.
+
+    The computation uses finite differences:
+
+    .. math::
+
+        \\frac{\\partial F}{\\partial \\phi} = \\frac{\\partial F}{\\partial j} / \\frac{\\partial \\phi}{\\partial j},
+
+    where :math:`j` is the grid index along the latitude dimension. Latitude values are
+    assumed to be in degrees initially and converted to radians for the denominator.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated. If a Dataset, the gradient is applied to all
+        data variables.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
+        Latitude coordinate dimension name. By default, the gradient is applied over the `lat` dimension.
+    edge_order: {1, 2}, optional
+        Order of the finite difference used at the boundaries. 1 uses first-order accurate
+        one-sided differences; 2 uses second-order accurate one-sided differences. Default: 2.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The gradient :math:`\\partial F / \\partial \\phi` (in radians), with the same shape
+        and coordinates as the input. Units are inherited from the input data divided by radians
+        (e.g., if F is in K, output is K/rad).
+
+    .. seealso::
+        - :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_dlat_degree_gradient <calc_dlat_degree_gradient>`
+        - :py:func:`calc_dlon_radian_gradient <calc_dlon_radian_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
+    """
+    # Set to `float64` for more accurate results in trigonometric calculations.
+    lat_array = data_input[lat_dim].astype("float64")
+    dlat = transfer_deg2rad(calc_gradient(lat_array, dim=lat_dim))
+
+    dFdy_raw = calc_gradient(data_input, dim=lat_dim, edge_order=edge_order)
+    dFdy = dFdy_raw / dlat
+    dFdy = dFdy.astype("float32")
+
+    # Add attributes for clarity
+    if isinstance(dFdy, xr.DataArray):
+        dFdy.attrs.update(
+            {
+                "long_name": f'Gradient of {data_input.name if data_input.name else "data"} with respect to latitude (radians)',
+                "units": f'{data_input.attrs.get("units", "dimensionless")} per radian',
+                "standard_name": "partial_derivative_of_data_with_respect_to_latitude_radians",
+            }
+        )
+        dFdy.name = f'd{dFdy.name or "data"}_dphi_rad' if dFdy.name else "dF_dphi_rad"
+    elif isinstance(dFdy, xr.Dataset):
+        for var_name, var in dFdy.data_vars.items():
+            var.attrs.update(
+                {
+                    "long_name": f"Gradient of {var_name} with respect to latitude (radians)",
+                    "units": f'{data_input[var_name].attrs.get("units", "dimensionless")} per radian',
+                    "standard_name": f"partial_derivative_of_{var_name}_with_respect_to_latitude_radians",
+                }
+            )
+            dFdy[var_name].name = f"d{var_name}_dphi_rad"
+
+    return dFdy.astype("float32")
+
+
+def calc_dlat_degree_gradient(
+    data_input: xr.DataArray | xr.Dataset,
+    lat_dim: str = "lat",
+    edge_order: int = 2,
+) -> xr.DataArray | xr.Dataset:
+    """
+    Calculate the gradient of the input data with respect to latitude in degrees.
+
+    This function computes the partial derivative :math:`\\partial F / \\partial \\phi`,
+    where :math:`\\phi` is the latitude in degrees. It is suitable for general-purpose
+    gradient calculations where degree units are preferred.
+
+    The computation uses finite differences:
+
+    .. math::
+
+        \\frac{\\partial F}{\\partial \\phi} = \\frac{\\partial F}{\\partial j} / \\frac{\\partial \\phi}{\\partial j},
+
+    where :math:`j` is the grid index along the latitude dimension. Latitude values remain
+    in degrees for the denominator.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated. If a Dataset, the gradient is applied to all
+        data variables.
+    lat_dim: :py:class:`str <str>`, default: `lat`.
+        Latitude coordinate dimension name. By default, the gradient is applied over the `lat` dimension.
+    edge_order: {1, 2}, optional
+        Order of the finite difference used at the boundaries. 1 uses first-order accurate
+        one-sided differences; 2 uses second-order accurate one-sided differences. Default: 2.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The gradient :math:`\\partial F / \\partial \\phi` (in degrees), with the same shape
+        and coordinates as the input. Units are inherited from the input data divided by degrees
+        (e.g., if F is in K, output is K/deg).
+
+    .. seealso::
+        - :py:func:`calc_gradient <calc_gradient>`
+        - :py:func:`calc_dlat_radian_gradient <calc_dlat_radian_gradient>`
+        - :py:func:`calc_dlon_degree_gradient <calc_dlon_degree_gradient>`
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_geographic_finite_difference.py
+    """
+    # Set to `float64` for more accurate results in trigonometric calculations.
+    lat_array = data_input[lat_dim].astype("float64")
+    dlat = calc_gradient(lat_array, dim=lat_dim)
+
+    dFdy_raw = calc_gradient(data_input, dim=lat_dim, edge_order=edge_order)
+    dFdy = dFdy_raw / dlat
+    dFdy = dFdy.astype("float32")
+
+    # Add attributes for clarity
+    if isinstance(dFdy, xr.DataArray):
+        dFdy.attrs.update(
+            {
+                "long_name": f'Gradient of {data_input.name if data_input.name else "data"} with respect to latitude (degrees)',
+                "units": f'{data_input.attrs.get("units", "dimensionless")} per degree',
+                "standard_name": "partial_derivative_of_data_with_respect_to_latitude_degrees",
+            }
+        )
+        dFdy.name = f'd{dFdy.name or "data"}_dphi_deg' if dFdy.name else "dF_dphi_deg"
+    elif isinstance(dFdy, xr.Dataset):
+        for var_name, var in dFdy.data_vars.items():
+            var.attrs.update(
+                {
+                    "long_name": f"Gradient of {var_name} with respect to latitude (degrees)",
+                    "units": f'{data_input[var_name].attrs.get("units", "dimensionless")} per degree',
+                    "standard_name": f"partial_derivative_of_{var_name}_with_respect_to_latitude_degrees",
+                }
+            )
+            dFdy[var_name].name = f"d{var_name}_dphi_deg"
+
+    return dFdy.astype("float32")
+
+
+def calc_dx_laplacian(
     data_input: xr.DataArray | xr.Dataset,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     min_dx2: float = 1e9,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculation of the second-order partial derivative term (Laplace term) along longitude.
@@ -266,12 +698,12 @@ def calc_lon_laplacian(
     return d2Fdx2
 
 
-def calc_lat_laplacian(
+def calc_dy_laplacian(
     data_input: xr.DataArray | xr.Dataset,
     lat_dim: str = "lat",
     min_dy2: float = 1.0,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculation of the second-order partial derivative term (Laplace term) along latitude.
@@ -317,13 +749,13 @@ def calc_lat_laplacian(
     return d2Fdy2
 
 
-def calc_lon_lat_mixed_derivatives(
+def calc_dxdy_mixed_derivatives(
     data_input: xr.DataArray | xr.Dataset,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     min_dxdy: float = 1e10,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray | xr.Dataset:
     """
     Calculation of second-order mixed partial derivative terms along longitude and latitude.
@@ -401,6 +833,9 @@ def calc_p_gradient(
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
     """
+    # top → bottom
+    data_input = data_input.sortby(vertical_dim, ascending=True)
+
     if isinstance(data_input.data, dask.array.core.Array):
         # The vertical coordinate dimension is set to no chunking
         data_input = data_input.chunk({vertical_dim: -1})
@@ -466,8 +901,8 @@ def calc_delta_pressure(
     data_input: xr.DataArray,
     surface_pressure_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
-    surface_pressure_data_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
     Calculates the pressure layer thickness (delta pressure) of a constant
@@ -493,6 +928,42 @@ def calc_delta_pressure(
     .. seealso::
         - :py:func:`geocat.comp.meteorology.delta_pressure <geocat-comp:geocat.comp.meteorology.delta_pressure>`
         - `dpres_plevel - NCL <https://www.ncl.ucar.edu/Document/Functions/Built-in/dpres_plevel.shtml>`__
+
+    Examples
+    --------
+    The results in :py:func:`geocat.comp.meteorology.delta_pressure <geocat-comp:geocat.comp.meteorology.delta_pressure>`:
+
+    >>> from geocat.comp.meteorology import delta_pressure
+    >>> dp = delta_pressure(
+    ...     pressure_lev= np.array([1000.,925.,850.,700.,600.,500., 400.,300.,250.,200.,150.,100., 70.,50.,30.,20.,10.]),
+    ...     surface_pressure = np.array([1013]),
+    ... )
+    >>> print(dp)
+    [[ 50.5  75.  112.5 125.  100.  100.  100.   75.   50.   50.   50.   40.
+       25.   20.   15.   10.    5. ]]
+
+    For comparison, the results in :py:func:`easyclimate.calc_delta_pressure <calc_delta_pressure>`:
+
+    >>> temp_sample = xr.DataArray(
+    ...     np.array([[292.,285.,283.,277.,270.,260., 250.,235.,225.,215.,207.,207., 213.,220.,225.,228.,230.]]),
+    ...     dims = ("lat", "plev"),
+    ...     coords = {"plev": np.array([1000.,925.,850.,700.,600.,500., 400.,300.,250.,200.,150.,100., 70.,50.,30.,20.,10.]),
+    ...             "lat": np.array([0])}
+    ... )
+    >>> dp = ecl.calc_delta_pressure(
+    ...     data_input = temp_sample,
+    ...     surface_pressure_data = xr.DataArray([1013], dims = "lat"),
+    ...     vertical_dim = "plev",
+    ...     surface_pressure_data_units = "Pa",
+    ...     vertical_dim_units = "Pa",
+    ... ).transpose("lat", "plev")
+    >>> print(dp)
+    <xarray.DataArray 'plev' (lat: 1, plev: 17)> Size: 136B
+    array([[ 50.5,  75. , 112.5, 125. , 100. , 100. , 100. ,  75. ,  50. ,
+            50. ,  50. ,  40. ,  25. ,  20. ,  15. ,  10. ,   5. ]])
+    Coordinates:
+    * lat      (lat) int64 8B 0
+    * plev     (plev) float64 136B 1e+03 925.0 850.0 700.0 ... 50.0 30.0 20.0 10.0
     """
     # `vertical_dim` data is forced into descending order
     data_input = data_input.sortby(vertical_dim, ascending=False)
@@ -504,13 +975,13 @@ def calc_delta_pressure(
     )
 
     # Change the surface pressure data unit to `Pa`
-    surface_pressure_data = transfer_data_multiple_units(
+    surface_pressure_data_Pa = transfer_data_multiple_units(
         surface_pressure_data, surface_pressure_data_units, "Pa"
     )
 
     pressure_lev = xr.broadcast(data_input[vertical_dim], data_input)[0]
     pressure_top = pressure_lev.min(dim=vertical_dim)
-    surface_pressure = surface_pressure_data
+    surface_pressure = surface_pressure_data_Pa
 
     delta_pressure = np.abs(calc_gradient(pressure_lev, dim=vertical_dim))
     # top level
@@ -522,11 +993,23 @@ def calc_delta_pressure(
         surface_pressure
         - (pressure_lev[{vertical_dim: 0}] + pressure_lev[{vertical_dim: 1}]) / 2
     )
+
+    # Add attributes to the output DataArray
+    delta_pressure.attrs = {
+        "units": "Pa",
+        "long_name": "pressure layer thickness",
+        "description": "Thickness of pressure layers in the vertical coordinate system",
+        "standard_name": "pressure_thickness",
+    }
+    delta_pressure[vertical_dim].attrs = {"units": "Pa"}
     return delta_pressure
 
 
 def calc_p_integral(
-    data_input: xr.DataArray, vertical_dim: str, normalize: bool = True
+    data_input: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    normalize: bool = False,
 ) -> xr.DataArray:
     """
     Calculate the vertical integral along the barometric pressure direction in the p-coordinate system.
@@ -537,6 +1020,8 @@ def calc_p_integral(
         The spatio-temporal data to be calculated.
     vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
+    vertical_dim_units: :py:class:`str <str>`.
+        The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
     normalize: :py:class:`bool<bool>`, default: `True`.
         Whether or not the integral results are averaged over the entire layer.
 
@@ -549,36 +1034,50 @@ def calc_p_integral(
         For a fully accurate vertical integration, please use the :py:func:`calc_top2surface_integral <calc_top2surface_integral>` function to calculate,
         but the speed of the calculation is slightly slowed down.
     """
-    dim_index = find_dims_axis(data_input, dim=vertical_dim)
-    # Get level data
-    x = data_input[vertical_dim].data
-    # Integrate along the given axis using the composite trapezoidal rule
-    data_trapz = np.trapezoid(data_input.data, x, axis=dim_index)
-    data_trapz = np.abs(data_trapz)
+    # Change the vertical coordinate unit to `Pa`
+    vertical_dim_base = transfer_units_coeff(vertical_dim_units, "Pa")
+    data_input = data_input.assign_coords(
+        {vertical_dim: data_input[vertical_dim] * vertical_dim_base}
+    )
 
-    if normalize == True:
-        # Normalize
-        data_trapz_normalized = data_trapz / (np.max(x) - np.min(x))
-    elif normalize == False:
-        data_trapz_normalized = data_trapz
+    part1 = data_input.sortby(vertical_dim).integrate(
+        coord=vertical_dim
+    )  # unit: [data_input] *kg *s^-2
+
+    if normalize == False:
+        fint = part1
+
+    elif normalize == True:
+        part2 = (
+            xr.ones_like(data_input).sortby(vertical_dim).integrate(coord=vertical_dim)
+        )
+        fint = part1 / part2  # unit: [data_input] *kg *s^-2
+
     else:
         raise ValueError("The parameter `normalize` should be `True` or `False`.")
 
-    return (
-        data_input.isel({vertical_dim: 0})
-        .drop_vars(vertical_dim)
-        .copy(data=data_trapz_normalized, deep=True)
+    # Create output with coords from surface_pressure_data
+    output = xr.DataArray(
+        fint,
+        dims=fint.dims,
+        coords=fint.coords,
+        attrs={
+            "long_name": f"Vertical integral of {data_input.name} from top to surface",
+            "units": f'{data_input.attrs.get("units", "")} Pa',
+        },
+        name=data_input.name,
     )
+    return output
 
 
 def calc_top2surface_integral(
     data_input: xr.DataArray,
     surface_pressure_data: xr.DataArray,
     vertical_dim: str,
-    surface_pressure_data_units: str,
-    vertical_dim_units: str,
-    method: Literal["Boer-vibeta", "Trenberth-vibeta"] = "Trenberth-vibeta",
-    normalize: bool = True,
+    surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    method: Literal["Boer1982", "Trenberth1991", "vibeta-ncl"] = "vibeta-ncl",
+    normalize: bool = False,
 ) -> xr.DataArray:
     """
     Calculate the vertical integral in the p-coordinate system from the ground to the zenith along the barometric pressure direction.
@@ -588,15 +1087,23 @@ def calc_top2surface_integral(
     data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The spatio-temporal data to be calculated.
     surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        Mean surface sea level pressure.
+        Surface level pressure.
+
+    .. warning::
+
+        This parameter only accepts local pressure (slp) and must **NOT** be substituted
+        with mean sea level pressure (msl). There is a fundamental difference in their physical meaning and numerical
+        characteristics—local pressure reflects atmospheric pressure at the actual elevation of local area,
+        while mean sea level pressure is a theoretical value adjusted to sea level.
+
     vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
     surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
     vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    method: :py:class:`str <str>`, default: `'Trenberth-vibeta'`.
-        vertical integration method. Optional values are `Boer-vibeta`, `'Trenberth-vibeta'`.
+    method: {"Boer1982", "Trenberth1991", "vibeta-ncl"}, default: `vibeta-ncl`.
+        vertical integration method. Optional values are ``Boer1982``, ``Trenberth1991`` and ``vibeta-ncl``.
 
         .. note::
             The trapezoidal rule of integration is exactly equivalent to
@@ -633,14 +1140,103 @@ def calc_top2surface_integral(
         - `vibeta - NCL <https://www.ncl.ucar.edu/Document/Functions/Built-in/vibeta.shtml>`__
         - `dpres_plevel - NCL <https://www.ncl.ucar.edu/Document/Functions/Built-in/dpres_plevel.shtml>`__
     """
-    # `vertical_dim` data is forced into descending order
-    data_input = data_input.sortby(vertical_dim, ascending=False)
-
-    if method == "Boer-vibeta":
+    if method == "Boer1982":
         # https://doi.org/10.1175/1520-0493(1982)110%3C1801:DEIIC%3E2.0.CO;2
+
         # Change the vertical coordinate unit to `Pa`
         vertical_dim_array = transfer_data_multiple_units(
             data_input[vertical_dim], vertical_dim_units, "Pa"
+        )  # Pa
+
+        # Change the surface pressure data unit to `Pa`
+        surface_pressure_data_Pa = transfer_data_multiple_units(
+            surface_pressure_data, surface_pressure_data_units, "Pa"
+        )  # Pa
+
+        # Filtering the part of the air pressure level greater than the surface pressure
+        level_expanded = xr.broadcast(vertical_dim_array, data_input)[0]  # Pa
+        data_input_need = data_input.where(level_expanded <= surface_pressure_data_Pa)
+        data_input_need = data_input_need.fillna(0)
+
+        # Integral
+        fint = calc_p_integral(
+            data_input_need,
+            vertical_dim=vertical_dim,
+            vertical_dim_units=vertical_dim_units,
+            normalize=normalize,
+        )
+
+        if normalize == True:
+            integral_type = "integral average"
+        elif normalize == False:
+            integral_type = "integral summation"
+
+        # Create output with coords from surface_pressure_data
+        output = xr.DataArray(
+            fint,
+            dims=surface_pressure_data.dims,
+            coords=surface_pressure_data.coords,
+            attrs={
+                "long_name": f"Vertical integral of {data_input.name} from top to surface using {method}",
+                "units": f'{data_input.attrs.get("units", "")} Pa',
+                "integral_type": f"{integral_type}",
+            },
+            name=data_input.name,
+        )
+        return output
+
+    elif method == "Trenberth1991":
+        # https://doi.org/10.1175/1520-0442(1991)004%3C0707:CDFGAC%3E2.0.CO;2
+        # https://www.ncl.ucar.edu/Document/Functions/Built-in/vibeta.shtml
+
+        dp = calc_delta_pressure(
+            data_input=data_input,
+            surface_pressure_data=surface_pressure_data,
+            vertical_dim=vertical_dim,
+            vertical_dim_units=vertical_dim_units,
+            surface_pressure_data_units=surface_pressure_data_units,
+        )  # Pa
+
+        # Change the vertical coordinate unit to `Pa`
+        vertical_dim_base = transfer_units_coeff(vertical_dim_units, "Pa")
+        data_input_vertical_dim_Pa = data_input.assign_coords(
+            {vertical_dim: data_input[vertical_dim] * vertical_dim_base}
+        )  # vertical_dim unit: Pa
+
+        # weighted sum/sum_of_layer_thickness
+        part1 = (data_input_vertical_dim_Pa * dp).sum(
+            dim=vertical_dim
+        )  # unit: Pa kg s^-2
+
+        if normalize == True:
+            part2 = dp.sum(dim=vertical_dim)  # kg s^-2
+            fint = part1 / part2  # unit: [data_input]
+            integral_type = "integral average"
+        elif normalize == False:
+            fint = part1  # unit: [data_input] *kg *s^-2
+            integral_type = "integral summation"
+        else:
+            raise ValueError("The parameter `normalize` should be `True` or `False`.")
+
+        # Create output with coords from surface_pressure_data
+        output = xr.DataArray(
+            fint,
+            dims=surface_pressure_data.dims,
+            coords=surface_pressure_data.coords,
+            attrs={
+                "long_name": f"Vertical integral of {data_input.name} from top to surface using {method}",
+                "units": f'{data_input.attrs.get("units", "")} Pa',
+                "integral_type": f"{integral_type}",
+            },
+            name=data_input.name,
+        )
+        return output
+
+    elif method == "vibeta-ncl":
+        # Change the vertical coordinate unit to `Pa`
+        vertical_dim_base = transfer_units_coeff(vertical_dim_units, "Pa")
+        data_input = data_input.assign_coords(
+            {vertical_dim: data_input[vertical_dim] * vertical_dim_base}
         )
 
         # Change the surface pressure data unit to `Pa`
@@ -648,65 +1244,105 @@ def calc_top2surface_integral(
             surface_pressure_data, surface_pressure_data_units, "Pa"
         )
 
-        # Filtering the part of the air pressure level greater than the surface pressure
-        level_expanded = xr.broadcast(vertical_dim_array, data_input)[0]
-        pressure2surface_data = data_input.where(
-            level_expanded <= surface_pressure_data
-        )
-        pressure2surface_data = pressure2surface_data.fillna(0)
-        fint = calc_p_integral(
-            pressure2surface_data, vertical_dim=vertical_dim, normalize=normalize
-        )
+        # Assume vertical coordinate is pressure levels, decreasing (surface to top)
+        level = data_input.coords[vertical_dim].values
+        if not np.all(np.diff(level) < 0):
+            raise ValueError("Vertical levels must be in decreasing order (hPa).")
 
-        # Clear unnecessary attributes
-        fint.attrs = dict()
-        # Add `Vertical integral method` property
-        fint.attrs["Vertical integral method"] = "Boer-vibeta"
-        return fint
+        ptop = level[-1]  # top pressure (smallest)
+        nlev = len(level)
+        xmsg = 1e30
+        linlog = 2  # Log interpolation in pressure
 
-    elif method == "Trenberth-vibeta":
-        # https://doi.org/10.1175/1520-0442(1991)004%3C0707:CDFGAC%3E2.0.CO;2
-        # https://www.ncl.ucar.edu/Document/Functions/Built-in/vibeta.shtml
-        dp = calc_delta_pressure(
+        def vibeta_core(x_profile, psfc):
+            if psfc <= ptop:
+                return np.nan
+
+            # Replace NaNs with xmsg for Fortran handling
+            x_profile = np.where(np.isnan(x_profile), xmsg, x_profile).astype(
+                np.float64
+            )
+
+            xsfc = x_profile[0] if abs(x_profile[0] - xmsg) > 1e10 else 0.0
+            pbot = psfc
+            plvcrt = ptop
+
+            vint, ier = dvibeta(
+                level.astype(np.float64),
+                x_profile.astype(np.float64),
+                np.float64(xmsg),
+                np.int32(linlog),
+                np.float64(psfc),
+                np.float64(xsfc),
+                np.float64(pbot),
+                np.float64(ptop),
+                np.float64(plvcrt),
+                np.int32(nlev),
+            )
+
+            if ier == 0:
+                return vint
+            else:
+                return np.nan
+
+        # Apply the core function using apply_ufunc for vectorization
+        integral = xr.apply_ufunc(
+            vibeta_core,
             data_input,
             surface_pressure_data,
-            vertical_dim,
-            surface_pressure_data_units,
-            vertical_dim_units,
+            input_core_dims=[(vertical_dim,), ()],
+            output_core_dims=[()],
+            vectorize=True,
+            dask="parallelized",
+            output_dtypes=[np.float64],
+            join="outer",
+            dataset_fill_value=np.nan,
+            keep_attrs=False,  # We'll set attrs manually
         )
-
-        # Change the vertical coordinate unit to `Pa`
-        vertical_dim_base = transfer_units_coeff(vertical_dim_units, "Pa")
-        data_input = data_input.assign_coords(
-            {vertical_dim: data_input[vertical_dim] * vertical_dim_base}
-        )
-
-        # weighted sum/sum_of_layer_thickness
-        part1 = (data_input * dp).sum(dim=vertical_dim)
+        integral_type = "integral summation"
 
         if normalize == True:
-            part2 = dp.sum(dim=vertical_dim)
-            fint = part1 / part2
-        elif normalize == False:
-            fint = part1
-        else:
-            raise ValueError("The parameter `normalize` should be `True` or `False`.")
+            integral_ = xr.apply_ufunc(
+                vibeta_core,
+                xr.ones_like(data_input),
+                surface_pressure_data,
+                input_core_dims=[(vertical_dim,), ()],
+                output_core_dims=[()],
+                vectorize=True,
+                dask="parallelized",
+                output_dtypes=[np.float64],
+                join="outer",
+                dataset_fill_value=np.nan,
+                keep_attrs=False,  # We'll set attrs manually
+            )
+            integral = integral / integral_
+            integral_type = "integral average"
 
-        # Add `Vertical integral method` property
-        fint.attrs["Vertical integral method"] = "Trenberth-vibeta"
-        return fint
+        # Create output with coords from surface_pressure_data
+        output = xr.DataArray(
+            integral,
+            dims=surface_pressure_data.dims,
+            coords=surface_pressure_data.coords,
+            attrs={
+                "long_name": f"Vertical integral of {data_input.name} from top to surface using {method}",
+                "units": f'{data_input.attrs.get("units", "")} Pa',
+                "integral_type": f"{integral_type}",
+            },
+            name=data_input.name,
+        )
+        return output
 
     else:
         raise ValueError(
-            "The parameter `method` should be `'Boer-vibeta'` or `'Trenberth-vibeta'`."
+            "The parameter `method` should be `Boer1982`, `Trenberth1991` or `vibeta-ncl`."
         )
 
 
-def calc_laplacian(
+def calc_dxdy_laplacian(
     data_input: xr.DataArray,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    R: float = 6370000,
+    R: float = 6371200.0,
     spherical_coord: bool = True,
 ) -> xr.DataArray:
     """
@@ -767,8 +1403,10 @@ def calc_divergence(
     v_data: xr.DataArray,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    R: float = 6370000,
+    R: float = 6371200.0,
     spherical_coord=True,
+    cyclic_boundary=False,
+    method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
 ) -> xr.DataArray:
     """
     Calculate the horizontal divergence term.
@@ -793,45 +1431,168 @@ def calc_divergence(
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float <float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6371200.0`.
         Radius of the Earth.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
-        Whether or not to compute the horizontal Laplace term in spherical coordinates.
+        Whether or not to compute the horizontal Laplace term in spherical coordinates. The parameter is applicable only when ``method = easyclimate``.
+    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
+        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = ddvfidf-ncl``.
+    method: {"easyclimate", "ddvfidf-ncl"}, default: `ddvfidf-ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``ddvfidf-ncl``.
 
     Returns
     -------
     The horizontal divergence term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. seealso::
+
+        - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2dv_cfd.shtml
+        - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
 
     .. minigallery::
         :add-heading: Example(s) related to the function
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    if u_data.shape != v_data.shape:
-        raise ValueError(
-            "`u`, `v` shape must be same! However, the u shape is ",
-            u_data.shape,
-            ", and v shape is ",
-            v_data.shape,
-            ".",
-        )
+    compare_multi_dataarray_coordinate([u_data, v_data])
 
-    metadata = u_data
-    dlon = transfer_deg2rad(calc_gradient(metadata[lon_dim], dim=lon_dim))
-    dlat = transfer_deg2rad(calc_gradient(metadata[lat_dim], dim=lat_dim))
-    coslat = np.cos(transfer_deg2rad(metadata[lat_dim]))
-    dx = R * coslat * dlon
-    dy = R * dlat
+    match method:
+        case "easyclimate":
+            lat_array = u_data[lat_dim]
+            dudx = calc_dx_gradient(u_data, lon_dim=lon_dim, lat_dim=lat_dim, R=R)
+            dvdy = calc_dy_gradient(v_data, lat_dim=lat_dim, R=R)
 
-    dudx = calc_gradient(u_data, dim=lon_dim) / dx
-    dvdy = calc_gradient(v_data, dim=lat_dim) / dy
+            if spherical_coord == True:
+                term3 = v_data / R * np.tan(transfer_deg2rad(lat_array))
+                div = dudx + dvdy - term3
+            elif spherical_coord == False:
+                div = dudx + dvdy
 
-    if spherical_coord == True:
-        term3 = v_data / R * np.tan(transfer_deg2rad(metadata[lat_dim]))
-        div = dudx + dvdy - term3
-    elif spherical_coord == False:
-        div = dudx + dvdy
-    return div
+            div.name = "divergence"
+            div.attrs["long_name"] = "divergence"
+            div.attrs["units"] = "s^-1"
+            if "_FillValue" in u_data.attrs:
+                div.attrs["_FillValue"] = u_data.attrs["_FillValue"]
+            return div
+
+        case "uv2dv_cfd-ncl":
+            if lon_dim not in u_data.dims or lat_dim not in u_data.dims:
+                raise ValueError(
+                    f"u_data and v_data must have dimensions {lon_dim} and {lat_dim}."
+                )
+
+            missing = None
+            xmsg = (
+                missing
+                if missing is not None
+                else u_data.attrs.get("_FillValue", np.nan)
+            )
+            iopt = 1 if cyclic_boundary else 0
+
+            # Transpose to ensure lat_dim is second-to-last, lon_dim is last
+            transpose_order_u = [
+                d for d in u_data.dims if d not in [lat_dim, lon_dim]
+            ] + [lat_dim, lon_dim]
+            u_trans = u_data.transpose(*transpose_order_u)
+            v_trans = v_data.transpose(*transpose_order_u)  # Assume same dims
+
+            def _core(u_vals, v_vals, lon_vals, lat_vals, xmsg):
+                # Core slices: u_vals.shape = (..., nlat, mlon)
+                orig_lat_vals = lat_vals.copy()
+                flip_lat = orig_lat_vals[0] > orig_lat_vals[-1]
+                if flip_lat:
+                    u_vals = np.flip(u_vals, axis=-2)
+                    v_vals = np.flip(v_vals, axis=-2)
+                    lat_vals = np.flip(lat_vals)
+
+                # Swap to (..., mlon, nlat) for Fortran
+                u_vals_t = np.swapaxes(u_vals, -2, -1)
+                v_vals_t = np.swapaxes(v_vals, -2, -1)
+                glat_vals = lat_vals.astype(np.float64)
+                glon_vals = lon_vals.astype(np.float64)
+
+                # Handle missing values
+                if np.isnan(xmsg):
+                    sentinel = 1e20
+                    u_fort_batch = np.nan_to_num(u_vals_t, nan=sentinel).astype(
+                        np.float64
+                    )
+                    v_fort_batch = np.nan_to_num(v_vals_t, nan=sentinel).astype(
+                        np.float64
+                    )
+                    xmsg_fort = float(sentinel)
+                else:
+                    u_fort_batch = u_vals_t.astype(np.float64)
+                    v_fort_batch = v_vals_t.astype(np.float64)
+                    xmsg_fort = float(xmsg)
+
+                # Batch processing
+                batch_shape = u_fort_batch.shape[:-2]
+                nlat_out = u_fort_batch.shape[-1]
+                mlon_out = u_fort_batch.shape[-2]
+                dv_out = np.empty((*batch_shape, nlat_out, mlon_out), dtype=np.float64)
+
+                for idx in np.ndindex(*batch_shape):
+                    u_slice = u_fort_batch[idx]
+                    v_slice = v_fort_batch[idx]
+
+                    dv_slice_fort, ier = ddvfidf(
+                        u_slice, v_slice, glat_vals, glon_vals, xmsg_fort, iopt
+                    )
+                    if ier != 0:
+                        raise ValueError(
+                            f"easyclimate-backend error in ddvfidf: ier={ier}"
+                        )
+
+                    # Restore missing values if using sentinel
+                    if np.isnan(xmsg):
+                        dv_slice_fort = np.where(
+                            dv_slice_fort == xmsg_fort, np.nan, dv_slice_fort
+                        )
+
+                    # Swap back to (nlat, mlon)
+                    dv_slice = np.swapaxes(dv_slice_fort, -2, -1)
+                    dv_out[idx] = dv_slice
+
+                # Flip back if original was decreasing
+                if flip_lat:
+                    dv_out = np.flip(dv_out, axis=-2)
+
+                return dv_out
+
+            div = xr.apply_ufunc(
+                _core,
+                u_trans,
+                v_trans,
+                u_trans[lon_dim],
+                u_trans[lat_dim],
+                xmsg,  # Pass as scalar, broadcasted
+                input_core_dims=[
+                    (lat_dim, lon_dim),
+                    (lat_dim, lon_dim),
+                    (lon_dim,),
+                    (lat_dim,),
+                    [],
+                ],
+                output_core_dims=[(lat_dim, lon_dim)],
+                output_dtypes=[np.float64],
+                keep_attrs=True,
+                dask="allowed",  # Allow dask on non-core dimensions
+                vectorize=False,
+            )
+
+            # Transpose back to original dimension order
+            div = div.transpose(*u_data.dims)
+
+            div.name = "divergence"
+            div.attrs["long_name"] = "divergence"
+            div.attrs["units"] = "s^-1"
+            if "_FillValue" in u_data.attrs:
+                div.attrs["_FillValue"] = u_data.attrs["_FillValue"]
+            return div
+
+        case _:
+            raise ValueError("Method should be `easyclimate` or `uv2dv_cfd-ncl`.")
 
 
 def calc_vorticity(
@@ -839,8 +1600,10 @@ def calc_vorticity(
     v_data: xr.DataArray,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    R: float = 6370000,
+    R: float = 6371200.0,
     spherical_coord: bool = True,
+    cyclic_boundary=False,
+    method: Literal["easyclimate", "uv2vr_cfd-ncl"] = "uv2vr_cfd-ncl",
 ) -> xr.DataArray:
     """
     Calculate the horizontal relative vorticity term.
@@ -874,36 +1637,147 @@ def calc_vorticity(
     -------
     The horizontal relative vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
+    .. seealso::
+
+        - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2vr_cfd.shtml
+        - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
+
     .. minigallery::
         :add-heading: Example(s) related to the function
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    if u_data.shape != v_data.shape:
-        raise ValueError(
-            "`u`, `v` shape must be same! However, the u shape is ",
-            u_data.shape,
-            ", and v shape is ",
-            v_data.shape,
-            ".",
-        )
+    compare_multi_dataarray_coordinate([u_data, v_data])
 
-    metadata = u_data
-    dlon = transfer_deg2rad(calc_gradient(metadata[lon_dim], dim=lon_dim))
-    dlat = transfer_deg2rad(calc_gradient(metadata[lat_dim], dim=lat_dim))
-    coslat = np.cos(transfer_deg2rad(metadata[lat_dim]))
-    dx = R * coslat * dlon
-    dy = R * dlat
+    match method:
+        case "easyclimate":
+            dvdx = calc_dx_gradient(v_data, lon_dim=lon_dim, lat_dim=lat_dim, R=R)
+            dudy = calc_dy_gradient(u_data, lat_dim=lat_dim, R=R)
 
-    dvdx = calc_gradient(v_data, dim=lon_dim) / dx
-    dudy = calc_gradient(u_data, dim=lat_dim) / dy
+            if spherical_coord == True:
+                term3 = u_data / R * np.tan(transfer_deg2rad(u_data[lat_dim]))
+                vor = dvdx - dudy + term3
+            elif spherical_coord == False:
+                vor = dvdx - dudy
 
-    if spherical_coord == True:
-        term3 = u_data / R * np.tan(transfer_deg2rad(metadata[lat_dim]))
-        vor = dvdx - dudy + term3
-    elif spherical_coord == False:
-        vor = dvdx - dudy
-    return vor
+            vor.name = "relative_vorticity"
+            vor.attrs["long_name"] = "relative_vorticity"
+            vor.attrs["units"] = "s^-1"
+            if "_FillValue" in u_data.attrs:
+                vor.attrs["_FillValue"] = u_data.attrs["_FillValue"]
+            return vor
+
+        case "uv2vr_cfd-ncl":
+            missing = None
+            xmsg = (
+                missing
+                if missing is not None
+                else u_data.attrs.get("_FillValue", np.nan)
+            )
+            iopt = 1 if cyclic_boundary else 0
+
+            # Transpose to ensure lat_dim is second-to-last, lon_dim is last
+            transpose_order_u = [
+                d for d in u_data.dims if d not in [lat_dim, lon_dim]
+            ] + [lat_dim, lon_dim]
+            u_trans = u_data.transpose(*transpose_order_u)
+            v_trans = v_data.transpose(*transpose_order_u)  # Assume same dims
+
+            def _core(u_vals, v_vals, lon_vals, lat_vals, xmsg):
+                # Core slices: u_vals.shape = (..., nlat, mlon)
+                orig_lat_vals = lat_vals.copy()
+                flip_lat = orig_lat_vals[0] > orig_lat_vals[-1]
+                if flip_lat:
+                    u_vals = np.flip(u_vals, axis=-2)
+                    v_vals = np.flip(v_vals, axis=-2)
+                    lat_vals = np.flip(lat_vals)
+
+                # Swap to (..., mlon, nlat) for Fortran
+                u_vals_t = np.swapaxes(u_vals, -2, -1)
+                v_vals_t = np.swapaxes(v_vals, -2, -1)
+                glat_vals = lat_vals.astype(np.float64)
+                glon_vals = lon_vals.astype(np.float64)
+
+                # Handle missing values
+                if np.isnan(xmsg):
+                    sentinel = 1e20
+                    u_fort_batch = np.nan_to_num(u_vals_t, nan=sentinel).astype(
+                        np.float64
+                    )
+                    v_fort_batch = np.nan_to_num(v_vals_t, nan=sentinel).astype(
+                        np.float64
+                    )
+                    xmsg_fort = float(sentinel)
+                else:
+                    u_fort_batch = u_vals_t.astype(np.float64)
+                    v_fort_batch = v_vals_t.astype(np.float64)
+                    xmsg_fort = float(xmsg)
+
+                # Batch processing
+                batch_shape = u_fort_batch.shape[:-2]
+                nlat_out = u_fort_batch.shape[-1]
+                mlon_out = u_fort_batch.shape[-2]
+                rv_out = np.empty((*batch_shape, nlat_out, mlon_out), dtype=np.float64)
+
+                for idx in np.ndindex(*batch_shape):
+                    u_slice = u_fort_batch[idx]
+                    v_slice = v_fort_batch[idx]
+
+                    rv_slice_fort, ier = dvrfidf(
+                        u_slice, v_slice, glat_vals, glon_vals, xmsg_fort, iopt
+                    )
+                    if ier != 0:
+                        raise ValueError(f"Fortran error in dvrfidf: ier={ier}")
+
+                    # Restore missing values if using sentinel
+                    if np.isnan(xmsg):
+                        rv_slice_fort = np.where(
+                            rv_slice_fort == xmsg_fort, np.nan, rv_slice_fort
+                        )
+
+                    # Swap back to (nlat, mlon)
+                    rv_slice = np.swapaxes(rv_slice_fort, -2, -1)
+                    rv_out[idx] = rv_slice
+
+                # Flip back if original was decreasing
+                if flip_lat:
+                    rv_out = np.flip(rv_out, axis=-2)
+
+                return rv_out
+
+            rv = xr.apply_ufunc(
+                _core,
+                u_trans,
+                v_trans,
+                u_trans[lon_dim],
+                u_trans[lat_dim],
+                xmsg,  # Pass as scalar, broadcasted
+                input_core_dims=[
+                    (lat_dim, lon_dim),
+                    (lat_dim, lon_dim),
+                    (lon_dim,),
+                    (lat_dim,),
+                    [],
+                ],
+                output_core_dims=[(lat_dim, lon_dim)],
+                output_dtypes=[np.float64],
+                keep_attrs=True,
+                dask="allowed",  # Allow dask on non-core dimensions
+                vectorize=False,
+            )
+
+            # Transpose back to original dimension order
+            rv = rv.transpose(*u_data.dims)
+
+            rv.name = "relative_vorticity"
+            rv.attrs["long_name"] = "relative_vorticity"
+            rv.attrs["units"] = "s^-1"
+            if "_FillValue" in u_data.attrs:
+                rv.attrs["_FillValue"] = u_data.attrs["_FillValue"]
+            return rv
+
+        case _:
+            raise ValueError("Method should be `easyclimate` or `uv2vr_cfd-ncl`.")
 
 
 def calc_geostrophic_wind(
@@ -912,7 +1786,7 @@ def calc_geostrophic_wind(
     lat_dim: str = "lat",
     omega: float = 7.292e-5,
     g: float = 9.8,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate the geostrophic wind.
@@ -949,23 +1823,20 @@ def calc_geostrophic_wind(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    dlon = transfer_deg2rad(calc_gradient(z_data[lon_dim], dim=lon_dim))
-    dlat = transfer_deg2rad(calc_gradient(z_data[lat_dim], dim=lat_dim))
-    coslat = np.cos(transfer_deg2rad(z_data[lat_dim]))
-    dx = R * coslat * dlon
-    dy = R * dlat
-    f = 2 * omega * np.sin(transfer_deg2rad(z_data[lat_dim]))
+    from ..physics.geo.coriolis import get_coriolis_parameter
 
-    dHdy = calc_gradient(z_data, dim=lat_dim) / dy
-    dHdx = calc_gradient(z_data, dim=lon_dim) / dx
+    lat_array = z_data[lat_dim]
+    f = get_coriolis_parameter(lat_array, omega=omega)
 
-    dataset = xr.Dataset()
+    dHdy = calc_dy_gradient(z_data, lat_dim=lat_dim, R=R)
+    dHdx = calc_dx_gradient(z_data, lon_dim=lon_dim, lat_dim=lat_dim, R=R)
+
     ug = -(g / f) * dHdy
-    dataset["ug"] = transfer_inf2nan(ug)
     vg = (g / f) * dHdx
-    dataset["vg"] = transfer_inf2nan(vg)
 
-    return dataset
+    uvg = xr.Dataset(data_vars={"ug": transfer_inf2nan(ug), "vg": transfer_inf2nan(vg)})
+
+    return uvg
 
 
 def calc_geostrophic_wind_vorticity(
@@ -975,7 +1846,7 @@ def calc_geostrophic_wind_vorticity(
     spherical_coord: bool = True,
     omega: float = 7.292e-5,
     g: float = 9.8,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate the geostrophic vorticity.
@@ -1101,14 +1972,19 @@ def calc_water_flux_top2surface_integral(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     surface_pressure_data: xr.DataArray,
-    surface_pressure_data_units: str,
+    surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
+    specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     vertical_dim: str,
-    vertical_dim_units: str,
-    method: Literal["Boer-vibeta", "Trenberth-vibeta"] = "Trenberth-vibeta",
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    method: Literal["Boer1982", "Trenberth1991", "vibeta-ncl"] = "vibeta-ncl",
     g: float = 9.8,
 ) -> xr.DataArray:
     """
     Calculate the water vapor flux across the vertical level.
+
+    .. math::
+
+        \\frac{1}{g} \\int_0^{p_s} (q\\mathbf{v}),dp
 
     Parameters
     ----------
@@ -1122,18 +1998,20 @@ def calc_water_flux_top2surface_integral(
         Mean surface sea level pressure.
     surface_pressure_data_units: :py:class:`str <str>`.
         The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
+    specific_humidity_data_units: :py:class:`str <str>`.
+        The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
     vertical_dim: :py:class:`str <str>`.
         Vertical coordinate dimension name.
     vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    method: :py:class:`str <str>`, default: `'Trenberth-vibeta'`.
-        Vertical integration method. Optional values are `Boer-vibeta`, `'Trenberth-vibeta'`.
+    method: :py:class:`str <str>`, default: `'Trenberth1991'`.
+        Vertical integration method. Optional values are `Boer1982`, `'Trenberth1991'`.
     g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
 
     Returns
     -------
-    The water vapor flux. (:py:class:`xarray.Dataset<xarray.Dataset>`).
+    The water vapor flux. (:py:class:`xarray.Dataset<xarray.Dataset>`, :math:`\\mathrm{kg \\cdot m^-1 \\cdot s^-1 }`).
 
     - :math:`qu`: zonal water vapor flux.
     - :math:`qv`: meridional water vapor flux.
@@ -1146,10 +2024,14 @@ def calc_water_flux_top2surface_integral(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
+    specific_humidity_kg_kg = transfer_data_multiple_units(
+        specific_humidity_data, specific_humidity_data_units, "kg/kg"
+    )
+
     # Calculate the single-layer water flux
     water_flux_single_layer = calc_horizontal_water_flux(
-        specific_humidity_data, u_data, v_data, g=g
-    )
+        specific_humidity_kg_kg, u_data, v_data, g=g
+    )  # 1/g *(q \mathbf{v})
     qu = water_flux_single_layer["qu"]
     qv = water_flux_single_layer["qv"]
 
@@ -1178,6 +2060,12 @@ def calc_water_flux_top2surface_integral(
         data_vars={"qu": qu_top2surface_integral, "qv": qv_top2surface_integral}
     )
 
+    quv_top2surface_integral.attrs = dict()
+    quv_top2surface_integral.attrs["long_name"] = (
+        "Vertical integral of water vapour flux"
+    )
+    quv_top2surface_integral.attrs["units"] = "kg m**-1 s**-1"
+
     return quv_top2surface_integral
 
 
@@ -1185,12 +2073,14 @@ def calc_divergence_watervaporflux(
     specific_humidity_data: xr.DataArray,
     u_data: xr.DataArray,
     v_data: xr.DataArray,
-    specific_humidity_data_units: str,
+    specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     spherical_coord: bool = True,
+    cyclic_boundary=False,
+    method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     g: float = 9.8,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate water vapor flux divergence at each vertical level.
@@ -1210,7 +2100,10 @@ def calc_divergence_watervaporflux(
     specific_humidity_data_units: :py:class:`str <str>`.
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
-        Whether or not to compute the horizontal Laplace term in spherical coordinates.
+        Whether or not to compute the horizontal Laplace term in spherical coordinates. The parameter is applicable only when ``method = easyclimate``.
+    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
+        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = ddvfidf-ncl``.
+    method: {"easyclimate", "ddvfidf-ncl"}, default: `ddvfidf-ncl`.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -1229,16 +2122,18 @@ def calc_divergence_watervaporflux(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    specific_humidity = transfer_data_multiple_units(
+    specific_humidity_data_kgkg = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
     divergence_watervaporflux = (1 / g) * calc_divergence(
-        u_data=specific_humidity * u_data,
-        v_data=specific_humidity * v_data,
+        u_data=specific_humidity_data_kgkg * u_data,
+        v_data=specific_humidity_data_kgkg * v_data,
         spherical_coord=spherical_coord,
         lon_dim=lon_dim,
         lat_dim=lat_dim,
         R=R,
+        method=method,
+        cyclic_boundary=cyclic_boundary,
     )
 
     return divergence_watervaporflux
@@ -1250,18 +2145,24 @@ def calc_divergence_watervaporflux_top2surface_integral(
     v_data: xr.DataArray,
     surface_pressure_data: xr.DataArray,
     vertical_dim: str,
-    specific_humidity_data_units: str,
-    surface_pressure_data_units: str,
-    vertical_dim_units: str,
+    specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
+    surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     spherical_coord: bool = True,
+    cyclic_boundary=False,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    method: Literal["Boer-vibeta", "Trenberth-vibeta"] = "Trenberth-vibeta",
+    integral_method: Literal["Boer1982", "Trenberth1991", "vibeta-ncl"] = "vibeta-ncl",
+    div_method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
     g: float = 9.8,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate water vapor flux divergence across the vertical level.
+
+    .. math::
+
+        \\nabla \\cdot \\frac{1}{g} \\int_0^{p_s} (q\\mathbf{v}),dp
 
     Parameters
     ----------
@@ -1282,11 +2183,38 @@ def calc_divergence_watervaporflux_top2surface_integral(
     vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
-        Whether or not to compute the horizontal Laplace term in spherical coordinates.
+        Whether or not to compute the horizontal Laplace term in spherical coordinates. The parameter is applicable only when ``method = easyclimate``.
+    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
+        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = ddvfidf-ncl``.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+    integral_method: {"Boer1982", "Trenberth1991", "vibeta-ncl"}, default: `vibeta-ncl`.
+        The vertical integration method. Optional values are ``Boer1982``, ``Trenberth1991`` and ``vibeta-ncl``.
+
+        .. note::
+            The trapezoidal rule of integration is exactly equivalent to
+
+            .. math::
+                I = \\sum_{j=1,2J-1,2} (\\beta M)_j \\Delta p_j,
+
+            where Kevin E. Trenberth (1991) define
+
+            .. math::
+                \\beta_j = \\left\\lbrace
+                \\begin{array}{ll}
+                1, & \\mathrm{if} \\ p_{j-1} < p_s,\\\\
+                0, & \\mathrm{if} \\ p_{j+1} > p_s ,\\\\
+                \\frac{p_s - p_{j+1}}{p_{j-1} - p_{j+1}}, & \\mathrm{if}  \\ p_{j-1} > p_s > p_{j+1}.
+                \\end{array}
+                \\right.
+
+            While G. J. Boer (1982) define :math:`\\beta = 0, 1` only.
+
+    div_method: {"easyclimate", "ddvfidf-ncl"}, default: `ddvfidf-ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``ddvfidf-ncl``.
+
     g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
     R: :py:class:`float <float>`, default: `6370000`.
@@ -1294,44 +2222,51 @@ def calc_divergence_watervaporflux_top2surface_integral(
 
     Returns
     -------
-    The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`, :math:`\\mathrm{kg \\cdot m^-2 \\cdot s^-1 }`).
 
     .. minigallery::
         :add-heading: Example(s) related to the function
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    specific_humidity = transfer_data_multiple_units(
+    specific_humidity_kg_kg = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
 
-    # Calculation of single-layer water vapor flux divergence
-    divergence_watervaporflux_single_layer = calc_divergence_watervaporflux(
-        specific_humidity,
-        u_data,
-        v_data,
-        spherical_coord=spherical_coord,
-        specific_humidity_data_units=specific_humidity_data_units,
+    # Calculation water vapor flux of the whole layer
+    quv = calc_water_flux_top2surface_integral(
+        specific_humidity_data=specific_humidity_kg_kg,
+        u_data=u_data,
+        v_data=v_data,
+        surface_pressure_data=surface_pressure_data,
+        surface_pressure_data_units=surface_pressure_data_units,
+        specific_humidity_data_units="kg/kg",
+        vertical_dim=vertical_dim,
+        vertical_dim_units=vertical_dim_units,
+        method=integral_method,
+        g=g,
+    )
+
+    # Calculation of water vapor flux divergence
+    div_quv = calc_divergence(
+        quv["qu"],
+        quv["qv"],
         lon_dim=lon_dim,
         lat_dim=lat_dim,
-        g=g,
         R=R,
+        spherical_coord=spherical_coord,
+        cyclic_boundary=cyclic_boundary,
+        method=div_method,
     )
 
-    # Calculate the whole layer water vapor flux divergence
-    divergence_watervaporflux_single_layer_top2surface_integral = (
-        calc_top2surface_integral(
-            data_input=divergence_watervaporflux_single_layer,
-            vertical_dim=vertical_dim,
-            vertical_dim_units=vertical_dim_units,
-            surface_pressure_data=surface_pressure_data,
-            surface_pressure_data_units=surface_pressure_data_units,
-            method=method,
-            normalize=False,
-        )
-    )
+    div_quv.attrs = dict()
+    div_quv.name = "wvdiv"
+    div_quv.attrs["long_name"] = "Divergence of vertical integral of water vapour flux"
+    div_quv.attrs["units"] = "kg m**-2 s**-1"
 
-    return divergence_watervaporflux_single_layer_top2surface_integral
+    result = xr.Dataset(data_vars={"qu": quv["qu"], "qv": quv["qv"], "wvdiv": div_quv})
+
+    return result
 
 
 def calc_u_advection(
@@ -1341,7 +2276,7 @@ def calc_u_advection(
     lat_dim: str = "lat",
     min_dx: float = 1.0,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate zonal temperature advection at each vertical level.
@@ -1376,18 +2311,16 @@ def calc_u_advection(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    return (
-        (-1)
-        * u_data
-        * calc_lon_gradient(
-            temper_data,
-            lon_dim=lon_dim,
-            lat_dim=lat_dim,
-            min_dx=min_dx,
-            edge_order=edge_order,
-            R=R,
-        )
+    dTdx = calc_dx_gradient(
+        temper_data,
+        lon_dim=lon_dim,
+        lat_dim=lat_dim,
+        min_dx=min_dx,
+        edge_order=edge_order,
+        R=R,
     )
+    u_adv = (-1) * u_data * dTdx
+    return u_adv
 
 
 def calc_v_advection(
@@ -1396,7 +2329,7 @@ def calc_v_advection(
     lat_dim: str = "lat",
     min_dy: float = 1.0,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate meridional temperature advection at each vertical level.
@@ -1422,20 +2355,18 @@ def calc_v_advection(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
-    return (
-        (-1)
-        * v_data
-        * calc_lat_gradient(
-            temper_data, lat_dim=lat_dim, min_dy=min_dy, edge_order=edge_order, R=R
-        )
+    dTdy = calc_dy_gradient(
+        temper_data, lat_dim=lat_dim, min_dy=min_dy, edge_order=edge_order, R=R
     )
+    v_adv = (-1) * v_data * dTdy
+    return v_adv
 
 
 def calc_p_advection(
     omega_data: xr.DataArray,
     temper_data: xr.DataArray,
     vertical_dim: str,
-    vertical_dim_units: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
     """
     Calculate vertical temperature transport at each vertical level.
@@ -1458,4 +2389,51 @@ def calc_p_advection(
     -------
     The vertical temperature transport. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
-    return -omega_data * calc_p_gradient(temper_data, vertical_dim, vertical_dim_units)
+    dTdp = calc_p_gradient(
+        temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
+    )
+    p_adv = -omega_data * dTdp
+    return p_adv
+
+
+def calc_shear_stretch_deform(
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    edge_order: {1, 2} = 2,
+    R: float = 6371200.0,
+):
+    """
+    - https://www.ncl.ucar.edu/Document/Functions/Contributed/shear_stretch_deform_cfd.shtml
+    - Spensberger, C., & Spengler, T. (2014). A New Look at Deformation as a Diagnostic for Large-Scale Flow. Journal of the Atmospheric Sciences, 71(11), 4221-4234. https://doi.org/10.1175/JAS-D-14-0108.1
+    """
+    compare_multi_dataarray_coordinate([u_data, v_data])
+
+    lon_array = u_data[lon_dim].astype("float64")
+    lat_array = u_data[lat_dim].astype("float64")
+    dlon = transfer_deg2rad(calc_gradient(lon_array, dim=lon_dim))
+    dlat = transfer_deg2rad(calc_gradient(lat_array, dim=lat_dim))
+    coslat = np.cos(transfer_deg2rad(lat_array))
+
+    dx = R * coslat * dlon
+    dy = R * dlat
+
+    dudx_raw = calc_gradient(u_data, dim=lon_dim, edge_order=edge_order)
+    dudx = dudx_raw / dx
+
+    dudy_raw = calc_gradient(u_data, dim=lat_dim, edge_order=edge_order)
+    dudy = dudy_raw / dy
+
+    dvdx_raw = calc_gradient(v_data, dim=lon_dim, edge_order=edge_order)
+    dvdx = dvdx_raw / dx
+
+    dvdy_raw = calc_gradient(v_data, dim=lat_dim, edge_order=edge_order)
+    dvdy = dvdy_raw / dy
+
+    shd = dvdx + dudy
+    std = dudx - dvdy
+    td = np.sqrt(shd**2 + std**2)
+
+    result = xr.Dataset(data_vars={"shd": shd, "std": std, "td": td})
+    return result
