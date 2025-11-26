@@ -7,6 +7,7 @@ import xarray as xr
 from typing import Literal
 from scipy.fft import rfft, irfft
 from .extract import get_specific_months_data
+from xarray.groupers import SeasonResampler
 
 __all__ = [
     "calc_all_climatological_mean",
@@ -160,7 +161,9 @@ def calc_seasonal_cycle_var(
 def calc_seasonal_mean(
     data_input: xr.DataArray | xr.Dataset,
     dim: str = "time",
-    extract_season: Literal["DJF", "MAM", "JJA", "SON", None] = None,
+    extract_season: Literal[
+        "seasonly", "DJF", "MAM", "JJA", "SON", "JJAS", "OND"
+    ] = "seasonly",
     **kwargs,
 ) -> xr.DataArray:
     """
@@ -175,11 +178,11 @@ def calc_seasonal_mean(
 
     dim: :py:class:`str <str>`
         Dimension(s) over which to apply extracting. By default extracting is applied over the `time` dimension.
-    extract_season: :py:class:`list <list>`, e.g., one or multiple items from `['DJF', 'MAM', 'JJA', 'SON']`. default: None.
-        Extraction seasons. A variety of seasons can be placed in it.
-    **kwargs:
-        Additional keyword arguments passed on to the appropriate array function for calculating mean on this object's data.
-        These could include dask-specific kwargs like split_every.
+    extract_season: :py:class:`list <list>`. default: "seasonly".
+        Extraction seasons.
+
+        - "seasonly": Calculate by meteorological seasons (DJF, MAM, JJA, SON)
+        - custom seasons: Calculate climatology by custom seasons, e.g., `'DJF'`, `'MAM'`, `'JJA'`, `'SON'`, ``'JJAS'``, ``'OND'``.
 
     Returns
     -------
@@ -192,20 +195,13 @@ def calc_seasonal_mean(
         ./dynamic_docs/plot_oceanic_front.py
         ./dynamic_docs/plot_multi_linear_reg.py
     """
-    result_seasonal_mean = data_input.resample({dim: "QS-DEC"}).mean(dim=dim)
-
-    extract_season_list = []
-    if extract_season is not None:
-        if "DJF" in extract_season:
-            extract_season_list.append(12)
-        if "MAM" in extract_season:
-            extract_season_list.append(3)
-        if "JJA" in extract_season:
-            extract_season_list.append(6)
-        if "SON" in extract_season:
-            extract_season_list.append(9)
-        return get_specific_months_data(result_seasonal_mean, extract_season_list)
+    if "seasonly" in extract_season:
+        result_seasonal_mean = data_input.resample({dim: "QS-DEC"}).mean(dim=dim)
+        return result_seasonal_mean
     else:
+        result_seasonal_mean = data_input.resample(
+            {dim: SeasonResampler([extract_season])}
+        ).mean(dim=dim)
         return result_seasonal_mean
 
 
