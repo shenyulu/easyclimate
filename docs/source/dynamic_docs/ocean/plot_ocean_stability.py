@@ -45,7 +45,7 @@ import matplotlib.pyplot as plt
 
 # %%
 # And we also load the mixed-layer depth data.
-mld_data = xr.open_dataset("mlp_soda3.4.2_mn_ocean_reg_2020_EN4.nc").mlp.isel(time = 5)
+mld_data = ecl.open_tutorial_dataset("mlp_soda3_4_2_mn_ocean_reg_2020_EN4").mlp.isel(time = 5)
 mld_data
 
 # %%

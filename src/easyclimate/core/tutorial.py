@@ -67,7 +67,7 @@ file_formats = {
     "olr_smooth_data": 4,
     "uwnd_vwnd_hgt_equtorial_2021_2024": 4,
     "test_input_nino3_wavelet": 4,
-    "mlp_soda3.4.2_mn_ocean_reg_2020_EN4": 4,
+    "mlp_soda3_4_2_mn_ocean_reg_2020_EN4": 4,
     "sample_D20_result": 4,
     "sample_mixed_layer_depth": 4,
     "sample_mld_horizontal_advection": 4,
@@ -280,6 +280,7 @@ def open_tutorial_dataset(
     )
 
     if Path(filepath).suffix == ".nc" or Path(filepath).suffix == ".grib":
+        # print(f"The sample data is located in {filepath} with {engine}")
         ds = xr.open_dataset(filepath, engine=engine, **kws)
         if not cache:
             ds = ds.load()

@@ -27,7 +27,7 @@ import easyclimate as ecl
 
 # %%
 # The following data is the depth data of the mixed layer output by the oceanic models (we will compare it with it later).
-mld_data = xr.open_dataset('mlp_soda3.4.2_mn_ocean_reg_2020_EN4.nc', chunks="auto").mlp
+mld_data = ecl.open_tutorial_dataset('mlp_soda3_4_2_mn_ocean_reg_2020_EN4').mlp
 
 # %%
 #

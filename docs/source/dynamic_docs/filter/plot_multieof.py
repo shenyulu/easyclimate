@@ -68,7 +68,7 @@ import easyclimate as ecl
 #     meof_analysis_result.to_zarr("meof_analysis_result.zarr")
 #
 # Here, we load the saved dataset.
-meof_analysis_result = ecl.open_datanode("../meof_analysis_result.zarr")
+meof_analysis_result = ecl.open_datanode("meof_analysis_result.zarr")
 meof_analysis_result
 
 # %%
