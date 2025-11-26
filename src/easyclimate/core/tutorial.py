@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 __all__ = ["open_tutorial_dataset"]
 
 _default_cache_dir_name = "easylimate_tutorial_data"
-base_url = "https://github.com/shenyulu/easyclimate-data"
+base_url = "https://github.com/shenyulu/easyclimate-tutorial"
 version = "main"
 
 
@@ -59,6 +59,34 @@ file_formats = {
     "hgt_day_ltm_1991_2020_0to6day": 4,
     "uwnd_day_ltm_1991_2020_0to6day": 4,
     "vwnd_day_ltm_1991_2020_0to6day": 4,
+    "js_t2m_ERA5_2025052000": 4,
+    "sample_data_N20": 4,
+    "reof_analysis_result": 4,
+    "eof_analysis_result": 4,
+    "olr_daily_annual_cycle_mean": 4,
+    "olr_smooth_data": 4,
+    "uwnd_vwnd_hgt_equtorial_2021_2024": 4,
+    "test_input_nino3_wavelet": 4,
+    "mlp_soda3.4.2_mn_ocean_reg_2020_EN4": 4,
+    "sample_D20_result": 4,
+    "sample_mixed_layer_depth": 4,
+    "sample_mld_horizontal_advection": 4,
+    "sample_mld_t": 4,
+    "sample_mld_t_ave": 4,
+    "sample_mld_t_tendency": 4,
+    "sample_mld_vertical_advection": 4,
+    "sample_N2_data": 4,
+    "sample_prho_data": 4,
+    "sample_surface_heat_flux": 4,
+    "sample_thermocline_result": 4,
+    "mjo_data": 4,
+    "slp_monmean_NH": 4,
+    "js_H09_20250617_0500": 4,
+    "tcpi_sample_data": 4,
+    "test_pr_typhoon_201919": 4,
+    "test_slp_typhoon_201919": 4,
+    "test_t_typhoon_201919": 4,
+    "wrfout_d01_2022-05-01_00_00_00": 4,
 }
 
 
