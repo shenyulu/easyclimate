@@ -4,13 +4,14 @@ Normalized Data
 
 import xarray as xr
 from typing import Literal
+from xarray.groupers import SeasonResampler
 
 __all__ = [
     "timeseries_normalize_zscore",
     "timeseries_normalize_minmax",
     "timeseries_normalize_robust",
     "timeseries_normalize_mean",
-    "calc_precip_anomaly_percent",
+    "calc_precip_anomaly_percentage",
 ]
 
 
@@ -204,7 +205,7 @@ def timeseries_normalize_mean(
     return (da - mean) / (max_val - min_val)
 
 
-def calc_precip_anomaly_percent(
+def calc_precip_anomaly_percentage(
     precip_data: xr.DataArray,
     freq: Literal["monthly", "seasonly", "yearly"] = "monthly",
     time_range: slice = slice(None, None),
@@ -215,9 +216,9 @@ def calc_precip_anomaly_percent(
 
     .. math::
 
-        P _ { a } = \\frac { P - \\bar { P } } { \\bar { P } } \\times 100 \\%
+        P _{a} = \\frac {P - \\bar {P}} {\\bar {P}} \\times 100 \\%
 
-    Where, :math:`P_a` is PAP, :math:`P` is the rainfall of a certain period, :math:`\\bar{P}= \\frac { 1 } { n }\\sum _ { i = 1 } ^ { n } P _ { i }` is the long-term average rainfall of the period, :math:`n` is :math:`1` to :math:`n` years, :math:`i=1,2,\\cdots,n`.
+    Where, :math:`P_a` is PAP, :math:`P` is the rainfall of a certain period, :math:`\\bar{P}= \\frac {1} {n}\\sum _{i=1}^{n} P_{ i }` is the long-term average rainfall of the period, :math:`n` is :math:`1` to :math:`n` years, :math:`i=1,2,\\cdots,n`.
 
     Parameters
     ----------
@@ -225,17 +226,27 @@ def calc_precip_anomaly_percent(
         Precipitation data, recommended units: ``mm/month`` or ``mm/day`` (converted to monthly cumulative).
         Dimensions must include time, e.g., (time, lat, lon)
 
+    .. caution::
+
+        ``precip_data`` should be applied to **monthly means** precipitation.
+
     time_range: :py:class:`slice <slice>`, default: `slice(None, None)`.
         The time range of baseline climatology period, e.g., ``slice('1991-01', '2020-12')``. The default value is the entire time range.
 
     time_dim : str, default ``"time"``
         Time dimension name
 
-    freq : {"monthly", "seasonly", "yearly"}.
+    freq : {"monthly", "seasonly", "yearly", or custom seasons}.
         Time grouping method, options:
+
         - "monthly": Calculate climatology by month
         - "seasonly": Calculate by meteorological seasons (DJF, MAM, JJA, SON)
         - "yearly": Calculate climatology by year
+        - custom seasons: Calculate climatology by custom seasons, e.g., ``JJAS``, ``OND``.
+
+        .. note::
+
+            This method is based on :py:class:`xarray.groupers.SeasonResampler <xarray.groupers.SeasonResampler>` for resampling, and you can customize the seasons by referring to the `examples <https://docs.xarray.dev/en/stable/generated/xarray.groupers.SeasonResampler.html#xarray.groupers.SeasonResampler>`__.
 
     Returns
     ----------
@@ -246,7 +257,7 @@ def calc_precip_anomaly_percent(
     --------------
     - Zhai, P., Zhang, X., Wan, H., & Pan, X. (2005). Trends in total precipitation and frequency of daily precipitation extremes over China. Journal of Climate, 18(7), 1096–1108. https://doi.org/10.1175/JCLI-3318.1
     - Zou, Y., Wu, H., Lin, X., & Wang, Y. (2019). A quantitative method for the assessment of annual state of climate (气候年景定量化评价方法). Acta Meteorologica Sinica (in Chinese), 77(6), 1124–1133. https://doi.org/10.11676/qxxb2019.067
-    - GB/T20481-2006, Classification of meteorological drought (in Chinese).
+    - GB/T 20481-2017, Classification of meteorological drought (气象干旱等级, in Chinese) https://std.samr.gov.cn/gb/search/gbDetailed?id=71F772D81C2DD3A7E05397BE0A0AB82A.
     - Yang Shao-E and Wu Bing-fang, "Calculation of monthly precipitation anomaly percentage using web-serviced remote sensing data," 2010 2nd International Conference on Advanced Computer Control, Shenyang, China, 2010, pp. 621-625, doi: http://doi.org/10.1109/ICACC.2010.5486796.
     - Ma, Y., Zhao, L., Wang, J.-S., & Yu, T. (2021). Increasing difference of China summer precipitation statistics between percentage anomaly and probability distribution methods due to tropical warming. Earth and Space Science, 8, e2021EA001777. https://doi.org/10.1029/2021EA001777
     - Wang, Y., Wang, S., Luo, F., & Wang, H. (2022). Strengthened impacts of Indian Ocean Dipole on the Yangtze precipitation contribute to the extreme rainfall of 2020 Meiyu season. Journal of Geophysical Research: Atmospheres, 127, e2022JD037028. https://doi.org/10.1029/2022JD037028
@@ -258,7 +269,7 @@ def calc_precip_anomaly_percent(
 
     # Group by month or season
     if freq == "seasonly":
-        precip_seasonal_data = precip_data.resample(time="QS-DEC").mean()
+        precip_seasonal_data = precip_data.resample({time_dim: "QS-DEC"}).mean()
         pr_clim = (
             precip_seasonal_data.sel({time_dim: time_range})
             .groupby("time.month")
@@ -271,14 +282,21 @@ def calc_precip_anomaly_percent(
         tmp = precip_data.groupby("time.month") - pr_clim
         pap = tmp.groupby("time.month") / pr_clim * 100
     elif freq == "yearly":
-        precip_yearly_data = precip_data.resample(time="YS").mean()
+        precip_yearly_data = precip_data.resample({time_dim: "YS"}).mean()
         pr_clim = (
             precip_yearly_data.sel({time_dim: time_range}).groupby("time.month").mean()
         )
         tmp = precip_yearly_data.groupby("time.month") - pr_clim
         pap = tmp.groupby("time.month") / pr_clim * 100
     else:
-        raise ValueError("freq only supports 'monthly', 'yearly' or 'seasonly'")
+        precip_sr_data = precip_data.resample({time_dim: SeasonResampler([freq])}).mean(
+            dim=time_dim
+        )
+        pr_sr_clim = (
+            precip_sr_data.sel({time_dim: time_range}).groupby("time.month").mean()
+        )
+        tmp = precip_sr_data.groupby("time.month") - pr_sr_clim
+        pap = tmp.groupby("time.month") / pr_sr_clim * 100
 
     pap.attrs["long_name"] = "Precipitation Anomaly Percentage"
     pap.attrs["units"] = "%"
