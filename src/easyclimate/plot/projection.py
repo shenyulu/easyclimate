@@ -25,7 +25,7 @@ import matplotlib.ticker as ticker
 import numpy as np
 from geocat.viz import util as gvutil
 
-__all__ = ["draw_Circlemap_PolarStereo", "add_lon_cyclic"]
+__all__ = ["draw_Circlemap_PolarStereo", "add_lon_cyclic", "add_lon_cyclic_lonarray"]
 
 
 def draw_Circlemap_PolarStereo(
@@ -144,4 +144,35 @@ def add_lon_cyclic(data_input: xr.DataArray, inter: float, lon_dim: str = "lon")
 
     temp = data_input.pad(pad_width={lon_dim: (0, 1)}, mode="wrap")
     result_data = temp.assign_coords({lon_dim: np.arange(0, 360 + inter, inter)})
+    return result_data
+
+
+def add_lon_cyclic_lonarray(
+    data_input: xr.DataArray, lon_array: np.array, lon_dim: str = "lon"
+):
+    """
+    Add a cyclic point to an array and optionally a corresponding coordinate.
+
+    Parameters
+    ----------
+    data_input : :py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`
+        The spatio-temporal data to be calculated.
+    inter: :py:class:`float<float>`
+        Longitude interval (assuming longitude is arranged in a sequence of equal differences).
+    lon_dim: :py:class:`str<str>`, default: `lon`.
+        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+
+    .. seealso
+        :py:func:`xarray.DataArray.pad <xarray:xarray.DataArray.pad>`, :py:func:`cartopy.util.add_cyclic_point <cartopy:cartopy.util.add_cyclic_point>`
+    """
+    lon_array_data_input = data_input[lon_dim].data
+
+    if (lon_array_data_input < 0).any():
+        warnings.warn(
+            "It seems that the input data longitude range is from -180° to 180°. Currently automatically converted to it from 0° to 360°."
+        )
+        data_input = transfer_xarray_lon_from180TO360(data_input)
+
+    temp = data_input.pad(pad_width={lon_dim: (0, 1)}, mode="wrap")
+    result_data = temp.assign_coords({lon_dim: lon_array})
     return result_data
