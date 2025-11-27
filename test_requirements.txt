@@ -28,9 +28,9 @@ EMD-signal
 pybarnes
 rich
 
-pytest == 8.3.3
-pytest-cov == 5.0.0
-pytest-mpl == 0.17.0
+pytest == 9.0.1
+pytest-cov == 7.0.0
+pytest-mpl == 0.18.0
 pytest-xdist
 pre-commit
 twine
