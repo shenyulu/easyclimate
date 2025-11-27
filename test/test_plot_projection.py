@@ -425,3 +425,12 @@ def test_add_lon_cyclic2():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_add_lon_cyclic_lonarray():
+    data_u_180 = ecl.utility.transfer_xarray_lon_from360TO180(data_u)
+    result_data = ecl.plot.add_lon_cyclic_lonarray(
+        data_u_180, lon_array=np.linspace(0, 360, 145)
+    ).lon.data[-5:]
+    refer_data = np.array([350.0, 352.5, 355.0, 357.5, 360.0])
+    assert np.isclose(result_data, refer_data, equal_nan=True).all()

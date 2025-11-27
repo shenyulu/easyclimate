@@ -8,6 +8,7 @@ import easyclimate as ecl
 import numpy as np
 import xarray as xr
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Sample Data Declaration
 t_data = xr.DataArray(
@@ -300,7 +301,7 @@ def test_calc_gradient():
     assert np.isclose(result_data.data, refer_data).all()
 
 
-def test_calc_dx_gradient():
+def test_calc_dx_gradient1():
     result_data = ecl.calc_dx_gradient(t_data).data
     refer_data = np.array(
         [
@@ -312,7 +313,72 @@ def test_calc_dx_gradient():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_dy_gradient():
+def test_calc_dx_gradient2():
+    result_data = ecl.calc_dx_gradient(t_data.to_dataset(name="t"))
+    assert isinstance(result_data, xr.Dataset)
+    refer_data = np.array(
+        [
+            4.3330971e-07,
+            2.8887314e-07,
+            1.4443657e-07,
+            3.6006006e-07,
+            0.0000000e00,
+            -3.6006006e-07,
+            8.9929337e-08,
+            -3.7770323e-07,
+            -8.4533576e-07,
+        ]
+    )
+    assert np.isclose(result_data.t.data.flatten(), refer_data).all()
+
+
+def test_calc_dlon_radian_gradient1():
+    result_data = ecl.calc_dlon_radian_gradient(t_data).data
+    refer_data = np.array(
+        [
+            [2.7501974, 1.833465, 0.9167325],
+            [2.2918313, 0.0, -2.2918313],
+            [0.5729578, -2.4064229, -5.385803],
+        ]
+    )
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dlon_radian_gradient2():
+    result_data = ecl.calc_dlon_radian_gradient(t_data.to_dataset(name="t"))
+    assert isinstance(result_data, xr.Dataset)
+    refer_data = np.array(
+        [
+            2.7501974,
+            1.833465,
+            0.9167325,
+            2.2918313,
+            0.0,
+            -2.2918313,
+            0.5729578,
+            -2.4064229,
+            -5.385803,
+        ]
+    )
+    assert np.isclose(result_data.t.data.flatten(), refer_data).all()
+
+
+def test_calc_dlon_degree_gradient1():
+    result_data = ecl.calc_dlon_degree_gradient(t_data).data
+    refer_data = np.array(
+        [[0.048, 0.032, 0.016], [0.04, 0.0, -0.04], [0.01, -0.042, -0.094]]
+    )
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dlon_degree_gradient2():
+    result_data = ecl.calc_dlon_degree_gradient(t_data.to_dataset(name="t"))
+    assert isinstance(result_data, xr.Dataset)
+    refer_data = np.array([0.048, 0.032, 0.016, 0.04, 0.0, -0.04, 0.01, -0.042, -0.094])
+    assert np.isclose(result_data.t.data.flatten(), refer_data).all()
+
+
+def test_calc_dy_gradient1():
     result_data = ecl.calc_dy_gradient(t_data).data
     refer_data = np.array(
         [
@@ -322,6 +388,73 @@ def test_calc_dy_gradient():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dy_gradient2():
+    result_data = ecl.calc_dy_gradient(t_data.to_dataset(name="t"))
+    assert isinstance(result_data, xr.Dataset)
+    refer_data = np.array(
+        [
+            -1.02519448e-06,
+            -9.17279237e-07,
+            -5.39576035e-07,
+            -7.73392287e-07,
+            -5.21590152e-07,
+            -1.07915206e-07,
+            -5.21590152e-07,
+            -1.25901067e-07,
+            3.23745610e-07,
+        ]
+    )
+    assert np.isclose(result_data.t.data.flatten(), refer_data).all()
+
+
+def test_calc_dlat_radian_gradient1():
+    result_data = ecl.calc_dlat_radian_gradient(t_data).data
+    refer_data = np.array(
+        [
+            [-6.5317187, -5.8441696, -3.4377468],
+            [-4.927437, -3.3231552, -0.68754935],
+            [-3.3231552, -0.8021409, 2.062648],
+        ]
+    )
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dlat_radian_gradient2():
+    result_data = ecl.calc_dlat_radian_gradient(t_data.to_dataset(name="t"))
+    assert isinstance(result_data, xr.Dataset)
+    refer_data = np.array(
+        [
+            -6.5317187,
+            -5.8441696,
+            -3.4377468,
+            -4.927437,
+            -3.3231552,
+            -0.68754935,
+            -3.3231552,
+            -0.8021409,
+            2.062648,
+        ]
+    )
+    assert np.isclose(result_data.t.data.flatten(), refer_data).all()
+
+
+def test_calc_dlat_degree_gradient1():
+    result_data = ecl.calc_dlat_degree_gradient(t_data).data
+    refer_data = np.array(
+        [[-0.114, -0.102, -0.06], [-0.086, -0.058, -0.012], [-0.058, -0.014, 0.036]]
+    )
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dlat_degree_gradient2():
+    result_data = ecl.calc_dlat_degree_gradient(t_data.to_dataset(name="t"))
+    assert isinstance(result_data, xr.Dataset)
+    refer_data = np.array(
+        [-0.114, -0.102, -0.06, -0.086, -0.058, -0.012, -0.058, -0.014, 0.036]
+    )
+    assert np.isclose(result_data.t.data.flatten(), refer_data).all()
 
 
 def test_calc_dx_laplacian():
@@ -519,9 +652,57 @@ def test_calc_top2surface_integral3():
     assert np.isclose(result_data, refer_data).all()
 
 
-def test_calc_dxdy_laplacian():
+def test_calc_top2surface_integral4():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="Boer1982",
+        normalize=True,
+    ).data.flatten()
+    refer_data = np.array([191.74853131, 258.62114667])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral5():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="Trenberth1991",
+        normalize=True,
+    ).data.flatten()
+    refer_data = np.array([250.28244204, 259.11086037])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral6():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="vibeta-ncl",
+        normalize=True,
+    ).data.flatten()
+    refer_data = np.array([250.62353611, 259.11086037])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dxdy_laplacian1():
     result_data = ecl.calc_dxdy_laplacian(t_data).data.flatten()
     refer_data = np.array([-3.23613322e-12])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_dxdy_laplacian2():
+    result_data = ecl.calc_dxdy_laplacian(t_data, spherical_coord=False).data.flatten()
+    refer_data = np.array([-3.2349143e-12])
     assert np.isclose(result_data, refer_data).all()
 
 
@@ -643,6 +824,36 @@ def test_calc_geostrophic_wind():
     refer_data2 = np.array([1.02103513, 0.99848472, 0.97593423])
     assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
     assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity1():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(z_data, method="easyclimate")
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity2():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary=True, method="uv2vr_cfd-ncl"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
 
 
 def test_calc_horizontal_water_flux():
@@ -1121,3 +1332,44 @@ def test_calc_p_advection():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+
+
+class TestCalcShearStretchDeform:
+    @pytest.fixture
+    def sample_data_calc_shear_stretch_deform(self):
+        u_data = ecl.open_tutorial_dataset("uwnd_2022_day5").uwnd.sortby("lat")
+        v_data = ecl.open_tutorial_dataset("vwnd_2022_day5").vwnd.sortby("lat")
+        return u_data, v_data
+
+    @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+    def test_calc_shear_stretch_deform1(self, sample_data_calc_shear_stretch_deform):
+        u_data, v_data = sample_data_calc_shear_stretch_deform
+        result = ecl.calc_shear_stretch_deform(u_data=u_data, v_data=v_data)
+
+        fig, ax = plt.subplots()
+        result["shear"].isel(time=0).sel(level=850, lat=slice(-80, 80)).plot.contourf(
+            ax=ax, levels=np.linspace(-4.5e-5, 4.5e-5, 11)
+        )
+        return fig
+
+    @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+    def test_calc_shear_stretch_deform2(self, sample_data_calc_shear_stretch_deform):
+        u_data, v_data = sample_data_calc_shear_stretch_deform
+        result = ecl.calc_shear_stretch_deform(u_data=u_data, v_data=v_data)
+
+        fig, ax = plt.subplots()
+        result["stretch"].isel(time=0).sel(level=850, lat=slice(-80, 80)).plot.contourf(
+            ax=ax, levels=np.linspace(-6e-5, 6e-5, 11)
+        )
+        return fig
+
+    @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+    def test_calc_shear_stretch_deform3(self, sample_data_calc_shear_stretch_deform):
+        u_data, v_data = sample_data_calc_shear_stretch_deform
+        result = ecl.calc_shear_stretch_deform(u_data=u_data, v_data=v_data)
+
+        fig, ax = plt.subplots()
+        result["deform"].isel(time=0).sel(level=850, lat=slice(-80, 80)).plot.contourf(
+            ax=ax, levels=np.linspace(0, 7e-5, 11), cmap="Greens"
+        )
+        return fig

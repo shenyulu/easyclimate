@@ -4,25 +4,14 @@ Graph processing related functions
 
 from __future__ import annotations
 
-import cartopy
 import xarray as xr
 import warnings
 import matplotlib
 import matplotlib.pyplot as plt
-from ..core.utility import transfer_xarray_lon_from180TO360, assert_compared_version
-
-# cartopy version check
-check_return = assert_compared_version(cartopy.__version__, "0.20")
-if check_return == 1:
-    pass
-else:
-    print(
-        "Cartopy version is not greater than 0.20, please update cartopy package. You can use Conda to update: `conda install -c conda-forge cartopy`"
-    )
-
 import cartopy.crs as ccrs
 import matplotlib.ticker as ticker
 import numpy as np
+from ..core.utility import transfer_xarray_lon_from180TO360
 from geocat.viz import util as gvutil
 
 __all__ = ["draw_Circlemap_PolarStereo", "add_lon_cyclic", "add_lon_cyclic_lonarray"]
