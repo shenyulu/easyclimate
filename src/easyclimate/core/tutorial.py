@@ -87,6 +87,10 @@ file_formats = {
     "test_slp_typhoon_201919": 4,
     "test_t_typhoon_201919": 4,
     "wrfout_d01_2022-05-01_00_00_00": 4,
+    "era5_daily_z500_prime_201411_N15": 4,
+    "era5_daily_z500_prime_202411_N15": 4,
+    "era5_ymean_monthly_u500_199101_202012_N15": 4,
+    "era5_ymean_monthly_v500_199101_202012_N15": 4,
 }
 
 
