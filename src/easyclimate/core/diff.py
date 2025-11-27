@@ -1632,6 +1632,10 @@ def calc_vorticity(
         Radius of the Earth.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
+    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
+        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = uv2vr_cfd-ncl``.
+    method: {"easyclimate", "uv2vr_cfd-ncl"}, default: `uv2vr_cfd-ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``uv2vr_cfd-ncl``.
 
     Returns
     -------
@@ -1847,6 +1851,8 @@ def calc_geostrophic_wind_vorticity(
     omega: float = 7.292e-5,
     g: float = 9.8,
     R: float = 6371200.0,
+    cyclic_boundary=False,
+    method: Literal["easyclimate", "uv2vr_cfd-ncl"] = "uv2vr_cfd-ncl",
 ) -> xr.DataArray:
     """
     Calculate the geostrophic vorticity.
@@ -1877,6 +1883,10 @@ def calc_geostrophic_wind_vorticity(
         The acceleration of gravity.
     R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
+    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
+        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = uv2vr_cfd-ncl``.
+    method: {"easyclimate", "uv2vr_cfd-ncl"}, default: `uv2vr_cfd-ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``uv2vr_cfd-ncl``.
 
     Returns
     -------
@@ -1887,7 +1897,14 @@ def calc_geostrophic_wind_vorticity(
     )
     ug, vg = geostrophic_wind["ug"], geostrophic_wind["vg"]
     vor_g = calc_vorticity(
-        ug, vg, spherical_coord=spherical_coord, lon_dim=lon_dim, lat_dim=lat_dim, R=R
+        ug,
+        vg,
+        spherical_coord=spherical_coord,
+        lon_dim=lon_dim,
+        lat_dim=lat_dim,
+        R=R,
+        cyclic_boundary=cyclic_boundary,
+        method=method,
     )
     return vor_g
 
@@ -2431,9 +2448,11 @@ def calc_shear_stretch_deform(
     dvdy_raw = calc_gradient(v_data, dim=lat_dim, edge_order=edge_order)
     dvdy = dvdy_raw / dy
 
-    shd = dvdx + dudy
-    std = dudx - dvdy
-    td = np.sqrt(shd**2 + std**2)
+    shear = dvdx + dudy
+    stretch = dudx - dvdy
+    deform = np.sqrt(shear**2 + stretch**2)
 
-    result = xr.Dataset(data_vars={"shd": shd, "std": std, "td": td})
+    result = xr.Dataset(
+        data_vars={"shear": shear, "stretch": stretch, "deform": deform}
+    )
     return result
