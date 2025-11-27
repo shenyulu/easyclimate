@@ -19,10 +19,10 @@ formatter = ticker.ScalarFormatter(useMathText=True, useOffset=True)
 formatter.set_powerlimits((0, 0))
 
 # %%
-z500_prime_data1 = xr.open_dataset("era5_daily_z500_prime_201411_N15.nc").z /9.8
-z500_prime_data2 = xr.open_dataset("era5_daily_z500_prime_202411_N15.nc").z /9.8
-u500_climatology_data = xr.open_dataset("era5_ymean_monthly_u500_199101_202012_N15.nc").u
-v500_climatology_data = xr.open_dataset("era5_ymean_monthly_v500_199101_202012_N15.nc").v
+z500_prime_data1 = ecl.open_tutorial_dataset("era5_daily_z500_prime_201411_N15.nc").z /9.8
+z500_prime_data2 = ecl.open_tutorial_dataset("era5_daily_z500_prime_202411_N15.nc").z /9.8
+u500_climatology_data = ecl.open_tutorial_dataset("era5_ymean_monthly_u500_199101_202012_N15.nc").u
+v500_climatology_data = ecl.open_tutorial_dataset("era5_ymean_monthly_v500_199101_202012_N15.nc").v
 
 # %%
 # TN01 Wave Activity Horizontal Flux
