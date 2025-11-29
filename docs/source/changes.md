@@ -4,6 +4,90 @@
 
 *Released on: 2025/11/29*
 
+* [feat: add ts on normalized funcs](https://github.com/shenyulu/easyclimate/pull/108/commits/df423a3b00bd8b20e3099c8091c6280bce6e6d75)
+
+> ⚠️ From this version, we change the functions name as follows:
+>
+> - "normalize_zscore" ➡️ "timeseries_normalize_zscore"
+> - "normalize_minmax" ➡️ "timeseries_normalize_minmax"
+> - "normalize_robust" ➡️ "timeseries_normalize_robust"
+> - "normalize_mean" ➡️ "timeseries_normalize_mean"
+>
+> and add function:
+>
+> - "calc_precip_anomaly_percentage"
+
+* [fix: use get_axis_num instead](https://github.com/shenyulu/easyclimate/pull/108/commits/60bc622b68299c1bcf17573a13e9dea8b0647188)
+* [feat: delete climatological macro](https://github.com/shenyulu/easyclimate/pull/108/commits/42b83e09047635bd2a8a419c8d613b231be95081)
+
+> ⚠️ From this version, we change the functions name as follows:
+>
+> - "calc_yearly_mean" ➡️ "calc_yearly_climatological_mean"
+> - "calc_yearly_sum" ➡️ "calc_yearly_climatological_sum"
+> - "calc_yearly_std" ➡️ "calc_yearly_climatological_std"
+> - "calc_yearly_var" ➡️ "calc_yearly_climatological_var"
+> - "calc_yearly_max" ➡️ "calc_yearly_climatological_max"
+> - "calc_yearly_min" ➡️ "calc_yearly_climatological_min"
+
+* [feat: add sample units for q](https://github.com/shenyulu/easyclimate/pull/108/commits/416128a1531d64c8cdb08ebe2338e2e64f4fd7e0)
+* [feat: seperate units module](https://github.com/shenyulu/easyclimate/pull/108/commits/cce8c9b66956a5bed14b0277f547b60cae1485cb)
+* [fix: radius of the earth](https://github.com/shenyulu/easyclimate/pull/108/commits/8099f2299f7345826374c22c8a2e0be694dfd64e)
+* [feat: add monthstat](https://github.com/shenyulu/easyclimate/pull/108/commits/171de4110c68cc3c2c8bd1913ef094d42806dcf8)
+
+> ⚠️ From this version, we add the functions name as follows:
+>
+> - "calc_monthly_mean"
+> - "calc_monthly_sum"
+> - "calc_monthly_std"
+> - "calc_monthly_var"
+> - "calc_monthly_max"
+> - "calc_monthly_min"
+
+* [feat & fix: update diff](https://github.com/shenyulu/easyclimate/pull/108/commits/12f8e868bc342c440a47af1870954e182f240997)
+
+> ⚠️ From this version, we change the functions name as follows:
+>
+> - "calc_lon_gradient" ➡️ "calc_dx_gradient"
+> - "calc_lat_gradient" ➡️ "calc_dy_gradient"
+>
+> add functions:
+>
+> - "calc_dlon_radian_gradient"
+> - "calc_dlon_degree_gradient"
+> - "calc_dlat_radian_gradient"
+> - "calc_dlat_degree_gradient"
+> - "calc_shear_stretch_deform"
+>
+> and fix functions:
+>
+> - "calc_delta_pressure"
+> - "calc_p_gradient"
+> - "calc_p_integral"
+> - "calc_top2surface_integral"
+> - "calc_divergence"
+> - "calc_vorticity"
+> - "calc_geostrophic_wind"
+> - "calc_geostrophic_wind_vorticity"
+> - "calc_water_flux_top2surface_integral"
+> - "calc_divergence_watervaporflux"
+> - "calc_divergence_watervaporflux_top2surface_integral"
+> - "calc_u_advection"
+> - "calc_v_advection"
+> - "calc_p_advection"
+
+* [feat: add egr example](https://github.com/shenyulu/easyclimate/pull/108/commits/7d8dc200ec2f613d32d9d4afb4e0b446d0f941f2)
+* [fix: fix waf calc](https://github.com/shenyulu/easyclimate/pull/108/commits/036f1ba797372790a085fea185c93f98364974ac)
+
+> ⚠️ From this version, we fix the functions name as follows:
+>
+> - "calc_Plumb_wave_activity_horizontal_flux"
+> - "calc_TN_wave_activity_horizontal_flux"
+
+* [feat: add fortran macro](https://github.com/shenyulu/easyclimate/pull/108/commits/7b3a7d933c4e6cc67569b22df33862a775e4ebf2)
+* [feat: add remove_sst_trend](https://github.com/shenyulu/easyclimate/pull/108/commits/d5c8b0e584560a3c79c40e13a66376753a656e2b)
+* [feat: add add_lon_cyclic_lonarray](https://github.com/shenyulu/easyclimate/pull/108/commits/31b21e1ed46ed6d562be127851101b32646fef58)
+* [fix: fix calc_seasonal_mean](https://github.com/shenyulu/easyclimate/pull/108/commits/0d3a5268e533dd478e9e17d68c268ae7196289cd)
+
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.11.0...v2025.12.0
 
 ## v2025.11.0
