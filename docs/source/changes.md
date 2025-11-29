@@ -1,5 +1,11 @@
 # Changelog♻️
 
+## v2025.12.0
+
+*Released on: 2025/11/29*
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2024.11.0...v2025.12.0
+
 ## v2025.11.0
 
 *Released on: 2025/10/23*
