@@ -10,9 +10,7 @@ import easyclimate as ecl
 from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
-olr_data_interpolated = (
-    xr.open_dataset(str(Path(DOCS_DATA_PATH, "olr_smooth_data.nc"))).sortby("lat").olr
-)
+olr_data_interpolated = ecl.open_tutorial_dataset("olr_smooth_data").sortby("lat").olr
 
 #
 lf_result = ecl.filter.kf_filter_lf_wave(olr_data_interpolated, steps_per_day=1)

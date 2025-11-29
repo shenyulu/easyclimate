@@ -3,7 +3,7 @@ Potential intensity of TC
 """
 
 import xarray as xr
-from ...core.utility import (
+from ...core.units import (
     transfer_data_difference_units,
     transfer_data_multiple_units,
 )
@@ -26,7 +26,7 @@ def calc_potential_intensity_Bister_Emanuel_2002(
     temperature_data: xr.DataArray,
     temperature_data_units: Literal["celsius", "kelvin", "fahrenheit"],
     specific_humidity_data: xr.DataArray,
-    specific_humidity_data_units: str,
+    specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     vertical_dim: str,
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     CKCD: float = 0.9,

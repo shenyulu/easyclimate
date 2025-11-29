@@ -151,7 +151,7 @@ wet_bulb_temp_K = ecl.physics.calc_wet_bulb_temperature_stull2011(
     temperature_data_units = "degC",
     relative_humidity_data_units = "%"
 )
-ecl.utility.transfer_data_temperature_units(wet_bulb_temp_K, "K", "degC")
+ecl.transfer_data_temperature_units(wet_bulb_temp_K, "K", "degC")
 
 # %%
 # Grid
@@ -168,7 +168,7 @@ ecl.utility.transfer_data_temperature_units(wet_bulb_temp_K, "K", "degC")
 wet_bulb_stull2011 = ecl.physics.calc_wet_bulb_temperature_stull2011(
     temp_mesh1, rh_mesh, "degC", "%"
 )
-wet_bulb_stull2011 = ecl.utility.transfer_data_temperature_units(wet_bulb_stull2011, "K", "degC")
+wet_bulb_stull2011 = ecl.transfer_data_temperature_units(wet_bulb_stull2011, "K", "degC")
 
 # %%
 # Comparison (Iteration vs. Stull)
@@ -274,7 +274,7 @@ wet_bulb_davies_jones2008 = ecl.physics.calc_wet_bulb_potential_temperature_davi
     pressure_data = xr.DataArray([1000], dims = "p"), temperature_data = temp_mesh2, dewpoint_data = td_mesh,
     pressure_data_units = "hPa", temperature_data_units = "degC", dewpoint_data_units = "degC",
 ).isel(p = 0)
-wet_bulb_davies_jones2008 = ecl.utility.transfer_data_temperature_units(wet_bulb_davies_jones2008, "K", "degC")
+wet_bulb_davies_jones2008 = ecl.transfer_data_temperature_units(wet_bulb_davies_jones2008, "K", "degC")
 wet_bulb_davies_jones2008
 
 # %%

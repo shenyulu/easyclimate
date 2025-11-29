@@ -12,9 +12,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
-js_data = xr.open_dataset(
-    str(Path(DOCS_DATA_PATH, "js_H09_20250617_0500.nc")), decode_timedelta=False
-)
+js_data = ecl.open_tutorial_dataset("js_H09_20250617_0500", decode_timedelta=False)
 
 
 @pytest.mark.mpl_image_compare(remove_text=True)

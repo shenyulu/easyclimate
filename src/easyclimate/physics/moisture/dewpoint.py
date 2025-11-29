@@ -6,7 +6,7 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 from typing import Literal
-from ...core.utility import transfer_data_multiple_units
+from ...core.units import transfer_data_multiple_units
 
 __all__ = ["calc_dewpoint"]
 

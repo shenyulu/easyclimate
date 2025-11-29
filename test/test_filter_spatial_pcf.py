@@ -9,9 +9,7 @@ import easyclimate as ecl
 from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
-data = xr.open_dataset(
-    str(Path(DOCS_DATA_PATH, "uwnd_vwnd_hgt_equtorial_2021_2024.nc"))
-).sortby("lat")
+data = ecl.open_tutorial_dataset("uwnd_vwnd_hgt_equtorial_2021_2024").sortby("lat")
 
 result = ecl.filter.filter_2D_spatial_parabolic_cylinder_function(
     data.uwnd, data.vwnd, data.hgt

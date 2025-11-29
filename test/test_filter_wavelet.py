@@ -11,9 +11,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from .const_define import TEST_DATA_PATH, DOCS_DATA_PATH
 
-inputdata_nino3 = xr.open_dataset(
-    str(Path(DOCS_DATA_PATH, "test_input_nino3_wavelet.nc"))
-)["nino3"]
+inputdata_nino3 = ecl.open_tutorial_dataset("test_input_nino3_wavelet")["nino3"]
 result_data_timeseries_wavelet_transform = ecl.filter.calc_timeseries_wavelet_transform(
     inputdata_nino3, dt=0.25
 )

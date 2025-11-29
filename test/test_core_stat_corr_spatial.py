@@ -12,7 +12,7 @@ sst_data = ecl.open_tutorial_dataset("sst_mnmean_oisst").sst
 sst_data_anormaly = ecl.remove_seasonal_cycle_mean(sst_data)
 
 nino34_index = ecl.field.air_sea_interaction.calc_index_nino34(sst_data, running_mean=0)
-nino34_index_normalized = ecl.normalized.normalize_zscore(nino34_index)
+nino34_index_normalized = ecl.normalized.timeseries_normalize_zscore(nino34_index)
 
 
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)

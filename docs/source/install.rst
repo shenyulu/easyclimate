@@ -9,8 +9,8 @@ Follow these simple steps to install **easyclimate** on your system.
 The easyclimate package is currently built and tested for specific platforms due to compatibility and dependency constraints.
 Below are the supported platforms and notes for users on other systems.
 
-- Windows x86-64/AMD64
-- Linux x86-64/AMD64
+- **Windows x86-64/AMD64**
+- **Linux x86-64/AMD64**
 
 These platforms are fully tested, and pre-built wheels (``.whl``) are available on PyPI for easy installation via following methods:
 
@@ -26,7 +26,7 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
         If you don't have ``pip`` installed, this `Python installation guide <https://docs.python-guide.org/starting/installation/>`__ can guide you through the process.
 
-    .. tab-item:: uv
+    .. tab-item:: Astral uv
 
         1. Install `uv <https://docs.astral.sh/uv/>`__
 
@@ -34,13 +34,7 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
             pip install uv
 
-        2. Install `numba <https://numba.pydata.org/>`__ and `numpy <https://numpy.org/>`__ solely.
-
-        .. code:: bash
-
-            pip install numba numpy
-
-        3. Install ``easyclimate`` by `uv <https://docs.astral.sh/uv/>`__
+        2. Install ``easyclimate`` by `uv <https://docs.astral.sh/uv/>`__
 
         .. code:: bash
 
@@ -74,7 +68,7 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
 .. tip::
 
-    For *Linux* users who use *older systems*, special attention is required! It is necessary to install a relatively recent version of the `gcc <https://gcc.gnu.org/projects/c-status.html>`__ and `g++ <https://gcc.gnu.org/projects/cxx-status.html>`__ compiler suites to meet the **C++17** requirements. The latest versions of these suites can also be installed as follows:
+    For **Linux** users who use *older systems*, special attention is required! It is necessary to install a relatively recent version of the `gcc <https://gcc.gnu.org/projects/c-status.html>`__ and `g++ <https://gcc.gnu.org/projects/cxx-status.html>`__ compiler suites to meet the **C++17** requirements. The latest versions of these suites can also be installed as follows:
 
     .. tab-set::
 
@@ -144,6 +138,9 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
                 yum -y install gcc-c++
 
+.. warning::
+
+    Unfortunately, *easyclimate currently does NOT officially support macOS*, including both Intel-based Macs and Apple Silicon (M-series) Macs.
 
 Python Version Requirement
 ------------------------------------

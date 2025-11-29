@@ -10,7 +10,7 @@ from scipy import signal, stats
 from scipy.stats import pearsonr
 from scipy.signal import correlate
 from .utility import generate_datanode_dispatcher, find_dims_axis, validate_dataarrays
-from .normalized import normalize_zscore
+from .normalized import timeseries_normalize_zscore
 from rich.progress import Progress, BarColumn, TimeRemainingColumn
 from xarray import DataTree
 from .datanode import DataNode
@@ -32,6 +32,7 @@ __all__ = [
     "calc_timeseries_correlations",
     "calc_non_centered_corr",
     "calc_pattern_corr",
+    "remove_sst_trend",
 ]
 
 
@@ -293,7 +294,9 @@ def calc_corr_spatial(
         )
 
     # Covariance (regression coefficient)
-    reg_coeff = xr.cov(data_input, normalize_zscore(x, dim=time_dim), dim=time_dim)
+    reg_coeff = xr.cov(
+        data_input, timeseries_normalize_zscore(x, dim=time_dim), dim=time_dim
+    )
 
     if method == "scipy":
         # Define a function that handles each grid point
@@ -1725,3 +1728,75 @@ def calc_pattern_corr(
     }
 
     return pcc
+
+
+def remove_sst_trend(
+    ssta: xr.DataArray,
+    spatial_dims: list[str] = ["lat", "lon"],
+) -> xr.DataArray:
+    """
+    Remove the global mean SST anomaly trend from the SST anomaly field
+    for EOF/PC analysis and so on.
+
+    This function computes the deviation of the SST anomaly at each grid point
+    :math:`(x, y)` from the global-mean SST anomaly for the same time step :math:`t`, following
+    the approach described in Zhang et al. (1997).
+    The resulting field is:
+
+    .. math::
+
+        \\mathrm{SSTA}^*_{x,y,t} = \\mathrm{SSTA}_{x,y,t} - [\\mathrm{SSTA}]_t
+
+    where :math:`[\\mathrm{SSTA}]_t` is the spatial mean over the specified dimensions
+    for time :math:`t`. This removes the dominant **global warming mode** trend, avoiding
+    unrealistic orthogonality constraints in subsequent PC analysis.
+
+    Parameters
+    ----------
+    ssta : :py:class:`xarray.DataArray <xarray.DataArray>`
+        The SST anomaly field with dimensions including 'time' and the spatial dimensions
+        (e.g., 'lat', 'lon').
+    spatial_dims : :py:class:`list <list>` of :py:class:`str <str>`, optional
+        The spatial dimensions over which to compute the global mean. Default: `['lat', 'lon']`.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray <xarray.DataArray>`
+        The deviation SST anomaly field with the same shape and coordinates as the input.
+
+    Reference
+    --------------
+    - Zhang, Y., Wallace, J. M., & Battisti, D. S. (1997). ENSO-like Interdecadal Variability: 1900-93. Journal of Climate, 10(5), 1004-1020. https://journals.ametsoc.org/view/journals/clim/10/5/1520-0442_1997_010_1004_eliv_2.0.co_2.xml
+
+    Examples
+    --------
+    >>> import xarray as xr
+    >>> # Load or create an xarray Dataset with SST anomalies
+    >>> ds = xr.open_dataset('path_to_sst_data.nc')
+    >>> # Assume 'ssta' is the variable name for SST anomalies
+    >>> ssta_dev = remove_sst_tendency(ds['ssta'])
+    >>> print(ssta_dev)
+    <xarray.DataArray 'ssta' (time: 120, lat: 180, lon: 360)>
+    Coordinates:
+      * time     (time) datetime64[ns] 1940-01-01 ... 2024-12-01
+      * lat      (lat) float32 -89.5 -88.5 -87.5 ... 87.5 88.5 89.5
+      * lon      (lon) float32 0.5 1.5 2.5 ... 357.5 358.5 359.5
+    """
+    global_mean = ssta.mean(dim=spatial_dims)
+    ssta_dev = ssta - global_mean
+
+    # Add necessary attributes to the output
+    ssta_dev.attrs = dict()
+    ssta_dev.attrs["long_name"] = "SST anomaly deviation from global mean"
+    ssta_dev.attrs["standard_name"] = "sea_surface_temperature_anomaly_deviation"
+    ssta_dev.attrs["description"] = (
+        "Deviation of SST anomaly from the global-mean SST anomaly for each time step to remove the global warming trend."
+    )
+    ssta_dev.attrs["reference"] = (
+        "Zhang et al. (1997): ENSO-like Interdecadal Variability: 1900-93."
+    )
+    # Preserve original units if available
+    if "units" in ssta.attrs:
+        ssta_dev.attrs["units"] = ssta.attrs["units"]
+
+    return ssta_dev

@@ -21,6 +21,7 @@ Core❤️
     :toctree: generated/
 
     easyclimate.core.datanode
+    easyclimate.core.units
     easyclimate.core.diff
     easyclimate.core.eddy
     easyclimate.core.eof
@@ -33,6 +34,7 @@ Core❤️
     easyclimate.core.utility
     easyclimate.core.variability
     easyclimate.core.yearstat
+    easyclimate.core.monthstat
     easyclimate.core.spharm
     easyclimate.core.windspharm
 

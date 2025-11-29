@@ -14,7 +14,7 @@ from easyclimate.field.teleconnection import (
     calc_index_BBO_EOF3_Wu_2007,
 )
 
-slp_data = xr.open_dataset(str(Path(DOCS_DATA_PATH, "slp_monmean_NH.nc")))["slp"]
+slp_data = ecl.open_tutorial_dataset("slp_monmean_NH")["slp"]
 
 
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)

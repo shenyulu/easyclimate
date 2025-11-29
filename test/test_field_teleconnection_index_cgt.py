@@ -20,7 +20,9 @@ def test_calc_index_CGT_1point_Ding_Wang_2005():
         z200_data
     )
     cgt_index1 = ecl.get_specific_months_data(cgt_index1, [6, 7, 8, 9])
-    cgt_index1_normalized = ecl.normalized.normalize_zscore(cgt_index1, dim="time")
+    cgt_index1_normalized = ecl.normalized.timeseries_normalize_zscore(
+        cgt_index1, dim="time"
+    )
 
     z200_anomaly_data = ecl.remove_seasonal_cycle_mean(z200_data)
     z200_anormaly_JJAS = ecl.get_specific_months_data(
@@ -53,7 +55,7 @@ def test_calc_index_CGT_NH_Ding_Wang_2005():
         if freq == "monthly":
             return ecl.calc_detrend_spatial(ds_JJAS_anormaly)
         elif freq == "seasonally":
-            yearly_mean = ecl.calc_yearly_climatological_mean(ds_JJAS_anormaly)
+            yearly_mean = ecl.calc_yearly_mean(ds_JJAS_anormaly)
             return ecl.calc_detrend_spatial(yearly_mean)
         else:
             return 0

@@ -7,7 +7,7 @@ import numpy as np
 import xarray as xr
 import warnings
 from typing import Literal
-from ...core.utility import transfer_data_temperature_units
+from ...core.units import transfer_data_temperature_units
 
 __all__ = ["calc_vapor_pressure", "calc_saturation_vapor_pressure"]
 

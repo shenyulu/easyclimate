@@ -19,7 +19,7 @@ def test_calc_butter_bandpass():
     result_data = ecl.filter.calc_butter_bandpass(
         data_nino34_area, sampling_frequency=1 / 12, period=[3, 10]
     )
-    result_data = ecl.calc_yearly_climatological_mean(result_data).data
+    result_data = ecl.calc_yearly_mean(result_data).data
     refer_data = np.array(
         [
             0.88364814,
@@ -72,7 +72,7 @@ def test_calc_butter_lowpass():
     result_data = ecl.filter.calc_butter_lowpass(
         data_nino34_area, sampling_frequency=1 / 12, period=10
     )
-    result_data = ecl.calc_yearly_climatological_mean(result_data).data
+    result_data = ecl.calc_yearly_mean(result_data).data
     refer_data = np.array(
         [
             26.26998031,
@@ -125,7 +125,7 @@ def test_calc_butter_highpass():
     result_data = ecl.filter.calc_butter_highpass(
         data_nino34_area, sampling_frequency=1 / 12, period=1.5
     )
-    result_data = ecl.calc_yearly_climatological_mean(result_data).data
+    result_data = ecl.calc_yearly_mean(result_data).data
     refer_data = np.array(
         [
             -0.06685445,

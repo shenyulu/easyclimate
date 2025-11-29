@@ -10,16 +10,15 @@ from ..physics.temperature import calc_potential_temperature_vertical
 from ..physics.convection.stability import calc_brunt_vaisala_frequency_atm
 from .diff import (
     calc_gradient,
-    calc_lon_gradient,
-    calc_lat_gradient,
-    calc_lon_laplacian,
-    calc_lon_lat_mixed_derivatives,
+    calc_dx_gradient,
+    calc_dy_gradient,
+    calc_dlon_radian_gradient,
+    calc_dlat_radian_gradient,
 )
-from .utility import (
+from .utility import transfer_deg2rad
+from .units import (
     transfer_data_multiple_units,
     transfer_units_coeff,
-    transfer_deg2rad,
-    transfer_dFdp2dFdz,
 )
 from typing import Literal
 
@@ -41,7 +40,6 @@ def calc_eady_growth_rate(
     vertical_dim: str,
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     lat_dim="lat",
-    g=9.8,
 ) -> xr.Dataset:
     """
     Calculate the maximum Eady growth rate.
@@ -71,8 +69,6 @@ def calc_eady_growth_rate(
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    g: :py:class:`float <float>`, default: `9.8`.
-        The acceleration of gravity.
 
     Returns
     -------
@@ -83,8 +79,17 @@ def calc_eady_growth_rate(
     - `brunt_vaisala_frequency`: Brunt-väisälä frequency.
 
     .. seealso::
+        - Eady, E. T. (1949). Long Waves and Cyclone Waves. Tellus, 1(3), 33–52. https://doi.org/10.3402/tellusa.v1i3.8507, https://www.tandfonline.com/doi/abs/10.3402/tellusa.v1i3.8507
+        - Lindzen, R. S. , & Farrell, B. (1980). A Simple Approximate Result for the Maximum Growth Rate of Baroclinic Instabilities. Journal of Atmospheric Sciences, 37(7), 1648-1654. https://journals.ametsoc.org/view/journals/atsc/37/7/1520-0469_1980_037_1648_asarft_2_0_co_2.xml
+        - Simmonds, I., and E.-P. Lim (2009), Biases in the calculation of Southern Hemisphere mean baroclinic eddy growth rate, Geophys. Res. Lett., 36, L01707, https://doi.org/10.1029/2008GL036320.
+        - Sloyan, B. M., and T. J. O'Kane (2015), Drivers of decadal variability in the Tasman Sea, J. Geophys. Res. Oceans, 120, 3193–3210, https://doi.org/10.1002/2014JC010550.
         - `eady_growth_rate -NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/eady_growth_rate.shtml>`__
         - `瞬变涡旋诊断量 <https://renqlsysu.github.io/2020/02/16/wave_activity_flux/>`__
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_egr.py
     """
     dim_tuple = u_daily_data.dims
     f = get_coriolis_parameter(u_daily_data[lat_dim])
@@ -176,8 +181,8 @@ def calc_apparent_heat_source(
         temper_data, vertical_dim=vertical_dim, vertical_dim_units=vertical_dim_units
     )
     dtheta_dt = calc_gradient(pt, dim=time_dim) / dt
-    dtheta_dx = calc_lon_gradient(pt, lon_dim=lon_dim, lat_dim=lat_dim)
-    dtheta_dy = calc_lat_gradient(pt, lat_dim=lat_dim)
+    dtheta_dx = calc_dx_gradient(pt, lon_dim=lon_dim, lat_dim=lat_dim)
+    dtheta_dy = calc_dy_gradient(pt, lat_dim=lat_dim)
 
     dp = calc_gradient(pt[vertical_dim], dim=vertical_dim) * dp_base
     domega_dp = calc_gradient(pt, dim=vertical_dim) / dp
@@ -330,8 +335,8 @@ def calc_apparent_moisture_sink(
     dp_base = transfer_units_coeff(vertical_dim_units, "Pa")
 
     dqs_dt = calc_gradient(specific_humidity_data, dim=time_dim) / dt
-    dqs_dx = calc_lon_gradient(specific_humidity_data, lon_dim=lon_dim, lat_dim=lat_dim)
-    dqs_dy = calc_lat_gradient(specific_humidity_data, lat_dim=lat_dim)
+    dqs_dx = calc_dx_gradient(specific_humidity_data, lon_dim=lon_dim, lat_dim=lat_dim)
+    dqs_dy = calc_dy_gradient(specific_humidity_data, lat_dim=lat_dim)
 
     dp = calc_gradient(specific_humidity_data[vertical_dim], dim=vertical_dim) * dp_base
     domega_dp = calc_gradient(specific_humidity_data, dim=vertical_dim) / dp
@@ -386,6 +391,8 @@ def calc_Plumb_wave_activity_horizontal_flux(
     """
     coordinate_sample_data = z_prime_data
 
+    dim_tuple = z_prime_data.dims
+
     lat_array = coordinate_sample_data["lat"].astype("float64")
     coslat = np.cos(transfer_deg2rad(lat_array))
 
@@ -397,11 +404,11 @@ def calc_Plumb_wave_activity_horizontal_flux(
     )
     p = p_lev / 1e5
 
-    dpsi_dlambda = calc_gradient(psi_p, dim=lon_dim)
-    dpsi_dphi = calc_gradient(psi_p, dim=lat_dim)
+    dpsi_dlambda = calc_dlon_radian_gradient(psi_p, lon_dim=lon_dim)
+    dpsi_dphi = calc_dlat_radian_gradient(psi_p, lat_dim=lat_dim)
 
-    d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim=lon_dim)
-    d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim=lon_dim)
+    d2psi_dlambda2 = calc_dlon_radian_gradient(dpsi_dlambda, lon_dim=lon_dim)
+    d2psi_dlambdadphi = calc_dlon_radian_gradient(dpsi_dphi, lon_dim=lon_dim)
 
     term_xu = dpsi_dlambda**2 - (psi_p * d2psi_dlambda2)
     term_xv = dpsi_dlambda * dpsi_dphi - (psi_p * d2psi_dlambdadphi)
@@ -410,23 +417,55 @@ def calc_Plumb_wave_activity_horizontal_flux(
     fy = p * ((1 / (2 * R**2)) * term_xv)
 
     result = xr.Dataset()
+
+    psi_p = psi_p.transpose(*dim_tuple)
+    psi_p.attrs = {
+        "long_name": "Perturbation stream function",
+        "units": "m^2/s",
+        "description": "Geostrophic stream function perturbation calculated from geopotential height anomaly",
+    }
     result["psi_p"] = psi_p
+
+    fx = fx.transpose(*dim_tuple)
+    fx.attrs = {
+        "long_name": "Zonal component of Plumb wave activity horizontal flux",
+        "units": "m^2/s^2",
+        "description": "Eastward component of Plumb wave activity flux",
+        "standard_name": "tn_wave_activity_flux_x",
+    }
     result["fx"] = fx
+
+    fy = fy.transpose(*dim_tuple)
+    fy.attrs = {
+        "long_name": "Meridional component of Plumb wave activity horizontal flux",
+        "units": "m^2/s^2",
+        "description": "Northward component of Plumb wave activity flux",
+        "standard_name": "Plumb_wave_activity_flux_y",
+    }
     result["fy"] = fy
-    return result
+
+    result.attrs = {
+        "title": "Plumb Wave Activity Flux",
+        "description": "Horizontal components of quasi-geostrophic wave activity flux following Plumb (1985)",
+        "reference": "Plumb, R. A., 1985: On the Three-Dimensional Propagation of Stationary Waves. J. Atmos. Sci., 42, 217–229",
+        "created_with": "easyclimate: calc_Plumb_wave_activity_horizontal_flux function",
+    }
+    return result.astype("float32")
 
 
 def calc_TN_wave_activity_horizontal_flux(
-    z_prime_data: xr.DataArray,
+    z_prime_data: xr.DataArray | None,
     u_climatology_data: xr.DataArray,
     v_climatology_data: xr.DataArray,
     vertical_dim: str,
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    psi_prime_data: xr.DataArray | None = None,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
+    time_dim: str = "time",
     omega: float = 7.292e-5,
     g: float = 9.8,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Calculate TN wave activity horizontal flux.
@@ -441,6 +480,9 @@ def calc_TN_wave_activity_horizontal_flux(
     ----------
     z_prime_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The anormaly of atmospheric geopotential height.
+
+    .. attention:: The unit of `z_prime_data` should be **meters**, NOT :math:`\\mathrm{m^2 \\cdot s^2}` which is the unit used in the representation of potential energy.
+
     u_climatology_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
         The climatology of zonal wind data.
     v_climatology_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
@@ -449,6 +491,8 @@ def calc_TN_wave_activity_horizontal_flux(
         Vertical coordinate dimension name.
     vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
+    psi_prime_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Perturbation stream function. Geostrophic stream function perturbation calculated from geopotential height anomaly.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -464,31 +508,101 @@ def calc_TN_wave_activity_horizontal_flux(
     -------
     The TN wave activity horizontal flux (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
+    Reference
+    --------------
+    - Takaya, K., & Nakamura, H. (2001). A Formulation of a Phase-Independent Wave-Activity Flux for Stationary and Migratory Quasigeostrophic Eddies on a Zonally Varying Basic Flow. Journal of the Atmospheric Sciences, 58(6), 608-627. https://journals.ametsoc.org/view/journals/atsc/58/6/1520-0469_2001_058_0608_afoapi_2.0.co_2.xml
+
     .. seealso::
         - http://www.atmos.rcast.u-tokyo.ac.jp/nishii/programs/index.html
         - https://github.com/laishenggx/T-N_Wave-Activity-Flux
     """
-    coordinate_sample_data = z_prime_data
-    u_c = u_climatology_data
-    v_c = v_climatology_data
+    # Check data validity
+    if z_prime_data is None and psi_prime_data is None:
+        raise ValueError(
+            "`z_prime_data` and `psi_prime_data` should not both be None at the same time."
+        )
+
+    # Select the data to be used (`z_prime_data` is preferred)
+    vertical_level_data = z_prime_data if z_prime_data is not None else psi_prime_data
+
+    # Verify data type
+    if not isinstance(vertical_level_data, xr.DataArray):
+        raise TypeError(
+            f"The input data must be of the xarray.DataArray type. Current type:{type(vertical_level_data)}"
+        )
+
+    # Extract month from `vertical_level_data` and select corresponding climatology data
+    if time_dim in vertical_level_data.dims and time_dim in u_climatology_data.dims:
+        # If `vertical_level_data` has multiple time steps, extract month for each
+        months = vertical_level_data[time_dim].dt.month
+
+        # Select corresponding climatology months using groupby
+        u_c = u_climatology_data.sel(
+            {time_dim: u_climatology_data[time_dim].dt.month.isin(months)}
+        )
+        v_c = v_climatology_data.sel(
+            {time_dim: v_climatology_data[time_dim].dt.month.isin(months)}
+        )
+
+        # For multiple time steps, we need to align the data
+        # This assumes u_climatology_data and v_climatology_data have the same time coordinates
+        if len(vertical_level_data[time_dim]) > 1:
+            # Create a mapping between month and climatology data
+            u_c_monthly = u_climatology_data.groupby(
+                u_climatology_data[time_dim].dt.month
+            )
+            v_c_monthly = v_climatology_data.groupby(
+                v_climatology_data[time_dim].dt.month
+            )
+
+            # Select appropriate months for each time step in `vertical_level_data`
+            u_c_list = []
+            v_c_list = []
+
+            for t in vertical_level_data[time_dim]:
+                month = t.dt.month.values
+                month = int(month)
+                u_c_month = u_c_monthly[month].squeeze(drop=True)
+                v_c_month = v_c_monthly[month].squeeze(drop=True)
+                u_c_list.append(u_c_month)
+                v_c_list.append(v_c_month)
+
+            u_c = xr.concat(u_c_list, dim=time_dim)
+            v_c = xr.concat(v_c_list, dim=time_dim)
+            u_c[time_dim] = vertical_level_data[time_dim]
+            v_c[time_dim] = vertical_level_data[time_dim]
+    elif time_dim in u_climatology_data.dims:
+        # If `vertical_level_data` has no time dimension, use the first month as default
+        # or raise an error depending on your use case
+        u_c = u_climatology_data.isel({time_dim: 0})
+        v_c = v_climatology_data.isel({time_dim: 0})
+    else:
+        u_c = u_climatology_data
+        v_c = v_climatology_data
+
+    coordinate_sample_data = vertical_level_data
+    dim_tuple = vertical_level_data.dims
 
     lat_array = coordinate_sample_data["lat"].astype("float64")
     coslat = np.cos(transfer_deg2rad(lat_array))
 
-    f = get_coriolis_parameter(lat_array, omega=omega)
-    psi_p = z_prime_data * g / f
+    if psi_prime_data is None:
+        f = get_coriolis_parameter(lat_array, omega=omega)
+        psi_p = z_prime_data * g / f
+    else:
+        psi_p = psi_prime_data
 
     p_lev = transfer_data_multiple_units(
         coordinate_sample_data[vertical_dim], vertical_dim_units, "Pa"
     )
     p = p_lev / 1e5
 
-    dpsi_dlambda = calc_gradient(psi_p, dim=lon_dim)
-    dpsi_dphi = calc_gradient(psi_p, dim=lat_dim)
+    dpsi_dlambda = calc_dlon_radian_gradient(psi_p, lon_dim=lon_dim)
+    dpsi_dphi = calc_dlat_radian_gradient(psi_p, lat_dim=lat_dim)
 
-    d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim=lon_dim)
-    d2psi_dphi2 = calc_gradient(dpsi_dphi, dim=lat_dim)
-    d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim=lon_dim)
+    d2psi_dlambda2 = calc_dlon_radian_gradient(dpsi_dlambda, lon_dim=lon_dim)
+    d2psi_dphi2 = calc_dlat_radian_gradient(dpsi_dphi, lat_dim=lat_dim)
+    d2psi_dlambdadphi = calc_dlon_radian_gradient(dpsi_dphi, lon_dim=lon_dim)
 
     term_xu = dpsi_dlambda**2 - (psi_p * d2psi_dlambda2)
     term_xv = dpsi_dlambda * dpsi_dphi - (psi_p * d2psi_dlambdadphi)
@@ -501,10 +615,40 @@ def calc_TN_wave_activity_horizontal_flux(
     fy = coeff * ((u_c / (R**2) * term_xv) + (v_c * coslat / (R**2) * term_yv))
 
     result = xr.Dataset()
+
+    psi_p = psi_p.transpose(*dim_tuple)
+    psi_p.attrs = {
+        "long_name": "Perturbation stream function",
+        "units": "m^2/s",
+        "description": "Geostrophic stream function perturbation calculated from geopotential height anomaly",
+    }
     result["psi_p"] = psi_p
+
+    fx = fx.transpose(*dim_tuple)
+    fx.attrs = {
+        "long_name": "Zonal component of TN wave activity horizontal flux",
+        "units": "m^2/s^2",
+        "description": "Eastward component of Takaya and Nakamura wave activity flux",
+        "standard_name": "tn_wave_activity_flux_x",
+    }
     result["fx"] = fx
+
+    fy = fy.transpose(*dim_tuple)
+    fy.attrs = {
+        "long_name": "Meridional component of TN wave activity horizontal flux",
+        "units": "m^2/s^2",
+        "description": "Northward component of Takaya and Nakamura wave activity flux",
+        "standard_name": "tn_wave_activity_flux_y",
+    }
     result["fy"] = fy
-    return result
+
+    result.attrs = {
+        "title": "Takaya and Nakamura Wave Activity Flux",
+        "description": "Horizontal components of quasi-geostrophic wave activity flux following Takaya and Nakamura (2001)",
+        "reference": "Takaya, K. and H. Nakamura, 2001: A Formulation of a Phase-Independent Wave-Activity Flux for Stationary and Migratory Quasigeostrophic Eddies on a Zonally Varying Basic Flow. J. Atmos. Sci., 58, 608-627.",
+        "created_with": "easyclimate: calc_TN_wave_activity_horizontal_flux function",
+    }
+    return result.astype("float32")
 
 
 # def calc_TN_wave_activity_3D_flux(
@@ -587,13 +731,13 @@ def calc_TN_wave_activity_horizontal_flux(
 #     elif method == 'practical_height':
 #         dz = calc_gradient(z_data, dim = vertical_dim)
 
-#     dpsi_dlambda = calc_gradient(psi_p, dim = lon_dim)
-#     dpsi_dphi = calc_gradient(psi_p, dim = lat_dim)
+#     dpsi_dlambda = calc_dlon_radian_gradient(psi_p, lon_dim = lon_dim)
+#     dpsi_dphi = calc_dlat_radian_gradient(psi_p, lat_dim = lat_dim)
 #     dpsi_dz = calc_gradient(psi_p, dim = vertical_dim) /dz
 
-#     d2psi_dlambda2 = calc_gradient(dpsi_dlambda, dim = lon_dim)
-#     d2psi_dphi2 = calc_gradient(dpsi_dphi, dim = lat_dim)
-#     d2psi_dlambdadphi = calc_gradient(dpsi_dphi, dim = lon_dim)
+#     d2psi_dlambda2 = calc_dlon_radian_gradient(dpsi_dlambda, lon_dim = lon_dim)
+#     d2psi_dphi2 = calc_dlat_radian_gradient(dpsi_dphi, lat_dim = lat_dim)
+#     d2psi_dlambdadphi = calc_dlon_radian_gradient(dpsi_dphi, lon_dim = lon_dim)
 #     d2psi_dlambdadz = calc_gradient(dpsi_dlambda, dim = vertical_dim) /dz
 #     d2psi_dphidz = calc_gradient(dpsi_dphi, dim = vertical_dim) /dz
 

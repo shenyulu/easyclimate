@@ -1,5 +1,5 @@
 numpy >= 1.24.3
-xarray >= 2014.10.0
+xarray >= 2025.06.0
 geocat.viz
 cartopy >= 0.20
 xeofs >= 3.0.0
@@ -12,7 +12,7 @@ dpcpp-cpp-rt
 scipy >=1.8.0
 statsmodels
 geocat-comp
-easyclimate-backend >= 2025.11.0
+easyclimate-backend >= 2025.12.1
 dask
 pymannkendall
 flox
@@ -23,7 +23,6 @@ zarr
 metpy
 tcpypi
 netCDF4
-h5netcdf
 seaborn
 EMD-signal
 pybarnes

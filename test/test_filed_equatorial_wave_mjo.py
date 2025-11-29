@@ -9,9 +9,7 @@ import easyclimate as ecl
 from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
-mjo_data = xr.open_dataset(str(Path(DOCS_DATA_PATH, "mjo_data.nc"))).rename(
-    {"T": "time"}
-)
+mjo_data = ecl.open_tutorial_dataset("mjo_data").rename({"T": "time"})
 
 
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)

@@ -7,7 +7,7 @@ import numpy as np
 import xarray as xr
 import warnings
 from typing import Literal
-from ...core.utility import transfer_data_multiple_units, transfer_units_coeff
+from ...core.units import transfer_data_multiple_units, transfer_units_coeff
 
 
 __all__ = ["calc_potential_temperature", "calc_potential_temperature_vertical"]

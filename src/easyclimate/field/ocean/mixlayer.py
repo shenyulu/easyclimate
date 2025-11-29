@@ -375,7 +375,7 @@ def calc_MLD_average_horizontal_advection(
     min_dx: float = 1.0,
     min_dy: float = 1.0,
     edge_order: int = 2,
-    R: float = 6370000,
+    R: float = 6371200.0,
 ) -> xr.DataArray:
     """
     Obtain the average horizontal advection within the mixed layer

@@ -5,7 +5,7 @@ Moist Adiabatic Lapse Rate
 from __future__ import annotations
 import xarray as xr
 from typing import Literal
-from ...core.utility import (
+from ...core.units import (
     transfer_data_multiple_units,
     transfer_data_temperature_units,
 )
