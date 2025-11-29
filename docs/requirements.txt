@@ -38,4 +38,4 @@ sphinx-autoapi == 3.6.1
 sphinx-copybutton == 0.5.2
 sphinx-book-theme == 1.1.4
 sphinx_design == 0.6.1
-snowballstemmer == 3.1.0
+snowballstemmer == 3.0.1
