@@ -12,7 +12,7 @@ dpcpp-cpp-rt
 scipy >=1.8.0
 statsmodels
 geocat-comp
-easyclimate-backend >= 2025.11.0
+easyclimate-backend >= 2025.12.1
 dask
 pymannkendall
 flox

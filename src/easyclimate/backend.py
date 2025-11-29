@@ -1,12 +1,13 @@
 import platform
 import warnings
+import sys
 
 
 # Detect the current operating system
 CURRENT_PLATFORM = platform.system()
 
 
-# Initialize variables for backend functions
+# Initialize variables for backend functions with default values
 spharm = None
 VectorWind = None
 aeronoskin = None
@@ -23,15 +24,195 @@ dvibeta = None
 dvrfidf = None
 ddvfidf = None
 
+# WRF-related variables with default values
+xarray_enabled = False
+disable_xarray = None
+enable_xarray = None
+cartopy_enabled = False
+disable_cartopy = None
+enable_cartopy = None
+basemap_enabled = False
+disable_basemap = None
+enable_basemap = None
+pyngl_enabled = False
+enable_pyngl = None
+disable_pyngl = None
+set_cache_size = None
+get_cache_size = None
+omp_enabled = False
+ALL_TIMES = None
+Constants = None
+ConversionFactors = None
+ProjectionTypes = None
+default_fill = None
+OMP_SCHED_STATIC = None
+OMP_SCHED_DYNAMIC = None
+OMP_SCHED_GUIDED = None
+OMP_SCHED_AUTO = None
+destagger = None
+getvar = None
+xy = None
+interp1d = None
+interp2dxy = None
+interpz3d = None
+slp = None
+tk = None
+td = None
+rh = None
+uvmet = None
+smooth2d = None
+cape_2d = None
+cape_3d = None
+cloudfrac = None
+ctt = None
+dbz = None
+srhel = None
+udhel = None
+avo = None
+pvo = None
+eth = None
+wetbulb = None
+tvirtual = None
+omega = None
+pw = None
+DiagnosticError = None
+omp_set_num_threads = None
+omp_get_num_threads = None
+omp_get_max_threads = None
+omp_get_thread_num = None
+omp_get_num_procs = None
+omp_in_parallel = None
+omp_set_dynamic = None
+omp_get_dynamic = None
+omp_set_nested = None
+omp_get_nested = None
+omp_set_schedule = None
+omp_get_schedule = None
+omp_get_thread_limit = None
+omp_set_max_active_levels = None
+omp_get_max_active_levels = None
+omp_get_level = None
+omp_get_ancestor_thread_num = None
+omp_get_team_size = None
+omp_get_active_level = None
+omp_in_final = None
+omp_init_lock = None
+omp_init_nest_lock = None
+omp_destroy_lock = None
+omp_destroy_nest_lock = None
+omp_set_lock = None
+omp_set_nest_lock = None
+omp_unset_lock = None
+omp_unset_nest_lock = None
+omp_test_lock = None
+omp_test_nest_lock = None
+omp_get_wtime = None
+omp_get_wtick = None
+interplevel = None
+vertcross = None
+interpline = None
+vinterp = None
+xy_to_ll = None
+ll_to_xy = None
+xy_to_ll_proj = None
+ll_to_xy_proj = None
+viewitems = None
+viewkeys = None
+viewvalues = None
+isstr = None
+py2round = None
+py3range = None
+ucode = None
+to_np = None
+extract_global_attrs = None
+is_standard_wrf_var = None
+extract_dim = None
+extract_vars = None
+extract_times = None
+combine_files = None
+npbytes_to_str = None
+is_moving_domain = None
+is_staggered = None
+get_left_indexes = None
+iter_left_indexes = None
+get_right_slices = None
+get_proj_params = None
+from_args = None
+args_to_list = None
+arg_location = None
+psafilepath = None
+get_id = None
+from_var = None
+combine_dims = None
+either = None
+get_iterable = None
+IterWrapper = None
+is_coordvar = None
+latlon_coordvars = None
+is_mapping = None
+has_time_coord = None
+is_multi_file = None
+is_multi_time_req = None
+get_coord_pairs = None
+is_time_coord_var = None
+geo_bounds = None
+get_cartopy = None
+get_basemap = None
+get_pyngl = None
+cartopy_xlim = None
+cartopy_ylim = None
+latlon_coords = None
+ll_points = None
+pairs_to_latlon = None
+GeoBounds = None
+NullGeoBounds = None
+WrfProj = None
+NullProjection = None
+LambertConformal = None
+Mercator = None
+PolarStereographic = None
+LatLon = None
+RotatedLatLon = None
+getproj = None
+CoordPair = None
+to_xy_coords = None
+cache_item = None
+get_cached_item = None
 
-# Cross platform module
-from easyclimate_backend.wk_spectra import wk_analysis, matsuno_plot
-from easyclimate_backend.wavelet.waveletFunctions import wave_signif, wavelet
+
+# Cross platform module - these should work on all platforms
+try:
+    from easyclimate_backend.wk_spectra import wk_analysis, matsuno_plot
+    from easyclimate_backend.wavelet.waveletFunctions import wave_signif, wavelet
+except ImportError as e:
+    warnings.warn(
+        f"Failed to import cross-platform modules: {e}. Some core functionality will be disabled.",
+        ImportWarning,
+    )
+
+    # Define fallbacks for cross-platform modules
+    def wk_analysis(*args, **kwargs):
+        raise ImportError("wk_analysis is not available due to import failure")
+
+    def matsuno_plot(*args, **kwargs):
+        raise ImportError("matsuno_plot is not available due to import failure")
+
+    def wave_signif(*args, **kwargs):
+        raise ImportError("wave_signif is not available due to import failure")
+
+    def wavelet(*args, **kwargs):
+        raise ImportError("wavelet is not available due to import failure")
 
 
 # Attempt to import platform-specific functions only on Windows and Linux
 if CURRENT_PLATFORM in ("Windows", "Linux"):
     try:
+        # print(
+        #     f"Attempting to import easyclimate-backend modules on {CURRENT_PLATFORM}...",
+        #     file=sys.stderr,
+        # )
+
+        # Import basic modules
         from easyclimate_backend.pyspharm import spharm
         from easyclimate_backend.windspharm.xarray import VectorWind
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
@@ -46,7 +227,26 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
         from easyclimate_backend.vinth2p._vintp2p_ecmwf import (
             vintp2pecmwf as _vintp2p_ecmwf,
         )
+
+        from easyclimate_backend.vibeta._vibeta_dp import dvibeta
+        from easyclimate_backend.rvdv._rvdv import ddvfidf, dvrfidf
+
         from easyclimate_backend.wet_bulb import _wet_bulb_temperature
+
+        # print(
+        #     "Successfully imported basic easyclimate-backend modules", file=sys.stderr
+        # )
+
+    except ImportError as e:
+        warnings.warn(
+            f"Failed to import basic easyclimate-backend modules: {e}. Some functionality will be disabled.",
+            ImportWarning,
+        )
+        # Record detailed error information to stderr
+        print(f"Detailed import error for basic modules: {e}", file=sys.stderr)
+
+    # Attempt to import WRF-related modules - handle separately, as WRF may have additional dependencies
+    try:
         from easyclimate_backend.wrf import (
             xarray_enabled,
             disable_xarray,
@@ -202,14 +402,52 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
             cache_item,
             get_cached_item,
         )
-        from easyclimate_backend.vibeta._vibeta_dp import dvibeta
-        from easyclimate_backend.rvdv._rvdv import ddvfidf, dvrfidf
 
-    except ImportError as e:
+        # print("Successfully imported WRF modules", file=sys.stderr)
+
+    except ImportError as wrf_e:
         warnings.warn(
-            f"Failed to import easyclimate-backend related modules: {e}", ImportWarning
+            f"Failed to import WRF-related modules: {wrf_e}. WRF functionality will be disabled.",
+            ImportWarning,
         )
+        print(f"Detailed WRF import error: {wrf_e}", file=sys.stderr)
+
 else:
     warnings.warn(
         f"easyclimate-backend modules is not supported on {CURRENT_PLATFORM}. Related functionality will be disabled."
     )
+
+
+# Define some basic fallback functions
+def _dummy_function(*args, **kwargs):
+    """A dummy function that raises an informative error when called."""
+    raise ImportError(
+        "This function is not available because easyclimate-backend modules failed to import. "
+        f"Check that easyclimate-backend is properly installed on {CURRENT_PLATFORM}."
+    )
+
+
+# If the import of some key functions fails, replace them with fallback functions.
+if spharm is None:
+    spharm = _dummy_function
+
+if VectorWind is None:
+    VectorWind = _dummy_function
+
+if _wet_bulb_temperature is None:
+    _wet_bulb_temperature = _dummy_function
+
+# For the WRF function, if it is None, set it to the fallback function.
+if getvar is None:
+    getvar = _dummy_function
+
+if interplevel is None:
+    interplevel = _dummy_function
+
+# Print the summary of the import status
+if CURRENT_PLATFORM in ("Windows", "Linux"):
+    if all(func is not None for func in [spharm, VectorWind, getvar]):
+        # print("easyclimate-backend modules imported successfully", file=sys.stderr)
+        pass
+    else:
+        print("Some easyclimate-backend modules failed to import", file=sys.stderr)
