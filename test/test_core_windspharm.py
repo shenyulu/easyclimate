@@ -449,27 +449,27 @@ def test_calc_nondivergent_component():
     )
 
 
-def test_calc_rossby_wave_source():
-    result_data = ecl.windspharm.calc_rossby_wave_source(
-        u_data=u_data_sample,
-        v_data=v_data_sample,
-    )
-    result_data = result_data.sel(
-        lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = (
-        xr.open_dataset(
-            str(Path(TEST_DATA_PATH, "test_output_calc_rossby_wave_source.nc"))
-        )["result"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data.flatten()),
-            round_sf_np_new(refer_data.flatten()),
-        )
-    )
+# def test_calc_rossby_wave_source():
+#     result_data = ecl.windspharm.calc_rossby_wave_source(
+#         u_data=u_data_sample,
+#         v_data=v_data_sample,
+#     )
+#     result_data = result_data.sel(
+#         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
+#     ).data
+#     refer_data = (
+#         xr.open_dataset(
+#             str(Path(TEST_DATA_PATH, "test_output_calc_rossby_wave_source.nc"))
+#         )["result"]
+#         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
+#         .data
+#     )
+#     assert is_mostly_true(
+#         np.isclose(
+#             round_sf_np_new(result_data.flatten()),
+#             round_sf_np_new(refer_data.flatten()),
+#         )
+#     )
 
 
 def test_calc_gradient():

@@ -25,7 +25,7 @@ __all__ = [
     "calc_helmholtz",
     "calc_irrotational_component",
     "calc_nondivergent_component",
-    "calc_rossby_wave_source",
+    # "calc_rossby_wave_source",
     "calc_gradient",
 ]
 
@@ -235,7 +235,7 @@ def calc_divergence(
 def calc_planetary_vorticity(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
-    omega: float = 7.2921150,
+    omega: float = 7.292e-05,
     R: float = 6371200.0,
     legfunc: str = "stored",
     lon_dim: str = "lon",
@@ -284,7 +284,7 @@ def calc_absolute_vorticity(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
-    omega: float = 7.2921150,
+    omega: float = 7.292e-05,
     R: float = 6371200.0,
     legfunc: str = "stored",
     lon_dim: str = "lon",
@@ -637,73 +637,73 @@ def calc_nondivergent_component(
     return data
 
 
-def calc_rossby_wave_source(
-    u_data: xr.DataArray,
-    v_data: xr.DataArray,
-    truncation: int = None,
-    R: float = 6371200.0,
-    legfunc: str = "stored",
-    lon_dim: str = "lon",
-    lat_dim: str = "lat",
-) -> xr.DataArray:
-    """
-    Calculate Rossby wave sources (RWS).
+# def calc_rossby_wave_source(
+#     u_data: xr.DataArray,
+#     v_data: xr.DataArray,
+#     truncation: int = None,
+#     R: float = 6371200.0,
+#     legfunc: str = "stored",
+#     lon_dim: str = "lon",
+#     lat_dim: str = "lat",
+# ) -> xr.DataArray:
+#     """
+#     Calculate Rossby wave sources (RWS).
 
-    .. math::
-        RWS=-\\nabla \\cdot \\left({v}_{x}\\zeta \\right)=-\\left(\\zeta \\nabla \\cdot {v}_{x}+{v}_{x}\\cdot \\nabla \\zeta \\right)
+#     .. math::
+#         RWS=-\\nabla \\cdot \\left({v}_{x}\\zeta \\right)=-\\left(\\zeta \\nabla \\cdot {v}_{x}+{v}_{x}\\cdot \\nabla \\zeta \\right)
 
-    with :math:`\\zeta` being the absolute vorticity.
+#     with :math:`\\zeta` being the absolute vorticity.
 
-    Parameters
-    ----------
-    u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The zonal component of the wind.
-    v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional component of vector wind.
-    truncation: :py:class:`int <int>`.
-        Truncation limit (triangular truncation) for the spherical harmonic computation.
-    R: :py:class:`float <float>`.
-        The radius in metres of the sphere used in the spherical
-        harmonic computations. Default is 6371200 m, the approximate
-        mean spherical Earth radius.
-    legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
-        If 'stored', associated legendre
-        functions are precomputed and stored when the class instance is
-        created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
-        transforms. If 'computed', associated legendre functions are
-        computed on the fly when transforms are requested. This uses
-        :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
-    lon_dim: :py:class:`str <str>`, default: `lon`.
-        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+#     Parameters
+#     ----------
+#     u_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
+#         The zonal component of the wind.
+#     v_data : :py:class:`xarray.DataArray<xarray.DataArray>`.
+#         The meridional component of vector wind.
+#     truncation: :py:class:`int <int>`.
+#         Truncation limit (triangular truncation) for the spherical harmonic computation.
+#     R: :py:class:`float <float>`.
+#         The radius in metres of the sphere used in the spherical
+#         harmonic computations. Default is 6371200 m, the approximate
+#         mean spherical Earth radius.
+#     legfunc: :py:class:`str <str>`, 'stored' (default) or 'computed'.
+#         If 'stored', associated legendre
+#         functions are precomputed and stored when the class instance is
+#         created. This uses :math:`O(\\mathrm{nlat}^3)` memory, but speeds up the spectral
+#         transforms. If 'computed', associated legendre functions are
+#         computed on the fly when transforms are requested. This uses
+#         :math:`O(\\mathrm{nlat}^2)` memory, but slows down the spectral transforms a bit.
+#     lon_dim: :py:class:`str <str>`, default: `lon`.
+#         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+#     lat_dim: :py:class:`str <str>`, default: `lat`.
+#         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
 
-    Returns
-    -------
-    Rossby wave sources (:py:class:`xarray.DataArray<xarray.DataArray>`).
+#     Returns
+#     -------
+#     Rossby wave sources (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    Reference
-    --------------
-    - Sardeshmukh, P. D., & Hoskins, B. J. (1988). The Generation of Global Rotational Flow by Steady Idealized Tropical Divergence. Journal of Atmospheric Sciences, 45(7), 1228-1251. https://doi.org/10.1175/1520-0469(1988)045<1228:TGOGRF>2.0.CO;2
-    - James IN (1994) Low frequency variability of the circulation. Introduction to Circulating Atmospheres. Cambridge University Press, Cambridge, UK, pp 255–301
-    - Trenberth, K. E., Branstator, G. W., Karoly, D., Kumar, A., Lau, N.-C., and Ropelewski, C. (1998), Progress during TOGA in understanding and modeling global teleconnections associated with tropical sea surface temperatures, J. Geophys. Res., 103(C7), 14291–14324, doi: https://doi.org/10.1029/97JC01444.
-    - Nie, Y., Zhang, Y., Yang, X.-Q., & Ren, H.-L. (2019). Winter and summer Rossby wave sources in the CMIP5 models. Earth and Space Science, 6, 1831–1846. https://doi.org/10.1029/2019EA000674
-    - Fuentes-Franco, R., Koenigk, T., Docquier, D. et al. Exploring the influence of the North Pacific Rossby wave sources on the variability of summer atmospheric circulation and precipitation over the Northern Hemisphere. Clim Dyn 59, 2025–2039 (2022). https://doi.org/10.1007/s00382-022-06194-4
-    """
-    _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
-    _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
+#     Reference
+#     --------------
+#     - Sardeshmukh, P. D., & Hoskins, B. J. (1988). The Generation of Global Rotational Flow by Steady Idealized Tropical Divergence. Journal of Atmospheric Sciences, 45(7), 1228-1251. https://doi.org/10.1175/1520-0469(1988)045<1228:TGOGRF>2.0.CO;2
+#     - James IN (1994) Low frequency variability of the circulation. Introduction to Circulating Atmospheres. Cambridge University Press, Cambridge, UK, pp 255–301
+#     - Trenberth, K. E., Branstator, G. W., Karoly, D., Kumar, A., Lau, N.-C., and Ropelewski, C. (1998), Progress during TOGA in understanding and modeling global teleconnections associated with tropical sea surface temperatures, J. Geophys. Res., 103(C7), 14291–14324, doi: https://doi.org/10.1029/97JC01444.
+#     - Nie, Y., Zhang, Y., Yang, X.-Q., & Ren, H.-L. (2019). Winter and summer Rossby wave sources in the CMIP5 models. Earth and Space Science, 6, 1831–1846. https://doi.org/10.1029/2019EA000674
+#     - Fuentes-Franco, R., Koenigk, T., Docquier, D. et al. Exploring the influence of the North Pacific Rossby wave sources on the variability of summer atmospheric circulation and precipitation over the Northern Hemisphere. Clim Dyn 59, 2025–2039 (2022). https://doi.org/10.1007/s00382-022-06194-4
+#     """
+#     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
+#     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
 
-    w = VectorWind(u_data, v_data, rsphere=R, legfunc=legfunc)
+#     w = VectorWind(u_data, v_data, rsphere=R, legfunc=legfunc)
 
-    eta = w.absolutevorticity()
-    div = w.divergence(truncation=truncation)
-    uchi, vchi = w.irrotationalcomponent(truncation=truncation)
-    etax, etay = w.gradient(eta, truncation=truncation)
-    etax.attrs["units"] = "m**-1 s**-1"
-    etay.attrs["units"] = "m**-1 s**-1"
+#     eta = w.absolutevorticity()
+#     div = w.divergence(truncation=truncation)
+#     uchi, vchi = w.irrotationalcomponent(truncation=truncation)
+#     etax, etay = w.gradient(eta, truncation=truncation)
+#     etax.attrs["units"] = "m**-1 s**-1"
+#     etay.attrs["units"] = "m**-1 s**-1"
 
-    S = eta * -1.0 * div - (uchi * etax + vchi * etay)
-    return S
+#     S = eta * -1.0 * div - (uchi * etax + vchi * etay)
+#     return S
 
 
 def calc_gradient(
