@@ -89,6 +89,10 @@ This is free software: you can redistribute it and/or modify it under the terms
 of the **BSD 3-clause License**. A copy of this license is provided in
 [`LICENSE`](https://github.com/shenyulu/easyclimate/blob/main/LICENSE).
 
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshenyulu%2Feasyclimate.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fshenyulu%2Feasyclimate?ref=badge_large)
+
 ## 💎 Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=shenyulu/easyclimate&type=Date)](https://star-history.com/#shenyulu/easyclimate&Date)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshenyulu%2Feasyclimate.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fshenyulu%2Feasyclimate?ref=badge_shield)
