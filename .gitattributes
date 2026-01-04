@@ -1,0 +1,12 @@
+# Default: keep LF
+* text=auto eol=lf
+
+# The Makefile must use LF (this is very important)
+Makefile text eol=lf
+docs/Makefile text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
