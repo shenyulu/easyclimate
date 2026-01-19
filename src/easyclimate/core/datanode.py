@@ -179,8 +179,7 @@ class DataNode:
         icons_svg, css_style = _load_static_files()
 
         # Add css
-        html.append(
-            f"""
+        html.append(f"""
         <style>
             .datanode-container {{
                 font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
@@ -261,12 +260,10 @@ class DataNode:
                 font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
             }}
         </style>
-        """
-        )
+        """)
 
         # Add header information
-        html.append(
-            f"""
+        html.append(f"""
         <div class="datanode-container">
         {icons_svg}<style>{css_style}</style>
 
@@ -275,11 +272,9 @@ class DataNode:
             <div class="xr-obj-type">{html_escape.escape('easyclimate.'+type(self).__name__)}</div>
             <div class="xr-array-name">{html_escape.escape("'" + self.name + "'")}</div>
         </div>
-        """
-        )
+        """)
 
-        html.append(
-            """
+        html.append("""
         <script>
         function easyclimateToggleNode(nodeId) {
             const header = document.getElementById(nodeId + '-header');
@@ -308,8 +303,7 @@ class DataNode:
             }
         }
         </script>
-        """
-        )
+        """)
 
         html.append(self._format_node_html(self))
         html.append("</div>")

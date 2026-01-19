@@ -9,7 +9,6 @@ import warnings
 from typing import Literal
 from ...core.units import transfer_data_multiple_units, transfer_units_coeff
 
-
 __all__ = ["calc_potential_temperature", "calc_potential_temperature_vertical"]
 
 

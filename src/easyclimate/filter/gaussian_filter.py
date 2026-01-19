@@ -7,7 +7,6 @@ import numpy as np
 import xarray as xr
 from scipy.ndimage import gaussian_filter1d
 
-
 __all__ = ["calc_gaussian_filter"]
 
 

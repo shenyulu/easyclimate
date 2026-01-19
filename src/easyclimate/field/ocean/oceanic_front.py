@@ -7,7 +7,6 @@ from ...core.utility import get_weighted_spatial_data
 from ...core.utility import sort_ascending_latlon_coordinates
 import xarray as xr
 
-
 __all__ = [
     "calc_intensity_STFZ",
     "calc_intensity_SAFZ",
