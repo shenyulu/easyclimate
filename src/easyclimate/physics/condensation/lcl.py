@@ -11,7 +11,6 @@ from ...core.units import (
     transfer_data_temperature_units,
 )
 
-
 __all__ = [
     "calc_lifting_condensation_level_bolton1980",
     "calc_lifting_condensation_level_Bohren_Albrecht2023",

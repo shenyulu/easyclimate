@@ -4,7 +4,6 @@ Latent Heat Flux for Water
 
 from __future__ import annotations
 
-
 __all__ = ["calc_latent_heat_water"]
 
 

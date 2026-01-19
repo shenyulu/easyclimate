@@ -9,7 +9,6 @@ import gsw_xarray
 from ...core.diff import calc_gradient, calc_u_advection, calc_v_advection
 from oceans import ocfis
 
-
 __all__ = [
     "calc_mixed_layer_depth",
     "calc_MLD_depth_weighted",

@@ -2,7 +2,6 @@ import platform
 import warnings
 import sys
 
-
 # Detect the current operating system
 CURRENT_PLATFORM = platform.system()
 
