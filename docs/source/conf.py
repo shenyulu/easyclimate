@@ -96,7 +96,7 @@ html_theme_options = {
 }
 
 # Logo
-html_logo = "_static/easyclimate-logo.svg"
+html_logo = "_static/easyclimate_logo_mini.png"
 
 
 # There are two options for replacing |today|: either, you set today to some
@@ -178,4 +178,5 @@ intersphinx_mapping = {
     "statsmodels": ("https://www.statsmodels.org/stable", None),
     "xeofs": ("https://xeofs.readthedocs.io/en/latest/", None),
     "metpy": ("https://unidata.github.io/MetPy/latest/", None),
+    "geopandas": ("https://geopandas.org/en/stable", None),
 }

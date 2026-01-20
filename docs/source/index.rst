@@ -4,7 +4,7 @@
 .. Easy Climate
 .. =======================================
 
-.. .. image:: _static/easyclimate-logo.svg
+.. .. image:: _static/easyclimate_logo_mini.png
 
 .. Easy Climate is a Python library for processing spatial data (bathymetry, geophysics surveys, etc)
 .. and interpolating it on regular grids (i.e., gridding).
@@ -20,7 +20,7 @@
 |banner|
 ========
 
-.. |banner| image:: _static/easyclimate-logo.svg
+.. |banner| image:: _static/easyclimate_logo_mini.png
     :alt: Easy-climate Documentation
     :align: middle
 

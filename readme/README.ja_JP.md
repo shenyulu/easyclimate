@@ -1,4 +1,4 @@
-<img src="https://github.com/shenyulu/easyclimate/blob/main/docs/source/_static/easyclimate-logo.svg?raw=true" alt="easyclimate">
+<img src="https://github.com/shenyulu/easyclimate/blob/main/docs/source/_static/easyclimate_logo_mini.png?raw=true" alt="easyclimate">
 
 <h2 align="center">一行のコードで気候データを分析する</h2>
 
