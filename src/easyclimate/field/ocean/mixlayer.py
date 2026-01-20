@@ -92,11 +92,32 @@ def calc_mixed_layer_depth(
     conservative_temperature = ds["CT"]
 
     def _calc_mld(sa, ct, p):
-        if (np.isnan(sa).all() == True) or (np.isnan(ct).all() == True):
+        # Ignore the calculations for the land areas
+        if np.isnan(sa).all() or np.isnan(ct).all():
             return np.array([np.nan])
-        else:
-            tmp = ocfis.mld(sa, ct, p, criterion=criterion)[0]
-            return np.array([tmp])
+
+        try:
+            # Get MLD result
+            mld_value, idx_mld = ocfis.mld(sa, ct, p, criterion=criterion)
+
+            # Use np.asarray to automatically handle masked arrays (masked values become nan)
+            mld_array = np.asarray(mld_value)
+
+            # Ensure it's a scalar or extract scalar value
+            if mld_array.size == 1:
+                value = float(mld_array.ravel()[0])
+            else:
+                # If not scalar, take maximum or appropriate value
+                value = float(mld_array)
+
+            # Check result validity
+            if np.isnan(value) or np.isinf(value) or value < 0:
+                return np.array([np.nan])
+
+            return np.array([value])
+
+        except Exception:
+            return np.array([np.nan])
 
     result = xr.apply_ufunc(
         _calc_mld,
