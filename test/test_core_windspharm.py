@@ -31,20 +31,59 @@ def test_calc_wind_speed():
     )
     result_data = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = (
-        xr.open_dataset(str(Path(TEST_DATA_PATH, "test_output_calc_wind_speed.nc")))[
-            "result"
+    ).data.flatten()
+
+    refer_data = np.array(
+        [
+            4.3914866,
+            3.3225086,
+            1.760016,
+            0.2795085,
+            1.0915155,
+            1.2884705,
+            1.5625,
+            2.8263547,
+            3.9335299,
+            4.609772,
+            5.25,
+            5.8876195,
+            6.3211575,
+            6.63943,
+            6.85366,
+            8.041154,
+            8.178907,
+            7.783446,
+            7.1951046,
+            6.8855033,
+            7.488794,
+            7.2483835,
+            6.481042,
+            5.5286894,
+            4.956845,
+            4.2793107,
+            4.3767853,
+            4.1368203,
+            3.5272377,
+            3.002603,
+            1.152443,
+            1.8296602,
+            2.5693505,
+            2.72861,
+            2.404423,
+            0.6643841,
+            0.22534695,
+            1.1675963,
+            1.9575574,
+            2.1578345,
+            0.95197165,
+            1.3520818,
+            0.8882919,
+            0.40019527,
+            0.89486384,
         ]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
     )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data.flatten()),
-            round_sf_np_new(refer_data.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_relative_vorticity_and_horizontal_divergence():
@@ -55,43 +94,115 @@ def test_calc_relative_vorticity_and_horizontal_divergence():
     result_data1 = (
         result_data["vrt"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+        .data.flatten()
     )
     result_data2 = (
         result_data["div"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+        .data.flatten()
     )
-    refer_data = xr.open_dataset(
-        str(
-            Path(
-                TEST_DATA_PATH,
-                "test_output_calc_relative_vorticity_and_horizontal_divergence.nc",
-            )
-        )
+
+    refer_data1 = np.array(
+        [
+            -2.07540525e-05,
+            -2.13598396e-05,
+            -1.98209200e-05,
+            -1.67953949e-05,
+            -1.39810045e-05,
+            -2.02903575e-05,
+            -2.02292631e-05,
+            -1.67941253e-05,
+            -1.23200971e-05,
+            -9.00404666e-06,
+            -1.76567028e-05,
+            -1.60287636e-05,
+            -1.10534693e-05,
+            -5.92266861e-06,
+            -2.53279586e-06,
+            -6.65096968e-06,
+            -4.18809532e-06,
+            -2.03172931e-07,
+            3.22568485e-06,
+            5.76286402e-06,
+            7.58775832e-06,
+            8.36357776e-06,
+            8.49926073e-06,
+            8.31834950e-06,
+            8.52921221e-06,
+            1.38410160e-05,
+            1.23883492e-05,
+            8.96349320e-06,
+            5.21180664e-06,
+            2.98769351e-06,
+            9.95885057e-06,
+            9.65540130e-06,
+            6.23312326e-06,
+            1.05566710e-06,
+            -2.54746237e-06,
+            3.49995298e-06,
+            6.80254561e-06,
+            7.03311434e-06,
+            4.26138831e-06,
+            1.05224353e-06,
+            -2.46673335e-06,
+            2.69518659e-06,
+            6.89640774e-06,
+            8.19466368e-06,
+            6.53069128e-06,
+        ]
     )
-    refer_data1 = (
-        refer_data["vrt"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+    refer_data2 = np.array(
+        [
+            1.0422207e-06,
+            -9.9011709e-07,
+            -1.8620326e-06,
+            -1.0666051e-06,
+            4.3346435e-07,
+            9.8437249e-07,
+            -2.3612756e-09,
+            -8.6162703e-07,
+            -8.9632977e-07,
+            -3.0537444e-07,
+            1.2444864e-06,
+            1.4257778e-06,
+            4.4955590e-07,
+            -7.8394964e-07,
+            -9.0984224e-07,
+            3.3021422e-07,
+            6.7903272e-07,
+            6.1536645e-07,
+            -4.7665935e-07,
+            -1.3616823e-06,
+            -1.0615619e-06,
+            -8.3319100e-07,
+            -4.7734630e-07,
+            -6.5882301e-07,
+            -1.2984256e-06,
+            -2.2964591e-06,
+            -2.4561737e-06,
+            -1.6273011e-06,
+            -6.8519785e-07,
+            -3.6964474e-07,
+            -1.9770100e-06,
+            -2.5919901e-06,
+            -1.3505303e-06,
+            1.7024490e-07,
+            1.9448643e-07,
+            -2.5007350e-07,
+            -8.1714575e-07,
+            -2.8342464e-07,
+            8.0198822e-07,
+            3.8043572e-07,
+            7.0159649e-07,
+            4.3454321e-07,
+            9.0306742e-08,
+            3.0306467e-08,
+            -4.6796245e-07,
+        ]
     )
-    refer_data2 = (
-        refer_data["div"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data2.flatten()),
-            round_sf_np_new(refer_data2.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_relative_vorticity():
@@ -101,26 +212,59 @@ def test_calc_relative_vorticity():
     )
     result_data1 = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = xr.open_dataset(
-        str(
-            Path(
-                TEST_DATA_PATH,
-                "test_output_calc_relative_vorticity_and_horizontal_divergence.nc",
-            )
-        )
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            -2.07540525e-05,
+            -2.13598396e-05,
+            -1.98209200e-05,
+            -1.67953949e-05,
+            -1.39810045e-05,
+            -2.02903575e-05,
+            -2.02292631e-05,
+            -1.67941253e-05,
+            -1.23200971e-05,
+            -9.00404666e-06,
+            -1.76567028e-05,
+            -1.60287636e-05,
+            -1.10534693e-05,
+            -5.92266861e-06,
+            -2.53279586e-06,
+            -6.65096968e-06,
+            -4.18809532e-06,
+            -2.03172931e-07,
+            3.22568485e-06,
+            5.76286402e-06,
+            7.58775832e-06,
+            8.36357776e-06,
+            8.49926073e-06,
+            8.31834950e-06,
+            8.52921221e-06,
+            1.38410160e-05,
+            1.23883492e-05,
+            8.96349320e-06,
+            5.21180664e-06,
+            2.98769351e-06,
+            9.95885057e-06,
+            9.65540130e-06,
+            6.23312326e-06,
+            1.05566710e-06,
+            -2.54746237e-06,
+            3.49995298e-06,
+            6.80254561e-06,
+            7.03311434e-06,
+            4.26138831e-06,
+            1.05224353e-06,
+            -2.46673335e-06,
+            2.69518659e-06,
+            6.89640774e-06,
+            8.19466368e-06,
+            6.53069128e-06,
+        ]
     )
-    refer_data1 = (
-        refer_data["vrt"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_divergence():
@@ -130,26 +274,59 @@ def test_calc_divergence():
     )
     result_data1 = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = xr.open_dataset(
-        str(
-            Path(
-                TEST_DATA_PATH,
-                "test_output_calc_relative_vorticity_and_horizontal_divergence.nc",
-            )
-        )
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            1.0422207e-06,
+            -9.9011709e-07,
+            -1.8620326e-06,
+            -1.0666051e-06,
+            4.3346435e-07,
+            9.8437249e-07,
+            -2.3612756e-09,
+            -8.6162703e-07,
+            -8.9632977e-07,
+            -3.0537444e-07,
+            1.2444864e-06,
+            1.4257778e-06,
+            4.4955590e-07,
+            -7.8394964e-07,
+            -9.0984224e-07,
+            3.3021422e-07,
+            6.7903272e-07,
+            6.1536645e-07,
+            -4.7665935e-07,
+            -1.3616823e-06,
+            -1.0615619e-06,
+            -8.3319100e-07,
+            -4.7734630e-07,
+            -6.5882301e-07,
+            -1.2984256e-06,
+            -2.2964591e-06,
+            -2.4561737e-06,
+            -1.6273011e-06,
+            -6.8519785e-07,
+            -3.6964474e-07,
+            -1.9770100e-06,
+            -2.5919901e-06,
+            -1.3505303e-06,
+            1.7024490e-07,
+            1.9448643e-07,
+            -2.5007350e-07,
+            -8.1714575e-07,
+            -2.8342464e-07,
+            8.0198822e-07,
+            3.8043572e-07,
+            7.0159649e-07,
+            4.3454321e-07,
+            9.0306742e-08,
+            3.0306467e-08,
+            -4.6796245e-07,
+        ]
     )
-    refer_data1 = (
-        refer_data["div"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_planetary_vorticity():
@@ -159,20 +336,57 @@ def test_calc_planetary_vorticity():
     )
     result_data = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = (
-        xr.open_dataset(
-            str(Path(TEST_DATA_PATH, "test_output_calc_planetary_vorticity.nc"))
-        )["result"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            2.53248502e-05,
+            2.53248502e-05,
+            2.53248502e-05,
+            2.53248502e-05,
+            2.53248502e-05,
+            1.90359399e-05,
+            1.90359399e-05,
+            1.90359399e-05,
+            1.90359399e-05,
+            1.90359399e-05,
+            1.27107935e-05,
+            1.27107935e-05,
+            1.27107935e-05,
+            1.27107935e-05,
+            1.27107935e-05,
+            6.36145145e-06,
+            6.36145145e-06,
+            6.36145145e-06,
+            6.36145145e-06,
+            6.36145145e-06,
+            0.00000000e00,
+            0.00000000e00,
+            0.00000000e00,
+            0.00000000e00,
+            0.00000000e00,
+            -6.36145145e-06,
+            -6.36145145e-06,
+            -6.36145145e-06,
+            -6.36145145e-06,
+            -6.36145145e-06,
+            -1.27107935e-05,
+            -1.27107935e-05,
+            -1.27107935e-05,
+            -1.27107935e-05,
+            -1.27107935e-05,
+            -1.90359399e-05,
+            -1.90359399e-05,
+            -1.90359399e-05,
+            -1.90359399e-05,
+            -1.90359399e-05,
+            -2.53248502e-05,
+            -2.53248502e-05,
+            -2.53248502e-05,
+            -2.53248502e-05,
+            -2.53248502e-05,
+        ]
     )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data.flatten()),
-            round_sf_np_new(refer_data.flatten()),
-        )
-    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_absolute_vorticity():
@@ -182,20 +396,57 @@ def test_calc_absolute_vorticity():
     )
     result_data = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = (
-        xr.open_dataset(
-            str(Path(TEST_DATA_PATH, "test_output_calc_absolute_vorticity.nc"))
-        )["result"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            4.57079777e-06,
+            3.96501064e-06,
+            5.50393024e-06,
+            8.52945532e-06,
+            1.13438457e-05,
+            -1.25441762e-06,
+            -1.19332323e-06,
+            2.24181461e-06,
+            6.71584279e-06,
+            1.00318932e-05,
+            -4.94590924e-06,
+            -3.31797012e-06,
+            1.65732424e-06,
+            6.78812492e-06,
+            1.01779977e-05,
+            -2.89518227e-07,
+            2.17335614e-06,
+            6.15827852e-06,
+            9.58713630e-06,
+            1.21243155e-05,
+            7.58775832e-06,
+            8.36357776e-06,
+            8.49926073e-06,
+            8.31834950e-06,
+            8.52921221e-06,
+            7.47956452e-06,
+            6.02689775e-06,
+            2.60204175e-06,
+            -1.14964482e-06,
+            -3.37375795e-06,
+            -2.75194295e-06,
+            -3.05539222e-06,
+            -6.47767026e-06,
+            -1.16551264e-05,
+            -1.52582559e-05,
+            -1.55359869e-05,
+            -1.22333943e-05,
+            -1.20028255e-05,
+            -1.47745516e-05,
+            -1.79836963e-05,
+            -2.77915836e-05,
+            -2.26296636e-05,
+            -1.84284425e-05,
+            -1.71301866e-05,
+            -1.87941590e-05,
+        ]
     )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data.flatten()),
-            round_sf_np_new(refer_data.flatten()),
-        )
-    )
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_streamfunction_and_velocity_potential():
@@ -206,43 +457,115 @@ def test_calc_streamfunction_and_velocity_potential():
     result_data1 = (
         result_data["stream"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+        .data.flatten()
     )
     result_data2 = (
         result_data["pv"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+        .data.flatten()
     )
-    refer_data = xr.open_dataset(
-        str(
-            Path(
-                TEST_DATA_PATH,
-                "test_output_calc_streamfunction_and_velocity_potential.nc",
-            )
-        )
+
+    refer_data1 = np.array(
+        [
+            1.3432663e07,
+            1.3822386e07,
+            1.3985118e07,
+            1.3999570e07,
+            1.3989001e07,
+            1.3775619e07,
+            1.3917206e07,
+            1.3780204e07,
+            1.3504920e07,
+            1.3266381e07,
+            1.2842175e07,
+            1.2761515e07,
+            1.2440314e07,
+            1.2034726e07,
+            1.1713186e07,
+            1.0861343e07,
+            1.0676774e07,
+            1.0373194e07,
+            1.0049609e07,
+            9.7974270e06,
+            8.5337380e06,
+            8.4041950e06,
+            8.2995010e06,
+            8.2217470e06,
+            8.1569280e06,
+            6.7304050e06,
+            6.6952505e06,
+            6.7959860e06,
+            6.9686830e06,
+            7.1020270e06,
+            5.8169430e06,
+            5.7551530e06,
+            5.8833120e06,
+            6.1461785e06,
+            6.3845760e06,
+            5.5453590e06,
+            5.3660540e06,
+            5.3338380e06,
+            5.4759275e06,
+            5.6893210e06,
+            5.5380990e06,
+            5.3464080e06,
+            5.1390555e06,
+            5.0599995e06,
+            5.1539210e06,
+        ]
     )
-    refer_data1 = (
-        refer_data["stream"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+    refer_data2 = np.array(
+        [
+            -1.9179724e06,
+            -1.7986592e06,
+            -1.7116499e06,
+            -1.7214005e06,
+            -1.8002421e06,
+            -1.9062022e06,
+            -1.8016306e06,
+            -1.7043606e06,
+            -1.6727334e06,
+            -1.7108044e06,
+            -1.8757562e06,
+            -1.7915784e06,
+            -1.6902444e06,
+            -1.6177039e06,
+            -1.6162204e06,
+            -1.7872162e06,
+            -1.7035461e06,
+            -1.6197452e06,
+            -1.5459475e06,
+            -1.5260600e06,
+            -1.6677599e06,
+            -1.5661472e06,
+            -1.5015485e06,
+            -1.4591351e06,
+            -1.4510010e06,
+            -1.5880582e06,
+            -1.4549701e06,
+            -1.4010550e06,
+            -1.3907248e06,
+            -1.3961728e06,
+            -1.6067412e06,
+            -1.4402829e06,
+            -1.3745196e06,
+            -1.3593486e06,
+            -1.3372331e06,
+            -1.6962222e06,
+            -1.5070559e06,
+            -1.3957534e06,
+            -1.3300629e06,
+            -1.2555516e06,
+            -1.7596779e06,
+            -1.5589282e06,
+            -1.3943821e06,
+            -1.2640660e06,
+            -1.1464161e06,
+        ]
     )
-    refer_data2 = (
-        refer_data["pv"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data2.flatten()),
-            round_sf_np_new(refer_data2.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_streamfunction():
@@ -252,26 +575,59 @@ def test_calc_streamfunction():
     )
     result_data1 = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = xr.open_dataset(
-        str(
-            Path(
-                TEST_DATA_PATH,
-                "test_output_calc_streamfunction_and_velocity_potential.nc",
-            )
-        )
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            1.3432663e07,
+            1.3822386e07,
+            1.3985118e07,
+            1.3999570e07,
+            1.3989001e07,
+            1.3775619e07,
+            1.3917206e07,
+            1.3780204e07,
+            1.3504920e07,
+            1.3266381e07,
+            1.2842175e07,
+            1.2761515e07,
+            1.2440314e07,
+            1.2034726e07,
+            1.1713186e07,
+            1.0861343e07,
+            1.0676774e07,
+            1.0373194e07,
+            1.0049609e07,
+            9.7974270e06,
+            8.5337380e06,
+            8.4041950e06,
+            8.2995010e06,
+            8.2217470e06,
+            8.1569280e06,
+            6.7304050e06,
+            6.6952505e06,
+            6.7959860e06,
+            6.9686830e06,
+            7.1020270e06,
+            5.8169430e06,
+            5.7551530e06,
+            5.8833120e06,
+            6.1461785e06,
+            6.3845760e06,
+            5.5453590e06,
+            5.3660540e06,
+            5.3338380e06,
+            5.4759275e06,
+            5.6893210e06,
+            5.5380990e06,
+            5.3464080e06,
+            5.1390555e06,
+            5.0599995e06,
+            5.1539210e06,
+        ]
     )
-    refer_data1 = (
-        refer_data["stream"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_velocity_potential():
@@ -281,26 +637,59 @@ def test_calc_velocity_potential():
     )
     result_data1 = result_data.sel(
         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-    ).data
-    refer_data = xr.open_dataset(
-        str(
-            Path(
-                TEST_DATA_PATH,
-                "test_output_calc_streamfunction_and_velocity_potential.nc",
-            )
-        )
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            -1.9179724e06,
+            -1.7986592e06,
+            -1.7116499e06,
+            -1.7214005e06,
+            -1.8002421e06,
+            -1.9062022e06,
+            -1.8016306e06,
+            -1.7043606e06,
+            -1.6727334e06,
+            -1.7108044e06,
+            -1.8757562e06,
+            -1.7915784e06,
+            -1.6902444e06,
+            -1.6177039e06,
+            -1.6162204e06,
+            -1.7872162e06,
+            -1.7035461e06,
+            -1.6197452e06,
+            -1.5459475e06,
+            -1.5260600e06,
+            -1.6677599e06,
+            -1.5661472e06,
+            -1.5015485e06,
+            -1.4591351e06,
+            -1.4510010e06,
+            -1.5880582e06,
+            -1.4549701e06,
+            -1.4010550e06,
+            -1.3907248e06,
+            -1.3961728e06,
+            -1.6067412e06,
+            -1.4402829e06,
+            -1.3745196e06,
+            -1.3593486e06,
+            -1.3372331e06,
+            -1.6962222e06,
+            -1.5070559e06,
+            -1.3957534e06,
+            -1.3300629e06,
+            -1.2555516e06,
+            -1.7596779e06,
+            -1.5589282e06,
+            -1.3943821e06,
+            -1.2640660e06,
+            -1.1464161e06,
+        ]
     )
-    refer_data1 = (
-        refer_data["pv"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_helmholtz():
@@ -313,56 +702,229 @@ def test_calc_helmholtz():
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
-    result_data1 = round_sf_np_new(result_data1)
+
     result_data2 = (
         result_data["vchi"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
-    result_data2 = round_sf_np_new(result_data2)
+
     result_data3 = (
         result_data["upsi"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
-    result_data3 = round_sf_np_new(result_data3)
+
     result_data4 = (
         result_data["vpsi"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
-    result_data4 = round_sf_np_new(result_data4)
-    refer_data = xr.open_dataset(
-        str(Path(TEST_DATA_PATH, "test_output_calc_helmholtz.nc"))
+
+    refer_data1 = np.array(
+        [
+            0.35175085,
+            0.4448444,
+            0.14975592,
+            -0.20213696,
+            -0.32086465,
+            0.2997994,
+            0.41525856,
+            0.2533739,
+            -0.02705131,
+            -0.21924989,
+            0.24639913,
+            0.35525012,
+            0.34775126,
+            0.14510155,
+            -0.1259633,
+            0.30794954,
+            0.29940158,
+            0.30126387,
+            0.19874829,
+            -0.07609449,
+            0.43858135,
+            0.29350093,
+            0.18415314,
+            0.11376718,
+            -0.08307639,
+            0.61778295,
+            0.33133733,
+            0.08291369,
+            0.01186559,
+            -0.06712513,
+            0.76515126,
+            0.41485697,
+            0.09547313,
+            0.05652106,
+            0.08751789,
+            0.8095685,
+            0.544718,
+            0.28305003,
+            0.23634021,
+            0.29016906,
+            0.78661513,
+            0.6708723,
+            0.52955174,
+            0.44176945,
+            0.4104586,
+        ]
     )
-    refer_data1 = (
-        refer_data["uchi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
+
+    refer_data2 = np.array(
+        [
+            -0.04514927,
+            -0.04331517,
+            -0.07214402,
+            -0.1757952,
+            -0.29044005,
+            -0.04953104,
+            0.03692935,
+            -0.00474741,
+            -0.18221976,
+            -0.34167144,
+            -0.20293055,
+            -0.16041525,
+            -0.13288821,
+            -0.2200323,
+            -0.33396626,
+            -0.41324863,
+            -0.44817805,
+            -0.36793578,
+            -0.29782048,
+            -0.30848348,
+            -0.40192723,
+            -0.49453005,
+            -0.43962055,
+            -0.30274418,
+            -0.22489664,
+            -0.13013175,
+            -0.2561257,
+            -0.24312522,
+            -0.17504749,
+            -0.18892436,
+            0.24782766,
+            0.14193235,
+            0.03324516,
+            -0.07519761,
+            -0.24432087,
+            0.32656372,
+            0.26965225,
+            0.06994443,
+            -0.16488655,
+            -0.35086796,
+            0.10590035,
+            0.07321155,
+            -0.09067677,
+            -0.28969103,
+            -0.40417746,
+        ]
     )
-    refer_data1 = round_sf_np_new(refer_data1)
-    refer_data2 = (
-        refer_data["vchi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
+
+    refer_data3 = np.array(
+        [
+            3.644536,
+            2.7602558,
+            1.5806243,
+            0.33304596,
+            -0.74454176,
+            -1.1072664,
+            -1.9939673,
+            -2.9245086,
+            -3.724179,
+            -4.2854934,
+            -5.504574,
+            -6.1520915,
+            -6.486299,
+            -6.5849333,
+            -6.612961,
+            -8.30418,
+            -8.3712435,
+            -7.9180107,
+            -7.2574544,
+            -6.74732,
+            -7.867735,
+            -7.4840913,
+            -6.621784,
+            -5.61714,
+            -4.8506155,
+            -4.879536,
+            -4.699452,
+            -4.2077427,
+            -3.5164065,
+            -2.9227822,
+            -1.8821019,
+            -2.2328067,
+            -2.5339332,
+            -2.612319,
+            -2.4736478,
+            -0.30957848,
+            -0.66974616,
+            -1.4046613,
+            -2.1176555,
+            -2.4097195,
+            0.09355557,
+            0.44983017,
+            0.03402352,
+            -0.752542,
+            -1.2848805,
+        ]
     )
-    refer_data2 = round_sf_np_new(refer_data2)
-    refer_data3 = (
-        refer_data["upsi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
+
+    refer_data4 = np.array(
+        [
+            1.8357217,
+            0.99116695,
+            0.24789491,
+            -0.0581052,
+            0.02600697,
+            1.0602962,
+            -0.03909242,
+            -0.8623851,
+            -1.0219281,
+            -0.642182,
+            0.20494756,
+            -0.7855001,
+            -1.4283135,
+            -1.3960612,
+            -0.8622614,
+            -0.394036,
+            -0.9259075,
+            -1.1922121,
+            -1.0847433,
+            -0.68883485,
+            -0.48566848,
+            -0.43611914,
+            -0.3154912,
+            -0.2559036,
+            -0.20605344,
+            -0.354598,
+            0.12080956,
+            0.5620635,
+            0.60896736,
+            0.30701607,
+            -0.4977425,
+            0.10327882,
+            0.78645116,
+            1.007489,
+            0.62825,
+            -0.77208436,
+            -0.44290018,
+            0.22731775,
+            0.7354018,
+            0.7199261,
+            -0.486553,
+            -0.8251542,
+            -0.59464157,
+            0.0472267,
+            0.5815929,
+        ]
     )
-    refer_data3 = round_sf_np_new(refer_data3)
-    refer_data4 = (
-        refer_data["vpsi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
-    )
-    refer_data4 = round_sf_np_new(refer_data4)
-    assert is_mostly_true(np.isclose(result_data1, refer_data1))
-    assert is_mostly_true(np.isclose(result_data2, refer_data2))
-    assert is_mostly_true(np.isclose(result_data3, refer_data3))
-    assert is_mostly_true(np.isclose(result_data4, refer_data4))
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_irrotational_component():
@@ -380,31 +942,109 @@ def test_calc_irrotational_component():
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
-    refer_data = xr.open_dataset(
-        str(Path(TEST_DATA_PATH, "test_output_calc_irrotational_component.nc"))
+
+    refer_data1 = np.array(
+        [
+            0.35175085,
+            0.4448444,
+            0.14975592,
+            -0.20213696,
+            -0.32086465,
+            0.2997994,
+            0.41525856,
+            0.2533739,
+            -0.02705131,
+            -0.21924989,
+            0.24639913,
+            0.35525012,
+            0.34775126,
+            0.14510155,
+            -0.1259633,
+            0.30794954,
+            0.29940158,
+            0.30126387,
+            0.19874829,
+            -0.07609449,
+            0.43858135,
+            0.29350093,
+            0.18415314,
+            0.11376718,
+            -0.08307639,
+            0.61778295,
+            0.33133733,
+            0.08291369,
+            0.01186559,
+            -0.06712513,
+            0.76515126,
+            0.41485697,
+            0.09547313,
+            0.05652106,
+            0.08751789,
+            0.8095685,
+            0.544718,
+            0.28305003,
+            0.23634021,
+            0.29016906,
+            0.78661513,
+            0.6708723,
+            0.52955174,
+            0.44176945,
+            0.4104586,
+        ]
     )
-    refer_data1 = (
-        refer_data["uchi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
+
+    refer_data2 = np.array(
+        [
+            -0.04514927,
+            -0.04331517,
+            -0.07214402,
+            -0.1757952,
+            -0.29044005,
+            -0.04953104,
+            0.03692935,
+            -0.00474741,
+            -0.18221976,
+            -0.34167144,
+            -0.20293055,
+            -0.16041525,
+            -0.13288821,
+            -0.2200323,
+            -0.33396626,
+            -0.41324863,
+            -0.44817805,
+            -0.36793578,
+            -0.29782048,
+            -0.30848348,
+            -0.40192723,
+            -0.49453005,
+            -0.43962055,
+            -0.30274418,
+            -0.22489664,
+            -0.13013175,
+            -0.2561257,
+            -0.24312522,
+            -0.17504749,
+            -0.18892436,
+            0.24782766,
+            0.14193235,
+            0.03324516,
+            -0.07519761,
+            -0.24432087,
+            0.32656372,
+            0.26965225,
+            0.06994443,
+            -0.16488655,
+            -0.35086796,
+            0.10590035,
+            0.07321155,
+            -0.09067677,
+            -0.28969103,
+            -0.40417746,
+        ]
     )
-    refer_data2 = (
-        refer_data["vchi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data2.flatten()),
-            round_sf_np_new(refer_data2.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_nondivergent_component():
@@ -422,54 +1062,169 @@ def test_calc_nondivergent_component():
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
         .data.flatten()
     )
-    refer_data = xr.open_dataset(
-        str(Path(TEST_DATA_PATH, "test_output_calc_nondivergent_component.nc"))
-    )
-    refer_data1 = (
-        refer_data["upsi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
-    )
-    refer_data2 = (
-        refer_data["vpsi"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data.flatten()
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data2.flatten()),
-            round_sf_np_new(refer_data2.flatten()),
-        )
+    refer_data1 = np.array(
+        [
+            3.644536,
+            2.7602558,
+            1.5806243,
+            0.33304596,
+            -0.74454176,
+            -1.1072664,
+            -1.9939673,
+            -2.9245086,
+            -3.724179,
+            -4.2854934,
+            -5.504574,
+            -6.1520915,
+            -6.486299,
+            -6.5849333,
+            -6.612961,
+            -8.30418,
+            -8.3712435,
+            -7.9180107,
+            -7.2574544,
+            -6.74732,
+            -7.867735,
+            -7.4840913,
+            -6.621784,
+            -5.61714,
+            -4.8506155,
+            -4.879536,
+            -4.699452,
+            -4.2077427,
+            -3.5164065,
+            -2.9227822,
+            -1.8821019,
+            -2.2328067,
+            -2.5339332,
+            -2.612319,
+            -2.4736478,
+            -0.30957848,
+            -0.66974616,
+            -1.4046613,
+            -2.1176555,
+            -2.4097195,
+            0.09355557,
+            0.44983017,
+            0.03402352,
+            -0.752542,
+            -1.2848805,
+        ]
     )
 
+    refer_data2 = np.array(
+        [
+            1.8357217,
+            0.99116695,
+            0.24789491,
+            -0.0581052,
+            0.02600697,
+            1.0602962,
+            -0.03909242,
+            -0.8623851,
+            -1.0219281,
+            -0.642182,
+            0.20494756,
+            -0.7855001,
+            -1.4283135,
+            -1.3960612,
+            -0.8622614,
+            -0.394036,
+            -0.9259075,
+            -1.1922121,
+            -1.0847433,
+            -0.68883485,
+            -0.48566848,
+            -0.43611914,
+            -0.3154912,
+            -0.2559036,
+            -0.20605344,
+            -0.354598,
+            0.12080956,
+            0.5620635,
+            0.60896736,
+            0.30701607,
+            -0.4977425,
+            0.10327882,
+            0.78645116,
+            1.007489,
+            0.62825,
+            -0.77208436,
+            -0.44290018,
+            0.22731775,
+            0.7354018,
+            0.7199261,
+            -0.486553,
+            -0.8251542,
+            -0.59464157,
+            0.0472267,
+            0.5815929,
+        ]
+    )
 
-# def test_calc_rossby_wave_source():
-#     result_data = ecl.windspharm.calc_rossby_wave_source(
-#         u_data=u_data_sample,
-#         v_data=v_data_sample,
-#     )
-#     result_data = result_data.sel(
-#         lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
-#     ).data
-#     refer_data = (
-#         xr.open_dataset(
-#             str(Path(TEST_DATA_PATH, "test_output_calc_rossby_wave_source.nc"))
-#         )["result"]
-#         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-#         .data
-#     )
-#     assert is_mostly_true(
-#         np.isclose(
-#             round_sf_np_new(result_data.flatten()),
-#             round_sf_np_new(refer_data.flatten()),
-#         )
-#     )
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_rossby_wave_source():
+    result_data = ecl.windspharm.calc_rossby_wave_source(
+        u_data=u_data_sample,
+        v_data=v_data_sample,
+    )
+    result_data = result_data.sel(
+        lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start)
+    ).data.flatten()
+    refer_data = np.array(
+        [
+            -1.39130598e-12,
+            3.62989001e-12,
+            9.43410875e-12,
+            1.18930127e-11,
+            -1.75069497e-12,
+            4.56656596e-12,
+            -3.65361574e-12,
+            -2.16202795e-12,
+            7.52010971e-12,
+            7.08494231e-12,
+            6.27820877e-12,
+            -9.78215762e-13,
+            -9.00980728e-12,
+            1.42228873e-12,
+            7.96458051e-12,
+            -1.33761320e-11,
+            -1.79263864e-11,
+            -1.48012462e-11,
+            5.13708788e-14,
+            1.65385590e-11,
+            -7.27228570e-13,
+            1.34754249e-12,
+            6.99325915e-12,
+            1.15153341e-11,
+            1.77317662e-11,
+            2.21014791e-11,
+            2.39218176e-11,
+            1.33872252e-11,
+            6.87246211e-12,
+            8.03349831e-12,
+            -1.86182392e-11,
+            -1.04637740e-11,
+            -7.97658934e-12,
+            4.93104920e-12,
+            1.02542063e-11,
+            -3.05194826e-11,
+            -2.26485018e-11,
+            -2.89102511e-12,
+            1.51645844e-11,
+            8.53671861e-12,
+            4.37159027e-13,
+            -5.75014992e-12,
+            -9.98208036e-13,
+            7.78307319e-12,
+            4.18648355e-13,
+        ]
+    )
+
+    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_gradient():
@@ -479,35 +1234,112 @@ def test_calc_gradient():
     result_data1 = (
         result_data["zonal_gradient"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+        .data.flatten()
     )
     result_data2 = (
         result_data["meridional_gradient"]
         .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+        .data.flatten()
     )
-    refer_data = xr.open_dataset(
-        str(Path(TEST_DATA_PATH, "test_output_calc_gradient.nc"))
+
+    refer_data1 = np.array(
+        [
+            -1.43508055e-06,
+            -4.38510688e-06,
+            -5.96917744e-06,
+            -5.39001667e-06,
+            -3.22166943e-06,
+            -2.22079507e-06,
+            -3.49591323e-06,
+            -4.17823367e-06,
+            -3.48230378e-06,
+            -1.90002436e-06,
+            -2.49127925e-06,
+            -1.50863445e-06,
+            -1.05031597e-06,
+            -1.15737498e-06,
+            -9.62604418e-07,
+            -1.37188135e-06,
+            7.87829435e-07,
+            2.20309585e-06,
+            1.54181566e-06,
+            1.17986644e-07,
+            -1.37763379e-07,
+            1.86077659e-06,
+            3.35597701e-06,
+            2.97495831e-06,
+            1.00736338e-06,
+            -7.52100561e-07,
+            1.04498326e-07,
+            1.72078171e-06,
+            2.39189399e-06,
+            1.11727263e-06,
+            -2.02823276e-06,
+            -2.74178819e-06,
+            -1.42554006e-06,
+            3.84365137e-07,
+            6.38155427e-07,
+            -1.07221206e-06,
+            -3.24009784e-06,
+            -3.56787450e-06,
+            -1.75858850e-06,
+            -1.22258939e-07,
+            2.44452099e-06,
+            -6.72975830e-07,
+            -3.10026098e-06,
+            -2.84165367e-06,
+            -1.20185223e-06,
+        ]
     )
-    refer_data1 = (
-        refer_data["zonal_gradient"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
+    refer_data2 = np.array(
+        [
+            1.81328523e-05,
+            1.82679923e-05,
+            1.75422902e-05,
+            1.60240488e-05,
+            1.43837415e-05,
+            1.69180585e-05,
+            1.65336169e-05,
+            1.44505284e-05,
+            1.21777557e-05,
+            1.06271491e-05,
+            1.41496193e-05,
+            1.28330012e-05,
+            9.72769521e-06,
+            6.47339039e-06,
+            4.67057907e-06,
+            4.39724363e-06,
+            2.62468939e-06,
+            3.40575070e-07,
+            -2.18141804e-06,
+            -3.99424243e-06,
+            -8.02605427e-06,
+            -8.12693634e-06,
+            -7.74513410e-06,
+            -7.79495895e-06,
+            -8.29108649e-06,
+            -1.29414693e-05,
+            -1.06345415e-05,
+            -7.65179720e-06,
+            -5.53922428e-06,
+            -4.69122187e-06,
+            -8.74117086e-06,
+            -7.43181408e-06,
+            -4.75117531e-06,
+            -1.88403578e-06,
+            -4.01514171e-07,
+            -3.23759423e-06,
+            -5.15913689e-06,
+            -5.38628910e-06,
+            -3.93847631e-06,
+            -2.56016938e-06,
+            4.05527317e-07,
+            -3.39634380e-06,
+            -5.88303374e-06,
+            -6.38038910e-06,
+            -5.54820599e-06,
+        ]
     )
-    refer_data2 = (
-        refer_data["meridional_gradient"]
-        .sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
-        .data
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data1.flatten()),
-            round_sf_np_new(refer_data1.flatten()),
-        )
-    )
-    assert is_mostly_true(
-        np.isclose(
-            round_sf_np_new(result_data2.flatten()),
-            round_sf_np_new(refer_data2.flatten()),
-        )
-    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
