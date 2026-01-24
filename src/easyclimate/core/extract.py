@@ -4,7 +4,6 @@ Obtain data within a specified time period
 
 import xarray as xr
 import numpy as np
-from .yearstat import calc_yearly_mean
 from typing import List
 
 __all__ = [
@@ -308,6 +307,8 @@ def get_yearmean_for_specific_months_data(
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
     """
+    from .stats.yearstat import calc_yearly_mean
+
     data_get_specific_months_data = get_specific_months_data(
         data_input, month_array, dim=dim
     )

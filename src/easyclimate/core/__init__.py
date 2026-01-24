@@ -3,9 +3,8 @@ from .eddy import *
 from .extract import *
 from .read import *
 from .stat import *
+from .stats import *
 from .variability import *
-from .yearstat import *
-from .monthstat import *
 from .tutorial import *
 from .datanode import *
 from .units import *
