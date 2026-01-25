@@ -30,6 +30,7 @@ __all__ = [
     "calc_Plumb_wave_activity_horizontal_flux",
     "calc_TN_wave_activity_horizontal_flux",
     "calc_EP_horizontal_flux",
+    "calc_rossby_wave_source",
 ]
 
 
@@ -39,7 +40,7 @@ def calc_eady_growth_rate(
     temper_daily_data: xr.DataArray,
     vertical_dim: str,
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
-    lat_dim="lat",
+    lat_dim: str = "lat",
 ) -> xr.Dataset:
     """
     Calculate the maximum Eady growth rate.
@@ -651,6 +652,69 @@ def calc_TN_wave_activity_horizontal_flux(
     return result.astype("float32")
 
 
+def calc_TN_wave_activity_vertical_flux(
+    z_prime_data: xr.DataArray,
+    u_climatology_data: xr.DataArray,
+    v_climatology_data: xr.DataArray,
+    temper_climatology_data: xr.DataArray,
+    vertical_dim: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    lon_dim: str = "lon",
+    lat_dim: str = "lat",
+    omega: float = 7.292e-5,
+    g: float = 9.8,
+    R: float = 6371200.0,
+    scale_height: float = 8000.0,
+    kappa: float = 287 / 1005.7,
+    p_0=1000.0,
+) -> xr.Dataset:
+    """ """
+
+    coordinate_sample_data = z_prime_data
+    u_c = u_climatology_data
+    v_c = v_climatology_data
+    t_c = temper_climatology_data
+
+    lat_array = coordinate_sample_data["lat"].astype("float64")
+    coslat = np.cos(transfer_deg2rad(lat_array))
+
+    f = get_coriolis_parameter(lat_array, omega=omega)
+    psi_p = z_prime_data * g / f
+
+    p_lev = transfer_data_multiple_units(
+        coordinate_sample_data[vertical_dim], vertical_dim_units, "hPa"
+    )  # hPa
+    scale_z = -scale_height * np.log(p_lev / p_0)
+    dz = calc_gradient(scale_z, dim=vertical_dim)  # m, hPa
+
+    dpsi_dlambda = calc_dlon_radian_gradient(psi_p, lon_dim=lon_dim)
+    dpsi_dphi = calc_dlat_radian_gradient(psi_p, lat_dim=lat_dim)
+    dpsi_dz = calc_gradient(psi_p, dim=vertical_dim) / dz
+
+    d2psi_dlambdadz = calc_gradient(dpsi_dlambda, dim=vertical_dim) / dz
+    d2psi_dphidz = calc_gradient(dpsi_dphi, dim=vertical_dim) / dz
+
+    term_zu = dpsi_dlambda * dpsi_dz - psi_p * d2psi_dlambdadz
+    term_zv = dpsi_dphi * dpsi_dz - psi_p * d2psi_dphidz
+
+    magU = np.sqrt(u_c**2 + v_c**2)
+    coeff = p_lev / (2 * magU)
+
+    potential_temperature_data = calc_potential_temperature_vertical(
+        t_c, vertical_dim=vertical_dim, vertical_units=vertical_dim_units, kappa=kappa
+    )
+    N = calc_brunt_vaisala_frequency_atm(
+        potential_temperature_data, scale_z, vertical_dim=vertical_dim, g=g
+    )
+
+    fz = coeff * (f**2 / N**2)(u_c * term_zu + v_c * coslat / R * term_zv)
+
+    result = xr.Dataset()
+    # result['psi_p'] = psi_p
+    result["fz"] = fz
+    return result
+
+
 # def calc_TN_wave_activity_3D_flux(
 #     z_prime_data: xr.DataArray,
 #     u_climatology_data: xr.DataArray,
@@ -805,4 +869,296 @@ def calc_EP_horizontal_flux(
     result = xr.Dataset()
     result["fx"] = fx * coslat
     result["fy"] = fy * coslat
+    return result
+
+
+def calc_rossby_wave_source(
+    u_data: xr.DataArray,
+    v_data: xr.DataArray,
+    u_climatology_data: xr.DataArray,
+    v_climatology_data: xr.DataArray,
+    lat_dim: str = "lat",
+    omega: float = 7.292e-05,
+    R: float = 6371200.0,
+) -> xr.DataArray:
+    """
+    Calculate the Rossby wave source following Sardeshmukh and Hoskins (1988).
+
+    The Rossby wave source (RWS) represents the forcing term for stationary Rossby waves
+    and is widely used to diagnose atmospheric teleconnections. It is decomposed into
+    five terms representing different physical mechanisms:
+
+    .. math::
+
+        S' = -\\nabla \\cdot (\\mathbf{v}_\\chi \\zeta)' = \\text{term1a} + \\text{term1b} + \\text{term2a} + \\text{term2b} + \\text{term3} + \\text{term4} + \\text{term5}
+
+    where:
+
+    - **term1a**: :math:`-\\bar{\\zeta} \\nabla \\cdot \\mathbf{v}'_\\chi`
+      (stretching of climatological vorticity by divergent wind anomalies)
+    - **Term1b**: :math:`-f \\nabla \\cdot \\mathbf{v'_\\chi}`
+      (Stretching of planetary vorticity by anomalous divergence)
+    - **term2a**: :math:`-\\mathbf{v}'_\\chi \\cdot \\nabla\\bar{\\zeta}`
+      (advection of climatological vorticity by divergent wind anomalies)
+    - **term2b**: :math:`-\\beta v'_\\chi`
+      (planetary vorticity advection, where :math:`\\beta = \\partial f/\\partial y`)
+    - **term3**: :math:`-\\zeta' \\nabla \\cdot \\bar{\\mathbf{v}}_\\chi`
+      (stretching of vorticity anomalies by climatological divergent wind)
+    - **term4**: :math:`-\\bar{\\mathbf{v}}_\\chi \\cdot \\nabla\\zeta'`
+      (advection of vorticity anomalies by climatological divergent wind)
+    - **term5**: :math:`-\\nabla \\cdot (\\mathbf{v}'_\\chi \\zeta')`
+      (nonlinear term: divergence of transient vorticity flux)
+
+    where :math:`\\mathbf{v}_\\chi = (u_\\chi, v_\\chi)` is the divergent (irrotational)
+    wind component, :math:`\\zeta` is relative vorticity, overbar denotes climatology,
+    and prime denotes anomaly.
+
+    .. note::
+        - Anomalies are computed as deviations from the monthly climatology.
+        - The planetary term (term6) represents the beta effect, which is important for Rossby wave propagation, especially in the tropics and subtropics.
+        - Terms 1, 2, and 6 typically dominate the Rossby wave source.
+        - Positive RWS indicates a cyclonic wave source; negative indicates anticyclonic.
+
+    Parameters
+    ----------
+    u_data : :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m/s}`)
+        Zonal wind component. Must contain a 'time' dimension with monthly or
+        higher frequency data. Expected dimensions: ``(time, lat, lon)`` or ``(time, level, lat, lon)``.
+    v_data : :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m/s}`)
+        Meridional wind component. Must have the same dimensions as `u_data`.
+    u_climatology_data : :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m/s}`)
+        Monthly climatology of zonal wind. Expected dimensions: ``(time, lat, lon)``
+        or ``(time, level, lat, lon)``, where time/month ranges from 1 to 12.
+    v_climatology_data : :py:class:`xarray.DataArray<xarray.DataArray>` (:math:`\\mathrm{m/s}`)
+        Monthly climatology of meridional wind. Must have the same dimensions
+        as `u_climatology_data`.
+
+    Returns
+    -------
+    result : :py:class:`xarray.Dataset<xarray.Dataset>`
+        Dataset containing the Rossby wave source and its five decomposed terms:
+
+        - **RWS**: Total Rossby wave source (sum of all terms)
+        - **term1a**: Vorticity stretching by anomalous divergence
+        - **term1b**: Stretching of planetary vorticity by anomalous divergence
+        - **term2a**: Vorticity advection by anomalous divergent wind
+        - **term2b**: Planetary vorticity advection (beta effect)
+        - **term3**: Anomalous vorticity stretching by climatological divergence
+        - **term4**: Anomalous vorticity advection by climatological divergent wind
+        - **term5**: Nonlinear transient eddy term
+
+
+        All variables have units of :math:`\\mathrm{s^{-2}}` and retain the spatial/temporal dimensions
+        of the input data.
+
+    .. seealso::
+
+        - Sardeshmukh, P. D., & Hoskins, B. J. (1988). The generation of global rotational flow by steady idealized tropical divergence. Journal of the Atmospheric Sciences, 45(7), 1228-1251. https://journals.ametsoc.org/view/journals/atsc/45/7/1520-0469_1988_045_1228_tgogrf_2_0_co_2.xml, https://doi.org/10.1175/1520-0469(1988)045<1228:TGOGRF>2.0.CO;2
+
+    Examples
+    --------
+    >>> # Calculate monthly climatology
+    >>> u_clim = u.groupby('time.month').mean('time')
+    >>> v_clim = v.groupby('time.month').mean('time')
+    >>>
+    >>> # Compute Rossby wave source
+    >>> rws_result = calc_rossby_wave_source(u, v, u_clim, v_clim)
+    >>>
+    >>> # Visualize the dominant terms
+    >>> rws_result['RWS'].sel(time='2015-12').plot()
+    >>> (rws_result['term1'] + rws_result['term2']).sel(time='2015-12').plot()
+    """
+    from .windspharm import (
+        calc_relative_vorticity,
+        calc_irrotational_component,
+        calc_gradient,
+    )
+    from ..physics.geo import get_coriolis_parameter
+    from .utility import transfer_deg2rad
+
+    # planetary vorticity
+    lat = v_data[lat_dim]
+
+    # Real Value
+    zeta = calc_relative_vorticity(u_data, v_data)
+    ir_result = calc_irrotational_component(u_data, v_data)
+    uchi = ir_result.uchi
+    vchi = ir_result.vchi
+
+    # Climate
+    zeta_climate = calc_relative_vorticity(u_climatology_data, v_climatology_data)
+    ir_climate_result = calc_irrotational_component(
+        u_climatology_data, v_climatology_data
+    )
+    uchi_climate = ir_climate_result.uchi
+    vchi_climate = ir_climate_result.vchi
+
+    # Prime
+    zeta_prime = zeta.groupby("time.month") - zeta_climate.groupby("time.month").mean()
+    uchi_prime = uchi.groupby("time.month") - uchi_climate.groupby("time.month").mean()
+    vchi_prime = vchi.groupby("time.month") - vchi_climate.groupby("time.month").mean()
+
+    # Term1a: \bar{\zeta} \nabla \cdot \bm{v'_\xi}
+    uchi_prime_grdx = calc_gradient(uchi_prime)["zonal_gradient"]
+    vchi_prime_grdy = calc_gradient(vchi_prime)["meridional_gradient"]
+    term1a = -(
+        zeta_climate.groupby("time.month").mean()
+        * ((uchi_prime_grdx + vchi_prime_grdy).groupby("time.month"))
+    )
+
+    # Term1b: -f \nabla \cdot \bm{v'_\chi}
+    f = get_coriolis_parameter(lat, omega=omega)
+    term1b = -f * (uchi_prime_grdx + vchi_prime_grdy)
+
+    # Term2a: \bm{v'_\xi} \cdot \nabla\bar{\zeta}
+    zeta_climate_result = calc_gradient(zeta_climate)
+    zeta_climate_grdx = zeta_climate_result["zonal_gradient"]
+    zeta_climate_grdy = zeta_climate_result["meridional_gradient"]
+    term2a = -(
+        uchi_prime.groupby("time.month")
+        * zeta_climate_grdx.groupby("time.month").mean()
+        + vchi_prime.groupby("time.month")
+        * zeta_climate_grdy.groupby("time.month").mean()
+    )
+
+    # Term2b: -\beta v'_\chi
+    # Calculate beta = df/dy
+    # beta = (2 * Omega * cos(phi)) / a
+    lat_rad = transfer_deg2rad(lat)
+    beta = (2 * omega * np.cos(lat_rad)) / R
+    # beta * v'_chi
+    term2b = -(beta * vchi_prime)
+
+    # Term3: \zeta' \nabla \cdot \bar{v'_\xi}
+    uchi_climate_grdx = calc_gradient(uchi_climate)["zonal_gradient"]
+    vchi_climate_grdy = calc_gradient(vchi_climate)["meridional_gradient"]
+    term3 = -(
+        zeta_prime.groupby("time.month")
+        * ((uchi_climate_grdx + vchi_climate_grdy).groupby("time.month").mean())
+    )
+
+    # Term4: \bm{\bar{v}_\xi} \cdot \nabla \zeta'
+    zeta_prime_result = calc_gradient(zeta_prime)
+    zeta_prime_grdx = zeta_prime_result["zonal_gradient"]
+    zeta_prime_grdy = zeta_prime_result["meridional_gradient"]
+    term4 = -(
+        uchi_climate.groupby("time.month").mean()
+        * zeta_prime_grdx.groupby("time.month")
+        + vchi_climate.groupby("time.month").mean()
+        * zeta_prime_grdy.groupby("time.month")
+    )
+
+    # Term5: \nabla \cdot (\bm{v}'_\chi \zeta')
+    # u'_\chi * \zeta'
+    uchi_prime_zeta_prime = uchi_prime * zeta_prime
+    # v'_\chi * \zeta'
+    vchi_prime_zeta_prime = vchi_prime * zeta_prime
+    uchi_prime_zeta_prime_grdx = calc_gradient(uchi_prime_zeta_prime)["zonal_gradient"]
+    vchi_prime_zeta_prime_grdy = calc_gradient(vchi_prime_zeta_prime)[
+        "meridional_gradient"
+    ]
+    term5 = -(uchi_prime_zeta_prime_grdx + vchi_prime_zeta_prime_grdy)
+
+    # Compute total RWS
+    rws = term1a + term1b + term2a + term2b + term3 + term4 + term5
+
+    # Obtain the dimension order
+    dim_array = u_data.dims
+
+    # Create Data Variables
+    result = xr.Dataset()
+
+    # Add the data variables for each item
+    result["term1a"] = term1a.transpose(*dim_array)
+    result["term1b"] = term1b.transpose(*dim_array)
+    result["term2a"] = term2a.transpose(*dim_array)
+    result["term2b"] = term2b.transpose(*dim_array)
+    result["term3"] = term3.transpose(*dim_array)
+    result["term4"] = term4.transpose(*dim_array)
+    result["term5"] = term5.transpose(*dim_array)
+    result["RWS"] = rws.transpose(*dim_array)
+
+    # Set attributes for each variable
+    result["term1a"].attrs = {
+        "long_name": "RWS Term 1a: Vorticity stretching",
+        "description": "Stretching of climatological vorticity by anomalous divergent wind",
+        "formula": "-zeta_bar * div(v_chi_prime)",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_term1",
+    }
+
+    result["term1b"].attrs = {
+        "long_name": "RWS Term 1b: Planetary vorticity stretching",
+        "formula": "-f * div(v_chi_prime)",
+        "units": "s-2",
+        "description": "Stretching of planetary vorticity by anomalous divergence",
+    }
+
+    result["term2a"].attrs = {
+        "long_name": "RWS Term 2a: Vorticity advection",
+        "description": "Advection of climatological vorticity gradient by anomalous divergent wind",
+        "formula": "-v_chi_prime · grad(zeta_bar)",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_term2",
+    }
+
+    result["term2b"].attrs = {
+        "long_name": "RWS Term 2b: Planetary vorticity advection",
+        "description": "Planetary vorticity advection (beta effect): meridional advection of planetary vorticity by anomalous divergent wind",
+        "formula": "-beta * v_chi_prime, where beta = df/dy",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_planetary",
+        "note": "Important for Rossby wave propagation, especially in tropics and subtropics",
+    }
+
+    result["term3"].attrs = {
+        "long_name": "RWS Term 3: Anomalous vorticity stretching",
+        "description": "Stretching of vorticity anomalies by climatological divergent wind",
+        "formula": "-zeta_prime * div(v_chi_bar)",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_term3",
+    }
+
+    result["term4"].attrs = {
+        "long_name": "RWS Term 4: Anomalous vorticity advection",
+        "description": "Advection of vorticity anomalies by climatological divergent wind",
+        "formula": "-v_chi_bar · grad(zeta_prime)",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_term4",
+    }
+
+    result["term5"].attrs = {
+        "long_name": "RWS Term 5: Nonlinear transient term",
+        "description": "Divergence of transient vorticity flux (nonlinear eddy term)",
+        "formula": "-div(v_chi_prime * zeta_prime)",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_term5",
+    }
+
+    result["RWS"].attrs = {
+        "long_name": "Total Rossby Wave Source",
+        "description": "Total Rossby wave source including both relative and planetary vorticity effects",
+        "formula": "-div(v_chi * eta)' where eta = zeta + f",
+        "units": "s-2",
+        "standard_name": "rossby_wave_source_total",
+        "references": "Sardeshmukh and Hoskins (1988, JAS)",
+        "positive": "cyclonic wave source",
+        "negative": "anticyclonic wave source",
+    }
+
+    # Add global attributes
+    result.attrs.update(
+        {
+            "title": "Rossby Wave Source Decomposition with Planetary Term",
+            "method": "Six-term decomposition (5 relative + 1 planetary) following Sardeshmukh and Hoskins (1988)",
+            "anomaly_method": "Deviation from monthly climatology",
+            "convention": "Negative divergence convention (sources are positive for cyclonic forcing)",
+            "references": "Sardeshmukh, P. D., & Hoskins, B. J. (1988). JAS, 45(7), 1228-1251.",
+            "note": "Terms 1, 2, and 6 (planetary) typically dominate the Rossby wave source",
+            "earth_radius": f"{R} m",
+            "earth_rotation_rate": f"{omega} rad/s",
+            "created_with": "easyclimate: calc_rossby_wave_source function",
+        }
+    )
+
     return result
