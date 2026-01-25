@@ -18,6 +18,7 @@ test/tmpfile
 **/.pytest_cache
 .coverage
 .coverage*
+.pytest_tmp/
 
 
 #Ignore vscode AI rules
