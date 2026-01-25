@@ -132,7 +132,7 @@ sphinx_gallery_conf = {
     "promote_jupyter_magic": True,
     #  Controlling what output is captured
     "capture_repr": ("_repr_html_", "__repr__", "__str__"),
-    "run_stale_examples": True,
+    "run_stale_examples": False,
     "min_reported_time": False,
     "download_all_examples": False,
     #  'show_memory': True,
