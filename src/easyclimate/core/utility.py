@@ -41,6 +41,7 @@ __all__ = [
     "numeric_to_datetime",
     "calculate_time_steps",
     "clean_extra_coords",
+    "replace_in_tuple",
 ]
 
 
@@ -1092,3 +1093,8 @@ def clean_extra_coords(
     if extra_dims:
         return data_input.reset_coords(extra_dims, drop=True)
     return data_input
+
+
+def replace_in_tuple(tup, old_value, new_value):
+    """Replace specific values in a tuple"""
+    return tuple(new_value if item == old_value else item for item in tup)
