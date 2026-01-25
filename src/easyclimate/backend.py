@@ -6,6 +6,9 @@ import sys
 # Detect the current operating system
 CURRENT_PLATFORM = platform.system()
 
+# --------------------------------------------
+# Easyclimate-backend Initialize variables
+# --------------------------------------------
 
 # Initialize variables for backend functions with default values
 spharm = None
@@ -179,6 +182,23 @@ to_xy_coords = None
 cache_item = None
 get_cached_item = None
 
+# --------------------------------------------
+# Easyclimate-rust Initialize variables
+# --------------------------------------------
+calc_wet_bulb_temperature_rs = None
+calc_sphere_laplacian_numpy_rs = None
+calc_sphere_laplacian_conservative_numpy_rs = None
+calc_detrend_spatial_3d_rs = None
+calc_detrend_spatial_3d_chunked_rs = None
+calc_detrend_spatial_flexible_rs = None
+interp1d_linear_core_rs = None
+interp1d_linear_2d_rs = None
+interp1d_linear_3d_rs = None
+interp1d_linear_4d_rs = None
+
+# --------------------------------------------
+# Easyclimate-backend Import
+# --------------------------------------------
 
 # Cross platform module - these should work on all platforms
 try:
@@ -451,3 +471,75 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
         pass
     else:
         print("Some easyclimate-backend modules failed to import", file=sys.stderr)
+
+# --------------------------------------------
+# Easyclimate-rust Import
+# --------------------------------------------
+
+# Attempt to import platform-specific functions only on Windows and Linux
+if CURRENT_PLATFORM in ("Windows", "Linux"):
+    try:
+        # print(
+        #     f"Attempting to import easyclimate-rust modules on {CURRENT_PLATFORM}...",
+        #     file=sys.stderr,
+        # )
+
+        # Import basic modules
+
+        # wet_bulb module
+        from easyclimate_rust._easyclimate_rust import (
+            calc_wet_bulb_temperature as calc_wet_bulb_temperature_rs,
+        )
+
+        # sphere_laplacian module (NumPy interface)
+        from easyclimate_rust._easyclimate_rust import (
+            calc_sphere_laplacian_numpy as calc_sphere_laplacian_numpy_rs,
+        )
+        from easyclimate_rust._easyclimate_rust import (
+            calc_sphere_laplacian_conservative_numpy as calc_sphere_laplacian_conservative_numpy_rs,
+        )
+
+        # detrend_spatial module - high-performance spatial detrending
+        from easyclimate_rust._easyclimate_rust import (
+            calc_detrend_spatial_3d as calc_detrend_spatial_3d_rs,
+        )
+        from easyclimate_rust._easyclimate_rust import (
+            calc_detrend_spatial_3d_chunked as calc_detrend_spatial_3d_chunked_rs,
+        )
+        from easyclimate_rust._easyclimate_rust import (
+            calc_detrend_spatial_flexible as calc_detrend_spatial_flexible_rs,
+        )
+
+        # interp1d
+        from easyclimate_rust._easyclimate_rust import (
+            interp1d_linear_core as interp1d_linear_core_rs,
+        )
+        from easyclimate_rust._easyclimate_rust import (
+            interp1d_linear_2d as interp1d_linear_2d_rs,
+        )
+        from easyclimate_rust._easyclimate_rust import (
+            interp1d_linear_3d as interp1d_linear_3d_rs,
+        )
+        from easyclimate_rust._easyclimate_rust import (
+            interp1d_linear_4d as interp1d_linear_4d_rs,
+        )
+
+        # print(
+        #     "Successfully imported basic easyclimate-rust modules", file=sys.stderr
+        # )
+
+        RUST_AVAILABLE = True
+
+    except ImportError as e:
+        warnings.warn(
+            f"Failed to import basic easyclimate-rust modules: {e}. Some functionality will be disabled.",
+            ImportWarning,
+        )
+        # Record detailed error information to stderr
+        print(f"Detailed import error for basic modules: {e}", file=sys.stderr)
+
+        RUST_AVAILABLE = False
+else:
+    warnings.warn(
+        f"easyclimate-rust modules is not supported on {CURRENT_PLATFORM}. Related functionality will be disabled."
+    )
