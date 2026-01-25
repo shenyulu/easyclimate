@@ -28,7 +28,6 @@ seaborn
 EMD-signal
 pybarnes
 rich
-geopandas
 
 sphinx == 8.2.3
 recommonmark == 0.7.1

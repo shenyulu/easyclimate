@@ -28,4 +28,3 @@ seaborn
 EMD-signal
 pybarnes
 rich
-geopandas
