@@ -6,12 +6,63 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 import os
+import uuid
+import shutil
+import time
 from ctypes import c_char
 from typing import Literal
+from pathlib import Path
+from contextlib import contextmanager
 
 from ..backend import _ecl_redfit, _ecl_redfit_x
 
 __all__ = ["calc_redfit", "calc_redfit_cross"]
+
+tmp_root = ".pytest_tmp"
+keep_tmp = False
+
+
+def cleanup_old_runs(root: Path, *, prefix="redfit_", max_age_days=7):
+    if not root.exists():
+        return
+    cutoff = time.time() - max_age_days * 86400
+    for p in root.glob(f"{prefix}*"):
+        try:
+            if p.is_dir() and p.stat().st_mtime < cutoff:
+                shutil.rmtree(p, ignore_errors=True)
+        except OSError:
+            pass
+
+
+@contextmanager
+def project_tmp_workdir(tmp_root: str = ".pytest_tmp", *, keep: bool = False):
+    """
+    Create a per-run working dir under <project>/.pytest_tmp and chdir into it.
+    - keep=False: run finishes normally -> remove this run dir
+    - keep=True : keep it for debugging
+    """
+    project_root = Path.cwd()
+
+    # Ensure the root directory exists
+    root = project_root / tmp_root
+    root.mkdir(parents=True, exist_ok=True)
+
+    # Clean up old run
+    cleanup_old_runs(root, prefix="redfit_", max_age_days=7)
+
+    # Create a unique directory for this run
+    run_id = uuid.uuid4().hex[:12]
+    workdir = root / f"redfit_{run_id}"
+    workdir.mkdir(parents=True, exist_ok=False)
+
+    old_cwd = Path.cwd()
+    os.chdir(workdir)
+    try:
+        yield workdir
+    finally:
+        os.chdir(old_cwd)
+        if not keep:
+            shutil.rmtree(workdir, ignore_errors=True)
 
 
 def cfg_generate(
@@ -296,301 +347,313 @@ def calc_redfit(
 
         ./dynamic_docs/plot_redfit.py
     """
+    with project_tmp_workdir(tmp_root, keep=keep_tmp) as wd:
+        # Generate datainput
+        # 生成数据
+        # -------------------------
 
-    # Generate datainput
-    # 生成数据
-    # -------------------------
+        random_str = gen_random_string(15)
 
-    random_str = gen_random_string(15)
+        data_size = data.shape[0]
+        data_array = data.data
+        timestep_array = np.arange(data_size)
 
-    data_size = data.shape[0]
-    data_array = data.data
-    timestep_array = np.arange(data_size)
+        if timearray is not None:
+            timestep_array = timearray
 
-    if timearray is not None:
-        timestep_array = timearray
+        data_pd = pd.DataFrame({"time_step": timestep_array, "value": data_array})
+        data_pd.to_csv(
+            "tmp_data_" + random_str + ".tmp", sep=" ", header=None, index=False
+        )
 
-    data_pd = pd.DataFrame({"time_step": timestep_array, "value": data_array})
-    data_pd.to_csv("tmp_data_" + random_str + ".tmp", sep=" ", header=None, index=False)
+        # Generate cfg file
+        # 生成配置文件
+        # -------------------------
 
-    # Generate cfg file
-    # 生成配置文件
-    # -------------------------
+        cfg_generate(
+            "tmp_cfg_" + random_str + ".cfg",
+            fnin="tmp_data_" + random_str + ".tmp",
+            fnout="tmp_summary_" + random_str + ".tmp",
+            nsim=nsim,
+            mctest=mctest,
+            rhopre=rhopre,
+            ofac=ofac,
+            hifac=hifac,
+            n50=n50,
+            iwin=iwin,
+        )
 
-    cfg_generate(
-        "tmp_cfg_" + random_str + ".cfg",
-        fnin="tmp_data_" + random_str + ".tmp",
-        fnout="tmp_summary_" + random_str + ".tmp",
-        nsim=nsim,
-        mctest=mctest,
-        rhopre=rhopre,
-        ofac=ofac,
-        hifac=hifac,
-        n50=n50,
-        iwin=iwin,
-    )
+        # Python字符串处理
+        input_str = "tmp_cfg_" + random_str + ".cfg"
+        byte_str = input_str.encode("utf-8")  # 编码为字节
 
-    # Python字符串处理
-    input_str = "tmp_cfg_" + random_str + ".cfg"
-    byte_str = input_str.encode("utf-8")  # 编码为字节
+        # 调整长度为80，用空字符填充
+        padded = byte_str.ljust(80, b"\0")[:80]
 
-    # 调整长度为80，用空字符填充
-    padded = byte_str.ljust(80, b"\0")[:80]
+        # 创建C字符数组
+        cfg_array = (c_char * 80)(*padded)
 
-    # 创建C字符数组
-    cfg_array = (c_char * 80)(*padded)
+        # 调用Fortran子例程
+        _ecl_redfit.run_redfit(cfg_array)
 
-    # 调用Fortran子例程
-    _ecl_redfit.run_redfit(cfg_array)
+        # Read data
+        # 读取生成数据
+        # -------------------------
+        # 浮点数数据
+        save_real = np.fromfile("tmp_real.output", dtype=np.float32)
+        (
+            ofac,
+            hifac,
+            idum,
+            varx,
+            avgdt,
+            rho,
+            tau,
+            dof,
+            sixdB_Bandwidth,
+            cfal,
+            faccrit,
+            rcritlo_90,
+            rcrithi_90,
+            rcritlo_95,
+            rcrithi_95,
+            rcritlo_98,
+            rcrithi_98,
+        ) = save_real
+        # 整型数据
+        save_int = np.fromfile("tmp_int.output", dtype=np.int32)
+        n50, iwin, nsim, rcnt, ntime, nout = save_int
+        # 数组数据
+        if mctest == True:
+            save_array_raw = np.fromfile("tmp_array.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((14, nout))
+        else:
+            save_array_raw = np.fromfile("tmp_array.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((10, nout))
 
-    # Read data
-    # 读取生成数据
-    # -------------------------
-    # 浮点数数据
-    save_real = np.fromfile("tmp_real.output", dtype=np.float32)
-    (
-        ofac,
-        hifac,
-        idum,
-        varx,
-        avgdt,
-        rho,
-        tau,
-        dof,
-        sixdB_Bandwidth,
-        cfal,
-        faccrit,
-        rcritlo_90,
-        rcrithi_90,
-        rcritlo_95,
-        rcrithi_95,
-        rcritlo_98,
-        rcrithi_98,
-    ) = save_real
-    # 整型数据
-    save_int = np.fromfile("tmp_int.output", dtype=np.int32)
-    n50, iwin, nsim, rcnt, ntime, nout = save_int
-    # 数组数据
-    if mctest == True:
-        save_array_raw = np.fromfile("tmp_array.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((14, nout))
-    else:
-        save_array_raw = np.fromfile("tmp_array.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((10, nout))
-
-    # 生成 Dataset
-    gxx = xr.DataArray(
-        save_array[1, :],
-        name="gxx",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "spectrum of input data"},
-    )
-    gxx_corr = xr.DataArray(
-        save_array[2, :],
-        name="gxx_corr",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "bias-corrected spectrum of input data"},
-    )
-    gred_th = xr.DataArray(
-        save_array[3, :],
-        name="gred_th",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "theoretical AR(1) spectrum"},
-    )
-    gred = xr.DataArray(
-        save_array[4, :],
-        name="gred",
-        coords=[("freq", save_array[0, :])],
-        attrs={
-            "Description": "average spectrum of Nsim AR(1) time series (uncorrected)"
-        },
-    )
-    corrfac = xr.DataArray(
-        save_array[5, :],
-        name="corrFac",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "Gxx / Gxx_corr"},
-    )
-    chi2_80 = xr.DataArray(
-        save_array[6, :],
-        name="chi2_80",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "80-% false-alarm level (Chi^2)"},
-    )
-    chi2_90 = xr.DataArray(
-        save_array[7, :],
-        name="chi2_90",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "90-% false-alarm level (Chi^2)"},
-    )
-    chi2_95 = xr.DataArray(
-        save_array[8, :],
-        name="chi2_95",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "95-% false-alarm level (Chi^2)"},
-    )
-    chi2_99 = xr.DataArray(
-        save_array[9, :],
-        name="chi2_99",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "99-% false-alarm level (Chi^2)"},
-    )
-
-    if mctest == True:
-        ci80 = xr.DataArray(
-            save_array[10, :],
-            name="ci80",
+        # 生成 Dataset
+        gxx = xr.DataArray(
+            save_array[1, :],
+            name="gxx",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "80%-MC = 80-% false-alarm level (MC)"},
+            attrs={"Description": "spectrum of input data"},
         )
-        ci90 = xr.DataArray(
-            save_array[11, :],
-            name="ci90",
+        gxx_corr = xr.DataArray(
+            save_array[2, :],
+            name="gxx_corr",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            attrs={"Description": "bias-corrected spectrum of input data"},
         )
-        ci95 = xr.DataArray(
-            save_array[12, :],
-            name="ci95",
+        gred_th = xr.DataArray(
+            save_array[3, :],
+            name="gred_th",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            attrs={"Description": "theoretical AR(1) spectrum"},
         )
-        ci99 = xr.DataArray(
-            save_array[13, :],
-            name="ci99",
+        gred = xr.DataArray(
+            save_array[4, :],
+            name="gred",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            attrs={
+                "Description": "average spectrum of Nsim AR(1) time series (uncorrected)"
+            },
+        )
+        corrfac = xr.DataArray(
+            save_array[5, :],
+            name="corrFac",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "Gxx / Gxx_corr"},
+        )
+        chi2_80 = xr.DataArray(
+            save_array[6, :],
+            name="chi2_80",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "80-% false-alarm level (Chi^2)"},
+        )
+        chi2_90 = xr.DataArray(
+            save_array[7, :],
+            name="chi2_90",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "90-% false-alarm level (Chi^2)"},
+        )
+        chi2_95 = xr.DataArray(
+            save_array[8, :],
+            name="chi2_95",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "95-% false-alarm level (Chi^2)"},
+        )
+        chi2_99 = xr.DataArray(
+            save_array[9, :],
+            name="chi2_99",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "99-% false-alarm level (Chi^2)"},
         )
 
-    # Merge dataset
-    if mctest == True:
-        save_dataset = xr.merge(
-            [
-                gxx,
-                gxx_corr,
-                gred_th,
-                gred,
-                corrfac,
-                chi2_80,
-                chi2_90,
-                chi2_95,
-                chi2_99,
-                ci80,
-                ci90,
-                ci95,
-                ci99,
-            ]
+        if mctest == True:
+            ci80 = xr.DataArray(
+                save_array[10, :],
+                name="ci80",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "80%-MC = 80-% false-alarm level (MC)"},
+            )
+            ci90 = xr.DataArray(
+                save_array[11, :],
+                name="ci90",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            )
+            ci95 = xr.DataArray(
+                save_array[12, :],
+                name="ci95",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            )
+            ci99 = xr.DataArray(
+                save_array[13, :],
+                name="ci99",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            )
+
+        # Merge dataset
+        if mctest == True:
+            save_dataset = xr.merge(
+                [
+                    gxx,
+                    gxx_corr,
+                    gred_th,
+                    gred,
+                    corrfac,
+                    chi2_80,
+                    chi2_90,
+                    chi2_95,
+                    chi2_99,
+                    ci80,
+                    ci90,
+                    ci95,
+                    ci99,
+                ]
+            )
+        else:
+            save_dataset = xr.merge(
+                [
+                    gxx,
+                    gxx_corr,
+                    gred_th,
+                    gred,
+                    corrfac,
+                    chi2_80,
+                    chi2_90,
+                    chi2_95,
+                    chi2_99,
+                ]
+            )
+
+        # Add attribution
+        save_dataset.attrs["Input"] = (
+            "OFAC = "
+            + str(ofac)
+            + ", HIFAC = "
+            + str(hifac)
+            + ", n50 = "
+            + str(n50)
+            + ", Iwin = "
+            + str(iwin)
+            + ", Nsim = "
+            + str(nsim)
         )
-    else:
-        save_dataset = xr.merge(
-            [gxx, gxx_corr, gred_th, gred, corrfac, chi2_80, chi2_90, chi2_95, chi2_99]
+        save_dataset.attrs["Initial values"] = (
+            "idum = "
+            + str(idum)
+            + ", Data variance (from data spectrum) = "
+            + str(varx)
+            + ", Avg. dt = "
+            + str(avgdt)
         )
 
-    # Add attribution
-    save_dataset.attrs["Input"] = (
-        "OFAC = "
-        + str(ofac)
-        + ", HIFAC = "
-        + str(hifac)
-        + ", n50 = "
-        + str(n50)
-        + ", Iwin = "
-        + str(iwin)
-        + ", Nsim = "
-        + str(nsim)
-    )
-    save_dataset.attrs["Initial values"] = (
-        "idum = "
-        + str(idum)
-        + ", Data variance (from data spectrum) = "
-        + str(varx)
-        + ", Avg. dt = "
-        + str(avgdt)
-    )
+        if rhopre < 0:
+            save_dataset.attrs["Results"] = (
+                "Avg. autocorr. coeff., rho = "
+                + str(rho)
+                + ", Avg. tau = "
+                + str(tau)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+                + ", Critical false-alarm level (Thomson, 1990) = "
+                + str(cfal)
+                + ",  ==> corresponding scaling factor for red noise = "
+                + str(faccrit)
+            )
+        else:
+            save_dataset.attrs["Results"] = (
+                "PRESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre)
+                + ", Avg. tau = "
+                + str(tau)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+                + ", Critical false-alarm level (Thomson, 1990) = "
+                + str(cfal)
+                + ",  ==> corresponding scaling factor for red noise = "
+                + str(faccrit)
+            )
 
-    if rhopre < 0:
-        save_dataset.attrs["Results"] = (
-            "Avg. autocorr. coeff., rho = "
-            + str(rho)
-            + ", Avg. tau = "
-            + str(tau)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-            + ", Critical false-alarm level (Thomson, 1990) = "
-            + str(cfal)
-            + ",  ==> corresponding scaling factor for red noise = "
-            + str(faccrit)
+        if (iwin == 0) & (ofac == 1.0) & (n50 == 1):
+            save_dataset.attrs["Equality of theoretical and data spectrum"] = (
+                "90-% acceptance region: rcritlo = "
+                + str(rcritlo_90)
+                + ", rcrithi = "
+                + str(rcrithi_90)
+                + "; 95-% acceptance region: rcritlo = "
+                + str(rcritlo_95)
+                + ", rcrithi = "
+                + str(rcrithi_95)
+                + "; 98-% acceptance region: rcritlo = "
+                + str(rcritlo_98)
+                + ", rcrithi = "
+                + str(rcrithi_98)
+                + "; r_test = "
+                + str(rcnt)
+            )
+        else:
+            if iwin != 0:
+                print("[Warning] Test requires iwin = 'rectangular'!")
+            elif ofac != 1.0:
+                print("[Warning] Test requires OFAC = 1.0!")
+            elif n50 != 1:
+                print("[Warning] Test requires N50 = 1!")
+        save_dataset.attrs["Elapsed time"] = str(ntime) + " [s]"
+
+        save_dataset.attrs["Description"] = (
+            "Estimating red-noise spectra directly from unevenly spaced paleoclimatic time series."
         )
-    else:
-        save_dataset.attrs["Results"] = (
-            "PRESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre)
-            + ", Avg. tau = "
-            + str(tau)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-            + ", Critical false-alarm level (Thomson, 1990) = "
-            + str(cfal)
-            + ",  ==> corresponding scaling factor for red noise = "
-            + str(faccrit)
+        save_dataset.attrs["About"] = (
+            "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
         )
-
-    if (iwin == 0) & (ofac == 1.0) & (n50 == 1):
-        save_dataset.attrs["Equality of theoretical and data spectrum"] = (
-            "90-% acceptance region: rcritlo = "
-            + str(rcritlo_90)
-            + ", rcrithi = "
-            + str(rcrithi_90)
-            + "; 95-% acceptance region: rcritlo = "
-            + str(rcritlo_95)
-            + ", rcrithi = "
-            + str(rcrithi_95)
-            + "; 98-% acceptance region: rcritlo = "
-            + str(rcritlo_98)
-            + ", rcrithi = "
-            + str(rcrithi_98)
-            + "; r_test = "
-            + str(rcnt)
+        save_dataset.attrs["Reference"] = (
+            "Schulz, M. and Mudelsee, M. (2002) REDFIT: Estimating red-noise spectra directly from unevenly spaced paleoclimatic time series. Computers and Geosciences, 28, 421-426. https://doi.org/10.1016/S0098-3004(01)00044-9"
         )
-    else:
-        if iwin != 0:
-            print("[Warning] Test requires iwin = 'rectangular'!")
-        elif ofac != 1.0:
-            print("[Warning] Test requires OFAC = 1.0!")
-        elif n50 != 1:
-            print("[Warning] Test requires N50 = 1!")
-    save_dataset.attrs["Elapsed time"] = str(ntime) + " [s]"
+        save_dataset.attrs["Python platform"] = (
+            "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
+        )
+        # Add coordinate period (reciprocal of frequency)
+        save_dataset = save_dataset.assign_coords({"period": 1 / save_dataset.freq})
 
-    save_dataset.attrs["Description"] = (
-        "Estimating red-noise spectra directly from unevenly spaced paleoclimatic time series."
-    )
-    save_dataset.attrs["About"] = (
-        "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
-    )
-    save_dataset.attrs["Reference"] = (
-        "Schulz, M. and Mudelsee, M. (2002) REDFIT: Estimating red-noise spectra directly from unevenly spaced paleoclimatic time series. Computers and Geosciences, 28, 421-426. https://doi.org/10.1016/S0098-3004(01)00044-9"
-    )
-    save_dataset.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
-    )
-    # Add coordinate period (reciprocal of frequency)
-    save_dataset = save_dataset.assign_coords({"period": 1 / save_dataset.freq})
+        # Clean up temporary files
+        # 清理临时文件
+        # -------------------------
+        os.remove("tmp_cfg_" + random_str + ".cfg")
+        os.remove("tmp_data_" + random_str + ".tmp")
+        os.remove("tmp_real.output")
+        os.remove("tmp_int.output")
+        os.remove("tmp_array.output")
+        os.remove("tmp_summary_" + random_str + ".tmp")
 
-    # Clean up temporary files
-    # 清理临时文件
-    # -------------------------
-    os.remove("tmp_cfg_" + random_str + ".cfg")
-    os.remove("tmp_data_" + random_str + ".tmp")
-    os.remove("tmp_real.output")
-    os.remove("tmp_int.output")
-    os.remove("tmp_array.output")
-    os.remove("tmp_summary_" + random_str + ".tmp")
-
-    return save_dataset
+        return save_dataset
 
 
 def calc_redfit_cross(
@@ -669,991 +732,991 @@ def calc_redfit_cross(
         - Schulz, M., & Mudelsee, M. (2002). REDFIT: estimating red-noise spectra directly from unevenly spaced paleoclimatic time series [Software]. Computers & Geosciences, 28(3), 421-426. https://doi.org/10.1016/S0098-3004(01)00044-9
         - https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html
     """
+    with project_tmp_workdir(tmp_root, keep=keep_tmp) as wd:
+        # Generate datainput
+        # 生成数据
+        # -------------------------
 
-    # Generate datainput
-    # 生成数据
-    # -------------------------
+        random_str = gen_random_string(15)
 
-    random_str = gen_random_string(15)
+        #  -------------------------
+        def createdata(data, timearray, str_signal):
+            data_size = data.shape[0]
+            data_array = data.data
+            timestep_array = np.arange(data_size)
 
-    #  -------------------------
-    def createdata(data, timearray, str_signal):
-        data_size = data.shape[0]
-        data_array = data.data
-        timestep_array = np.arange(data_size)
+            if timearray is not None:
+                timestep_array = timearray
 
-        if timearray is not None:
-            timestep_array = timearray
+            data_pd = pd.DataFrame({"time_step": timestep_array, "value": data_array})
+            data_pd.to_csv(
+                "tmp_data_" + str_signal + "_" + random_str + ".tmp",
+                sep=" ",
+                header=None,
+                index=False,
+            )
 
-        data_pd = pd.DataFrame({"time_step": timestep_array, "value": data_array})
-        data_pd.to_csv(
-            "tmp_data_" + str_signal + "_" + random_str + ".tmp",
-            sep=" ",
-            header=None,
-            index=False,
+        createdata(data_x, timearray_x, "x")
+        createdata(data_y, timearray_y, "y")
+
+        if mctest == True and mctest_phi == True:
+            print(
+                "[Warning] Monte Carlo simulations need more time to calculate, please wait!"
+            )
+        elif mctest == False and mctest_phi == True:
+            error = f"""When mctest is `False`, mctest_phi should be `True`"""
+            raise ValueError(error)
+
+        # Generate cfg file
+        # 生成配置文件
+        # -------------------------
+
+        cfg_generate_cross(
+            "tmp_cfg_" + random_str + ".cfg",
+            fnin_1="tmp_data_x_" + random_str + ".tmp",
+            fnin_2="tmp_data_y_" + random_str + ".tmp",
+            fnout="tmp_cross_summary_" + random_str + ".tmp",
+            x_sign=x_sign,
+            y_sign=y_sign,
+            nsim=nsim,
+            mctest=mctest,
+            mctest_phi=mctest_phi,
+            rhopre_1=rhopre_1,
+            rhopre_2=rhopre_2,
+            ofac=ofac,
+            hifac=hifac,
+            n50=n50,
+            alpha=alpha,
+            iwin=iwin,
         )
 
-    createdata(data_x, timearray_x, "x")
-    createdata(data_y, timearray_y, "y")
+        # Python字符串处理
+        input_str = "tmp_cfg_" + random_str + ".cfg"
+        byte_str = input_str.encode("utf-8")  # 编码为字节
 
-    if mctest == True and mctest_phi == True:
-        print(
-            "[Warning] Monte Carlo simulations need more time to calculate, please wait!"
-        )
-    elif mctest == False and mctest_phi == True:
-        error = f"""When mctest is `False`, mctest_phi should be `True`"""
-        raise ValueError(error)
+        # 调整长度为80，用空字符填充
+        padded = byte_str.ljust(80, b"\0")[:80]
 
-    # Generate cfg file
-    # 生成配置文件
-    # -------------------------
+        # 创建C字符数组
+        cfg_array = (c_char * 80)(*padded)
 
-    cfg_generate_cross(
-        "tmp_cfg_" + random_str + ".cfg",
-        fnin_1="tmp_data_x_" + random_str + ".tmp",
-        fnin_2="tmp_data_y_" + random_str + ".tmp",
-        fnout="tmp_cross_summary_" + random_str + ".tmp",
-        x_sign=x_sign,
-        y_sign=y_sign,
-        nsim=nsim,
-        mctest=mctest,
-        mctest_phi=mctest_phi,
-        rhopre_1=rhopre_1,
-        rhopre_2=rhopre_2,
-        ofac=ofac,
-        hifac=hifac,
-        n50=n50,
-        alpha=alpha,
-        iwin=iwin,
-    )
+        # 调用Fortran子例程
+        _ecl_redfit_x.run_redfit_x(cfg_array)
 
-    # Python字符串处理
-    input_str = "tmp_cfg_" + random_str + ".cfg"
-    byte_str = input_str.encode("utf-8")  # 编码为字节
+        # Read data -gxx
+        # 读取生成数据 gxx
+        # -------------------------
+        # 浮点数数据
+        save_real = np.fromfile("tmp_real_gxx.output", dtype=np.float32)
+        (
+            ofac,
+            hifac,
+            varx,
+            avgdt,
+            rhox,
+            rhopre,
+            taux,
+            dof,
+            sixdB_Bandwidth,
+            cfal,
+            faccrit,
+        ) = save_real
+        # 整型数据
+        save_int = np.fromfile("tmp_int_gxx.output", dtype=np.int32)
+        n50, iwin, nsim, ntime, nout = save_int
+        # 数组数据
+        if mctest == True:
+            save_array_raw = np.fromfile("tmp_array_gxx.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((12, nout))
+        else:
+            save_array_raw = np.fromfile("tmp_array_gxx.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((9, nout))
 
-    # 调整长度为80，用空字符填充
-    padded = byte_str.ljust(80, b"\0")[:80]
-
-    # 创建C字符数组
-    cfg_array = (c_char * 80)(*padded)
-
-    # 调用Fortran子例程
-    _ecl_redfit_x.run_redfit_x(cfg_array)
-
-    # Read data -gxx
-    # 读取生成数据 gxx
-    # -------------------------
-    # 浮点数数据
-    save_real = np.fromfile("tmp_real_gxx.output", dtype=np.float32)
-    (
-        ofac,
-        hifac,
-        varx,
-        avgdt,
-        rhox,
-        rhopre,
-        taux,
-        dof,
-        sixdB_Bandwidth,
-        cfal,
-        faccrit,
-    ) = save_real
-    # 整型数据
-    save_int = np.fromfile("tmp_int_gxx.output", dtype=np.int32)
-    n50, iwin, nsim, ntime, nout = save_int
-    # 数组数据
-    if mctest == True:
-        save_array_raw = np.fromfile("tmp_array_gxx.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((12, nout))
-    else:
-        save_array_raw = np.fromfile("tmp_array_gxx.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((9, nout))
-
-    # 生成 Dataset
-    gxx = xr.DataArray(
-        save_array[1, :],
-        name="gxx",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "spectrum of input data"},
-    )
-    gxx_corr = xr.DataArray(
-        save_array[2, :],
-        name="gxx_corr",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "bias-corrected spectrum of input data"},
-    )
-    gred_th = xr.DataArray(
-        save_array[3, :],
-        name="gred_th",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "theoretical AR(1) spectrum"},
-    )
-    gred = xr.DataArray(
-        save_array[4, :],
-        name="gred",
-        coords=[("freq", save_array[0, :])],
-        attrs={
-            "Description": "average spectrum of Nsim AR(1) time series (uncorrected)"
-        },
-    )
-    corrfac = xr.DataArray(
-        save_array[5, :],
-        name="corrFac",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "Gxx / Gxx_corr"},
-    )
-    chi2_90 = xr.DataArray(
-        save_array[6, :],
-        name="chi2_90",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "90-% false-alarm level (Chi^2)"},
-    )
-    chi2_95 = xr.DataArray(
-        save_array[7, :],
-        name="chi2_95",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "95-% false-alarm level (Chi^2)"},
-    )
-    chi2_99 = xr.DataArray(
-        save_array[8, :],
-        name="chi2_99",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "99-% false-alarm level (Chi^2)"},
-    )
-
-    if mctest == True:
-        ci90 = xr.DataArray(
-            save_array[9, :],
-            name="ci90",
+        # 生成 Dataset
+        gxx = xr.DataArray(
+            save_array[1, :],
+            name="gxx",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            attrs={"Description": "spectrum of input data"},
         )
-        ci95 = xr.DataArray(
-            save_array[10, :],
-            name="ci95",
+        gxx_corr = xr.DataArray(
+            save_array[2, :],
+            name="gxx_corr",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            attrs={"Description": "bias-corrected spectrum of input data"},
         )
-        ci99 = xr.DataArray(
-            save_array[11, :],
-            name="ci99",
+        gred_th = xr.DataArray(
+            save_array[3, :],
+            name="gred_th",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            attrs={"Description": "theoretical AR(1) spectrum"},
         )
-
-    # Merge dataset
-    if mctest == True:
-        save_dataset_gxx = xr.merge(
-            [
-                gxx,
-                gxx_corr,
-                gred_th,
-                gred,
-                corrfac,
-                chi2_90,
-                chi2_95,
-                chi2_99,
-                ci90,
-                ci95,
-                ci99,
-            ]
-        )
-    else:
-        save_dataset_gxx = xr.merge(
-            [gxx, gxx_corr, gred_th, gred, corrfac, chi2_90, chi2_95, chi2_99]
-        )
-
-    # Add attribution
-    save_dataset_gxx.attrs["Input"] = (
-        "OFAC = "
-        + str(ofac)
-        + ", HIFAC = "
-        + str(hifac)
-        + ", n50 = "
-        + str(n50)
-        + ", Iwin = "
-        + str(iwin)
-        + ", Nsim = "
-        + str(nsim)
-    )
-    save_dataset_gxx.attrs["Initial values"] = (
-        "Data variance (from data spectrum) = "
-        + str(varx)
-        + ", Avg. dt = "
-        + str(avgdt)
-    )
-
-    if rhopre < 0:
-        save_dataset_gxx.attrs["Results"] = (
-            "Avg. autocorr. coeff., rho = "
-            + str(rhox)
-            + ", Avg. tau = "
-            + str(taux)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-            + ", Critical false-alarm level (Thomson, 1990) = "
-            + str(cfal)
-            + ",  ==> corresponding scaling factor for red noise = "
-            + str(faccrit)
-        )
-    else:
-        save_dataset_gxx.attrs["Results"] = (
-            "PRESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre)
-            + ", Avg. tau = "
-            + str(taux)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-            + ", Critical false-alarm level (Thomson, 1990) = "
-            + str(cfal)
-            + ",  ==> corresponding scaling factor for red noise = "
-            + str(faccrit)
-        )
-
-    save_dataset_gxx.attrs["Elapsed time"] = str(ntime) + " [s]"
-
-    save_dataset_gxx.attrs["Description"] = (
-        "(Autospectrum for the 1st time series) Cross-spectral analysis of unevenly spaced paleoclimate time series."
-    )
-    save_dataset_gxx.attrs["About"] = (
-        "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
-    )
-    save_dataset_gxx.attrs["Reference"] = (
-        "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18. https://doi.org/10.1016/S0098-3004(01)00044-9"
-    )
-    save_dataset_gxx.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
-    )
-
-    # Add coordinate period (reciprocal of frequency)
-    save_dataset_gxx = save_dataset_gxx.assign_coords(
-        {"period": 1 / save_dataset_gxx.freq}
-    )
-
-    # Read data -gyy
-    # 读取生成数据 gyy
-    # -------------------------
-    # 浮点数数据
-    save_real = np.fromfile("tmp_real_gyy.output", dtype=np.float32)
-    (
-        ofac,
-        hifac,
-        vary,
-        avgdt,
-        rhoy,
-        rhopre,
-        tauy,
-        dof,
-        sixdB_Bandwidth,
-        cfal,
-        faccrit,
-    ) = save_real
-    # 整型数据
-    save_int = np.fromfile("tmp_int_gyy.output", dtype=np.int32)
-    n50, iwin, nsim, ntime, nout = save_int
-    # 数组数据
-    if mctest == True:
-        save_array_raw = np.fromfile("tmp_array_gyy.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((12, nout))
-    else:
-        save_array_raw = np.fromfile("tmp_array_gyy.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((9, nout))
-
-    # 生成 Dataset
-    gyy = xr.DataArray(
-        save_array[1, :],
-        name="gyy",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "spectrum of input data"},
-    )
-    gyy_corr = xr.DataArray(
-        save_array[2, :],
-        name="gyy_corr",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "bias-corrected spectrum of input data"},
-    )
-    gred_th = xr.DataArray(
-        save_array[3, :],
-        name="gred_th",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "theoretical AR(1) spectrum"},
-    )
-    gred = xr.DataArray(
-        save_array[4, :],
-        name="gred",
-        coords=[("freq", save_array[0, :])],
-        attrs={
-            "Description": "average spectrum of Nsim AR(1) time series (uncorrected)"
-        },
-    )
-    corrfac = xr.DataArray(
-        save_array[5, :],
-        name="corrFac",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "Gxx / Gxx_corr"},
-    )
-    chi2_90 = xr.DataArray(
-        save_array[6, :],
-        name="chi2_90",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "90-% false-alarm level (Chi^2)"},
-    )
-    chi2_95 = xr.DataArray(
-        save_array[7, :],
-        name="chi2_95",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "95-% false-alarm level (Chi^2)"},
-    )
-    chi2_99 = xr.DataArray(
-        save_array[8, :],
-        name="chi2_99",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "99-% false-alarm level (Chi^2)"},
-    )
-
-    if mctest == True:
-        ci90 = xr.DataArray(
-            save_array[9, :],
-            name="ci90",
+        gred = xr.DataArray(
+            save_array[4, :],
+            name="gred",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            attrs={
+                "Description": "average spectrum of Nsim AR(1) time series (uncorrected)"
+            },
         )
-        ci95 = xr.DataArray(
-            save_array[10, :],
-            name="ci95",
+        corrfac = xr.DataArray(
+            save_array[5, :],
+            name="corrFac",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            attrs={"Description": "Gxx / Gxx_corr"},
         )
-        ci99 = xr.DataArray(
-            save_array[11, :],
-            name="ci99",
+        chi2_90 = xr.DataArray(
+            save_array[6, :],
+            name="chi2_90",
             coords=[("freq", save_array[0, :])],
-            attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            attrs={"Description": "90-% false-alarm level (Chi^2)"},
+        )
+        chi2_95 = xr.DataArray(
+            save_array[7, :],
+            name="chi2_95",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "95-% false-alarm level (Chi^2)"},
+        )
+        chi2_99 = xr.DataArray(
+            save_array[8, :],
+            name="chi2_99",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "99-% false-alarm level (Chi^2)"},
         )
 
-    # Merge dataset
-    if mctest == True:
-        save_dataset_gyy = xr.merge(
-            [
-                gyy,
-                gyy_corr,
-                gred_th,
-                gred,
-                corrfac,
-                chi2_90,
-                chi2_95,
-                chi2_99,
-                ci90,
-                ci95,
-                ci99,
-            ]
-        )
-    else:
-        save_dataset_gyy = xr.merge(
-            [gyy, gyy_corr, gred_th, gred, corrfac, chi2_90, chi2_95, chi2_99]
-        )
+        if mctest == True:
+            ci90 = xr.DataArray(
+                save_array[9, :],
+                name="ci90",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            )
+            ci95 = xr.DataArray(
+                save_array[10, :],
+                name="ci95",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            )
+            ci99 = xr.DataArray(
+                save_array[11, :],
+                name="ci99",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            )
 
-    # Add attribution
-    save_dataset_gyy.attrs["Input"] = (
-        "OFAC = "
-        + str(ofac)
-        + ", HIFAC = "
-        + str(hifac)
-        + ", n50 = "
-        + str(n50)
-        + ", Iwin = "
-        + str(iwin)
-        + ", Nsim = "
-        + str(nsim)
-    )
-    save_dataset_gyy.attrs["Initial values"] = (
-        "Data variance (from data spectrum) = "
-        + str(vary)
-        + ", Avg. dt = "
-        + str(avgdt)
-    )
+        # Merge dataset
+        if mctest == True:
+            save_dataset_gxx = xr.merge(
+                [
+                    gxx,
+                    gxx_corr,
+                    gred_th,
+                    gred,
+                    corrfac,
+                    chi2_90,
+                    chi2_95,
+                    chi2_99,
+                    ci90,
+                    ci95,
+                    ci99,
+                ]
+            )
+        else:
+            save_dataset_gxx = xr.merge(
+                [gxx, gxx_corr, gred_th, gred, corrfac, chi2_90, chi2_95, chi2_99]
+            )
 
-    if rhopre < 0:
-        save_dataset_gyy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rho = "
-            + str(rhoy)
-            + ", Avg. tau = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-            + ", Critical false-alarm level (Thomson, 1990) = "
-            + str(cfal)
-            + ",  ==> corresponding scaling factor for red noise = "
-            + str(faccrit)
+        # Add attribution
+        save_dataset_gxx.attrs["Input"] = (
+            "OFAC = "
+            + str(ofac)
+            + ", HIFAC = "
+            + str(hifac)
+            + ", n50 = "
+            + str(n50)
+            + ", Iwin = "
+            + str(iwin)
+            + ", Nsim = "
+            + str(nsim)
         )
-    else:
-        save_dataset_gyy.attrs["Results"] = (
-            "PRESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre)
-            + ", Avg. tau = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-            + ", Critical false-alarm level (Thomson, 1990) = "
-            + str(cfal)
-            + ",  ==> corresponding scaling factor for red noise = "
-            + str(faccrit)
+        save_dataset_gxx.attrs["Initial values"] = (
+            "Data variance (from data spectrum) = "
+            + str(varx)
+            + ", Avg. dt = "
+            + str(avgdt)
         )
 
-    save_dataset_gyy.attrs["Elapsed time"] = str(ntime) + " [s]"
+        if rhopre < 0:
+            save_dataset_gxx.attrs["Results"] = (
+                "Avg. autocorr. coeff., rho = "
+                + str(rhox)
+                + ", Avg. tau = "
+                + str(taux)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+                + ", Critical false-alarm level (Thomson, 1990) = "
+                + str(cfal)
+                + ",  ==> corresponding scaling factor for red noise = "
+                + str(faccrit)
+            )
+        else:
+            save_dataset_gxx.attrs["Results"] = (
+                "PRESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre)
+                + ", Avg. tau = "
+                + str(taux)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+                + ", Critical false-alarm level (Thomson, 1990) = "
+                + str(cfal)
+                + ",  ==> corresponding scaling factor for red noise = "
+                + str(faccrit)
+            )
 
-    save_dataset_gyy.attrs["Description"] = (
-        "(Autospectrum for the 2nd time series) Cross-spectral analysis of unevenly spaced paleoclimate time series."
-    )
-    save_dataset_gyy.attrs["About"] = (
-        "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
-    )
-    save_dataset_gyy.attrs["Reference"] = (
-        "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
-    )
-    save_dataset_gyy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
-    )
-    # Add coordinate period (reciprocal of frequency)
-    save_dataset_gyy = save_dataset_gyy.assign_coords(
-        {"period": 1 / save_dataset_gyy.freq}
-    )
+        save_dataset_gxx.attrs["Elapsed time"] = str(ntime) + " [s]"
 
-    # Read data -gxy
-    # 读取生成数据 gxy
-    # -------------------------
-    # 浮点数数据
-    save_real = np.fromfile("tmp_real_gxy.output", dtype=np.float32)
-    (
-        ofac,
-        hifac,
-        alpha,
-        avgdty,
-        rhox,
-        rhopre_1,
-        rhoy,
-        rhopre_2,
-        taux,
-        tauy,
-        dof,
-        sixdB_Bandwidth,
-    ) = save_real
-    # 整型数据
-    save_int = np.fromfile("tmp_int_gxy.output", dtype=np.int32)
-    n50, iwin, nsim, ntime, nout = save_int
-    # 数组数据
-    save_array_raw = np.fromfile("tmp_array_gxy.output", dtype=np.float32)
-    save_array = save_array_raw.reshape((2, nout))
-
-    # 生成 Dataset
-    gxy = xr.DataArray(
-        save_array[1, :],
-        name="gxy",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "cross-spectrum of input data"},
-    )
-
-    save_dataset_gxy = gxy.to_dataset()
-
-    # Add attribution
-    save_dataset_gxy.attrs["Description"] = (
-        "(Cross-spectrum) Cross-spectral analysis of unevenly spaced paleoclimate time series."
-    )
-
-    save_dataset_gxy.attrs["Input"] = (
-        "OFAC = "
-        + str(ofac)
-        + ", HIFAC = "
-        + str(hifac)
-        + ", n50 = "
-        + str(n50)
-        + ", Iwin = "
-        + str(iwin)
-        + ", Nsim = "
-        + str(nsim)
-        + ", Level of signif. = "
-        + str(alpha)
-    )
-    save_dataset_gxy.attrs["Initial values"] = "Avg. dtxy = " + str(avgdty)
-
-    if (rhopre_1 < 0) and (rhopre_2 < 0):
-        save_dataset_gxy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rhox = "
-            + str(rhox)
-            + ", Avg. autocorr. coeff., rhoy = "
-            + str(rhoy)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_gxx.attrs["Description"] = (
+            "(Autospectrum for the 1st time series) Cross-spectral analysis of unevenly spaced paleoclimate time series."
         )
-    elif (rhopre_1 >= 0) and (rhopre_2 < 0):
-        save_dataset_gxy.attrs["Results"] = (
-            "RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_1)
-            + ", Avg. autocorr. coeff., rhoy = "
-            + str(rhoy)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_gxx.attrs["About"] = (
+            "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
         )
-    elif (rhopre_1 < 0) and (rhopre_2 >= 0):
-        save_dataset_gxy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rhox = "
-            + str(rhox)
-            + ", RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_2)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_gxx.attrs["Reference"] = (
+            "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18. https://doi.org/10.1016/S0098-3004(01)00044-9"
         )
-    elif (rhopre_1 >= 0) and (rhopre_2 >= 0):
-        save_dataset_gxy.attrs["Results"] = (
-            "RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_1)
-            + ", RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_2)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_gxx.attrs["Python platform"] = (
+            "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
         )
-    else:
-        raise ValueError("There are some internal mistake in data process.")
 
-    save_dataset_gxy.attrs["Elapsed time"] = str(ntime) + " [s]"
-    save_dataset_gxy.attrs["About"] = (
-        "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
-    )
-    save_dataset_gxy.attrs["Reference"] = (
-        "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
-    )
-    save_dataset_gxy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
-    )
-    # Add coordinate period (reciprocal of frequency)
-    save_dataset_gxy = save_dataset_gxy.assign_coords(
-        {"period": 1 / save_dataset_gxy.freq}
-    )
+        # Add coordinate period (reciprocal of frequency)
+        save_dataset_gxx = save_dataset_gxx.assign_coords(
+            {"period": 1 / save_dataset_gxx.freq}
+        )
 
-    # Read data -cxy
-    # 读取生成数据 cxy
-    # -------------------------
-    # 浮点数数据
-    save_real = np.fromfile("tmp_real_cxy.output", dtype=np.float32)
-    (
-        ofac,
-        hifac,
-        alpha,
-        avgdty,
-        rhox,
-        rhopre_1,
-        rhoy,
-        rhopre_2,
-        taux,
-        tauy,
-        dof,
-        sixdB_Bandwidth,
-        csig_value,
-        csig_mc_value,
-    ) = save_real
-    # 整型数据
-    save_int = np.fromfile("tmp_int_cxy.output", dtype=np.int32)
-    n50, iwin, nsim, ntime, nout = save_int
-    # 数组数据
-    if mctest == True:
-        save_array_raw = np.fromfile("tmp_array_cxy.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((5, nout))
-    else:
-        save_array_raw = np.fromfile("tmp_array_cxy.output", dtype=np.float32)
+        # Read data -gyy
+        # 读取生成数据 gyy
+        # -------------------------
+        # 浮点数数据
+        save_real = np.fromfile("tmp_real_gyy.output", dtype=np.float32)
+        (
+            ofac,
+            hifac,
+            vary,
+            avgdt,
+            rhoy,
+            rhopre,
+            tauy,
+            dof,
+            sixdB_Bandwidth,
+            cfal,
+            faccrit,
+        ) = save_real
+        # 整型数据
+        save_int = np.fromfile("tmp_int_gyy.output", dtype=np.int32)
+        n50, iwin, nsim, ntime, nout = save_int
+        # 数组数据
+        if mctest == True:
+            save_array_raw = np.fromfile("tmp_array_gyy.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((12, nout))
+        else:
+            save_array_raw = np.fromfile("tmp_array_gyy.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((9, nout))
+
+        # 生成 Dataset
+        gyy = xr.DataArray(
+            save_array[1, :],
+            name="gyy",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "spectrum of input data"},
+        )
+        gyy_corr = xr.DataArray(
+            save_array[2, :],
+            name="gyy_corr",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "bias-corrected spectrum of input data"},
+        )
+        gred_th = xr.DataArray(
+            save_array[3, :],
+            name="gred_th",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "theoretical AR(1) spectrum"},
+        )
+        gred = xr.DataArray(
+            save_array[4, :],
+            name="gred",
+            coords=[("freq", save_array[0, :])],
+            attrs={
+                "Description": "average spectrum of Nsim AR(1) time series (uncorrected)"
+            },
+        )
+        corrfac = xr.DataArray(
+            save_array[5, :],
+            name="corrFac",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "Gxx / Gxx_corr"},
+        )
+        chi2_90 = xr.DataArray(
+            save_array[6, :],
+            name="chi2_90",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "90-% false-alarm level (Chi^2)"},
+        )
+        chi2_95 = xr.DataArray(
+            save_array[7, :],
+            name="chi2_95",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "95-% false-alarm level (Chi^2)"},
+        )
+        chi2_99 = xr.DataArray(
+            save_array[8, :],
+            name="chi2_99",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "99-% false-alarm level (Chi^2)"},
+        )
+
+        if mctest == True:
+            ci90 = xr.DataArray(
+                save_array[9, :],
+                name="ci90",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            )
+            ci95 = xr.DataArray(
+                save_array[10, :],
+                name="ci95",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            )
+            ci99 = xr.DataArray(
+                save_array[11, :],
+                name="ci99",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            )
+
+        # Merge dataset
+        if mctest == True:
+            save_dataset_gyy = xr.merge(
+                [
+                    gyy,
+                    gyy_corr,
+                    gred_th,
+                    gred,
+                    corrfac,
+                    chi2_90,
+                    chi2_95,
+                    chi2_99,
+                    ci90,
+                    ci95,
+                    ci99,
+                ]
+            )
+        else:
+            save_dataset_gyy = xr.merge(
+                [gyy, gyy_corr, gred_th, gred, corrfac, chi2_90, chi2_95, chi2_99]
+            )
+
+        # Add attribution
+        save_dataset_gyy.attrs["Input"] = (
+            "OFAC = "
+            + str(ofac)
+            + ", HIFAC = "
+            + str(hifac)
+            + ", n50 = "
+            + str(n50)
+            + ", Iwin = "
+            + str(iwin)
+            + ", Nsim = "
+            + str(nsim)
+        )
+        save_dataset_gyy.attrs["Initial values"] = (
+            "Data variance (from data spectrum) = "
+            + str(vary)
+            + ", Avg. dt = "
+            + str(avgdt)
+        )
+
+        if rhopre < 0:
+            save_dataset_gyy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rho = "
+                + str(rhoy)
+                + ", Avg. tau = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+                + ", Critical false-alarm level (Thomson, 1990) = "
+                + str(cfal)
+                + ",  ==> corresponding scaling factor for red noise = "
+                + str(faccrit)
+            )
+        else:
+            save_dataset_gyy.attrs["Results"] = (
+                "PRESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre)
+                + ", Avg. tau = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+                + ", Critical false-alarm level (Thomson, 1990) = "
+                + str(cfal)
+                + ",  ==> corresponding scaling factor for red noise = "
+                + str(faccrit)
+            )
+
+        save_dataset_gyy.attrs["Elapsed time"] = str(ntime) + " [s]"
+
+        save_dataset_gyy.attrs["Description"] = (
+            "(Autospectrum for the 2nd time series) Cross-spectral analysis of unevenly spaced paleoclimate time series."
+        )
+        save_dataset_gyy.attrs["About"] = (
+            "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
+        )
+        save_dataset_gyy.attrs["Reference"] = (
+            "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
+        )
+        save_dataset_gyy.attrs["Python platform"] = (
+            "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
+        )
+        # Add coordinate period (reciprocal of frequency)
+        save_dataset_gyy = save_dataset_gyy.assign_coords(
+            {"period": 1 / save_dataset_gyy.freq}
+        )
+
+        # Read data -gxy
+        # 读取生成数据 gxy
+        # -------------------------
+        # 浮点数数据
+        save_real = np.fromfile("tmp_real_gxy.output", dtype=np.float32)
+        (
+            ofac,
+            hifac,
+            alpha,
+            avgdty,
+            rhox,
+            rhopre_1,
+            rhoy,
+            rhopre_2,
+            taux,
+            tauy,
+            dof,
+            sixdB_Bandwidth,
+        ) = save_real
+        # 整型数据
+        save_int = np.fromfile("tmp_int_gxy.output", dtype=np.int32)
+        n50, iwin, nsim, ntime, nout = save_int
+        # 数组数据
+        save_array_raw = np.fromfile("tmp_array_gxy.output", dtype=np.float32)
         save_array = save_array_raw.reshape((2, nout))
 
-    # 生成 Dataset
-    cxy = xr.DataArray(
-        save_array[1, :],
-        name="cxy",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "Coherency-spectrum of input data"},
-    )
-    csig = xr.DataArray(
-        np.full((nout), csig_value),
-        name="csig",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "Theoretical False alarm level"},
-    )
-    csig_mc = xr.DataArray(
-        np.full((nout), csig_mc_value),
-        name="csig_mc",
-        coords=[("freq", save_array[0, :])],
-        attrs={
-            "Description": "MC-CSig = Mean Monte Carlo false-alarm level (for alpha = "
+        # 生成 Dataset
+        gxy = xr.DataArray(
+            save_array[1, :],
+            name="gxy",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "cross-spectrum of input data"},
+        )
+
+        save_dataset_gxy = gxy.to_dataset()
+
+        # Add attribution
+        save_dataset_gxy.attrs["Description"] = (
+            "(Cross-spectrum) Cross-spectral analysis of unevenly spaced paleoclimate time series."
+        )
+
+        save_dataset_gxy.attrs["Input"] = (
+            "OFAC = "
+            + str(ofac)
+            + ", HIFAC = "
+            + str(hifac)
+            + ", n50 = "
+            + str(n50)
+            + ", Iwin = "
+            + str(iwin)
+            + ", Nsim = "
+            + str(nsim)
+            + ", Level of signif. = "
             + str(alpha)
-        },
-    )
-
-    if mctest == True:
-        ci90 = xr.DataArray(
-            save_array[2, :],
-            name="ci90",
-            coords=[("freq", save_array[0, :])],
-            attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
         )
-        ci95 = xr.DataArray(
-            save_array[3, :],
-            name="ci95",
-            coords=[("freq", save_array[0, :])],
-            attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+        save_dataset_gxy.attrs["Initial values"] = "Avg. dtxy = " + str(avgdty)
+
+        if (rhopre_1 < 0) and (rhopre_2 < 0):
+            save_dataset_gxy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rhox = "
+                + str(rhox)
+                + ", Avg. autocorr. coeff., rhoy = "
+                + str(rhoy)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 >= 0) and (rhopre_2 < 0):
+            save_dataset_gxy.attrs["Results"] = (
+                "RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_1)
+                + ", Avg. autocorr. coeff., rhoy = "
+                + str(rhoy)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 < 0) and (rhopre_2 >= 0):
+            save_dataset_gxy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rhox = "
+                + str(rhox)
+                + ", RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_2)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 >= 0) and (rhopre_2 >= 0):
+            save_dataset_gxy.attrs["Results"] = (
+                "RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_1)
+                + ", RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_2)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        else:
+            raise ValueError("There are some internal mistake in data process.")
+
+        save_dataset_gxy.attrs["Elapsed time"] = str(ntime) + " [s]"
+        save_dataset_gxy.attrs["About"] = (
+            "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
         )
-        ci99 = xr.DataArray(
-            save_array[4, :],
-            name="ci99",
-            coords=[("freq", save_array[0, :])],
-            attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+        save_dataset_gxy.attrs["Reference"] = (
+            "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
+        )
+        save_dataset_gxy.attrs["Python platform"] = (
+            "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
+        )
+        # Add coordinate period (reciprocal of frequency)
+        save_dataset_gxy = save_dataset_gxy.assign_coords(
+            {"period": 1 / save_dataset_gxy.freq}
         )
 
-    # Merge dataset
-    if mctest == True:
-        save_dataset_cxy = xr.merge([cxy, csig, csig_mc, ci90, ci95, ci99])
-    else:
-        save_dataset_cxy = xr.merge([cxy, csig, csig_mc])
+        # Read data -cxy
+        # 读取生成数据 cxy
+        # -------------------------
+        # 浮点数数据
+        save_real = np.fromfile("tmp_real_cxy.output", dtype=np.float32)
+        (
+            ofac,
+            hifac,
+            alpha,
+            avgdty,
+            rhox,
+            rhopre_1,
+            rhoy,
+            rhopre_2,
+            taux,
+            tauy,
+            dof,
+            sixdB_Bandwidth,
+            csig_value,
+            csig_mc_value,
+        ) = save_real
+        # 整型数据
+        save_int = np.fromfile("tmp_int_cxy.output", dtype=np.int32)
+        n50, iwin, nsim, ntime, nout = save_int
+        # 数组数据
+        if mctest == True:
+            save_array_raw = np.fromfile("tmp_array_cxy.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((5, nout))
+        else:
+            save_array_raw = np.fromfile("tmp_array_cxy.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((2, nout))
 
-    # Add attribution
-    save_dataset_cxy.attrs["Description"] = (
-        "(Coherency spectrum) Cross-spectral analysis of unevenly spaced paleoclimate time series."
-    )
-
-    save_dataset_cxy.attrs["Input"] = (
-        "OFAC = "
-        + str(ofac)
-        + ", HIFAC = "
-        + str(hifac)
-        + ", n50 = "
-        + str(n50)
-        + ", Iwin = "
-        + str(iwin)
-        + ", Nsim = "
-        + str(nsim)
-        + ", Level of signif. = "
-        + str(alpha)
-    )
-    save_dataset_cxy.attrs["Initial values"] = "Avg. dtxy = " + str(avgdty)
-
-    if (rhopre_1 < 0) and (rhopre_2 < 0):
-        save_dataset_cxy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rhox = "
-            + str(rhox)
-            + ", Avg. autocorr. coeff., rhoy = "
-            + str(rhoy)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-        )
-    elif (rhopre_1 >= 0) and (rhopre_2 < 0):
-        save_dataset_cxy.attrs["Results"] = (
-            "RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_1)
-            + ", Avg. autocorr. coeff., rhoy = "
-            + str(rhoy)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-        )
-    elif (rhopre_1 < 0) and (rhopre_2 >= 0):
-        save_dataset_cxy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rhox = "
-            + str(rhox)
-            + ", RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_2)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-        )
-    elif (rhopre_1 >= 0) and (rhopre_2 >= 0):
-        save_dataset_cxy.attrs["Results"] = (
-            "RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_1)
-            + ", RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_2)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
-        )
-    else:
-        raise ValueError("There are some internal mistake in data process.")
-
-    save_dataset_cxy.attrs["Elapsed time"] = str(ntime) + " [s]"
-    save_dataset_cxy.attrs["About"] = (
-        "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
-    )
-    save_dataset_cxy.attrs["Reference"] = (
-        "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
-    )
-    save_dataset_cxy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
-    )
-    # Add coordinate period (reciprocal of frequency)
-    save_dataset_cxy = save_dataset_cxy.assign_coords(
-        {"period": 1 / save_dataset_cxy.freq}
-    )
-
-    # Read data -phxy
-    # 读取生成数据 phxy
-    # -------------------------
-    # 浮点数数据
-    save_real = np.fromfile("tmp_real_phxy.output", dtype=np.float32)
-    (
-        ofac,
-        hifac,
-        alpha,
-        avgdty,
-        rhox,
-        rhopre_1,
-        rhoy,
-        rhopre_2,
-        taux,
-        tauy,
-        dof,
-        sixdB_Bandwidth,
-    ) = save_real
-    # 整型数据
-    save_int = np.fromfile("tmp_int_phxy.output", dtype=np.int32)
-    n50, iwin, nsim, ntime, nout = save_int
-    # 数组数据
-    if mctest == True and mctest_phi == True:
-        save_array_raw = np.fromfile("tmp_array_phxy.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((6, nout))
-    else:
-        save_array_raw = np.fromfile("tmp_array_phxy.output", dtype=np.float32)
-        save_array = save_array_raw.reshape((4, nout))
-
-    # 生成 Dataset
-    phxy = xr.DataArray(
-        save_array[1, :],
-        name="phxy",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "Coherency-spectrum of input data"},
-    )
-    ephi_lower = xr.DataArray(
-        save_array[1, :],
-        name="ephi_lower",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "CI-low = Theoretical Confidence Interval - lower"},
-    )
-    ephi_upper = xr.DataArray(
-        save_array[1, :],
-        name="ephi_upper",
-        coords=[("freq", save_array[0, :])],
-        attrs={"Description": "CI-up =  Theoretical Confidence Interval - upper"},
-    )
-
-    if mctest == True and mctest_phi == True:
-        ephi_mc_lower = xr.DataArray(
+        # 生成 Dataset
+        cxy = xr.DataArray(
             save_array[1, :],
-            name="ephi_mc_lower",
+            name="cxy",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "Coherency-spectrum of input data"},
+        )
+        csig = xr.DataArray(
+            np.full((nout), csig_value),
+            name="csig",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "Theoretical False alarm level"},
+        )
+        csig_mc = xr.DataArray(
+            np.full((nout), csig_mc_value),
+            name="csig_mc",
             coords=[("freq", save_array[0, :])],
             attrs={
-                "Description": "CI-mc-low = Monte Carlo Confidence Interval - lower   (percentiles)"
-            },
-        )
-        ephi_mc_upper = xr.DataArray(
-            save_array[1, :],
-            name="ephi_mc_upper",
-            coords=[("freq", save_array[0, :])],
-            attrs={
-                "Description": "CI-mc-up =  Monte Carlo Confidence Interval - upper   (percentiles)"
+                "Description": "MC-CSig = Mean Monte Carlo false-alarm level (for alpha = "
+                + str(alpha)
             },
         )
 
-    # Merge dataset
-    if mctest == True and mctest_phi == True:
-        save_dataset_phxy = xr.merge(
-            [phxy, ephi_lower, ephi_upper, ephi_mc_lower, ephi_mc_upper]
+        if mctest == True:
+            ci90 = xr.DataArray(
+                save_array[2, :],
+                name="ci90",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "90%-MC = 90-% false-alarm level (MC)"},
+            )
+            ci95 = xr.DataArray(
+                save_array[3, :],
+                name="ci95",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "95%-MC = 95-% false-alarm level (MC)"},
+            )
+            ci99 = xr.DataArray(
+                save_array[4, :],
+                name="ci99",
+                coords=[("freq", save_array[0, :])],
+                attrs={"Description": "99%-MC = 99-% false-alarm level (MC)"},
+            )
+
+        # Merge dataset
+        if mctest == True:
+            save_dataset_cxy = xr.merge([cxy, csig, csig_mc, ci90, ci95, ci99])
+        else:
+            save_dataset_cxy = xr.merge([cxy, csig, csig_mc])
+
+        # Add attribution
+        save_dataset_cxy.attrs["Description"] = (
+            "(Coherency spectrum) Cross-spectral analysis of unevenly spaced paleoclimate time series."
         )
-    else:
-        save_dataset_phxy = xr.merge([phxy, ephi_lower, ephi_upper])
 
-    # Add attribution
-    save_dataset_phxy.attrs["Description"] = (
-        "(Phase spectrum) Cross-spectral analysis of unevenly spaced paleoclimate time series."
-    )
-
-    save_dataset_phxy.attrs["Input"] = (
-        "OFAC = "
-        + str(ofac)
-        + ", HIFAC = "
-        + str(hifac)
-        + ", n50 = "
-        + str(n50)
-        + ", Iwin = "
-        + str(iwin)
-        + ", Nsim = "
-        + str(nsim)
-        + ", Level of signif. = "
-        + str(alpha)
-    )
-    save_dataset_phxy.attrs["Initial values"] = "Avg. dtxy = " + str(avgdty)
-
-    if (rhopre_1 < 0) and (rhopre_2 < 0):
-        save_dataset_phxy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rhox = "
-            + str(rhox)
-            + ", Avg. autocorr. coeff., rhoy = "
-            + str(rhoy)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_cxy.attrs["Input"] = (
+            "OFAC = "
+            + str(ofac)
+            + ", HIFAC = "
+            + str(hifac)
+            + ", n50 = "
+            + str(n50)
+            + ", Iwin = "
+            + str(iwin)
+            + ", Nsim = "
+            + str(nsim)
+            + ", Level of signif. = "
+            + str(alpha)
         )
-    elif (rhopre_1 >= 0) and (rhopre_2 < 0):
-        save_dataset_phxy.attrs["Results"] = (
-            "RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_1)
-            + ", Avg. autocorr. coeff., rhoy = "
-            + str(rhoy)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_cxy.attrs["Initial values"] = "Avg. dtxy = " + str(avgdty)
+
+        if (rhopre_1 < 0) and (rhopre_2 < 0):
+            save_dataset_cxy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rhox = "
+                + str(rhox)
+                + ", Avg. autocorr. coeff., rhoy = "
+                + str(rhoy)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 >= 0) and (rhopre_2 < 0):
+            save_dataset_cxy.attrs["Results"] = (
+                "RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_1)
+                + ", Avg. autocorr. coeff., rhoy = "
+                + str(rhoy)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 < 0) and (rhopre_2 >= 0):
+            save_dataset_cxy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rhox = "
+                + str(rhox)
+                + ", RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_2)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 >= 0) and (rhopre_2 >= 0):
+            save_dataset_cxy.attrs["Results"] = (
+                "RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_1)
+                + ", RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_2)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        else:
+            raise ValueError("There are some internal mistake in data process.")
+
+        save_dataset_cxy.attrs["Elapsed time"] = str(ntime) + " [s]"
+        save_dataset_cxy.attrs["About"] = (
+            "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
         )
-    elif (rhopre_1 < 0) and (rhopre_2 >= 0):
-        save_dataset_phxy.attrs["Results"] = (
-            "Avg. autocorr. coeff., rhox = "
-            + str(rhox)
-            + ", RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_2)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_cxy.attrs["Reference"] = (
+            "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
         )
-    elif (rhopre_1 >= 0) and (rhopre_2 >= 0):
-        save_dataset_phxy.attrs["Results"] = (
-            "RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_1)
-            + ", RESCRIBED avg. autocorr. coeff., rho = "
-            + str(rhopre_2)
-            + ", Avg. taux = "
-            + str(taux)
-            + ", Avg. tauy = "
-            + str(tauy)
-            + ", Degrees of freedom = "
-            + str(dof)
-            + ", 6-dB Bandwidth = "
-            + str(sixdB_Bandwidth)
+        save_dataset_cxy.attrs["Python platform"] = (
+            "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
         )
-    else:
-        raise ValueError("There are some internal mistake in data process.")
+        # Add coordinate period (reciprocal of frequency)
+        save_dataset_cxy = save_dataset_cxy.assign_coords(
+            {"period": 1 / save_dataset_cxy.freq}
+        )
 
-    save_dataset_phxy.attrs["Elapsed time"] = str(ntime) + " [s]"
-    save_dataset_phxy.attrs["About"] = (
-        "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
-    )
-    save_dataset_phxy.attrs["Reference"] = (
-        "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
-    )
-    save_dataset_phxy.attrs["Python platform"] = (
-        "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
-    )
-    # Add coordinate period (reciprocal of frequency)
-    save_dataset_phxy = save_dataset_phxy.assign_coords(
-        {"period": 1 / save_dataset_phxy.freq}
-    )
+        # Read data -phxy
+        # 读取生成数据 phxy
+        # -------------------------
+        # 浮点数数据
+        save_real = np.fromfile("tmp_real_phxy.output", dtype=np.float32)
+        (
+            ofac,
+            hifac,
+            alpha,
+            avgdty,
+            rhox,
+            rhopre_1,
+            rhoy,
+            rhopre_2,
+            taux,
+            tauy,
+            dof,
+            sixdB_Bandwidth,
+        ) = save_real
+        # 整型数据
+        save_int = np.fromfile("tmp_int_phxy.output", dtype=np.int32)
+        n50, iwin, nsim, ntime, nout = save_int
+        # 数组数据
+        if mctest == True and mctest_phi == True:
+            save_array_raw = np.fromfile("tmp_array_phxy.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((6, nout))
+        else:
+            save_array_raw = np.fromfile("tmp_array_phxy.output", dtype=np.float32)
+            save_array = save_array_raw.reshape((4, nout))
 
-    # Clean up temporary files
-    # 清理临时文件
-    # -------------------------
-    os.remove("tmp_real_gxx.output")
-    os.remove("tmp_int_gxx.output")
-    os.remove("tmp_array_gxx.output")
+        # 生成 Dataset
+        phxy = xr.DataArray(
+            save_array[1, :],
+            name="phxy",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "Coherency-spectrum of input data"},
+        )
+        ephi_lower = xr.DataArray(
+            save_array[1, :],
+            name="ephi_lower",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "CI-low = Theoretical Confidence Interval - lower"},
+        )
+        ephi_upper = xr.DataArray(
+            save_array[1, :],
+            name="ephi_upper",
+            coords=[("freq", save_array[0, :])],
+            attrs={"Description": "CI-up =  Theoretical Confidence Interval - upper"},
+        )
 
-    os.remove("tmp_real_gyy.output")
-    os.remove("tmp_int_gyy.output")
-    os.remove("tmp_array_gyy.output")
+        if mctest == True and mctest_phi == True:
+            ephi_mc_lower = xr.DataArray(
+                save_array[1, :],
+                name="ephi_mc_lower",
+                coords=[("freq", save_array[0, :])],
+                attrs={
+                    "Description": "CI-mc-low = Monte Carlo Confidence Interval - lower   (percentiles)"
+                },
+            )
+            ephi_mc_upper = xr.DataArray(
+                save_array[1, :],
+                name="ephi_mc_upper",
+                coords=[("freq", save_array[0, :])],
+                attrs={
+                    "Description": "CI-mc-up =  Monte Carlo Confidence Interval - upper   (percentiles)"
+                },
+            )
 
-    os.remove("tmp_real_gxy.output")
-    os.remove("tmp_int_gxy.output")
-    os.remove("tmp_array_gxy.output")
+        # Merge dataset
+        if mctest == True and mctest_phi == True:
+            save_dataset_phxy = xr.merge(
+                [phxy, ephi_lower, ephi_upper, ephi_mc_lower, ephi_mc_upper]
+            )
+        else:
+            save_dataset_phxy = xr.merge([phxy, ephi_lower, ephi_upper])
 
-    os.remove("tmp_real_cxy.output")
-    os.remove("tmp_int_cxy.output")
-    os.remove("tmp_array_cxy.output")
+        # Add attribution
+        save_dataset_phxy.attrs["Description"] = (
+            "(Phase spectrum) Cross-spectral analysis of unevenly spaced paleoclimate time series."
+        )
 
-    os.remove("tmp_real_phxy.output")
-    os.remove("tmp_int_phxy.output")
-    os.remove("tmp_array_phxy.output")
+        save_dataset_phxy.attrs["Input"] = (
+            "OFAC = "
+            + str(ofac)
+            + ", HIFAC = "
+            + str(hifac)
+            + ", n50 = "
+            + str(n50)
+            + ", Iwin = "
+            + str(iwin)
+            + ", Nsim = "
+            + str(nsim)
+            + ", Level of signif. = "
+            + str(alpha)
+        )
+        save_dataset_phxy.attrs["Initial values"] = "Avg. dtxy = " + str(avgdty)
 
-    os.remove("tmp_data_x_" + random_str + ".tmp")
-    os.remove("tmp_data_y_" + random_str + ".tmp")
-    os.remove("tmp_cfg_" + random_str + ".cfg")
+        if (rhopre_1 < 0) and (rhopre_2 < 0):
+            save_dataset_phxy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rhox = "
+                + str(rhox)
+                + ", Avg. autocorr. coeff., rhoy = "
+                + str(rhoy)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 >= 0) and (rhopre_2 < 0):
+            save_dataset_phxy.attrs["Results"] = (
+                "RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_1)
+                + ", Avg. autocorr. coeff., rhoy = "
+                + str(rhoy)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 < 0) and (rhopre_2 >= 0):
+            save_dataset_phxy.attrs["Results"] = (
+                "Avg. autocorr. coeff., rhox = "
+                + str(rhox)
+                + ", RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_2)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        elif (rhopre_1 >= 0) and (rhopre_2 >= 0):
+            save_dataset_phxy.attrs["Results"] = (
+                "RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_1)
+                + ", RESCRIBED avg. autocorr. coeff., rho = "
+                + str(rhopre_2)
+                + ", Avg. taux = "
+                + str(taux)
+                + ", Avg. tauy = "
+                + str(tauy)
+                + ", Degrees of freedom = "
+                + str(dof)
+                + ", 6-dB Bandwidth = "
+                + str(sixdB_Bandwidth)
+            )
+        else:
+            raise ValueError("There are some internal mistake in data process.")
 
-    os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".cxy")
-    os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".gxx")
-    os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".gxy")
-    os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".gyy")
-    os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".phxy")
+        save_dataset_phxy.attrs["Elapsed time"] = str(ntime) + " [s]"
+        save_dataset_phxy.attrs["About"] = (
+            "Michael Schulz, Manfred Mudelsee => https://www.marum.de/Prof.-Dr.-michael-schulz/Michael-Schulz-Software.html"
+        )
+        save_dataset_phxy.attrs["Reference"] = (
+            "Olafsdottir, K. B., Schulz, M. and Mudelsee, M. (2016): REDFIT-X: Cross-spectral analysis of unevenly spaced paleoclimate time series. Computers and Geosciences, 91, 11-18."
+        )
+        save_dataset_phxy.attrs["Python platform"] = (
+            "Shen yulu => https://github.com/shenyulu/easyclimate-backend"
+        )
+        # Add coordinate period (reciprocal of frequency)
+        save_dataset_phxy = save_dataset_phxy.assign_coords(
+            {"period": 1 / save_dataset_phxy.freq}
+        )
 
-    return (
-        save_dataset_gxx,
-        save_dataset_gyy,
-        save_dataset_gxy,
-        save_dataset_cxy,
-        save_dataset_phxy,
-    )
+        # Clean up temporary files
+        # 清理临时文件
+        # -------------------------
+        os.remove("tmp_real_gxx.output")
+        os.remove("tmp_int_gxx.output")
+        os.remove("tmp_array_gxx.output")
+
+        os.remove("tmp_real_gyy.output")
+        os.remove("tmp_int_gyy.output")
+        os.remove("tmp_array_gyy.output")
+
+        os.remove("tmp_real_gxy.output")
+        os.remove("tmp_int_gxy.output")
+        os.remove("tmp_array_gxy.output")
+
+        os.remove("tmp_real_cxy.output")
+        os.remove("tmp_int_cxy.output")
+        os.remove("tmp_array_cxy.output")
+
+        os.remove("tmp_real_phxy.output")
+        os.remove("tmp_int_phxy.output")
+        os.remove("tmp_array_phxy.output")
+
+        os.remove("tmp_data_x_" + random_str + ".tmp")
+        os.remove("tmp_data_y_" + random_str + ".tmp")
+        os.remove("tmp_cfg_" + random_str + ".cfg")
+
+        os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".cxy")
+        os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".gxx")
+        os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".gxy")
+        os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".gyy")
+        os.remove("tmp_cross_summary_" + random_str + ".tmp" + ".phxy")
+
+        return (
+            save_dataset_gxx,
+            save_dataset_gyy,
+            save_dataset_gxy,
+            save_dataset_cxy,
+            save_dataset_phxy,
+        )
