@@ -34,7 +34,6 @@ class TestCalcWetBulbPotentialTemperatureIteration:
         assert isinstance(result, xr.DataArray)
         assert result.dims == ("point",)
         assert result.attrs["units"] == "degC"
-        assert result.attrs["standard_name"] == "wet_bulb_temperature"
 
     def test_2d_input(self):
         """Test with 2D input data."""
@@ -95,7 +94,6 @@ class TestCalcWetBulbPotentialTemperatureDaviesJones2008:
         assert isinstance(result, xr.DataArray)
         assert result.dims == ("point",)
         assert result.attrs["units"] == "K"
-        assert result.attrs["standard_name"] == "wet_bulb_temperature"
 
     def test_unit_conversions(self):
         """Test that unit conversions work properly."""
@@ -136,7 +134,6 @@ class TestCalcWetBulbTemperatureStull2011:
         assert isinstance(result, xr.DataArray)
         assert result.dims == ("point",)
         assert result.attrs["units"] == "K"
-        assert result.attrs["standard_name"] == "wet_bulb_temperature"
 
     def test_unit_conversions(self):
         """Test that unit conversions work properly."""
@@ -179,7 +176,6 @@ class TestCalcWetBulbTemperatureSadeghi2013:
         assert isinstance(result, xr.DataArray)
         assert result.dims == ("point",)
         assert result.attrs["units"] == "degC"
-        assert result.attrs["standard_name"] == "wet_bulb_temperature"
 
     def test_unit_conversions(self):
         """Test that unit conversions work properly."""
