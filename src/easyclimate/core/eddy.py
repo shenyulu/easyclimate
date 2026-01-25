@@ -30,7 +30,7 @@ __all__ = [
     "calc_Plumb_wave_activity_horizontal_flux",
     "calc_TN_wave_activity_horizontal_flux",
     "calc_EP_horizontal_flux",
-    "calc_rossby_wave_source",
+    "calc_monthly_rossby_wave_source",
 ]
 
 
@@ -872,7 +872,7 @@ def calc_EP_horizontal_flux(
     return result
 
 
-def calc_rossby_wave_source(
+def calc_monthly_rossby_wave_source(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     u_climatology_data: xr.DataArray,
