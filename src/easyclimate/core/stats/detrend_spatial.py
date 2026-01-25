@@ -18,22 +18,19 @@ import warnings
 from typing import Union, Literal, Optional
 import dask.array as da
 
-__all__ = ["calc_detrend_spatial_new"]
+__all__ = ["calc_detrend_spatial_fast"]
 
 # Try to import Rust backend
-try:
-    from easyclimate_rust import (
-        calc_detrend_spatial_3d,
-        calc_detrend_spatial_3d_chunked,
-        calc_detrend_spatial_flexible,
-    )
+from ...backend import (
+    calc_detrend_spatial_3d_rs,
+    calc_detrend_spatial_3d_chunked_rs,
+    calc_detrend_spatial_flexible_rs,
+)
 
-    RUST_AVAILABLE = True
-except ImportError:
-    RUST_AVAILABLE = False
+from ...backend import RUST_AVAILABLE
 
 
-def calc_detrend_spatial_new(
+def calc_detrend_spatial_fast(
     data_input: xr.DataArray,
     time_dim: str = "time",
     min_valid_fraction: float = 0.5,
@@ -102,19 +99,19 @@ def calc_detrend_spatial_new(
     ... )
     >>>
     >>> # Using scipy method
-    >>> result1 = calc_detrend_spatial(data, method='scipy')
+    >>> result1 = calc_detrend_spatial_fast(data, method='scipy')
     >>>
     >>> # Using numpy method
-    >>> result2 = calc_detrend_spatial(data, method='numpy')
+    >>> result2 = calc_detrend_spatial_fast(data, method='numpy')
     >>>
     >>> # Using Rust method (if available)
     >>> try:
-    >>>     result3 = calc_detrend_spatial(data, method='rust')
+    >>>     result3 = calc_detrend_spatial_fast(data, method='rust')
     >>> except ImportError:
     >>>     print("Rust backend not available")
     >>>
     >>> # Automatic method selection
-    >>> result4 = calc_detrend_spatial(data, method='auto')
+    >>> result4 = calc_detrend_spatial_fast(data, method='auto')
 
     Notes
     -----
@@ -491,14 +488,14 @@ def calc_detrend_spatial_rust(
             data_np = np.transpose(data_np, new_order)
 
             # Apply Rust function
-            result_np = calc_detrend_spatial_3d(data_np, min_valid_fraction)
+            result_np = calc_detrend_spatial_3d_rs(data_np, min_valid_fraction)
 
             # Transpose back
             inverse_order = [new_order.index(i) for i in range(3)]
             result_np = np.transpose(result_np, inverse_order)
         else:
             # Time is already first dimension
-            result_np = calc_detrend_spatial_3d(data_np, min_valid_fraction)
+            result_np = calc_detrend_spatial_3d_rs(data_np, min_valid_fraction)
     else:
         raise ValueError(
             f"Expected 3D data, got {len(dims)}D. "
@@ -562,14 +559,14 @@ def calc_detrend_spatial_rust_chunked(
             new_order = [time_axis] + [i for i in range(3) if i != time_axis]
             data_np = np.transpose(data_np, new_order)
 
-            result_np = calc_detrend_spatial_3d_chunked(
+            result_np = calc_detrend_spatial_3d_chunked_rs(
                 data_np, min_valid_fraction, chunk_size
             )
 
             inverse_order = [new_order.index(i) for i in range(3)]
             result_np = np.transpose(result_np, inverse_order)
         else:
-            result_np = calc_detrend_spatial_3d_chunked(
+            result_np = calc_detrend_spatial_3d_chunked_rs(
                 data_np, min_valid_fraction, chunk_size
             )
     else:
@@ -622,7 +619,7 @@ def calc_detrend_spatial_rust_flexible(
         data_np = data_np.astype(np.float64)
 
     # Call Rust function with flexible axis
-    result_np = calc_detrend_spatial_flexible(data_np, time_axis, min_valid_fraction)
+    result_np = calc_detrend_spatial_flexible_rs(data_np, time_axis, min_valid_fraction)
 
     result = xr.DataArray(
         result_np,
@@ -760,7 +757,9 @@ def benchmark_detrend_methods(
         # Warmup run (if enabled)
         if warmup:
             try:
-                _ = calc_detrend_spatial(data_input, time_dim=time_dim, method=method)
+                _ = calc_detrend_spatial_fast(
+                    data_input, time_dim=time_dim, method=method
+                )
             except Exception as e:
                 if verbose:
                     print(f"  Warning: Warmup failed: {e}")
@@ -770,7 +769,7 @@ def benchmark_detrend_methods(
         for i in range(n_runs):
             try:
                 start = time.time()
-                result = calc_detrend_spatial(
+                result = calc_detrend_spatial_fast(
                     data_input, time_dim=time_dim, method=method
                 )
                 end = time.time()
@@ -900,7 +899,9 @@ def compare_results(
 
     for method in methods:
         try:
-            result = calc_detrend_spatial(data_input, time_dim=time_dim, method=method)
+            result = calc_detrend_spatial_fast(
+                data_input, time_dim=time_dim, method=method
+            )
             results[method] = result
 
             print(f"Method '{method}':")
