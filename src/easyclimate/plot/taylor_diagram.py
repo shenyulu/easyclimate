@@ -8,6 +8,13 @@ import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.patches as patches
+
+try:
+    import tkinter  # noqa: F401
+except Exception:
+    if "tkagg" in matplotlib.get_backend().lower():
+        matplotlib.use("Agg", force=True)
+
 import matplotlib.pyplot as plt
 import xarray as xr
 
