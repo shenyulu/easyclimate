@@ -4,7 +4,7 @@ Regridding
 
 from __future__ import annotations
 
-import xarray_regrid
+import easyclimate_backend.xarray_regrid
 import xarray as xr
 import warnings
 from typing import Literal
