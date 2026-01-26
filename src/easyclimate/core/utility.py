@@ -148,7 +148,8 @@ def transfer_int2datetime(data: np.array) -> np.datetime64:
     import pandas as pd
 
     # xarray coordinate axis does not accept DatetimeIndex, so use `.to_numpy()` to convert it to numpy array.
-    return pd.to_datetime(data, format="%Y").to_numpy()
+    # Ensure integers are parsed as year strings instead of epoch units.
+    return pd.to_datetime(np.asarray(data).astype(str), format="%Y").to_numpy()
 
 
 def split_datetime2yearday(ds: xr.DataArray, time_dim: str = "time") -> xr.DataArray:

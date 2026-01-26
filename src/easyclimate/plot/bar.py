@@ -73,8 +73,15 @@ def bar_plot_with_threshold(
 
     # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.bar.html
     # https://stackoverflow.com/questions/59089739/matplotlib-datetime-x-axis-and-bar-widths
-    if x.dtype == "datetime64[ns]":
-        width_value = (x[1] - x[0]) * width
+    if x.dtype in ["datetime64[ns]", "datetime64[us]"]:
+        # If the unit is microseconds, convert it to nanoseconds first.
+        if x.dtype == "datetime64[us]":
+            x_ns = x.astype("datetime64[ns]")
+        else:
+            x_ns = x
+
+        # Calculate the width value with nanosecond precision.
+        width_value = (x_ns[1] - x_ns[0]) * width
         kwargs.update({"width": width_value})
     else:
         kwargs.update({"width": width})
