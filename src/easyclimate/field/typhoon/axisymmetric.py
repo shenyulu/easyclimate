@@ -278,11 +278,13 @@ def cyclone_axisymmetric_analysis(
     # Prepare input coordinates and data
     xi = data_input[lon_dim].data
     yi = data_input[lat_dim].data[::-1]
-    fi = (
-        data_input[:, ::-1].data
-        if vertical_dim in data_input.dims
-        else data_input[::-1].data
-    )
+    # Avoid using [:, ::-1] slicing which causes issues in xarray's _decompose_slice
+    # Use numpy array reversal instead
+    if vertical_dim in data_input.dims:
+        # Reverse the lat dimension using numpy
+        fi = data_input.data[:, ::-1, :]
+    else:
+        fi = data_input.data[::-1, :]
 
     # Define input and output core dimensions
     input_core_dims = (

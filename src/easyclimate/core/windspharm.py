@@ -235,7 +235,7 @@ def calc_divergence(
 def calc_planetary_vorticity(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
-    omega: float = 7.2921150,
+    omega: float = 7.292e-05,
     R: float = 6371200.0,
     legfunc: str = "stored",
     lon_dim: str = "lon",
@@ -284,7 +284,7 @@ def calc_absolute_vorticity(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
     truncation: int = None,
-    omega: float = 7.2921150,
+    omega: float = 7.292e-05,
     R: float = 6371200.0,
     legfunc: str = "stored",
     lon_dim: str = "lon",

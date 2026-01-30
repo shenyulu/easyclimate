@@ -2,7 +2,7 @@ import pytest
 import xarray as xr
 import numpy as np
 import pandas as pd
-from easyclimate.core.monthstat import (
+from easyclimate.core.stats.monthstat import (
     calc_monthly_mean,
     calc_monthly_sum,
     calc_monthly_std,

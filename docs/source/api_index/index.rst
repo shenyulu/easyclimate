@@ -29,14 +29,23 @@ Core❤️
     easyclimate.core.mk_test
     easyclimate.core.normalized
     easyclimate.core.read
-    easyclimate.core.stat
     easyclimate.core.tutorial
     easyclimate.core.utility
     easyclimate.core.variability
-    easyclimate.core.yearstat
-    easyclimate.core.monthstat
     easyclimate.core.spharm
     easyclimate.core.windspharm
+
+Statistics
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.core.stat
+    easyclimate.core.stats.detrend_spatial
+    easyclimate.core.stats.yearstat
+    easyclimate.core.stats.monthstat
+    easyclimate.core.stats.seasonstat
 
 Physics🗺️
 ----------------------------------------

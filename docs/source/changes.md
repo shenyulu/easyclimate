@@ -1,5 +1,19 @@
 # Changelog♻️
 
+## v2026.2.0
+
+*Released on: 2026/1/30*
+
+- [update: logo update](https://github.com/shenyulu/easyclimate/pull/109/commits/3ae64eb09d213976354720b905ee7662e1bebb21)
+- [feat: add interp1d_vertical_pressure2altitude_linear_rs](https://github.com/shenyulu/easyclimate/pull/109/commits/7f1e399e796cce6f42afafc02a7baa2bb5dddd79)
+- [feat: add replace_in_tuple](https://github.com/shenyulu/easyclimate/pull/109/commits/49d58b970c31397d8656373c3d2ed6fae933fc7f)
+- [fix: calc_wet_bulb_temperature_iteration & calc_wet_bulb_potential_temperature_iteration]()
+- [feat: add calc_monthly_rossby_wave_source](https://github.com/shenyulu/easyclimate/pull/109/commits/f8c4230f42e3074129f2ce875ed39e4ad9904810)
+- [fix: ns->us error](https://github.com/shenyulu/easyclimate/pull/109/commits/5c0eea6a39509af9079fbe73718ea629401e4509)
+- [fix: use easyclimate_backend.xarray_regrid instead](https://github.com/shenyulu/easyclimate/pull/109/commits/e7e08575677f510f547eb3528747d784285ae671)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2025.12.0...v2026.2.0
+
 ## v2025.12.0
 
 *Released on: 2025/11/29*

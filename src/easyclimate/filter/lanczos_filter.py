@@ -12,6 +12,24 @@ from typing import Literal
 __all__ = ["calc_lanczos_bandpass", "calc_lanczos_lowpass", "calc_lanczos_highpass"]
 
 
+def _mask_lanczos_edge(data, fw, dim="time"):
+    """
+    Mask edge points affected by Lanczos filter window.
+    """
+    L = fw.sizes["window"]
+    h = (L - 1) // 2
+
+    coord = data[dim]
+    valid = xr.DataArray(
+        np.arange(coord.size),
+        dims=dim,
+        coords={dim: coord},
+    )
+
+    mask = (valid >= h) & (valid < coord.size - h)
+    return data.where(mask)
+
+
 def lanczos_lowpass_weights(window, cutoff):
     """Calculate weights for a low pass Lanczos filter.
 
@@ -112,6 +130,7 @@ def calc_lanczos_lowpass(
     period: int,
     dim: str = "time",
     method: Literal["rolling", "convolve"] = "rolling",
+    drop_edge: bool = True,
 ) -> xr.DataArray:
     """
     Lanczos lowpass filter
@@ -142,6 +161,13 @@ def calc_lanczos_lowpass(
     elif method == "convolve":
         lowpass_hf = apply_pass_multidim(data, fw, dim)
 
+        if drop_edge:
+            lowpass_hf = _mask_lanczos_edge(lowpass_hf, fw, dim)
+
+    else:
+        raise ValueError(f"Unknown method: {method}")
+
+    lowpass_hf = lowpass_hf.transpose(*data.dims)
     lowpass_hf.attrs = {}
     return lowpass_hf
 
@@ -152,6 +178,7 @@ def calc_lanczos_highpass(
     period: int,
     dim: str = "time",
     method: Literal["rolling", "convolve"] = "rolling",
+    drop_edge: bool = True,
 ) -> xr.DataArray:
     """
     Lanczos highpass filter
@@ -182,6 +209,13 @@ def calc_lanczos_highpass(
     elif method == "convolve":
         highpass_hf = apply_pass_multidim(data, fw, dim)
 
+        if drop_edge:
+            highpass_hf = _mask_lanczos_edge(highpass_hf, fw, dim)
+
+    else:
+        raise ValueError(f"Unknown method: {method}")
+
+    highpass_hf = highpass_hf.transpose(*data.dims)
     highpass_hf.attrs = {}
     return highpass_hf
 
@@ -191,7 +225,8 @@ def calc_lanczos_bandpass(
     window_length: int,
     period: list[int],
     dim: str = "time",
-    method: Literal["rolling", "convolve"] = "rolling",
+    method: Literal["rolling", "convolve", "fft"] = "rolling",
+    drop_edge: bool = True,
 ) -> xr.DataArray:
     """
     Lanczos bandpass filter
@@ -227,10 +262,18 @@ def calc_lanczos_bandpass(
             data.rolling({dim: len(fw_1)}, center=True).construct("window").dot(fw_1)
         )
         bandpass = lowpass_hf0 - lowpass_hf1
+
     elif method == "convolve":
         lowpass_hf0 = apply_pass_multidim(data, fw_0, dim)
         lowpass_hf1 = apply_pass_multidim(data, fw_1, dim)
         bandpass = lowpass_hf0 - lowpass_hf1
 
+        if drop_edge:
+            bandpass = _mask_lanczos_edge(bandpass, fw_0, dim)
+
+    else:
+        raise ValueError(f"Unknown method: {method}")
+
+    bandpass = bandpass.transpose(*data.dims)
     bandpass.attrs = {}
     return bandpass

@@ -12,7 +12,9 @@ from ..core.stat import calc_detrend_spatial
 __all__ = ["filter_2D_spatial_parabolic_cylinder_function"]
 
 
-def fft2_along_dims(da, dims, time_dim="time", lon_dim="lon"):
+def fft2_along_dims(
+    da, dims, time_dim="time", lon_dim="lon", complex_dtype=np.complex128
+):
     """Apply 2D FFT along specified dimensions in xarray DataArray."""
     # Determines the order of the original dimensions
     original_dims = da.dims
@@ -27,16 +29,21 @@ def fft2_along_dims(da, dims, time_dim="time", lon_dim="lon"):
     # Gets the position of the dimension in the original array (axes parameter)
     axes = [original_dims.index(dim) for dim in dims]
 
+    def _fft2(a, axes):
+        a = np.asarray(a, dtype=complex_dtype)
+        out = np.fft.fft2(a, axes=axes)
+        return out.astype(complex_dtype, copy=False)
+
     # Apply np.fft.fft2 using apply_ufunc
     result = xr.apply_ufunc(
-        np.fft.fft2,
+        _fft2,
         da,
         kwargs={"axes": tuple(axes)},
         input_core_dims=[list(original_dims)],
         output_core_dims=[list(original_dims)],
         keep_attrs=True,
         dask="parallelized",
-        output_dtypes=[complex],
+        output_dtypes=[complex_dtype],
     )
 
     # Frequency and wavenumber parameters
@@ -51,7 +58,15 @@ def fft2_along_dims(da, dims, time_dim="time", lon_dim="lon"):
 
 
 def ifft2_along_dims(
-    da, dims, original_data, freq_dim="freq", k_dim="k", lon_dim="lon", time_dim="time"
+    da,
+    dims,
+    original_data,
+    freq_dim="freq",
+    k_dim="k",
+    lon_dim="lon",
+    time_dim="time",
+    complex_dtype=np.complex128,
+    real_dtype=np.float64,
 ):
     """Apply 2D invert FFT along specified dimensions in xarray DataArray."""
     # Determines the order of the original dimensions
@@ -67,19 +82,23 @@ def ifft2_along_dims(
     # Gets the position of the dimension in the original array (axes parameter)
     axes = [original_dims.index(dim) for dim in dims]
 
+    def _ifft2(a, axes):
+        a = np.asarray(a, dtype=complex_dtype)
+        out = np.fft.ifft2(a, axes=axes).astype(complex_dtype, copy=False)
+        return np.real(out).astype(real_dtype, copy=False)
+
     # Apply np.fft.ifft2 using apply_ufunc
     result = xr.apply_ufunc(
-        np.fft.ifft2,
+        _ifft2,
         da,
         kwargs={"axes": tuple(axes)},
         input_core_dims=[list(original_dims)],
         output_core_dims=[list(original_dims)],
         keep_attrs=True,
         dask="parallelized",
-        output_dtypes=[complex],
+        output_dtypes=[real_dtype],
     )
 
-    result = np.real(result)
     result = result.rename({k_dim: "lon", freq_dim: "time"})
     result = result.assign_coords(
         {"lon": original_data[lon_dim], "time": original_data[time_dim]}
@@ -101,6 +120,8 @@ def filter_2D_spatial_parabolic_cylinder_function(
     lon_dim="lon",
     lat_dim="lat",
     time_dim: str = "time",
+    complex_dtype=np.complex128,
+    real_dtype=np.float64,
 ):
     """
     Perform space-time spectral analysis to extract equatorial wave components.
@@ -263,9 +284,27 @@ def filter_2D_spatial_parabolic_cylinder_function(
     q = z_windowed * gravity_over_ce + zonal_wind_windowed
     r = z_windowed * gravity_over_ce - zonal_wind_windowed
 
-    q_fft = fft2_along_dims(q, dims=(time_dim, lon_dim))
-    v_fft = fft2_along_dims(meridional_windowed, dims=(time_dim, lon_dim))
-    r_fft = fft2_along_dims(r, dims=(time_dim, lon_dim))
+    q_fft = fft2_along_dims(
+        q,
+        dims=(time_dim, lon_dim),
+        time_dim=time_dim,
+        lon_dim=lon_dim,
+        complex_dtype=complex_dtype,
+    )
+    v_fft = fft2_along_dims(
+        meridional_windowed,
+        dims=(time_dim, lon_dim),
+        time_dim=time_dim,
+        lon_dim=lon_dim,
+        complex_dtype=complex_dtype,
+    )
+    r_fft = fft2_along_dims(
+        r,
+        dims=(time_dim, lon_dim),
+        time_dim=time_dim,
+        lon_dim=lon_dim,
+        complex_dtype=complex_dtype,
+    )
     q_fft_reordered = q_fft.transpose("freq", "k", ...)
     v_fft_reordered = v_fft.transpose("freq", "k", ...)
     r_fft_reordered = r_fft.transpose("freq", "k", ...)
@@ -565,12 +604,32 @@ def filter_2D_spatial_parabolic_cylinder_function(
 
     # Inverse FFT to get physical fields
     u_wave = ifft2_along_dims(
-        u_wave_fields, dims=("freq", "k"), original_data=zonal_wind_speed_data
+        u_wave_fields,
+        dims=("freq", "k"),
+        original_data=zonal_wind_speed_data,
+        lon_dim=lon_dim,
+        time_dim=time_dim,
+        complex_dtype=complex_dtype,
+        real_dtype=real_dtype,
     )
     v_wave = ifft2_along_dims(
-        v_wave_fields, dims=("freq", "k"), original_data=meridional_wind_speed_data
+        v_wave_fields,
+        dims=("freq", "k"),
+        original_data=meridional_wind_speed_data,
+        lon_dim=lon_dim,
+        time_dim=time_dim,
+        complex_dtype=complex_dtype,
+        real_dtype=real_dtype,
     )
-    z_wave = ifft2_along_dims(z_wave_fields, dims=("freq", "k"), original_data=z_data)
+    z_wave = ifft2_along_dims(
+        z_wave_fields,
+        dims=("freq", "k"),
+        original_data=z_data,
+        lon_dim=lon_dim,
+        time_dim=time_dim,
+        complex_dtype=complex_dtype,
+        real_dtype=real_dtype,
+    )
 
     results = xr.Dataset()
     u_wave.attrs["long_name"] = "zonal wind"

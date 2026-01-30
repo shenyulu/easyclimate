@@ -9,8 +9,8 @@ Follow these simple steps to install **easyclimate** on your system.
 The easyclimate package is currently built and tested for specific platforms due to compatibility and dependency constraints.
 Below are the supported platforms and notes for users on other systems.
 
-- **Windows x86-64/AMD64**
-- **Linux x86-64/AMD64**
+- **Windows x86-64/AMD64** (Windows 10+)
+- **Linux x86-64/AMD64** (glibc 2.28 or later, including: Debian 10+, Ubuntu 18.10+, Fedora 29+, CentOS/RHEL 8+)
 
 These platforms are fully tested, and pre-built wheels (``.whl``) are available on PyPI for easy installation via following methods:
 

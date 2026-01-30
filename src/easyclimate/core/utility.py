@@ -41,6 +41,7 @@ __all__ = [
     "numeric_to_datetime",
     "calculate_time_steps",
     "clean_extra_coords",
+    "replace_in_tuple",
 ]
 
 
@@ -147,7 +148,8 @@ def transfer_int2datetime(data: np.array) -> np.datetime64:
     import pandas as pd
 
     # xarray coordinate axis does not accept DatetimeIndex, so use `.to_numpy()` to convert it to numpy array.
-    return pd.to_datetime(data, format="%Y").to_numpy()
+    # Ensure integers are parsed as year strings instead of epoch units.
+    return pd.to_datetime(np.asarray(data).astype(str), format="%Y").to_numpy()
 
 
 def split_datetime2yearday(ds: xr.DataArray, time_dim: str = "time") -> xr.DataArray:
@@ -1092,3 +1094,8 @@ def clean_extra_coords(
     if extra_dims:
         return data_input.reset_coords(extra_dims, drop=True)
     return data_input
+
+
+def replace_in_tuple(tup, old_value, new_value):
+    """Replace specific values in a tuple"""
+    return tuple(new_value if item == old_value else item for item in tup)

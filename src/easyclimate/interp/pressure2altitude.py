@@ -7,7 +7,10 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 
-__all__ = ["interp1d_vertical_pressure2altitude"]
+__all__ = [
+    "interp1d_vertical_pressure2altitude",
+    "interp1d_vertical_pressure2altitude_linear_rs",
+]
 
 
 def interp1d_vertical_pressure2altitude(
@@ -71,6 +74,7 @@ def interp1d_vertical_pressure2altitude(
         ./dynamic_docs/plot_interp.py
     """
     from scipy import interpolate
+    from ..core.utility import replace_in_tuple
 
     def _interp_height(z_data, variable_data, target_heights=target_heights):
         object_interp = interpolate.interp1d(
@@ -99,4 +103,78 @@ def interp1d_vertical_pressure2altitude(
         },
     )
     interped_data = interped_data.assign_coords({vertical_output_dim: target_heights})
+
+    new_dims = replace_in_tuple(z_data.dims, vertical_input_dim, vertical_output_dim)
+    interped_data = interped_data.transpose(*new_dims)
+    return interped_data
+
+
+def interp1d_vertical_pressure2altitude_linear_rs(
+    z_data: xr.DataArray,
+    variable_data: xr.DataArray,
+    target_heights: np.array,
+    vertical_input_dim: str,
+    vertical_output_dim: str,
+) -> xr.DataArray:
+    """
+    Interpolating variables from the pressure levels (e.g., sigma vertical coordinate) to the altitude levels using `easyclimate-rust`.
+
+    z_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        The vertical atmospheric geopotential height on each pressure level.
+    variable_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        variable to be interpolated on model levels.
+
+        .. note::
+            The shape of `z_data` `z_data` and `variable_data` shuold be the same.
+
+    target_heights: :py:class:`numpy.array<numpy.array>`.
+        Altitude interpolation sampling range. e.g., `np.linspace(0, 15000, 100)`.
+
+        .. note::
+            The unit of `target_heights` shuold be same as `z_data`, e.g., the unit of `target_heights` is `meter`, and the unit of `z_data` shuold be `meter`.
+
+    vertical_input_dim: :py:class:`str <str>`.
+        The name of the standard pressure levels dimension, often assigned the value `'plev'` (Pa) or `'lev'` (hPa).
+
+        .. note::
+            The `vertical_input_dim` `z_data` and `variable_data` shuold be the same.
+
+    vertical_output_dim: :py:class:`str <str>`.
+        The name of the altitude dimension, often assigned the value `'altitude'`.
+
+    .. seealso::
+        - `scipy.interpolate.interp1d <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html#scipy-interpolate-interp1d>`__
+
+    .. minigallery::
+        :add-heading: Example(s) related to the function
+
+        ./dynamic_docs/plot_interp.py
+    """
+    from ..backend import interp1d_linear_core_rs
+    from ..core.utility import replace_in_tuple
+
+    target_heights = target_heights.astype(np.float64)
+
+    def _interp_height(z_data, variable_data, target_heights=target_heights):
+        result_interp = interp1d_linear_core_rs(z_data, variable_data, target_heights)
+        return np.array(result_interp)
+
+    interped_data = xr.apply_ufunc(
+        _interp_height,
+        z_data.astype(np.float64),
+        variable_data.astype(np.float64),
+        input_core_dims=[[vertical_input_dim], [vertical_input_dim]],
+        output_core_dims=[[vertical_output_dim]],
+        output_dtypes=["float64"],
+        dask="parallelized",
+        vectorize=True,
+        dask_gufunc_kwargs={
+            "output_sizes": {vertical_output_dim: len(target_heights)},
+            "allow_rechunk": True,
+        },
+    )
+    interped_data = interped_data.assign_coords({vertical_output_dim: target_heights})
+
+    new_dims = replace_in_tuple(z_data.dims, vertical_input_dim, vertical_output_dim)
+    interped_data = interped_data.transpose(*new_dims)
     return interped_data

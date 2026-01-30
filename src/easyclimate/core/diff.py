@@ -1405,7 +1405,7 @@ def calc_divergence(
     lat_dim: str = "lat",
     R: float = 6371200.0,
     spherical_coord=True,
-    cyclic_boundary=False,
+    cyclic_boundary: bool = False,
     method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
 ) -> xr.DataArray:
     """
@@ -1602,7 +1602,7 @@ def calc_vorticity(
     lat_dim: str = "lat",
     R: float = 6371200.0,
     spherical_coord: bool = True,
-    cyclic_boundary=False,
+    cyclic_boundary: bool = False,
     method: Literal["easyclimate", "uv2vr_cfd-ncl"] = "uv2vr_cfd-ncl",
 ) -> xr.DataArray:
     """
@@ -1851,7 +1851,7 @@ def calc_geostrophic_wind_vorticity(
     omega: float = 7.292e-5,
     g: float = 9.8,
     R: float = 6371200.0,
-    cyclic_boundary=False,
+    cyclic_boundary: bool = False,
     method: Literal["easyclimate", "uv2vr_cfd-ncl"] = "uv2vr_cfd-ncl",
 ) -> xr.DataArray:
     """
@@ -2092,7 +2092,7 @@ def calc_divergence_watervaporflux(
     v_data: xr.DataArray,
     specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     spherical_coord: bool = True,
-    cyclic_boundary=False,
+    cyclic_boundary: bool = False,
     method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
     lon_dim: str = "lon",
     lat_dim: str = "lat",
@@ -2166,7 +2166,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
     surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     spherical_coord: bool = True,
-    cyclic_boundary=False,
+    cyclic_boundary: bool = False,
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     integral_method: Literal["Boer1982", "Trenberth1991", "vibeta-ncl"] = "vibeta-ncl",
