@@ -1,0 +1,3066 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD) &#8212; easyclimate v2026.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=6e6efcf0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_gallery/filter/plot_emd';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Estimate Red-noise Spectrum" href="plot_redfit.html" />
+    <link rel="prev" title="Barnes Filter" href="plot_barnes_filter.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-01-30"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/easyclimate_logo_mini.png" class="logo__image only-light" alt="easyclimate v2026.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/easyclimate_logo_mini.png" class="logo__image only-dark" alt="easyclimate v2026.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Gallery</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../basic/index.html">Bases for Atmospheric Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_multi_linear_reg.html">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../eddy/index.html">Transient Eddy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Filter and Smooth</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../interp/index.html">Interpolation and Regridding</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ocean/index.html">Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_oceanic_front.html">Oceanic Front</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../oscillation/index.html">Oscillation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../satellite/index.html">Satellite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../typhoon/index.html">Typhoon</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../wrf/index.html">WRF data post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Meteorology Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/air_sea_interaction.html">Air–sea Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/typhoons.html">Typhoons</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api_index/index.html">List of Functions and Classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to easyclimate🤼</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Fauto_gallery/filter/plot_emd.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/auto_gallery/filter/plot_emd.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-gallery-filter-plot-emd-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="empirical-mode-decomposition-emd-and-ensemble-empirical-mode-decomposition-eemd">
+<span id="sphx-glr-auto-gallery-filter-plot-emd-py"></span><h1>Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)<a class="headerlink" href="#empirical-mode-decomposition-emd-and-ensemble-empirical-mode-decomposition-eemd" title="Link to this heading">#</a></h1>
+<p>EMD (Empirical Mode Decomposition) is an adaptive time-space analysis method suitable for processing series that are non-stationary and non-linear.
+EMD performs operations that partition a series into ‘modes’ (IMFs; Intrinsic Mode Functions) without leaving the time domain.
+It can be compared to other time-space analysis methods like Fourier Transforms and wavelet decomposition.
+Like these methods, EMD is not based on physics. However, the modes may provide insight into various signals contained within the data.
+In particular, the method is useful for analyzing natural signals, which are most often non-linear and non-stationary.
+Some common examples would include the Southern Oscillation Index (SOI), Niño 3.4 Index, etc.</p>
+<p>EEMD (Ensemble EMD) is a noise assisted data analysis method. EEMD consists of “sifting” an ensemble of white noise-added signal.
+EEMD can separate scales naturally without any a priori subjective criterion selection as in the intermittence test for the original EMD algorithm.</p>
+<p>Wu and Huang (2009) state: “White noise is necessary to force the ensemble to exhaust all possible solutions in the sifting process,
+thus making the different scale signals to collate in the proper intrinsic mode functions (IMF) dictated by the dyadic filter banks.
+As the EMD is a time space analysis method, the white noise is averaged out with sufficient number of trials;
+the only persistent part that survives the averaging process is the signal, which is then treated as the true and more physical meaningful answer.”
+Further, they state: “<strong>EEMD</strong> represents a substantial improvement over the original EMD and is a truly noise assisted data analysis (NADA) method.”</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pyemd.readthedocs.io/">https://pyemd.readthedocs.io/</a></p></li>
+<li><p><a class="reference external" href="https://www.ncl.ucar.edu/Applications/eemd.shtml">https://www.ncl.ucar.edu/Applications/eemd.shtml</a></p></li>
+<li><p><a class="reference external" href="https://www.clear.rice.edu/elec301/Projects02/empiricalMode/">https://www.clear.rice.edu/elec301/Projects02/empiricalMode/</a></p></li>
+<li><p>Wu, Z., &amp; Huang, N. E. (2009). Ensemble empirical mode decomposition: a noise-assisted data analysis method. Advances in Adaptive Data Analysis, 01(01), 1-41. <a class="reference external" href="https://doi.org/10.1142/S1793536909000047">https://doi.org/10.1142/S1793536909000047</a></p></li>
+</ul>
+</div>
+<p>Before proceeding with all the steps, first import some necessary libraries and packages</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+</pre></div>
+</div>
+<p>Load and inspect Niño 3 SST anomaly data
+The dataset contains monthly sea surface temperature anomalies in the Niño 3 region,
+a key indicator for ENSO monitoring and analysis</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.open_tutorial_dataset" title="easyclimate.open_tutorial_dataset" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">open_tutorial_dataset</span></a><span class="p">(</span><span class="s2">&quot;test_input_nino3_wavelet&quot;</span><span class="p">)[</span><span class="s2">&quot;nino3&quot;</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;nino3&#x27; (time: 504)&gt; Size: 4kB
+[504 values with dtype=float64]
+Coordinates:
+  * time     (time) datetime64[ns] 4kB 1871-01-31 1871-04-30 ... 1996-10-31</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;nino3&#x27;</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 504</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-5675419c-2bf7-4f1b-b008-4188836018ed' class='xr-array-in' type='checkbox' checked><label for='section-5675419c-2bf7-4f1b-b008-4188836018ed' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>...</span></div><div class='xr-array-data'><pre>[504 values with dtype=float64]</pre></div></div></li><li class='xr-section-item'><input id='section-cf434b91-2e86-4f1e-8c04-ca39051ad122' class='xr-section-summary-in' type='checkbox' checked /><label for='section-cf434b91-2e86-4f1e-8c04-ca39051ad122' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1871-01-31 ... 1996-10-31</div><input id='attrs-b4b3b73e-53db-4c81-87fa-7e01af93764e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-b4b3b73e-53db-4c81-87fa-7e01af93764e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-65dc89ca-1e65-41df-acc1-c73c51edebb0' class='xr-var-data-in' type='checkbox'><label for='data-65dc89ca-1e65-41df-acc1-c73c51edebb0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;1871-01-31T00:00:00.000000000&#x27;, &#x27;1871-04-30T00:00:00.000000000&#x27;,
+       &#x27;1871-07-31T00:00:00.000000000&#x27;, ..., &#x27;1996-04-30T00:00:00.000000000&#x27;,
+       &#x27;1996-07-31T00:00:00.000000000&#x27;, &#x27;1996-10-31T00:00:00.000000000&#x27;],
+      shape=(504,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>Perform Empirical Mode Decomposition (EMD) on the time series
+EMD decomposes the nonlinear, non-stationary signal into intrinsic mode functions (IMFs)
+representing oscillatory modes embedded in the data at different timescales
+The time_step=”M” parameter indicates monthly resolution of the input data</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imf_result</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/filter/index.html#easyclimate.filter.filter_emd" title="easyclimate.filter.filter_emd" class="sphx-glr-backref-module-easyclimate-filter sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">filter_emd</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imf_result</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 36kB
+Dimensions:  (time: 504)
+Coordinates:
+  * time     (time) datetime64[ns] 4kB 1871-01-31 1871-04-30 ... 1996-10-31
+Data variables:
+    input    (time) float64 4kB -0.15 -0.3 -0.14 -0.41 ... -0.08 -0.18 -0.06
+    imf0     (time) float64 4kB 0.0756 -0.09539 0.0829 ... -0.169 -0.03726
+    imf1     (time) float64 4kB 0.1577 0.1695 0.1588 ... 0.009739 0.1157 0.09504
+    imf2     (time) float64 4kB 0.4274 0.4314 0.4123 ... -0.5048 -0.5273 -0.514
+    imf3     (time) float64 4kB -0.4811 -0.4838 -0.4807 ... 0.1399 0.1341 0.1286
+    imf4     (time) float64 4kB -0.152 -0.1461 -0.1396 ... -0.08033 -0.07906
+    imf5     (time) float64 4kB -0.1279 -0.1265 -0.125 ... 0.1428 0.1425 0.1421
+    imf6     (time) float64 4kB -0.04962 -0.04913 -0.04864 ... 0.2044 0.2046</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-b20300c1-5f70-47a1-a1f0-f2e2dcc336d5' class='xr-section-summary-in' type='checkbox' disabled /><label for='section-b20300c1-5f70-47a1-a1f0-f2e2dcc336d5' class='xr-section-summary'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 504</li></ul></div></li><li class='xr-section-item'><input id='section-c312f006-b0cc-4df7-9688-34f04a2a2c42' class='xr-section-summary-in' type='checkbox' checked /><label for='section-c312f006-b0cc-4df7-9688-34f04a2a2c42' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1871-01-31 ... 1996-10-31</div><input id='attrs-90728232-59f7-41de-8d4a-ae2e2450f015' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-90728232-59f7-41de-8d4a-ae2e2450f015' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-17b728c4-5cb8-4d0c-95e0-9a0dfd0d9e8c' class='xr-var-data-in' type='checkbox'><label for='data-17b728c4-5cb8-4d0c-95e0-9a0dfd0d9e8c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;1871-01-31T00:00:00.000000000&#x27;, &#x27;1871-04-30T00:00:00.000000000&#x27;,
+       &#x27;1871-07-31T00:00:00.000000000&#x27;, ..., &#x27;1996-04-30T00:00:00.000000000&#x27;,
+       &#x27;1996-07-31T00:00:00.000000000&#x27;, &#x27;1996-10-31T00:00:00.000000000&#x27;],
+      shape=(504,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-831ac655-0a76-455a-858a-43141281ecb9' class='xr-section-summary-in' type='checkbox' checked /><label for='section-831ac655-0a76-455a-858a-43141281ecb9' class='xr-section-summary' title='Expand/collapse section'>Data variables: <span>(8)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>input</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.15 -0.3 -0.14 ... -0.18 -0.06</div><input id='attrs-429e5d21-c422-4189-89be-20380e754d9c' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-429e5d21-c422-4189-89be-20380e754d9c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8e096714-2177-4090-8f92-b6a1526d6515' class='xr-var-data-in' type='checkbox'><label for='data-8e096714-2177-4090-8f92-b6a1526d6515' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.15, -0.3 , -0.14, ..., -0.08, -0.18, -0.06], shape=(504,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf0</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0756 -0.09539 ... -0.169 -0.03726</div><input id='attrs-d8f1520c-2a28-45e1-a1a4-1fbdc3d531f5' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-d8f1520c-2a28-45e1-a1a4-1fbdc3d531f5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d8ab676b-4c51-4042-bf79-605c7db59f29' class='xr-var-data-in' type='checkbox'><label for='data-d8ab676b-4c51-4042-bf79-605c7db59f29' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 7.55980640e-02, -9.53948308e-02,  8.29018295e-02, -5.78035224e-02,
+        4.99995012e-02, -7.87136152e-02,  1.35925074e-01, -1.10585523e-01,
+       -2.52977915e-01, -8.54653132e-02,  2.84822191e-01, -4.19953337e-02,
+       -2.23880306e-01,  1.78957729e-01,  6.78380736e-02, -1.01725786e-01,
+        7.96866801e-02, -7.66437155e-02,  1.28118404e-01,  1.53534105e-01,
+       -2.39367000e-01, -3.67180351e-02,  4.58964727e-01,  1.28455332e-01,
+       -6.20772239e-01, -6.20707332e-01,  1.50123157e-01,  3.87834398e-01,
+        5.19259633e-01, -4.18398422e-01, -3.65914937e-01,  5.49840146e-02,
+        1.52515726e-01, -1.47226987e-01,  1.88830576e-01, -2.46099219e-01,
+       -1.10930796e-01,  8.86609870e-02,  2.34163408e-01,  3.67063747e-01,
+        2.79590245e-01,  3.48834320e-02, -2.11381508e-01, -2.75580965e-01,
+       -1.67906797e-01,  1.96018938e-01, -4.32535720e-02, -4.53467646e-02,
+       -1.09816586e-01,  9.88552735e-02, -9.30140086e-02,  8.33942342e-02,
+       -7.15939894e-02,  8.12877338e-02, -1.42291685e-01,  2.55879665e-01,
+       -3.16898177e-01, -4.97608944e-01, -2.89500986e-01,  5.31108209e-01,
+       -3.07268312e-01, -3.23726228e-01,  1.97196452e-01, -1.41542067e-02,
+       -5.31700465e-02,  6.23027277e-02, -1.01488135e-03, -2.13053695e-01,
+       -3.17134013e-01, -1.76493080e-01,  2.92705963e-02,  6.38968189e-01,
+        6.58939163e-01, -1.48291273e-01, -6.78379266e-01, -3.53333839e-01,
+       -1.26556899e-02,  5.20569782e-01,  3.21873045e-01, -3.64519240e-01,
+...
+       -5.39449383e-02, -7.20407436e-01, -5.49713141e-01,  2.55896269e-01,
+        3.77088909e-01, -2.66901371e-01, -1.76582452e-01,  1.17359444e-01,
+       -8.15290625e-02, -2.59205501e-02,  6.46853622e-02,  4.99022929e-02,
+       -7.65794666e-02,  8.90693912e-02, -1.09709109e-01,  1.33638869e-01,
+       -1.45993692e-01,  1.44667455e-01, -1.52554161e-01,  9.90289698e-02,
+        2.66413486e-01,  7.47293127e-02, -4.71097638e-01,  5.73676833e-01,
+        5.97235129e-01,  5.46122760e-01, -4.69549034e-02, -3.95252525e-01,
+        2.47201624e-01, -1.24489585e-01,  9.16648814e-02, -1.49125456e-01,
+        2.34190213e-01,  3.94466807e-02, -3.11144989e-01,  1.94316137e-01,
+        2.43819091e-01,  1.46478625e-01, -1.68366321e-01,  1.77556106e-01,
+       -7.68745852e-02, -2.89548956e-01, -1.20656956e-01,  4.17123959e-01,
+        2.65262126e-01, -2.72592884e-01, -4.67246198e-01, -1.90960550e-01,
+        2.68170877e-01,  3.50597291e-01, -2.97451582e-01, -1.62339982e-01,
+        8.24841427e-02,  1.65152287e-01, -1.42759432e-01, -1.37096919e-02,
+        5.82174434e-04,  2.20016014e-01, -3.10753461e-01,  5.23576229e-02,
+        3.89826820e-01,  5.92541391e-01, -5.96785298e-01, -2.55968076e-01,
+       -2.23262098e-02,  3.68988402e-01, -3.21618181e-01,  7.05881565e-02,
+        3.74284330e-01,  2.05185734e-01, -5.11223163e-01,  5.42076656e-01,
+        3.11134972e-01, -1.50759543e-01, -3.97656569e-01, -1.09859861e-01,
+        2.37310514e-01,  9.47271519e-03, -1.68985875e-01, -3.72638823e-02])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf1</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1577 0.1695 ... 0.1157 0.09504</div><input id='attrs-2e88421d-b67c-41fc-ac71-e294d5a508a1' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-2e88421d-b67c-41fc-ac71-e294d5a508a1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-22846a74-5660-46b1-8aa6-f6bf4058c3f0' class='xr-var-data-in' type='checkbox'><label for='data-22846a74-5660-46b1-8aa6-f6bf4058c3f0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 1.57710288e-01,  1.69457700e-01,  1.58760688e-01,  5.14880998e-02,
+       -7.34049675e-02, -1.04428512e-01, -1.14984993e-01, -1.24107833e-01,
+       -8.95121938e-02,  1.45741867e-02,  9.65646563e-02,  6.66498255e-02,
+       -3.94248888e-02, -1.34298864e-01, -8.35727511e-02,  1.17228901e-01,
+        3.47242075e-01,  3.63742470e-01,  5.98972637e-02, -3.58067886e-01,
+       -6.41949820e-01, -6.45789229e-01, -4.04869967e-01,  2.82720504e-03,
+        4.82621597e-01,  8.99295845e-01,  1.15417013e+00,  1.15293558e+00,
+        8.24042950e-01,  2.34289459e-01, -4.24124082e-01, -9.58045951e-01,
+       -1.22426779e+00, -1.16667867e+00, -9.93356328e-01, -8.03015099e-01,
+       -5.42561775e-01, -2.32142715e-01,  8.09335863e-02,  3.49358633e-01,
+        5.25082964e-01,  5.70249354e-01,  4.99098084e-01,  3.39881910e-01,
+        1.24883147e-01, -8.81856873e-02, -2.07784322e-01, -1.91361858e-01,
+       -7.30818659e-02,  7.86558284e-02,  1.24652534e-01, -2.63597454e-02,
+       -1.75427610e-01, -4.45426443e-02,  2.28154021e-01,  3.59541487e-01,
+        4.17410732e-01,  4.83836505e-01,  5.67158169e-01,  4.68634806e-01,
+        3.40972856e-02, -5.03164221e-01, -8.34417212e-01, -8.14079144e-01,
+       -6.03893098e-01, -3.31413682e-01, -2.87627057e-02,  2.88589841e-01,
+        5.98563448e-01,  8.68994550e-01,  1.03408085e+00,  1.01906786e+00,
+        7.69074992e-01,  3.30782047e-01, -1.71377665e-01, -6.06617954e-01,
+       -8.76660955e-01, -8.99644105e-01, -6.22852736e-01, -1.24396499e-01,
+...
+        4.46045391e-01,  3.47976753e-01,  1.38804836e-01, -1.36504519e-01,
+       -3.75895260e-01, -5.05877074e-01, -4.63841955e-01, -2.40011967e-01,
+        1.28484965e-01,  4.90227869e-01,  7.00622813e-01,  6.69449237e-01,
+        4.86356349e-01,  2.74340947e-01,  6.67871140e-02, -2.46032879e-01,
+       -6.12185909e-01, -8.38120114e-01, -9.38791859e-01, -9.62573099e-01,
+       -8.22507825e-01, -4.36651532e-01,  8.76037047e-02,  5.13047522e-01,
+        6.39031352e-01,  3.67326151e-01, -5.33264646e-02, -2.87442214e-01,
+       -1.28634612e-01,  9.08660907e-02,  1.93978471e-02, -1.86087802e-02,
+        4.06508302e-02, -4.04168611e-02, -1.90552002e-01, -2.65153650e-01,
+       -2.18259624e-01, -6.31677326e-02,  1.57267608e-01,  4.01259067e-01,
+        6.36411656e-01,  7.67100460e-01,  6.93976673e-01,  4.16085901e-01,
+       -1.76953255e-02, -4.60671703e-01, -7.41693237e-01, -7.38152318e-01,
+       -5.18138439e-01, -1.84393658e-01,  1.48031900e-01,  3.36682081e-01,
+        3.66184437e-01,  2.61139908e-01,  8.14136672e-02, -5.86532699e-02,
+       -1.17369299e-01, -7.84960966e-02,  2.85209728e-02,  7.20751774e-02,
+        4.17181901e-02, -4.31996757e-02, -1.27602130e-01, -6.48659451e-02,
+        8.52551845e-02,  2.02033730e-01,  1.70603977e-01, -4.27235266e-02,
+       -2.34204955e-01, -2.06449484e-01, -1.89909948e-02,  1.78197342e-01,
+        1.95045904e-01,  7.82484522e-02, -6.46318551e-02, -1.41102989e-01,
+       -1.14236944e-01,  9.73897091e-03,  1.15664915e-01,  9.50356010e-02])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf2</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.4274 0.4314 ... -0.5273 -0.514</div><input id='attrs-a34f1719-9bb6-46cd-92f5-3a8e2c91b942' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-a34f1719-9bb6-46cd-92f5-3a8e2c91b942' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-147d5d76-9763-4535-8f2d-8d6915753b22' class='xr-var-data-in' type='checkbox'><label for='data-147d5d76-9763-4535-8f2d-8d6915753b22' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 0.42739013,  0.43139067,  0.41227158,  0.37278878,  0.31693938,
+        0.2487205 ,  0.17212927,  0.0911628 ,  0.00873138, -0.07626145,
+       -0.16463632, -0.25624132, -0.34839684, -0.43779134, -0.51968087,
+       -0.58359176, -0.61761746, -0.60985866, -0.55189827, -0.44911249,
+       -0.31032357, -0.14494719,  0.03522729,  0.21781711,  0.39043949,
+        0.54071166,  0.65625085,  0.72566127,  0.74406944,  0.71774644,
+        0.65497966,  0.56391697,  0.45270623,  0.32871722,  0.1965265 ,
+        0.06120956, -0.07183886, -0.19722402, -0.30955119, -0.40342563,
+       -0.4734526 , -0.51534188, -0.52943541, -0.5180056 , -0.48340012,
+       -0.42786813, -0.35364174, -0.26379108, -0.16473829, -0.06374352,
+        0.03193307,  0.11459916,  0.17483367,  0.20522012,  0.20808905,
+        0.18831216,  0.15117856,  0.10208174,  0.04641517, -0.01027824,
+       -0.06185791, -0.10203384, -0.12451602, -0.12483374, -0.10579346,
+       -0.07202094, -0.02814193,  0.02121781,  0.07143255,  0.11787651,
+        0.15592396,  0.18149163,  0.19309408,  0.19145529,  0.17754925,
+        0.15230549,  0.11665354,  0.07152293,  0.01837522, -0.0391999 ,
+       -0.09708072, -0.15114551, -0.19760627, -0.23450657, -0.26221095,
+       -0.28158075, -0.29347732, -0.29876199, -0.29824781, -0.29255994,
+       -0.28229657, -0.26806121, -0.25045739, -0.23008863, -0.20755844,
+       -0.18347035, -0.15842787, -0.13303453, -0.10789384, -0.08360932,
+...
+        0.59008997,  0.57792707,  0.50670433,  0.38602753,  0.22988173,
+        0.05225201, -0.13222817, -0.30594921, -0.44912291, -0.54157847,
+       -0.56844056, -0.5358974 , -0.45495993, -0.33652091, -0.19147309,
+       -0.03135591,  0.12970444,  0.2769351 ,  0.39556318,  0.47081582,
+        0.49160419,  0.46163386,  0.38863597,  0.28083482,  0.14656342,
+       -0.00522116, -0.16255345, -0.31079496, -0.43479495, -0.51940269,
+       -0.55305473, -0.53857593, -0.48253457, -0.39153804, -0.27219367,
+       -0.13110884,  0.02510911,  0.18981175,  0.35490229,  0.50664682,
+        0.62818966,  0.70221572,  0.71126205,  0.63721349,  0.47078182,
+        0.23948763, -0.01993112, -0.27086505, -0.4772192 , -0.61035498,
+       -0.67094487, -0.66487674, -0.59330161, -0.47010955, -0.31209899,
+       -0.13351765,  0.04952099,  0.22023588,  0.36184598,  0.45757023,
+        0.49062758,  0.45042627,  0.3511317 ,  0.21309853,  0.05668146,
+       -0.09776486, -0.22988573, -0.32279894, -0.37351208, -0.38254198,
+       -0.350596  , -0.27859222, -0.16904503, -0.03317769,  0.10734551,
+        0.23277034,  0.32717667,  0.38557319,  0.4057008 ,  0.38768591,
+        0.34119694,  0.27828784,  0.20999381,  0.1432314 ,  0.08372364,
+        0.03577379, -0.00181922, -0.03163255, -0.0569288 , -0.08381496,
+       -0.11949329, -0.17010035, -0.23577497, -0.31018703, -0.38568121,
+       -0.45402185, -0.5047562 , -0.52726821, -0.51397521])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.4811 -0.4838 ... 0.1341 0.1286</div><input id='attrs-2b69ca63-4312-463e-a476-845942747e4b' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-2b69ca63-4312-463e-a476-845942747e4b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-92e1c463-0f76-4366-88df-5f86299eb5c5' class='xr-var-data-in' type='checkbox'><label for='data-92e1c463-0f76-4366-88df-5f86299eb5c5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-4.81130913e-01, -4.83773153e-01, -4.80653758e-01, -4.72076549e-01,
+       -4.58469492e-01, -4.40260554e-01, -4.17877701e-01, -3.91748898e-01,
+       -3.62302113e-01, -3.29965312e-01, -2.95166460e-01, -2.58333525e-01,
+       -2.19894471e-01, -1.80277267e-01, -1.39909877e-01, -9.92202680e-02,
+       -5.86368750e-02, -1.85808556e-02,  2.05627648e-02,  5.84181112e-02,
+        9.46093085e-02,  1.28760482e-01,  1.60495756e-01,  1.89439255e-01,
+        2.15215106e-01,  2.37447432e-01,  2.55760359e-01,  2.69778012e-01,
+        2.79124515e-01,  2.83563492e-01,  2.83416565e-01,  2.79142204e-01,
+        2.71185008e-01,  2.59973792e-01,  2.45934086e-01,  2.29491418e-01,
+        2.11071319e-01,  1.91099318e-01,  1.70000944e-01,  1.48201728e-01,
+        1.26127199e-01,  1.04202886e-01,  8.28543190e-02,  6.24765818e-02,
+        4.33259505e-02,  2.55601623e-02,  9.31993101e-03, -5.25402951e-03,
+       -1.80210054e-02, -2.88402829e-02, -3.75711482e-02, -4.40728873e-02,
+       -4.82047866e-02, -4.98261320e-02, -4.87962099e-02, -4.50895973e-02,
+       -3.91420357e-02, -3.15045573e-02, -2.27281945e-02, -1.33639797e-02,
+       -3.96294511e-03,  4.92387683e-03,  1.27454538e-02,  1.90359300e-02,
+        2.36752635e-02,  2.66490198e-02,  2.79519300e-02,  2.75949574e-02,
+        2.55931228e-02,  2.19614474e-02,  1.67149522e-02,  9.86865814e-03,
+        1.43758635e-03, -8.51878541e-03, -1.97631524e-02, -3.20137529e-02,
+       -4.49888256e-02, -5.84066089e-02, -7.19853412e-02, -8.54432609e-02,
+...
+       -2.18513480e-01, -1.87376230e-01, -1.51738295e-01, -1.12011910e-01,
+       -6.91024499e-02, -2.40240240e-02,  2.22092579e-02,  6.85832863e-02,
+        1.14083951e-01,  1.57697144e-01,  1.98408754e-01,  2.35305367e-01,
+        2.67915396e-01,  2.96024123e-01,  3.19455877e-01,  3.38034985e-01,
+        3.51585776e-01,  3.59932576e-01,  3.62899714e-01,  3.60307957e-01,
+        3.51963832e-01,  3.37665311e-01,  3.17190396e-01,  2.90459979e-01,
+        2.58047121e-01,  2.20915351e-01,  1.80088844e-01,  1.36591776e-01,
+        9.14483222e-02,  4.56826580e-02,  3.18958797e-04, -4.36186000e-02,
+       -8.51058430e-02, -1.23241243e-01, -1.57613865e-01, -1.87935424e-01,
+       -2.13917634e-01, -2.35272207e-01, -2.51710858e-01, -2.62945300e-01,
+       -2.68687249e-01, -2.68648416e-01, -2.62710115e-01, -2.51432055e-01,
+       -2.35543541e-01, -2.15773881e-01, -1.92852381e-01, -1.67508349e-01,
+       -1.40471091e-01, -1.12469914e-01, -8.41973598e-02, -5.61554254e-02,
+       -2.86353957e-02, -1.88506915e-03,  2.38477555e-02,  4.83152796e-02,
+        7.12697045e-02,  9.24632316e-02,  1.11648062e-01,  1.28576398e-01,
+        1.43062847e-01,  1.55171646e-01,  1.65029440e-01,  1.72762873e-01,
+        1.78498588e-01,  1.82363231e-01,  1.84487351e-01,  1.85020316e-01,
+        1.84128175e-01,  1.81980169e-01,  1.78745539e-01,  1.74593525e-01,
+        1.69693370e-01,  1.64214314e-01,  1.58325598e-01,  1.52196464e-01,
+        1.45996153e-01,  1.39893906e-01,  1.34058964e-01,  1.28625412e-01])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf4</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.152 -0.1461 ... -0.07906</div><input id='attrs-fc8a9889-a407-44f4-9d4b-da69f9b959bc' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-fc8a9889-a407-44f4-9d4b-da69f9b959bc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-df593b06-aaf7-43e6-8f45-a950f4ee9117' class='xr-var-data-in' type='checkbox'><label for='data-df593b06-aaf7-43e6-8f45-a950f4ee9117' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.15202624, -0.14605076, -0.13962781, -0.13278511, -0.12555568,
+       -0.11797253, -0.11006867, -0.10187711, -0.09343086, -0.08476293,
+       -0.07590633, -0.06689408, -0.05775917, -0.04853463, -0.03925347,
+       -0.02994868, -0.02065329, -0.0114003 , -0.00222273,  0.00684641,
+        0.01577412,  0.02452739,  0.03307319,  0.04137853,  0.0494104 ,
+        0.05713577,  0.06452165,  0.07153502,  0.07814287,  0.08431219,
+        0.09000997,  0.09520584,  0.09988332,  0.10404171,  0.10768357,
+        0.11081149,  0.11342805,  0.11553583,  0.11713741,  0.11823536,
+        0.11883226,  0.1189307 ,  0.11853325,  0.11764249,  0.116261  ,
+        0.11439133,  0.11203606,  0.10919775,  0.10587906,  0.10208289,
+        0.09781227,  0.09307019,  0.08785966,  0.08218367,  0.07604522,
+        0.06945826,  0.06248043,  0.05518034,  0.04762656,  0.03988768,
+        0.0320323 ,  0.024129  ,  0.01624637,  0.008453  ,  0.00081238,
+       -0.00663246, -0.01384762, -0.02081544, -0.02752235, -0.03395474,
+       -0.04009901, -0.04594158, -0.05146885, -0.05666722, -0.06152309,
+       -0.06602289, -0.070153  , -0.07389983, -0.0772498 , -0.0801893 ,
+       -0.08270474, -0.08478253, -0.0864094 , -0.08757342, -0.08826299,
+       -0.08846651, -0.08817252, -0.08737017, -0.08605498, -0.0842473 ,
+       -0.08197372, -0.07926081, -0.07613515, -0.07262332, -0.0687519 ,
+       -0.06454746, -0.06003658, -0.05524585, -0.05020183, -0.04493111,
+...
+       -0.14101509, -0.14099096, -0.14049253, -0.13951544, -0.13805533,
+       -0.13610781, -0.13366852, -0.13073309, -0.12729715, -0.12335632,
+       -0.11890624, -0.11394253, -0.10846572, -0.1024985 , -0.09607878,
+       -0.08924707, -0.08204388, -0.07450972, -0.0666851 , -0.05861052,
+       -0.05032649, -0.04187352, -0.03329211, -0.02462278, -0.01590602,
+       -0.00718235,  0.00150772,  0.01012369,  0.01862505,  0.0269713 ,
+        0.03512192,  0.04303641,  0.05067426,  0.05799496,  0.06495801,
+        0.0715229 ,  0.07764912,  0.08329617,  0.08842709,  0.09301918,
+        0.09705829,  0.10055024,  0.10350583,  0.10593589,  0.10785121,
+        0.10926261,  0.1101809 ,  0.1106169 ,  0.1105814 ,  0.11008523,
+        0.10913921,  0.10775421,  0.10594113,  0.10371085,  0.10107426,
+        0.09804226,  0.09462573,  0.09083557,  0.08668257,  0.08217719,
+        0.07732978,  0.07215428,  0.06667898,  0.06093575,  0.05495648,
+        0.04877304,  0.04241729,  0.03592112,  0.0293164 ,  0.022635  ,
+        0.0159088 ,  0.00916967,  0.00244949, -0.00421987, -0.01080653,
+       -0.01727861, -0.02360426, -0.02975158, -0.0356887 , -0.04138376,
+       -0.04680487, -0.05192016, -0.05669776, -0.06110579, -0.06511238,
+       -0.06868955, -0.07182817, -0.07453575, -0.07682302, -0.0787007 ,
+       -0.08017952, -0.08127019, -0.08198344, -0.08233044, -0.08232433,
+       -0.08197944, -0.08131031, -0.08033148, -0.07905748])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf5</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.1279 -0.1265 ... 0.1425 0.1421</div><input id='attrs-2df09e7c-e8d4-40ed-83f0-1c02c14f7933' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-2df09e7c-e8d4-40ed-83f0-1c02c14f7933' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b616b5c1-4630-4592-a35e-9960bbcef88a' class='xr-var-data-in' type='checkbox'><label for='data-b616b5c1-4630-4592-a35e-9960bbcef88a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-1.27923704e-01, -1.26498530e-01, -1.25008157e-01, -1.23454129e-01,
+       -1.21837991e-01, -1.20161287e-01, -1.18425561e-01, -1.16632358e-01,
+       -1.14783221e-01, -1.12879696e-01, -1.10923327e-01, -1.08915657e-01,
+       -1.06858232e-01, -1.04752596e-01, -1.02600293e-01, -1.00402867e-01,
+       -9.81618634e-02, -9.58788256e-02, -9.35552984e-02, -9.11928260e-02,
+       -8.87929529e-02, -8.63572233e-02, -8.38871816e-02, -8.13843722e-02,
+       -7.88503395e-02, -7.62866277e-02, -7.36947813e-02, -7.10763445e-02,
+       -6.84328618e-02, -6.57658775e-02, -6.30769359e-02, -6.03675815e-02,
+       -5.76393585e-02, -5.48938113e-02, -5.21324843e-02, -4.93569218e-02,
+       -4.65686681e-02, -4.37692677e-02, -4.09602649e-02, -3.81432040e-02,
+       -3.53196294e-02, -3.24910855e-02, -2.96591165e-02, -2.68252651e-02,
+       -2.39910670e-02, -2.11580558e-02, -1.83277656e-02, -1.55017301e-02,
+       -1.26815555e-02, -9.86913679e-03, -7.06644146e-03, -4.27543684e-03,
+       -1.49809032e-03,  1.26363074e-03,  4.00775896e-03,  6.73232695e-03,
+        9.43536735e-03,  1.21149128e-02,  1.47689959e-02,  1.73956492e-02,
+        1.99929055e-02,  2.25587973e-02,  2.50913573e-02,  2.75886180e-02,
+        3.00486122e-02,  3.24693724e-02,  3.48489312e-02,  3.71853213e-02,
+        3.94765753e-02,  4.17207259e-02,  4.39158056e-02,  4.60598471e-02,
+        4.81508829e-02,  5.01869459e-02,  5.21660684e-02,  5.40862833e-02,
+        5.59456230e-02,  5.77421203e-02,  5.94738077e-02,  6.11387179e-02,
+...
+       -3.30488147e-02, -3.02472648e-02, -2.74028793e-02, -2.45179707e-02,
+       -2.15948518e-02, -1.86358351e-02, -1.56432333e-02, -1.26193589e-02,
+       -9.56652475e-03, -6.48704335e-03, -3.38322736e-03, -2.57389420e-04,
+        2.88815784e-03,  6.05110178e-03,  9.22912976e-03,  1.24199292e-02,
+        1.56211873e-02,  1.88305917e-02,  2.20458295e-02,  2.52645882e-02,
+        2.84845551e-02,  3.17034177e-02,  3.49188632e-02,  3.81285790e-02,
+        4.13302526e-02,  4.45215712e-02,  4.77002222e-02,  5.08638931e-02,
+        5.40102710e-02,  5.71370436e-02,  6.02418980e-02,  6.33225084e-02,
+        6.63764962e-02,  6.94014694e-02,  7.23950360e-02,  7.53548042e-02,
+        7.82783821e-02,  8.11633776e-02,  8.40073989e-02,  8.68081428e-02,
+        8.95636614e-02,  9.22720954e-02,  9.49315857e-02,  9.75402730e-02,
+        1.00096298e-01,  1.02597802e-01,  1.05042925e-01,  1.07429809e-01,
+        1.09756594e-01,  1.12021420e-01,  1.14222429e-01,  1.16357762e-01,
+        1.18425559e-01,  1.20423961e-01,  1.22351108e-01,  1.24205143e-01,
+        1.25984205e-01,  1.27686435e-01,  1.29309974e-01,  1.30852964e-01,
+        1.32313544e-01,  1.33689855e-01,  1.34980039e-01,  1.36182235e-01,
+        1.37294586e-01,  1.38315231e-01,  1.39242312e-01,  1.40073969e-01,
+        1.40808344e-01,  1.41443576e-01,  1.41977806e-01,  1.42409177e-01,
+        1.42735827e-01,  1.42955899e-01,  1.43067978e-01,  1.43072621e-01,
+        1.42971566e-01,  1.42766650e-01,  1.42459637e-01,  1.42052093e-01])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>imf6</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.04962 -0.04913 ... 0.2044 0.2046</div><input id='attrs-f9d42dac-4178-4aeb-aa35-a4c57dcde579' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f9d42dac-4178-4aeb-aa35-a4c57dcde579' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e34b7644-91f2-40eb-a1b0-faf23081e246' class='xr-var-data-in' type='checkbox'><label for='data-e34b7644-91f2-40eb-a1b0-faf23081e246' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.04961763, -0.04913109, -0.04864438, -0.04815757, -0.04767075,
+       -0.047184  , -0.04669742, -0.04621108, -0.04572508, -0.04523949,
+       -0.04475441, -0.04426991, -0.04378609, -0.04330303, -0.04282082,
+       -0.04233953, -0.04185927, -0.0413801 , -0.04090213, -0.04042543,
+       -0.03995008, -0.03947619, -0.03900382, -0.03853307, -0.03806402,
+       -0.03759675, -0.03713136, -0.03666793, -0.03620654, -0.03574728,
+       -0.03529024, -0.03483549, -0.03438314, -0.03393325, -0.03348592,
+       -0.03304124, -0.03259928, -0.03216013, -0.03172389, -0.03129063,
+       -0.03086044, -0.03043341, -0.03000962, -0.02958916, -0.02917211,
+       -0.02875856, -0.02834859, -0.02794229, -0.02753975, -0.02714105,
+       -0.02674628, -0.02635552, -0.02596885, -0.02558637, -0.02520816,
+       -0.0248343 , -0.02446488, -0.02409999, -0.02373971, -0.02338412,
+       -0.02303332, -0.02268739, -0.0223464 , -0.02201046, -0.02167964,
+       -0.02135404, -0.02103372, -0.02071879, -0.02040933, -0.02010542,
+       -0.01980715, -0.0195146 , -0.01922786, -0.01894701, -0.01867215,
+       -0.01840335, -0.0181407 , -0.01788429, -0.0176342 , -0.01739052,
+       -0.01715333, -0.01692273, -0.01669879, -0.01648159, -0.01627124,
+       -0.01606781, -0.01587138, -0.01568205, -0.01549989, -0.015325  ,
+       -0.01515746, -0.01499735, -0.01484477, -0.01469979, -0.0145625 ,
+       -0.01443299, -0.01431135, -0.01419765, -0.01409199, -0.01399444,
+...
+        0.09733781,  0.09894708,  0.10055397,  0.10215821,  0.10375955,
+        0.10535773,  0.1069525 ,  0.10854359,  0.11013075,  0.11171372,
+        0.11329225,  0.11486608,  0.11643494,  0.11799859,  0.11955677,
+        0.12110922,  0.12265567,  0.12419589,  0.1257296 ,  0.12725655,
+        0.12877648,  0.13028914,  0.13179427,  0.13329161,  0.1347809 ,
+        0.13626189,  0.13773433,  0.13919794,  0.14065248,  0.14209769,
+        0.14353331,  0.14495908,  0.14637475,  0.14778006,  0.14917476,
+        0.15055857,  0.15193126,  0.15329256,  0.15464221,  0.15597996,
+        0.15730554,  0.15861871,  0.15991921,  0.16120677,  0.16248114,
+        0.16374206,  0.16498929,  0.16622255,  0.16744159,  0.16864616,
+        0.16983599,  0.17101084,  0.17217043,  0.17331453,  0.17444286,
+        0.17555517,  0.17665121,  0.17773072,  0.17879343,  0.1798391 ,
+        0.18086746,  0.18187827,  0.18287125,  0.18384615,  0.18480273,
+        0.18574071,  0.18665985,  0.18755988,  0.18844055,  0.1893016 ,
+        0.19014277,  0.19096381,  0.19176446,  0.19254446,  0.19330355,
+        0.19404149,  0.194758  ,  0.19545284,  0.19612574,  0.19677645,
+        0.19740471,  0.19801027,  0.19859287,  0.19915224,  0.19968814,
+        0.2002003 ,  0.20068848,  0.2011524 ,  0.20159182,  0.20200647,
+        0.20239611,  0.20276047,  0.20309929,  0.20341232,  0.2036993 ,
+        0.20396   ,  0.20419428,  0.20440205,  0.20458347])</pre></div></li></ul></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>Perform Ensemble Empirical Mode Decomposition (EEMD) on the time series
+EEMD improves upon EMD by adding white noise ensembles to overcome mode mixing
+The method performs multiple EMD trials (default=100) with different noise realizations
+and averages the results to obtain more stable IMF components</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">eimf_result</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/filter/index.html#easyclimate.filter.filter_eemd" title="easyclimate.filter.filter_eemd" class="sphx-glr-backref-module-easyclimate-filter sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">filter_eemd</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">eimf_result</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 40kB
+Dimensions:  (time: 504)
+Coordinates:
+  * time     (time) datetime64[ns] 4kB 1871-01-31 1871-04-30 ... 1996-10-31
+Data variables:
+    input    (time) float64 4kB -0.15 -0.3 -0.14 -0.41 ... -0.08 -0.18 -0.06
+    eimf0    (time) float64 4kB 0.04034 -0.09792 0.08768 ... -0.098 0.001907
+    eimf1    (time) float64 4kB 0.1221 0.1213 0.1035 ... -0.06064 -0.04334
+    eimf2    (time) float64 4kB 0.2265 0.2247 0.195 ... -0.2472 -0.2482 -0.2318
+    eimf3    (time) float64 4kB -0.2708 -0.2749 -0.2837 ... -0.1229 -0.1236
+    eimf4    (time) float64 4kB -0.1994 -0.1985 -0.1964 ... -0.0265 -0.02531
+    eimf5    (time) float64 4kB -0.06233 -0.06155 -0.06072 ... 0.1971 0.1954
+    eimf6    (time) float64 4kB -0.006563 -0.00638 -0.006198 ... 0.125 0.125
+    eimf7    (time) float64 4kB -0.05238 -0.05237 -0.05236 ... 0.04691 0.04703</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-e4388dfe-87c9-406d-842d-63f7f8b405ce' class='xr-section-summary-in' type='checkbox' disabled /><label for='section-e4388dfe-87c9-406d-842d-63f7f8b405ce' class='xr-section-summary'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 504</li></ul></div></li><li class='xr-section-item'><input id='section-d46777f7-6881-4f7d-bfe9-1d5131de947d' class='xr-section-summary-in' type='checkbox' checked /><label for='section-d46777f7-6881-4f7d-bfe9-1d5131de947d' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1871-01-31 ... 1996-10-31</div><input id='attrs-3cfc7a4e-7966-4846-915a-ade444446710' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-3cfc7a4e-7966-4846-915a-ade444446710' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fa6e7125-d301-492c-9d34-4aa63b499a49' class='xr-var-data-in' type='checkbox'><label for='data-fa6e7125-d301-492c-9d34-4aa63b499a49' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;1871-01-31T00:00:00.000000000&#x27;, &#x27;1871-04-30T00:00:00.000000000&#x27;,
+       &#x27;1871-07-31T00:00:00.000000000&#x27;, ..., &#x27;1996-04-30T00:00:00.000000000&#x27;,
+       &#x27;1996-07-31T00:00:00.000000000&#x27;, &#x27;1996-10-31T00:00:00.000000000&#x27;],
+      shape=(504,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c0015c6b-cd02-45a7-a894-bd7c5292af24' class='xr-section-summary-in' type='checkbox' checked /><label for='section-c0015c6b-cd02-45a7-a894-bd7c5292af24' class='xr-section-summary' title='Expand/collapse section'>Data variables: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>input</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.15 -0.3 -0.14 ... -0.18 -0.06</div><input id='attrs-be427e89-90a4-40ae-9b4b-b52fca6c991a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-be427e89-90a4-40ae-9b4b-b52fca6c991a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-917b3ae3-f02d-4d26-a4a3-a0c96b1567ef' class='xr-var-data-in' type='checkbox'><label for='data-917b3ae3-f02d-4d26-a4a3-a0c96b1567ef' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.15, -0.3 , -0.14, ..., -0.08, -0.18, -0.06], shape=(504,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf0</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.04034 -0.09792 ... 0.001907</div><input id='attrs-a9342e90-c349-44db-ae37-f00c02b5b4a5' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-a9342e90-c349-44db-ae37-f00c02b5b4a5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-11d30aac-9a96-4e67-80b1-36a715255ca2' class='xr-var-data-in' type='checkbox'><label for='data-11d30aac-9a96-4e67-80b1-36a715255ca2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 0.0403374 , -0.09792465,  0.08768425, -0.07081717,  0.01625155,
+       -0.10586222,  0.20045775, -0.04968185, -0.18944307, -0.05046919,
+        0.27521933, -0.05097889, -0.22214528,  0.13683611, -0.02817811,
+       -0.11815126,  0.13371878,  0.01764541,  0.11394184,  0.07401492,
+       -0.29759541, -0.101494  ,  0.42583884,  0.22427794, -0.36301074,
+       -0.43385131,  0.19385511,  0.22319018,  0.4462043 , -0.32552455,
+       -0.21402129,  0.09898304,  0.07834969, -0.19771874,  0.23276931,
+       -0.15980084, -0.01418   ,  0.02345702,  0.0032992 ,  0.03764614,
+        0.05786131,  0.00183131, -0.05408127, -0.06784274, -0.0502917 ,
+        0.16062648, -0.06235687, -0.05989455, -0.08873385,  0.11124281,
+       -0.00931309,  0.04518652, -0.15725667,  0.06213872, -0.04991097,
+        0.35242562, -0.24151148, -0.41893103, -0.25173994,  0.589318  ,
+       -0.26735398, -0.34819783,  0.14924663, -0.02532357, -0.05670896,
+        0.03773483,  0.09520783, -0.07833226, -0.16455946, -0.14328109,
+       -0.13735749,  0.33705079,  0.41196924, -0.14835813, -0.45852646,
+       -0.20073639, -0.03320888,  0.35146214,  0.164267  , -0.36631148,
+       -0.05486806,  0.29862095, -0.01878475, -0.11986945,  0.05566405,
+       -0.10792913,  0.16290386, -0.19740741,  0.09822033,  0.03110853,
+        0.15008134, -0.096336  , -0.13289453,  0.09235254,  0.10761199,
+       -0.12772086, -0.13209613, -0.01037776,  0.24560229,  0.26749604,
+...
+       -0.23802219,  0.36569011,  0.84951327,  0.25931372, -0.53702514,
+       -0.18141353, -0.43721467, -0.33535382,  0.28232716,  0.21626468,
+       -0.11840303,  0.0405894 ,  0.01280983,  0.28422164, -0.35486407,
+       -0.43186312,  0.18840999,  0.68042616,  0.45544318, -0.02470625,
+       -0.61623915, -0.46962796,  0.33113357,  0.40581768, -0.24207584,
+       -0.16695159,  0.12960884, -0.08864504, -0.00393874,  0.10439688,
+        0.02195094, -0.12556824,  0.06678911, -0.06052265,  0.12838442,
+       -0.14151188,  0.15523534, -0.17328242,  0.04477889,  0.20749084,
+        0.0791191 , -0.46720167,  0.40773709,  0.30749123,  0.33968805,
+       -0.20360555, -0.43370676,  0.30107397,  0.00966297,  0.12723632,
+       -0.29614953,  0.24013566,  0.05867012, -0.29980189,  0.13292132,
+        0.10285899,  0.04646993, -0.19247478,  0.20071101, -0.02668235,
+       -0.1768311 , -0.09971008,  0.380857  ,  0.1674899 , -0.27021292,
+       -0.44465388, -0.17074046,  0.28638149,  0.37353858, -0.2654743 ,
+       -0.10305671,  0.06842794,  0.14405951, -0.14878815,  0.05024897,
+       -0.0296986 ,  0.21995794, -0.32574966, -0.06251003,  0.20848647,
+        0.50522521, -0.5459096 , -0.08517161,  0.07002886,  0.39188069,
+       -0.30905815, -0.00481185,  0.22745292,  0.15204461, -0.50873983,
+        0.49651586,  0.21617042, -0.20707184, -0.40176658, -0.10718615,
+        0.23141163,  0.07310902, -0.098003  ,  0.00190711])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf1</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1221 0.1213 ... -0.06064 -0.04334</div><input id='attrs-74b99a28-55e1-44c9-a21e-761ae346f99a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-74b99a28-55e1-44c9-a21e-761ae346f99a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-98a1647c-ce3c-4d8e-b8e3-10e16397ff41' class='xr-var-data-in' type='checkbox'><label for='data-98a1647c-ce3c-4d8e-b8e3-10e16397ff41' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 1.22061736e-01,  1.21315089e-01,  1.03451255e-01,  6.18160824e-02,
+        1.05439263e-02, -3.14967731e-02, -7.28235521e-02, -9.57237015e-02,
+       -5.13998385e-02,  6.68126055e-02,  1.39285616e-01,  7.04451739e-02,
+       -5.34317539e-02, -1.08672001e-01, -3.56634864e-02,  1.31804829e-01,
+        2.89052697e-01,  2.82904858e-01,  2.94291855e-02, -3.56132335e-01,
+       -6.43895705e-01, -6.99680937e-01, -5.78359685e-01, -3.59703808e-01,
+       -5.24977391e-02,  3.59358941e-01,  7.89967353e-01,  1.00267062e+00,
+        7.42869291e-01,  1.39766307e-01, -4.03666631e-01, -6.78743987e-01,
+       -7.10067827e-01, -6.16728562e-01, -5.52640371e-01, -5.30588159e-01,
+       -4.00603526e-01, -1.15932985e-01,  2.14133179e-01,  4.36496798e-01,
+        4.48819125e-01,  2.64678250e-01,  3.18046059e-02, -9.51220666e-02,
+       -1.06396027e-01, -1.06806529e-01, -1.47781789e-01, -1.49530612e-01,
+       -3.47860428e-02,  1.13397175e-01,  1.39003163e-01,  1.50717366e-02,
+       -1.22332357e-01, -1.19070523e-01,  6.93175997e-03,  1.08224141e-01,
+        1.48248726e-01,  2.29393622e-01,  3.73856578e-01,  3.41273985e-01,
+       -1.52987947e-02, -4.60310070e-01, -7.36003191e-01, -7.32246389e-01,
+       -5.35203023e-01, -2.92673122e-01, -9.62156297e-02,  7.56946548e-02,
+        3.12538728e-01,  6.52157286e-01,  9.90418879e-01,  1.10874961e+00,
+        8.10459451e-01,  1.58799115e-01, -5.15590203e-01, -9.07361860e-01,
+       -9.53948130e-01, -8.11994295e-01, -5.63946979e-01, -2.01349961e-01,
+...
+        4.77798208e-01,  3.03651987e-01,  8.51367202e-02, -1.42218973e-01,
+       -3.40471808e-01, -4.66170495e-01, -4.58135033e-01, -2.88220373e-01,
+       -3.67646270e-03,  2.89806089e-01,  4.71164212e-01,  4.74572412e-01,
+        3.66857400e-01,  2.50307421e-01,  1.31893864e-01, -6.88180279e-02,
+       -3.35847740e-01, -5.43272396e-01, -6.39454455e-01, -6.37025693e-01,
+       -5.51870519e-01, -3.45357864e-01,  6.27668545e-02,  5.63632680e-01,
+        7.61157086e-01,  4.35715122e-01, -1.12542585e-01, -4.64561171e-01,
+       -4.25063329e-01, -2.21318545e-01, -1.20646936e-01, -5.79548341e-02,
+       -4.65189628e-02, -1.65750423e-01, -2.89366736e-01, -2.65990289e-01,
+       -1.48808556e-01, -4.30368182e-02,  7.96290300e-02,  2.60945340e-01,
+        4.39530417e-01,  5.66147005e-01,  6.09647410e-01,  4.67636762e-01,
+        9.31354834e-02, -3.59666959e-01, -6.48830827e-01, -6.38557171e-01,
+       -4.19682200e-01, -1.40512794e-01,  1.09120611e-01,  2.88400351e-01,
+        3.60807677e-01,  2.58652685e-01,  4.09471244e-02, -1.18939271e-01,
+       -1.61711696e-01, -1.19031530e-01, -8.78689822e-05,  1.44940579e-01,
+        2.06519388e-01,  5.13199081e-02, -1.98954134e-01, -2.06492978e-01,
+        1.44585749e-02,  1.78617069e-01,  1.54030025e-01,  1.53590952e-02,
+       -1.29086414e-01, -1.86286240e-01, -6.68594539e-02,  1.64433996e-01,
+        2.33886794e-01,  1.03081846e-01, -6.77264550e-02, -1.49789876e-01,
+       -1.38406013e-01, -9.38478441e-02, -6.06430994e-02, -4.33433614e-02])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf2</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.2265 0.2247 ... -0.2482 -0.2318</div><input id='attrs-e761995f-64d6-41d2-b031-9830ba8baaca' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-e761995f-64d6-41d2-b031-9830ba8baaca' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0c0e44fa-952b-47dc-b9d3-7952209d4ba7' class='xr-var-data-in' type='checkbox'><label for='data-0c0e44fa-952b-47dc-b9d3-7952209d4ba7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 2.26540285e-01,  2.24664896e-01,  1.94957348e-01,  1.43700801e-01,
+        8.10088022e-02,  1.74030494e-02, -3.84278087e-02, -8.12051165e-02,
+       -1.10861620e-01, -1.34045619e-01, -1.61330757e-01, -2.01659062e-01,
+       -2.58765150e-01, -3.32384370e-01, -4.16170386e-01, -4.95134220e-01,
+       -5.50227226e-01, -5.63637046e-01, -5.26779280e-01, -4.41266314e-01,
+       -3.10760957e-01, -1.39787254e-01,  6.22812448e-02,  2.78765183e-01,
+        4.85659982e-01,  6.55648879e-01,  7.62620240e-01,  7.81643993e-01,
+        6.99361399e-01,  5.39254369e-01,  3.34399842e-01,  1.17683770e-01,
+       -7.85540141e-02, -2.23408718e-01, -2.94553702e-01, -2.92483225e-01,
+       -2.38729731e-01, -1.58756730e-01, -7.68672928e-02, -1.70740473e-02,
+        1.27070772e-03, -2.36270501e-02, -7.94909520e-02, -1.51133045e-01,
+       -2.20834810e-01, -2.68448765e-01, -2.79004627e-01, -2.50171624e-01,
+       -1.89379147e-01, -1.09634565e-01, -2.48474819e-02,  5.46414061e-02,
+        1.23618201e-01,  1.78537504e-01,  2.15108660e-01,  2.28298220e-01,
+        2.10560838e-01,  1.57058229e-01,  7.24140069e-02, -3.04176129e-02,
+       -1.37107595e-01, -2.30869586e-01, -2.93883316e-01, -3.10568886e-01,
+       -2.78060670e-01, -2.05037227e-01, -1.02376119e-01,  1.66346446e-02,
+        1.36820561e-01,  2.44989529e-01,  3.30690107e-01,  3.84599280e-01,
+        4.01961477e-01,  3.88982265e-01,  3.55776443e-01,  3.12558036e-01,
+        2.67717379e-01,  2.25045546e-01,  1.85590261e-01,  1.44155124e-01,
+...
+        4.12146820e-01,  4.12737321e-01,  3.67658929e-01,  2.89147634e-01,
+        1.92108198e-01,  9.01321364e-02, -5.47564679e-03, -8.63117770e-02,
+       -1.52191084e-01, -2.06925435e-01, -2.54754095e-01, -2.99112987e-01,
+       -3.40402430e-01, -3.76864535e-01, -4.00634593e-01, -3.97407971e-01,
+       -3.55326963e-01, -2.67018109e-01, -1.28014862e-01,  5.68241001e-02,
+        2.67687334e-01,  4.74229320e-01,  6.40858567e-01,  7.31884207e-01,
+        7.12659350e-01,  5.70755205e-01,  3.43822441e-01,  7.90546988e-02,
+       -1.78950350e-01, -3.94161482e-01, -5.40900855e-01, -6.14865917e-01,
+       -6.19960490e-01, -5.62070512e-01, -4.49365796e-01, -2.91803228e-01,
+       -1.03704571e-01,  9.70759734e-02,  2.88461376e-01,  4.45063971e-01,
+        5.42612928e-01,  5.61449521e-01,  4.93305272e-01,  3.53084125e-01,
+        1.68705221e-01, -2.97189521e-02, -2.11995021e-01, -3.49978194e-01,
+       -4.30007912e-01, -4.55673187e-01, -4.34706441e-01, -3.75986480e-01,
+       -2.87676995e-01, -1.76872609e-01, -5.49307656e-02,  6.17421784e-02,
+        1.60465674e-01,  2.34605151e-01,  2.79999192e-01,  2.91667870e-01,
+        2.65440195e-01,  2.05578792e-01,  1.30361000e-01,  6.06387081e-02,
+        8.93557305e-03, -2.33085880e-02, -3.61556153e-02, -3.23873091e-02,
+       -1.82735092e-02, -1.23929164e-03,  9.09702836e-03,  3.54041082e-03,
+       -2.43334391e-02, -7.26609242e-02, -1.30091972e-01, -1.84220426e-01,
+       -2.25492619e-01, -2.47212605e-01, -2.48185245e-01, -2.31826650e-01])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.2708 -0.2749 ... -0.1229 -0.1236</div><input id='attrs-0b74b225-05bf-4f71-a117-be68c5d985df' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-0b74b225-05bf-4f71-a117-be68c5d985df' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-636679d3-fdcd-4681-8451-0ba2c501e9b6' class='xr-var-data-in' type='checkbox'><label for='data-636679d3-fdcd-4681-8451-0ba2c501e9b6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-2.70777604e-01, -2.74937646e-01, -2.83691463e-01, -2.96364137e-01,
+       -3.11760159e-01, -3.28401089e-01, -3.44650983e-01, -3.58745094e-01,
+       -3.68808022e-01, -3.72900034e-01, -3.69208153e-01, -3.56340737e-01,
+       -3.33475683e-01, -3.00509296e-01, -2.58192833e-01, -2.07791480e-01,
+       -1.50745291e-01, -8.86707900e-02, -2.33150733e-02,  4.34384566e-02,
+        1.09633489e-01,  1.73290375e-01,  2.32427808e-01,  2.85071722e-01,
+        3.29249204e-01,  3.62987043e-01,  3.84311235e-01,  3.91434451e-01,
+        3.84296242e-01,  3.64507633e-01,  3.34107580e-01,  2.95195611e-01,
+        2.49872854e-01,  2.00238479e-01,  1.48366168e-01,  9.60634875e-02,
+        4.48066561e-02, -3.94104302e-03, -4.86802459e-02, -8.78681025e-02,
+       -1.19994395e-01, -1.43970242e-01, -1.59702807e-01, -1.67676541e-01,
+       -1.68610898e-01, -1.63372667e-01, -1.52913166e-01, -1.38159995e-01,
+       -1.20005809e-01, -9.92753625e-02, -7.67126406e-02, -5.30506600e-02,
+       -2.90351494e-02, -5.43873960e-03,  1.70305244e-02,  3.78489549e-02,
+        5.66646964e-02,  7.32287772e-02,  8.73896067e-02,  9.90671522e-02,
+        1.08222432e-01,  1.14836939e-01,  1.18898741e-01,  1.20436793e-01,
+        1.19490782e-01,  1.16025766e-01,  1.10021923e-01,  1.01470120e-01,
+        9.03688846e-02,  7.67215757e-02,  6.05665286e-02,  4.20395852e-02,
+        2.14228396e-02, -8.32735899e-04, -2.42553394e-02, -4.83948333e-02,
+       -7.28230935e-02, -9.71241645e-02, -1.20896672e-01, -1.43741797e-01,
+...
+       -1.58853331e-01, -1.28749333e-01, -9.75848393e-02, -6.58801997e-02,
+       -3.42810723e-02, -3.47674540e-03,  2.59853778e-02,  5.40123470e-02,
+        8.09703448e-02,  1.07339729e-01,  1.33583496e-01,  1.60084424e-01,
+        1.86900658e-01,  2.13619694e-01,  2.39598182e-01,  2.64174558e-01,
+        2.86698209e-01,  3.06534565e-01,  3.22999784e-01,  3.35234429e-01,
+        3.42255161e-01,  3.43059719e-01,  3.36635673e-01,  3.22018746e-01,
+        2.98694594e-01,  2.67205040e-01,  2.28920661e-01,  1.85294652e-01,
+        1.37790172e-01,  8.78793155e-02,  3.70524704e-02, -1.31760910e-02,
+       -6.13662381e-02, -1.06397278e-01, -1.47613933e-01, -1.84749747e-01,
+       -2.17582173e-01, -2.45815998e-01, -2.69125061e-01, -2.87180771e-01,
+       -2.99655535e-01, -3.06249204e-01, -3.06872415e-01, -3.01745625e-01,
+       -2.91157432e-01, -2.75380391e-01, -2.54699175e-01, -2.29419333e-01,
+       -1.99868110e-01, -1.66436241e-01, -1.29724667e-01, -9.05090144e-02,
+       -4.96474412e-02, -8.03430644e-03,  3.33882267e-02,  7.36269237e-02,
+        1.11662717e-01,  1.46479609e-01,  1.77081001e-01,  2.02481341e-01,
+        2.21857587e-01,  2.34710666e-01,  2.40913467e-01,  2.40495795e-01,
+        2.33538107e-01,  2.20224308e-01,  2.01018089e-01,  1.76729411e-01,
+        1.48345024e-01,  1.16754526e-01,  8.29076327e-02,  4.78791264e-02,
+        1.29413532e-02, -2.05790908e-02, -5.13824692e-02, -7.81796887e-02,
+       -9.97183290e-02, -1.14877180e-01, -1.22892490e-01, -1.23601214e-01])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf4</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.1994 -0.1985 ... -0.02531</div><input id='attrs-82863c40-8e41-43a7-9b7d-ba5b717e5ce6' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-82863c40-8e41-43a7-9b7d-ba5b717e5ce6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0d698689-936a-4446-b817-65a1f60c5054' class='xr-var-data-in' type='checkbox'><label for='data-0d698689-936a-4446-b817-65a1f60c5054' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-1.99354698e-01, -1.98468447e-01, -1.96380781e-01, -1.93095310e-01,
+       -1.88635983e-01, -1.83036908e-01, -1.76336802e-01, -1.68577613e-01,
+       -1.59803600e-01, -1.50060296e-01, -1.39394722e-01, -1.27860896e-01,
+       -1.15530270e-01, -1.02497290e-01, -8.88683047e-02, -7.47506318e-02,
+       -6.02513064e-02, -4.54773368e-02, -3.05358467e-02, -1.55340680e-02,
+       -5.79243656e-04,  1.42213832e-02,  2.87605642e-02,  4.29310108e-02,
+        5.66254633e-02,  6.97369562e-02,  8.21594012e-02,  9.37912188e-02,
+        1.04554665e-01,  1.14406392e-01,  1.23323026e-01,  1.31294904e-01,
+        1.38317155e-01,  1.44387210e-01,  1.49505396e-01,  1.53674495e-01,
+        1.56899016e-01,  1.59183969e-01,  1.60535299e-01,  1.60959535e-01,
+        1.60463444e-01,  1.59054603e-01,  1.56746069e-01,  1.53563169e-01,
+        1.49544542e-01,  1.44734566e-01,  1.39183756e-01,  1.32950423e-01,
+        1.26096605e-01,  1.18685595e-01,  1.10780377e-01,  1.02443860e-01,
+        9.37410207e-02,  8.47380749e-02,  7.54982890e-02,  6.60820040e-02,
+        5.65495035e-02,  4.69612718e-02,  3.73771224e-02,  2.78527748e-02,
+        1.84383731e-02,  9.17923645e-03,  1.15796833e-04, -8.71588041e-03,
+       -1.72833317e-02, -2.55588568e-02, -3.35193315e-02, -4.11444759e-02,
+       -4.84161260e-02, -5.53181257e-02, -6.18357996e-02, -6.79558457e-02,
+       -7.36639845e-02, -7.89438428e-02, -8.37786814e-02, -8.81520118e-02,
+       -9.20479384e-02, -9.54508500e-02, -9.83469311e-02, -1.00724489e-01,
+...
+       -1.03336977e-01, -9.22606410e-02, -8.06796599e-02, -6.86698485e-02,
+       -5.63123012e-02, -4.36919280e-02, -3.08989876e-02, -1.80310587e-02,
+       -5.18877196e-03,  7.52270372e-03,  1.99968709e-02,  3.21354871e-02,
+        4.38511318e-02,  5.50721745e-02,  6.57395726e-02,  7.58015807e-02,
+        8.52111932e-02,  9.39253036e-02,  1.01903172e-01,  1.09108217e-01,
+        1.15512756e-01,  1.21098373e-01,  1.25856893e-01,  1.29790550e-01,
+        1.32910108e-01,  1.35239527e-01,  1.36813038e-01,  1.37670842e-01,
+        1.37855940e-01,  1.37412500e-01,  1.36384800e-01,  1.34817056e-01,
+        1.32753528e-01,  1.30238945e-01,  1.27314418e-01,  1.24016395e-01,
+        1.20381074e-01,  1.16444784e-01,  1.12242856e-01,  1.07809424e-01,
+        1.03179041e-01,  9.83867603e-02,  9.34660931e-02,  8.84470522e-02,
+        8.33589992e-02,  7.82283266e-02,  7.30766369e-02,  6.79205763e-02,
+        6.27731980e-02,  5.76459462e-02,  5.25498297e-02,  4.74956949e-02,
+        4.24943433e-02,  3.75565394e-02,  3.26930745e-02,  2.79149062e-02,
+        2.32341426e-02,  1.86652720e-02,  1.42251859e-02,  9.93324442e-03,
+        5.81150567e-03,  1.88100620e-03, -1.84105502e-03, -5.34299926e-03,
+       -8.61934855e-03, -1.16681265e-02, -1.44879050e-02, -1.70746026e-02,
+       -1.94174867e-02, -2.15021128e-02, -2.33145148e-02, -2.48416815e-02,
+       -2.60706268e-02, -2.69887438e-02, -2.75841617e-02, -2.78448717e-02,
+       -2.77591115e-02, -2.73149333e-02, -2.64996767e-02, -2.53095427e-02])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf5</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.06233 -0.06155 ... 0.1971 0.1954</div><input id='attrs-38a5eabd-e60e-4ca2-8c25-ae03cdd3864f' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-38a5eabd-e60e-4ca2-8c25-ae03cdd3864f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-48bebbc6-8d32-4636-9773-b2e7ccf4737c' class='xr-var-data-in' type='checkbox'><label for='data-48bebbc6-8d32-4636-9773-b2e7ccf4737c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.06232898, -0.061555  , -0.06071639, -0.05981386, -0.05884851,
+       -0.05782164, -0.05673458, -0.05558865, -0.05438517, -0.05312559,
+       -0.0518117 , -0.05044552, -0.04902909, -0.04756447, -0.04605371,
+       -0.04449887, -0.04290199, -0.04126514, -0.03959035, -0.03787967,
+       -0.03613512, -0.03435876, -0.03255261, -0.03071873, -0.02885914,
+       -0.02697586, -0.02507093, -0.02314636, -0.02120416, -0.01924629,
+       -0.01727464, -0.01529111, -0.01329758, -0.01129595, -0.00928808,
+       -0.0072758 , -0.00526093, -0.00324529, -0.00123067,  0.0007811 ,
+        0.00278819,  0.00478874,  0.00678087,  0.00876264,  0.01073213,
+        0.01268742,  0.01462652,  0.01654753,  0.01844859,  0.02032794,
+        0.02218385,  0.02401462,  0.02581866,  0.02759434,  0.02934005,
+        0.03105422,  0.03273532,  0.03438186,  0.03599235,  0.03756529,
+        0.03909921,  0.04059261,  0.042044  ,  0.0434519 ,  0.04481483,
+        0.04613132,  0.04739985,  0.04861893,  0.04978707,  0.05090291,
+        0.0519651 ,  0.05297229,  0.05392318,  0.0548165 ,  0.0556511 ,
+        0.05642594,  0.05713998,  0.05779233,  0.05838227,  0.05890928,
+        0.05937292,  0.05977295,  0.06010931,  0.06038206,  0.06059151,
+        0.06073822,  0.06082291,  0.06084636,  0.06080941,  0.06071296,
+        0.06055796,  0.06034542,  0.06007641,  0.05975204,  0.05937348,
+        0.0589419 ,  0.05845853,  0.05792463,  0.05734149,  0.05671036,
+...
+       -0.03097895, -0.02834172, -0.02562846, -0.022839  , -0.01997327,
+       -0.01703131, -0.01401341, -0.01092004, -0.00775198, -0.00451062,
+       -0.00119793,  0.00218375,  0.00563172,  0.00914292,  0.01271402,
+        0.01634163,  0.02002224,  0.02375232,  0.02752831,  0.03134663,
+        0.03520365,  0.03909578,  0.0430194 ,  0.04697091,  0.05094668,
+        0.0549431 ,  0.05895653,  0.06298332,  0.06701982,  0.0710624 ,
+        0.0751074 ,  0.07915117,  0.08319008,  0.08722048,  0.09123871,
+        0.09524117,  0.0992243 ,  0.10318452,  0.10711829,  0.11102206,
+        0.11489229,  0.11872548,  0.12251817,  0.12626693,  0.12996834,
+        0.13361914,  0.13721616,  0.14075628,  0.14423645,  0.14765369,
+        0.15100512,  0.15428788,  0.15749916,  0.16063618,  0.16369622,
+        0.16667657,  0.16957453,  0.17238745,  0.17511278,  0.17774812,
+        0.18029122,  0.18273986,  0.18509193,  0.18734539,  0.18949834,
+        0.19154902,  0.19349576,  0.19533697,  0.19707114,  0.19869682,
+        0.20021258,  0.20161701,  0.20290871,  0.20408635,  0.20514862,
+        0.20609435,  0.20692251,  0.20763219,  0.20822257,  0.20869314,
+        0.20904371,  0.2092743 ,  0.20938504,  0.2093762 ,  0.20924821,
+        0.20900155,  0.20863672,  0.2081543 ,  0.20755495,  0.20683941,
+        0.20600862,  0.20506363,  0.20400567,  0.20283613,  0.20155658,
+        0.20016878,  0.19867454,  0.1970758 ,  0.19537469])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf6</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.006563 -0.00638 ... 0.125 0.125</div><input id='attrs-5c08ee67-b66b-4949-bfa8-0e7345813d7e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-5c08ee67-b66b-4949-bfa8-0e7345813d7e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3a99853c-37c0-463c-8695-6b1a48731bb5' class='xr-var-data-in' type='checkbox'><label for='data-3a99853c-37c0-463c-8695-6b1a48731bb5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.00656326, -0.00637977, -0.0061983 , -0.00601893, -0.00584169,
+       -0.00566665, -0.00549385, -0.00532333, -0.00515513, -0.00498929,
+       -0.00482586, -0.00466487, -0.00450636, -0.00435038, -0.00419696,
+       -0.00404613, -0.00389793, -0.0037524 , -0.00360957, -0.00346947,
+       -0.00333215, -0.00319763, -0.00306596, -0.00293715, -0.00281126,
+       -0.0026883 , -0.00256832, -0.00245134, -0.0023374 , -0.00222653,
+       -0.00211877, -0.00201415, -0.0019127 , -0.00181445, -0.00171944,
+       -0.00162769, -0.00153925, -0.00145414, -0.00137239, -0.00129405,
+       -0.00121913, -0.00114768, -0.00107973, -0.00101529, -0.0009544 ,
+       -0.00089709, -0.00084339, -0.00079331, -0.00074689, -0.00070416,
+       -0.00066513, -0.00062984, -0.00059832, -0.00057057, -0.00054664,
+       -0.00052655, -0.00051031, -0.00049795, -0.0004895 , -0.00048498,
+       -0.00048442, -0.00048784, -0.00049525, -0.00050669, -0.00052217,
+       -0.00054171, -0.00056534, -0.00059308, -0.00062495, -0.00066099,
+       -0.0007012 , -0.00074562, -0.00079426, -0.00084716, -0.00090433,
+       -0.00096579, -0.00103157, -0.00110169, -0.00117617, -0.00125502,
+       -0.00133827, -0.00142592, -0.00151799, -0.00161448, -0.00171539,
+       -0.00182073, -0.00193048, -0.00204466, -0.00216325, -0.00228625,
+       -0.00241365, -0.00254543, -0.00268158, -0.00282207, -0.0029669 ,
+       -0.00311603, -0.00326943, -0.00342708, -0.00358893, -0.00375497,
+...
+        0.05365319,  0.05482004,  0.05598523,  0.05714855,  0.05830973,
+        0.05946853,  0.06062472,  0.06177804,  0.06292826,  0.06407514,
+        0.06521845,  0.06635795,  0.06749341,  0.06862459,  0.06975126,
+        0.07087319,  0.07199014,  0.07310188,  0.07420817,  0.07530878,
+        0.07640347,  0.07749201,  0.07857416,  0.0796497 ,  0.08071839,
+        0.08178   ,  0.08283429,  0.08388103,  0.08492   ,  0.08595095,
+        0.08697365,  0.08798787,  0.08899339,  0.08998995,  0.09097735,
+        0.09195533,  0.09292367,  0.09388213,  0.09483049,  0.0957685 ,
+        0.09669594,  0.09761258,  0.09851818,  0.0994125 ,  0.10029533,
+        0.10116642,  0.10202555,  0.10287249,  0.10370702,  0.1045289 ,
+        0.1053379 ,  0.10613381,  0.10691639,  0.10768543,  0.10844069,
+        0.10918197,  0.10990904,  0.11062168,  0.11131967,  0.1120028 ,
+        0.11267084,  0.11332358,  0.1139608 ,  0.11458229,  0.11518782,
+        0.11577718,  0.11635016,  0.11690655,  0.11744612,  0.11796868,
+        0.11847402,  0.11896191,  0.11943217,  0.11988457,  0.12031892,
+        0.12073502,  0.12113266,  0.12151168,  0.1218719 ,  0.12221316,
+        0.1225353 ,  0.1228382 ,  0.12312174,  0.12338583,  0.1236304 ,
+        0.12385538,  0.12406071,  0.12424636,  0.12441229,  0.12455851,
+        0.12468503,  0.1247919 ,  0.12487919,  0.12494698,  0.12499537,
+        0.12502447,  0.12503441,  0.12502532,  0.12499733])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>eimf7</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.05238 -0.05237 ... 0.04703</div><input id='attrs-d51fe920-7d82-4502-a8a5-d9eca62e66f7' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-d51fe920-7d82-4502-a8a5-d9eca62e66f7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-bdc91fb6-b338-4793-b8bf-4e2431c2d491' class='xr-var-data-in' type='checkbox'><label for='data-bdc91fb6-b338-4793-b8bf-4e2431c2d491' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-0.0523779 , -0.0523705 , -0.05236182, -0.05235185, -0.05234059,
+       -0.05232806, -0.05231425, -0.05229917, -0.05228281, -0.05226519,
+       -0.0522463 , -0.05222615, -0.05220475, -0.05218208, -0.05215817,
+       -0.05213301, -0.0521066 , -0.05207894, -0.05205005, -0.05201992,
+       -0.05198854, -0.05195593, -0.05192209, -0.05188701, -0.0518507 ,
+       -0.05181315, -0.05177438, -0.05173437, -0.05169314, -0.05165068,
+       -0.051607  , -0.05156209, -0.05151596, -0.05146861, -0.05142004,
+       -0.05137024, -0.05131924, -0.05126701, -0.05121357, -0.05115892,
+       -0.05110305, -0.05104598, -0.05098769, -0.0509282 , -0.0508675 ,
+       -0.05080559, -0.05074248, -0.05067816, -0.05061265, -0.05054593,
+       -0.05047801, -0.0504089 , -0.05033859, -0.05026708, -0.05019438,
+       -0.05012049, -0.05004541, -0.04996913, -0.04989167, -0.04981302,
+       -0.04973318, -0.04965216, -0.04956996, -0.04948657, -0.04940201,
+       -0.04931626, -0.04922933, -0.04914123, -0.04905195, -0.0489615 ,
+       -0.04886988, -0.04877708, -0.04868311, -0.04858797, -0.04849167,
+       -0.0483942 , -0.04829556, -0.04819576, -0.0480948 , -0.04799268,
+       -0.04788939, -0.04778495, -0.04767935, -0.04757259, -0.04746468,
+       -0.04735562, -0.0472454 , -0.04713403, -0.04702152, -0.04690785,
+       -0.04679304, -0.04667708, -0.04655998, -0.04644174, -0.04632235,
+       -0.04620182, -0.04608016, -0.04595736, -0.04583342, -0.04570834,
+...
+        0.02795188,  0.02820097,  0.02844923,  0.02869666,  0.02894323,
+        0.02918895,  0.02943379,  0.02967777,  0.02992086,  0.03016305,
+        0.03040434,  0.03064472,  0.03088418,  0.0311227 ,  0.03136029,
+        0.03159693,  0.03183261,  0.03206732,  0.03230105,  0.03253381,
+        0.03276556,  0.03299632,  0.03322606,  0.03345478,  0.03368246,
+        0.03390911,  0.03413471,  0.03435925,  0.03458273,  0.03480513,
+        0.03502644,  0.03524666,  0.03546577,  0.03568378,  0.03590066,
+        0.03611641,  0.03633102,  0.03654448,  0.03675678,  0.03696792,
+        0.03717788,  0.03738665,  0.03759423,  0.0378006 ,  0.03800577,
+        0.03820971,  0.03841242,  0.03861389,  0.03881411,  0.03901307,
+        0.03921076,  0.03940718,  0.03960232,  0.03979615,  0.03998869,
+        0.04017991,  0.04036981,  0.04055838,  0.04074561,  0.04093149,
+        0.04111601,  0.04129916,  0.04148094,  0.04166133,  0.04184033,
+        0.04201792,  0.0421941 ,  0.04236885,  0.04254218,  0.04271407,
+        0.0428845 ,  0.04305348,  0.04322099,  0.04338703,  0.04355157,
+        0.04371463,  0.04387618,  0.04403621,  0.04419473,  0.04435171,
+        0.04450715,  0.04466104,  0.04481338,  0.04496415,  0.04511334,
+        0.04526094,  0.04540695,  0.04555135,  0.04569415,  0.04583534,
+        0.0459749 ,  0.04611285,  0.04624916,  0.04638384,  0.04651688,
+        0.04664827,  0.04677801,  0.04690609,  0.04703252])</pre></div></li></ul></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>Visualize the first three IMF components from standard EMD
+IMFs are ordered from highest frequency (IMF0) to lowest frequency (IMF2)
+Each IMF must satisfy two conditions:</p>
+<ul class="simple">
+<li><p>Number of extrema and zero crossings differs by at most one</p></li>
+<li><p>Mean of upper and lower envelopes is zero at any point</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.subplots_adjust.html#matplotlib.figure.Figure.subplots_adjust" title="matplotlib.figure.Figure.subplots_adjust" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span></a><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imf_result</span></a><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;Input&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Input Signal: Niño 3&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imf_result</span></a><span class="p">[</span><span class="s2">&quot;imf0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;IMF 0&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imf_result</span></a><span class="p">[</span><span class="s2">&quot;imf1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;IMF 1&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imf_result</span></a><span class="p">[</span><span class="s2">&quot;imf2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;IMF 2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_emd_001.png" srcset="../../_images/sphx_glr_plot_emd_001.png" alt="Input Signal: Niño 3" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(51.222222222222214, 0.5, &#39;IMF 2&#39;)
+</pre></div>
+</div>
+<p>Visualize the first three eIMF components from EEMD
+Ensemble IMFs show improved mode separation compared to standard EMD
+The noise-assisted approach helps distinguish:</p>
+<ul class="simple">
+<li><p>High-frequency noise/oscillations (eIMF0)</p></li>
+<li><p>Seasonal-to-interannual variability (eIMF1)</p></li>
+<li><p>Lower frequency trends (eIMF2)</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.subplots_adjust.html#matplotlib.figure.Figure.subplots_adjust" title="matplotlib.figure.Figure.subplots_adjust" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span></a><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">eimf_result</span></a><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;Input&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Input Signal: Niño 3&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">eimf_result</span></a><span class="p">[</span><span class="s2">&quot;eimf0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;eIMF 0&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">eimf_result</span></a><span class="p">[</span><span class="s2">&quot;eimf1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;eIMF 1&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">eimf_result</span></a><span class="p">[</span><span class="s2">&quot;eimf2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s2">&quot;eIMF 2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_emd_002.png" srcset="../../_images/sphx_glr_plot_emd_002.png" alt="Input Signal: Niño 3" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(64.22222222222221, 0.5, &#39;eIMF 2&#39;)
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 6.085 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-gallery-filter-plot-emd-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c5509a442f2f6fe7a37e55938b2e7b54/plot_emd.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_emd.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9027621e54c65d037091d7c915146766/plot_emd.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_emd.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/04a4310b46feda602e616b89184c5931/plot_emd.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_emd.zip</span></code></a></p>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_barnes_filter.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Barnes Filter</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plot_redfit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estimate Red-noise Spectrum</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu and easyclimate developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026, Shenyulu（深雨露） and easyclimate developers.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-01-30.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

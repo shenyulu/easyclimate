@@ -1,0 +1,985 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>easyclimate.field.typhoon &#8212; easyclimate v2026.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../../../_static/documentation_options.js?v=6e6efcf0"></script>
+    <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'technical/api/easyclimate/field/typhoon/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-01-30"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/easyclimate_logo_mini.png" class="logo__image only-light" alt="easyclimate v2026.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../_static/easyclimate_logo_mini.png" class="logo__image only-dark" alt="easyclimate v2026.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installation Guide</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../auto_gallery/index.html">Gallery</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../auto_gallery/plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../auto_gallery/plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../auto_gallery/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../auto_gallery/plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../auto_gallery/plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/basic/index.html">Bases for Atmospheric Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/basic/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/basic/plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/basic/plot_multi_linear_reg.html">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/basic/plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/basic/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/basic/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/eddy/index.html">Transient Eddy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/filter/index.html">Filter and Smooth</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/filter/plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/interp/index.html">Interpolation and Regridding</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/ocean/index.html">Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/ocean/plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/ocean/plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/ocean/plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/ocean/plot_oceanic_front.html">Oceanic Front</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/oscillation/index.html">Oscillation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/satellite/index.html">Satellite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/typhoon/index.html">Typhoon</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../auto_gallery/wrf/index.html">WRF data post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../auto_gallery/wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_gallery/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Meteorology Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/air_sea_interaction.html">Air–sea Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/typhoons.html">Typhoons</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../api_index/index.html">List of Functions and Classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributing.html">Contributing to easyclimate🤼</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Ftechnical/api/easyclimate/field/typhoon/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/technical/api/easyclimate/field/typhoon/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>easyclimate.field.typhoon</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002"><code class="docutils literal notranslate"><span class="pre">calc_potential_intensity_Bister_Emanuel_2002()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.field.typhoon.track_cyclone_center_msl_only"><code class="docutils literal notranslate"><span class="pre">track_cyclone_center_msl_only()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.field.typhoon.cyclone_axisymmetric_analysis"><code class="docutils literal notranslate"><span class="pre">cyclone_axisymmetric_analysis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-easyclimate.field.typhoon">
+<span id="easyclimate-field-typhoon"></span><h1>easyclimate.field.typhoon<a class="headerlink" href="#module-easyclimate.field.typhoon" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="axisymmetric/index.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="potential_intensity/index.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="track/index.html">easyclimate.field.typhoon.track</a></li>
+</ul>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002" title="easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_potential_intensity_Bister_Emanuel_2002</span></code></a>(...)</p></td>
+<td><p>Calculate potential intensity of TC (tropical cyclone) according to the Bister and Emanuel (2002) algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#easyclimate.field.typhoon.track_cyclone_center_msl_only" title="easyclimate.field.typhoon.track_cyclone_center_msl_only"><code class="xref py py-obj docutils literal notranslate"><span class="pre">track_cyclone_center_msl_only</span></code></a>(→ pandas.DataFrame)</p></td>
+<td><p>Tracks the center of a cyclone using biquadratic interpolation on mean sea level pressure (MSL) data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.field.typhoon.cyclone_axisymmetric_analysis" title="easyclimate.field.typhoon.cyclone_axisymmetric_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cyclone_axisymmetric_analysis</span></code></a>(, polar_lat, lon_dim, ...)</p></td>
+<td><p>Performs axisymmetric analysis of a cyclone by transforming data into a polar coordinate system centered on the cyclone.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.field.typhoon.</span></span><span class="sig-name descname"><span class="pre">calc_potential_intensity_Bister_Emanuel_2002</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sst_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sst_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_pressure_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_pressure_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'mbar'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'celsius'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kelvin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fahrenheit'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">specific_humidity_data_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kg/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g/g'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'hPa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'mbar'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CKCD</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascent_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diss_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V_reduc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">miss_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">xarray.Dataset</span></a></span></span><a class="headerlink" href="#easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002" title="Link to this definition">#</a></dt>
+<dd><p>Calculate potential intensity of TC (tropical cyclone) according to the Bister and Emanuel (2002) algorithm.</p>
+<p>This function calculates the maximum wind speed and mimimum central pressure achievable
+in tropical cyclones, given a sounding and a sea surface temperature.</p>
+<p>From Bister and Emanuel (1998) EQN. 21, PI may be computed directly via:</p>
+<div class="math notranslate nohighlight">
+\[V_{max}^{2} = \frac{C_k}{C_D}(\frac{T_{s} - T_{0}}{T_{0}})(h_0^* - h^*),\]</div>
+<p>where <span class="math notranslate nohighlight">\(C_k\)</span> and <span class="math notranslate nohighlight">\(C_D\)</span> are the enthalpy and momentum surface exchange coefficients,
+respectively; <span class="math notranslate nohighlight">\(T_{s}\)</span> is the sea surface temperature; <span class="math notranslate nohighlight">\(T_{0}\)</span> is the mean outflow temperature;
+<span class="math notranslate nohighlight">\(h_0^*\)</span> is the saturation moist static energy at the sea surface;
+and <span class="math notranslate nohighlight">\(h^*\)</span> is the moist static energy of the free troposphere.
+The ratio <span class="math notranslate nohighlight">\(\frac{C_k}{C_D}\)</span> is an uncertain quantity typically taken
+to be a constant (default is 0.9, see Emanuel 2003 and references therein).</p>
+<p>Building on this definition, one can extract TC efficiency
+and disequilibrium, and decompose the terms to determine their relative contributions to potential intensity.</p>
+<p>The efficiency of TC PI is the Carnot efficiency. Typical values range between 50-70% in the tropics.</p>
+<p>Each term in the PI equation may decomposed by taking the natural logarithm of both sides, arriving at (Wing et al. 2015; EQN. 2):</p>
+<div class="math notranslate nohighlight">
+\[2*\log(V_{max}) = \log(\frac{C_k}{C_D}) + \log(\frac{T_{s} - T_{0}}{T_{0}}) + \log(h_0^* - h^*).\]</div>
+<p>Note that the units of everything input to the functions (and particularly the temperatures) must match.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl>
+<dt>sst_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The sea surface temperature data.</p>
+</dd>
+<dt>sst_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>sst_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>surface_pressure_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Mean surface sea level pressure.</p>
+</dd>
+<dt>surface_pressure_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>surface_pressure_data</cite> value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>, <cite>mbar</cite>.</p>
+</dd>
+<dt>temperature_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>Atmospheric temperature.</p>
+</dd>
+<dt>temperature_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>temperature_data</cite> value. Optional values are <cite>celsius</cite>, <cite>kelvin</cite>, <cite>fahrenheit</cite>.</p>
+</dd>
+<dt>specific_humidity_data: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>.</dt><dd><p>The Specific humidity of air.</p>
+</dd>
+<dt>specific_humidity_data_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to <cite>specific_humidity</cite> value. Optional values are <cite>kg/kg</cite>, <cite>g/g</cite>, <cite>g/kg</cite> and so on.</p>
+</dd>
+<dt>vertical_dim: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>Vertical coordinate dimension name.</p>
+</dd>
+<dt>vertical_dim_units: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>.</dt><dd><p>The unit corresponding to the vertical p-coordinate value. Optional values are <cite>hPa</cite>, <cite>Pa</cite>, <cite>mbar</cite>.</p>
+</dd>
+<dt>CKCD: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.9.</dt><dd><p>Ratio of <span class="math notranslate nohighlight">\(C_k\)</span> to <span class="math notranslate nohighlight">\(C_D\)</span> (unitless number), i.e. the ratio of the exchange coefficients of enthalpy and
+momentum flux (e.g. see Bister and Emanuel 1998, EQN. 17-18). More discussion on <span class="math notranslate nohighlight">\(\frac{C_k}{C_D}\)</span> is found in Emanuel (2003).
+Default is 0.9 based on e.g. Wing et al. (2015).</p>
+</dd>
+<dt>ascent_flag: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default False.</dt><dd><p>Adjustable constant fraction (unitless fraction) for buoyancy of displaced parcels,
+where <cite>True</cite> is Reversible ascent (default) and <cite>False</cite> is Pseudo-adiabatic ascent.</p>
+</dd>
+<dt>V_reduc: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 0.8.</dt><dd><p>Adjustable constant fraction (unitless fraction) for reduction of gradient winds to 10-m winds
+see Emanuel (2000) and Powell (1980).</p>
+</dd>
+<dt>ptop: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, default 50 <strong>hPa</strong>.</dt><dd><p>Pressure below which sounding is ignored (<strong>hPa</strong>).</p>
+</dd>
+<dt>miss_handle: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, default True.</dt><dd><p>Flag that determines how missing (NaN) values are handled in CAPE calculation.
+- If <cite>False</cite> (BE02 default), NaN values in profile are ignored and PI is still calcuated.
+- If <cite>True</cite>, given NaN values PI will be set to missing (with <cite>IFLAG=3</cite> in CAPE calculation).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If any missing values are between the lowest valid level and ptop
+then PI will automatically be set to missing (with <cite>IFLAG=3</cite> in CAPE calculation)</p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>vmax: The maximum surface wind speed (m/s) reduced to reflect surface drag via <span class="math notranslate nohighlight">\(V_{\text{reduc}}\)</span>.</p></li>
+<li><p>pmin: The minimum central pressure (hPa)</p></li>
+<li><p>ifl: A flag value: A value of 1 means OK; a value of 0 indicates no convergence; a value of 2
+means that the CAPE routine failed to converge; a value of 3  means the CAPE routine failed due to
+missing data in the inputs.</p></li>
+<li><p>t0: The outflow temperature (K)</p></li>
+<li><p>otl: The outflow temperature level (hPa), defined as the level of neutral bouyancy
+where the outflow temperature is found, i.e. where buoyancy is actually equal
+to zero under the condition of an air parcel that is saturated at sea level pressure.</p></li>
+<li><p>eff: Tropical cyclone efficiency.</p></li>
+<li><p>diseq: Thermodynamic disequilibrium.</p></li>
+<li><p>lnpi: Natural <span class="math notranslate nohighlight">\(\log(\text{Potential Intensity})\)</span></p></li>
+<li><p>lneff: Natural <span class="math notranslate nohighlight">\(\log(\text{Tropical Cyclone Efficiency})\)</span></p></li>
+<li><p>lndiseq: Natural <span class="math notranslate nohighlight">\(\log(\text{Thermodynamic Disequilibrium})\)</span></p></li>
+<li><p>lnCKCD: Natural <span class="math notranslate nohighlight">\(\log(C_k/C_D)\)</span></p></li>
+</ul>
+</section>
+<section id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/dgilford/tcpyPI">dgilford/tcpyPI</a></p></li>
+<li><p>Bister, M., Emanuel, K.A. Dissipative heating and hurricane intensity. Meteorl. Atmos. Phys. 65, 233–240 (1998). <a class="reference external" href="https://doi.org/10.1007/BF01030791">https://doi.org/10.1007/BF01030791</a></p></li>
+<li><p>Bister, M., and K. A. Emanuel, Low frequency variability of tropical cyclone potential intensity, 1, Interannual to interdecadal variability, J. Geophys. Res., 107(D24), 4801, <a class="reference external" href="https://doi.org/10.1029/2001JD000776">https://doi.org/10.1029/2001JD000776</a>, 2002.</p></li>
+<li><p>Emanuel, K.: A Statistical Analysis of Tropical Cyclone Intensity, Mon. Weather Rev., 128, 1139–1152, <a class="reference external" href="https://doi.org/10.1175/1520-0493(2000">https://doi.org/10.1175/1520-0493(2000</a>)128&lt;1139:ASAOTC&gt;2.0.CO;2, 2000.</p></li>
+<li><p>Emanuel, K.: Tropical Cyclones, Annu. Rev. Earth Pl. Sc., 31, 75–104, <a class="reference external" href="https://doi.org/10.1146/annurev.earth.31.100901.141259">https://doi.org/10.1146/annurev.earth.31.100901.141259</a>, 2003.</p></li>
+<li><p>Gilford, D. M.: pyPI (v1.3): Tropical Cyclone Potential Intensity Calculations in Python, Geosci. Model Dev., 14, 2351–2369, <a class="reference external" href="https://doi.org/10.5194/gmd-14-2351-2021">https://doi.org/10.5194/gmd-14-2351-2021</a>, 2021.</p></li>
+<li><p>Powell, M. D.: Evaluations of Diagnostic Marine Boundary-Layer Models Applied to Hurricanes, Mon. Weather Rev., 108, 757–766, <a class="reference external" href="https://doi.org/10.1175/1520-0493(1980">https://doi.org/10.1175/1520-0493(1980</a>)108&lt;0757:EODMBL&gt;2.0.CO;2, 1980.</p></li>
+<li><p>Wing, A. A., Emanuel, K., and Solomon, S.: On the factors affecting trends and variability in tropical cyclone potential intensity, Geophys. Res. Lett., 42, 8669–8677, <a class="reference external" href="https://doi.org/10.1002/2015GL066145">https://doi.org/10.1002/2015GL066145</a>, 2015.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.field.typhoon.track_cyclone_center_msl_only">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.field.typhoon.</span></span><span class="sig-name descname"><span class="pre">track_cyclone_center_msl_only</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msl_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.0)"><span class="pre">pandas.DataFrame</span></a></span></span><a class="headerlink" href="#easyclimate.field.typhoon.track_cyclone_center_msl_only" title="Link to this definition">#</a></dt>
+<dd><p>Tracks the center of a cyclone using biquadratic interpolation on mean sea level pressure (MSL) data.</p>
+<p>This function identifies local minima in the MSL data using a minimum filter with cyclic boundary conditions
+in longitude, selects the minimum closest to the provided sample point in geodesic distance, and applies
+biquadratic interpolation to estimate the precise location of the cyclone center. If interpolation fails,
+the grid-based minimum is used.</p>
+<p>This is a simple approach used by the author in <a class="reference external" href="https://github.com/tenomoto/pytrack">pytrack</a> to identify local minima in sea-level pressure.</p>
+<p>Local minima are identified using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.minimum_filter.html#scipy.ndimage.minimum_filter" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.ndimage.minimum_filter()</span></code></a>.
+To ensure consistency with the subsequent quadratic interpolation, we search for minima within a <span class="math notranslate nohighlight">\(3 \cdot 3\)</span> grid.
+Since the region is cropped, the <code class="docutils literal notranslate"><span class="pre">mode</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">nearest</span></code>,
+which extends the boundary values for both latitude and longitude dimensions.</p>
+<p>Given an estimated position, e.g., <span class="math notranslate nohighlight">\(\lambda = 140^\circ, \phi = 20^\circ\)</span> in <code class="docutils literal notranslate"><span class="pre">sample_point</span></code>,
+we calculate the great-circle distance <span class="math notranslate nohighlight">\(d = a\alpha\)</span> (<span class="math notranslate nohighlight">\(a\)</span> is the Earth’s radius) to the identified local minima using the formula:</p>
+<div class="math notranslate nohighlight">
+\[\cos \alpha = \sin\theta_0 \sin\theta + \cos\theta_0 \cos\theta \cos(\lambda - \lambda_0).\]</div>
+<p>Since the relative magnitude remains unchanged when comparing the central angle <span class="math notranslate nohighlight">\(\alpha\)</span> on a unit sphere, the Earth’s radius is omitted.</p>
+<p>The location of the local minima closest to the given longitude and latitude is identified.
+This point and its eight neighboring points, totaling nine points, are stored in a one-dimensional array.
+The center is indexed as 0, and the points are stored counterclockwise starting from the bottom-left corner.</p>
+<p>Let <span class="math notranslate nohighlight">\(f\)</span> be a quadratic function of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f(x, y) = c_0 + c_1x + c_2y + c_3xy + c_4x^2 + c_5y^2 + c_6x^2y + c_7xy^2 + c_8x^2y^2.\]</div>
+<p>A necessary condition for the quadratic function to have an extremum is that its gradient is zero.
+At grid points, assume <span class="math notranslate nohighlight">\(f(x_0, y_0)\)</span> is a local minimum.
+The extremum of <span class="math notranslate nohighlight">\(f(x, y)\)</span> may not necessarily lie on a grid point.
+Suppose the extremum of <span class="math notranslate nohighlight">\(f(x, y)\)</span> is at <span class="math notranslate nohighlight">\(x_0 + \Delta x, y_0 + \Delta y\)</span>. Expanding around <span class="math notranslate nohighlight">\(x_0, y_0\)</span> using a Taylor series gives:</p>
+<div class="math notranslate nohighlight">
+\[f(x, y) = f(x_0, y_0) + f_x\Delta x + f_y\Delta y + \frac{1}{2}f_{xx}(\Delta x)^2 + \frac{1}{2}f_{yy}(\Delta y)^2 + f_{xy}\Delta x\Delta y.\]</div>
+<p>Define:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\mathbf{b} &amp;= -\begin{bmatrix} f_x \ f_y \end{bmatrix}, \\
+\mathbf{A} &amp;= \begin{bmatrix} f_{xx} &amp; f_{xy} \\ f_{xy} &amp; f_{yy} \end{bmatrix}, \\
+\mathbf{x} &amp;= \begin{bmatrix} \Delta x \\ \Delta y \end{bmatrix}.
+\end{align}\end{split}\]</div>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+f(x, y) &amp;= f(x_0, y_0) - \mathbf{b}^T\mathbf{x} + \frac{1}{2}\mathbf{x}^T\mathbf{A}\mathbf{x}, \\
+\nabla f &amp;= \mathbf{A}\mathbf{x} - \mathbf{b} = 0, \\
+\mathbf{x} &amp;= \mathbf{A}^{-1}\mathbf{b}.
+\end{align}\end{split}\]</div>
+<p>When <span class="math notranslate nohighlight">\(d \equiv f_{xx}f_{yy} - f_{xy}^2 \ne 0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{A}^{-1} = \frac{1}{d} \begin{pmatrix} f_{yy} &amp; -f_{xy} \\ -f_{xy} &amp; f_{xx} \end{pmatrix},\end{split}\]</div>
+<p>allowing <span class="math notranslate nohighlight">\(\Delta x\)</span> and <span class="math notranslate nohighlight">\(\Delta y\)</span> to be determined, thus locating the extremum.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl>
+<dt>msl_data<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></span></dt><dd><p>Input mean sea level pressure data with latitude and longitude dimensions.</p>
+</dd>
+<dt>sample_point<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple[float,</span> <span class="pre">float]</span></code></a></span></dt><dd><p>Initial guess for the cyclone center as (longitude, latitude) in degrees.</p>
+</dd>
+<dt>index_value<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List[int]</span> <span class="pre">|</span> <span class="pre">List[float]</span></code></a>, optional</span></dt><dd><p>Index value(s) for the output DataFrame, default is [0].</p>
+</dd>
+<dt>lon_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the longitude dimension, default is ‘lon’.</p>
+</dd>
+<dt>lat_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the latitude dimension, default is ‘lat’.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></dt><dd><p>DataFrame containing the longitude, latitude, and minimum MSL pressure of the cyclone center.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/tenomoto/pytrack">tenomoto/pytrack</a></p></li>
+<li><p>台風: <a class="reference external" href="https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html">https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html</a></p></li>
+</ul>
+</div>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">30</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">track_cyclone_center_msl_only</span><span class="p">(</span><span class="n">slp</span><span class="p">,</span> <span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">index_value</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.field.typhoon.cyclone_axisymmetric_analysis">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.field.typhoon.</span></span><span class="sig-name descname"><span class="pre">cyclone_axisymmetric_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cyclone_center_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polar_lon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">numpy.ndarray</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">360,</span> <span class="pre">2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polar_lat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">numpy.ndarray</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.arange(80,</span> <span class="pre">90.1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'level'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6371.0087714</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../core/datanode/index.html#easyclimate.core.datanode.DataNode" title="easyclimate.core.datanode.DataNode"><span class="pre">easyclimate.core.datanode.DataNode</span></a></span></span><a class="headerlink" href="#easyclimate.field.typhoon.cyclone_axisymmetric_analysis" title="Link to this definition">#</a></dt>
+<dd><p>Performs axisymmetric analysis of a cyclone by transforming data into a polar coordinate system centered on the cyclone.</p>
+<p>This function converts input data to a polar coordinate system based on the cyclone center, interpolates the data onto a polar grid,
+and decomposes it into symmetric and asymmetric components. The symmetric component is the azimuthal mean, and the asymmetric component
+is the deviation from this mean.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></span></dt><dd><p>Input data with latitude, longitude, and optionally vertical dimensions, i.e., <code class="docutils literal notranslate"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> or <code class="docutils literal notranslate"><span class="pre">(level,</span> <span class="pre">lat,</span> <span class="pre">lon)</span></code>.</p>
+</dd>
+<dt>cyclone_center_point<span class="classifier">Tuple[float, float]</span></dt><dd><p>Cyclone center as <code class="docutils literal notranslate"><span class="pre">(longitude,</span> <span class="pre">latitude)</span></code> in degrees.</p>
+</dd>
+<dt>polar_lon<span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional</span></dt><dd><p>Array of longitudinal angles in degrees for the polar grid, default is <code class="docutils literal notranslate"><span class="pre">np.arange(0,</span> <span class="pre">360,</span> <span class="pre">2)</span></code>.</p>
+</dd>
+<dt>polar_lat<span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional</span></dt><dd><p>Array of latitudinal angles in degrees for the polar grid, default is <code class="docutils literal notranslate"><span class="pre">np.arange(80,</span> <span class="pre">90.1,</span> <span class="pre">1)</span></code>.</p>
+</dd>
+<dt>lon_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the longitude dimension, default is ‘lon’.</p>
+</dd>
+<dt>lat_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the latitude dimension, default is ‘lat’.</p>
+</dd>
+<dt>vertical_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the vertical dimension, default is ‘level’.</p>
+</dd>
+<dt>R<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional ( <span class="math notranslate nohighlight">\(\mathrm{km}\)</span> ).</span></dt><dd><p>Earth’s radius, default is 6371.0087714.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="../../index.html#easyclimate.DataNode" title="easyclimate.DataNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">easyclimate.DataNode</span></code></a></dt><dd><p>A DataNode containing three xarray.DataArray objects:</p>
+<ul class="simple">
+<li><p>rotated: Data interpolated onto the polar grid.</p></li>
+<li><p>rotated_symmetric: Azimuthal mean of the rotated data.</p></li>
+<li><p>rotated_asymmetric: Deviation from the azimuthal mean.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html">https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html</a></p></li>
+<li><p>Enomoto, T. (榎本 剛) (2019). Influence of the Track Forecast of Typhoon Prapiroon on the Heavy Rainfall in Western Japan in July 2018. SOLA, 15A, 66-71. <a class="reference external" href="https://doi.org/10.2151/sola.15A-012">https://doi.org/10.2151/sola.15A-012</a></p></li>
+<li><p>Nakashita, S. (中下 早織), &amp; Enomoto, T. (2021). Factors for an Abrupt Increase in Track Forecast Error of Typhoon Hagibis (2019). SOLA, 17A(Special_Edition), 33-37. <a class="reference external" href="https://doi.org/10.2151/sola.17A-006">https://doi.org/10.2151/sola.17A-006</a></p></li>
+</ul>
+</div>
+</section>
+<section id="id5">
+<h3>Example<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">241</span><span class="p">,</span> <span class="mi">241</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">125</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">225</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">550</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">775</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">825</span><span class="p">,</span> <span class="mi">850</span><span class="p">,</span> <span class="mi">875</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">925</span><span class="p">,</span> <span class="mi">950</span><span class="p">,</span> <span class="mi">975</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]),</span>
+<span class="gp">... </span>                            <span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">),</span>
+<span class="gp">... </span>                            <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">170</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">cyclone_axisymmetric_analysis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="mf">140.20</span><span class="p">,</span> <span class="mf">19.77</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">&lt;easyclimate.DataNode &#39;root&#39;&gt;</span>
+<span class="go">root: /</span>
+<span class="go">├── rotated: &lt;xarray.DataArray&gt;</span>
+<span class="go">│   Dimensions:  (level: 37, y: 11, polar_lon: 180)</span>
+<span class="go">│   Coordinates:</span>
+<span class="go">│     * lat        (y: 11): float64</span>
+<span class="go">│     * level      (level: 37): int32</span>
+<span class="go">│     * lon        (polar_lon: 180): int64</span>
+<span class="go">│     * polar_lat  (y: 11): float64</span>
+<span class="go">│     * polar_lon  (polar_lon: 180): int64</span>
+<span class="go">│     * y          (y: 11): float64</span>
+<span class="go">├── rotated_asymmetric: &lt;xarray.DataArray&gt;</span>
+<span class="go">│   Dimensions:  (level: 37, y: 11, polar_lon: 180)</span>
+<span class="go">│   Coordinates:</span>
+<span class="go">│     * lat        (y: 11): float64</span>
+<span class="go">│     * level      (level: 37): int32</span>
+<span class="go">│     * lon        (polar_lon: 180): int64</span>
+<span class="go">│     * polar_lat  (y: 11): float64</span>
+<span class="go">│     * polar_lon  (polar_lon: 180): int64</span>
+<span class="go">│     * y          (y: 11): float64</span>
+<span class="go">└── rotated_symmetric: &lt;xarray.DataArray&gt;</span>
+<span class="go">    Dimensions:  (level: 37, y: 11)</span>
+<span class="go">    Coordinates:</span>
+<span class="go">    * lat        (y: 11): float64</span>
+<span class="go">    * level      (level: 37): int32</span>
+<span class="go">    * polar_lat  (y: 11): float64</span>
+<span class="go">    * y          (y: 11): float64</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.field.typhoon.calc_potential_intensity_Bister_Emanuel_2002"><code class="docutils literal notranslate"><span class="pre">calc_potential_intensity_Bister_Emanuel_2002()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.field.typhoon.track_cyclone_center_msl_only"><code class="docutils literal notranslate"><span class="pre">track_cyclone_center_msl_only()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#easyclimate.field.typhoon.cyclone_axisymmetric_analysis"><code class="docutils literal notranslate"><span class="pre">cyclone_axisymmetric_analysis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu and easyclimate developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026, Shenyulu（深雨露） and easyclimate developers.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-01-30.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

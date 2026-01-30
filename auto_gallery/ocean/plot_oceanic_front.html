@@ -1,0 +1,1485 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Oceanic Front &#8212; easyclimate v2026.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=6e6efcf0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_gallery/ocean/plot_oceanic_front';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Oscillation" href="../oscillation/index.html" />
+    <link rel="prev" title="Ocean Surface Mixed Layers Analysis" href="plot_ocean_mix_layer.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-01-30"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/easyclimate_logo_mini.png" class="logo__image only-light" alt="easyclimate v2026.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/easyclimate_logo_mini.png" class="logo__image only-dark" alt="easyclimate v2026.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Gallery</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../basic/index.html">Bases for Atmospheric Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_multi_linear_reg.html">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../eddy/index.html">Transient Eddy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../filter/index.html">Filter and Smooth</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../interp/index.html">Interpolation and Regridding</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Ocean</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Oceanic Front</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../oscillation/index.html">Oscillation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../satellite/index.html">Satellite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../typhoon/index.html">Typhoon</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../wrf/index.html">WRF data post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Meteorology Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/air_sea_interaction.html">Air–sea Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/typhoons.html">Typhoons</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api_index/index.html">List of Functions and Classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to easyclimate🤼</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Fauto_gallery/ocean/plot_oceanic_front.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/auto_gallery/ocean/plot_oceanic_front.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Oceanic Front</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-gallery-ocean-plot-oceanic-front-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="oceanic-front">
+<span id="sphx-glr-auto-gallery-ocean-plot-oceanic-front-py"></span><h1>Oceanic Front<a class="headerlink" href="#oceanic-front" title="Link to this heading">#</a></h1>
+<p>The role of oceanic fronts in the midlatitude air–sea interaction remains unclear.
+Here, we defines new indexes to quantify the intensity and location of two basin-scale oceanic frontal
+zones in the wintertime North Pacific, i.e. the subtropical and subarctic frontal zones (STFZ, SAFZ).
+With these indexes, two typical modes, which are closely related to two large-scale sea surface temperature (SST) anomaly
+patterns resembling Pacific Decadal Oscillation (PDO) and North Pacific Gyre Oscillation (NPGO), respectively,
+are found in the oceanic front variabilities as well as in their associations with the midlatitude atmospheric
+eddy-driven jet. Corresponding to an PDO-like SST anomaly pattern, an enhanced STFZ occurs with a southward
+shifted SAFZ, which is associated with enhanced overlying atmospheric front, baroclinicity and transient
+eddy vorticity forcing, thus with an intensification of the westerly jet; and vice versa. On the other hand,
+corresponding to an NPGO-like SST pattern, an enhanced SAFZ occurs with a northward shifted STFZ,
+which is associated with a northward shift of the atmospheric front, baroclinicity, transient eddy
+vorticity forcing, and westerly jet; and vice versa. These results suggest that the basin-scale oceanic
+frontal zone is a key region for the midlatitude air–sea interaction in which the atmospheric transient
+eddy’s dynamical forcing is a key player in such an interaction.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>Wang, L., Yang, X.-Q., Yang, D., Xie, Q., Fang, J. and Sun, X. (2017), Two typical modes in the variabilities of wintertime North Pacific basin-scale oceanic fronts and associated atmospheric eddy-driven jet. Atmos. Sci. Lett, 18: 373-380. Website: <a class="reference external" href="https://doi.org/10.1002/asl.766">https://doi.org/10.1002/asl.766</a></p></li>
+<li><p>Wang, L., Hu, H. &amp; Yang, X. The atmospheric responses to the intensity variability of subtropical front in the wintertime North Pacific. Clim Dyn 52, 5623–5639 (2019). <a class="reference external" href="https://doi.org/10.1007/s00382-018-4468-9">https://doi.org/10.1007/s00382-018-4468-9</a></p></li>
+<li><p>Huang, Q., Fang, J., Tao, L. et al. Wintertime ocean–atmosphere interaction processes associated with the SST variability in the North Pacific subarctic frontal zone. Clim Dyn 62, 1159–1177 (2024). <a class="reference external" href="https://doi.org/10.1007/s00382-023-06958-6">https://doi.org/10.1007/s00382-023-06958-6</a></p></li>
+<li><p>Fang, Z., Sun, X., Yang, X.-Q., &amp; Zhu, Z. (2024). Interdecadal variations in the spatial pattern of the Arctic Oscillation Arctic center in wintertime. Geophysical Research Letters, 51, e2024GL111380. <a class="reference external" href="https://doi.org/10.1029/2024GL111380">https://doi.org/10.1029/2024GL111380</a></p></li>
+<li><p>姚瑶. (2018). 北太平洋风暴轴与中纬度海洋锋的相互作用研究（博士学位论文，国防科技大学）. 博士 <a class="reference external" href="https://link.cnki.net/doi/10.27052/d.cnki.gzjgu.2018.000410">https://link.cnki.net/doi/10.27052/d.cnki.gzjgu.2018.000410</a>.</p></li>
+</ul>
+</div>
+<p>Before proceeding with all the steps, first import some necessary libraries and packages</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span>
+</pre></div>
+</div>
+<p>We sets up a cartographic projection (Plate Carrée) and creates a base map to visualize the study area.
+It restricts the spatial extent to the North Pacific (120°E–240°E, 10°N–60°N) and overlays grid lines with labeled coordinates.
+Rectangular patches are added to demarcate the Subtropical Frontal Zone (STFZ, 145°E–215°E, 24°N–32°N) and Subarctic
+Frontal Zone (SAFZ, 145°E–215°E, 36°N–44°N), with text labels for clarity. This establishes the geographical context for subsequent frontal zone analyses.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">proj_trans</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(</span><span class="n">central_longitude</span> <span class="o">=</span> <span class="mi">110</span><span class="p">)})</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">stock_img</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="mi">120</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="n">crs</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+
+<span class="c1"># Grid line</span>
+<span class="n">gl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">gl</span><span class="o">.</span><span class="n">top_labels</span></a> <span class="o">=</span> <span class="kc">False</span>
+<a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">gl</span><span class="o">.</span><span class="n">right_labels</span></a> <span class="o">=</span> <span class="kc">False</span>
+<a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">gl</span><span class="o">.</span><span class="n">left_labels</span></a> <span class="o">=</span> <span class="kc">True</span>
+<a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">gl</span><span class="o">.</span><span class="n">bottom_labels</span></a> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># STFZ</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rect1</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class"><span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span></a><span class="p">((</span><span class="mi">145</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">ec</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">fc</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.add_patch.html#matplotlib.axes.Axes.add_patch" title="matplotlib.axes.Axes.add_patch" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span></a><span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rect1</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.text.html#matplotlib.axes.Axes.text" title="matplotlib.axes.Axes.text" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">text</span></a><span class="p">(</span><span class="mi">180</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">28</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span><span class="s1">&#39;STFZ&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="c1"># SAFZ</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rect2</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class"><span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span></a><span class="p">((</span><span class="mi">145</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">ec</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">fc</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.add_patch.html#matplotlib.axes.Axes.add_patch" title="matplotlib.axes.Axes.add_patch" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span></a><span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rect2</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.text.html#matplotlib.axes.Axes.text" title="matplotlib.axes.Axes.text" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">text</span></a><span class="p">(</span><span class="mi">180</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span><span class="s1">&#39;SAFZ&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_oceanic_front_001.png" srcset="../../_images/sphx_glr_plot_oceanic_front_001.png" alt="plot oceanic front" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(180, 40, &#39;SAFZ&#39;)
+</pre></div>
+</div>
+<p>Here, we import the Optimum Interpolation Sea Surface Temperature (OISST) tutorial dataset using easyclimate,
+extracting the sst variable. The dataset is printed to display its structure (dimensions, coordinates, and metadata),
+ensuring the input data is correctly loaded for further processing.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.open_tutorial_dataset" title="easyclimate.open_tutorial_dataset" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">open_tutorial_dataset</span></a><span class="p">(</span><span class="s1">&#39;sst_mnmean_oisst&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sst</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;sst&#x27; (time: 494, lat: 180, lon: 360)&gt; Size: 128MB
+[32011200 values with dtype=float32]
+Coordinates:
+  * time     (time) datetime64[ns] 4kB 1981-12-01 1982-01-01 ... 2023-01-01
+  * lat      (lat) float32 720B -89.5 -88.5 -87.5 -86.5 ... 86.5 87.5 88.5 89.5
+  * lon      (lon) float32 1kB 0.5 1.5 2.5 3.5 4.5 ... 356.5 357.5 358.5 359.5</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;sst&#x27;</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 494</li><li><span class='xr-has-index'>lat</span>: 180</li><li><span class='xr-has-index'>lon</span>: 360</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-9e170d46-e3b9-4a5a-b7b0-74a2c19ca84e' class='xr-array-in' type='checkbox' checked><label for='section-9e170d46-e3b9-4a5a-b7b0-74a2c19ca84e' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>...</span></div><div class='xr-array-data'><pre>[32011200 values with dtype=float32]</pre></div></div></li><li class='xr-section-item'><input id='section-bc6dcf1f-ffac-4199-a0bd-97671e095bb2' class='xr-section-summary-in' type='checkbox' checked /><label for='section-bc6dcf1f-ffac-4199-a0bd-97671e095bb2' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1981-12-01 ... 2023-01-01</div><input id='attrs-3a114726-5eab-4e1e-b1b0-7ca73df3cd58' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3a114726-5eab-4e1e-b1b0-7ca73df3cd58' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d028effc-51ee-4225-9eca-9ab8bd980114' class='xr-var-data-in' type='checkbox'><label for='data-d028effc-51ee-4225-9eca-9ab8bd980114' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>actual_range :</span></dt><dd>[66443. 81449.]</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>avg_period :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-07 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bnds</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1981-12-01T00:00:00.000000000&#x27;, &#x27;1982-01-01T00:00:00.000000000&#x27;,
+       &#x27;1982-02-01T00:00:00.000000000&#x27;, ..., &#x27;2022-11-01T00:00:00.000000000&#x27;,
+       &#x27;2022-12-01T00:00:00.000000000&#x27;, &#x27;2023-01-01T00:00:00.000000000&#x27;],
+      shape=(494,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-89.5 -88.5 -87.5 ... 88.5 89.5</div><input id='attrs-318d2eb3-8bd3-4db3-844e-7f0a604c88c7' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-318d2eb3-8bd3-4db3-844e-7f0a604c88c7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-541dae67-2d18-4391-ae73-470da4664884' class='xr-var-data-in' type='checkbox'><label for='data-541dae67-2d18-4391-ae73-470da4664884' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>actual_range :</span></dt><dd>[ 89.5 -89.5]</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>coordinate_defines :</span></dt><dd>center</dd></dl></div><div class='xr-var-data'><pre>array([-89.5, -88.5, -87.5, -86.5, -85.5, -84.5, -83.5, -82.5, -81.5, -80.5,
+       -79.5, -78.5, -77.5, -76.5, -75.5, -74.5, -73.5, -72.5, -71.5, -70.5,
+       -69.5, -68.5, -67.5, -66.5, -65.5, -64.5, -63.5, -62.5, -61.5, -60.5,
+       -59.5, -58.5, -57.5, -56.5, -55.5, -54.5, -53.5, -52.5, -51.5, -50.5,
+       -49.5, -48.5, -47.5, -46.5, -45.5, -44.5, -43.5, -42.5, -41.5, -40.5,
+       -39.5, -38.5, -37.5, -36.5, -35.5, -34.5, -33.5, -32.5, -31.5, -30.5,
+       -29.5, -28.5, -27.5, -26.5, -25.5, -24.5, -23.5, -22.5, -21.5, -20.5,
+       -19.5, -18.5, -17.5, -16.5, -15.5, -14.5, -13.5, -12.5, -11.5, -10.5,
+        -9.5,  -8.5,  -7.5,  -6.5,  -5.5,  -4.5,  -3.5,  -2.5,  -1.5,  -0.5,
+         0.5,   1.5,   2.5,   3.5,   4.5,   5.5,   6.5,   7.5,   8.5,   9.5,
+        10.5,  11.5,  12.5,  13.5,  14.5,  15.5,  16.5,  17.5,  18.5,  19.5,
+        20.5,  21.5,  22.5,  23.5,  24.5,  25.5,  26.5,  27.5,  28.5,  29.5,
+        30.5,  31.5,  32.5,  33.5,  34.5,  35.5,  36.5,  37.5,  38.5,  39.5,
+        40.5,  41.5,  42.5,  43.5,  44.5,  45.5,  46.5,  47.5,  48.5,  49.5,
+        50.5,  51.5,  52.5,  53.5,  54.5,  55.5,  56.5,  57.5,  58.5,  59.5,
+        60.5,  61.5,  62.5,  63.5,  64.5,  65.5,  66.5,  67.5,  68.5,  69.5,
+        70.5,  71.5,  72.5,  73.5,  74.5,  75.5,  76.5,  77.5,  78.5,  79.5,
+        80.5,  81.5,  82.5,  83.5,  84.5,  85.5,  86.5,  87.5,  88.5,  89.5],
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.5 1.5 2.5 ... 357.5 358.5 359.5</div><input id='attrs-b00da87f-a2a4-434a-bb58-f7c693c61804' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b00da87f-a2a4-434a-bb58-f7c693c61804' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-967f933d-e0ab-457d-800c-6fcd77cd7fa4' class='xr-var-data-in' type='checkbox'><label for='data-967f933d-e0ab-457d-800c-6fcd77cd7fa4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>actual_range :</span></dt><dd>[  0.5 359.5]</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>coordinate_defines :</span></dt><dd>center</dd></dl></div><div class='xr-var-data'><pre>array([  0.5,   1.5,   2.5, ..., 357.5, 358.5, 359.5],
+      shape=(360,), dtype=float32)</pre></div></li></ul></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>This block calculates the winter (December–January–February, DJF) seasonal mean SST from the monthly data using <a class="reference internal" href="../../technical/api/easyclimate/index.html#easyclimate.calc_seasonal_mean" title="easyclimate.calc_seasonal_mean"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.calc_seasonal_mean</span></code></a>.
+It then derives the long-term (time-mean) winter SST climatology over the extended North Pacific (110°E–250°E, 0°N–80°N).
+Additionally, the meridional gradient of SST (<span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span>) is computed using <a class="reference internal" href="../../technical/api/easyclimate/index.html#easyclimate.calc_dy_gradient" title="easyclimate.calc_dy_gradient"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.calc_dy_gradient</span></code></a>
+(with a sign inversion to align with standard gradient conventions) and averaged over time to obtain its climatological mean.
+These variables are critical for quantifying oceanic frontal intensity (via <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span>) and spatial patterns.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_DJF_mean</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.calc_seasonal_mean" title="easyclimate.calc_seasonal_mean" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">calc_seasonal_mean</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data</span></a><span class="p">,</span> <span class="n">extract_season</span><span class="o">=</span><span class="s2">&quot;DJF&quot;</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_DJF_longmean</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.mean.html#xarray.DataArray.mean" title="xarray.DataArray.mean" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">sst_data_DJF_mean</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">lat</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.calc_dy_gradient" title="easyclimate.calc_dy_gradient" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">calc_dy_gradient</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_DJF_mean</span></a><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lon</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">lat</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span> <span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_longmean</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.mean.html#xarray.DataArray.mean" title="xarray.DataArray.mean" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">dtdy_data_DJF_mean</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, The blocks visualize the long-term winter SST and its meridional gradient. Using a <code class="docutils literal notranslate"><span class="pre">Plate</span> <span class="pre">Carrée</span></code> projection centered at 180°E,
+it overlays black SST contours (4–30℃, 4℃ intervals) to show surface temperature structure.
+The <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> field is plotted as a filled contour (range: <span class="math notranslate nohighlight">\(-1.8 \times 10^{-5} \sim 1.8 \times 10^{-5}\)</span> ℃/m) to
+highlight regions of strong oceanic fronts (positive <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> indicates northward SST increase).
+Land areas are shaded to emphasize marine features. A horizontal colorbar is added for <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span>,
+with scientific notation formatting. This figure contextualizes frontal zones within the broader SST climatology.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">proj_trans</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="mi">120</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="n">crs</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span> <span class="o">=</span> <span class="s1">&#39;#DDDDDD&#39;</span><span class="p">,</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># SST</span>
+<span class="n">fig1</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_DJF_longmean</span></a><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">zorder</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.clabel.html#matplotlib.axes.Axes.clabel" title="matplotlib.axes.Axes.clabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">clabel</span></a><span class="p">(</span><span class="n">fig1</span><span class="p">,</span> <span class="n">inline</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
+
+<span class="c1"># dSST/dy</span>
+<span class="n">fig2</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_longmean</span></a><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">levels</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="o">-</span><span class="mf">1.8</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1.8</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">zorder</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar" title="matplotlib.colorbar.Colorbar" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cb1</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.colorbar.html#matplotlib.figure.Figure.colorbar" title="matplotlib.figure.Figure.colorbar" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span></a><span class="p">(</span><span class="n">fig2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span> <span class="n">extendrect</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.set_label" title="matplotlib.colorbar.Colorbar.set_label" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-method"><span class="n">cb1</span><span class="o">.</span><span class="n">set_label</span></a><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.formatter" title="matplotlib.colorbar.Colorbar.formatter" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-property"><span class="n">cb1</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">set_powerlimits</span></a><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.formatter" title="matplotlib.colorbar.Colorbar.formatter" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-property"><span class="n">cb1</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">set_useMathText</span></a><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;DJF ${</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{d}</span><span class="s2">SST}/{</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{d}</span><span class="s2">y}$ and SST&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_oceanic_front_002.png" srcset="../../_images/sphx_glr_plot_oceanic_front_002.png" alt="DJF ${\mathrm{d}SST}/{\mathrm{d}y}$ and SST" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;DJF ${\\mathrm{d}SST}/{\\mathrm{d}y}$ and SST&#39;)
+</pre></div>
+</div>
+<p>This section uses <code class="docutils literal notranslate"><span class="pre">easyclimate</span></code> utility functions to quantify frontal zone variability:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../technical/api/easyclimate/field/ocean/oceanic_front/index.html#easyclimate.field.ocean.oceanic_front.calc_intensity_STFZ" title="easyclimate.field.ocean.oceanic_front.calc_intensity_STFZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front.calc_intensity_STFZ</span></code></a>: Computes the area-averaged <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> within predefined STFZ regions to represent frontal intensity.</p></li>
+<li><p><a class="reference internal" href="../../technical/api/easyclimate/field/ocean/oceanic_front/index.html#easyclimate.field.ocean.oceanic_front.calc_intensity_SAFZ" title="easyclimate.field.ocean.oceanic_front.calc_intensity_SAFZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front.calc_intensity_SAFZ</span></code></a>: Computes the area-averaged <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> within predefined SAFZ regions to represent frontal intensity.</p></li>
+<li><p><a class="reference internal" href="../../technical/api/easyclimate/field/ocean/oceanic_front/index.html#easyclimate.field.ocean.oceanic_front.calc_location_STFZ" title="easyclimate.field.ocean.oceanic_front.calc_location_STFZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front.calc_location_STFZ</span></code></a>: Determines the latitude of maximum <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> within each zone to track STFZ position.</p></li>
+<li><p><a class="reference internal" href="../../technical/api/easyclimate/field/ocean/oceanic_front/index.html#easyclimate.field.ocean.oceanic_front.calc_location_SAFZ" title="easyclimate.field.ocean.oceanic_front.calc_location_SAFZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front.calc_location_SAFZ</span></code></a>: Determines the latitude of maximum <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> within each zone to track SAFZ position.</p></li>
+<li><p><a class="reference internal" href="../../technical/api/easyclimate/field/ocean/oceanic_front/index.html#easyclimate.field.ocean.oceanic_front.calc_location_line_STFZ" title="easyclimate.field.ocean.oceanic_front.calc_location_line_STFZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front.calc_location_line_STFZ</span></code></a>: Generates longitude-dependent positional lines (latitude vs. longitude) for STFZ, capturing their zonal structure.</p></li>
+<li><p><a class="reference internal" href="../../technical/api/easyclimate/field/ocean/oceanic_front/index.html#easyclimate.field.ocean.oceanic_front.calc_location_SAFZ" title="easyclimate.field.ocean.oceanic_front.calc_location_SAFZ"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.field.ocean.oceanic_front.calc_location_SAFZ</span></code></a>: Generates longitude-dependent positional lines (latitude vs. longitude) for SAFZ, capturing their zonal structure.</p></li>
+</ul>
+<p>Long-term means of these positional lines are computed to establish climatological frontal boundaries.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">intensity_STFZ_DJF</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/ocean/index.html#easyclimate.field.ocean.calc_intensity_STFZ" title="easyclimate.field.ocean.calc_intensity_STFZ" class="sphx-glr-backref-module-easyclimate-field-ocean sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">ocean</span><span class="o">.</span><span class="n">calc_intensity_STFZ</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">intensity_SAFZ_DJF</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/ocean/index.html#easyclimate.field.ocean.calc_intensity_SAFZ" title="easyclimate.field.ocean.calc_intensity_SAFZ" class="sphx-glr-backref-module-easyclimate-field-ocean sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">ocean</span><span class="o">.</span><span class="n">calc_intensity_SAFZ</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">location_STFZ_DJF</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/ocean/index.html#easyclimate.field.ocean.calc_location_STFZ" title="easyclimate.field.ocean.calc_location_STFZ" class="sphx-glr-backref-module-easyclimate-field-ocean sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">ocean</span><span class="o">.</span><span class="n">calc_location_STFZ</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">location_SAFZ_DJF</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/ocean/index.html#easyclimate.field.ocean.calc_location_SAFZ" title="easyclimate.field.ocean.calc_location_SAFZ" class="sphx-glr-backref-module-easyclimate-field-ocean sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">ocean</span><span class="o">.</span><span class="n">calc_location_SAFZ</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a><span class="p">)</span>
+
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_STFZ_DJF</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/ocean/index.html#easyclimate.field.ocean.calc_location_line_STFZ" title="easyclimate.field.ocean.calc_location_line_STFZ" class="sphx-glr-backref-module-easyclimate-field-ocean sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">ocean</span><span class="o">.</span><span class="n">calc_location_line_STFZ</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_SAFZ_DJF</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/ocean/index.html#easyclimate.field.ocean.calc_location_line_SAFZ" title="easyclimate.field.ocean.calc_location_line_SAFZ" class="sphx-glr-backref-module-easyclimate-field-ocean sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">ocean</span><span class="o">.</span><span class="n">calc_location_line_SAFZ</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_mean</span></a><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_STFZ_DJF_longmean</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.mean.html#xarray.DataArray.mean" title="xarray.DataArray.mean" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">line_STFZ_DJF</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_SAFZ_DJF_longmean</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.mean.html#xarray.DataArray.mean" title="xarray.DataArray.mean" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">line_SAFZ_DJF</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This code creates a 2×2 subplot grid to visualize frontal zone dynamics:</p>
+<ul class="simple">
+<li><p>Top row: Time series of STFZ and SAFZ intensity (multiplied by <span class="math notranslate nohighlight">\(10^5\)</span> for readability), with y-labels indicating units (<span class="math notranslate nohighlight">\(- 10^{-5}\)</span> ℃/m).</p></li>
+<li><p>Bottom row: Time series of STFZ and SAFZ meridional location (latitude, °N), with latitude-formatted axes.</p></li>
+</ul>
+<p>Subplots are labeled (a)–(d) for reference, and x-axis labels are removed for consistency. This figure highlights interannual variations in frontal strength and position, key for identifying modes of variability (e.g., PDO/NPGO associations).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">titleleft_fontsize</span></a> <span class="o">=</span> <span class="mi">22</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">titleright_fontsize</span></a> <span class="o">=</span> <span class="mi">20</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">titleleft_pad</span></a> <span class="o">=</span> <span class="mi">10</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">decimal_places</span></a> <span class="o">=</span> <span class="mi">2</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.subplots_adjust.html#matplotlib.figure.Figure.subplots_adjust" title="matplotlib.figure.Figure.subplots_adjust" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span></a><span class="p">(</span><span class="n">hspace</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># STFZ Intensity</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">intensity_STFZ_DJF</span></a> <span class="o">*</span><span class="mf">1e5</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">times 10^{-5}$&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;ITS STFZ&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;(a)&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># SAFZ Intensity</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">intensity_SAFZ_DJF</span></a> <span class="o">*</span><span class="mf">1e5</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_ylabel.html#matplotlib.axes.Axes.set_ylabel" title="matplotlib.axes.Axes.set_ylabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span></a><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">times 10^{-5}$&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;ITS SAFZ&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;(b)&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># STFZ Location</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">location_STFZ_DJF</span></a> <span class="o">*</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;LCT STFZ&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;(c)&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># SAFZ Location</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line1</span></a><span class="p">,</span> <span class="o">=</span> <span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">location_SAFZ_DJF</span></a> <span class="o">*</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;LCT SAFZ&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;(d)&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+
+<span class="k">for</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">:</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a> <span class="ow">in</span> <span class="p">[</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]:</span>
+    <a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.set_lat_format_axis" title="easyclimate.plot.set_lat_format_axis" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_lat_format_axis</span></a><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axi</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_oceanic_front_003.png" srcset="../../_images/sphx_glr_plot_oceanic_front_003.png" alt="(a), ITS STFZ, (b), ITS SAFZ, (c), LCT STFZ, (d), LCT SAFZ" class = "sphx-glr-single-img"/><p>Finally, we revisits the spatial plot of winter <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> but adds the long-term mean positional lines of STFZ and SAFZ (black lines).
+These lines, derived from the zonal average of <code class="docutils literal notranslate"><span class="pre">line_STFZ_DJF_longmean</span></code> and <code class="docutils literal notranslate"><span class="pre">line_SAFZ_DJF_longmean</span></code>,
+visually validate the frontal zone definitions by aligning with peak <span class="math notranslate nohighlight">\(\mathrm{d}SST/\mathrm{d}y\)</span> regions.
+The figure confirms that the positional lines coincide with the core of the oceanic fronts,
+ensuring the indices accurately represent frontal structure.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">proj_trans</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="mi">120</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="n">crs</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span> <span class="o">=</span> <span class="s1">&#39;#DDDDDD&#39;</span><span class="p">,</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Line</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_STFZ_DJF_longmean</span></a><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_SAFZ_DJF_longmean</span></a><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">proj_trans</span><span class="p">)</span>
+
+<span class="c1"># dSST/dy</span>
+<span class="n">fig2</span> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dtdy_data_DJF_longmean</span></a><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">levels</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="o">-</span><span class="mf">1.8</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1.8</span><span class="o">*</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">zorder</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar" title="matplotlib.colorbar.Colorbar" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cb1</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.colorbar.html#matplotlib.figure.Figure.colorbar" title="matplotlib.figure.Figure.colorbar" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span></a><span class="p">(</span><span class="n">fig2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span> <span class="n">extendrect</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.set_label" title="matplotlib.colorbar.Colorbar.set_label" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-method"><span class="n">cb1</span><span class="o">.</span><span class="n">set_label</span></a><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.formatter" title="matplotlib.colorbar.Colorbar.formatter" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-property"><span class="n">cb1</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">set_powerlimits</span></a><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.formatter" title="matplotlib.colorbar.Colorbar.formatter" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-property"><span class="n">cb1</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">set_useMathText</span></a><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;DJF ${</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{d}</span><span class="s2">SST}/{</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{d}</span><span class="s2">y}$ and Line&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_oceanic_front_004.png" srcset="../../_images/sphx_glr_plot_oceanic_front_004.png" alt="DJF ${\mathrm{d}SST}/{\mathrm{d}y}$ and Line" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;DJF ${\\mathrm{d}SST}/{\\mathrm{d}y}$ and Line&#39;)
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.654 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-gallery-ocean-plot-oceanic-front-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/48eeebd58ed6082332c25e67e6421c55/plot_oceanic_front.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_oceanic_front.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/97e483e0803509cb752e65a3262ef891/plot_oceanic_front.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_oceanic_front.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c40db0c6e7ecc563f0ab81c1ef8e738a/plot_oceanic_front.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_oceanic_front.zip</span></code></a></p>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot_ocean_mix_layer.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Ocean Surface Mixed Layers Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../oscillation/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Oscillation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu and easyclimate developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026, Shenyulu（深雨露） and easyclimate developers.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-01-30.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

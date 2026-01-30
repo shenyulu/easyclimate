@@ -1,0 +1,1780 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contributing to easyclimate🤼 &#8212; easyclimate v2026.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=6e6efcf0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/tabs.js?v=3ee01567"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contributing';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sponsor This Project❤️" href="sponsor.html" />
+    <link rel="prev" title="Citing Easy Climate📒" href="static_docs/cite.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-01-30"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/easyclimate_logo_mini.png" class="logo__image only-light" alt="easyclimate v2026.2.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/easyclimate_logo_mini.png" class="logo__image only-dark" alt="easyclimate v2026.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">What is Easy Climate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="auto_gallery/index.html">Gallery</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="auto_gallery/plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_gallery/plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_gallery/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_gallery/plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_gallery/plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/basic/index.html">Bases for Atmospheric Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/basic/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/basic/plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/basic/plot_multi_linear_reg.html">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/basic/plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/basic/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/basic/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/eddy/index.html">Transient Eddy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/filter/index.html">Filter and Smooth</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/filter/plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/interp/index.html">Interpolation and Regridding</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/ocean/index.html">Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/ocean/plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/ocean/plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/ocean/plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/ocean/plot_oceanic_front.html">Oceanic Front</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/oscillation/index.html">Oscillation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/satellite/index.html">Satellite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/typhoon/index.html">Typhoon</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="auto_gallery/wrf/index.html">WRF data post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_gallery/wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Plotting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="auto_gallery/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Meteorology Field</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="static_docs/air_sea_interaction.html">Air–sea Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/teleconnections.html">Teleconnections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/ocean.html">Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/monsoon.html">Monsoon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/land.html">Land</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/typhoons.html">Typhoons</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference documentation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_index/index.html">List of Functions and Classes (API)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contributing to easyclimate🤼</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/shenyulu/easyclimate/issues/new?title=Issue%20on%20page%20%2Fcontributing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/contributing.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Contributing to easyclimate🤼</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-start">Where to start?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-reports-and-enhancement-requests">Bug reports and enhancement requests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submitting-a-bug-report">Submitting a bug report</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-git-and-github">Version control, Git, and GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started-with-git">Getting started with Git</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-workflow">Development workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-development-environment">Creating a development environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-python-environment">Creating a Python Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-pre-commit-hooks">Install pre-commit hooks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-main-branch">Update the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-feature-branch">Create a new feature branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-editing-workflow">The editing workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-and-push-your-changes">Commit and push your changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#open-a-pull-request">Open a pull request</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-to-the-documentation">Contributing to the documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-easyclimate-documentation">About the <em>easyclimate</em> documentation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-the-easyclimate-documentation">How to build the <em>easyclimate</em> documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-documentation">Building the documentation</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-rest-pages">Writing ReST pages</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#section-formatting">Section formatting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#referring-to-other-documents-and-sections">Referring to other documents and sections</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#including-figures-and-files">Including figures and files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-to-the-code-base">Contributing to the code base</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-standards">Code standards</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#code-formatting">Code Formatting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#backwards-compatibility">Backwards Compatibility</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-with-continuous-integration">Testing With Continuous Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-driven-development-code-writing">Test-driven development/code writing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-tests">Writing tests</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#transitioning-to-pytest">Transitioning to <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-pytest">Using <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-test-suite">Running the test suite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-performance-test-suite">Running the performance test suite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documenting-your-code">Documenting your code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-your-changes-to-xarray">Contributing your changes to <em>xarray</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#committing-your-code">Committing your code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pushing-your-changes">Pushing your changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#review-your-code">Review your code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finally-make-the-pull-request">Finally, make the pull request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-your-merged-branch-optional">Delete your merged branch (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pr-checklist">PR checklist</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="contributing-to-easyclimate">
+<span id="contributing"></span><h1>Contributing to easyclimate🤼<a class="headerlink" href="#contributing-to-easyclimate" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The content of the document is currently being prepared and may undergo some changes in the future.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Large parts of this document came from the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/development/contributing.html">Pandas Contributing
+Guide</a>,
+and <a class="reference external" href="https://docs.xarray.dev/en/stable/contribute/contributing.html">Xarray Contributing Guide</a>.</p>
+</div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>We welcome your skills and enthusiasm at the easyclimate project! There are numerous opportunities to
+contribute beyond just writing code.
+All contributions, including bug reports, bug fixes, documentation improvements, enhancement suggestions,
+and other ideas are welcome.</p>
+<p>If you have any questions on the process or how to fix something feel free to ask us!
+The recommended place to ask a question is  on <a class="reference external" href="https://github.com/shenyulu/easyclimate/discussions">GitHub Discussions</a>.</p>
+<p>This project is a community effort, and everyone is welcome to contribute. Everyone within the community
+is expected to abide by our <a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md">code of conduct</a>.</p>
+</section>
+<section id="where-to-start">
+<h2>Where to start?<a class="headerlink" href="#where-to-start" title="Link to this heading">#</a></h2>
+<p>If you are brand new to <em>easyclimate</em> or open-source development, we recommend going
+through the <a class="reference external" href="https://github.com/shenyulu/easyclimate/issues">GitHub “issues” tab</a>
+to find issues that interest you.
+Some issues are particularly suited for new contributors by the label <a class="reference external" href="https://github.com/shenyulu/easyclimate/labels/topic-documentation">Documentation</a>
+and <a class="reference external" href="https://github.com/shenyulu/easyclimate/labels/contrib-good-first-issue">good first issue</a> where you could start out.
+These are well documented issues, that do not require a deep understanding of the internals of easyclimate.</p>
+<p>Once you’ve found an interesting issue, you can return here to get your development environment setup.
+The easyclimate project does not assign issues. Issues are “assigned” by opening a Pull Request(PR).</p>
+</section>
+<section id="bug-reports-and-enhancement-requests">
+<span id="contributing-bug-reports"></span><h2>Bug reports and enhancement requests<a class="headerlink" href="#bug-reports-and-enhancement-requests" title="Link to this heading">#</a></h2>
+<p>Bug reports are an important part of making <em>easyclimate</em> more stable. Having a complete bug
+report will allow others to reproduce the bug and provide insight into fixing.</p>
+<p>Trying out the bug-producing code on the <em>main</em> branch is often a worthwhile exercise
+to confirm that the bug still exists. It is also worth searching existing bug reports and
+pull requests to see if the issue has already been reported and/or fixed.</p>
+<section id="submitting-a-bug-report">
+<h3>Submitting a bug report<a class="headerlink" href="#submitting-a-bug-report" title="Link to this heading">#</a></h3>
+<p>If you find a bug in the code or documentation, do not hesitate to submit a ticket to the
+<a class="reference external" href="https://github.com/shenyulu/easyclimate/issues">Issue Tracker</a>.
+You are also welcome to post feature requests or pull requests.</p>
+<p>If you are reporting a bug, please use the provided template which includes the following:</p>
+<ol class="arabic">
+<li><p>Include a short, self-contained Python snippet reproducing the problem.
+You can format the code nicely by using <a class="reference external" href="https://docs.github.com/en/get-started/writing-on-github">GitHub Flavored Markdown</a>:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Include the full version string of <em>easyclimate</em> and its dependencies. You can use the
+built in function:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+
+<span class="n">ecl</span><span class="o">.</span><span class="n">show_versions</span><span class="p">()</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Explain why the current behavior is wrong/not desired and what you expect instead.</p></li>
+</ol>
+<p>The issue will then show up to the <em>easyclimate</em> community and be open to comments/ideas from others.</p>
+<p>See this <a class="reference external" href="https://stackoverflow.com/help/mcve">stackoverflow article for tips on writing a good bug report</a> .</p>
+<p id="contributing-github">Now that you have an issue you want to fix, enhancement to add, or documentation
+to improve, you need to learn how to work with GitHub and the <em>easyclimate</em> code base.</p>
+</section>
+</section>
+<section id="version-control-git-and-github">
+<span id="contributing-version-control"></span><h2>Version control, Git, and GitHub<a class="headerlink" href="#version-control-git-and-github" title="Link to this heading">#</a></h2>
+<p>The code is hosted on <a class="reference external" href="https://github.com/shenyulu/easyclimate">GitHub</a>. To
+contribute you will need to sign up for a <a class="reference external" href="https://github.com/signup/free">free GitHub account</a>. We use <a class="reference external" href="https://git-scm.com/">Git</a> for
+version control to allow many people to work together on the project.</p>
+<p>Some great resources for learning Git:</p>
+<ul class="simple">
+<li><p>the <a class="reference external" href="https://help.github.com/">GitHub help pages</a>.</p></li>
+<li><p>the <a class="reference external" href="https://numpy.org/doc/stable/dev/index.html">NumPy’s documentation</a>.</p></li>
+<li><p>Matthew Brett’s <a class="reference external" href="https://matthew-brett.github.io/pydagogue/">Pydagogue</a>.</p></li>
+</ul>
+<section id="getting-started-with-git">
+<h3>Getting started with Git<a class="headerlink" href="#getting-started-with-git" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://help.github.com/set-up-git-redirect">GitHub has instructions for setting up Git</a> including installing git,
+setting up your SSH key, and configuring git.  All these steps need to be completed before
+you can work seamlessly between your local repository and GitHub.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following instructions assume you want to learn how to interact with github via the git command-line utility,
+but contributors who are new to git may find it easier to use other tools instead such as
+<a class="reference external" href="https://desktop.github.com/">Github Desktop</a>.</p>
+</div>
+</section>
+</section>
+<section id="development-workflow">
+<span id="contributing-dev-workflow"></span><h2>Development workflow<a class="headerlink" href="#development-workflow" title="Link to this heading">#</a></h2>
+<p>To keep your work well organized, with readable history, and in turn make it easier for project
+maintainers to see what you’ve done, and why you did it, we recommend you to follow workflow:</p>
+<ol class="arabic">
+<li><p><a class="reference external" href="https://github.com/">Create an account</a> on GitHub if you do not already have one.</p></li>
+<li><p>You will need your own fork to work on the code. Go to the <a class="reference external" href="https://github.com/shenyulu/easyclimate">easyclimate project
+page</a> and hit the <code class="docutils literal notranslate"><span class="pre">Fork</span></code> button near the top of the page.
+This creates a copy of the code under your account on the GitHub server.</p></li>
+<li><p>Clone your fork to your machine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">your</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">name</span><span class="o">/</span><span class="n">easyclimate</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">easyclimate</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">shenyulu</span><span class="o">/</span><span class="n">easyclimate</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>This creates the directory <code class="docutils literal notranslate"><span class="pre">easyclimate</span></code> and connects your repository to
+the upstream (main project) <em>easyclimate</em> repository.</p>
+</li>
+<li><p>Copy tags across from the easyclimate repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="o">--</span><span class="n">tags</span> <span class="n">upstream</span>
+</pre></div>
+</div>
+<p>This will ensure that when you create a development environment a reasonable version number is created.</p>
+</li>
+</ol>
+<section id="creating-a-development-environment">
+<span id="contributing-dev-env"></span><h3>Creating a development environment<a class="headerlink" href="#creating-a-development-environment" title="Link to this heading">#</a></h3>
+<p>To test out code changes locally, you’ll need to build <em>easyclimate</em> from source, which
+requires a Python environment. If you’re making documentation changes, you can
+skip to <a class="reference internal" href="#contributing-documentation"><span class="std std-ref">Contributing to the documentation</span></a> but you won’t be able to build the
+documentation locally before pushing your changes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For small changes, such as fixing a typo, you don’t necessarily need to build and test easyclimate locally.
+If you make your changes then <a class="reference internal" href="#contributing-changes"><span class="std std-ref">commit and push them to a new branch</span></a>,
+easyclimate’s automated <a class="reference internal" href="#contributing-ci"><span class="std std-ref">continuous integration tests</span></a> will run and check your code in various ways.
+You can then try to fix these problems by committing and pushing more commits to the same branch.</p>
+<p>You can also avoid building the documentation locally by instead <a class="reference internal" href="#contributing-pr"><span class="std std-ref">viewing the updated documentation via the CI</span></a>.</p>
+<p>To speed up this feedback loop or for more complex development tasks you should build and test easyclimate locally.</p>
+</div>
+</section>
+<section id="creating-a-python-environment">
+<span id="contributing-dev-python"></span><h3>Creating a Python Environment<a class="headerlink" href="#creating-a-python-environment" title="Link to this heading">#</a></h3>
+<p>Before starting any development, you’ll need to create an isolated xarray
+development environment:</p>
+<ul class="simple">
+<li><p>Install <a class="reference external" href="https://www.anaconda.com/download/">Anaconda</a>, <a class="reference external" href="https://conda.io/miniconda.html">miniconda</a> or <a class="reference external" href="https://conda-forge.org/download/">Miniforge</a> (Free, recommended).</p></li>
+<li><p>Make sure your conda is up to date (<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">update</span> <span class="pre">conda</span></code>)</p></li>
+<li><p>Make sure that you have <a class="reference internal" href="#contributing-dev-workflow"><span class="std std-ref">cloned the repository</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span></code> to the <em>easyclimate</em> source directory</p></li>
+</ul>
+<p>We’ll now kick off a two-step process:</p>
+<ol class="arabic simple">
+<li><p>Install the build dependencies</p></li>
+<li><p>Build and install easyclimate</p></li>
+</ol>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Windows Powershell</label><div class="sd-tab-content docutils">
+<p>Create and activate the build environment</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="n">-n</span> <span class="n">easyclimate-tests</span> <span class="n">python</span><span class="p">=</span><span class="n">3</span><span class="p">.</span><span class="n">12</span>
+</pre></div>
+</div>
+<p>Activate the virtual environment</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">easyclimate-tests</span>
+</pre></div>
+</div>
+<p>Installation requires the prerequisite packages numpy, numba, and uv.</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">uv</span> <span class="n">numpy</span> <span class="n">numba</span>
+</pre></div>
+</div>
+<p>Install the development environment by uv.</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">uv</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="p">.\</span><span class="n">test_requirements</span><span class="p">.</span><span class="n">txt</span> <span class="n">-r</span> <span class="p">.\</span><span class="n">docs</span><span class="p">\</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="n">build</span> <span class="n">setuptools</span> <span class="n">wheel</span> <span class="n">setuptools-scm</span>
+</pre></div>
+</div>
+<p>Build and install easyclimate</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">build</span> <span class="p">-</span><span class="n">-wheel</span> <span class="p">-</span><span class="n">-no-isolation</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="p">.\</span><span class="n">dist</span><span class="p">\</span><span class="n">easyclimate-xxxx</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">x-py3-none-any</span><span class="p">.</span><span class="n">whl</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Linux Bash</label><div class="sd-tab-content docutils">
+<p>Create and activate the build environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>easyclimate-tests<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+</pre></div>
+</div>
+<p>Activate the virtual environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>easyclimate-tests
+</pre></div>
+</div>
+<p>Installation requires the prerequisite packages numpy, numba, and uv.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>uv<span class="w"> </span>numpy<span class="w"> </span>numba
+</pre></div>
+</div>
+<p>Install the development environment by uv.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>./test_requirements.txt<span class="w"> </span>-r<span class="w"> </span>./docs/requirements.txt<span class="w"> </span>build<span class="w"> </span>setuptools<span class="w"> </span>wheel<span class="w"> </span>setuptools-scm
+</pre></div>
+</div>
+<p>Build and install easyclimate</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </span>--wheel<span class="w"> </span>--no-isolation
+pip<span class="w"> </span>install<span class="w"> </span>./dist/easyclimate-xxxx.x.x-py3-none-any.whl
+</pre></div>
+</div>
+</div>
+</div>
+<p>At this point you should be able to import <em>easyclimate</em> from your locally
+built version:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w">  </span><span class="c1"># start an interpreter</span>
+&gt;&gt;&gt;<span class="w"> </span>import<span class="w"> </span>easyclimate
+&gt;&gt;&gt;<span class="w"> </span>easyclimate.__version__
+<span class="s1">&#39;2025.9.0&#39;</span>
+</pre></div>
+</div>
+<p>This will create the new environment, and not touch any of your existing environments,
+nor any existing Python installation.</p>
+<p>To view your environments</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>list
+</pre></div>
+</div>
+<p>To return to your root environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>deactivate
+</pre></div>
+</div>
+<p>See the full <a class="reference external" href="https://conda.pydata.org/docs">conda docs here</a>.</p>
+</section>
+<section id="install-pre-commit-hooks">
+<h3>Install pre-commit hooks<a class="headerlink" href="#install-pre-commit-hooks" title="Link to this heading">#</a></h3>
+<p>We highly recommend that you setup <a class="reference external" href="https://pre-commit.com/">pre-commit</a> hooks to automatically
+run all the above tools every time you make a git commit. To install the hooks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pre</span><span class="o">-</span><span class="n">commit</span>
+<span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>This can be done by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">run</span>
+</pre></div>
+</div>
+<p>from the root of the xarray repository. You can skip the pre-commit checks with
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--no-verify</span></code>.</p>
+</section>
+<section id="update-the-main-branch">
+<h3>Update the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch<a class="headerlink" href="#update-the-main-branch" title="Link to this heading">#</a></h3>
+<p>First make sure you have <a class="reference internal" href="#contributing-dev-env"><span class="std std-ref">created a development environment</span></a>.</p>
+<p>Before starting a new set of changes, fetch all changes from <code class="docutils literal notranslate"><span class="pre">upstream/main</span></code>, and start a new
+feature branch from that. From time to time you should fetch the upstream changes from GitHub:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="o">--</span><span class="n">tags</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span>
+</pre></div>
+</div>
+<p>This will combine your commits with the latest <em>easyclimate</em> git <code class="docutils literal notranslate"><span class="pre">main</span></code>.  If this
+leads to merge conflicts, you must resolve these before submitting your pull
+request.  If you have uncommitted changes, you will need to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">stash</span></code> them
+prior to updating.  This will effectively store your changes, which can be
+reapplied after updating.</p>
+<p>If the <em>easyclimate</em> <code class="docutils literal notranslate"><span class="pre">main</span></code> branch version has updated since you last fetched changes,
+you may also wish to reinstall easyclimate so that the pip version reflects the <em>easyclimate</em>
+version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-new-feature-branch">
+<h3>Create a new feature branch<a class="headerlink" href="#create-a-new-feature-branch" title="Link to this heading">#</a></h3>
+<p>Create a branch to save your changes, even before you start making changes. You want your
+<code class="docutils literal notranslate"><span class="pre">main</span> <span class="pre">branch</span></code> to contain only production-ready code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+<p>This changes your working directory to the <code class="docutils literal notranslate"><span class="pre">shiny-new-feature</span></code> branch.  Keep any changes in this
+branch specific to one bug or feature so it is clear what the branch brings to <em>easyclimate</em>. You can have
+many “shiny-new-features” and switch in between them using the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
+<p>Generally, you will want to keep your feature branches on your public GitHub fork of easyclimate. To do this,
+you <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> this new branch up to your GitHub repo. Generally (if you followed the instructions in
+these pages, and by default), git will have a link to your fork of the GitHub repo, called <code class="docutils literal notranslate"><span class="pre">origin</span></code>.
+You push up to your own fork with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+<p>In git &gt;= 1.7 you can ensure that the link is correctly set by using the <code class="docutils literal notranslate"><span class="pre">--set-upstream</span></code> option:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+<p>From now on git will know that <code class="docutils literal notranslate"><span class="pre">shiny-new-feature</span></code> is related to the <code class="docutils literal notranslate"><span class="pre">shiny-new-feature</span> <span class="pre">branch</span></code> in the GitHub repo.</p>
+</section>
+<section id="the-editing-workflow">
+<h3>The editing workflow<a class="headerlink" href="#the-editing-workflow" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Make some changes</p></li>
+<li><p>See which files have changed with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>. You’ll see a listing like this one:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># On branch shiny-new-feature</span>
+<span class="c1"># Changed but not updated:</span>
+<span class="c1">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span>
+<span class="c1">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span>
+<span class="c1">#</span>
+<span class="c1">#  modified:   README</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check what the actual changes are with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code>.</p></li>
+</ol>
+<p>4. Build the <a class="reference external" href="https://docs.xarray.dev/en/stable/contributing.html#building-the-documentation">documentation</a>
+for the documentation changes.</p>
+<ol class="arabic simple" start="5">
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/contributing.html#running-the-test-suite">Run the test suite</a> for code changes.</p></li>
+</ol>
+</section>
+<section id="commit-and-push-your-changes">
+<h3>Commit and push your changes<a class="headerlink" href="#commit-and-push-your-changes" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>To commit all modified files into the local copy of your repo, do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-am</span> <span class="pre">'A</span> <span class="pre">commit</span> <span class="pre">message'</span></code>.</p></li>
+<li><p>To push the changes up to your forked repo on GitHub, do a <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code>.</p></li>
+</ol>
+</section>
+<section id="open-a-pull-request">
+<h3>Open a pull request<a class="headerlink" href="#open-a-pull-request" title="Link to this heading">#</a></h3>
+<p>When you’re ready or need feedback on your code, open a Pull Request (PR) so that the easyclimate developers can
+give feedback and eventually include your suggested code into the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.
+<a class="reference external" href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">Pull requests (PRs) on GitHub</a>
+are the mechanism for contributing to easyclimate’s code and documentation.</p>
+<p>Enter a title for the set of changes with some explanation of what you’ve done.
+Follow the PR template, which looks like this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="p">]</span><span class="n">Closes</span> <span class="c1">#xxxx</span>
+<span class="p">[</span> <span class="p">]</span><span class="n">Tests</span> <span class="n">added</span>
+<span class="p">[</span> <span class="p">]</span><span class="n">User</span> <span class="n">visible</span> <span class="n">changes</span> <span class="p">(</span><span class="n">including</span> <span class="n">notable</span> <span class="n">bug</span> <span class="n">fixes</span><span class="p">)</span> <span class="n">are</span> <span class="n">documented</span> <span class="ow">in</span> <span class="n">whats</span><span class="o">-</span><span class="n">new</span><span class="o">.</span><span class="n">rst</span>
+<span class="p">[</span> <span class="p">]</span><span class="n">New</span> <span class="n">functions</span><span class="o">/</span><span class="n">methods</span> <span class="n">are</span> <span class="n">listed</span> <span class="ow">in</span> <span class="n">api</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+<p>Mention anything you’d like particular attention for - such as a complicated change or some code you are not happy with.
+If you don’t think your request is ready to be merged, just say so in your pull request message and use
+the “Draft PR” feature of GitHub. This is a good way of getting some preliminary code review.</p>
+</section>
+</section>
+<section id="contributing-to-the-documentation">
+<span id="contributing-documentation"></span><h2>Contributing to the documentation<a class="headerlink" href="#contributing-to-the-documentation" title="Link to this heading">#</a></h2>
+<p>If you’re not the developer type, contributing to the documentation is still of
+huge value. You don’t even have to be an expert on <em>easyclimate</em> to do so! In fact,
+there are sections of the docs that are worse off after being written by
+experts. If something in the docs doesn’t make sense to you, updating the
+relevant section after you figure it out is a great way to ensure it will help
+the next person.</p>
+<nav class="contents local" id="documentation">
+<p class="topic-title">Documentation:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#about-the-easyclimate-documentation" id="id10">About the <em>easyclimate</em> documentation</a></p></li>
+<li><p><a class="reference internal" href="#how-to-build-the-easyclimate-documentation" id="id11">How to build the <em>easyclimate</em> documentation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#requirements" id="id12">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#building-the-documentation" id="id13">Building the documentation</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#writing-rest-pages" id="id14">Writing ReST pages</a></p>
+<ul>
+<li><p><a class="reference internal" href="#section-formatting" id="id15">Section formatting</a></p></li>
+<li><p><a class="reference internal" href="#referring-to-other-documents-and-sections" id="id16">Referring to other documents and sections</a></p></li>
+<li><p><a class="reference internal" href="#including-figures-and-files" id="id17">Including figures and files</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="about-the-easyclimate-documentation">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">About the <em>easyclimate</em> documentation</a><a class="headerlink" href="#about-the-easyclimate-documentation" title="Link to this heading">#</a></h3>
+<p>The documentation is written in <strong>reStructuredText</strong>, which is almost like writing
+in plain English, and built using <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a>. The
+Sphinx Documentation has an excellent <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html">introduction to reST</a>. Review the Sphinx docs to perform more
+complex changes to the documentation as well.</p>
+<p>Some other important things to know about the docs:</p>
+<ul>
+<li><p>The <em>easyclimate</em> documentation consists of two parts: the docstrings in the code
+itself and the docs in this folder <code class="docutils literal notranslate"><span class="pre">xarray/doc/</span></code>.</p>
+<p>The docstrings are meant to provide a clear explanation of the usage of the
+individual functions, while the documentation in this folder consists of
+tutorial-like overviews per topic together with some other information
+(what’s new, installation, etc).</p>
+</li>
+<li><p>The docstrings follow the <strong>NumPy Docstring Standard</strong>, which is used widely
+in the Scientific Python community. This standard specifies the format of
+the different sections of the docstring. Refer to the <a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard">documentation for the Numpy docstring format</a>
+for a detailed explanation, or look at some of the existing functions to
+extend it in a similar manner.</p></li>
+<li><p>The documentation makes heavy use of the <a class="reference external" href="https://jupyter-sphinx.readthedocs.io">jupyter-sphinx extension</a>.
+The <code class="docutils literal notranslate"><span class="pre">jupyter-execute</span></code> directive lets you put code in the documentation which will be run
+during the doc build. For example:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">jupyter-execute</span><span class="p">::</span>
+
+    x = 2
+    x**3
+</pre></div>
+</div>
+<p>will be rendered as:</p>
+<p>Almost all code examples in the docs are run (and the output saved) during the
+doc build. This approach means that code examples will always be up to date,
+but it does make building the docs a bit more complex.</p>
+</li>
+<li><p>Our API documentation in <code class="docutils literal notranslate"><span class="pre">doc/api.rst</span></code> houses the auto-generated
+documentation from the docstrings. For classes, there are a few subtleties
+around controlling which methods and attributes have pages auto-generated.</p>
+<p>Every method should be included in a <code class="docutils literal notranslate"><span class="pre">toctree</span></code> in <code class="docutils literal notranslate"><span class="pre">api.rst</span></code>, else Sphinx
+will emit a warning.</p>
+</li>
+</ul>
+</section>
+<section id="how-to-build-the-easyclimate-documentation">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">How to build the <em>easyclimate</em> documentation</a><a class="headerlink" href="#how-to-build-the-easyclimate-documentation" title="Link to this heading">#</a></h3>
+<section id="requirements">
+<h4><a class="toc-backref" href="#id12" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Link to this heading">#</a></h4>
+<p>Make sure to follow the instructions on <a class="reference internal" href="#contributing-dev-env"><span class="std std-ref">creating a development environment</span></a> above, but
+to build the docs you need to use the environment file <code class="docutils literal notranslate"><span class="pre">ci/requirements/doc.yml</span></code>.
+You should also use this environment and these steps if you want to view changes you’ve made to the docstrings.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create and activate the docs environment</span>
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>ci/requirements/doc.yml
+conda<span class="w"> </span>activate<span class="w"> </span>easyclimate-docs
+
+<span class="c1"># or with older versions of Anaconda:</span>
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>easyclimate-docs
+
+<span class="c1"># Build and install a local, editable version of xarray</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="building-the-documentation">
+<h4><a class="toc-backref" href="#id13" role="doc-backlink">Building the documentation</a><a class="headerlink" href="#building-the-documentation" title="Link to this heading">#</a></h4>
+<p>To build the documentation run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">doc</span><span class="o">/</span>
+<span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+<p>Then you can find the HTML output files in the folder <code class="docutils literal notranslate"><span class="pre">easyclimate/doc/build/html/</span></code>.</p>
+<p>To see what the documentation now looks like with your changes, you can view the HTML build locally by opening the files in your local browser.
+For example, if you normally use Google Chrome as your browser, you could enter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">google</span><span class="o">-</span><span class="n">chrome</span> <span class="n">build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">quick</span><span class="o">-</span><span class="n">overview</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>in the terminal, running from within the <code class="docutils literal notranslate"><span class="pre">doc/</span></code> folder.
+You should now see a new tab pop open in your local browser showing the <code class="docutils literal notranslate"><span class="pre">quick-overview</span></code> page of the documentation.
+The different pages of this local build of the documentation are linked together,
+so you can browse the whole documentation by following links the same way you would on the officially-hosted easyclimate docs site.</p>
+<p>The first time you build the docs, it will take quite a while because it has to run
+all the code examples and build all the generated docstring pages. In subsequent
+evocations, Sphinx will try to only build the pages that have been modified.</p>
+<p>If you want to do a full clean build, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">clean</span>
+<span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="writing-rest-pages">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Writing ReST pages</a><a class="headerlink" href="#writing-rest-pages" title="Link to this heading">#</a></h3>
+<p>Most documentation is either in the docstrings of individual classes and methods, in explicit
+<code class="docutils literal notranslate"><span class="pre">.rst</span></code> files, or in examples and tutorials. All of these use the
+<a class="reference external" href="https://docutils.sourceforge.io/rst.html">ReST</a> syntax and are processed by
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a>.</p>
+<p>This section contains additional information and conventions how ReST is used in the
+easyclimate documentation.</p>
+<section id="section-formatting">
+<h4><a class="toc-backref" href="#id15" role="doc-backlink">Section formatting</a><a class="headerlink" href="#section-formatting" title="Link to this heading">#</a></h4>
+<p>We aim to follow the recommendations from the
+<a class="reference external" href="https://devguide.python.org/documentation/start-documenting/index.html#sections">Python documentation</a>
+and the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections">Sphinx reStructuredText documentation</a>
+for section markup characters,</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> with overline, for chapters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">=</span></code>, for heading</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-</span></code>, for sections</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~</span></code>, for subsections</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**</span></code> text <code class="docutils literal notranslate"><span class="pre">**</span></code>, for <strong>bold</strong> text</p></li>
+</ul>
+</section>
+<section id="referring-to-other-documents-and-sections">
+<h4><a class="toc-backref" href="#id16" role="doc-backlink">Referring to other documents and sections</a><a class="headerlink" href="#referring-to-other-documents-and-sections" title="Link to this heading">#</a></h4>
+<p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> allows internal
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/roles.html">references</a> between documents.</p>
+<p>Documents can be linked with the <code class="docutils literal notranslate"><span class="pre">:doc:</span></code> directive:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>See the :doc:`/getting-started-guide/installing`
+
+See the :doc:`/getting-started-guide/quick-overview`
+</pre></div>
+</div>
+<p>will render as:</p>
+<p>See the <a class="reference external" href="https://docs.xarray.dev/en/stable/getting-started-guide/installing.html">Installation</a></p>
+<p>See the <a class="reference external" href="https://docs.xarray.dev/en/stable/getting-started-guide/quick-overview.html">Quick Overview</a></p>
+</section>
+<section id="including-figures-and-files">
+<h4><a class="toc-backref" href="#id17" role="doc-backlink">Including figures and files</a><a class="headerlink" href="#including-figures-and-files" title="Link to this heading">#</a></h4>
+<p>Image files can be directly included in pages with the <code class="docutils literal notranslate"><span class="pre">image::</span></code> directive.</p>
+</section>
+</section>
+</section>
+<section id="contributing-to-the-code-base">
+<span id="contributing-code"></span><h2>Contributing to the code base<a class="headerlink" href="#contributing-to-the-code-base" title="Link to this heading">#</a></h2>
+<nav class="contents local" id="code-base">
+<p class="topic-title">Code Base:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#code-standards" id="id18">Code standards</a></p>
+<ul>
+<li><p><a class="reference internal" href="#code-formatting" id="id19">Code Formatting</a></p></li>
+<li><p><a class="reference internal" href="#backwards-compatibility" id="id20">Backwards Compatibility</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#testing-with-continuous-integration" id="id21">Testing With Continuous Integration</a></p></li>
+<li><p><a class="reference internal" href="#test-driven-development-code-writing" id="id22">Test-driven development/code writing</a></p>
+<ul>
+<li><p><a class="reference internal" href="#writing-tests" id="id23">Writing tests</a></p></li>
+<li><p><a class="reference internal" href="#transitioning-to-pytest" id="id24">Transitioning to <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a></p></li>
+<li><p><a class="reference internal" href="#using-pytest" id="id25">Using <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#running-the-test-suite" id="id26">Running the test suite</a></p></li>
+<li><p><a class="reference internal" href="#running-the-performance-test-suite" id="id27">Running the performance test suite</a></p></li>
+<li><p><a class="reference internal" href="#documenting-your-code" id="id28">Documenting your code</a></p></li>
+</ul>
+</nav>
+<section id="code-standards">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Code standards</a><a class="headerlink" href="#code-standards" title="Link to this heading">#</a></h3>
+<p>Writing good code is not just about what you write. It is also about <em>how</em> you
+write it. During <a class="reference internal" href="#contributing-ci"><span class="std std-ref">Continuous Integration</span></a> testing, several
+tools will be run to check your code for stylistic errors.
+Generating any warnings will cause the test to fail.
+Thus, good style is a requirement for submitting code to <em>easyclimate</em>.</p>
+<p>In addition, because a lot of people use our library, it is important that we
+do not make sudden changes to the code that could have the potential to break
+a lot of user code as a result, that is, we need it to be as <em>backwards compatible</em>
+as possible to avoid mass breakages.</p>
+<section id="code-formatting">
+<h4><a class="toc-backref" href="#id19" role="doc-backlink">Code Formatting</a><a class="headerlink" href="#code-formatting" title="Link to this heading">#</a></h4>
+<p>easyclimate uses several tools to ensure a consistent code format throughout the project:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/astral-sh/ruff">ruff</a> for formatting, code quality checks and standardized order in imports, and</p></li>
+<li><p><a class="reference external" href="https://mypy-lang.org/">mypy</a> for static type checking on <a class="reference external" href="https://docs.python.org/3/library/typing.html">type hints</a>.</p></li>
+</ul>
+<p>We highly recommend that you setup <a class="reference external" href="https://pre-commit.com/">pre-commit hooks</a>
+to automatically run all the above tools every time you make a git commit. This
+can be done by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>from the root of the easyclimate repository. You can skip the pre-commit checks
+with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--no-verify</span></code>.</p>
+</section>
+<section id="backwards-compatibility">
+<h4><a class="toc-backref" href="#id20" role="doc-backlink">Backwards Compatibility</a><a class="headerlink" href="#backwards-compatibility" title="Link to this heading">#</a></h4>
+<p>Please try to maintain backwards compatibility. <em>easyclimate</em> has a growing number of users with
+lots of existing code, so don’t break it if at all possible.  If you think breakage is
+required, clearly state why as part of the pull request.</p>
+<p>Be especially careful when changing function and method signatures, because any change
+may require a deprecation warning. For example, if your pull request means that the
+argument <code class="docutils literal notranslate"><span class="pre">old_arg</span></code> to <code class="docutils literal notranslate"><span class="pre">func</span></code> is no longer valid, instead of simply raising an error if
+a user passes <code class="docutils literal notranslate"><span class="pre">old_arg</span></code>, we would instead catch it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">new_arg</span><span class="p">,</span> <span class="n">old_arg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">old_arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">xarray.core.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">emit_user_level_warning</span>
+
+        <span class="n">emit_user_level_warning</span><span class="p">(</span>
+            <span class="s2">&quot;`old_arg` has been deprecated, and in the future will raise an error.&quot;</span>
+            <span class="s2">&quot;Please use `new_arg` from now on.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Still do what the user intended here</span>
+</pre></div>
+</div>
+<p>This temporary check would then be removed in a subsequent version of easyclimate.
+This process of first warning users before actually breaking their code is known as a
+“deprecation cycle”, and makes changes significantly easier to handle both for users
+of easyclimate, and for developers of other libraries that depend on easyclimate.</p>
+</section>
+</section>
+<section id="testing-with-continuous-integration">
+<span id="contributing-ci"></span><h3><a class="toc-backref" href="#id21" role="doc-backlink">Testing With Continuous Integration</a><a class="headerlink" href="#testing-with-continuous-integration" title="Link to this heading">#</a></h3>
+<p>The <em>easyclimate</em> test suite runs automatically via the
+<a class="reference external" href="https://docs.github.com/en/free-pro-team&#64;latest/actions">GitHub Actions</a>,
+continuous integration service, once your pull request is submitted.</p>
+<p>A pull-request will be considered for merging when you have an all ‘green’ build. If any
+tests are failing, then you will get a red ‘X’, where you can click through to see the
+individual failed tests. This is an example of a green build.</p>
+<img alt="../_static/ci.png" src="../_static/ci.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each time you push to your PR branch, a new run of the tests will be
+triggered on the CI. If they haven’t already finished, tests for any older
+commits on the same branch will be automatically cancelled.</p>
+</div>
+</section>
+<section id="test-driven-development-code-writing">
+<span id="contributing-tdd"></span><h3><a class="toc-backref" href="#id22" role="doc-backlink">Test-driven development/code writing</a><a class="headerlink" href="#test-driven-development-code-writing" title="Link to this heading">#</a></h3>
+<p><em>easyclimate</em> is serious about testing and strongly encourages contributors to embrace
+<a class="reference external" href="https://en.wikipedia.org/wiki/Test-driven_development">test-driven development (TDD)</a>.
+This development process “relies on the repetition of a very short development cycle:
+first the developer writes an (initially failing) automated test case that defines a desired
+improvement or new function, then produces the minimum amount of code to pass that test.”
+So, before actually writing any code, you should write your tests.  Often the test can be
+taken from the original GitHub issue.  However, it is always worth considering additional
+use cases and writing corresponding tests.</p>
+<p>Adding tests is one of the most common requests after code is pushed to <em>easyclimate</em>.  Therefore,
+it is worth getting in the habit of writing tests ahead of time so that this is never an issue.</p>
+<p>Like many packages, <em>easyclimate</em> uses <a class="reference external" href="https://doc.pytest.org/en/latest/">pytest</a> and the convenient
+extensions in <a class="reference external" href="https://numpy.org/doc/stable/reference/routines.testing.html">numpy.testing</a>.</p>
+<section id="writing-tests">
+<h4><a class="toc-backref" href="#id23" role="doc-backlink">Writing tests</a><a class="headerlink" href="#writing-tests" title="Link to this heading">#</a></h4>
+<p>All tests should go into the <code class="docutils literal notranslate"><span class="pre">tests</span></code> subdirectory of the specific package.
+This folder contains many current examples of tests, and we suggest looking to these for
+inspiration.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">easyclimate.testing</span></code> module has many special <code class="docutils literal notranslate"><span class="pre">assert</span></code> functions that
+make it easier to make statements about whether DataArray or Dataset objects are
+equivalent. The easiest way to verify that your code is correct is to
+explicitly construct the result you expect, then compare the actual result to
+the expected correct result:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_constructor_from_0d</span><span class="p">():</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">({</span><span class="kc">None</span><span class="p">:</span> <span class="p">([],</span> <span class="mi">0</span><span class="p">)})[</span><span class="kc">None</span><span class="p">]</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">DataArray</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">assert_identical</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">actual</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="transitioning-to-pytest">
+<h4><a class="toc-backref" href="#id24" role="doc-backlink">Transitioning to <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a><a class="headerlink" href="#transitioning-to-pytest" title="Link to this heading">#</a></h4>
+<p><em>easyclimate</em> existing test structure is <em>mostly</em> class-based, meaning that you will
+typically find tests wrapped in a class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TestReallyCoolFeature</span><span class="p">:</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Going forward, we are moving to a more <em>functional</em> style using the
+<a class="reference external" href="https://doc.pytest.org/en/latest/">pytest</a> framework, which offers a richer
+testing framework that will facilitate testing and developing. Thus, instead of
+writing test classes, we will write test functions like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_really_cool_feature</span><span class="p">():</span> <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="using-pytest">
+<h4><a class="toc-backref" href="#id25" role="doc-backlink">Using <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a><a class="headerlink" href="#using-pytest" title="Link to this heading">#</a></h4>
+<p>Here is an example of a self-contained set of tests that illustrate multiple
+features that we like to use.</p>
+<ul class="simple">
+<li><p>functional style: tests are like <code class="docutils literal notranslate"><span class="pre">test_*</span></code> and <em>only</em> take arguments that are either
+fixtures or parameters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest.mark</span></code> can be used to set metadata on test functions, e.g. <code class="docutils literal notranslate"><span class="pre">skip</span></code> or <code class="docutils literal notranslate"><span class="pre">xfail</span></code>.</p></li>
+<li><p>using <code class="docutils literal notranslate"><span class="pre">parametrize</span></code>: allow testing of multiple cases</p></li>
+<li><p>to set a mark on a parameter, <code class="docutils literal notranslate"><span class="pre">pytest.param(...,</span> <span class="pre">marks=...)</span></code> syntax should be used</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fixture</span></code>, code for object construction, on a per-test basis</p></li>
+<li><p>using bare <code class="docutils literal notranslate"><span class="pre">assert</span></code> for scalars and truth-testing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assert_equal</span></code> and <code class="docutils literal notranslate"><span class="pre">assert_identical</span></code> from the <code class="docutils literal notranslate"><span class="pre">easyclimate.testing</span></code> module for easyclimate object comparisons.</p></li>
+<li><p>the typical pattern of constructing an <code class="docutils literal notranslate"><span class="pre">expected</span></code> and comparing versus the <code class="docutils literal notranslate"><span class="pre">result</span></code></p></li>
+</ul>
+<p>We would name this file <code class="docutils literal notranslate"><span class="pre">test_cool_feature.py</span></code> and put in an appropriate place in the
+<code class="docutils literal notranslate"><span class="pre">easyclimate/test/</span></code> structure.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarray.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_equal</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;dtype&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;int8&quot;</span><span class="p">,</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_dtypes</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span> <span class="o">==</span> <span class="n">dtype</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;dtype&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xfail</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;to show how it works&quot;</span><span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_mark</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span> <span class="o">==</span> <span class="s2">&quot;float32&quot;</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dataarray</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;int8&quot;</span><span class="p">,</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dtype</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_series</span><span class="p">(</span><span class="n">dataarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">dtype</span>
+
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">assert_equal</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A test run of this yields</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">((</span>xarray<span class="o">)</span><span class="w"> </span>$<span class="w"> </span>pytest<span class="w"> </span>test_cool_feature.py<span class="w"> </span>-v
+<span class="o">=================================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">==================================</span>
+platform<span class="w"> </span>darwin<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.10.6,<span class="w"> </span>pytest-7.2.0,<span class="w"> </span>pluggy-1.0.0<span class="w"> </span>--
+cachedir:<span class="w"> </span>.pytest_cache
+plugins:<span class="w"> </span>hypothesis-6.56.3,<span class="w"> </span>cov-4.0.0
+collected<span class="w"> </span><span class="m">11</span><span class="w"> </span>items
+
+xarray/tests/test_cool_feature.py::test_dtypes<span class="o">[</span>int8<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                       </span><span class="o">[</span><span class="w">  </span><span class="m">9</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_dtypes<span class="o">[</span>int16<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="w"> </span><span class="m">18</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_dtypes<span class="o">[</span>int32<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="w"> </span><span class="m">27</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_dtypes<span class="o">[</span>int64<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="w"> </span><span class="m">36</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_mark<span class="o">[</span>float32<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="w"> </span><span class="m">45</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_mark<span class="o">[</span>int16<span class="o">]</span><span class="w"> </span>SKIPPED<span class="w"> </span><span class="o">(</span>unconditional<span class="w"> </span>skip<span class="o">)</span><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">54</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_mark<span class="o">[</span>int32<span class="o">]</span><span class="w"> </span>XFAIL<span class="w"> </span><span class="o">(</span>to<span class="w"> </span>show<span class="w"> </span>how<span class="w"> </span>it<span class="w"> </span>works<span class="o">)</span><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">63</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_series<span class="o">[</span>int8<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                       </span><span class="o">[</span><span class="w"> </span><span class="m">72</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_series<span class="o">[</span>int16<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="w"> </span><span class="m">81</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_series<span class="o">[</span>int32<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="w"> </span><span class="m">90</span>%<span class="o">]</span>
+xarray/tests/test_cool_feature.py::test_series<span class="o">[</span>int64<span class="o">]</span><span class="w"> </span>PASSED<span class="w">                      </span><span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+
+
+<span class="o">====================</span><span class="w"> </span><span class="m">9</span><span class="w"> </span>passed,<span class="w"> </span><span class="m">1</span><span class="w"> </span>skipped,<span class="w"> </span><span class="m">1</span><span class="w"> </span>xfailed<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span>.83<span class="w"> </span><span class="nv">seconds</span><span class="w"> </span><span class="o">====================</span>
+</pre></div>
+</div>
+<p>Tests that we have <code class="docutils literal notranslate"><span class="pre">parametrized</span></code> are now accessible via the test name, for
+example we could run these with <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">int8</span></code> to sub-select <em>only</em> those tests
+which match <code class="docutils literal notranslate"><span class="pre">int8</span></code>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">((</span>xarray<span class="o">)</span><span class="w"> </span>bash-3.2$<span class="w"> </span>pytest<span class="w">  </span>test_cool_feature.py<span class="w">  </span>-v<span class="w"> </span>-k<span class="w"> </span><span class="nv">int8</span>
+<span class="o">==================================</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>session<span class="w"> </span><span class="nv">starts</span><span class="w"> </span><span class="o">==================================</span>
+platform<span class="w"> </span>darwin<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span><span class="m">3</span>.10.6,<span class="w"> </span>pytest-7.2.0,<span class="w"> </span>pluggy-1.0.0<span class="w"> </span>--
+cachedir:<span class="w"> </span>.pytest_cache
+plugins:<span class="w"> </span>hypothesis-6.56.3,<span class="w"> </span>cov-4.0.0
+collected<span class="w"> </span><span class="m">11</span><span class="w"> </span>items
+
+test_cool_feature.py::test_dtypes<span class="o">[</span>int8<span class="o">]</span><span class="w"> </span>PASSED
+test_cool_feature.py::test_series<span class="o">[</span>int8<span class="o">]</span><span class="w"> </span>PASSED
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-the-test-suite">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Running the test suite</a><a class="headerlink" href="#running-the-test-suite" title="Link to this heading">#</a></h3>
+<p>The tests can then be run directly inside your Git clone (without having to
+install <em>xarray</em>) by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">xarray</span>
+</pre></div>
+</div>
+<p>The tests suite is exhaustive and takes a few minutes.  Often it is
+worth running only a subset of tests first around your changes before running the
+entire suite.</p>
+<p>The easiest way to do this is with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">xarray</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">k</span> <span class="n">regex_matching_test_name</span>
+</pre></div>
+</div>
+<p>Or with one of the following constructs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">xarray</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="p">[</span><span class="n">test</span><span class="o">-</span><span class="n">module</span><span class="p">]</span><span class="o">.</span><span class="n">py</span>
+<span class="n">pytest</span> <span class="n">xarray</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="p">[</span><span class="n">test</span><span class="o">-</span><span class="n">module</span><span class="p">]</span><span class="o">.</span><span class="n">py</span><span class="p">::[</span><span class="n">TestClass</span><span class="p">]</span>
+<span class="n">pytest</span> <span class="n">xarray</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="p">[</span><span class="n">test</span><span class="o">-</span><span class="n">module</span><span class="p">]</span><span class="o">.</span><span class="n">py</span><span class="p">::[</span><span class="n">TestClass</span><span class="p">]::[</span><span class="n">test_method</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Using <a class="reference external" href="https://pypi.python.org/pypi/pytest-xdist">pytest-xdist</a>, one can
+speed up local testing on multicore machines, by running pytest with the optional -n argument:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">xarray</span> <span class="o">-</span><span class="n">n</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>This can significantly reduce the time it takes to locally run tests before
+submitting a pull request.</p>
+<p>For more, see the <a class="reference external" href="https://doc.pytest.org/en/latest/">pytest</a> documentation.</p>
+</section>
+<section id="running-the-performance-test-suite">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Running the performance test suite</a><a class="headerlink" href="#running-the-performance-test-suite" title="Link to this heading">#</a></h3>
+<p>Performance matters and it is worth considering whether your code has introduced
+performance regressions.  <em>xarray</em> is starting to write a suite of benchmarking tests
+using <a class="reference external" href="https://github.com/airspeed-velocity/asv">asv</a>
+to enable easy monitoring of the performance of critical <em>xarray</em> operations.
+These benchmarks are all found in the <code class="docutils literal notranslate"><span class="pre">xarray/asv_bench</span></code> directory.</p>
+<p>To use all features of asv, you will need either <code class="docutils literal notranslate"><span class="pre">conda</span></code> or
+<code class="docutils literal notranslate"><span class="pre">virtualenv</span></code>. For more details please check the <a class="reference external" href="https://asv.readthedocs.io/en/stable/installing.html">asv installation
+webpage</a>.</p>
+<p>To install asv:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">asv</span>
+</pre></div>
+</div>
+<p>If you need to run a benchmark, change your directory to <code class="docutils literal notranslate"><span class="pre">asv_bench/</span></code> and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asv</span> <span class="n">continuous</span> <span class="o">-</span><span class="n">f</span> <span class="mf">1.1</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span> <span class="n">HEAD</span>
+</pre></div>
+</div>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> with the name of the branch you are working on,
+and report benchmarks that changed by more than 10%.
+The command uses <code class="docutils literal notranslate"><span class="pre">conda</span></code> by default for creating the benchmark
+environments. If you want to use virtualenv instead, write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asv</span> <span class="n">continuous</span> <span class="o">-</span><span class="n">f</span> <span class="mf">1.1</span> <span class="o">-</span><span class="n">E</span> <span class="n">virtualenv</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span> <span class="n">HEAD</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-E</span> <span class="pre">virtualenv</span></code> option should be added to all <code class="docutils literal notranslate"><span class="pre">asv</span></code> commands
+that run benchmarks. The default value is defined in <code class="docutils literal notranslate"><span class="pre">asv.conf.json</span></code>.</p>
+<p>Running the full benchmark suite can take up to one hour and use up a few GBs of RAM.
+Usually it is sufficient to paste only a subset of the results into the pull
+request to show that the committed changes do not cause unexpected performance
+regressions.  You can run specific benchmarks using the <code class="docutils literal notranslate"><span class="pre">-b</span></code> flag, which
+takes a regular expression.  For example, this will only run tests from a
+<code class="docutils literal notranslate"><span class="pre">xarray/asv_bench/benchmarks/groupby.py</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asv</span> <span class="n">continuous</span> <span class="o">-</span><span class="n">f</span> <span class="mf">1.1</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span> <span class="n">HEAD</span> <span class="o">-</span><span class="n">b</span> <span class="o">^</span><span class="n">groupby</span>
+</pre></div>
+</div>
+<p>If you want to only run a specific group of tests from a file, you can do it
+using <code class="docutils literal notranslate"><span class="pre">.</span></code> as a separator. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asv</span> <span class="n">continuous</span> <span class="o">-</span><span class="n">f</span> <span class="mf">1.1</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span> <span class="n">HEAD</span> <span class="o">-</span><span class="n">b</span> <span class="n">groupby</span><span class="o">.</span><span class="n">GroupByMethods</span>
+</pre></div>
+</div>
+<p>will only run the <code class="docutils literal notranslate"><span class="pre">GroupByMethods</span></code> benchmark defined in <code class="docutils literal notranslate"><span class="pre">groupby.py</span></code>.</p>
+<p>You can also run the benchmark suite using the version of <em>xarray</em>
+already installed in your current Python environment. This can be
+useful if you do not have <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>, or are using the
+<code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">develop</span></code> approach discussed above; for the in-place build
+you need to set <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>, e.g.
+<code class="docutils literal notranslate"><span class="pre">PYTHONPATH=&quot;$PWD/..&quot;</span> <span class="pre">asv</span> <span class="pre">[remaining</span> <span class="pre">arguments]</span></code>.
+You can run benchmarks using an existing Python
+environment by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asv</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="o">-</span><span class="n">E</span> <span class="n">existing</span>
+</pre></div>
+</div>
+<p>or, to use a specific Python interpreter,:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asv</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="o">-</span><span class="n">E</span> <span class="n">existing</span><span class="p">:</span><span class="n">python3</span><span class="mf">.10</span>
+</pre></div>
+</div>
+<p>This will display stderr from the benchmarks, and use your local
+<code class="docutils literal notranslate"><span class="pre">python</span></code> that comes from your <code class="docutils literal notranslate"><span class="pre">$PATH</span></code>.</p>
+<p>Learn <a class="reference external" href="https://asv.readthedocs.io/en/latest/writing_benchmarks.html">how to write a benchmark and how to use asv from the documentation</a> .</p>
+</section>
+<section id="documenting-your-code">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Documenting your code</a><a class="headerlink" href="#documenting-your-code" title="Link to this heading">#</a></h3>
+<p>Changes should be reflected in the release notes located in <code class="docutils literal notranslate"><span class="pre">doc/whats-new.rst</span></code>.
+This file contains an ongoing change log for each release.  Add an entry to this file to
+document your fix, enhancement or (unavoidable) breaking change.  Make sure to include the
+GitHub issue number when adding your entry (using <code class="docutils literal notranslate"><span class="pre">:issue:`1234`</span></code>, where <code class="docutils literal notranslate"><span class="pre">1234</span></code> is the
+issue/pull request number).</p>
+<p>If your code is an enhancement, it is most likely necessary to add usage
+examples to the existing documentation.  This can be done by following the <a class="reference internal" href="#contributing-documentation"><span class="std std-ref">guidelines for contributing to the documentation</span></a>.</p>
+</section>
+</section>
+<section id="contributing-your-changes-to-xarray">
+<span id="contributing-changes"></span><h2>Contributing your changes to <em>xarray</em><a class="headerlink" href="#contributing-your-changes-to-xarray" title="Link to this heading">#</a></h2>
+<section id="committing-your-code">
+<span id="contributing-committing"></span><h3>Committing your code<a class="headerlink" href="#committing-your-code" title="Link to this heading">#</a></h3>
+<p>Keep style fixes to a separate commit to make your pull request more readable.</p>
+<p>Once you’ve made changes, you can see them by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">status</span>
+</pre></div>
+</div>
+<p>If you have created a new file, it is not being tracked by git. Add it by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">add</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">file</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">be</span><span class="o">-</span><span class="n">added</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Doing ‘git status’ again should give something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># On branch shiny-new-feature</span>
+<span class="c1">#</span>
+<span class="c1">#       modified:   /relative/path/to/file-you-added.py</span>
+<span class="c1">#</span>
+</pre></div>
+</div>
+<p>The following defines how a commit message should ideally be structured:</p>
+<ul class="simple">
+<li><p>A subject line with <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">72</span></code> chars.</p></li>
+<li><p>One blank line.</p></li>
+<li><p>Optionally, a commit message body.</p></li>
+</ul>
+<p>Please reference the relevant GitHub issues in your commit message using <code class="docutils literal notranslate"><span class="pre">GH1234</span></code> or
+<code class="docutils literal notranslate"><span class="pre">#1234</span></code>.  Either style is fine, but the former is generally preferred.</p>
+<p>Now you can commit your changes in your local repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span>
+</pre></div>
+</div>
+</section>
+<section id="pushing-your-changes">
+<span id="contributing-pushing"></span><h3>Pushing your changes<a class="headerlink" href="#pushing-your-changes" title="Link to this heading">#</a></h3>
+<p>When you want your changes to appear publicly on your GitHub page, push your
+forked feature branch’s commits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">origin</span></code> is the default name given to your remote repository on GitHub.
+You can see the remote repositories:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>If you added the upstream repository as described above you will see something
+like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span>  <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">yourname</span><span class="o">/</span><span class="n">xarray</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">fetch</span><span class="p">)</span>
+<span class="n">origin</span>  <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">yourname</span><span class="o">/</span><span class="n">xarray</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">push</span><span class="p">)</span>
+<span class="n">upstream</span>        <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pydata</span><span class="o">/</span><span class="n">xarray</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">fetch</span><span class="p">)</span>
+<span class="n">upstream</span>        <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pydata</span><span class="o">/</span><span class="n">xarray</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">push</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now your code is on GitHub, but it is not yet a part of the <em>xarray</em> project.  For that to
+happen, a pull request needs to be submitted on GitHub.</p>
+</section>
+<section id="review-your-code">
+<span id="contributing-review"></span><h3>Review your code<a class="headerlink" href="#review-your-code" title="Link to this heading">#</a></h3>
+<p>When you’re ready to ask for a code review, file a pull request. Before you do, once
+again make sure that you have followed all the guidelines outlined in this document
+regarding code style, tests, performance tests, and documentation. You should also
+double check your branch changes against the branch it was based on:</p>
+<ol class="arabic simple">
+<li><p>Navigate to your repository on GitHub – <a class="github reference external" href="https://github.com/your-user-name/xarray">your-user-name/xarray</a></p></li>
+<li><p>Click on <code class="docutils literal notranslate"><span class="pre">Branches</span></code></p></li>
+<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">Compare</span></code> button for your feature branch</p></li>
+<li><p>Select the <code class="docutils literal notranslate"><span class="pre">base</span></code> and <code class="docutils literal notranslate"><span class="pre">compare</span></code> branches, if necessary. This will be <code class="docutils literal notranslate"><span class="pre">main</span></code> and
+<code class="docutils literal notranslate"><span class="pre">shiny-new-feature</span></code>, respectively.</p></li>
+</ol>
+</section>
+<section id="finally-make-the-pull-request">
+<span id="contributing-pr"></span><h3>Finally, make the pull request<a class="headerlink" href="#finally-make-the-pull-request" title="Link to this heading">#</a></h3>
+<p>If everything looks good, you are ready to make a pull request.  A pull request is how
+code from a local repository becomes available to the GitHub community and can be looked
+at and eventually merged into the <code class="docutils literal notranslate"><span class="pre">main</span></code> version.  This pull request and its associated
+changes will eventually be committed to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch and available in the next
+release.  To submit a pull request:</p>
+<ol class="arabic simple">
+<li><p>Navigate to your repository on GitHub</p></li>
+<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">Pull</span> <span class="pre">Request</span></code> button</p></li>
+<li><p>You can then click on <code class="docutils literal notranslate"><span class="pre">Commits</span></code> and <code class="docutils literal notranslate"><span class="pre">Files</span> <span class="pre">Changed</span></code> to make sure everything looks
+okay one last time</p></li>
+<li><p>Write a description of your changes in the <code class="docutils literal notranslate"><span class="pre">Preview</span> <span class="pre">Discussion</span></code> tab</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Send</span> <span class="pre">Pull</span> <span class="pre">Request</span></code>.</p></li>
+</ol>
+<p>This request then goes to the repository maintainers, and they will review
+the code.</p>
+<p>If you have made updates to the documentation, you can now see a preview of the updated docs by clicking on “Details” under
+the <code class="docutils literal notranslate"><span class="pre">docs/readthedocs.org</span></code> check near the bottom of the list of checks that run automatically when submitting a PR,
+then clicking on the “View Docs” button on the right (not the big green button, the small black one further down).</p>
+<img alt="../_static/view-docs.png" src="../_static/view-docs.png" />
+<p>If you need to make more changes, you can make them in
+your branch, add them to a new commit, push them to GitHub, and the pull request
+will automatically be updated.  Pushing them to GitHub again is done by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+<p>This will automatically update your pull request with the latest code and restart the
+<a class="reference internal" href="#contributing-ci"><span class="std std-ref">Continuous Integration</span></a> tests.</p>
+</section>
+<section id="delete-your-merged-branch-optional">
+<span id="contributing-delete"></span><h3>Delete your merged branch (optional)<a class="headerlink" href="#delete-your-merged-branch-optional" title="Link to this heading">#</a></h3>
+<p>Once your feature branch is accepted into upstream, you’ll probably want to get rid of
+the branch. First, update your <code class="docutils literal notranslate"><span class="pre">main</span></code> branch to check that the merge was successful:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span>
+</pre></div>
+</div>
+<p>Then you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">D</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+<p>You need to use a upper-case <code class="docutils literal notranslate"><span class="pre">-D</span></code> because the branch was squashed into a
+single commit before merging. Be careful with this because <code class="docutils literal notranslate"><span class="pre">git</span></code> won’t warn
+you if you accidentally delete an unmerged branch.</p>
+<p>If you didn’t delete your branch using GitHub’s interface, then it will still exist on
+GitHub. To delete it there do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">--</span><span class="n">delete</span> <span class="n">shiny</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">feature</span>
+</pre></div>
+</div>
+</section>
+<section id="pr-checklist">
+<span id="contributing-checklist"></span><h3>PR checklist<a class="headerlink" href="#pr-checklist" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Properly comment and document your code.</strong> See <a class="reference external" href="https://docs.xarray.dev/en/stable/contributing.html#documenting-your-code">“Documenting your code”</a>.</p></li>
+<li><p><strong>Test that the documentation builds correctly</strong> by typing <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> in the <code class="docutils literal notranslate"><span class="pre">doc</span></code> directory. This is not strictly necessary, but this may be easier than waiting for CI to catch a mistake. See <a class="reference external" href="https://docs.xarray.dev/en/stable/contributing.html#contributing-to-the-documentation">“Contributing to the documentation”</a>.</p></li>
+<li><p><strong>Test your code</strong>.</p>
+<ul>
+<li><p>Write new tests if needed. See <a class="reference external" href="https://docs.xarray.dev/en/stable/contributing.html#test-driven-development-code-writing">“Test-driven development/code writing”</a>.</p></li>
+<li><p>Test the code using <a class="reference external" href="https://doc.pytest.org/en/latest/">Pytest</a>. Running all tests (type <code class="docutils literal notranslate"><span class="pre">pytest</span></code> in the root directory) takes a while, so feel free to only run the tests you think are needed based on your PR (example: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">xarray/tests/test_dataarray.py</span></code>). CI will catch any failing tests.</p></li>
+<li><p>By default, the upstream dev CI is disabled on pull request and push events. You can override this behavior per commit by adding a <code class="docutils literal notranslate"><span class="pre">[test-upstream]</span></code> tag to the first line of the commit message. For documentation-only commits, you can skip the CI per commit by adding a <code class="docutils literal notranslate"><span class="pre">[skip-ci]</span></code> tag to the first line of the commit message.</p></li>
+</ul>
+</li>
+<li><p><strong>Properly format your code</strong> and verify that it passes the formatting guidelines set by <a class="reference external" href="https://github.com/astral-sh/ruff">ruff</a>. See <a class="reference external" href="https://docs.xarray.dev/en/stablcontributing.html#code-formatting">“Code formatting”</a>. You can use <a class="reference external" href="https://pre-commit.com/">pre-commit</a> to run these automatically on each commit.</p>
+<ul>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">run</span> <span class="pre">--all-files</span></code> in the root directory. This may modify some files. Confirm and commit any formatting changes.</p></li>
+</ul>
+</li>
+<li><p><strong>Push your code</strong> and <a class="reference external" href="https://help.github.com/en/articles/creating-a-pull-request">create a PR on GitHub</a>.</p></li>
+<li><p><strong>Use a helpful title for your pull request</strong> by summarizing the main contributions rather than using the latest commit message. If the PR addresses an <a class="reference external" href="https://github.com/pydata/xarray/issues">issue</a>, please <a class="reference external" href="https://help.github.com/en/articles/autolinked-references-and-urls">reference it</a>.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="static_docs/cite.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Citing Easy Climate📒</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sponsor.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Sponsor This Project❤️</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-start">Where to start?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-reports-and-enhancement-requests">Bug reports and enhancement requests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submitting-a-bug-report">Submitting a bug report</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-git-and-github">Version control, Git, and GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started-with-git">Getting started with Git</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-workflow">Development workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-development-environment">Creating a development environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-python-environment">Creating a Python Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-pre-commit-hooks">Install pre-commit hooks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-main-branch">Update the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-feature-branch">Create a new feature branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-editing-workflow">The editing workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-and-push-your-changes">Commit and push your changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#open-a-pull-request">Open a pull request</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-to-the-documentation">Contributing to the documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-easyclimate-documentation">About the <em>easyclimate</em> documentation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-the-easyclimate-documentation">How to build the <em>easyclimate</em> documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-documentation">Building the documentation</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-rest-pages">Writing ReST pages</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#section-formatting">Section formatting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#referring-to-other-documents-and-sections">Referring to other documents and sections</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#including-figures-and-files">Including figures and files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-to-the-code-base">Contributing to the code base</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-standards">Code standards</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#code-formatting">Code Formatting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#backwards-compatibility">Backwards Compatibility</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-with-continuous-integration">Testing With Continuous Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-driven-development-code-writing">Test-driven development/code writing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-tests">Writing tests</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#transitioning-to-pytest">Transitioning to <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-pytest">Using <code class="docutils literal notranslate"><span class="pre">pytest</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-test-suite">Running the test suite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-performance-test-suite">Running the performance test suite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documenting-your-code">Documenting your code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-your-changes-to-xarray">Contributing your changes to <em>xarray</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#committing-your-code">Committing your code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pushing-your-changes">Pushing your changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#review-your-code">Review your code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finally-make-the-pull-request">Finally, make the pull request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-your-merged-branch-optional">Delete your merged branch (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pr-checklist">PR checklist</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By shenyulu and easyclimate developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026, Shenyulu（深雨露） and easyclimate developers.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-01-30.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
