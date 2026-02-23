@@ -165,7 +165,7 @@ def interp_spatial_barnes(
     # data cleaning
     missing_sentinels: tuple[float, ...] = (9999.9, 9999.0, -9999.0, -9999.9),
 ):
-    """
+    r"""
     Computes Barnes interpolation for observation values ``var_name`` sampled at irregular
     locations in ``data`` (lon/lat in degrees), using Gaussian weights with width
     parameter ``sigma_deg`` and returning a regular lon/lat grid as an

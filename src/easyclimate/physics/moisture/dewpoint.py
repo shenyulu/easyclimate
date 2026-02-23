@@ -15,7 +15,7 @@ def calc_dewpoint(
     vapor_pressure_data: xr.DataArray,
     vapor_pressure_data_units: Literal["hPa", "Pa", "mbar"],
 ) -> xr.DataArray:
-    """
+    r"""
     Calculate the ambient dew point temperature given the vapor pressure.
 
     This function inverts the Bolton (1980) formula for saturation vapor
