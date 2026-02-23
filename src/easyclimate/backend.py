@@ -26,6 +26,12 @@ _wet_bulb_temperature = None
 dvibeta = None
 dvrfidf = None
 ddvfidf = None
+barnes_numba = None
+barnes_rs = None
+barnes_S2_numba = None
+barnesS2_rs = None
+radius_mask_2d_rs = None
+kdtree_fastbarnes = None
 
 # WRF-related variables with default values
 xarray_enabled = False
@@ -522,6 +528,22 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
         )
         from easyclimate_rust._easyclimate_rust import (
             interp1d_linear_4d as interp1d_linear_4d_rs,
+        )
+
+        # fastbarnes
+        from easyclimate_rust._easyclimate_rust import (
+            barnes as barnes_rs,
+            barnes_s2 as barnesS2_rs,
+            radius_mask_2d as radius_mask_2d_rs,
+        )
+        from easyclimate_rust.fastbarnes.interpolation import (
+            barnes as barnes_numba,
+        )
+        from easyclimate_rust.fastbarnes.interpolationS2 import (
+            barnes_S2 as barnes_S2_numba,
+        )
+        from easyclimate_rust.fastbarnes.util import (
+            kdtree as kdtree_fastbarnes,
         )
 
         # print(

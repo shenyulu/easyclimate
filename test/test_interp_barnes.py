@@ -6,73 +6,505 @@ import pytest
 
 import easyclimate as ecl
 import numpy as np
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
 
-data = ecl.open_tutorial_dataset("PressQFF_202007271200_872.csv")
+
+@pytest.fixture
+def sample_station_data():
+    return ecl.open_tutorial_dataset("PressQFF_202007271200_872.csv")
 
 
-def test_interp_spatial_barnes():
-    result1 = ecl.interp.interp_spatial_barnes(
-        data,
-        var_name="qff",
-        grid_x=12,
-        grid_y=12,
-        point=[-9, 47],
-        resolution=32,
-        sigma=1.0,
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes1(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution",
     )
-    result_data = result1.sel(lon=slice(-4, -3.9), lat=slice(50, 50.1)).data.flatten()
-    refer_data = np.array(
-        [
-            1005.87036,
-            1005.9002,
-            1005.93,
-            1005.9598,
-            1005.7945,
-            1005.82465,
-            1005.8548,
-            1005.88495,
-            1005.7168,
-            1005.7473,
-            1005.7778,
-            1005.8082,
-            1005.6374,
-            1005.6681,
-            1005.69885,
-            1005.7296,
-        ]
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
     )
-    assert np.isclose(result_data, refer_data).all()
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
 
 
-def test_interp_spatial_barnesS2():
-    result2 = ecl.interp.interp_spatial_barnesS2(
-        data,
-        var_name="qff",
-        grid_x=12,
-        grid_y=12,
-        point=[-9, 47],
-        resolution=32,
-        sigma=1.0,
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes2(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution",
+        buffer_deg=5.0,
     )
-    result_data = result2.sel(lon=slice(-4, -3.9), lat=slice(50, 50.1)).data.flatten()
-    refer_data = np.array(
-        [
-            1005.8769,
-            1005.8949,
-            1005.9129,
-            1005.9309,
-            1005.8007,
-            1005.8189,
-            1005.837,
-            1005.8551,
-            1005.72345,
-            1005.7417,
-            1005.75995,
-            1005.7782,
-            1005.645,
-            1005.6633,
-            1005.6817,
-            1005.7001,
-        ]
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
     )
-    assert np.isclose(result_data, refer_data).all()
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes3(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="convolution",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes4(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="radius",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes_rs1(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution",
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes_rs2(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes_rs3(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="convolution",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnes_rs4(sample_station_data):
+    result = ecl.interp.interp_spatial_barnes_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="radius",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+# --------- S2 -------------------------------------------------
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnesS21(sample_station_data):
+    result = ecl.interp.interp_spatial_barnesS2(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution_S2",
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnesS22(sample_station_data):
+    result = ecl.interp.interp_spatial_barnesS2(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution_S2",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnesS23(sample_station_data):
+    result = ecl.interp.interp_spatial_barnesS2(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="naive_S2",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnesS2_rs1(sample_station_data):
+    result = ecl.interp.interp_spatial_barnesS2_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution_S2",
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnesS2_rs2(sample_station_data):
+    result = ecl.interp.interp_spatial_barnesS2_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="optimized_convolution_S2",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_interp_spatial_barnesS2_rs3(sample_station_data):
+    result = ecl.interp.interp_spatial_barnesS2_rs(
+        sample_station_data,
+        "qff",
+        lon_dim="lon",
+        lat_dim="lat",
+        grid_res_deg=0.25,
+        sigma_deg=0.5,
+        influence_radius_deg=None,  # Default = 4*sigma
+        mask_radius_deg=None,  # Default = influence radius
+        method="naive_S2",
+        buffer_deg=5.0,
+    )
+
+    fig, ax = plt.subplots(
+        subplot_kw={"projection": ccrs.PlateCarree(central_longitude=0)}
+    )
+
+    ax.gridlines(
+        draw_labels=["bottom", "left"], color="grey", alpha=0.5, linestyle="--"
+    )
+    ax.coastlines(edgecolor="black", linewidths=0.5)
+    ax.set_extent([-30, 50, 32, 75])
+
+    # Draw interpolation results
+    result.plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        cbar_kwargs={"location": "bottom", "aspect": 50, "shrink": 0.9},
+        cmap="RdBu_r",
+        levels=21,
+    )
+    return fig
