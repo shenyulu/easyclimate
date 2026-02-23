@@ -518,11 +518,10 @@ def draw_wk_sym_analysis(
 
         # Print ER Label
         i = int(0.7 * (len(wn) / 2))
-        i = np.where(wn == wn[i])[0]
-        y = matsuno_modes[key]["ER(n=1,he={}m)".format(key)].iloc[i]
-        y = float(y.iloc[0]) + 0.01
+        i = int(np.where(wn == wn[i])[0][0])
+        y = float(matsuno_modes[key]["ER(n=1,he={}m)".format(key)].iloc[i]) + 0.01
         ax.text(
-            wn[i] - 1,
+            float(wn[i]) - 1,
             y,
             "ER",
             bbox={"facecolor": "white", "alpha": 0.9, "edgecolor": "none"},
