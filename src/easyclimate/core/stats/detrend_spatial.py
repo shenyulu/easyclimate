@@ -20,7 +20,6 @@ import dask.array as da
 
 __all__ = ["calc_detrend_spatial_fast"]
 
-# Try to import Rust backend
 from ...backend import (
     calc_detrend_spatial_3d_rs,
     calc_detrend_spatial_3d_chunked_rs,
@@ -634,441 +633,441 @@ def calc_detrend_spatial_rust_flexible(
     return result
 
 
-def benchmark_detrend_methods(
-    data_input: Optional[xr.DataArray] = None,
-    shape: tuple = (365, 180, 360),
-    time_dim: str = "time",
-    methods: Optional[list] = None,
-    n_runs: int = 3,
-    warmup: bool = True,
-    verbose: bool = True,
-) -> dict:
-    """
-    Benchmark different detrending methods.
+# def benchmark_detrend_methods(
+#     data_input: Optional[xr.DataArray] = None,
+#     shape: tuple = (365, 180, 360),
+#     time_dim: str = "time",
+#     methods: Optional[list] = None,
+#     n_runs: int = 3,
+#     warmup: bool = True,
+#     verbose: bool = True,
+# ) -> dict:
+#     """
+#     Benchmark different detrending methods.
 
-    Parameters
-    ----------
-    data_input : xr.DataArray, optional
-        Data to test. If None, test data is created.
-    shape : tuple, default (365, 180, 360)
-        Shape of test data (time, lat, lon).
-    time_dim : str, default "time"
-        Name of the time dimension.
-    methods : list, optional
-        List of methods to test. If None, all available methods are tested.
-    n_runs : int, default 3
-        Number of runs per method.
-    warmup : bool, default True
-        Whether to perform warmup runs (not timed).
-    verbose : bool, default True
-        Whether to print progress information.
+#     Parameters
+#     ----------
+#     data_input : xr.DataArray, optional
+#         Data to test. If None, test data is created.
+#     shape : tuple, default (365, 180, 360)
+#         Shape of test data (time, lat, lon).
+#     time_dim : str, default "time"
+#         Name of the time dimension.
+#     methods : list, optional
+#         List of methods to test. If None, all available methods are tested.
+#     n_runs : int, default 3
+#         Number of runs per method.
+#     warmup : bool, default True
+#         Whether to perform warmup runs (not timed).
+#     verbose : bool, default True
+#         Whether to print progress information.
 
-    Returns
-    -------
-    dict
-        Dictionary containing benchmark results for each method.
+#     Returns
+#     -------
+#     dict
+#         Dictionary containing benchmark results for each method.
 
-    Examples
-    --------
-    >>> import numpy as np
-    >>> import xarray as xr
-    >>>
-    >>> # Create test data
-    >>> data = xr.DataArray(
-    ...     np.random.randn(100, 50, 100),
-    ...     dims=['time', 'lat', 'lon']
-    ... )
-    >>>
-    >>> # Run benchmark
-    >>> results = benchmark_detrend_methods(data)
-    >>>
-    >>> # Test specific methods
-    >>> results = benchmark_detrend_methods(
-    ...     data,
-    ...     methods=['scipy', 'numpy', 'auto']
-    ... )
-    """
-    import time
+#     Examples
+#     --------
+#     >>> import numpy as np
+#     >>> import xarray as xr
+#     >>>
+#     >>> # Create test data
+#     >>> data = xr.DataArray(
+#     ...     np.random.randn(100, 50, 100),
+#     ...     dims=['time', 'lat', 'lon']
+#     ... )
+#     >>>
+#     >>> # Run benchmark
+#     >>> results = benchmark_detrend_methods(data)
+#     >>>
+#     >>> # Test specific methods
+#     >>> results = benchmark_detrend_methods(
+#     ...     data,
+#     ...     methods=['scipy', 'numpy', 'auto']
+#     ... )
+#     """
+#     import time
 
-    # Create test data if needed
-    if data_input is None:
-        if verbose:
-            print(f"Creating test data with shape {shape}...")
-        np.random.seed(42)
-        nt, nlat, nlon = shape
-        data = np.random.randn(nt, nlat, nlon) * 10
-        trend = np.linspace(0, 10, nt)[:, None, None]
-        data = data + trend
+#     # Create test data if needed
+#     if data_input is None:
+#         if verbose:
+#             print(f"Creating test data with shape {shape}...")
+#         np.random.seed(42)
+#         nt, nlat, nlon = shape
+#         data = np.random.randn(nt, nlat, nlon) * 10
+#         trend = np.linspace(0, 10, nt)[:, None, None]
+#         data = data + trend
 
-        # Add some NaN values (5%)
-        mask = np.random.random(shape) < 0.05
-        data[mask] = np.nan
+#         # Add some NaN values (5%)
+#         mask = np.random.random(shape) < 0.05
+#         data[mask] = np.nan
 
-        # Add some Inf values (1%)
-        inf_mask = np.random.random(shape) < 0.01
-        data[inf_mask] = np.inf
+#         # Add some Inf values (1%)
+#         inf_mask = np.random.random(shape) < 0.01
+#         data[inf_mask] = np.inf
 
-        # Create xarray
-        data_input = xr.DataArray(
-            data,
-            dims=["time", "lat", "lon"],
-            coords={
-                "time": np.arange(nt),
-                "lat": np.linspace(-90, 90, nlat),
-                "lon": np.linspace(-180, 180, nlon),
-            },
-        )
-    else:
-        shape = data_input.shape
-        if verbose:
-            print(f"Using provided data with shape {shape}...")
+#         # Create xarray
+#         data_input = xr.DataArray(
+#             data,
+#             dims=["time", "lat", "lon"],
+#             coords={
+#                 "time": np.arange(nt),
+#                 "lat": np.linspace(-90, 90, nlat),
+#                 "lon": np.linspace(-180, 180, nlon),
+#             },
+#         )
+#     else:
+#         shape = data_input.shape
+#         if verbose:
+#             print(f"Using provided data with shape {shape}...")
 
-    # Determine methods to test
-    if methods is None:
-        # Test all available methods
-        all_methods = ["scipy_reduce", "scipy", "numpy"]
-        if RUST_AVAILABLE:
-            all_methods.extend(["rust", "rust_chunked", "rust_flexible", "auto"])
-        methods = all_methods
+#     # Determine methods to test
+#     if methods is None:
+#         # Test all available methods
+#         all_methods = ["scipy_reduce", "scipy", "numpy"]
+#         if RUST_AVAILABLE:
+#             all_methods.extend(["rust", "rust_chunked", "rust_flexible", "auto"])
+#         methods = all_methods
 
-    # Remove unavailable methods
-    available_methods = []
-    for method in methods:
-        if method.startswith("rust") and not RUST_AVAILABLE:
-            if verbose:
-                print(f"Skipping method '{method}' (Rust backend not available)")
-        else:
-            available_methods.append(method)
+#     # Remove unavailable methods
+#     available_methods = []
+#     for method in methods:
+#         if method.startswith("rust") and not RUST_AVAILABLE:
+#             if verbose:
+#                 print(f"Skipping method '{method}' (Rust backend not available)")
+#         else:
+#             available_methods.append(method)
 
-    if not available_methods:
-        raise ValueError("No available methods to benchmark")
+#     if not available_methods:
+#         raise ValueError("No available methods to benchmark")
 
-    if verbose:
-        print(f"Benchmarking methods: {available_methods}")
-        print(f"Data shape: {shape}")
-        print(f"Data size: {data_input.nbytes / (1024 ** 2):.1f} MB\n")
+#     if verbose:
+#         print(f"Benchmarking methods: {available_methods}")
+#         print(f"Data shape: {shape}")
+#         print(f"Data size: {data_input.nbytes / (1024 ** 2):.1f} MB\n")
 
-    results = {}
+#     results = {}
 
-    for method in available_methods:
-        if verbose:
-            print(f"Testing method: {method}")
+#     for method in available_methods:
+#         if verbose:
+#             print(f"Testing method: {method}")
 
-        # Warmup run (if enabled)
-        if warmup:
-            try:
-                _ = calc_detrend_spatial_fast(
-                    data_input, time_dim=time_dim, method=method
-                )
-            except Exception as e:
-                if verbose:
-                    print(f"  Warning: Warmup failed: {e}")
+#         # Warmup run (if enabled)
+#         if warmup:
+#             try:
+#                 _ = calc_detrend_spatial_fast(
+#                     data_input, time_dim=time_dim, method=method
+#                 )
+#             except Exception as e:
+#                 if verbose:
+#                     print(f"  Warning: Warmup failed: {e}")
 
-        # Timed runs
-        times = []
-        for i in range(n_runs):
-            try:
-                start = time.time()
-                result = calc_detrend_spatial_fast(
-                    data_input, time_dim=time_dim, method=method
-                )
-                end = time.time()
-                elapsed = end - start
-                times.append(elapsed)
+#         # Timed runs
+#         times = []
+#         for i in range(n_runs):
+#             try:
+#                 start = time.time()
+#                 result = calc_detrend_spatial_fast(
+#                     data_input, time_dim=time_dim, method=method
+#                 )
+#                 end = time.time()
+#                 elapsed = end - start
+#                 times.append(elapsed)
 
-                # Validate result
-                valid_count = np.isfinite(result.values).sum()
-                if verbose:
-                    print(
-                        f"  Run {i+1}: {elapsed:.3f} seconds, valid values: {valid_count:,}"
-                    )
+#                 # Validate result
+#                 valid_count = np.isfinite(result.values).sum()
+#                 if verbose:
+#                     print(
+#                         f"  Run {i+1}: {elapsed:.3f} seconds, valid values: {valid_count:,}"
+#                     )
 
-            except Exception as e:
-                if verbose:
-                    print(f"  Run {i+1}: ERROR - {e}")
-                times.append(np.nan)
+#             except Exception as e:
+#                 if verbose:
+#                     print(f"  Run {i+1}: ERROR - {e}")
+#                 times.append(np.nan)
 
-        # Calculate statistics
-        valid_times = [t for t in times if not np.isnan(t)]
-        if valid_times:
-            mean_time = np.mean(valid_times)
-            std_time = np.std(valid_times)
-            throughput = (data_input.nbytes / (1024**2)) / mean_time
+#         # Calculate statistics
+#         valid_times = [t for t in times if not np.isnan(t)]
+#         if valid_times:
+#             mean_time = np.mean(valid_times)
+#             std_time = np.std(valid_times)
+#             throughput = (data_input.nbytes / (1024**2)) / mean_time
 
-            # Store results
-            results[method] = {
-                "mean_time": mean_time,
-                "std_time": std_time,
-                "throughput_mb_s": throughput,
-                "data_size_mb": data_input.nbytes / (1024**2),
-                "valid_value_count": (
-                    np.isfinite(result.values).sum() if "result" in locals() else 0
-                ),
-                "successful_runs": len(valid_times),
-                "total_runs": n_runs,
-            }
+#             # Store results
+#             results[method] = {
+#                 "mean_time": mean_time,
+#                 "std_time": std_time,
+#                 "throughput_mb_s": throughput,
+#                 "data_size_mb": data_input.nbytes / (1024**2),
+#                 "valid_value_count": (
+#                     np.isfinite(result.values).sum() if "result" in locals() else 0
+#                 ),
+#                 "successful_runs": len(valid_times),
+#                 "total_runs": n_runs,
+#             }
 
-            if verbose:
-                print(
-                    f"  Results: {mean_time:.3f} ± {std_time:.3f} seconds, "
-                    f"{throughput:.1f} MB/s\n"
-                )
-        else:
-            results[method] = {
-                "mean_time": np.nan,
-                "std_time": np.nan,
-                "throughput_mb_s": np.nan,
-                "data_size_mb": data_input.nbytes / (1024**2),
-                "valid_value_count": 0,
-                "successful_runs": 0,
-                "total_runs": n_runs,
-                "error": "All runs failed",
-            }
-            if verbose:
-                print(f"  Failed all runs\n")
+#             if verbose:
+#                 print(
+#                     f"  Results: {mean_time:.3f} ± {std_time:.3f} seconds, "
+#                     f"{throughput:.1f} MB/s\n"
+#                 )
+#         else:
+#             results[method] = {
+#                 "mean_time": np.nan,
+#                 "std_time": np.nan,
+#                 "throughput_mb_s": np.nan,
+#                 "data_size_mb": data_input.nbytes / (1024**2),
+#                 "valid_value_count": 0,
+#                 "successful_runs": 0,
+#                 "total_runs": n_runs,
+#                 "error": "All runs failed",
+#             }
+#             if verbose:
+#                 print(f"  Failed all runs\n")
 
-    # Print summary
-    if verbose:
-        print("=" * 60)
-        print("BENCHMARK SUMMARY")
-        print("=" * 60)
+#     # Print summary
+#     if verbose:
+#         print("=" * 60)
+#         print("BENCHMARK SUMMARY")
+#         print("=" * 60)
 
-        # Find fastest method
-        fastest_method = None
-        fastest_time = float("inf")
+#         # Find fastest method
+#         fastest_method = None
+#         fastest_time = float("inf")
 
-        for method, stats in results.items():
-            if not np.isnan(stats["mean_time"]) and stats["mean_time"] < fastest_time:
-                fastest_time = stats["mean_time"]
-                fastest_method = method
+#         for method, stats in results.items():
+#             if not np.isnan(stats["mean_time"]) and stats["mean_time"] < fastest_time:
+#                 fastest_time = stats["mean_time"]
+#                 fastest_method = method
 
-        print(f"\nFastest method: {fastest_method} ({fastest_time:.3f} seconds)")
-        print(f"Data size: {data_input.nbytes / (1024 ** 2):.1f} MB")
-        print("\nDetailed results:")
+#         print(f"\nFastest method: {fastest_method} ({fastest_time:.3f} seconds)")
+#         print(f"Data size: {data_input.nbytes / (1024 ** 2):.1f} MB")
+#         print("\nDetailed results:")
 
-        # Sort by speed
-        sorted_methods = sorted(
-            [m for m in results.keys() if not np.isnan(results[m]["mean_time"])],
-            key=lambda m: results[m]["mean_time"],
-        )
+#         # Sort by speed
+#         sorted_methods = sorted(
+#             [m for m in results.keys() if not np.isnan(results[m]["mean_time"])],
+#             key=lambda m: results[m]["mean_time"],
+#         )
 
-        for i, method in enumerate(sorted_methods):
-            stats = results[method]
-            rel_speed = (
-                fastest_time / stats["mean_time"] if stats["mean_time"] > 0 else 0
-            )
-            print(
-                f"  {i+1:2d}. {method:15s}: {stats['mean_time']:.3f} ± {stats['std_time']:.3f} s "
-                f"({rel_speed:.1f}x, {stats['throughput_mb_s']:.1f} MB/s)"
-            )
+#         for i, method in enumerate(sorted_methods):
+#             stats = results[method]
+#             rel_speed = (
+#                 fastest_time / stats["mean_time"] if stats["mean_time"] > 0 else 0
+#             )
+#             print(
+#                 f"  {i+1:2d}. {method:15s}: {stats['mean_time']:.3f} ± {stats['std_time']:.3f} s "
+#                 f"({rel_speed:.1f}x, {stats['throughput_mb_s']:.1f} MB/s)"
+#             )
 
-    return results
-
-
-def compare_results(
-    data_input: xr.DataArray,
-    methods: Optional[list] = None,
-    time_dim: str = "time",
-    tolerance: float = 1e-10,
-) -> dict:
-    """
-    Compare numerical results from different methods.
-
-    Parameters
-    ----------
-    data_input : xr.DataArray
-        Input data array.
-    methods : list, optional
-        List of methods to compare. If None, uses ['scipy', 'numpy'].
-    time_dim : str, default "time"
-        Time dimension name.
-    tolerance : float, default 1e-10
-        Tolerance for numerical comparison.
-
-    Returns
-    -------
-    dict
-        Dictionary containing results from each method and comparison statistics.
-    """
-    if methods is None:
-        methods = ["scipy", "numpy"]
-        if RUST_AVAILABLE:
-            methods.append("rust")
-
-    results = {}
-
-    for method in methods:
-        try:
-            result = calc_detrend_spatial_fast(
-                data_input, time_dim=time_dim, method=method
-            )
-            results[method] = result
-
-            print(f"Method '{method}':")
-            print(f"  Valid values: {np.isfinite(result.values).sum():,}")
-            print(f"  Min value: {np.nanmin(result.values):.6f}")
-            print(f"  Max value: {np.nanmax(result.values):.6f}")
-            print(f"  Mean value: {np.nanmean(result.values):.6f}")
-            print(f"  Std value: {np.nanstd(result.values):.6f}")
-            print()
-
-        except Exception as e:
-            print(f"Method '{method}' failed: {e}")
-            results[method] = None
-
-    # Compare results from different methods (if multiple successful)
-    successful_methods = [m for m in methods if results[m] is not None]
-
-    if len(successful_methods) >= 2:
-        print("=" * 40)
-        print("RESULT COMPARISON")
-        print("=" * 40)
-
-        for i in range(len(successful_methods)):
-            for j in range(i + 1, len(successful_methods)):
-                m1, m2 = successful_methods[i], successful_methods[j]
-                r1, r2 = results[m1].values, results[m2].values
-
-                # Calculate difference statistics
-                diff = r1 - r2
-                finite_mask = np.isfinite(r1) & np.isfinite(r2)
-
-                if np.any(finite_mask):
-                    abs_diff = np.abs(diff[finite_mask])
-
-                    print(f"\nComparing {m1} vs {m2}:")
-                    print(f"  Max absolute difference: {np.max(abs_diff):.6e}")
-                    print(f"  Mean absolute difference: {np.mean(abs_diff):.6e}")
-                    print(f"  Std of differences: {np.std(diff[finite_mask]):.6e}")
-                    print(f"  RMSE: {np.sqrt(np.mean(diff[finite_mask]**2)):.6e}")
-
-                    # Check if values are equal within tolerance
-                    close = np.allclose(
-                        r1[finite_mask], r2[finite_mask], rtol=tolerance, atol=tolerance
-                    )
-                    print(f"  All values within {tolerance:.0e} tolerance: {close}")
-
-    return results
+#     return results
 
 
-def create_test_dataset(
-    shape: tuple = (100, 50, 100),
-    add_trend: bool = True,
-    add_noise: bool = True,
-    nan_fraction: float = 0.05,
-    inf_fraction: float = 0.01,
-    seed: int = 42,
-) -> xr.DataArray:
-    """
-    Create a test dataset for detrending.
+# def compare_results(
+#     data_input: xr.DataArray,
+#     methods: Optional[list] = None,
+#     time_dim: str = "time",
+#     tolerance: float = 1e-10,
+# ) -> dict:
+#     """
+#     Compare numerical results from different methods.
 
-    Parameters
-    ----------
-    shape : tuple, default (100, 50, 100)
-        Shape of the dataset (time, lat, lon).
-    add_trend : bool, default True
-        Whether to add a linear trend.
-    add_noise : bool, default True
-        Whether to add Gaussian noise.
-    nan_fraction : float, default 0.05
-        Fraction of values to set to NaN.
-    inf_fraction : float, default 0.01
-        Fraction of values to set to Inf.
-    seed : int, default 42
-        Random seed for reproducibility.
+#     Parameters
+#     ----------
+#     data_input : xr.DataArray
+#         Input data array.
+#     methods : list, optional
+#         List of methods to compare. If None, uses ['scipy', 'numpy'].
+#     time_dim : str, default "time"
+#         Time dimension name.
+#     tolerance : float, default 1e-10
+#         Tolerance for numerical comparison.
 
-    Returns
-    -------
-    xr.DataArray
-        Test dataset with specified properties.
-    """
-    np.random.seed(seed)
-    nt, nlat, nlon = shape
+#     Returns
+#     -------
+#     dict
+#         Dictionary containing results from each method and comparison statistics.
+#     """
+#     if methods is None:
+#         methods = ["scipy", "numpy"]
+#         if RUST_AVAILABLE:
+#             methods.append("rust")
 
-    # Create base data
-    if add_noise:
-        data = np.random.randn(nt, nlat, nlon) * 10
-    else:
-        data = np.zeros((nt, nlat, nlon))
+#     results = {}
 
-    # Add linear trend if requested
-    if add_trend:
-        trend = np.linspace(0, 10, nt)[:, None, None]
-        data = data + trend
+#     for method in methods:
+#         try:
+#             result = calc_detrend_spatial_fast(
+#                 data_input, time_dim=time_dim, method=method
+#             )
+#             results[method] = result
 
-    # Add NaN values
-    if nan_fraction > 0:
-        mask = np.random.random(shape) < nan_fraction
-        data[mask] = np.nan
+#             print(f"Method '{method}':")
+#             print(f"  Valid values: {np.isfinite(result.values).sum():,}")
+#             print(f"  Min value: {np.nanmin(result.values):.6f}")
+#             print(f"  Max value: {np.nanmax(result.values):.6f}")
+#             print(f"  Mean value: {np.nanmean(result.values):.6f}")
+#             print(f"  Std value: {np.nanstd(result.values):.6f}")
+#             print()
 
-    # Add Inf values
-    if inf_fraction > 0:
-        inf_mask = np.random.random(shape) < inf_fraction
-        data[inf_mask] = np.inf
+#         except Exception as e:
+#             print(f"Method '{method}' failed: {e}")
+#             results[method] = None
 
-    # Create xarray DataArray
-    result = xr.DataArray(
-        data,
-        dims=["time", "lat", "lon"],
-        coords={
-            "time": np.arange(nt),
-            "lat": np.linspace(-90, 90, nlat),
-            "lon": np.linspace(-180, 180, nlon),
-        },
-        attrs={
-            "description": "Test dataset for detrending",
-            "trend_added": add_trend,
-            "noise_added": add_noise,
-            "nan_fraction": nan_fraction,
-            "inf_fraction": inf_fraction,
-            "seed": seed,
-        },
-    )
+#     # Compare results from different methods (if multiple successful)
+#     successful_methods = [m for m in methods if results[m] is not None]
 
-    return result
+#     if len(successful_methods) >= 2:
+#         print("=" * 40)
+#         print("RESULT COMPARISON")
+#         print("=" * 40)
+
+#         for i in range(len(successful_methods)):
+#             for j in range(i + 1, len(successful_methods)):
+#                 m1, m2 = successful_methods[i], successful_methods[j]
+#                 r1, r2 = results[m1].values, results[m2].values
+
+#                 # Calculate difference statistics
+#                 diff = r1 - r2
+#                 finite_mask = np.isfinite(r1) & np.isfinite(r2)
+
+#                 if np.any(finite_mask):
+#                     abs_diff = np.abs(diff[finite_mask])
+
+#                     print(f"\nComparing {m1} vs {m2}:")
+#                     print(f"  Max absolute difference: {np.max(abs_diff):.6e}")
+#                     print(f"  Mean absolute difference: {np.mean(abs_diff):.6e}")
+#                     print(f"  Std of differences: {np.std(diff[finite_mask]):.6e}")
+#                     print(f"  RMSE: {np.sqrt(np.mean(diff[finite_mask]**2)):.6e}")
+
+#                     # Check if values are equal within tolerance
+#                     close = np.allclose(
+#                         r1[finite_mask], r2[finite_mask], rtol=tolerance, atol=tolerance
+#                     )
+#                     print(f"  All values within {tolerance:.0e} tolerance: {close}")
+
+#     return results
 
 
-# Example usage and testing
-if __name__ == "__main__":
-    import sys
+# def create_test_dataset(
+#     shape: tuple = (100, 50, 100),
+#     add_trend: bool = True,
+#     add_noise: bool = True,
+#     nan_fraction: float = 0.05,
+#     inf_fraction: float = 0.01,
+#     seed: int = 42,
+# ) -> xr.DataArray:
+#     """
+#     Create a test dataset for detrending.
 
-    # Create small test data for demonstration
-    print("Creating demo data...")
-    test_data = create_test_dataset(
-        # shape=(50, 25, 25),
-        shape=(100, 50, 50),
-        add_trend=True,
-        add_noise=True,
-        nan_fraction=0.1,
-        inf_fraction=0.02,
-        seed=42,
-    )
+#     Parameters
+#     ----------
+#     shape : tuple, default (100, 50, 100)
+#         Shape of the dataset (time, lat, lon).
+#     add_trend : bool, default True
+#         Whether to add a linear trend.
+#     add_noise : bool, default True
+#         Whether to add Gaussian noise.
+#     nan_fraction : float, default 0.05
+#         Fraction of values to set to NaN.
+#     inf_fraction : float, default 0.01
+#         Fraction of values to set to Inf.
+#     seed : int, default 42
+#         Random seed for reproducibility.
 
-    # Test all available methods
-    print("\nTesting all available methods...")
+#     Returns
+#     -------
+#     xr.DataArray
+#         Test dataset with specified properties.
+#     """
+#     np.random.seed(seed)
+#     nt, nlat, nlon = shape
 
-    try:
-        # Run benchmark
-        benchmark_results = benchmark_detrend_methods(
-            data_input=test_data,
-            # methods=['scipy_reduce', 'scipy', 'numpy', 'auto'],
-            n_runs=3,
-            verbose=True,
-        )
+#     # Create base data
+#     if add_noise:
+#         data = np.random.randn(nt, nlat, nlon) * 10
+#     else:
+#         data = np.zeros((nt, nlat, nlon))
 
-        # Compare numerical results
-        print("\nComparing numerical results...")
-        print("*************************************************")
-        compare_results(test_data, methods=["scipy", "numpy"])
-        print("*************************************************")
-        compare_results(test_data, methods=["numpy", "scipy_reduce"])
-        print("*************************************************")
-        compare_results(test_data, methods=["scipy_reduce", "rust_flexible"])
+#     # Add linear trend if requested
+#     if add_trend:
+#         trend = np.linspace(0, 10, nt)[:, None, None]
+#         data = data + trend
 
-    except Exception as e:
-        print(f"Error during benchmark: {e}")
-        import traceback
+#     # Add NaN values
+#     if nan_fraction > 0:
+#         mask = np.random.random(shape) < nan_fraction
+#         data[mask] = np.nan
 
-        traceback.print_exc()
+#     # Add Inf values
+#     if inf_fraction > 0:
+#         inf_mask = np.random.random(shape) < inf_fraction
+#         data[inf_mask] = np.inf
 
-    print("\nDemo completed!")
+#     # Create xarray DataArray
+#     result = xr.DataArray(
+#         data,
+#         dims=["time", "lat", "lon"],
+#         coords={
+#             "time": np.arange(nt),
+#             "lat": np.linspace(-90, 90, nlat),
+#             "lon": np.linspace(-180, 180, nlon),
+#         },
+#         attrs={
+#             "description": "Test dataset for detrending",
+#             "trend_added": add_trend,
+#             "noise_added": add_noise,
+#             "nan_fraction": nan_fraction,
+#             "inf_fraction": inf_fraction,
+#             "seed": seed,
+#         },
+#     )
+
+#     return result
+
+
+# # Example usage and testing
+# if __name__ == "__main__":
+#     import sys
+
+#     # Create small test data for demonstration
+#     print("Creating demo data...")
+#     test_data = create_test_dataset(
+#         # shape=(50, 25, 25),
+#         shape=(100, 50, 50),
+#         add_trend=True,
+#         add_noise=True,
+#         nan_fraction=0.1,
+#         inf_fraction=0.02,
+#         seed=42,
+#     )
+
+#     # Test all available methods
+#     print("\nTesting all available methods...")
+
+#     try:
+#         # Run benchmark
+#         benchmark_results = benchmark_detrend_methods(
+#             data_input=test_data,
+#             # methods=['scipy_reduce', 'scipy', 'numpy', 'auto'],
+#             n_runs=3,
+#             verbose=True,
+#         )
+
+#         # Compare numerical results
+#         print("\nComparing numerical results...")
+#         print("*************************************************")
+#         compare_results(test_data, methods=["scipy", "numpy"])
+#         print("*************************************************")
+#         compare_results(test_data, methods=["numpy", "scipy_reduce"])
+#         print("*************************************************")
+#         compare_results(test_data, methods=["scipy_reduce", "rust_flexible"])
+
+#     except Exception as e:
+#         print(f"Error during benchmark: {e}")
+#         import traceback
+
+#         traceback.print_exc()
+
+#     print("\nDemo completed!")
