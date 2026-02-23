@@ -34,7 +34,7 @@ extensions = [
     "recommonmark",
     "sphinx_markdown_tables",
     "sphinx.ext.mathjax",
-    "sphinxcontrib.jupyter",
+    "jupyter_sphinx",
     # Add inline tabbed content to your Sphinx documentation
     "sphinx_inline_tabs",
     "sphinx_gallery.gen_gallery",
