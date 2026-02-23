@@ -2,7 +2,10 @@ name: Publish easyclimate to PyPI
 
 on:
   release:
-    types: [published, edited]
+    types: [published]
+
+permissions:
+  contents: write
 
 jobs:
   UnitTesting:
@@ -56,3 +59,12 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: dist/
+
+      - name: Upload build artifacts to Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          tag_name: ${{ github.event.release.tag_name }}
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

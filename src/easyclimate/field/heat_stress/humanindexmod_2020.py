@@ -74,7 +74,7 @@ def calc_apparent_temperature(
     # core function
     def _apptemp(t, vp, w10):
         val = human_index_mod.apptemp(t, vp, w10)
-        return np.array([val])
+        return np.asarray(val).item()
 
     # apply_ufunc
     result = xr.apply_ufunc(
@@ -136,7 +136,7 @@ def calc_simplified_human_discomfort_index(
     # core function
     def _dis_coi(t, vp):
         val = human_index_mod.dis_coi(t, vp)
-        return np.array([val])
+        return np.asarray(val).item()
 
     # apply_ufunc
     result = xr.apply_ufunc(
@@ -206,7 +206,7 @@ def calc_simplified_human_discomfort_index_stull(
     # core function
     def _dis_cois(t, twb, rh):
         val = human_index_mod.dis_cois(t, twb, rh)
-        return np.array([val])
+        return np.asarray(val).item()
 
     # apply_ufunc
     result = xr.apply_ufunc(
@@ -408,7 +408,7 @@ def calc_simplified_wbgt_index(
     # core function
     def _swbgt(t, vp):
         val = human_index_mod.swbgt(t, vp)
-        return np.array([val])
+        return np.asarray(val).item()
 
     # apply_ufunc
     result = xr.apply_ufunc(
@@ -469,7 +469,7 @@ def calc_human_feels_temperature(
     # core function
     def _hmdex(t_c, vp):
         val = human_index_mod.hmdex(t_c, vp)
-        return np.array([val])
+        return np.asarray(val).item()
 
     # apply_ufunc
     result = xr.apply_ufunc(

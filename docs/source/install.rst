@@ -229,15 +229,3 @@ Want to build the documentation yourself? 📚 Follow these steps:
 
 We hope this guide makes installing **easyclimate** a breeze! If you have any questions or run into issues,
 feel free to reach out. Happy climate analyzing! 🌍
-
-About easyclimate-backend
-------------------------------------
-The `easyclimate-backend <https://easyclimate-backend.readthedocs.io/>`__ is the **core** powerhouse behind the easyclimate front-end package,
-providing a suite of high-performance,
-low-level functions for climate data analysis. Implemented in languages like ``Fortran`` and ``C``,
-these functions ensure that your climate data processing is both efficient and accurate.
-
-Because of this, you may also need to install a pre-compiled package or compile it yourself on
-`Windows <https://easyclimate-backend.readthedocs.io/en/latest/src/building_windows.html>`__,
-`Linux <https://easyclimate-backend.readthedocs.io/en/latest/src/building_linux.html>`__, or
-`manylinux package <https://easyclimate-backend.readthedocs.io/en/latest/src/building_manylinux.html>`__.

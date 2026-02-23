@@ -20,7 +20,7 @@ def track_cyclone_center_msl_only(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
 ) -> pd.DataFrame:
-    """
+    r"""
     Tracks the center of a cyclone using biquadratic interpolation on mean sea level pressure (MSL) data.
 
     This function identifies local minima in the MSL data using a minimum filter with cyclic boundary conditions

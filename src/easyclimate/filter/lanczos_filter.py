@@ -225,7 +225,7 @@ def calc_lanczos_bandpass(
     window_length: int,
     period: list[int],
     dim: str = "time",
-    method: Literal["rolling", "convolve", "fft"] = "rolling",
+    method: Literal["rolling", "convolve"] = "rolling",
     drop_edge: bool = True,
 ) -> xr.DataArray:
     """

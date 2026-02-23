@@ -83,7 +83,7 @@ The EasyClimate ecosystem consists of several interconnected repositories:
 .. figure:: _static/easyclimate_backend_logo_mini.png
     :scale: 20%
     :align: center
-    :target: https://github.com/shenyulu/easyclimate-backend
+    :target: https://easyclimate-backend.readthedocs.io
 
     The backend of easyclimate (mainly Fortran) (https://github.com/shenyulu/easyclimate-backend)
 
@@ -97,6 +97,6 @@ The EasyClimate ecosystem consists of several interconnected repositories:
 .. figure:: _static/easyclimate_map_logo_mini.png
     :scale: 20%
     :align: center
-    :target: https://github.com/shenyulu/easyclimate-map
+    :target: https://easyclimate-map.readthedocs.io
 
     Easily obtain map data (https://github.com/shenyulu/easyclimate-map)
