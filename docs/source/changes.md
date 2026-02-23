@@ -1,5 +1,14 @@
 # Changelog♻️
 
+## v2026.3.0
+
+*Released on: 2026/2/23*
+
+- [fix: detrend_spatial update](https://github.com/shenyulu/easyclimate/pull/112/commits/348e48010e0bd906ef331e04dcd51303e988fca4)
+- [feat: update fastbarnes](https://github.com/shenyulu/easyclimate/pull/112/commits/2dca821a3acaa0f1b13346e42857d93970f65d42)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2026.2.0...v2026.3.0
+
 ## v2026.2.0
 
 *Released on: 2026/1/30*
