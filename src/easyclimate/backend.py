@@ -23,9 +23,13 @@ _vinth2p_dp = None
 _vinth2p_ecmwf = None
 _vintp2p_ecmwf = None
 _wet_bulb_temperature = None
-dvibeta = None
-dvrfidf = None
-ddvfidf = None
+dvibeta_ncl = None
+dvrfidf_ncl = None
+ddvfidf_ncl = None
+dvrfidf_rs = None
+ddvfidf_rs = None
+dvrfidf_batch_rs = None
+ddvfidf_batch_rs = None
 barnes_numba = None
 barnes_rs = None
 barnes_S2_numba = None
@@ -240,12 +244,17 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
 
         # Import basic modules
         from easyclimate_backend.pyspharm import spharm
+
         from easyclimate_backend.windspharm.xarray import VectorWind
+
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_skin as aeroskin
+
         from easyclimate_backend.heat_stress import human_index_mod, human_index_mod_old
+
         from easyclimate_backend.redfit import _ecl_redfit
         from easyclimate_backend.redfit import _ecl_redfit_x
+
         from easyclimate_backend.vinth2p._vinth2p_dp import vinth2p as _vinth2p_dp
         from easyclimate_backend.vinth2p._vinth2p_ecmwf import (
             vinth2pecmwf as _vinth2p_ecmwf,
@@ -254,8 +263,11 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
             vintp2pecmwf as _vintp2p_ecmwf,
         )
 
-        from easyclimate_backend.vibeta._vibeta_dp import dvibeta
-        from easyclimate_backend.rvdv._rvdv import ddvfidf, dvrfidf
+        from easyclimate_backend.vibeta._vibeta_dp import dvibeta as dvibeta_ncl
+        from easyclimate_backend.rvdv._rvdv import (
+            ddvfidf as ddvfidf_ncl,
+            dvrfidf as dvrfidf_ncl,
+        )
 
         from easyclimate_backend.wet_bulb import _wet_bulb_temperature
 
@@ -544,6 +556,14 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
         )
         from easyclimate_rust.fastbarnes.util import (
             kdtree as kdtree_fastbarnes,
+        )
+
+        # rvdv
+        from easyclimate_rust._easyclimate_rust import (
+            ddvfidf as ddvfidf_rs,
+            dvrfidf as dvrfidf_rs,
+            ddvfidf_batch as ddvfidf_batch_rs,
+            dvrfidf_batch as dvrfidf_batch_rs,
         )
 
         # print(

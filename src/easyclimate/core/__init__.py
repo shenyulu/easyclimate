@@ -8,6 +8,7 @@ from .variability import *
 from .tutorial import *
 from .datanode import *
 from .units import *
+from .rvdv import *
 
 from . import utility
 from . import mk_test

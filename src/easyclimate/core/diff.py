@@ -16,7 +16,6 @@ from .units import (
     transfer_units_coeff,
     transfer_data_multiple_units,
 )
-from ..backend import dvibeta, dvrfidf, ddvfidf
 import xarray as xr
 import dask
 from typing import Literal
@@ -38,8 +37,6 @@ __all__ = [
     "calc_p_integral",
     "calc_top2surface_integral",
     "calc_dxdy_laplacian",
-    "calc_divergence",
-    "calc_vorticity",
     "calc_geostrophic_wind",
     "calc_geostrophic_wind_vorticity",
     "calc_horizontal_water_flux",
@@ -1233,6 +1230,8 @@ def calc_top2surface_integral(
         return output
 
     elif method == "vibeta-ncl":
+        from ..backend import dvibeta_ncl
+
         # Change the vertical coordinate unit to `Pa`
         vertical_dim_base = transfer_units_coeff(vertical_dim_units, "Pa")
         data_input = data_input.assign_coords(
@@ -1267,7 +1266,7 @@ def calc_top2surface_integral(
             pbot = psfc
             plvcrt = ptop
 
-            vint, ier = dvibeta(
+            vint, ier = dvibeta_ncl(
                 level.astype(np.float64),
                 x_profile.astype(np.float64),
                 np.float64(xmsg),
@@ -1398,392 +1397,6 @@ def calc_dxdy_laplacian(
     return laplacian
 
 
-def calc_divergence(
-    u_data: xr.DataArray,
-    v_data: xr.DataArray,
-    lon_dim: str = "lon",
-    lat_dim: str = "lat",
-    R: float = 6371200.0,
-    spherical_coord=True,
-    cyclic_boundary: bool = False,
-    method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
-) -> xr.DataArray:
-    """
-    Calculate the horizontal divergence term.
-
-    rectangular coordinates
-
-    .. math::
-        \\mathrm{D} = \\frac{\\partial u}{\\partial x} + \\frac{\\partial v}{\\partial y}
-
-    Spherical coordinates
-
-    .. math::
-        \\mathrm{D} = \\frac{\\partial u}{\\partial x} + \\frac{\\partial v}{\\partial y} - \\frac{v}{R} \\tan \\varphi
-
-    Parameters
-    ----------
-    u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The zonal wind data.
-    v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional wind data.
-    lon_dim: :py:class:`str <str>`, default: `lon`.
-        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float <float>`, default: `6371200.0`.
-        Radius of the Earth.
-    spherical_coord: :py:class:`bool<bool>`, default: `True`.
-        Whether or not to compute the horizontal Laplace term in spherical coordinates. The parameter is applicable only when ``method = easyclimate``.
-    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
-        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = ddvfidf-ncl``.
-    method: {"easyclimate", "ddvfidf-ncl"}, default: `ddvfidf-ncl`.
-        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``ddvfidf-ncl``.
-
-    Returns
-    -------
-    The horizontal divergence term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
-
-    .. seealso::
-
-        - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2dv_cfd.shtml
-        - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
-
-    .. minigallery::
-        :add-heading: Example(s) related to the function
-
-        ./dynamic_docs/plot_geographic_finite_difference.py
-    """
-    compare_multi_dataarray_coordinate([u_data, v_data])
-
-    match method:
-        case "easyclimate":
-            lat_array = u_data[lat_dim]
-            dudx = calc_dx_gradient(u_data, lon_dim=lon_dim, lat_dim=lat_dim, R=R)
-            dvdy = calc_dy_gradient(v_data, lat_dim=lat_dim, R=R)
-
-            if spherical_coord == True:
-                term3 = v_data / R * np.tan(transfer_deg2rad(lat_array))
-                div = dudx + dvdy - term3
-            elif spherical_coord == False:
-                div = dudx + dvdy
-
-            div.name = "divergence"
-            div.attrs["long_name"] = "divergence"
-            div.attrs["units"] = "s^-1"
-            if "_FillValue" in u_data.attrs:
-                div.attrs["_FillValue"] = u_data.attrs["_FillValue"]
-            return div
-
-        case "uv2dv_cfd-ncl":
-            if lon_dim not in u_data.dims or lat_dim not in u_data.dims:
-                raise ValueError(
-                    f"u_data and v_data must have dimensions {lon_dim} and {lat_dim}."
-                )
-
-            missing = None
-            xmsg = (
-                missing
-                if missing is not None
-                else u_data.attrs.get("_FillValue", np.nan)
-            )
-            iopt = 1 if cyclic_boundary else 0
-
-            # Transpose to ensure lat_dim is second-to-last, lon_dim is last
-            transpose_order_u = [
-                d for d in u_data.dims if d not in [lat_dim, lon_dim]
-            ] + [lat_dim, lon_dim]
-            u_trans = u_data.transpose(*transpose_order_u)
-            v_trans = v_data.transpose(*transpose_order_u)  # Assume same dims
-
-            def _core(u_vals, v_vals, lon_vals, lat_vals, xmsg):
-                # Core slices: u_vals.shape = (..., nlat, mlon)
-                orig_lat_vals = lat_vals.copy()
-                flip_lat = orig_lat_vals[0] > orig_lat_vals[-1]
-                if flip_lat:
-                    u_vals = np.flip(u_vals, axis=-2)
-                    v_vals = np.flip(v_vals, axis=-2)
-                    lat_vals = np.flip(lat_vals)
-
-                # Swap to (..., mlon, nlat) for Fortran
-                u_vals_t = np.swapaxes(u_vals, -2, -1)
-                v_vals_t = np.swapaxes(v_vals, -2, -1)
-                glat_vals = lat_vals.astype(np.float64)
-                glon_vals = lon_vals.astype(np.float64)
-
-                # Handle missing values
-                if np.isnan(xmsg):
-                    sentinel = 1e20
-                    u_fort_batch = np.nan_to_num(u_vals_t, nan=sentinel).astype(
-                        np.float64
-                    )
-                    v_fort_batch = np.nan_to_num(v_vals_t, nan=sentinel).astype(
-                        np.float64
-                    )
-                    xmsg_fort = float(sentinel)
-                else:
-                    u_fort_batch = u_vals_t.astype(np.float64)
-                    v_fort_batch = v_vals_t.astype(np.float64)
-                    xmsg_fort = float(xmsg)
-
-                # Batch processing
-                batch_shape = u_fort_batch.shape[:-2]
-                nlat_out = u_fort_batch.shape[-1]
-                mlon_out = u_fort_batch.shape[-2]
-                dv_out = np.empty((*batch_shape, nlat_out, mlon_out), dtype=np.float64)
-
-                for idx in np.ndindex(*batch_shape):
-                    u_slice = u_fort_batch[idx]
-                    v_slice = v_fort_batch[idx]
-
-                    dv_slice_fort, ier = ddvfidf(
-                        u_slice, v_slice, glat_vals, glon_vals, xmsg_fort, iopt
-                    )
-                    if ier != 0:
-                        raise ValueError(
-                            f"easyclimate-backend error in ddvfidf: ier={ier}"
-                        )
-
-                    # Restore missing values if using sentinel
-                    if np.isnan(xmsg):
-                        dv_slice_fort = np.where(
-                            dv_slice_fort == xmsg_fort, np.nan, dv_slice_fort
-                        )
-
-                    # Swap back to (nlat, mlon)
-                    dv_slice = np.swapaxes(dv_slice_fort, -2, -1)
-                    dv_out[idx] = dv_slice
-
-                # Flip back if original was decreasing
-                if flip_lat:
-                    dv_out = np.flip(dv_out, axis=-2)
-
-                return dv_out
-
-            div = xr.apply_ufunc(
-                _core,
-                u_trans,
-                v_trans,
-                u_trans[lon_dim],
-                u_trans[lat_dim],
-                xmsg,  # Pass as scalar, broadcasted
-                input_core_dims=[
-                    (lat_dim, lon_dim),
-                    (lat_dim, lon_dim),
-                    (lon_dim,),
-                    (lat_dim,),
-                    [],
-                ],
-                output_core_dims=[(lat_dim, lon_dim)],
-                output_dtypes=[np.float64],
-                keep_attrs=True,
-                dask="allowed",  # Allow dask on non-core dimensions
-                vectorize=False,
-            )
-
-            # Transpose back to original dimension order
-            div = div.transpose(*u_data.dims)
-
-            div.name = "divergence"
-            div.attrs["long_name"] = "divergence"
-            div.attrs["units"] = "s^-1"
-            if "_FillValue" in u_data.attrs:
-                div.attrs["_FillValue"] = u_data.attrs["_FillValue"]
-            return div
-
-        case _:
-            raise ValueError("Method should be `easyclimate` or `uv2dv_cfd-ncl`.")
-
-
-def calc_vorticity(
-    u_data: xr.DataArray,
-    v_data: xr.DataArray,
-    lon_dim: str = "lon",
-    lat_dim: str = "lat",
-    R: float = 6371200.0,
-    spherical_coord: bool = True,
-    cyclic_boundary: bool = False,
-    method: Literal["easyclimate", "uv2vr_cfd-ncl"] = "uv2vr_cfd-ncl",
-) -> xr.DataArray:
-    """
-    Calculate the horizontal relative vorticity term.
-
-    rectangular coordinates
-
-    .. math::
-        \\zeta = \\frac{\\partial v}{\\partial x} - \\frac{\\partial u}{\\partial y}
-
-    Spherical coordinates
-
-    .. math::
-        \\zeta = \\frac{\\partial v}{\\partial x} - \\frac{\\partial u}{\\partial y} + \\frac{u}{R} \\tan \\varphi
-
-    Parameters
-    ----------
-    u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The zonal wind data.
-    v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
-        The meridional wind data.
-    lon_dim: :py:class:`str <str>`, default: `lon`.
-        Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
-    lat_dim: :py:class:`str <str>`, default: `lat`.
-        Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float <float>`, default: `6370000`.
-        Radius of the Earth.
-    spherical_coord: :py:class:`bool<bool>`, default: `True`.
-        Whether or not to compute the horizontal Laplace term in spherical coordinates.
-    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
-        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = uv2vr_cfd-ncl``.
-    method: {"easyclimate", "uv2vr_cfd-ncl"}, default: `uv2vr_cfd-ncl`.
-        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``uv2vr_cfd-ncl``.
-
-    Returns
-    -------
-    The horizontal relative vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
-
-    .. seealso::
-
-        - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2vr_cfd.shtml
-        - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
-
-    .. minigallery::
-        :add-heading: Example(s) related to the function
-
-        ./dynamic_docs/plot_geographic_finite_difference.py
-    """
-    compare_multi_dataarray_coordinate([u_data, v_data])
-
-    match method:
-        case "easyclimate":
-            dvdx = calc_dx_gradient(v_data, lon_dim=lon_dim, lat_dim=lat_dim, R=R)
-            dudy = calc_dy_gradient(u_data, lat_dim=lat_dim, R=R)
-
-            if spherical_coord == True:
-                term3 = u_data / R * np.tan(transfer_deg2rad(u_data[lat_dim]))
-                vor = dvdx - dudy + term3
-            elif spherical_coord == False:
-                vor = dvdx - dudy
-
-            vor.name = "relative_vorticity"
-            vor.attrs["long_name"] = "relative_vorticity"
-            vor.attrs["units"] = "s^-1"
-            if "_FillValue" in u_data.attrs:
-                vor.attrs["_FillValue"] = u_data.attrs["_FillValue"]
-            return vor
-
-        case "uv2vr_cfd-ncl":
-            missing = None
-            xmsg = (
-                missing
-                if missing is not None
-                else u_data.attrs.get("_FillValue", np.nan)
-            )
-            iopt = 1 if cyclic_boundary else 0
-
-            # Transpose to ensure lat_dim is second-to-last, lon_dim is last
-            transpose_order_u = [
-                d for d in u_data.dims if d not in [lat_dim, lon_dim]
-            ] + [lat_dim, lon_dim]
-            u_trans = u_data.transpose(*transpose_order_u)
-            v_trans = v_data.transpose(*transpose_order_u)  # Assume same dims
-
-            def _core(u_vals, v_vals, lon_vals, lat_vals, xmsg):
-                # Core slices: u_vals.shape = (..., nlat, mlon)
-                orig_lat_vals = lat_vals.copy()
-                flip_lat = orig_lat_vals[0] > orig_lat_vals[-1]
-                if flip_lat:
-                    u_vals = np.flip(u_vals, axis=-2)
-                    v_vals = np.flip(v_vals, axis=-2)
-                    lat_vals = np.flip(lat_vals)
-
-                # Swap to (..., mlon, nlat) for Fortran
-                u_vals_t = np.swapaxes(u_vals, -2, -1)
-                v_vals_t = np.swapaxes(v_vals, -2, -1)
-                glat_vals = lat_vals.astype(np.float64)
-                glon_vals = lon_vals.astype(np.float64)
-
-                # Handle missing values
-                if np.isnan(xmsg):
-                    sentinel = 1e20
-                    u_fort_batch = np.nan_to_num(u_vals_t, nan=sentinel).astype(
-                        np.float64
-                    )
-                    v_fort_batch = np.nan_to_num(v_vals_t, nan=sentinel).astype(
-                        np.float64
-                    )
-                    xmsg_fort = float(sentinel)
-                else:
-                    u_fort_batch = u_vals_t.astype(np.float64)
-                    v_fort_batch = v_vals_t.astype(np.float64)
-                    xmsg_fort = float(xmsg)
-
-                # Batch processing
-                batch_shape = u_fort_batch.shape[:-2]
-                nlat_out = u_fort_batch.shape[-1]
-                mlon_out = u_fort_batch.shape[-2]
-                rv_out = np.empty((*batch_shape, nlat_out, mlon_out), dtype=np.float64)
-
-                for idx in np.ndindex(*batch_shape):
-                    u_slice = u_fort_batch[idx]
-                    v_slice = v_fort_batch[idx]
-
-                    rv_slice_fort, ier = dvrfidf(
-                        u_slice, v_slice, glat_vals, glon_vals, xmsg_fort, iopt
-                    )
-                    if ier != 0:
-                        raise ValueError(f"Fortran error in dvrfidf: ier={ier}")
-
-                    # Restore missing values if using sentinel
-                    if np.isnan(xmsg):
-                        rv_slice_fort = np.where(
-                            rv_slice_fort == xmsg_fort, np.nan, rv_slice_fort
-                        )
-
-                    # Swap back to (nlat, mlon)
-                    rv_slice = np.swapaxes(rv_slice_fort, -2, -1)
-                    rv_out[idx] = rv_slice
-
-                # Flip back if original was decreasing
-                if flip_lat:
-                    rv_out = np.flip(rv_out, axis=-2)
-
-                return rv_out
-
-            rv = xr.apply_ufunc(
-                _core,
-                u_trans,
-                v_trans,
-                u_trans[lon_dim],
-                u_trans[lat_dim],
-                xmsg,  # Pass as scalar, broadcasted
-                input_core_dims=[
-                    (lat_dim, lon_dim),
-                    (lat_dim, lon_dim),
-                    (lon_dim,),
-                    (lat_dim,),
-                    [],
-                ],
-                output_core_dims=[(lat_dim, lon_dim)],
-                output_dtypes=[np.float64],
-                keep_attrs=True,
-                dask="allowed",  # Allow dask on non-core dimensions
-                vectorize=False,
-            )
-
-            # Transpose back to original dimension order
-            rv = rv.transpose(*u_data.dims)
-
-            rv.name = "relative_vorticity"
-            rv.attrs["long_name"] = "relative_vorticity"
-            rv.attrs["units"] = "s^-1"
-            if "_FillValue" in u_data.attrs:
-                rv.attrs["_FillValue"] = u_data.attrs["_FillValue"]
-            return rv
-
-        case _:
-            raise ValueError("Method should be `easyclimate` or `uv2vr_cfd-ncl`.")
-
-
 def calc_geostrophic_wind(
     z_data: xr.DataArray,
     lon_dim: str = "lon",
@@ -1851,8 +1464,8 @@ def calc_geostrophic_wind_vorticity(
     omega: float = 7.292e-5,
     g: float = 9.8,
     R: float = 6371200.0,
-    cyclic_boundary: bool = False,
-    method: Literal["easyclimate", "uv2vr_cfd-ncl"] = "uv2vr_cfd-ncl",
+    cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
+    method: Literal["raw", "ncl", "rust"] = "ncl",
 ) -> xr.DataArray:
     """
     Calculate the geostrophic vorticity.
@@ -1883,29 +1496,62 @@ def calc_geostrophic_wind_vorticity(
         The acceleration of gravity.
     R: :py:class:`float <float>`, default: `6370000`.
         Radius of the Earth.
-    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
-        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = uv2vr_cfd-ncl``.
-    method: {"easyclimate", "uv2vr_cfd-ncl"}, default: `uv2vr_cfd-ncl`.
-        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``uv2vr_cfd-ncl``.
+    cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+        A scalar integer equal to the boundary condition option:
+
+        - ``nan``: Boundary points are set to the missing value.
+        - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+        - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+        - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+
+        .. note::
+            The parameter is applicable only when ``method = ncl`` or ``method = rust``.
+
+    method: {"raw", "ncl", rust}, default: `ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``raw``, ``ncl`` or ``rust``.
 
     Returns
     -------
     The geostrophic vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
     """
+    from .rvdv import calc_vorticity, calc_vorticity_ncl, calc_vorticity_rs
+
     geostrophic_wind = calc_geostrophic_wind(
         z_data, lon_dim=lon_dim, lat_dim=lat_dim, omega=omega, g=g, R=R
     )
     ug, vg = geostrophic_wind["ug"], geostrophic_wind["vg"]
-    vor_g = calc_vorticity(
-        ug,
-        vg,
-        spherical_coord=spherical_coord,
-        lon_dim=lon_dim,
-        lat_dim=lat_dim,
-        R=R,
-        cyclic_boundary=cyclic_boundary,
-        method=method,
-    )
+
+    if method in ["raw"]:
+        vor_g = calc_vorticity(
+            ug,
+            vg,
+            spherical_coord=spherical_coord,
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            R=R,
+        )
+    elif method in ["ncl"]:
+        vor_g = calc_vorticity_ncl(
+            ug,
+            vg,
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            cyclic_boundary_setting=cyclic_boundary_setting,
+        )
+    elif method == "rust":
+        vor_g = calc_vorticity_rs(
+            ug,
+            vg,
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            R=R,
+            cyclic_boundary_setting=cyclic_boundary_setting,
+        )
+    else:
+        raise ValueError(
+            f"Unsupported method={method!r}. Expected one of 'raw', 'ncl' or 'rust'."
+        )
+
     return vor_g
 
 
@@ -2092,8 +1738,8 @@ def calc_divergence_watervaporflux(
     v_data: xr.DataArray,
     specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     spherical_coord: bool = True,
-    cyclic_boundary: bool = False,
-    method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
+    cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
+    method: Literal["raw", "ncl", "rust"] = "ncl",
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     g: float = 9.8,
@@ -2118,9 +1764,19 @@ def calc_divergence_watervaporflux(
         The unit corresponding to `specific_humidity` value. Optional values are `kg/kg`, `g/kg` and so on.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates. The parameter is applicable only when ``method = easyclimate``.
-    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
-        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = ddvfidf-ncl``.
-    method: {"easyclimate", "ddvfidf-ncl"}, default: `ddvfidf-ncl`.
+    cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+        A scalar integer equal to the boundary condition option:
+
+        - ``nan``: Boundary points are set to the missing value.
+        - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+        - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+        - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+
+        .. note::
+            The parameter is applicable only when ``method = ncl`` or ``method = rust``.
+
+    method: {"raw", "ncl", rust}, default: `ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``raw``, ``ncl`` or ``rust``.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -2139,19 +1795,47 @@ def calc_divergence_watervaporflux(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
+    from .rvdv import calc_divergence, calc_divergence_ncl, calc_divergence_rs
+
     specific_humidity_data_kgkg = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
-    divergence_watervaporflux = (1 / g) * calc_divergence(
-        u_data=specific_humidity_data_kgkg * u_data,
-        v_data=specific_humidity_data_kgkg * v_data,
-        spherical_coord=spherical_coord,
-        lon_dim=lon_dim,
-        lat_dim=lat_dim,
-        R=R,
-        method=method,
-        cyclic_boundary=cyclic_boundary,
-    )
+
+    flux_u = specific_humidity_data_kgkg * u_data
+    flux_v = specific_humidity_data_kgkg * v_data
+
+    if method in ["raw"]:
+        divergence_core = calc_divergence(
+            u_data=flux_u,
+            v_data=flux_v,
+            spherical_coord=spherical_coord,
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            R=R,
+        )
+    elif method in ["ncl"]:
+        divergence_core = calc_divergence_ncl(
+            u_data=flux_u,
+            v_data=flux_v,
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            cyclic_boundary_setting=cyclic_boundary_setting,
+        )
+    elif method == "rust":
+        divergence_core = calc_divergence_rs(
+            u_data=flux_u,
+            v_data=flux_v,
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            R=R,
+            cyclic_boundary_setting=cyclic_boundary_setting,
+        )
+    else:
+        raise ValueError(
+            f"Unsupported method={method!r}. Expected one of 'raw', 'ncl', or 'rust'."
+        )
+
+    divergence_watervaporflux = (1 / g) * divergence_core
 
     return divergence_watervaporflux
 
@@ -2166,11 +1850,11 @@ def calc_divergence_watervaporflux_top2surface_integral(
     surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
     spherical_coord: bool = True,
-    cyclic_boundary: bool = False,
+    cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     integral_method: Literal["Boer1982", "Trenberth1991", "vibeta-ncl"] = "vibeta-ncl",
-    div_method: Literal["easyclimate", "uv2dv_cfd-ncl"] = "uv2dv_cfd-ncl",
+    div_method: Literal["raw", "ncl", "rust"] = "ncl",
     g: float = 9.8,
     R: float = 6371200.0,
 ) -> xr.DataArray:
@@ -2201,8 +1885,17 @@ def calc_divergence_watervaporflux_top2surface_integral(
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates. The parameter is applicable only when ``method = easyclimate``.
-    cyclic_boundary: :py:class:`bool <bool>`, default: `False`.
-        If True, assume cyclic (periodic) boundaries in longitude. The parameter is applicable only when ``method = ddvfidf-ncl``.
+    cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+        A scalar integer equal to the boundary condition option:
+
+        - ``nan``: Boundary points are set to the missing value.
+        - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+        - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+        - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+
+        .. note::
+            The parameter is applicable only when ``method = ncl`` or ``method = rust``.
+
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
@@ -2229,9 +1922,8 @@ def calc_divergence_watervaporflux_top2surface_integral(
 
             While G. J. Boer (1982) define :math:`\\beta = 0, 1` only.
 
-    div_method: {"easyclimate", "ddvfidf-ncl"}, default: `ddvfidf-ncl`.
-        The method to calculate horizontal divergence term. Optional values are ``easyclimate`` and ``ddvfidf-ncl``.
-
+    div_method: {"raw", "ncl", rust}, default: `ncl`.
+        The method to calculate horizontal divergence term. Optional values are ``raw``, ``ncl`` or ``rust``.
     g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
     R: :py:class:`float <float>`, default: `6370000`.
@@ -2246,6 +1938,8 @@ def calc_divergence_watervaporflux_top2surface_integral(
 
         ./dynamic_docs/plot_geographic_finite_difference.py
     """
+    from .rvdv import calc_divergence, calc_divergence_ncl, calc_divergence_rs
+
     specific_humidity_kg_kg = transfer_data_multiple_units(
         specific_humidity_data, specific_humidity_data_units, "kg/kg"
     )
@@ -2265,16 +1959,36 @@ def calc_divergence_watervaporflux_top2surface_integral(
     )
 
     # Calculation of water vapor flux divergence
-    div_quv = calc_divergence(
-        quv["qu"],
-        quv["qv"],
-        lon_dim=lon_dim,
-        lat_dim=lat_dim,
-        R=R,
-        spherical_coord=spherical_coord,
-        cyclic_boundary=cyclic_boundary,
-        method=div_method,
-    )
+    if div_method in ["raw"]:
+        div_quv = calc_divergence(
+            quv["qu"],
+            quv["qv"],
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            R=R,
+            spherical_coord=spherical_coord,
+        )
+    elif div_method in ["ncl"]:
+        div_quv = calc_divergence_ncl(
+            quv["qu"],
+            quv["qv"],
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            cyclic_boundary_setting=cyclic_boundary_setting,
+        )
+    elif div_method == "rust":
+        div_quv = calc_divergence_rs(
+            quv["qu"],
+            quv["qv"],
+            lon_dim=lon_dim,
+            lat_dim=lat_dim,
+            R=R,
+            cyclic_boundary_setting=cyclic_boundary_setting,
+        )
+    else:
+        raise ValueError(
+            f"Unsupported div_method={div_method!r}. Expected one of 'raw', 'ncl', 'rust', 'easyclimate', or 'uv2dv_cfd-ncl'."
+        )
 
     div_quv.attrs = dict()
     div_quv.name = "wvdiv"
