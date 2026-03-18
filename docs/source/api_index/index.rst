@@ -140,6 +140,7 @@ Filter🎹
     easyclimate.filter.spatial_pcf
     easyclimate.filter.emd
     easyclimate.filter.spectrum
+    easyclimate.filter.mask
 
 Interpolation🔗
 ----------------------------------------
@@ -168,6 +169,7 @@ Plot🖊️
     easyclimate.plot.curved_quiver_plot
     easyclimate.plot.bar
     easyclimate.plot.line
+    easyclimate.plot.polar
 
 WRF-python🌌
 ----------------------------------------
