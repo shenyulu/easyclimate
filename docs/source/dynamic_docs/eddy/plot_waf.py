@@ -52,13 +52,14 @@ fig, ax = plt.subplots(
 )
 
 ax.coastlines(edgecolor="black", linewidths=0.5)
-ecl.plot.draw_Circlemap_PolarStereo(
-    ax=ax,
+gl, meta = ecl.plot.draw_polar_basemap(
+    ax = ax,
     lon_step=30,
-    lat_step=30,
+    lat_step=20,
     lat_range=[10, 90],
     draw_labels=True,
     gridlines_kwargs={"color": "grey", "alpha": 0.5, "linestyle": "--"},
+    lat_label_lon=-60
 )
 
 fg1 = draw_shaded1.plot.contourf(
@@ -94,7 +95,9 @@ qk = ax.quiverkey(
 )
 qk.set_zorder(3)
 
-ax.set_title("TN01 WAF Analysis (500hPa, Nov. 2014)")
+ax.set_title("")
+ecl.plot.set_polar_title("TN01 WAF Analysis (500hPa, Nov. 2014)", meta, size = 15)
+
 
 # %%
 tn01_result2 = ecl.calc_TN_wave_activity_horizontal_flux(

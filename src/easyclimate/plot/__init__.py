@@ -6,3 +6,4 @@ from .quick_draw import *
 from .curved_quiver_plot import *
 from .bar import *
 from .line import *
+from .polar import *

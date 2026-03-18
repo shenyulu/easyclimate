@@ -216,7 +216,7 @@ qk = ax.quiverkey(
 )
 
 ax.set_title("")
-ecl.plot.set_polar_title(ax, "UV850 quiver(2022-01-03)", meta = meta, size = 15)
+ecl.plot.set_polar_title("UV850 quiver(2022-01-03)", meta, ax, size = 15)
 
 # %%
 # However, in a curved quiver, you need to set not only the `regrid_shape`
@@ -264,7 +264,7 @@ ecl.plot.add_curved_quiverkey(
 )
 
 ax.set_title("")
-ecl.plot.set_polar_title(ax, "UV850 curved quiver (2022-01-03)", meta = meta, size = 15)
+ecl.plot.set_polar_title("UV850 curved quiver (2022-01-03)", meta, ax, size = 15)
 
 # %%
 # Tropics Sample
