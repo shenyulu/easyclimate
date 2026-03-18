@@ -116,38 +116,13 @@ You can directly install it via `pip` by using 🛒
 
     overview.rst
     install.rst
-    ./auto_gallery/index
 
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Data Processing
+   :caption: Gallery
 
-   ./auto_gallery/plot_basic_statistical_analysis
-   ./auto_gallery/plot_time_scale_average
-   ./auto_gallery/plot_geographic_finite_difference
-   ./auto_gallery/plot_interp
-   ./auto_gallery/plot_wrf_tutorial
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-   :caption: Plotting
-
-   ./auto_gallery/plot_formatting_coordinates
-   ./auto_gallery/plot_taylor_diagram
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-   :caption: Meteorology Field
-
-   ./static_docs/air_sea_interaction
-   ./static_docs/teleconnections
-   ./static_docs/ocean
-   ./static_docs/monsoon
-   ./static_docs/land
-   ./static_docs/typhoons
+   ./auto_gallery/index
 
 .. toctree::
     :maxdepth: 1
