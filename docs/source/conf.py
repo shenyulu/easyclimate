@@ -11,6 +11,8 @@ import sys
 import time
 import datetime
 import warnings
+import os
+from dotenv import load_dotenv
 
 # autodoc required
 sys.path.insert(
@@ -18,7 +20,7 @@ sys.path.insert(
 )  # Source code dir relative to this file
 import easyclimate as ecl
 
-# get year
+# copyright
 localtime = time.localtime(time.time())
 str_year = str(localtime[0])
 
@@ -26,6 +28,14 @@ project = "easyclimate"
 copyright = f"2022-{datetime.datetime.now().year}, Shenyulu（深雨露） and easyclimate developers"
 author = "shenyulu and easyclimate developers"
 release = "v" + ecl.__version__
+
+# Algolia DocSearch load env
+load_dotenv()
+# Algolia DocSearch setting
+docsearch_app_id = os.getenv("DOCSEARCH_APP_ID")
+docsearch_api_key = os.getenv("DOCSEARCH_API_KEY")
+docsearch_index_name = os.getenv("DOCSEARCH_INDEX_NAME")
+
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -45,9 +55,10 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.githubpages",
     "sphinx_design",
-    # Embedding icons from over 200,000 open-source vector icons
+    # Embedding icons from over 200,000 open-source vector icons (https://icon-sets.iconify.design/)
     "sphinx_iconify",
-
+    # replaces Sphinx’s built-in search with Algolia DocSearch
+    "sphinx_docsearch",
 ]
 
 templates_path = ["_templates"]
@@ -75,32 +86,8 @@ autoapi_root = "technical/api"
 html_theme = 'shibuya'
 html_static_path = ["_static"]
 
-# Theme
-# html_theme_options = {
-#     "sidebar_hide_name": True,
-#     "top_of_page_button": "edit",
-#     "last-updated": True,
-#     "repository_url": "https://github.com/shenyulu/easyclimate",
-#     "use_repository_button": True,
-#     "icon_links": [
-#         {
-#             "name": "StackOverflow",
-#             "url": "https://stackoverflow.com/questions/tagged/easyclimate",
-#             "icon": "fa-brands fa-stack-overflow",
-#             "type": "fontawesome",
-#         },
-#         {
-#             "name": "PyPI",
-#             "url": "https://pypi.org/project/easyclimate/",
-#             "icon": "fa-brands fa-python",
-#             "type": "fontawesome",
-#         },
-#     ],
-# }
-
 # Logo
 html_logo = "_static/easyclimate_logo_mini.png"
-
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -111,8 +98,24 @@ today_fmt = "%Y-%m-%d"
 # using the given strftime format.
 html_last_updated_fmt = today_fmt
 
+# Shibuya html options
+html_context = {
+    # Source files copy for `Copy page`
+    "source_type": "github",
+    "source_user": "shenyulu",
+    "source_repo": "easyclimate",
+}
+
 # Shibuya theme options
 html_theme_options = {
+    # Main color
+    "accent_color": "bronze",
+    # Copy page
+    "show_ai_links": True,
+    "open_in_chatgpt": True,
+    "open_in_claude": True,
+    "open_in_perplexity": True,
+
     "github_url": "https://github.com/shenyulu/easyclimate",
     "repository_url": "https://github.com/shenyulu/easyclimate",
     "use_repository_button": True,

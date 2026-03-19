@@ -3,6 +3,12 @@
 List of Functions and Classes (API)
 ===================================
 
+.. figure:: ../_static/fig4.jpg
+    :scale: 40%
+    :align: center
+
+    Photo by Jay Shah on Unsplash
+
 .. note::
 
     **All functions and classes should be accessed from the** :mod:`easyclimate`

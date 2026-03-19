@@ -3,6 +3,12 @@
 Citing Easy Climate📒
 ========================
 
+.. figure:: ../_static/fig7.jpg
+    :scale: 40%
+    :align: center
+
+    Photo by Denys Nevozhai on Unsplash
+
 This is research software **made by scientists**. Citations help us justify the effort
 that goes into building and maintaining this project📣.
 

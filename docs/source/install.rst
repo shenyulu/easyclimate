@@ -1,7 +1,13 @@
 .. _install:
 
-Installation Guide
+Installation
 ====================================
+
+.. figure:: _static/fig2.jpg
+    :scale: 40%
+    :align: center
+
+    Photo by Robert Wiedemann on Unsplash
 
 Welcome to the **easyclimate** installation guide! 🚀 We're excited to help you get started with our powerful climate analysis tool.
 Follow these simple steps to install **easyclimate** on your system.
@@ -9,8 +15,18 @@ Follow these simple steps to install **easyclimate** on your system.
 The easyclimate package is currently built and tested for specific platforms due to compatibility and dependency constraints.
 Below are the supported platforms and notes for users on other systems.
 
-- **Windows x86-64/AMD64** (Windows 10+)
-- **Linux x86-64/AMD64** (glibc 2.28 or later, including: Debian 10+, Ubuntu 18.10+, Fedora 29+, CentOS/RHEL 8+)
+.. grid:: 1 1 2 1
+    :gutter: 2
+    :padding: 0
+    :class-container: surface
+
+    .. grid-item-card:: :iconify:`devicon:windows11` Windows x86-64/AMD64
+
+        Windows 10+
+
+    .. grid-item-card:: :iconify:`flat-color-icons:linux` Linux x86-64/AMD64
+
+        **glibc 2.28** or later, including: Debian 10+, Ubuntu 18.10+, Fedora 29+, CentOS/RHEL 8+
 
 These platforms are fully tested, and pre-built wheels (``.whl``) are available on PyPI for easy installation via following methods:
 
@@ -68,7 +84,7 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
 .. warning::
 
-    Unfortunately, *easyclimate currently does NOT officially support macOS*, including both Intel-based Macs and Apple Silicon (M-series) Macs.
+    Unfortunately, **easyclimate currently does NOT officially support macOS**, including both Intel-based Macs and Apple Silicon (M-series) Macs.
 
 Python Version Requirement
 ------------------------------------
@@ -92,23 +108,21 @@ Dependencies
 
 **easyclimate** comes with all the necessary dependencies for a smooth experience. Here's what gets installed:
 
+- Base requirements: Essential packages for core functionality.
+- Test requirements: Packages needed for running tests.
+- Docs build requirements: Tools for building the documentation.
+
 .. tab-set::
 
     .. tab-item:: Base requirements
-
-        Essential packages for core functionality.
 
         .. literalinclude:: ../../release_requirements.txt
 
     .. tab-item:: Test requirements
 
-        Packages needed for running tests.
-
         .. literalinclude:: ../../test_requirements.txt
 
     .. tab-item:: Docs build requirements
-
-        Tools for building the documentation.
 
         .. literalinclude:: ../requirements.txt
 
