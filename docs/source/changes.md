@@ -1,5 +1,12 @@
 # Changelog♻️
 
+## v2026.4.0
+
+*Released on: 2026/3/20*
+
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2026.3.0...v2026.4.0
+
 ## v2026.3.0
 
 *Released on: 2026/2/23*
