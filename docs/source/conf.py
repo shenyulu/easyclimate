@@ -29,13 +29,6 @@ copyright = f"2022-{datetime.datetime.now().year}, Shenyulu（深雨露） and e
 author = "shenyulu and easyclimate developers"
 release = "v" + ecl.__version__
 
-# Algolia DocSearch load env
-load_dotenv()
-# Algolia DocSearch setting
-docsearch_app_id = os.getenv("DOCSEARCH_APP_ID")
-docsearch_api_key = os.getenv("DOCSEARCH_API_KEY")
-docsearch_index_name = os.getenv("DOCSEARCH_INDEX_NAME")
-
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -57,8 +50,6 @@ extensions = [
     "sphinx_design",
     # Embedding icons from over 200,000 open-source vector icons (https://icon-sets.iconify.design/)
     "sphinx_iconify",
-    # replaces Sphinx’s built-in search with Algolia DocSearch
-    "sphinx_docsearch",
 ]
 
 templates_path = ["_templates"]

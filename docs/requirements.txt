@@ -41,5 +41,4 @@ shibuya == 2026.1.9
 sphinx_iconify == 0.3.0
 sphinx_design == 0.6.1
 snowballstemmer == 3.0.1
-sphinx-docsearch == 0.3.0
 python-dotenv == 1.2.2
