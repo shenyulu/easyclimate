@@ -467,7 +467,7 @@ def calc_TN_wave_activity_horizontal_flux(
     omega: float = 7.292e-5,
     g: float = 9.8,
     R: float = 6371200.0,
-) -> xr.DataArray:
+) -> xr.Dataset:
     """
     Calculate TN wave activity horizontal flux.
 
@@ -507,7 +507,7 @@ def calc_TN_wave_activity_horizontal_flux(
 
     Returns
     -------
-    The TN wave activity horizontal flux (:py:class:`xarray.DataArray<xarray.DataArray>`).
+    The TN wave activity horizontal flux (:py:class:`xarray.Dataset<xarray.Dataset>`).
 
     Reference
     --------------

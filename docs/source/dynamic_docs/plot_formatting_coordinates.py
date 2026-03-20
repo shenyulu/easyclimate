@@ -114,16 +114,19 @@ fig, ax = plt.subplots(subplot_kw={"projection": ccrs.NorthPolarStereo()})
 ax.coastlines(edgecolor="black", linewidths=0.5)
 ax.stock_img()
 
-ecl.plot.draw_Circlemap_PolarStereo(
+gl, meta = ecl.plot.draw_polar_basemap(
     ax=ax,
     lon_step=30,
     lat_step=10,
     lat_range=[50, 90],
     draw_labels=True,
-    gridlines_kwargs={"color": "grey", "alpha": 0.5, "linestyle": "--"},
+    lat_label_lon=180
 )
 
 sic_data.plot.contourf(cmap="Blues", levels=11, transform=ccrs.PlateCarree())
+
+ax.set_title("")
+ecl.plot.set_polar_title("Mytest 1", meta, ax, size = 15)
 
 # %%
 # Adjusting `north_pad` and `south_pad` appropriately can help us compensate for not completing the circle boundaries.
@@ -134,14 +137,17 @@ fig, ax = plt.subplots(subplot_kw={"projection": ccrs.NorthPolarStereo()})
 ax.coastlines(edgecolor="black", linewidths=0.5)
 ax.stock_img()
 
-ecl.plot.draw_Circlemap_PolarStereo(
+gl, meta = ecl.plot.draw_polar_basemap(
     ax=ax,
     lon_step=30,
     lat_step=10,
     lat_range=[50, 90],
     draw_labels=True,
-    set_map_boundary_kwargs={"north_pad": 0.3, "south_pad": 0.4},
-    gridlines_kwargs={"color": "grey", "alpha": 0.5, "linestyle": "--"},
+    lat_label_lon=180,
+    set_map_boundary_kwargs = {"south_pad": 0.9}
 )
 
 sic_data.plot(cmap="Blues", levels=11, transform=ccrs.PlateCarree())
+
+ax.set_title("")
+ecl.plot.set_polar_title("Mytest 2", meta, ax, size = 15)

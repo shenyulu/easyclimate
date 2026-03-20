@@ -11,6 +11,8 @@ import sys
 import time
 import datetime
 import warnings
+import os
+from dotenv import load_dotenv
 
 # autodoc required
 sys.path.insert(
@@ -18,7 +20,7 @@ sys.path.insert(
 )  # Source code dir relative to this file
 import easyclimate as ecl
 
-# get year
+# copyright
 localtime = time.localtime(time.time())
 str_year = str(localtime[0])
 
@@ -27,6 +29,7 @@ copyright = f"2022-{datetime.datetime.now().year}, Shenyulu（深雨露） and e
 author = "shenyulu and easyclimate developers"
 release = "v" + ecl.__version__
 
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
@@ -34,7 +37,6 @@ extensions = [
     "recommonmark",
     "sphinx_markdown_tables",
     "sphinx.ext.mathjax",
-    "jupyter_sphinx",
     # Add inline tabbed content to your Sphinx documentation
     "sphinx_inline_tabs",
     "sphinx_gallery.gen_gallery",
@@ -46,6 +48,8 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.githubpages",
     "sphinx_design",
+    # Embedding icons from over 200,000 open-source vector icons (https://icon-sets.iconify.design/)
+    "sphinx_iconify",
 ]
 
 templates_path = ["_templates"]
@@ -69,35 +73,12 @@ autoapi_root = "technical/api"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # html_theme = 'furo'
-html_theme = "sphinx_book_theme"
+# html_theme = "sphinx_book_theme"
+html_theme = 'shibuya'
 html_static_path = ["_static"]
-
-# Theme
-html_theme_options = {
-    "sidebar_hide_name": True,
-    "top_of_page_button": "edit",
-    "last-updated": True,
-    "repository_url": "https://github.com/shenyulu/easyclimate",
-    "use_repository_button": True,
-    "icon_links": [
-        {
-            "name": "StackOverflow",
-            "url": "https://stackoverflow.com/questions/tagged/easyclimate",
-            "icon": "fa-brands fa-stack-overflow",
-            "type": "fontawesome",
-        },
-        {
-            "name": "PyPI",
-            "url": "https://pypi.org/project/easyclimate/",
-            "icon": "fa-brands fa-python",
-            "type": "fontawesome",
-        },
-    ],
-}
 
 # Logo
 html_logo = "_static/easyclimate_logo_mini.png"
-
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -108,8 +89,25 @@ today_fmt = "%Y-%m-%d"
 # using the given strftime format.
 html_last_updated_fmt = today_fmt
 
-# Add edit button
+# Shibuya html options
+html_context = {
+    # Source files copy for `Copy page`
+    "source_type": "github",
+    "source_user": "shenyulu",
+    "source_repo": "easyclimate",
+}
+
+# Shibuya theme options
 html_theme_options = {
+    # Main color
+    "accent_color": "bronze",
+    # Copy page
+    "show_ai_links": True,
+    "open_in_chatgpt": True,
+    "open_in_claude": True,
+    "open_in_perplexity": True,
+
+    "github_url": "https://github.com/shenyulu/easyclimate",
     "repository_url": "https://github.com/shenyulu/easyclimate",
     "use_repository_button": True,
     "repository_branch": "main",
@@ -117,6 +115,52 @@ html_theme_options = {
     "use_issues_button": True,
     "use_download_button": True,
     "use_sidenotes": True,
+    "nav_links": [
+        {
+            "title": "Getting Started",
+            "children": [
+                {"title": "Overview", "url": "overview"},
+                {"title": "Installation", "url": "install"},
+
+            ],
+        },
+        {
+            "title": "Gallery", "url": "auto_gallery/index"
+        },
+        {
+            "title": "API Index", "url": "api_index/index"
+        },
+        {
+            "title": "Reference",
+            "children": [
+
+                {"title": "Release Notes", "url": "changes"},
+                {"title": "Cite", "url": "static_docs/cite"},
+                {
+                    "title": "Open Source Licenses",
+                    "url": "https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html",
+                    "external": True,
+                },
+            ],
+        },
+        {
+            "title": "Community",
+            "children": [
+                {"title": "Contributing", "url": "contributing"},
+                {
+                    "title": "How to Contribute",
+                    "url": "https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md",
+                    "external": True,
+                },
+                {
+                    "title": "GitHub",
+                    "url": "https://github.com/shenyulu/easyclimate",
+                    "external": True,
+                },
+                {"title": "Sponsor", "url": "sponsor"},
+            ],
+        },
+    ],
 }
 
 # settings for sphinx-gallery

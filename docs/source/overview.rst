@@ -1,6 +1,6 @@
 .. _what:
 
-What is Easy Climate
+Overview
 ====================================
 
 .. figure:: _static/fig1.jpg

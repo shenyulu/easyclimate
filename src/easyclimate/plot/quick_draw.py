@@ -10,9 +10,15 @@ import matplotlib
 import matplotlib.patches as patches
 import numpy as np
 import xarray as xr
+from matplotlib.patches import Polygon
 from ..core.utility import transfer_xarray_lon_from180TO360
+from typing import Literal
 
-__all__ = ["quick_draw_spatial_basemap", "quick_draw_rectangular_box"]
+__all__ = [
+    "quick_draw_spatial_basemap",
+    "quick_draw_standard_rectangular_box",
+    "quick_draw_custom_rectangular_box",
+]
 
 
 def quick_draw_spatial_basemap(
@@ -97,7 +103,7 @@ def quick_draw_spatial_basemap(
     return fig, ax
 
 
-def quick_draw_rectangular_box(
+def quick_draw_standard_rectangular_box(
     lon1: float,
     lon2: float,
     lat1: float,
@@ -170,3 +176,141 @@ def quick_draw_rectangular_box(
 
     rect = patches.Rectangle((lon1, lat1), width, height, **patches_kwargs)
     ax.add_patch(rect)
+
+    if "transform" not in patches_kwargs:
+        ax.update_datalim([[lon1, lat1], [lon2, lat2]])
+        ax.autoscale_view()
+
+    return rect
+
+
+def quick_draw_custom_rectangular_box(
+    lon1: float,
+    lon2: float,
+    lat1: float,
+    lat2: float,
+    ax: matplotlib.axes.Axes = None,
+    angle: float = 0.0,
+    center: Literal["center", "lowerleft"] = "center",
+    geo: bool = True,
+    lat0: float | None = None,
+    **patches_kwargs,
+):
+    """
+    Create a custom geographical rectangular box with optional rotation.
+
+    Parameters
+    ----------
+    lon1, lon2: :py:class:`float <float>`.
+        Rectangular box longitude point. The applicable value should be between -180 :math:`^\\circ` and 360 :math:`^\\circ`.
+        `lon1` and `lon2` are used to define the unrotated box extent, and do not strictly require the size relationship between them.
+    lat1, lat2: :py:class:`float <float>`.
+        Rectangular box latitude point. The applicable value should be between -90 :math:`^\\circ` and 90 :math:`^\\circ`.
+        `lat1` and `lat2` are used to define the unrotated box extent, and do not strictly require the size relationship between them.
+    ax : :py:class:`matplotlib.axes.Axes`, optional.
+        Axes on which to plot. By default, use the current axes.
+    angle: :py:class:`float <float>`, default: `0.0`.
+        Counterclockwise rotation angle in degrees.
+    center: :py:class:`str <str>`, default: `"center"`.
+        Rotation pivot of the rectangular box.
+
+        - `"center"`: rotate around the box center.
+        - `"lowerleft"`: rotate around the lower-left corner of the box.
+    geo: :py:class:`bool <bool>`, default: `True`.
+        Whether to apply local geographical metric correction before rotation.
+        If `True`, longitude is scaled by :math:`\\cos(lat0)` so that longitude and latitude have a locally comparable distance scale.
+    lat0: :py:class:`float <float>`, optional.
+        Reference latitude used when `geo=True` for the longitude scaling.
+        If `None`, the center latitude of the rectangular box is used.
+    **patches_kwargs:
+        Patch properties. see more in :py:class:`matplotlib.patches.Patch <matplotlib.patches.Patch>`
+
+    Returns
+    -------
+    - poly: :py:class:`Polygon <matplotlib:matplotlib.patches.Polygon>`
+        The polygon patch added to the axes.
+    - corners_rot: :py:class:`numpy.ndarray <numpy:numpy.ndarray>`
+        Rotated corner coordinates of shape `(4, 2)` in longitude-latitude order.
+
+    .. seealso::
+        :py:class:`matplotlib.patches.Polygon <matplotlib.patches.Polygon>`
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    # normalize order
+    x1, x2 = (lon1, lon2) if lon1 <= lon2 else (lon2, lon1)
+    y1, y2 = (lat1, lat2) if lat1 <= lat2 else (lat2, lat1)
+
+    corners = np.array(
+        [
+            [x1, y1],
+            [x2, y1],
+            [x2, y2],
+            [x1, y2],
+        ],
+        dtype=float,
+    )
+
+    if angle % 360 == 0:
+        corners_rot = corners
+    else:
+        theta = np.deg2rad(angle)
+
+        # pivot in lon/lat
+        if center.lower() in ("center", "c"):
+            px, py = (x1 + x2) / 2.0, (y1 + y2) / 2.0
+        elif center.lower() in ("lowerleft", "ll", "lower-left"):
+            px, py = x1, y1
+        else:
+            raise ValueError('center must be "center" or "lowerleft".')
+
+        # optional local metric correction for lon/lat
+        if geo:
+            if lat0 is None:
+                lat0 = (y1 + y2) / 2.0
+            s = np.cos(np.deg2rad(lat0))
+            s = max(s, 1e-8)  # avoid zero near poles
+
+            # scale lon so that 1 deg lon ~ 1 deg lat in km sense (locally)
+            def fwd(p):
+                q = p.copy()
+                q[:, 0] *= s
+                return q
+
+            def inv(q):
+                p = q.copy()
+                p[:, 0] /= s
+                return p
+
+            C = fwd(corners)
+            P = fwd(np.array([[px, py]], dtype=float))[0]
+        else:
+            C = corners
+            P = np.array([px, py], dtype=float)
+
+        R = np.array(
+            [
+                [np.cos(theta), -np.sin(theta)],
+                [np.sin(theta), np.cos(theta)],
+            ]
+        )
+
+        Crot = (C - P) @ R.T + P
+        corners_rot = inv(Crot) if geo else Crot
+
+    # defaults
+    if "facecolor" not in patches_kwargs and "fc" not in patches_kwargs:
+        patches_kwargs.setdefault("facecolor", "none")
+    if "edgecolor" not in patches_kwargs and "ec" not in patches_kwargs:
+        patches_kwargs.setdefault("edgecolor", "k")
+    patches_kwargs.setdefault("linewidth", 2)
+
+    poly = Polygon(corners_rot, closed=True, **patches_kwargs)
+    ax.add_patch(poly)
+
+    if "transform" not in patches_kwargs:
+        ax.update_datalim(corners_rot)
+        ax.autoscale_view()
+
+    return poly, corners_rot

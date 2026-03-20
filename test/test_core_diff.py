@@ -708,7 +708,8 @@ def test_calc_dxdy_laplacian2():
 
 def test_calc_divergence1():
     result_data = ecl.calc_divergence(
-        u_data_500hpa, v_data_500hpa, method="easyclimate"
+        u_data_500hpa,
+        v_data_500hpa,
     ).data.flatten()
     refer_data = np.array(
         [
@@ -727,10 +728,33 @@ def test_calc_divergence1():
 
 
 def test_calc_divergence2():
-    result_data = ecl.calc_divergence(
-        u_data_500hpa, v_data_500hpa, method="uv2dv_cfd-ncl", cyclic_boundary=True
+    result_data1 = ecl.calc_divergence_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="nan"
     ).data.flatten()
-    refer_data = np.array(
+    result_data2 = ecl.calc_divergence_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic"
+    ).data.flatten()
+    result_data3 = ecl.calc_divergence_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic+diff"
+    ).data.flatten()
+    result_data4 = ecl.calc_divergence_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="diff"
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            1.93020395e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    refer_data2 = np.array(
         [
             np.nan,
             np.nan,
@@ -743,22 +767,116 @@ def test_calc_divergence2():
             np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+    refer_data3 = np.array(
+        [
+            np.nan,
+            2.53757865e-06,
+            np.nan,
+            1.28127556e-06,
+            1.93020395e-06,
+            2.21742880e-06,
+            np.nan,
+            1.38490745e-06,
+            np.nan,
+        ]
+    )
+    refer_data4 = np.array(
+        [
+            2.47874532e-06,
+            2.53757865e-06,
+            1.92825887e-06,
+            1.11924905e-06,
+            1.93020395e-06,
+            1.40729623e-06,
+            -1.43886488e-07,
+            1.38490745e-06,
+            7.01446631e-07,
+        ]
+    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_divergence3():
-    result_data = ecl.calc_divergence(
-        u_data_500hpa, v_data_500hpa, method="uv2dv_cfd-ncl", cyclic_boundary=False
+    result_data1 = ecl.calc_divergence_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="nan"
     ).data.flatten()
-    refer_data = np.array(
-        [np.nan, np.nan, np.nan, np.nan, 1.93020395e-06, np.nan, np.nan, np.nan, np.nan]
+    result_data2 = ecl.calc_divergence_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic"
+    ).data.flatten()
+    result_data3 = ecl.calc_divergence_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic+diff"
+    ).data.flatten()
+    result_data4 = ecl.calc_divergence_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="diff"
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            1.93020395e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
     )
-    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+    refer_data2 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            1.11924905e-06,
+            1.93020395e-06,
+            1.40729623e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    refer_data3 = np.array(
+        [
+            np.nan,
+            2.53757865e-06,
+            np.nan,
+            1.28127556e-06,
+            1.93020395e-06,
+            2.21742880e-06,
+            np.nan,
+            1.38490745e-06,
+            np.nan,
+        ]
+    )
+    refer_data4 = np.array(
+        [
+            2.47874532e-06,
+            2.53757865e-06,
+            1.92825887e-06,
+            1.11924905e-06,
+            1.93020395e-06,
+            1.40729623e-06,
+            -1.43886488e-07,
+            1.38490745e-06,
+            7.01446631e-07,
+        ]
+    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_vorticity1():
     result_data = ecl.calc_vorticity(
-        u_data_500hpa, v_data_500hpa, method="easyclimate"
+        u_data_500hpa,
+        v_data_500hpa,
     ).data.flatten()
     refer_data = np.array(
         [
@@ -777,10 +895,20 @@ def test_calc_vorticity1():
 
 
 def test_calc_vorticity2():
-    result_data = ecl.calc_vorticity(
-        u_data_500hpa, v_data_500hpa, method="uv2vr_cfd-ncl", cyclic_boundary=False
+    result_data1 = ecl.calc_vorticity_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="nan"
     ).data.flatten()
-    refer_data = np.array(
+    result_data2 = ecl.calc_vorticity_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic"
+    ).data.flatten()
+    result_data3 = ecl.calc_vorticity_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic+diff"
+    ).data.flatten()
+    result_data4 = ecl.calc_vorticity_ncl(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="diff"
+    ).data.flatten()
+
+    refer_data1 = np.array(
         [
             np.nan,
             np.nan,
@@ -793,14 +921,7 @@ def test_calc_vorticity2():
             np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
-
-
-def test_calc_vorticity3():
-    result_data = ecl.calc_vorticity(
-        u_data_500hpa, v_data_500hpa, method="uv2vr_cfd-ncl", cyclic_boundary=True
-    ).data.flatten()
-    refer_data = np.array(
+    refer_data2 = np.array(
         [
             np.nan,
             np.nan,
@@ -813,7 +934,108 @@ def test_calc_vorticity3():
             np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+    refer_data3 = np.array(
+        [
+            np.nan,
+            -1.00030734e-05,
+            np.nan,
+            -7.63503548e-06,
+            -6.57399247e-06,
+            -5.97811353e-06,
+            np.nan,
+            -4.04680748e-06,
+            np.nan,
+        ]
+    )
+    refer_data4 = np.array(
+        [
+            -9.65605452e-06,
+            -1.00030734e-05,
+            -8.84525052e-06,
+            -7.50901485e-06,
+            -6.57399247e-06,
+            -6.37417834e-06,
+            -4.78422574e-06,
+            -4.04680748e-06,
+            -3.47126153e-06,
+        ]
+    )
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_vorticity3():
+    result_data1 = ecl.calc_vorticity_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="nan"
+    ).data.flatten()
+    result_data2 = ecl.calc_vorticity_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic"
+    ).data.flatten()
+    result_data3 = ecl.calc_vorticity_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="cyclic+diff"
+    ).data.flatten()
+    result_data4 = ecl.calc_vorticity_rs(
+        u_data_500hpa, v_data_500hpa, cyclic_boundary_setting="diff"
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            -6.57399247e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    refer_data2 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            -7.50901485e-06,
+            -6.57399247e-06,
+            -6.37417834e-06,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    refer_data3 = np.array(
+        [
+            np.nan,
+            -1.00030734e-05,
+            np.nan,
+            -7.63503548e-06,
+            -6.57399247e-06,
+            -5.97811353e-06,
+            np.nan,
+            -4.04680748e-06,
+            np.nan,
+        ]
+    )
+    refer_data4 = np.array(
+        [
+            -9.65605452e-06,
+            -1.00030734e-05,
+            -8.84525052e-06,
+            -7.50901485e-06,
+            -6.57399247e-06,
+            -6.37417834e-06,
+            -4.78422574e-06,
+            -4.04680748e-06,
+            -3.47126153e-06,
+        ]
+    )
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_geostrophic_wind():
@@ -830,7 +1052,7 @@ def test_calc_geostrophic_wind():
 def test_calc_geostrophic_wind_vorticity1():
     z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
     draw_data = (
-        ecl.calc_geostrophic_wind_vorticity(z_data, method="easyclimate")
+        ecl.calc_geostrophic_wind_vorticity(z_data, method="raw")
         .sel(level=500)
         .isel(time=0)
     )
@@ -841,11 +1063,123 @@ def test_calc_geostrophic_wind_vorticity1():
 
 
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
-def test_calc_geostrophic_wind_vorticity2():
+def test_calc_geostrophic_wind_vorticity2_ncl():
     z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
     draw_data = (
         ecl.calc_geostrophic_wind_vorticity(
-            z_data, cyclic_boundary=True, method="uv2vr_cfd-ncl"
+            z_data, cyclic_boundary_setting="nan", method="ncl"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity2_rs():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="nan", method="rust"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity3_ncl():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="cyclic", method="ncl"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity3_rs():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="cyclic", method="rust"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity4_ncl():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="cyclic+diff", method="ncl"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity4_rs():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="cyclic+diff", method="rust"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity5_ncl():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="diff", method="ncl"
+        )
+        .sel(level=500)
+        .isel(time=0)
+    )
+
+    fig, ax = plt.subplots()
+    draw_data.plot.contourf(ax=ax, levels=np.linspace(-1e-4, 1e-4, 11))
+    return fig
+
+
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+def test_calc_geostrophic_wind_vorticity5_rs():
+    z_data = ecl.open_tutorial_dataset("hgt_2022_day5").hgt
+    draw_data = (
+        ecl.calc_geostrophic_wind_vorticity(
+            z_data, cyclic_boundary_setting="diff", method="rust"
         )
         .sel(level=500)
         .isel(time=0)
@@ -1104,7 +1438,7 @@ def test_calc_divergence_watervaporflux1():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="easyclimate",
+        method="raw",
     ).data.flatten()
     refer_data = np.array(
         [
@@ -1122,16 +1456,41 @@ def test_calc_divergence_watervaporflux1():
     assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
 
 
-def test_calc_divergence_watervaporflux2():
-    result_data = ecl.calc_divergence_watervaporflux(
+def test_calc_divergence_watervaporflux2_ncl():
+    result_data1 = ecl.calc_divergence_watervaporflux(
         q_data_500hpa,
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="uv2dv_cfd-ncl",
-        cyclic_boundary=False,
+        method="ncl",
+        cyclic_boundary_setting="nan",
     ).data.flatten()
-    refer_data = np.array(
+    result_data2 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="ncl",
+        cyclic_boundary_setting="cyclic",
+    ).data.flatten()
+    result_data3 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="ncl",
+        cyclic_boundary_setting="cyclic+diff",
+    ).data.flatten()
+    result_data4 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="ncl",
+        cyclic_boundary_setting="diff",
+    ).data.flatten()
+
+    refer_data1 = np.array(
         [
             np.nan,
             np.nan,
@@ -1144,19 +1503,7 @@ def test_calc_divergence_watervaporflux2():
             np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
-
-
-def test_calc_divergence_watervaporflux3():
-    result_data = ecl.calc_divergence_watervaporflux(
-        q_data_500hpa,
-        u_data_500hpa,
-        v_data_500hpa,
-        specific_humidity_data_units="g/kg",
-        method="uv2dv_cfd-ncl",
-        cyclic_boundary=True,
-    ).data.flatten()
-    refer_data = np.array(
+    refer_data2 = np.array(
         [
             np.nan,
             np.nan,
@@ -1169,7 +1516,130 @@ def test_calc_divergence_watervaporflux3():
             np.nan,
         ]
     )
-    assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
+    refer_data3 = np.array(
+        [
+            np.nan,
+            2.20405807e-10,
+            np.nan,
+            -3.35880782e-10,
+            -2.54240381e-10,
+            -2.49049590e-10,
+            np.nan,
+            -4.11879431e-10,
+            np.nan,
+        ]
+    )
+    refer_data4 = np.array(
+        [
+            5.04550711e-10,
+            2.20405807e-10,
+            3.81041706e-10,
+            5.01682725e-10,
+            -2.54240381e-10,
+            5.61781233e-10,
+            3.82809506e-10,
+            -4.11879431e-10,
+            5.37306754e-10,
+        ]
+    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
+
+
+def test_calc_divergence_watervaporflux2_rs():
+    result_data1 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="rust",
+        cyclic_boundary_setting="nan",
+    ).data.flatten()
+    result_data2 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="rust",
+        cyclic_boundary_setting="cyclic",
+    ).data.flatten()
+    result_data3 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="rust",
+        cyclic_boundary_setting="cyclic+diff",
+    ).data.flatten()
+    result_data4 = ecl.calc_divergence_watervaporflux(
+        q_data_500hpa,
+        u_data_500hpa,
+        v_data_500hpa,
+        specific_humidity_data_units="g/kg",
+        method="rust",
+        cyclic_boundary_setting="diff",
+    ).data.flatten()
+
+    refer_data1 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+            -2.54240381e-10,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    refer_data2 = np.array(
+        [
+            np.nan,
+            np.nan,
+            np.nan,
+            5.01682725e-10,
+            -2.54240381e-10,
+            5.61781233e-10,
+            np.nan,
+            np.nan,
+            np.nan,
+        ]
+    )
+    refer_data3 = np.array(
+        [
+            np.nan,
+            2.20405807e-10,
+            np.nan,
+            -3.35880782e-10,
+            -2.54240381e-10,
+            -2.49049590e-10,
+            np.nan,
+            -4.11879431e-10,
+            np.nan,
+        ]
+    )
+    refer_data4 = np.array(
+        [
+            5.04550711e-10,
+            2.20405807e-10,
+            3.81041706e-10,
+            5.01682725e-10,
+            -2.54240381e-10,
+            5.61781233e-10,
+            3.82809506e-10,
+            -4.11879431e-10,
+            5.37306754e-10,
+        ]
+    )
+
+    assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data3, refer_data3, atol=0.1, equal_nan=True).all()
+    assert np.isclose(result_data4, refer_data4, atol=0.1, equal_nan=True).all()
 
 
 def test_calc_divergence_watervaporflux_top2surface_integral1():
@@ -1204,7 +1674,7 @@ def test_calc_divergence_watervaporflux_top2surface_integral1():
         surface_pressure_data_units="hPa",
         vertical_dim_units="hPa",
         integral_method="vibeta-ncl",
-        div_method="uv2dv_cfd-ncl",
+        div_method="ncl",
     ).wvdiv.data.flatten()
     refer_data = np.array(
         [
@@ -1254,7 +1724,7 @@ def test_calc_divergence_watervaporflux_top2surface_integral2():
         surface_pressure_data_units="hPa",
         vertical_dim_units="hPa",
         integral_method="Trenberth1991",
-        div_method="easyclimate",
+        div_method="raw",
     ).wvdiv.data.flatten()
     refer_data = np.array(
         [

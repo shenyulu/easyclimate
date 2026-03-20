@@ -169,14 +169,14 @@ fig, ax = plt.subplots(
 
 for axi in ax.flat:
     axi.coastlines(edgecolor="black", linewidths=0.5)
-    ecl.plot.draw_Circlemap_PolarStereo(
-        ax=axi,
+    gl, meta = ecl.plot.draw_polar_basemap(
+        ax = axi,
         lon_step=30,
         lat_step=20,
         lat_range=[50, 90],
         draw_labels=True,
-        set_map_boundary_kwargs={"north_pad": 0.3, "south_pad": 0.4},
         gridlines_kwargs={"color": "grey", "alpha": 0.5, "linestyle": "--"},
+        lat_label_lon=-120
     )
 
 axi = ax[0]
@@ -187,7 +187,8 @@ fg1 = ad_minus.plot.contourf(
     transform=ccrs.PlateCarree(),
     add_colorbar = False,
 )
-axi.set_title("DA-", size = 'x-large')
+axi.set_title("")
+ecl.plot.set_polar_title("DA-", meta, ax = axi, size = 15)
 
 axi = ax[1]
 ad_plus.plot.contourf(
@@ -197,7 +198,8 @@ ad_plus.plot.contourf(
     transform=ccrs.PlateCarree(),
     add_colorbar = False,
 )
-axi.set_title("DA+", size = 'x-large')
+axi.set_title("")
+ecl.plot.set_polar_title("DA+", meta, ax = axi, size = 15)
 
 fig.colorbar(
     fg1, ax = ax.flatten(),
@@ -224,14 +226,14 @@ fig, ax = plt.subplots(
 
 for axi in ax.flat:
     axi.coastlines(edgecolor="black", linewidths=0.5)
-    ecl.plot.draw_Circlemap_PolarStereo(
-        ax=axi,
+    gl, meta = ecl.plot.draw_polar_basemap(
+        ax = axi,
         lon_step=30,
         lat_step=20,
         lat_range=[50, 90],
         draw_labels=True,
-        set_map_boundary_kwargs={"north_pad": 0.3, "south_pad": 0.4},
         gridlines_kwargs={"color": "grey", "alpha": 0.5, "linestyle": "--"},
+        lat_label_lon=-120
     )
 
 axi = ax[0]
@@ -242,7 +244,8 @@ fg1 = bbo_minus.plot.contourf(
     transform=ccrs.PlateCarree(),
     add_colorbar = False,
 )
-axi.set_title("BBO-", size = 'x-large')
+axi.set_title("")
+ecl.plot.set_polar_title("BBO-", meta, ax = axi, size = 15)
 
 axi = ax[1]
 bbo_plus.plot.contourf(
@@ -252,7 +255,8 @@ bbo_plus.plot.contourf(
     transform=ccrs.PlateCarree(),
     add_colorbar = False,
 )
-axi.set_title("BBO+", size = 'x-large')
+axi.set_title("")
+ecl.plot.set_polar_title("BBO+", meta, ax = axi, size = 15)
 
 fig.colorbar(
     fg1, ax = ax.flatten(),

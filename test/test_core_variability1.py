@@ -11,11 +11,6 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 
-import pytest
-import numpy as np
-import xarray as xr
-from numpy.fft import rfft, irfft
-
 
 # Test data setup functions
 def create_test_dataarray(size=365 * 3, start_date="2000-01-01"):

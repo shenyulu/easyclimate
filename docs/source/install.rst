@@ -1,7 +1,13 @@
 .. _install:
 
-Installation Guide
+Installation
 ====================================
+
+.. figure:: _static/fig2.jpg
+    :scale: 40%
+    :align: center
+
+    Photo by Robert Wiedemann on Unsplash
 
 Welcome to the **easyclimate** installation guide! 🚀 We're excited to help you get started with our powerful climate analysis tool.
 Follow these simple steps to install **easyclimate** on your system.
@@ -9,14 +15,24 @@ Follow these simple steps to install **easyclimate** on your system.
 The easyclimate package is currently built and tested for specific platforms due to compatibility and dependency constraints.
 Below are the supported platforms and notes for users on other systems.
 
-- **Windows x86-64/AMD64** (Windows 10+)
-- **Linux x86-64/AMD64** (glibc 2.28 or later, including: Debian 10+, Ubuntu 18.10+, Fedora 29+, CentOS/RHEL 8+)
+.. grid:: 1 1 2 1
+    :gutter: 2
+    :padding: 0
+    :class-container: surface
+
+    .. grid-item-card:: :iconify:`devicon:windows11` Windows x86-64/AMD64
+
+        Windows 10+
+
+    .. grid-item-card:: :iconify:`flat-color-icons:linux` Linux x86-64/AMD64
+
+        **glibc 2.28** or later, including: Debian 10+, Ubuntu 18.10+, Fedora 29+, CentOS/RHEL 8+
 
 These platforms are fully tested, and pre-built wheels (``.whl``) are available on PyPI for easy installation via following methods:
 
 .. tab-set::
 
-    .. tab-item:: PyPI
+    .. tab-item:: :iconify:`devicon:pypi` PyPI
 
         Using the `PyPI <https://pypi.org/project/pip/>`__ package manager:
 
@@ -26,7 +42,7 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
         If you don't have ``pip`` installed, this `Python installation guide <https://docs.python-guide.org/starting/installation/>`__ can guide you through the process.
 
-    .. tab-item:: Astral uv
+    .. tab-item:: :iconify:`material-icon-theme:uv` Astral uv
 
         1. Install `uv <https://docs.astral.sh/uv/>`__
 
@@ -40,11 +56,11 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
             uv pip install easyclimate
 
-    .. tab-item:: conda/mamba
+    .. tab-item:: :iconify:`devicon:anaconda` conda/mamba
 
         🛠️ Support is coming soon! Stay tuned for updates—we're working on it!
 
-    .. tab-item:: Development version
+    .. tab-item:: :iconify:`fluent-emoji-flat:hammer-and-wrench` Development version
 
         You can use ``PyPI`` to install the latest **unreleased** version from
         GitHub (⚠️ **NOT recommended** in most situations):
@@ -66,81 +82,9 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
                 python -m pip install --upgrade git+https://gitee.com/shenyulu/easyclimate@dev
 
-.. tip::
-
-    For **Linux** users who use *older systems*, special attention is required! It is necessary to install a relatively recent version of the `gcc <https://gcc.gnu.org/projects/c-status.html>`__ and `g++ <https://gcc.gnu.org/projects/cxx-status.html>`__ compiler suites to meet the **C++17** requirements. The latest versions of these suites can also be installed as follows:
-
-    .. tab-set::
-
-        .. tab-item:: conda (Recommended)
-
-            .. code:: bash
-
-                conda install -c conda-forge gcc gxx
-
-        .. tab-item:: Ubuntu/Debian
-
-            1. Update package list
-
-            .. code:: bash
-
-                sudo apt update
-
-            2. Install the ``build-essential`` package by typing the following command:
-
-            .. code:: bash
-
-                sudo apt install build-essential
-
-            This command installs a bunch of new software packages, including gcc, g++, and make.
-
-            3. You may also need to install the manual pages for development using GNU/Linux:
-
-            .. code:: bash
-
-                sudo apt-get install manpages-dev
-
-            4. To verify whether the GCC compiler has been successfully installed, use the following command to print the GCC version:
-
-            .. code:: bash
-
-                gcc --version
-
-        .. tab-item:: CentOS/RHEL/Fedora
-
-            1. Start a login shell as the root user.
-
-            .. code:: bash
-
-                sudo -i
-
-            2. Install the ``gcc``.
-
-            .. code:: bash
-
-                yum install gcc
-
-            Press Y and Enter to confirm. Or use the command without confirmation:
-
-            .. code:: bash
-
-                yum -y install gcc
-
-            3. Install the ``g++``.
-
-            .. code:: bash
-
-                yum install gcc-c++
-
-            Press Y and Enter to confirm. Or use the command without confirmation:
-
-            .. code:: bash
-
-                yum -y install gcc-c++
-
 .. warning::
 
-    Unfortunately, *easyclimate currently does NOT officially support macOS*, including both Intel-based Macs and Apple Silicon (M-series) Macs.
+    Unfortunately, **easyclimate currently does NOT officially support macOS**, including both Intel-based Macs and Apple Silicon (M-series) Macs.
 
 Python Version Requirement
 ------------------------------------
@@ -164,23 +108,21 @@ Dependencies
 
 **easyclimate** comes with all the necessary dependencies for a smooth experience. Here's what gets installed:
 
+- Base requirements: Essential packages for core functionality.
+- Test requirements: Packages needed for running tests.
+- Docs build requirements: Tools for building the documentation.
+
 .. tab-set::
 
     .. tab-item:: Base requirements
-
-        Essential packages for core functionality.
 
         .. literalinclude:: ../../release_requirements.txt
 
     .. tab-item:: Test requirements
 
-        Packages needed for running tests.
-
         .. literalinclude:: ../../test_requirements.txt
 
     .. tab-item:: Docs build requirements
-
-        Tools for building the documentation.
 
         .. literalinclude:: ../requirements.txt
 

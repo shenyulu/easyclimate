@@ -3,6 +3,12 @@
 Sponsor This Project❤️
 ====================================
 
+.. figure:: _static/fig5.jpg
+    :scale: 40%
+    :align: center
+
+    Photo by Jay Shah on Unsplash
+
 We express our sincere thanks to the individuals who have enhanced our software through their valuable issue reports and insightful feedback.
 
 This work is a **community project**. Thanks to the following people for their donations to this project on the WeChat public platform (@shenyulu2020).

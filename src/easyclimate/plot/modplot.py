@@ -1,12 +1,11 @@
 """
+Streamline plotting for 2D vector fields
+
 @author: Kieran Hunt
 https://github.com/kieranmrhunt/curved-quivers/blob/master/modplot.py
 https://stackoverflow.com/questions/51843313/flow-visualisation-in-python-using-curved-path-following-vectors
 aligned with matplotlib.streamplot and improved by Jelmer Veenstra (30-03-2023), https://github.com/veenstrajelmer
 matplotlib.streamplot available at https://raw.githubusercontent.com/matplotlib/matplotlib/main/lib/matplotlib/streamplot.py
-
-Streamline plotting for 2D vector fields.
-
 """
 
 import numpy as np
@@ -16,7 +15,7 @@ import matplotlib.colors as mcolors
 import matplotlib.collections as mcollections
 import matplotlib.lines as mlines
 
-__all__ = ["velovect"]
+__all__ = ["velovect", "CurvedQuiverplotSet"]
 
 
 def velovect(
@@ -38,6 +37,17 @@ def velovect(
     integration_direction="both",
     grains=15,
     broken_streamlines=True,
+    ref_magnitude=None,
+    ref_length=None,
+    min_frac_length=0.0,
+    length_norm="reference",
+    mask_density=10,
+    line_start_stride=1,
+    arrow_stride=1,
+    min_distance=0.0,
+    arrow_head_ratio=1.0,
+    glyph_mode=False,
+    arrow_position=0.8,
 ):
     """
     Draw streamlines of a vector flow.
@@ -109,7 +119,7 @@ def velovect(
     """
 
     grid = Grid(x, y)
-    mask = StreamMask(10)
+    mask = StreamMask(mask_density)
     dmap = DomainMap(grid, mask)
 
     if zorder is None:
@@ -126,7 +136,10 @@ def velovect(
         linewidth = mpl.rcParams["lines.linewidth"]
 
     line_kw = {}
-    arrow_kw = dict(arrowstyle=arrowstyle, mutation_scale=10 * arrowsize)
+    arrow_kw = dict(
+        arrowstyle=arrowstyle,
+        mutation_scale=10 * arrowsize,
+    )
 
     mpl._api.check_in_list(
         ["both", "forward", "backward"], integration_direction=integration_direction
@@ -166,14 +179,34 @@ def velovect(
 
     u = np.ma.masked_invalid(u)
     v = np.ma.masked_invalid(v)
-    magnitude = np.sqrt(u**2 + v**2)
-    magnitude /= np.max(magnitude)
+    speed = np.sqrt(u**2 + v**2)
+    speed_max = np.nanmax(speed)
+
+    if ref_magnitude is None:
+        if length_norm == "reference":
+            ref_magnitude = speed_max
+        elif length_norm == "percentile":
+            ref_magnitude = np.nanpercentile(speed, 95)
+        elif length_norm == "max":
+            ref_magnitude = speed_max
+        else:
+            raise ValueError(
+                "'length_norm' must be one of 'reference', 'max', or 'percentile'"
+            )
+
+    if ref_magnitude is None or not np.isfinite(ref_magnitude) or ref_magnitude <= 0:
+        ref_magnitude = 1.0
+
+    magnitude = speed / ref_magnitude
     if integration_direction == "both":
         magnitude /= 2.0
 
-    resolution = density / np.max(grains)
+    base_resolution = density / np.max(grains)
+    resolution = ref_length if ref_length is not None else base_resolution
+    min_frac_length = max(0.0, float(min_frac_length))
+
     integrate = _get_integrator(
-        u, v, dmap, resolution, magnitude, integration_direction
+        u, v, dmap, resolution, magnitude, integration_direction, min_frac_length
     )
 
     trajectories = []
@@ -182,6 +215,10 @@ def velovect(
         start_points = _gen_starting_points(x, y, grains)
 
     sp2 = np.asanyarray(start_points, dtype=float).copy()
+    line_start_stride = max(1, int(line_start_stride))
+    arrow_stride = max(1, int(arrow_stride))
+    sp2 = sp2[::line_start_stride]
+    sp2 = _filter_seed_points_by_distance(sp2, min_distance, x, y)
 
     # Check if start_points are outside the data boundaries
     for xs, ys in sp2:
@@ -234,26 +271,33 @@ def velovect(
             points = np.transpose([tx, ty])
             streamlines.append(points)
 
-        # Add arrows halfway along each trajectory.
-        s = np.cumsum(np.hypot(np.diff(tx), np.diff(ty)))
-        n = np.searchsorted(s, s[-1])
-        arrow_tail = (tx[n], ty[n])
-        arrow_head = (np.mean(tx[n : n + 2]), np.mean(ty[n : n + 2]))
-
         if isinstance(linewidth, np.ndarray):
             line_widths = interpgrid(linewidth, tgx, tgy)[:-1]
             line_kw["linewidth"].extend(line_widths)
-            arrow_kw["linewidth"] = line_widths[n]
 
         if use_multicolor_lines:
             color_values = interpgrid(color, tgx, tgy)[:-1]
             line_colors.append(color_values)
-            arrow_kw["color"] = cmap(norm(color_values[n]))
 
-        p = patches.FancyArrowPatch(
-            arrow_tail, arrow_head, transform=transform, **arrow_kw
+        arrow_indices = _get_arrow_indices(
+            tx, ty, arrow_stride, glyph_mode, arrow_position
         )
-        arrows.append(p)
+        for n in arrow_indices:
+            local_arrow_kw = arrow_kw.copy()
+            arrow_tail, arrow_head = _build_arrow_segment(tx, ty, n, arrow_head_ratio)
+
+            if isinstance(linewidth, np.ndarray):
+                local_arrow_kw["linewidth"] = line_widths[min(n, len(line_widths) - 1)]
+
+            if use_multicolor_lines:
+                local_arrow_kw["color"] = cmap(
+                    norm(color_values[min(n, len(color_values) - 1)])
+                )
+
+            p = patches.FancyArrowPatch(
+                arrow_tail, arrow_head, transform=transform, **local_arrow_kw
+            )
+            arrows.append(p)
 
     lc = mcollections.LineCollection(streamlines, transform=transform, **line_kw)
     lc.sticky_edges.x[:] = [grid.x_origin, grid.x_origin + grid.width]
@@ -275,6 +319,11 @@ def velovect(
         ac,
         resolution,
         magnitude,
+        speed_max,
+        grid.x_origin,
+        grid.y_origin,
+        grid.width,
+        grid.height,
         zorder,
         transform,
         axes,
@@ -287,6 +336,17 @@ def velovect(
         integration_direction,
         grains,
         broken_streamlines,
+        ref_magnitude,
+        ref_length,
+        min_frac_length,
+        length_norm,
+        mask_density,
+        line_start_stride,
+        arrow_stride,
+        min_distance,
+        arrow_head_ratio,
+        glyph_mode,
+        arrow_position,
     )
     return stream_container
 
@@ -299,6 +359,11 @@ class CurvedQuiverplotSet:
         arrows,
         resolution,
         magnitude,
+        speed_max,
+        x_origin,
+        y_origin,
+        width,
+        height,
         zorder,
         transform,
         axes,
@@ -311,11 +376,27 @@ class CurvedQuiverplotSet:
         integration_direction,
         grains,
         broken_streamlines,
+        ref_magnitude,
+        ref_length,
+        min_frac_length,
+        length_norm,
+        mask_density,
+        line_start_stride,
+        arrow_stride,
+        min_distance,
+        arrow_head_ratio,
+        glyph_mode,
+        arrow_position,
     ):
         self.lines = lines
         self.arrows = arrows
         self.resolution = resolution
         self.magnitude = magnitude
+        self.speed_max = speed_max
+        self.x_origin = x_origin
+        self.y_origin = y_origin
+        self.width = width
+        self.height = height
         self.zorder = zorder
         self.transform = transform
         self.axes = axes
@@ -328,6 +409,17 @@ class CurvedQuiverplotSet:
         self.integration_direction = integration_direction
         self.grains = grains
         self.broken_streamlines = broken_streamlines
+        self.ref_magnitude = ref_magnitude
+        self.ref_length = ref_length
+        self.min_frac_length = min_frac_length
+        self.length_norm = length_norm
+        self.mask_density = mask_density
+        self.line_start_stride = line_start_stride
+        self.arrow_stride = arrow_stride
+        self.min_distance = min_distance
+        self.arrow_head_ratio = arrow_head_ratio
+        self.glyph_mode = glyph_mode
+        self.arrow_position = arrow_position
 
 
 # Coordinate definitions
@@ -521,7 +613,9 @@ class TerminateTrajectory(Exception):
 # =======================
 
 
-def _get_integrator(u, v, dmap, resolution, magnitude, integration_direction):
+def _get_integrator(
+    u, v, dmap, resolution, magnitude, integration_direction, min_frac_length
+):
 
     # rescale velocity onto grid-coordinates for integrations.
     u, v = dmap.data2grid(u, v)
@@ -566,7 +660,14 @@ def _get_integrator(u, v, dmap, resolution, magnitude, integration_direction):
             return None
         if integration_direction in ["both", "backward"]:
             s, xyt = _integrate_rk12(
-                x0, y0, dmap, backward_time, resolution, magnitude, broken_streamlines
+                x0,
+                y0,
+                dmap,
+                backward_time,
+                resolution,
+                magnitude,
+                broken_streamlines,
+                min_frac_length,
             )
             stotal += s
             xy_traj += xyt[::-1]
@@ -574,7 +675,14 @@ def _get_integrator(u, v, dmap, resolution, magnitude, integration_direction):
         if integration_direction in ["both", "forward"]:
             dmap.reset_start_point(x0, y0)
             s, xyt = _integrate_rk12(
-                x0, y0, dmap, forward_time, resolution, magnitude, broken_streamlines
+                x0,
+                y0,
+                dmap,
+                forward_time,
+                resolution,
+                magnitude,
+                broken_streamlines,
+                min_frac_length,
             )
             stotal += s
             xy_traj += xyt[1:]
@@ -592,7 +700,16 @@ class OutOfBounds(IndexError):
     pass
 
 
-def _integrate_rk12(x0, y0, dmap, f, resolution, magnitude, broken_streamlines=True):
+def _integrate_rk12(
+    x0,
+    y0,
+    dmap,
+    f,
+    resolution,
+    magnitude,
+    broken_streamlines=True,
+    min_frac_length=0.0,
+):
     """
     2nd-order Runge-Kutta algorithm with adaptive step size.
 
@@ -634,13 +751,14 @@ def _integrate_rk12(x0, y0, dmap, f, resolution, magnitude, broken_streamlines=T
     yi = y0
     xyf_traj = []
     m_total = []
+    min_length = resolution * min_frac_length
 
     while True:
         try:
             if dmap.grid.within_grid(xi, yi):
                 xyf_traj.append((xi, yi))
                 m_total.append(interpgrid(magnitude, xi, yi))
-                maxlength = resolution * np.mean(m_total)
+                maxlength = resolution * max(min_frac_length, np.mean(m_total))
             else:
                 raise OutOfBounds
 
@@ -715,6 +833,94 @@ def _euler_step(xyf_traj, dmap, f):
 
 # Utility functions
 # ========================
+
+
+def _get_arrow_indices(tx, ty, arrow_stride, glyph_mode=False, arrow_position=0.8):
+    segment_count = len(tx) - 1
+    if segment_count <= 0:
+        return []
+
+    stride = max(1, int(arrow_stride))
+    seg_lengths = np.hypot(np.diff(tx), np.diff(ty))
+    total_length = np.sum(seg_lengths)
+
+    if total_length <= 0:
+        midpoint = max(0, segment_count // 2)
+        return [midpoint]
+
+    cumulative = np.cumsum(seg_lengths)
+
+    arrow_position = float(np.clip(arrow_position, 0.05, 0.95))
+
+    if glyph_mode:
+        target = max(arrow_position, 0.75) * total_length
+        return [int(np.clip(np.searchsorted(cumulative, target), 0, segment_count - 1))]
+
+    if stride == 1:
+        target = arrow_position * total_length
+        return [int(np.clip(np.searchsorted(cumulative, target), 0, segment_count - 1))]
+
+    target_count = max(1, int(np.ceil(segment_count / stride)))
+    start_target = min(arrow_position * total_length, 0.9 * total_length)
+    if target_count == 1:
+        targets = [start_target]
+    else:
+        end_target = min(total_length * 0.95, start_target + 0.35 * total_length)
+        targets = np.linspace(start_target, end_target, target_count)
+    indices = [
+        int(np.clip(np.searchsorted(cumulative, target), 0, segment_count - 1))
+        for target in targets
+    ]
+    indices = sorted(set(indices))
+    return indices
+
+
+def _filter_seed_points_by_distance(seed_points, min_distance, x=None, y=None):
+    if min_distance is None or min_distance <= 0 or len(seed_points) < 2:
+        return seed_points
+
+    scale_x = 1.0
+    scale_y = 1.0
+    if x is not None and len(x) > 1:
+        scale_x = max(float(np.max(x) - np.min(x)), float(np.abs(x[1] - x[0])), 1e-12)
+    if y is not None and len(y) > 1:
+        scale_y = max(float(np.max(y) - np.min(y)), float(np.abs(y[1] - y[0])), 1e-12)
+
+    filtered = []
+    min_distance_sq = float(min_distance) ** 2
+    for point in seed_points:
+        if not filtered:
+            filtered.append(point)
+            continue
+
+        keep = True
+        for kept in filtered:
+            dx = (point[0] - kept[0]) / scale_x
+            dy = (point[1] - kept[1]) / scale_y
+            if dx * dx + dy * dy < min_distance_sq:
+                keep = False
+                break
+        if keep:
+            filtered.append(point)
+
+    return np.asarray(filtered)
+
+
+def _build_arrow_segment(tx, ty, index, arrow_head_ratio):
+    index = int(np.clip(index, 0, len(tx) - 2))
+    tail = np.array([tx[index], ty[index]], dtype=float)
+    next_point = np.array([tx[index + 1], ty[index + 1]], dtype=float)
+    segment = next_point - tail
+    seg_len = np.hypot(segment[0], segment[1])
+
+    if seg_len == 0:
+        return tuple(tail), tuple(next_point)
+
+    head_scale = float(np.clip(arrow_head_ratio, 0.25, 3.0))
+    body_scale = 1.0 / max(head_scale, 1.0)
+    adjusted_head = tail + segment * np.clip(0.55 + 0.35 * head_scale, 0.45, 1.25)
+    adjusted_tail = tail + segment * np.clip(0.15 * (1.0 - body_scale), 0.0, 0.2)
+    return tuple(adjusted_tail), tuple(adjusted_head)
 
 
 def interpgrid(a, xi, yi):

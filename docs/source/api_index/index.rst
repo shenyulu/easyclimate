@@ -3,6 +3,12 @@
 List of Functions and Classes (API)
 ===================================
 
+.. figure:: ../_static/fig4.jpg
+    :scale: 40%
+    :align: center
+
+    Photo by Jay Shah on Unsplash
+
 .. note::
 
     **All functions and classes should be accessed from the** :mod:`easyclimate`
@@ -140,6 +146,7 @@ Filter🎹
     easyclimate.filter.spatial_pcf
     easyclimate.filter.emd
     easyclimate.filter.spectrum
+    easyclimate.filter.mask
 
 Interpolation🔗
 ----------------------------------------
@@ -168,6 +175,7 @@ Plot🖊️
     easyclimate.plot.curved_quiver_plot
     easyclimate.plot.bar
     easyclimate.plot.line
+    easyclimate.plot.polar
 
 WRF-python🌌
 ----------------------------------------
