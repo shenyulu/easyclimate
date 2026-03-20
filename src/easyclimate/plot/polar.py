@@ -257,10 +257,6 @@ def draw_polar_basemap(
     return gl, meta
 
 
-import numpy as np
-import cartopy.crs as ccrs
-
-
 def set_polar_title(
     title: str,
     meta: dict,

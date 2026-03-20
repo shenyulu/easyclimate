@@ -4,6 +4,12 @@
 
 *Released on: 2026/3/20*
 
+- [feat: add standard & custom rectangular box](https://github.com/shenyulu/easyclimate/pull/114/commits/dbf0c93f3aa397dd4a5d3b49fdce289b092c9413)
+- [fix: curved quiver plot](https://github.com/shenyulu/easyclimate/pull/114/commits/9d1a77ac2f405626e18f2d9025802b23fb316fd2)
+- [feat: add div & vor (ncl&rust)](https://github.com/shenyulu/easyclimate/pull/114/commits/46f2864ed1f2575167d5993ef523c446f3d4efad)
+- [feat: add mask_custom_rectangular_box](https://github.com/shenyulu/easyclimate/pull/114/commits/1e5cac0ca33ce1f3f5cbdb52287999a30196bb87)
+- [feat: add draw_polar_basemap](https://github.com/shenyulu/easyclimate/pull/114/commits/91e183e5d94a79f77ff07194a698341bb2160f16)
+- [feat: use shibuya theme](https://github.com/shenyulu/easyclimate/pull/114/commits/7a82eb913d647a86f5f035b91ea1a943d50bc3a4)
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2026.3.0...v2026.4.0
 
