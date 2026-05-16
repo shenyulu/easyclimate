@@ -195,6 +195,7 @@ get_cached_item = None
 # --------------------------------------------
 # Easyclimate-rust Initialize variables
 # --------------------------------------------
+RUST_AVAILABLE = False
 calc_wet_bulb_temperature_rs = None
 calc_sphere_laplacian_numpy_rs = None
 calc_sphere_laplacian_conservative_numpy_rs = None
