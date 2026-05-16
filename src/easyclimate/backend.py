@@ -251,29 +251,29 @@ def _warn_backend_import(module_name, exc):
 if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     try:
         from easyclimate_backend.pyspharm import spharm
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.pyspharm", e)
 
     try:
         from easyclimate_backend.windspharm.xarray import VectorWind
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.windspharm.xarray", e)
 
     try:
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_skin as aeroskin
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.aerobulk", e)
 
     try:
         from easyclimate_backend.heat_stress import human_index_mod, human_index_mod_old
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.heat_stress", e)
 
     try:
         from easyclimate_backend.redfit import _ecl_redfit
         from easyclimate_backend.redfit import _ecl_redfit_x
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.redfit", e)
 
     try:
@@ -284,12 +284,12 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
         from easyclimate_backend.vinth2p._vintp2p_ecmwf import (
             vintp2pecmwf as _vintp2p_ecmwf,
         )
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.vinth2p", e)
 
     try:
         from easyclimate_backend.vibeta._vibeta_dp import dvibeta as dvibeta_ncl
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.vibeta", e)
 
     try:
@@ -297,12 +297,12 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
             ddvfidf as ddvfidf_ncl,
             dvrfidf as dvrfidf_ncl,
         )
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.rvdv", e)
 
     try:
         from easyclimate_backend.wet_bulb import _wet_bulb_temperature
-    except ImportError as e:
+    except Exception as e:
         _warn_backend_import("easyclimate_backend.wet_bulb", e)
 
     if (
