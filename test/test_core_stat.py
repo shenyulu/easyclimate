@@ -12,8 +12,19 @@ import dask.array as da
 from .util import round_sf_np_new
 from easyclimate.core.utility import DataNode
 
-sst_data = ecl.tutorial.open_tutorial_dataset("mini_HadISST_sst").sst
-sic_data_Barents_Sea = ecl.tutorial.open_tutorial_dataset("mini_HadISST_ice").sic
+
+def _open_tutorial_dataset_or_skip(*args, **kwargs):
+    try:
+        return ecl.tutorial.open_tutorial_dataset(*args, **kwargs)
+    except Exception as exc:
+        pytest.skip(
+            f"tutorial dataset is unavailable: {exc}",
+            allow_module_level=True,
+        )
+
+
+sst_data = _open_tutorial_dataset_or_skip("mini_HadISST_sst").sst
+sic_data_Barents_Sea = _open_tutorial_dataset_or_skip("mini_HadISST_ice").sic
 sic_data_Barents_Sea_12 = ecl.get_specific_months_data(sic_data_Barents_Sea, 12)
 
 
