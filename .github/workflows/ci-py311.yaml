@@ -38,9 +38,10 @@ jobs:
         run: |
           uv pip install numba numpy
           uv pip install -r test_requirements.txt
-          uv pip install -e .
 
       - name: Run tests and collect coverage
+        env:
+          PYTHONPATH: src
         run: uv run pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
 
       - name: Upload coverage reports to Codecov
@@ -50,8 +51,8 @@ jobs:
 
       - name: Build wheel
         run: |
-          uv pip install build
-          uv run python -m build --wheel --outdir dist
+          uv pip install build setuptools wheel setuptools-scm
+          uv run python -m build --wheel --outdir dist --no-isolation
 
       - name: Verify built wheel import
         run: |
