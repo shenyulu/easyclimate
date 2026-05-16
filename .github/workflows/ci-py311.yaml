@@ -42,7 +42,7 @@ jobs:
       - name: Run tests and collect coverage
         env:
           PYTHONPATH: src
-        run: uv run pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+        run: uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
@@ -52,12 +52,12 @@ jobs:
       - name: Build wheel
         run: |
           uv pip install build setuptools wheel setuptools-scm
-          uv run python -m build --wheel --outdir dist --no-isolation
+          uv run --no-sync python -m build --wheel --outdir dist --no-isolation
 
       - name: Verify built wheel import
         run: |
           uv pip install --force-reinstall --no-deps dist/*.whl
-          uv run python -c "import easyclimate as ecl; print(ecl.__version__)"
+          uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
 
       - name: Upload wheel artifact
         uses: actions/upload-artifact@v4
