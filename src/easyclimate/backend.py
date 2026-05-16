@@ -566,6 +566,13 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
             dvrfidf_batch as dvrfidf_batch_rs,
         )
 
+        # vibeta
+        from easyclimate_rust._easyclimate_rust import (
+            dvibeta as dvibeta_rs,
+            dvibeta_batch,
+            dvibeta_batch_sum_norm,
+        )
+
         # print(
         #     "Successfully imported basic easyclimate-rust modules", file=sys.stderr
         # )

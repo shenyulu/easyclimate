@@ -28,18 +28,28 @@ Core❤️
 
     easyclimate.core.datanode
     easyclimate.core.units
-    easyclimate.core.diff
+
     easyclimate.core.eddy
-    easyclimate.core.eof
+
     easyclimate.core.extract
-    easyclimate.core.mk_test
     easyclimate.core.normalized
     easyclimate.core.read
     easyclimate.core.tutorial
     easyclimate.core.utility
     easyclimate.core.variability
-    easyclimate.core.spharm
-    easyclimate.core.windspharm
+
+Dynamical Diagnostics
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.core.diff
+    easyclimate.core.advection
+    easyclimate.core.rvdv
+    easyclimate.core.integral
+    easyclimate.core.waterflux
+    easyclimate.core.geowind
 
 Statistics
 ::::::::::::::::::::::::::::::::::::::::
@@ -52,6 +62,17 @@ Statistics
     easyclimate.core.stats.yearstat
     easyclimate.core.stats.monthstat
     easyclimate.core.stats.seasonstat
+    easyclimate.core.mk_test
+    easyclimate.core.eof
+
+Spectral Analysis
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.core.spharm
+    easyclimate.core.windspharm
 
 Physics🗺️
 ----------------------------------------
