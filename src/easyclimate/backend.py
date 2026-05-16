@@ -239,27 +239,44 @@ except ImportError as e:
         raise ImportError("wavelet is not available due to import failure")
 
 
+def _warn_backend_import(module_name, exc):
+    warnings.warn(
+        f"Failed to import {module_name}: {exc}. Related functionality will be disabled.",
+        ImportWarning,
+    )
+    print(f"Detailed import error for {module_name}: {exc}", file=sys.stderr)
+
+
 # Attempt to import platform-specific functions on supported platforms
 if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     try:
-        # print(
-        #     f"Attempting to import easyclimate-backend modules on {CURRENT_PLATFORM}...",
-        #     file=sys.stderr,
-        # )
-
-        # Import basic modules
         from easyclimate_backend.pyspharm import spharm
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.pyspharm", e)
 
+    try:
         from easyclimate_backend.windspharm.xarray import VectorWind
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.windspharm.xarray", e)
 
+    try:
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_skin as aeroskin
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.aerobulk", e)
 
+    try:
         from easyclimate_backend.heat_stress import human_index_mod, human_index_mod_old
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.heat_stress", e)
 
+    try:
         from easyclimate_backend.redfit import _ecl_redfit
         from easyclimate_backend.redfit import _ecl_redfit_x
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.redfit", e)
 
+    try:
         from easyclimate_backend.vinth2p._vinth2p_dp import vinth2p as _vinth2p_dp
         from easyclimate_backend.vinth2p._vinth2p_ecmwf import (
             vinth2pecmwf as _vinth2p_ecmwf,
@@ -267,26 +284,44 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
         from easyclimate_backend.vinth2p._vintp2p_ecmwf import (
             vintp2pecmwf as _vintp2p_ecmwf,
         )
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.vinth2p", e)
 
+    try:
         from easyclimate_backend.vibeta._vibeta_dp import dvibeta as dvibeta_ncl
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.vibeta", e)
+
+    try:
         from easyclimate_backend.rvdv._rvdv import (
             ddvfidf as ddvfidf_ncl,
             dvrfidf as dvrfidf_ncl,
         )
-
-        from easyclimate_backend.wet_bulb import _wet_bulb_temperature
-
-        # print(
-        #     "Successfully imported basic easyclimate-backend modules", file=sys.stderr
-        # )
-
     except ImportError as e:
+        _warn_backend_import("easyclimate_backend.rvdv", e)
+
+    try:
+        from easyclimate_backend.wet_bulb import _wet_bulb_temperature
+    except ImportError as e:
+        _warn_backend_import("easyclimate_backend.wet_bulb", e)
+
+    if (
+        spharm is None
+        and VectorWind is None
+        and aeronoskin is None
+        and aeroskin is None
+        and human_index_mod is None
+        and _ecl_redfit is None
+        and _vinth2p_dp is None
+        and dvibeta_ncl is None
+        and ddvfidf_ncl is None
+        and _wet_bulb_temperature is None
+    ):
         warnings.warn(
-            f"Failed to import basic easyclimate-backend modules: {e}. Some functionality will be disabled.",
+            f"Failed to import all easyclimate-backend platform modules on {CURRENT_PLATFORM}. "
+            "Check that easyclimate-backend is installed with compatible binary dependencies.",
             ImportWarning,
         )
-        # Record detailed error information to stderr
-        print(f"Detailed import error for basic modules: {e}", file=sys.stderr)
 
     # Attempt to import WRF-related modules - handle separately, as WRF may have additional dependencies
     try:
