@@ -5,6 +5,7 @@ import sys
 
 # Detect the current operating system
 CURRENT_PLATFORM = platform.system()
+SUPPORTED_BACKEND_PLATFORMS = ("Windows", "Linux", "Darwin")
 
 # --------------------------------------------
 # Easyclimate-backend Initialize variables
@@ -30,6 +31,9 @@ dvrfidf_rs = None
 ddvfidf_rs = None
 dvrfidf_batch_rs = None
 ddvfidf_batch_rs = None
+dvibeta_rs = None
+dvibeta_batch = None
+dvibeta_batch_sum_norm = None
 barnes_numba = None
 barnes_rs = None
 barnes_S2_numba = None
@@ -235,8 +239,8 @@ except ImportError as e:
         raise ImportError("wavelet is not available due to import failure")
 
 
-# Attempt to import platform-specific functions only on Windows and Linux
-if CURRENT_PLATFORM in ("Windows", "Linux"):
+# Attempt to import platform-specific functions on supported platforms
+if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     try:
         # print(
         #     f"Attempting to import easyclimate-backend modules on {CURRENT_PLATFORM}...",
@@ -484,7 +488,7 @@ if interplevel is None:
     interplevel = _dummy_function
 
 # Print the summary of the import status
-if CURRENT_PLATFORM in ("Windows", "Linux"):
+if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     if all(func is not None for func in [spharm, VectorWind, getvar]):
         # print("easyclimate-backend modules imported successfully", file=sys.stderr)
         pass
@@ -495,8 +499,8 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
 # Easyclimate-rust Import
 # --------------------------------------------
 
-# Attempt to import platform-specific functions only on Windows and Linux
-if CURRENT_PLATFORM in ("Windows", "Linux"):
+# Attempt to import platform-specific functions on supported platforms
+if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     try:
         # print(
         #     f"Attempting to import easyclimate-rust modules on {CURRENT_PLATFORM}...",
