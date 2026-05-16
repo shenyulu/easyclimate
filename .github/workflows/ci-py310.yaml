@@ -1,8 +1,19 @@
-name: Workflow for Codecov easyclimate-python
+name: CI Python 3.10
+
 on: [push, pull_request]
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   run:
-    runs-on: ubuntu-latest
+    name: py3.10-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout
@@ -13,7 +24,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v5.3.0
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -25,16 +36,31 @@ jobs:
 
       - name: Install dependencies
         run: |
-          source .venv/bin/activate
           uv pip install numba numpy
           uv pip install -r test_requirements.txt
+          uv pip install -e .
 
       - name: Run tests and collect coverage
-        run: |
-          source .venv/bin/activate
-          pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+        run: uv run pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Build wheel
+        run: |
+          uv pip install build
+          uv run python -m build --wheel --outdir dist
+
+      - name: Verify built wheel import
+        run: |
+          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run python -c "import easyclimate as ecl; print(ecl.__version__)"
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py310-${{ matrix.os }}-wheel
+          path: dist/*.whl
+          if-no-files-found: error
