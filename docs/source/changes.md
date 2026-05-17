@@ -7,6 +7,8 @@
 
 - Officially support macOS system (easyclimate-backend >= 2026.5.3, easyclimate-rust >= 2026.5.2).
 - seperate Module `integral` & `rvdv` from `diff`: [refactor: integral & rvdv](https://github.com/shenyulu/easyclimate/pull/116/commits/a1d3f9b45b4b345909c0d6191d6e4a917469aefe).
+- [fix: multiple variable linear regression](https://github.com/shenyulu/easyclimate/pull/116/commits/86476ef9981ee457cd993cb64e91724e18725312)
+- Taylor diagram Update: [feat: add external use & x,y_tickerlabel_pad](https://github.com/shenyulu/easyclimate/pull/116/commits/f21cb69ce79f32334d8ef4cf83cbb7178a9713bd)
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2026.4.0...v2026.5.0
 
