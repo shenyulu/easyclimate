@@ -6,7 +6,6 @@ from __future__ import annotations
 import xarray as xr
 import numpy as np
 import gsw_xarray
-from ...core.diff import calc_gradient, calc_u_advection, calc_v_advection
 from oceans import ocfis
 
 
@@ -209,6 +208,8 @@ def calc_MLD_temper_tendency(
 
         ./dynamic_docs/plot_ocean_mix_layer.py
     """
+    from ...core.diff import calc_gradient
+
     # Use `xarray.broadcast_to` to extend the dimensionality of the mixed layer depth data by one dimension to correspond to the depth dimension of `seawater_temperature_anomaly_data`
     mld_expanded = xr.broadcast(mixed_layer_depth, seawater_temperature_anomaly_data)[0]
 
@@ -439,6 +440,8 @@ def calc_MLD_average_horizontal_advection(
 
         ./dynamic_docs/plot_ocean_mix_layer.py
     """
+    from ...core.advection import calc_u_advection, calc_v_advection
+
     # Calculate $u \frac{\partial T}{\partial x}$
     u_advection = (
         calc_u_advection(
@@ -514,6 +517,8 @@ def calc_MLD_average_vertical_advection(
 
         ./dynamic_docs/plot_ocean_mix_layer.py
     """
+    from ...core.diff import calc_gradient
+
     # Calculate $w \frac{\partial T}{\partial z}$
     w_advection = (
         w_monthly_data

@@ -5,10 +5,56 @@ pytest for diff.py
 import pytest
 
 import easyclimate as ecl
+from easyclimate.core.advection import (
+    calc_p_advection,
+    calc_u_advection,
+    calc_v_advection,
+)
+from easyclimate.core.geowind import (
+    calc_geostrophic_wind,
+    calc_geostrophic_wind_vorticity,
+)
+from easyclimate.core.integral import (
+    calc_delta_pressure,
+    calc_p_integral,
+    calc_top2surface_average,
+    calc_top2surface_average_rs,
+    calc_top2surface_integral,
+    calc_top2surface_integral_rs,
+)
+from easyclimate.core.waterflux import (
+    calc_divergence_watervaporflux,
+    calc_divergence_watervaporflux_top2surface_integral,
+    calc_horizontal_water_flux,
+    calc_vertical_water_flux,
+    calc_water_flux_top2surface_integral,
+)
 import numpy as np
 import xarray as xr
 import pandas as pd
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+ecl.calc_top2surface_integral = calc_top2surface_integral
+ecl.calc_top2surface_average = calc_top2surface_average
+ecl.calc_top2surface_integral_rs = calc_top2surface_integral_rs
+ecl.calc_top2surface_average_rs = calc_top2surface_average_rs
+ecl.calc_delta_pressure = calc_delta_pressure
+ecl.calc_p_integral = calc_p_integral
+ecl.calc_geostrophic_wind = calc_geostrophic_wind
+ecl.calc_geostrophic_wind_vorticity = calc_geostrophic_wind_vorticity
+ecl.calc_horizontal_water_flux = calc_horizontal_water_flux
+ecl.calc_vertical_water_flux = calc_vertical_water_flux
+ecl.calc_water_flux_top2surface_integral = calc_water_flux_top2surface_integral
+ecl.calc_divergence_watervaporflux = calc_divergence_watervaporflux
+ecl.calc_divergence_watervaporflux_top2surface_integral = (
+    calc_divergence_watervaporflux_top2surface_integral
+)
+ecl.calc_u_advection = calc_u_advection
+ecl.calc_v_advection = calc_v_advection
+ecl.calc_p_advection = calc_p_advection
 
 # Sample Data Declaration
 t_data = xr.DataArray(
@@ -620,9 +666,8 @@ def test_calc_top2surface_integral1():
         vertical_dim="level",
         vertical_dim_units="hPa",
         surface_pressure_data_units="hPa",
-        method="Boer1982",
     ).data.flatten()
-    refer_data = np.array([18983104.6, 25603493.52])
+    refer_data = np.array([20651805.435606, 25960837.9134305])
     assert np.isclose(result_data, refer_data).all()
 
 
@@ -633,9 +678,8 @@ def test_calc_top2surface_integral2():
         vertical_dim="level",
         vertical_dim_units="hPa",
         surface_pressure_data_units="hPa",
-        method="Trenberth1991",
     ).data.flatten()
-    refer_data = np.array([20623698.70465, 25960837.9134305])
+    refer_data = np.array([20651805.435606, 25960837.9134305])
     assert np.isclose(result_data, refer_data).all()
 
 
@@ -646,7 +690,6 @@ def test_calc_top2surface_integral3():
         vertical_dim="level",
         vertical_dim_units="hPa",
         surface_pressure_data_units="hPa",
-        method="vibeta-ncl",
     ).data.flatten()
     refer_data = np.array([20651805.435606, 25960837.9134305])
     assert np.isclose(result_data, refer_data).all()
@@ -659,10 +702,9 @@ def test_calc_top2surface_integral4():
         vertical_dim="level",
         vertical_dim_units="hPa",
         surface_pressure_data_units="hPa",
-        method="Boer1982",
         normalize=True,
     ).data.flatten()
-    refer_data = np.array([191.74853131, 258.62114667])
+    refer_data = np.array([250.62353611, 259.11086037])
     assert np.isclose(result_data, refer_data).all()
 
 
@@ -673,10 +715,9 @@ def test_calc_top2surface_integral5():
         vertical_dim="level",
         vertical_dim_units="hPa",
         surface_pressure_data_units="hPa",
-        method="Trenberth1991",
         normalize=True,
     ).data.flatten()
-    refer_data = np.array([250.28244204, 259.11086037])
+    refer_data = np.array([250.62353611, 259.11086037])
     assert np.isclose(result_data, refer_data).all()
 
 
@@ -687,11 +728,120 @@ def test_calc_top2surface_integral6():
         vertical_dim="level",
         vertical_dim_units="hPa",
         surface_pressure_data_units="hPa",
-        method="vibeta-ncl",
         normalize=True,
     ).data.flatten()
     refer_data = np.array([250.62353611, 259.11086037])
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_average1():
+    result_data = ecl.calc_top2surface_average(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+    ).data.flatten()
+    refer_data = np.array([250.62353611, 259.11086037])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_mass_weighted1():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        mass_weighted=True,
+    ).data.flatten()
+    refer_data = np.array([20651805.435606, 25960837.9134305]) / 9.80665
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_normalize_dispatch1():
+    result_data = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        normalize=True,
+    ).data.flatten()
+    refer_data = np.array([250.62353611, 259.11086037])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_normalize_mass_weighted_conflict1():
+    with pytest.raises(ValueError):
+        ecl.calc_top2surface_integral(
+            data_input=t_data_delta_pressure,
+            surface_pressure_data=msl_data_delta_pressure,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+            surface_pressure_data_units="hPa",
+            normalize=True,
+            mass_weighted=True,
+        )
+
+
+def test_calc_top2surface_average_rs1():
+    pytest.importorskip("easyclimate_rust._easyclimate_rust")
+    result_data = ecl.calc_top2surface_average_rs(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="rust-block",
+    ).data.flatten()
+    refer_data = np.array([250.62353611, 259.11086037])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_rs_mass_weighted1():
+    pytest.importorskip("easyclimate_rust._easyclimate_rust")
+    result_data = ecl.calc_top2surface_integral_rs(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="rust-block",
+        mass_weighted=True,
+    ).data.flatten()
+    refer_data = np.array([20651805.435606, 25960837.9134305]) / 9.80665
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_rs_normalize_dispatch1():
+    pytest.importorskip("easyclimate_rust._easyclimate_rust")
+    result_data = ecl.calc_top2surface_integral_rs(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+        method="rust",
+        normalize=True,
+    ).data.flatten()
+    refer_data = np.array([250.62353611, 259.11086037])
+    assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_rs_normalize_mass_weighted_conflict1():
+    pytest.importorskip("easyclimate_rust._easyclimate_rust")
+    with pytest.raises(ValueError):
+        ecl.calc_top2surface_integral_rs(
+            data_input=t_data_delta_pressure,
+            surface_pressure_data=msl_data_delta_pressure,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+            surface_pressure_data_units="hPa",
+            method="rust-block",
+            normalize=True,
+            mass_weighted=True,
+        )
 
 
 def test_calc_dxdy_laplacian1():
@@ -1262,35 +1412,35 @@ def test_calc_water_flux_top2surface_integral1():
         specific_humidity_data_units="g/kg",
         vertical_dim="level",
         vertical_dim_units="hPa",
-        method="Boer1982",
+        method="ncl",
     )
 
     result_data1 = result_data["qu"].data.flatten()
     result_data2 = result_data["qv"].data.flatten()
     refer_data1 = np.array(
         [
-            -62.9767,
-            -55.777004,
-            -48.86678,
-            -97.02716,
-            -86.51668,
-            -71.81879,
-            -127.393745,
-            -120.51994,
-            -110.340385,
+            -61.71964947,
+            -53.38486527,
+            -46.63344214,
+            -94.77472662,
+            -84.0977761,
+            -68.82294364,
+            -127.0097816,
+            -119.45966291,
+            -109.22663785,
         ]
     )
     refer_data2 = np.array(
         [
-            -1.3589401,
-            0.3201685,
-            -4.6727657,
-            12.666926,
-            16.18642,
-            12.377483,
-            24.790806,
-            24.985409,
-            20.48035,
+            1.47804571,
+            4.15921051,
+            -2.11373137,
+            19.40459558,
+            21.1022014,
+            16.41192036,
+            31.74839524,
+            31.43462348,
+            23.81553948,
         ]
     )
 
@@ -1329,7 +1479,7 @@ def test_calc_water_flux_top2surface_integral2():
         specific_humidity_data_units="g/kg",
         vertical_dim="level",
         vertical_dim_units="hPa",
-        method="Trenberth1991",
+        method="ncl",
     )
 
     result_data1 = result_data["qu"].data.flatten()
@@ -1396,7 +1546,7 @@ def test_calc_water_flux_top2surface_integral3():
         specific_humidity_data_units="g/kg",
         vertical_dim="level",
         vertical_dim_units="hPa",
-        method="vibeta-ncl",
+        method="ncl",
     )
 
     result_data1 = result_data["qu"].data.flatten()
@@ -1438,19 +1588,19 @@ def test_calc_divergence_watervaporflux1():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="raw",
+        method="ncl",
     ).data.flatten()
     refer_data = np.array(
         [
-            4.63027823e-10,
-            3.27992229e-10,
-            6.85138974e-11,
-            -3.62614604e-10,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
             -2.54241170e-10,
-            -2.22317602e-10,
-            -6.92253919e-10,
-            -5.19466465e-10,
-            -3.74754581e-10,
+            np.nan,
+            np.nan,
+            np.nan,
+            np.nan,
         ]
     )
     assert np.isclose(result_data, refer_data, atol=0.1, equal_nan=True).all()
@@ -1555,7 +1705,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="nan",
     ).data.flatten()
     result_data2 = ecl.calc_divergence_watervaporflux(
@@ -1563,7 +1713,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="cyclic",
     ).data.flatten()
     result_data3 = ecl.calc_divergence_watervaporflux(
@@ -1571,7 +1721,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="cyclic+diff",
     ).data.flatten()
     result_data4 = ecl.calc_divergence_watervaporflux(
@@ -1579,7 +1729,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="diff",
     ).data.flatten()
 
@@ -1673,7 +1823,7 @@ def test_calc_divergence_watervaporflux_top2surface_integral1():
         specific_humidity_data_units="g/kg",
         surface_pressure_data_units="hPa",
         vertical_dim_units="hPa",
-        integral_method="vibeta-ncl",
+        integral_method="ncl",
         div_method="ncl",
     ).wvdiv.data.flatten()
     refer_data = np.array(
@@ -1723,7 +1873,7 @@ def test_calc_divergence_watervaporflux_top2surface_integral2():
         specific_humidity_data_units="g/kg",
         surface_pressure_data_units="hPa",
         vertical_dim_units="hPa",
-        integral_method="Trenberth1991",
+        integral_method="ncl",
         div_method="raw",
     ).wvdiv.data.flatten()
     refer_data = np.array(

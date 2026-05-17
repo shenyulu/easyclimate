@@ -7,13 +7,11 @@ matplotlib
 pandas >= 2.2.0
 fast-barnes-py
 oceans
-intel-fortran-rt
-dpcpp-cpp-rt
 scipy >=1.8.0
 statsmodels
 geocat-comp
-easyclimate-backend >= 2025.12.1
-easyclimate-rust >= 2026.1.0
+easyclimate-backend >= 2026.5.3
+easyclimate-rust >= 2026.5.2
 dask
 pymannkendall
 flox

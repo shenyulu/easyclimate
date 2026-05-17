@@ -153,3 +153,32 @@ def test_p_values_range():
 
     assert (result.slopes_p >= 0).all() and (result.slopes_p <= 1).all()
     assert (result.intercept_p >= 0).all() and (result.intercept_p <= 1).all()
+
+
+def test_missing_values_are_skipped_per_grid_point():
+    """Test that NaNs in y or predictors do not make lstsq fail."""
+    time = np.arange(8)
+    lat = np.arange(2)
+
+    x1_values = np.tile(time[:, None], (1, 2)).astype(float)
+    x2_values = np.tile((time[:, None] ** 2), (1, 2)).astype(float)
+    y_values = 2 * x1_values - 0.5 * x2_values + 4
+
+    y_values[0, 0] = np.nan
+    x1_values[1, 0] = np.nan
+    x2_values[:, 1] = np.nan
+
+    x1 = xr.DataArray(
+        x1_values, dims=("time", "lat"), coords={"time": time, "lat": lat}
+    )
+    x2 = xr.DataArray(
+        x2_values, dims=("time", "lat"), coords={"time": time, "lat": lat}
+    )
+    y = xr.DataArray(y_values, dims=("time", "lat"), coords={"time": time, "lat": lat})
+
+    result = calc_multiple_linear_regression_spatial(y, [x1, x2])
+
+    np.testing.assert_allclose(result.slopes.sel(lat=0), [2, -0.5], atol=1e-12)
+    np.testing.assert_allclose(result.intercept.sel(lat=0), 4, atol=1e-12)
+    assert np.isnan(result.slopes.sel(lat=1)).all()
+    assert np.isnan(result.intercept.sel(lat=1))

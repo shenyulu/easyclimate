@@ -14,55 +14,66 @@ from easyclimate.core.eddy import (
     calc_TN_wave_activity_horizontal_flux,
 )
 
+
+def _open_tutorial_dataset_or_skip(*args, **kwargs):
+    try:
+        return ecl.open_tutorial_dataset(*args, **kwargs)
+    except Exception as exc:
+        pytest.skip(
+            f"tutorial dataset is unavailable: {exc}",
+            allow_module_level=True,
+        )
+
+
 time_coder = xr.coders.CFDatetimeCoder(use_cftime=True)
 
 uwnd_daily = (
-    ecl.open_tutorial_dataset("uwnd_2022_day5")
+    _open_tutorial_dataset_or_skip("uwnd_2022_day5")
     .uwnd.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 z_daily = (
-    ecl.open_tutorial_dataset("hgt_2022_day5")
+    _open_tutorial_dataset_or_skip("hgt_2022_day5")
     .hgt.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 temp_daily = (
-    ecl.open_tutorial_dataset("air_2022_day5")
+    _open_tutorial_dataset_or_skip("air_2022_day5")
     .air.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 vwnd_daily = (
-    ecl.open_tutorial_dataset("vwnd_2022_day5")
+    _open_tutorial_dataset_or_skip("vwnd_2022_day5")
     .vwnd.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 omega_daily = (
-    ecl.open_tutorial_dataset("omega_2022_day5")
+    _open_tutorial_dataset_or_skip("omega_2022_day5")
     .omega.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 q_daily = (
-    ecl.open_tutorial_dataset("shum_2022_day5")
+    _open_tutorial_dataset_or_skip("shum_2022_day5")
     .shum.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 
 z_climate_data = (
-    ecl.open_tutorial_dataset(
+    _open_tutorial_dataset_or_skip(
         "hgt_day_ltm_1991_2020_0to6day.nc", decode_times=time_coder
     )
     .hgt.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 u_climate_data = (
-    ecl.open_tutorial_dataset(
+    _open_tutorial_dataset_or_skip(
         "uwnd_day_ltm_1991_2020_0to6day.nc", decode_times=time_coder
     )
     .uwnd.sortby("lat")
     .sel(lon=slice(100, 110), lat=slice(20, 30))
 )
 v_climate_data = (
-    ecl.open_tutorial_dataset(
+    _open_tutorial_dataset_or_skip(
         "vwnd_day_ltm_1991_2020_0to6day.nc", decode_times=time_coder
     )
     .vwnd.sortby("lat")
@@ -325,12 +336,12 @@ def test_calc_apparent_moisture_sink():
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
 def test_calc_TN_wave_activity_horizontal_flux():
     z500_prime_data = (
-        ecl.open_tutorial_dataset("era5_daily_z500_prime_201411_N15.nc").z / 9.8
+        _open_tutorial_dataset_or_skip("era5_daily_z500_prime_201411_N15.nc").z / 9.8
     )
-    u500_climatology_data = ecl.open_tutorial_dataset(
+    u500_climatology_data = _open_tutorial_dataset_or_skip(
         "era5_ymean_monthly_u500_199101_202012_N15.nc"
     ).u
-    v500_climatology_data = ecl.open_tutorial_dataset(
+    v500_climatology_data = _open_tutorial_dataset_or_skip(
         "era5_ymean_monthly_v500_199101_202012_N15.nc"
     ).v
 
@@ -435,7 +446,7 @@ def test_calc_EP_horizontal_flux():
 @pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
 def test_calc_Plumb_wave_activity_horizontal_flux():
     z500_prime_data = (
-        ecl.open_tutorial_dataset("era5_daily_z500_prime_201411_N15.nc").z / 9.8
+        _open_tutorial_dataset_or_skip("era5_daily_z500_prime_201411_N15.nc").z / 9.8
     )
 
     pwaf_result = calc_Plumb_wave_activity_horizontal_flux(

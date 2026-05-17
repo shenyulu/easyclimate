@@ -1,4 +1,6 @@
-""" """
+"""
+Divergence and Vorticity
+"""
 
 import xarray as xr
 import numpy as np
@@ -27,6 +29,41 @@ __all__ = [
 ]
 
 
+def _apply_rvdv_boundary_setting(
+    data: xr.DataArray,
+    lat_dim: str,
+    lon_dim: str,
+    cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"],
+) -> xr.DataArray:
+    match cyclic_boundary_setting:
+        case "diff":
+            return data
+        case "nan":
+            result = data.copy()
+            result[{lat_dim: 0}] = np.nan
+            result[{lat_dim: -1}] = np.nan
+            result[{lon_dim: 0}] = np.nan
+            result[{lon_dim: -1}] = np.nan
+            return result
+        case "cyclic":
+            result = data.copy()
+            result[{lat_dim: 0}] = np.nan
+            result[{lat_dim: -1}] = np.nan
+            return result
+        case "cyclic+diff":
+            result = data.copy()
+            result[{lat_dim: 0, lon_dim: 0}] = np.nan
+            result[{lat_dim: 0, lon_dim: -1}] = np.nan
+            result[{lat_dim: -1, lon_dim: 0}] = np.nan
+            result[{lat_dim: -1, lon_dim: -1}] = np.nan
+            return result
+        case _:
+            raise ValueError(
+                "cyclic_boundary_setting must be one of "
+                "'nan', 'cyclic', 'cyclic+diff', or 'diff'."
+            )
+
+
 def calc_divergence_rs(
     u_data: xr.DataArray,
     v_data: xr.DataArray,
@@ -34,7 +71,7 @@ def calc_divergence_rs(
     lat_dim: str = "lat",
     R: float = 6.37122e6,
     cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
-    method: Literal["rust_batch", "rust_raw"] = "rust_batch",
+    method: Literal["rust-batch", "rust-raw"] = "rust-batch",
 ) -> xr.DataArray:
     """
     Calculate the horizontal divergence term using the Rust backend.
@@ -61,9 +98,9 @@ def calc_divergence_rs(
         - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
         - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
         - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
-    method: {`rust_batch`, `rust_raw`}, default: `rust_batch`.
-        Rust execution mode. ``rust_batch`` uses the batched backend function,
-        while ``rust_raw`` loops over non-core dimensions and calls the raw backend.
+    method: {"rust-batch", "rust-raw"}, default: "rust-batch".
+        Rust execution mode. ``rust-batch`` uses the batched backend function,
+        while ``rust-raw`` loops over non-core dimensions and calls the raw backend.
 
     Returns
     -------
@@ -166,7 +203,7 @@ def calc_divergence_rs(
 
         return dv_out
 
-    if method == "rust_batch":
+    if method == "rust-batch":
         div = xr.apply_ufunc(
             _core_batch,
             u_trans,
@@ -191,7 +228,7 @@ def calc_divergence_rs(
         )
         div = div.transpose(*u_data.dims)
 
-    elif method == "rust_raw":
+    elif method == "rust-raw":
         div = xr.apply_ufunc(
             _core,
             u_trans,
@@ -216,6 +253,11 @@ def calc_divergence_rs(
         )
         div = div.transpose(*u_data.dims)
 
+    else:
+        raise ValueError(
+            "Invalid method specified, the method should be one of 'rust-batch' or 'rust-raw'."
+        )
+
     div.name = "divergence"
     div.attrs["long_name"] = "divergence"
     div.attrs["units"] = "s^-1"
@@ -229,7 +271,7 @@ def calc_vorticity_rs(
     lat_dim: str = "lat",
     R: float = 6.37122e6,
     cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
-    method: Literal["rust_batch", "rust_raw"] = "rust_batch",
+    method: Literal["rust-batch", "rust-raw"] = "rust-batch",
 ) -> xr.DataArray:
     """
     Calculate the horizontal relative vorticity term using the Rust backend.
@@ -256,9 +298,9 @@ def calc_vorticity_rs(
         - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
         - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
         - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
-    method: {`rust_batch`, `rust_raw`}, default: `rust_batch`.
-        Rust execution mode. ``rust_batch`` uses the batched backend function,
-        while ``rust_raw`` loops over non-core dimensions and calls the raw backend.
+    method: {"rust-batch", "rust-raw"}, default: `rust-batch`.
+        Rust execution mode. ``rust-batch`` uses the batched backend function,
+        while ``rust-raw`` loops over non-core dimensions and calls the raw backend.
 
     Returns
     -------
@@ -351,7 +393,7 @@ def calc_vorticity_rs(
 
         return rv_out
 
-    if method == "rust_batch":
+    if method == "rust-batch":
         rv = xr.apply_ufunc(
             _core_batch,
             u_trans,
@@ -376,7 +418,7 @@ def calc_vorticity_rs(
         )
         rv = rv.transpose(*u_data.dims)
 
-    elif method == "rust_raw":
+    elif method == "rust-raw":
         rv = xr.apply_ufunc(
             _core,
             u_trans,
@@ -401,6 +443,11 @@ def calc_vorticity_rs(
         )
         rv = rv.transpose(*u_data.dims)
 
+    else:
+        raise ValueError(
+            "Invalid method specified, the method should be one of 'rust-batch' or 'rust-raw'."
+        )
+
     rv.name = "relative_vorticity"
     rv.attrs["long_name"] = "relative_vorticity"
     rv.attrs["units"] = "s^-1"
@@ -419,6 +466,11 @@ def calc_divergence_ncl(
 
     This function wraps the NCL-style finite-difference implementation and keeps
     the input dimension order unchanged in the returned result.
+
+    .. note::
+
+        The R values in the NCL-compatible backend are fixed to 6371220.0 meters, which is the radius of the Earth.
+        The NCL-style implementation assumes a spherical Earth and does not allow for a user-specified radius.
 
     Parameters
     ----------
@@ -571,6 +623,11 @@ def calc_vorticity_ncl(
     This function wraps the NCL-style finite-difference implementation and keeps
     the input dimension order unchanged in the returned result.
 
+    .. note::
+
+        The R values in the NCL-compatible backend are fixed to 6371220.0 meters, which is the radius of the Earth.
+        The NCL-style implementation assumes a spherical Earth and does not allow for a user-specified radius.
+
     Parameters
     ----------
     u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
@@ -710,7 +767,8 @@ def calc_divergence(
     lon_dim: str = "lon",
     lat_dim: str = "lat",
     R: float = 6.37122e6,
-    spherical_coord=True,
+    spherical_coord: bool = True,
+    cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "diff",
 ) -> xr.DataArray:
     """
     Calculate the horizontal divergence term.
@@ -735,10 +793,14 @@ def calc_divergence(
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float <float>`, default: `6371200.0`.
+    R: :py:class:`float <float>`, default: `6.37122e6`.
         Radius of the Earth.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
+    cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `diff`.
+        Boundary behavior matching :py:func:`calc_divergence_rs`. The default
+        keeps finite values at all boundaries, matching the historical raw
+        function behavior most closely.
 
     Returns
     -------
@@ -768,6 +830,15 @@ def calc_divergence(
         div = dudx + dvdy - term3
     elif spherical_coord == False:
         div = dudx + dvdy
+    else:
+        raise ValueError("The parameter `spherical_coord` should be `True` or `False`.")
+
+    div = _apply_rvdv_boundary_setting(
+        div,
+        lat_dim=lat_dim,
+        lon_dim=lon_dim,
+        cyclic_boundary_setting=cyclic_boundary_setting,
+    )
 
     div.name = "divergence"
     div.attrs["long_name"] = "divergence"
@@ -782,6 +853,7 @@ def calc_vorticity(
     lat_dim: str = "lat",
     R: float = 6.37122e6,
     spherical_coord: bool = True,
+    cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "diff",
 ) -> xr.DataArray:
     """
     Calculate the horizontal relative vorticity term.
@@ -810,6 +882,10 @@ def calc_vorticity(
         Radius of the Earth.
     spherical_coord: :py:class:`bool<bool>`, default: `True`.
         Whether or not to compute the horizontal Laplace term in spherical coordinates.
+    cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `diff`.
+        Boundary behavior matching :py:func:`calc_vorticity_rs`. The default
+        keeps finite values at all boundaries, matching the historical raw
+        function behavior most closely.
 
     Returns
     -------
@@ -838,6 +914,15 @@ def calc_vorticity(
         vor = dvdx - dudy + term3
     elif spherical_coord == False:
         vor = dvdx - dudy
+    else:
+        raise ValueError("The parameter `spherical_coord` should be `True` or `False`.")
+
+    vor = _apply_rvdv_boundary_setting(
+        vor,
+        lat_dim=lat_dim,
+        lon_dim=lon_dim,
+        cyclic_boundary_setting=cyclic_boundary_setting,
+    )
 
     vor.name = "relative_vorticity"
     vor.attrs["long_name"] = "relative_vorticity"

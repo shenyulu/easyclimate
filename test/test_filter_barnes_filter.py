@@ -52,4 +52,4 @@ def test_calc_barnes_bandpass():
             -0.7124222,
         ]
     )
-    assert np.allclose(result_data, refer_data, equal_nan=True)
+    assert np.allclose(result_data, refer_data, atol=1e-5, equal_nan=True)

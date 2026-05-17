@@ -1,10 +1,77 @@
 import platform
+import os
+import site
 import warnings
 import sys
+from pathlib import Path
 
 
 # Detect the current operating system
 CURRENT_PLATFORM = platform.system()
+SUPPORTED_BACKEND_PLATFORMS = ("Windows", "Linux", "Darwin")
+
+_WINDOWS_DLL_DIRECTORY_HANDLES = []
+
+
+def _register_windows_dll_directories():
+    if CURRENT_PLATFORM != "Windows" or not hasattr(os, "add_dll_directory"):
+        return
+
+    candidate_dirs = []
+    prefixes = [
+        sys.prefix,
+        sys.base_prefix,
+        os.environ.get("CONDA_PREFIX"),
+    ]
+    for prefix in prefixes:
+        if prefix:
+            candidate_dirs.append(Path(prefix) / "Library" / "bin")
+
+    site_dirs = []
+    try:
+        site_dirs.extend(site.getsitepackages())
+    except AttributeError:
+        pass
+    try:
+        site_dirs.append(site.getusersitepackages())
+    except AttributeError:
+        pass
+
+    for site_dir in site_dirs:
+        site_path = Path(site_dir)
+        candidate_dirs.extend(
+            [
+                site_path / "easyclimate_backend.libs",
+                site_path / "easyclimate_backend" / ".libs",
+                site_path / "Library" / "bin",
+            ]
+        )
+
+    oneapi_root = os.environ.get("ONEAPI_ROOT")
+    if oneapi_root:
+        candidate_dirs.append(Path(oneapi_root) / "compiler" / "latest" / "bin")
+
+    program_files_x86 = os.environ.get("ProgramFiles(x86)")
+    if program_files_x86:
+        candidate_dirs.append(
+            Path(program_files_x86) / "Intel" / "oneAPI" / "compiler" / "latest" / "bin"
+        )
+
+    seen = set()
+    for candidate_dir in candidate_dirs:
+        candidate_dir = candidate_dir.resolve()
+        if candidate_dir in seen or not candidate_dir.is_dir():
+            continue
+        seen.add(candidate_dir)
+        try:
+            _WINDOWS_DLL_DIRECTORY_HANDLES.append(
+                os.add_dll_directory(str(candidate_dir))
+            )
+        except OSError:
+            pass
+
+
+_register_windows_dll_directories()
 
 # --------------------------------------------
 # Easyclimate-backend Initialize variables
@@ -30,6 +97,9 @@ dvrfidf_rs = None
 ddvfidf_rs = None
 dvrfidf_batch_rs = None
 ddvfidf_batch_rs = None
+dvibeta_rs = None
+dvibeta_batch = None
+dvibeta_batch_sum_norm = None
 barnes_numba = None
 barnes_rs = None
 barnes_S2_numba = None
@@ -195,6 +265,7 @@ get_cached_item = None
 # --------------------------------------------
 # Easyclimate-rust Initialize variables
 # --------------------------------------------
+RUST_AVAILABLE = False
 calc_wet_bulb_temperature_rs = None
 calc_sphere_laplacian_numpy_rs = None
 calc_sphere_laplacian_conservative_numpy_rs = None
@@ -234,27 +305,44 @@ except ImportError as e:
         raise ImportError("wavelet is not available due to import failure")
 
 
-# Attempt to import platform-specific functions only on Windows and Linux
-if CURRENT_PLATFORM in ("Windows", "Linux"):
+def _warn_backend_import(module_name, exc):
+    warnings.warn(
+        f"Failed to import {module_name}: {exc}. Related functionality will be disabled.",
+        ImportWarning,
+    )
+    print(f"Detailed import error for {module_name}: {exc}", file=sys.stderr)
+
+
+# Attempt to import platform-specific functions on supported platforms
+if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     try:
-        # print(
-        #     f"Attempting to import easyclimate-backend modules on {CURRENT_PLATFORM}...",
-        #     file=sys.stderr,
-        # )
-
-        # Import basic modules
         from easyclimate_backend.pyspharm import spharm
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.pyspharm", e)
 
+    try:
         from easyclimate_backend.windspharm.xarray import VectorWind
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.windspharm.xarray", e)
 
+    try:
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_noskin as aeronoskin
         from easyclimate_backend.aerobulk import mod_aerobulk_wrap_skin as aeroskin
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.aerobulk", e)
 
+    try:
         from easyclimate_backend.heat_stress import human_index_mod, human_index_mod_old
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.heat_stress", e)
 
+    try:
         from easyclimate_backend.redfit import _ecl_redfit
         from easyclimate_backend.redfit import _ecl_redfit_x
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.redfit", e)
 
+    try:
         from easyclimate_backend.vinth2p._vinth2p_dp import vinth2p as _vinth2p_dp
         from easyclimate_backend.vinth2p._vinth2p_ecmwf import (
             vinth2pecmwf as _vinth2p_ecmwf,
@@ -262,26 +350,44 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
         from easyclimate_backend.vinth2p._vintp2p_ecmwf import (
             vintp2pecmwf as _vintp2p_ecmwf,
         )
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.vinth2p", e)
 
+    try:
         from easyclimate_backend.vibeta._vibeta_dp import dvibeta as dvibeta_ncl
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.vibeta", e)
+
+    try:
         from easyclimate_backend.rvdv._rvdv import (
             ddvfidf as ddvfidf_ncl,
             dvrfidf as dvrfidf_ncl,
         )
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.rvdv", e)
 
+    try:
         from easyclimate_backend.wet_bulb import _wet_bulb_temperature
+    except Exception as e:
+        _warn_backend_import("easyclimate_backend.wet_bulb", e)
 
-        # print(
-        #     "Successfully imported basic easyclimate-backend modules", file=sys.stderr
-        # )
-
-    except ImportError as e:
+    if (
+        spharm is None
+        and VectorWind is None
+        and aeronoskin is None
+        and aeroskin is None
+        and human_index_mod is None
+        and _ecl_redfit is None
+        and _vinth2p_dp is None
+        and dvibeta_ncl is None
+        and ddvfidf_ncl is None
+        and _wet_bulb_temperature is None
+    ):
         warnings.warn(
-            f"Failed to import basic easyclimate-backend modules: {e}. Some functionality will be disabled.",
+            f"Failed to import all easyclimate-backend platform modules on {CURRENT_PLATFORM}. "
+            "Check that easyclimate-backend is installed with compatible binary dependencies.",
             ImportWarning,
         )
-        # Record detailed error information to stderr
-        print(f"Detailed import error for basic modules: {e}", file=sys.stderr)
 
     # Attempt to import WRF-related modules - handle separately, as WRF may have additional dependencies
     try:
@@ -483,7 +589,7 @@ if interplevel is None:
     interplevel = _dummy_function
 
 # Print the summary of the import status
-if CURRENT_PLATFORM in ("Windows", "Linux"):
+if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     if all(func is not None for func in [spharm, VectorWind, getvar]):
         # print("easyclimate-backend modules imported successfully", file=sys.stderr)
         pass
@@ -494,8 +600,8 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
 # Easyclimate-rust Import
 # --------------------------------------------
 
-# Attempt to import platform-specific functions only on Windows and Linux
-if CURRENT_PLATFORM in ("Windows", "Linux"):
+# Attempt to import platform-specific functions on supported platforms
+if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
     try:
         # print(
         #     f"Attempting to import easyclimate-rust modules on {CURRENT_PLATFORM}...",
@@ -564,6 +670,13 @@ if CURRENT_PLATFORM in ("Windows", "Linux"):
             dvrfidf as dvrfidf_rs,
             ddvfidf_batch as ddvfidf_batch_rs,
             dvrfidf_batch as dvrfidf_batch_rs,
+        )
+
+        # vibeta
+        from easyclimate_rust._easyclimate_rust import (
+            dvibeta as dvibeta_rs,
+            dvibeta_batch,
+            dvibeta_batch_sum_norm,
         )
 
         # print(

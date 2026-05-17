@@ -186,3 +186,49 @@ ecl.plot.draw_TaylorDiagrams_metadata(
     point_label_yoffset=[0.05, 0, 0.05],
     point_label_xoffset=[0.1, 0, 0],
 )
+
+# %%
+# Modify Plotted Points
+# ------------------------------------
+# :py:func:`easyclimate.plot.draw_TaylorDiagrams_metadata <easyclimate.plot.draw_TaylorDiagrams_metadata>` returns
+# a dictionary of plotted point and label artists. These artists can be modified after calling the plotting function.
+
+fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
+
+ecl.plot.draw_TaylorDiagrams_base(ax=ax, std_max=2.5)
+
+plot_result1 = ecl.plot.draw_TaylorDiagrams_metadata(
+    taylordiagrams_metadata,
+    ax=ax,
+    cc="cc",
+    std="std",
+)
+
+items = taylordiagrams_metadata["item"].to_list()
+for i in range(1, 3):
+    point = plot_result1[items[i]]["point"]
+    point.set_marker(f"${i}$")
+    point.set_color("r")
+
+# %%
+# Spacing of Axis Labels
+# ------------------------------------
+# The parameters `x_label_pad`, `x_tickerlabel_pad`, and `y_tickerlabel_pad` can adjust
+# the spacing of the horizontal axis label, horizontal axis tick labels, and vertical axis tick labels.
+
+fig, ax = plt.subplots(figsize=(9, 10), subplot_kw={"projection": "polar"})
+
+ecl.plot.draw_TaylorDiagrams_base(
+    ax=ax,
+    std_max=2.5,
+    x_label_pad=0.45,
+    x_tickerlabel_pad=20,
+    y_tickerlabel_pad=50,
+)
+
+ecl.plot.draw_TaylorDiagrams_metadata(
+    taylordiagrams_metadata,
+    ax=ax,
+    cc="cc",
+    std="std",
+)
