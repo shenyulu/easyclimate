@@ -518,6 +518,12 @@ def calc_multiple_linear_regression_spatial(
     ValueError
         If the time coordinates of input variables don't match.
 
+    Notes
+    -----
+    NaN and Inf values are omitted independently at each spatial point. If the
+    remaining samples are insufficient for the requested predictors, the
+    corresponding regression results are returned as NaN.
+
     .. minigallery::
         :add-heading: Example(s) related to the function
 
@@ -552,8 +558,21 @@ def calc_multiple_linear_regression_spatial(
         The R-squared value is calculated as 1 - (SS_res / SS_tot).
         Standard errors and p-values are computed using the residual mean squared error.
         """
-        n_obs = len(y)
         n_vars = len(x_vars)
+
+        # OLS cannot handle NaN or Inf values. Drop incomplete time steps for
+        # each vectorized spatial point before solving the local regression.
+        finite_mask = np.isfinite(y)
+        for x in x_vars:
+            finite_mask &= np.isfinite(x)
+
+        y = y[finite_mask]
+        x_vars = tuple(x[finite_mask] for x in x_vars)
+        n_obs = len(y)
+
+        empty_slopes = np.full(n_vars, np.nan, dtype=float)
+        if n_obs <= n_vars:
+            return empty_slopes, np.nan, np.nan, empty_slopes.copy(), np.nan
 
         # Stack the independent variables into a matrix (n_time, n_vars)
         x_matrix = np.column_stack(x_vars)
@@ -562,7 +581,13 @@ def calc_multiple_linear_regression_spatial(
         x_matrix = np.column_stack([x_matrix, np.ones(x_matrix.shape[0])])
 
         # Perform linear regression
-        coefficients, _, rank, _ = np.linalg.lstsq(x_matrix, y, rcond=None)
+        try:
+            coefficients, _, rank, _ = np.linalg.lstsq(x_matrix, y, rcond=None)
+        except np.linalg.LinAlgError:
+            return empty_slopes, np.nan, np.nan, empty_slopes.copy(), np.nan
+
+        if rank < n_vars + 1:
+            return empty_slopes, np.nan, np.nan, empty_slopes.copy(), np.nan
 
         # Calculation of predicted values and residuals
         y_pred = np.dot(x_matrix, coefficients)
@@ -605,6 +630,9 @@ def calc_multiple_linear_regression_spatial(
         intercept_p = p_values[-1]
 
         return slopes, intercept, r_squared, slopes_p, intercept_p
+
+    if len(x_datas) == 0:
+        raise ValueError("At least one independent variable must be provided.")
 
     # Ensure all data has the same time dimension
     for x in x_datas:

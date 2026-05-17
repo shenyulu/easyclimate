@@ -9,12 +9,13 @@ covers data preparation, index calculation, regression modeling, and visualizati
 
 .. math::
 
-    y = a_1 x_1 + a_2 x_2
+    y = a_1 x_1 + a_2 x_2 + b
 
 Before proceeding with all the steps, first import some necessary libraries and packages
 """
 import xarray as xr
 import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
 import easyclimate as ecl
 
 # %%
@@ -40,6 +41,12 @@ index_ao = index_ao.sel(time = time_range)
 index_ao
 
 # %%
+# Plot the AO index
+plt.figure(figsize=(10, 3))
+ecl.plot.line_plot_with_threshold(index_ao)
+plt.title("AO index")
+
+# %%
 # The Nino3.4 index is derived from:
 #
 # 1. Hadley Centre SST dataset
@@ -51,11 +58,18 @@ index_nino34 = ecl.field.air_sea_interaction.calc_index_nino34(sst_data_DJF_mean
 index_nino34
 
 # %%
+# Plot the Niño 3.4 index
+plt.figure(figsize=(10, 3))
+ecl.plot.line_plot_with_threshold(index_nino34)
+plt.title("Niño 3.4 index")
+
+# %%
 # The dependent variable for our regression is prepared as:
 #
 # - Seasonal mean SST for September-October-November (SON)
 # - Using the offset time range to examine potential lagged relationships
 sst_data_SON_mean = ecl.calc_seasonal_mean(sst_data, extract_season = 'SON').sel(time = time_range_plus1)
+sst_data_SON_mean = sst_data_SON_mean.assign_coords(time=index_ao.time)
 sst_data_SON_mean
 
 # %%
@@ -72,8 +86,8 @@ sst_data_SON_mean
 # - Intercept values
 # - R-squared values (goodness of fit)
 # - Statistical significance (p-values) for each parameter
-# result = ecl.calc_multiple_linear_regression_spatial(sst_data_SON_mean, [index_ao, index_nino34])
-# result
+result = ecl.calc_multiple_linear_regression_spatial(sst_data_SON_mean, [index_ao, index_nino34])
+result
 
 # %%
 # The final visualization shows:
@@ -86,26 +100,30 @@ sst_data_SON_mean
 # - Positive coefficients indicate SST increases with positive phase of the index
 # - Negative coefficients indicate inverse relationships
 # - Non-significant areas suggest no robust statistical relationship
-# fig, ax = ecl.plot.quick_draw_spatial_basemap(nrows=2 ,figsize = (10, 5), central_longitude=200)
 
-# result.slopes.sel(coef = 0).plot(
-#     ax=ax[0],
-#     transform=ccrs.PlateCarree(),
-#     cbar_kwargs={"location": "bottom", "pad": 0.2, "aspect": 100, "shrink": 0.8},
-# )
-# ecl.plot.draw_significant_area_contourf(
-#     result.slopes_p.sel(coef = 0),
-#     ax = ax[0],
-#     transform=ccrs.PlateCarree()
-# )
+# sphinx_gallery_thumbnail_number = -1
+fig, ax = ecl.plot.quick_draw_spatial_basemap(nrows=2 ,figsize = (10, 5), central_longitude=200)
 
-# result.slopes.sel(coef = 1).plot(
-#     ax=ax[1],
-#     transform=ccrs.PlateCarree(),
-#     cbar_kwargs={"location": "bottom", "pad": 0.2, "aspect": 100, "shrink": 0.8},
-# )
-# ecl.plot.draw_significant_area_contourf(
-#     result.slopes_p.sel(coef = 1),
-#     ax = ax[1],
-#     transform=ccrs.PlateCarree()
-# )
+result.slopes.sel(coef = 0).plot(
+    ax=ax[0],
+    transform=ccrs.PlateCarree(),
+    cbar_kwargs={"location": "bottom", "pad": 0.2, "aspect": 100, "shrink": 0.8},
+)
+ecl.plot.draw_significant_area_contourf(
+    result.slopes_p.sel(coef = 0),
+    ax = ax[0],
+    transform=ccrs.PlateCarree()
+)
+ax[0].set_title("$a_1$: (AO index coefficient)")
+
+result.slopes.sel(coef = 1).plot(
+    ax=ax[1],
+    transform=ccrs.PlateCarree(),
+    cbar_kwargs={"location": "bottom", "pad": 0.2, "aspect": 100, "shrink": 0.8},
+)
+ecl.plot.draw_significant_area_contourf(
+    result.slopes_p.sel(coef = 1),
+    ax = ax[1],
+    transform=ccrs.PlateCarree()
+)
+ax[1].set_title("$a_2$: (Niño 3.4 index coefficient)")

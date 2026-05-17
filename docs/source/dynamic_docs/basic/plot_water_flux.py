@@ -122,7 +122,7 @@ qflux_integral = ecl.calc_water_flux_top2surface_integral(
     vertical_dim_units = "hPa",
     # support backend method selection, e.g., "ncl", "rust", "rust-batch"
     # The following parameters generally do not need to be passed
-    integral_method = "rust-batch"
+    method = "rust-block"
 )
 qflux_integral
 
