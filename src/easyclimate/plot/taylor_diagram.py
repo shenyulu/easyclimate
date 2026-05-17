@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.patches as patches
+import matplotlib.transforms as transforms
 
 try:
     import tkinter  # noqa: F401
@@ -375,6 +376,8 @@ def draw_TaylorDiagrams_base(
     x_label_kwargs: dict = {"fontsize": 12},
     x_ticker_length: float = 0.02,
     x_tickerlabel_kwargs: dict = {"fontsize": 12},
+    x_tickerlabel_pad: float | None = None,
+    y_tickerlabel_pad: float | None = None,
     x_ticker_kwargs: dict = {"lw": 0.8, "c": "black"},
     y_ticker_kwargs: dict = {"lw": 0.8, "c": "black"},
 ) -> matplotlib.collections.Collection:
@@ -423,6 +426,12 @@ def draw_TaylorDiagrams_base(
         Ticker length on x-axis
     x_tickerlabel_kwargs: :py:class:`dict <dict>`, default `{'fontsize': 12}`, optional.
         Additional keyword arguments passed on to tickers' labels on x-axis, according to other miscellaneous parameters in`matplotlib.axes.Axes.text`.
+    x_tickerlabel_pad: :py:class:`float <float>`, optional.
+        The spacing between the horizontal axis and its tick labels in points when `half_circle` is `False`.
+        Positive values move labels away from the horizontal axis. If `None`, use the original text-based spacing.
+    y_tickerlabel_pad: :py:class:`float <float>`, optional.
+        The spacing between the vertical axis and its tick labels in points when `half_circle` is `False`.
+        Positive values move labels away from the vertical axis. If `None`, use the original text-based spacing.
     x_ticker_kwargs: :py:class:`dict <dict>`, default `{'lw': 0.8, 'c': 'black'}`, optional.
         Additional keyword arguments passed on to tickers on x-axis, according to other miscellaneous parameters in`matplotlib.axes.Axes.plot`.
     y_ticker_kwargs: :py:class:`dict <dict>`, default `{'lw': 0.8, 'c': 'black'}`, optional.
@@ -704,38 +713,70 @@ def draw_TaylorDiagrams_base(
             **arc_label_kwargs,
         )
 
-        if normalized == True:
-            for i in np.arange(std_min, std_max, std_interval):
-                if i == 1:
-                    # The first coordinate of `text` is the angle (radian system) and the second is the distance
-                    ax.text(
-                        0,
-                        i,
-                        s="\n" + "REF",
-                        ha="center",
-                        va="top",
-                        **x_tickerlabel_kwargs,
-                    )
-                else:
-                    # The first coordinate of `text` is the angle (radian system) and the second is the distance
-                    ax.text(
-                        0,
-                        i,
-                        s="\n" + str(i),
-                        ha="center",
-                        va="top",
-                        **x_tickerlabel_kwargs,
-                    )
+        x_tickerlabel_transform = None
+        y_tickerlabel_transform = None
+        if x_tickerlabel_pad is not None:
+            x_tickerlabel_transform = ax.transData + transforms.ScaledTranslation(
+                0, -x_tickerlabel_pad / 72, ax.figure.dpi_scale_trans
+            )
+        if y_tickerlabel_pad is not None:
+            y_tickerlabel_transform = ax.transData + transforms.ScaledTranslation(
+                -y_tickerlabel_pad / 72, 0, ax.figure.dpi_scale_trans
+            )
 
-                # The first coordinate of `text` is the angle (radian system) and the second is the distance
+        def _draw_quarter_x_ticklabel(value, label):
+            if x_tickerlabel_transform is None:
+                ax.text(
+                    0,
+                    value,
+                    s="\n" + label,
+                    ha="center",
+                    va="top",
+                    **x_tickerlabel_kwargs,
+                )
+            else:
+                ax.text(
+                    0,
+                    value,
+                    s=label,
+                    ha="center",
+                    va="top",
+                    transform=x_tickerlabel_transform,
+                    **x_tickerlabel_kwargs,
+                )
+
+        def _draw_quarter_y_ticklabel(value, label):
+            if y_tickerlabel_transform is None:
                 ax.text(
                     np.pi / 2,
-                    i,
-                    s=str(i) + "  ",
+                    value,
+                    s=label + "  ",
                     ha="right",
                     va="center",
                     **x_tickerlabel_kwargs,
                 )
+            else:
+                ax.text(
+                    np.pi / 2,
+                    value,
+                    s=label,
+                    ha="right",
+                    va="center",
+                    transform=y_tickerlabel_transform,
+                    **x_tickerlabel_kwargs,
+                )
+
+        if normalized == True:
+            for i in np.arange(std_min, std_max, std_interval):
+                if i == 1:
+                    # The first coordinate of `text` is the angle (radian system) and the second is the distance
+                    _draw_quarter_x_ticklabel(i, "REF")
+                else:
+                    # The first coordinate of `text` is the angle (radian system) and the second is the distance
+                    _draw_quarter_x_ticklabel(i, str(i))
+
+                # The first coordinate of `text` is the angle (radian system) and the second is the distance
+                _draw_quarter_y_ticklabel(i, str(i))
 
             # Make a circle with `ref` as the center and a multiple of `std_interval` as the radius
             for value in np.arange(std_interval, std_max, std_interval):
@@ -752,19 +793,10 @@ def draw_TaylorDiagrams_base(
         elif normalized == False:
             for i in np.arange(std_min, std_max, std_interval):
                 # The first coordinate of `text` is the angle (radian system) and the second is the distance
-                ax.text(
-                    0, i, s="\n" + str(i), ha="center", va="top", **x_tickerlabel_kwargs
-                )
+                _draw_quarter_x_ticklabel(i, str(i))
 
                 # The first coordinate of `text` is the angle (radian system) and the second is the distance
-                ax.text(
-                    np.pi / 2,
-                    i,
-                    s=str(i) + "  ",
-                    ha="right",
-                    va="center",
-                    **x_tickerlabel_kwargs,
-                )
+                _draw_quarter_y_ticklabel(i, str(i))
 
     # Remove default setting of polar plot
     ax.set_rgrids([])
@@ -863,19 +895,19 @@ def draw_TaylorDiagrams_base(
 
 def draw_TaylorDiagrams_metadata(
     taylordiagrams_metadata: pd.DataFrame,
-    marker_list: list,
-    color_list: list,
-    label_list: list,
-    legend_list: list,
+    marker_list: list | None = None,
+    color_list: list | None = None,
+    label_list: list | None = None,
+    legend_list: list | None = None,
     ax: matplotlib.axes.Axes = None,
     normalized: bool = True,
     cc: str = "cc",
     std: str = "std",
     point_label_xoffset: float = 0,
     point_label_yoffset: float = 0.05,
-    point_kwargs: dict = {"alpha": 1, "markersize": 6.5},
-    point_label_kwargs: dict = {"fontsize": 14},
-) -> matplotlib.collections.Collection:
+    point_kwargs: dict | list[dict] = {"alpha": 1, "markersize": 6.5},
+    point_label_kwargs: dict | list[dict] = {"fontsize": 14},
+) -> dict:
     """
     Draw points to Taylor Graphics Basic Framework according to Taylor diagram metadata.
 
@@ -883,17 +915,21 @@ def draw_TaylorDiagrams_metadata(
     ----------
     taylordiagrams_metadata: :py:class:`pandas.DataFrame <pandas.DataFrame>`, required.
         Taylor diagram metadata generated by the function `calc_TaylorDiagrams_metadata`.
-    marker_list: :py:class:`list <list>`, required.
+    marker_list: :py:class:`list <list>`, optional.
         The list of markers. The order of `marker` in `marker_list` is determined by the order in `taylordiagrams_metadata`.
         See `matplotlib.markers` for full description of possible arguments.
-    color_list: :py:class:`list <list>`, required.
+        If `None`, use `"o"` for all data points.
+    color_list: :py:class:`list <list>`, optional.
         The list of colors. The order of `color` in `color_list` is determined by the order in `taylordiagrams_metadata`.
-    label_list: :py:class:`list <list>`, required.
+        If `None`, use Matplotlib's default color cycle.
+    label_list: :py:class:`list <list>`, optional.
         The list of data point labels (marked next to plotted points).
         The order of label in `label_list` is determined by the order in `taylordiagrams_metadata`.
-    legend_list: :py:class:`list <list>`, required.
+        If `None`, do not draw text labels next to data points.
+    legend_list: :py:class:`list <list>`, optional.
         The list of legend label.
         The order of label in `legend_list` is determined by the order in `taylordiagrams_metadata`.
+        If `None`, use the `item` column in `taylordiagrams_metadata`.
     ax: :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional.
         Axes on which to plot. By default, use the current axes, i.e. `ax = plt.gca()`.
     normalized: :py:class:`bool <bool>`, default `True`, optional.
@@ -906,14 +942,20 @@ def draw_TaylorDiagrams_metadata(
         The offset of the labels from the points, based on x-axis based coordinate system.
     point_label_yoffset: :py:class:`float <float>`, optional.
         The offset of the labels from the points, based on y-axis based coordinate system.
-    point_kwargs: :py:class:`dict <dict>`, optional.
+    point_kwargs: :py:class:`dict <dict>` or :py:class:`list <list>` of :py:class:`dict <dict>`, optional.
         Additional keyword arguments passed on to data points, according to other miscellaneous parameters in`matplotlib.axes.Axes.plot`.
-    point_label_kwargs: :py:class:`dict <dict>`, optional.
+        If it is a list, each element is applied to the corresponding data point.
+        If it is a dictionary whose values are dictionaries, each element is selected by data point `item`, `legend`, `label`, or row index.
+    point_label_kwargs: :py:class:`dict <dict>` or :py:class:`list <list>` of :py:class:`dict <dict>`, optional.
         Additional keyword arguments passed on to the labels of data points, according to other miscellaneous parameters in`matplotlib.axes.Axes.text`.
+        If it is a list, each element is applied to the corresponding data point.
+        If it is a dictionary whose values are dictionaries, each element is selected by data point `item`, `legend`, `label`, or row index.
 
     Returns
     -------
-    :py:class:`matplotlib.collections.Collection <matplotlib.collections.Collection>`.
+    :py:class:`dict <dict>`.
+        A dictionary keyed by data point `item`. Each value includes the point artist, label artist,
+        point keyword arguments, and label keyword arguments.
 
     .. minigallery::
         :add-heading: Example(s) related to the function
@@ -934,15 +976,65 @@ def draw_TaylorDiagrams_metadata(
             "The projection type of the Axes should be `polar`, consider to specify the parameter `projection` as `polar`. E.g. `fig, ax = plt.subplots(subplot_kw = {'projection': 'polar'})`."
         )
 
+    def _get_item_kwargs(kwargs, intern, item, legend, label, parameter_name):
+        if isinstance(kwargs, list):
+            kwargs_item = kwargs[intern]
+        elif isinstance(kwargs, dict):
+            kwargs_key = None
+            for key in (item, legend, label, intern, str(intern)):
+                if key in kwargs and isinstance(kwargs[key], dict):
+                    kwargs_key = key
+                    break
+            if kwargs_key is not None:
+                kwargs_item = kwargs[kwargs_key]
+            else:
+                kwargs_item = kwargs
+        else:
+            raise ValueError(f"`{parameter_name}` shuold be `dict` or `list`.")
+
+        if not isinstance(kwargs_item, dict):
+            raise ValueError(f"Each item in `{parameter_name}` shuold be `dict`.")
+
+        return kwargs_item
+
     # Number of rows
     datalist_row = taylordiagrams_metadata.shape[0]
 
-    plot_list = []
+    if marker_list is None:
+        marker_list = ["o"] * datalist_row
+    if color_list is None:
+        prop_cycle = plt.rcParams["axes.prop_cycle"].by_key().get("color", ["C0"])
+        color_list = [prop_cycle[i % len(prop_cycle)] for i in range(datalist_row)]
+    if label_list is None:
+        label_list = [""] * datalist_row
+    if legend_list is None:
+        legend_list = taylordiagrams_metadata["item"].to_list()
+
+    plot_dict = {}
 
     for intern in np.arange(datalist_row):
         taylor_diagrams_values_single_list = taylordiagrams_metadata[
             intern : intern + 1
         ]
+        item_name = taylor_diagrams_values_single_list["item"].to_list()[0]
+        legend_name = legend_list[intern]
+        label_name = label_list[intern]
+        point_kwargs_item = _get_item_kwargs(
+            point_kwargs,
+            intern,
+            item_name,
+            legend_name,
+            label_name,
+            "point_kwargs",
+        )
+        point_label_kwargs_item = _get_item_kwargs(
+            point_label_kwargs,
+            intern,
+            item_name,
+            legend_name,
+            label_name,
+            "point_label_kwargs",
+        )
 
         if isinstance(point_label_xoffset, list):
             point_label_xoffset_item = point_label_xoffset[intern]
@@ -962,10 +1054,7 @@ def draw_TaylorDiagrams_metadata(
                 "`point_label_yoffset` shuold be `list`, `int` or `float`."
             )
 
-        if (
-            taylor_diagrams_values_single_list["item"].to_list()[0] == "Obs"
-            and normalized == True
-        ):
+        if item_name == "Obs" and normalized == True:
             x = 0
             y = 1
             (point_tmp,) = ax.plot(
@@ -974,15 +1063,14 @@ def draw_TaylorDiagrams_metadata(
                 marker_list[intern],
                 color=color_list[intern],
                 label=legend_list[intern],
-                **point_kwargs,
+                **point_kwargs_item,
             )
-            ax.text(
+            point_label_tmp = ax.text(
                 x + point_label_xoffset_item,
                 y + point_label_yoffset_item,
                 s=label_list[intern],
-                **point_label_kwargs,
+                **point_label_kwargs_item,
             )
-            plot_list.append(point_tmp)
         else:
             x = taylor_diagrams_values_single_list[cc][intern]
             y = taylor_diagrams_values_single_list[std][intern]
@@ -992,14 +1080,20 @@ def draw_TaylorDiagrams_metadata(
                 marker_list[intern],
                 color=color_list[intern],
                 label=legend_list[intern],
-                **point_kwargs,
+                **point_kwargs_item,
             )
-            ax.text(
+            point_label_tmp = ax.text(
                 np.arccos(x) + point_label_xoffset_item,
                 y + point_label_yoffset_item,
                 s=label_list[intern],
-                **point_label_kwargs,
+                **point_label_kwargs_item,
             )
-            plot_list.append(point_tmp)
 
-    return plot_list
+        plot_dict[item_name] = {
+            "point": point_tmp,
+            "point_label": point_label_tmp,
+            "point_kwargs": point_kwargs_item,
+            "point_label_kwargs": point_label_kwargs_item,
+        }
+
+    return plot_dict

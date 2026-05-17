@@ -177,6 +177,19 @@ def test_draw_TaylorDiagrams_base10():
         assert 1 == 1
 
 
+def test_draw_TaylorDiagrams_base11():
+    fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
+    ecl.plot.draw_TaylorDiagrams_base(
+        ax=ax,
+        std_max=2.5,
+        half_circle=False,
+        normalized=True,
+        x_tickerlabel_pad=6,
+        y_tickerlabel_pad=4,
+    )
+    assert len(ax.texts) > 0
+
+
 @pytest.mark.mpl_image_compare
 def test_draw_TaylorDiagrams_metadata1():
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
@@ -228,3 +241,50 @@ def test_draw_TaylorDiagrams_metadata3():
             point_label_xoffset=[0.1, 0, 0],
         )
         assert 1 == 1
+
+
+def test_draw_TaylorDiagrams_metadata4():
+    fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
+    ecl.plot.draw_TaylorDiagrams_base(ax=ax, std_max=2.5)
+    result = ecl.plot.draw_TaylorDiagrams_metadata(
+        taylordiagrams_metadata,
+        ax=ax,
+        marker_list=["o", "+", "*"],
+        color_list=["black", "red", "green"],
+        label_list=["1", "", "3"],
+        legend_list=taylordiagrams_metadata["item"].to_list(),
+        cc="cc",
+        std="std",
+        point_kwargs={
+            "Obs": {"alpha": 0.5, "markersize": 7},
+            "f1": {"alpha": 0.8, "markersize": 8},
+            "f2": {"alpha": 1, "markersize": 9},
+        },
+        point_label_kwargs=[
+            {"fontsize": 8},
+            {"fontsize": 9},
+            {"fontsize": 10},
+        ],
+    )
+
+    assert list(result.keys()) == ["Obs", "f1", "f2"]
+    assert result["Obs"]["point_kwargs"] == {"alpha": 0.5, "markersize": 7}
+    assert result["f1"]["point_label_kwargs"] == {"fontsize": 9}
+    assert result["f2"]["point"].get_markersize() == 9
+    assert result["f2"]["point_label"].get_fontsize() == 10
+
+
+def test_draw_TaylorDiagrams_metadata5():
+    fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
+    ecl.plot.draw_TaylorDiagrams_base(ax=ax, std_max=2.5)
+    result = ecl.plot.draw_TaylorDiagrams_metadata(
+        taylordiagrams_metadata,
+        ax=ax,
+        cc="cc",
+        std="std",
+    )
+
+    assert list(result.keys()) == ["Obs", "f1", "f2"]
+    assert result["Obs"]["point"].get_marker() == "o"
+    assert result["f1"]["point_label"].get_text() == ""
+    assert result["f2"]["point"].get_label() == "f2"
