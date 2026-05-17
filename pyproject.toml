@@ -25,6 +25,7 @@ classifiers = [
     'Operating System :: Microsoft :: Windows',
     'Operating System :: POSIX',
     'Operating System :: Unix',
+    'Operating System :: MacOS :: MacOS X',
 ]
 dynamic = ["dependencies", "version"]
 
