@@ -72,8 +72,6 @@ autoapi_root = "technical/api"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# html_theme = 'furo'
-# html_theme = "sphinx_book_theme"
 html_theme = 'shibuya'
 html_static_path = ["_static"]
 
@@ -176,7 +174,11 @@ sphinx_gallery_conf = {
     "promote_jupyter_magic": True,
     #  Controlling what output is captured
     "capture_repr": ("_repr_html_", "__repr__", "__str__"),
+
+    # Rerunning stale examples
     "run_stale_examples": False,
+    # "run_stale_examples": True,    # rebuild examples only
+
     "min_reported_time": False,
     "download_all_examples": False,
     #  'show_memory': True,

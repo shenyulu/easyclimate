@@ -9,6 +9,9 @@ from .tutorial import *
 from .datanode import *
 from .units import *
 from .rvdv import *
+from .geowind import *
+from .advection import *
+from .waterflux import *
 
 from . import utility
 from . import mk_test

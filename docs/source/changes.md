@@ -5,7 +5,8 @@
 
 *Released on: 2026/5/16*
 
-- xxx
+- Officially support macOS system (easyclimate-backend >= 2026.5.3, easyclimate-rust >= 2026.5.2).
+- seperate Module `integral` & `rvdv` from `diff`: [refactor: integral & rvdv](https://github.com/shenyulu/easyclimate/pull/116/commits/a1d3f9b45b4b345909c0d6191d6e4a917469aefe).
 
 **Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2026.4.0...v2026.5.0
 

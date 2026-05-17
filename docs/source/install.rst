@@ -28,6 +28,10 @@ Below are the supported platforms and notes for users on other systems.
 
         **glibc 2.28** or later, including: Debian 10+, Ubuntu 18.10+, Fedora 29+, CentOS/RHEL 8+
 
+    .. grid-item-card:: :iconify:`wpf:macos` macOS arm64 (Apple Silicon)
+
+        **macOS 11.0 Big Sur** or later.
+
 These platforms are fully tested, and pre-built wheels (``.whl``) are available on PyPI for easy installation via following methods:
 
 .. tab-set::
@@ -81,10 +85,6 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
             .. code:: bash
 
                 python -m pip install --upgrade git+https://gitee.com/shenyulu/easyclimate@dev
-
-.. warning::
-
-    Unfortunately, **easyclimate currently does NOT officially support macOS**, including both Intel-based Macs and Apple Silicon (M-series) Macs.
 
 Python Version Requirement
 ------------------------------------
@@ -153,7 +153,7 @@ Want to build the documentation yourself? 📚 Follow these steps:
 
             .. code:: bash
 
-                ./build_docs_linux.sh
+                bash ./build_docs_linux.sh
 
             .. hint::
 
@@ -162,6 +162,20 @@ Want to build the documentation yourself? 📚 Follow these steps:
                 .. code:: bash
 
                     sudo apt-get install optipng
+
+        .. tab-item:: macOS Bash
+
+            .. code:: bash
+
+                bash ./build_docs_linux.sh
+
+            .. hint::
+
+                On macOS, you might need to install `optipng <https://optipng.sourceforge.net/>`__ for image optimization.
+
+                .. code:: bash
+
+                    brew install optipng
 
 .. tip::
 

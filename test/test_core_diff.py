@@ -1705,7 +1705,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="nan",
     ).data.flatten()
     result_data2 = ecl.calc_divergence_watervaporflux(
@@ -1713,7 +1713,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="cyclic",
     ).data.flatten()
     result_data3 = ecl.calc_divergence_watervaporflux(
@@ -1721,7 +1721,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="cyclic+diff",
     ).data.flatten()
     result_data4 = ecl.calc_divergence_watervaporflux(
@@ -1729,7 +1729,7 @@ def test_calc_divergence_watervaporflux2_rs():
         u_data_500hpa,
         v_data_500hpa,
         specific_humidity_data_units="g/kg",
-        method="rust",
+        method="rust-batch",
         cyclic_boundary_setting="diff",
     ).data.flatten()
 

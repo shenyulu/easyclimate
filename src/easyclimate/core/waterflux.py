@@ -103,7 +103,7 @@ def calc_water_flux_top2surface_integral(
     specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     vertical_dim: str,
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
-    method: Literal["ncl", "rust", "rust-block"] = "ncl",
+    method: Literal["ncl", "rust", "rust-block"] = "rust-block",
     g: float = 9.8,
 ) -> xr.DataArray:
     """
@@ -131,7 +131,7 @@ def calc_water_flux_top2surface_integral(
         Vertical coordinate dimension name.
     vertical_dim_units: :py:class:`str <str>`.
         The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
-    method: {"ncl", "rust", "rust-block"}, default: `ncl`.
+    method: {"ncl", "rust", "rust-block"}, default: `rust-block`.
         Vertical integration backend.
     g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
@@ -232,10 +232,10 @@ def calc_divergence_watervaporflux(
     qv_data: xr.DataArray,
     specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
     cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
-    method: Literal["ncl", "rust"] = "rust",
+    method: Literal["ncl", "rust-batch", "rust-raw"] = "rust-batch",
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    R: float = 6371200.0,
+    R: float = 6.37122e6,
 ) -> xr.DataArray:
     """
     Calculate water vapor flux divergence at each vertical level.
@@ -262,17 +262,17 @@ def calc_divergence_watervaporflux(
         - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
         - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
 
-    method: {"ncl", rust}, default: `ncl`.
-        The method to calculate horizontal divergence term. Optional values are ``ncl`` or ``rust``.
+    method: {"ncl", "rust-batch", "rust-raw"}, default: `rust-batch`.
+        The method to calculate horizontal divergence term. Optional values are ``ncl``, ``rust-batch``, or ``rust-raw``.
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    R: :py:class:`float <float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6.37122e6`.
         Radius of the Earth.
 
         .. note::
-            The parameter is applicable only when ``method = rust``.
+            The parameter is applicable only when ``method = "rust-batch"`` or ``method = "rust-raw"``.
 
     Returns
     -------
@@ -301,7 +301,7 @@ def calc_divergence_watervaporflux(
             lat_dim=lat_dim,
             cyclic_boundary_setting=cyclic_boundary_setting,
         )
-    elif method == "rust":
+    elif method in ["rust-batch", "rust-raw"]:
         div_watervaporflux = calc_divergence_rs(
             u_data=flux_u,
             v_data=flux_v,
@@ -309,10 +309,11 @@ def calc_divergence_watervaporflux(
             lat_dim=lat_dim,
             R=R,
             cyclic_boundary_setting=cyclic_boundary_setting,
+            method=method,
         )
     else:
         raise ValueError(
-            f"Unsupported method={method!r}. Expected one of 'ncl', or 'rust'."
+            f"Unsupported method={method!r}. Expected one of 'ncl', 'rust-batch', or 'rust-raw'."
         )
 
     return div_watervaporflux
@@ -330,10 +331,10 @@ def calc_divergence_watervaporflux_top2surface_integral(
     cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
     lon_dim: str = "lon",
     lat_dim: str = "lat",
-    integral_method: Literal["ncl", "rust", "rust-block"] = "ncl",
-    div_method: Literal["raw", "ncl", "rust"] = "ncl",
+    integral_method: Literal["ncl", "rust", "rust-block"] = "rust-block",
+    div_method: Literal["raw", "ncl", "rust-batch", "rust-raw"] = "rust-batch",
     g: float = 9.8,
-    R: float = 6371200.0,
+    R: float = 6.37122e6,
 ) -> xr.DataArray:
     """
     Calculate water vapor flux divergence across the vertical level.
@@ -369,20 +370,23 @@ def calc_divergence_watervaporflux_top2surface_integral(
         - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
 
         .. note::
-            The parameter is applicable only when ``method = ncl`` or ``method = rust``.
+            The parameter is applicable only when ``div_method = ncl`` or ``div_method = rust-batch`` or ``div_method = rust-raw``.
 
     lon_dim: :py:class:`str <str>`, default: `lon`.
         Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
     lat_dim: :py:class:`str <str>`, default: `lat`.
         Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
-    integral_method: {"ncl", "rust", "rust-block"}, default: `ncl`.
+    integral_method: {"ncl", "rust", "rust-block"}, default: `rust-block`.
         The vertical integration backend.
-    div_method: {"ncl", rust}, default: `ncl`.
-        The method to calculate horizontal divergence term. Optional values are ``ncl`` or ``rust``.
+    div_method: {"raw", "ncl", "rust-batch", "rust-raw"}, default: `rust-batch`.
+        The method to calculate horizontal divergence term. Optional values are ``ncl``, ``rust-batch``, or ``rust-raw``.
     g: :py:class:`float <float>`, default: `9.8`.
         The acceleration of gravity.
-    R: :py:class:`float <float>`, default: `6370000`.
+    R: :py:class:`float <float>`, default: `6.37122e6`.
         Radius of the Earth.
+
+        .. note::
+            The parameter is applicable only when ``div_method = "rust-batch"`` or ``div_method = "rust-raw"``.
 
     Returns
     -------
@@ -430,7 +434,7 @@ def calc_divergence_watervaporflux_top2surface_integral(
             lat_dim=lat_dim,
             cyclic_boundary_setting=cyclic_boundary_setting,
         )
-    elif div_method == "rust":
+    elif div_method in ["rust-batch", "rust-raw"]:
         div_quv = calc_divergence_rs(
             quv["qu"],
             quv["qv"],
@@ -438,10 +442,11 @@ def calc_divergence_watervaporflux_top2surface_integral(
             lat_dim=lat_dim,
             R=R,
             cyclic_boundary_setting=cyclic_boundary_setting,
+            method=div_method,
         )
     else:
         raise ValueError(
-            f"Unsupported div_method={div_method!r}. Expected one of 'ncl', 'rust', 'easyclimate', or 'uv2dv_cfd-ncl'."
+            f"Unsupported div_method={div_method!r}. Expected one of 'ncl', 'rust-batch', or 'rust-raw'."
         )
 
     div_quv.attrs = dict()
