@@ -9,7 +9,6 @@ import xarray as xr
 import numpy as np
 from typing import Literal
 
-
 __all__ = [
     "calc_gaussian_latitudes",
     "calc_geodesic_points",

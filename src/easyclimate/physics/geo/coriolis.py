@@ -8,7 +8,6 @@ import xarray as xr
 import warnings
 from ...core.utility import transfer_deg2rad
 
-
 __all__ = ["get_coriolis_parameter"]
 
 

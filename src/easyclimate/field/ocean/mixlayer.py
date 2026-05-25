@@ -8,7 +8,6 @@ import numpy as np
 import gsw_xarray
 from oceans import ocfis
 
-
 __all__ = [
     "calc_mixed_layer_depth",
     "calc_MLD_depth_weighted",

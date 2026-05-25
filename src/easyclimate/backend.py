@@ -5,7 +5,6 @@ import warnings
 import sys
 from pathlib import Path
 
-
 # Detect the current operating system
 CURRENT_PLATFORM = platform.system()
 SUPPORTED_BACKEND_PLATFORMS = ("Windows", "Linux", "Darwin")
