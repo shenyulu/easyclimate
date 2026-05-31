@@ -7,3 +7,5 @@ from .curved_quiver_plot import *
 from .bar import *
 from .line import *
 from .polar import *
+
+from . import mpas
