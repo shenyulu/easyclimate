@@ -101,13 +101,13 @@ def draw_polar_basemap(
         directly to :py:func:`set_polar_title <set_polar_title>`
         to help position titles above the circular map.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_formatting_coordinates.py
-        ./dynamic_docs/plot_da_bbo.py
-        ./dynamic_docs/plot_curve_quiver.py
-        ./dynamic_docs/plot_waf.py.py
+        formatting_coordinates
+        da_bbo
+        curve_quiver
+        waf
     """
 
     if set_map_boundary_kwargs is None:
@@ -310,11 +310,11 @@ def set_polar_title(
         vertical offset based on the rendered font size, which is usually the most
         robust option for polar circular maps.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_formatting_coordinates.py
-        ./dynamic_docs/plot_waf.py.py
+        formatting_coordinates
+        waf
     """
     if ax is None:
         ax = plt.gca()

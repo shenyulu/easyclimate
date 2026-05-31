@@ -75,10 +75,10 @@ def calc_gradient(
     .. seealso::
         :py:func:`numpy.gradient <numpy:numpy.gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
 
     def _calc_gradient(data_input, dim, varargs, edge_order) -> xr.DataArray:
@@ -155,10 +155,10 @@ def calc_dx_gradient(
         - :py:func:`calc_dlon_radian_gradient <calc_dlon_radian_gradient>`
         - :py:func:`calc_dy_gradient <calc_dy_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lon_array = data_input[lon_dim].astype("float64")
@@ -320,10 +320,10 @@ def calc_dlon_degree_gradient(
         - :py:func:`calc_dlon_radian_gradient <calc_dlon_radian_gradient>`
         - :py:func:`calc_dlat_degree_gradient <calc_dlat_degree_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lon_array = data_input[lon_dim].astype("float64")
@@ -414,10 +414,10 @@ def calc_dy_gradient(
         - :py:func:`calc_dlat_radian_gradient <calc_dlat_radian_gradient>`
         - :py:func:`calc_dx_gradient <calc_dx_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lat_array = data_input[lat_dim].astype("float64")
@@ -503,10 +503,10 @@ def calc_dlat_radian_gradient(
         - :py:func:`calc_dlat_degree_gradient <calc_dlat_degree_gradient>`
         - :py:func:`calc_dlon_radian_gradient <calc_dlon_radian_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lat_array = data_input[lat_dim].astype("float64")
@@ -584,10 +584,10 @@ def calc_dlat_degree_gradient(
         - :py:func:`calc_dlat_radian_gradient <calc_dlat_radian_gradient>`
         - :py:func:`calc_dlon_degree_gradient <calc_dlon_degree_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lat_array = data_input[lat_dim].astype("float64")
@@ -658,10 +658,10 @@ def calc_dx_laplacian(
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     # Set to `float64` for more accurate results in trigonometric calculations.
     lon_array = data_input[lon_dim].astype("float64")
@@ -714,10 +714,10 @@ def calc_dy_laplacian(
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     lat_array = data_input[lat_dim].astype("float64")
 
@@ -768,10 +768,10 @@ def calc_dxdy_mixed_derivatives(
     .. seealso::
         :py:func:`calc_gradient <calc_gradient>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     lon_array = data_input[lon_dim].astype("float64")
     lat_array = data_input[lat_dim].astype("float64")

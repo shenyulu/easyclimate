@@ -68,10 +68,10 @@ def interp1d_vertical_pressure2altitude(
     .. seealso::
         - `scipy.interpolate.interp1d <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html#scipy-interpolate-interp1d>`__
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_interp.py
+        interp
     """
     from scipy import interpolate
     from ..core.utility import replace_in_tuple
@@ -145,10 +145,10 @@ def interp1d_vertical_pressure2altitude_linear_rs(
     .. seealso::
         - `scipy.interpolate.interp1d <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html#scipy-interpolate-interp1d>`__
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_interp.py
+        interp
     """
     from ..backend import interp1d_linear_core_rs
     from ..core.utility import replace_in_tuple

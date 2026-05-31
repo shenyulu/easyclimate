@@ -158,10 +158,10 @@ def curved_quiver(
         - https://github.com/NCAR/geocat-viz/issues/4
         - https://docs.xarray.dev/en/stable/generated/xarray.Dataset.plot.streamplot.html#xarray.Dataset.plot.streamplot
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_curve_quiver.py
+        curve_quiver
     """
     from .modplot import velovect
 
@@ -328,10 +328,10 @@ def add_curved_quiverkey(
         location. Supplying ``ref_point`` makes the quiver key correspond
         to a local projected length near that position.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_curve_quiver.py
+        curve_quiver
     """
     if ax == None:
         ax = plt.gca()

@@ -64,10 +64,10 @@ def interp_mesh2mesh(
     --------------
     - https://github.com/EXCITED-CO2/xarray-regrid
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_interp.py
+        interp
     """
     target_grid_dims_len = len(target_grid.dims)
     if target_grid_dims_len != 2:

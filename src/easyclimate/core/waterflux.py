@@ -49,10 +49,10 @@ def calc_horizontal_water_flux(
     - :math:`qu`: zonal water vapor flux.
     - :math:`qv`: meridional water vapor flux.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     water_flux = xr.Dataset(
         data_vars={
@@ -85,10 +85,10 @@ def calc_vertical_water_flux(
     -------
     The vertical water flux. (:py:class:`xarray.DataArray <xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     water_flux = -omega_data * specific_humidity_data / g
     return water_flux
@@ -146,10 +146,10 @@ def calc_water_flux_top2surface_integral(
     .. seealso::
         :py:func:`calc_top2surface_integral <calc_top2surface_integral>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .integral import calc_top2surface_integral, calc_top2surface_integral_rs
 
@@ -279,10 +279,10 @@ def calc_divergence_watervaporflux(
     :py:class:`xarray.DataArray<xarray.DataArray>`
         The water vapor flux divergence (i.e., :math:`q\\mathbf{V}`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .rvdv import calc_divergence_ncl, calc_divergence_rs
 
@@ -392,10 +392,10 @@ def calc_divergence_watervaporflux_top2surface_integral(
     -------
     The water vapor flux divergence. (:py:class:`xarray.DataArray<xarray.DataArray>`, :math:`\\mathrm{kg \\cdot m^-2 \\cdot s^-1 }`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .rvdv import calc_divergence, calc_divergence_ncl, calc_divergence_rs
 

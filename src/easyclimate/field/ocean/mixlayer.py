@@ -63,10 +63,10 @@ def calc_mixed_layer_depth(
         - https://github.com/pyoceans/oceans
         - https://pyoceans.github.io/python-oceans/ocfis.html#oceans.ocfis.mld
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     ds = xr.Dataset()
     ds["z"] = seawater_temperature_data[depth_dim]
@@ -158,10 +158,10 @@ def calc_MLD_depth_weighted(
     -------
     The weights of the mixed layer depth (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     # Use `xarray.broadcast_to` to extend the dimensionality of the mixed layer depth data by one dimension to correspond to the depth dimension of `seawater_temperature_data`
     mld_expanded = xr.broadcast(mixed_layer_depth, seawater_temperature_data)[0]
@@ -203,10 +203,10 @@ def calc_MLD_temper_tendency(
     -------
     The weights of the mixed layer depth (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     from ...core.diff import calc_gradient
 
@@ -253,10 +253,10 @@ def get_data_within_MLD(
     -------
     The data within the mixed layer (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     # Use `xarray.broadcast_to` to extend the dimensionality of the mixed layer depth data by one dimension to correspond to the depth dimension of `data_input`
     mld_expanded = xr.broadcast(mixed_layer_depth, data_input)[0]
@@ -293,10 +293,10 @@ def get_temper_within_MLD(
     -------
     The seawater temperature data within the mixed layer (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     return get_data_within_MLD(
         data_input=seawater_temperature_data,
@@ -329,10 +329,10 @@ def get_data_average_within_MLD(
     -------
     The averaged data within the mixed layer (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     # Use `xarray.broadcast_to` to extend the dimensionality of the mixed layer depth data by one dimension to correspond to the depth dimension of `data_input`
     mld_expanded = xr.broadcast(mixed_layer_depth, data_input)[0]
@@ -372,10 +372,10 @@ def get_temper_average_within_MLD(
     -------
     The averaged seawater temperature data within the mixed layer (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     return get_data_average_within_MLD(
         data_input=seawater_temperature_data,
@@ -435,10 +435,10 @@ def calc_MLD_average_horizontal_advection(
     -------
     The average horizontal advection within the mixed layer (:math:`\\mathrm{^\\circ C} \\cdot \\mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     from ...core.advection import calc_u_advection, calc_v_advection
 
@@ -512,10 +512,10 @@ def calc_MLD_average_vertical_advection(
     -------
     The average vertical advection within the mixed layer (:math:`\\mathrm{^\\circ C} \\cdot \\mathrm{month}^{-1}`, :py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     from ...core.diff import calc_gradient
 
@@ -563,10 +563,10 @@ def calc_ocean_surface_heat_flux(
     --------------
     Nnamchi, H., Li, J., Kucharski, F. et al. Thermodynamic controls of the Atlantic Niño. Nat Commun 6, 8895 (2015). https://doi.org/10.1038/ncomms9895
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ocean_mix_layer.py
+        ocean_mix_layer
     """
     # Conversion unit: W/m^2 -> degree/month
     qnet_anomaly_degreepermon = qnet_monthly_anomaly_data * 2592000

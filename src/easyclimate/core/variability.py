@@ -188,12 +188,12 @@ def calc_seasonal_mean(
     -------
     :py:class:`xarray.DataArray <xarray.DataArray>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ao_index.py
-        ./dynamic_docs/plot_oceanic_front.py
-        ./dynamic_docs/plot_multi_linear_reg.py
+        ao_index
+        oceanic_front
+        multi_linear_reg
     """
     if "seasonly" in extract_season:
         result_seasonal_mean = data_input.resample({dim: "QS-DEC"}).mean(dim=dim)
@@ -230,16 +230,16 @@ def remove_seasonal_cycle_mean(
     -------
     :py:class:`xarray.DataArray<xarray.DataArray>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ao_index.py
-        ./dynamic_docs/plot_basic_statistical_analysis.py
-        ./dynamic_docs/plot_da_bbo.py
-        ./dynamic_docs/plot_multieof.py
-        ./dynamic_docs/plot_ocean_mix_layer.py
-        ./dynamic_docs/plot_time_scale_average.py
-        ./dynamic_docs/plot_corr_reg.py
+        ao_index
+        basic_statistical_analysis
+        da_bbo
+        multieof
+        ocean_mix_layer
+        time_scale_average
+        corr_reg
     """
     gb = data_input.groupby(data_input[dim].dt.month)
     data_input_mean = data_input.sel({dim: time_range})
@@ -326,10 +326,10 @@ def smooth_daily_annual_cycle(
 
         - https://www.ncl.ucar.edu/Document/Functions/Contributed/smthClmDayTLL.shtml
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_smooth_daily_cycle.py
+        smooth_daily_cycle
     """
     # move time dimension to 1st
     dims_order = daily_annual_cycle_data.dims

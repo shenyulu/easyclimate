@@ -811,10 +811,10 @@ def calc_divergence(
         - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2dv_cfd.shtml
         - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .diff import calc_dx_gradient, calc_dy_gradient
     from .utility import transfer_deg2rad
@@ -896,10 +896,10 @@ def calc_vorticity(
         - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2vr_cfd.shtml
         - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .diff import calc_dx_gradient, calc_dy_gradient
     from .utility import transfer_deg2rad

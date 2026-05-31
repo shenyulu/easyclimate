@@ -122,10 +122,10 @@ def track_cyclone_center_msl_only(
     ...                    coords={'lat': np.linspace(-10, 10, 20), 'lon': np.linspace(100, 130, 30)})
     >>> result = track_cyclone_center_msl_only(slp, (110, 0), index_value = [0])
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_tc_track_axis.py
+        tc_track_axis
     """
     # Calculate spatial resolution for longitude and latitude
     hres_lon = np.abs(calc_gradient(msl_data[lon_dim], dim=lon_dim).data[0])

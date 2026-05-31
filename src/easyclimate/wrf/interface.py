@@ -113,10 +113,10 @@ def open_wrf_data(
     .. seealso::
         https://unidata.github.io/netcdf4-python/#netCDF4.Dataset
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wrf_tutorial.py
+        wrf_tutorial
     """
 
     ncfile = Dataset(

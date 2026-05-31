@@ -86,10 +86,10 @@ def interp_mesh2point(
         - https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html
         - https://www.ncl.ucar.edu/Applications/station.shtml
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_interp_mesh2point.py
+        interp_mesh2point
     """
     interp_func = RegularGridInterpolator(
         (data_input[lat_dim_mesh].values, data_input[lon_dim_mesh].values),

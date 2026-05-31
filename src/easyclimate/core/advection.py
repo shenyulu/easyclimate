@@ -52,10 +52,10 @@ def calc_u_advection(
     -------
     The zonal temperature advection. (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .diff import calc_dx_gradient
 
@@ -99,10 +99,10 @@ def calc_v_advection(
     -------
     The meridional temperature advection. (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from .diff import calc_dy_gradient
 

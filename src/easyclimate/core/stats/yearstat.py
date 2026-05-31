@@ -54,10 +54,10 @@ def calc_yearly_mean(data_input: xr.DataArray, dim: str = "time", **kwargs):
         :py:meth:`xarray.DataArray.mean <xarray:xarray.DataArray.mean>`,
         :py:meth:`xarray.core.groupby.DataArrayGroupBy.mean <xarray:xarray.core.groupby.DataArrayGroupBy.mean>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_basic_statistical_analysis.py
+        basic_statistical_analysis
     """
     ds_year = data_input.resample({dim: "YS"}).mean(**kwargs)
     return ds_year

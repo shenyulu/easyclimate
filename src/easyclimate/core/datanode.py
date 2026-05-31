@@ -671,9 +671,9 @@ def open_datanode(filepath: str) -> DataNode:
     >>> node = open_datanode("path/to/saved_node")
     >>> node.some_attribute  # Access attributes as usual
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_multieof.py
+        multieof
     """
     return DataNode.load(filepath)
