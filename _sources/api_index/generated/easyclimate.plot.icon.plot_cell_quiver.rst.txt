@@ -1,0 +1,6 @@
+﻿easyclimate.plot.icon.plot\_cell\_quiver
+========================================
+
+.. currentmodule:: easyclimate.plot.icon
+
+.. autofunction:: plot_cell_quiver

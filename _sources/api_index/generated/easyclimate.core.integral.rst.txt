@@ -1,0 +1,17 @@
+﻿easyclimate.core.integral
+=========================
+
+.. automodule:: easyclimate.core.integral
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_delta_pressure
+      calc_p_integral
+      calc_top2surface_average
+      calc_top2surface_average_rs
+      calc_top2surface_integral
+      calc_top2surface_integral_rs
+   

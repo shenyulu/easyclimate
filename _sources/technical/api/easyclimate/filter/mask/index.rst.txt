@@ -1,0 +1,66 @@
+easyclimate.filter.mask
+=======================
+
+.. py:module:: easyclimate.filter.mask
+
+.. autoapi-nested-parse::
+
+   Custom mask methods
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.filter.mask.mask_custom_rectangular_box
+
+
+Module Contents
+---------------
+
+.. py:function:: mask_custom_rectangular_box(da: xarray.DataArray, lon1: float, lon2: float, lat1: float, lat2: float, angle: float = 0.0, center: Literal['center', 'lowerleft'] = 'center', use_coslat: bool = True, lat_dim: str = 'lat', lon_dim: str = 'lon')
+
+   Generate a mask for a custom geographical rectangular box with optional rotation.
+
+   Parameters
+   ----------
+   da : :py:class:`xarray.DataArray <xarray:xarray.DataArray>`
+       Input data array containing latitude and longitude coordinates.
+       The mask is generated on the horizontal grid defined by `lat_dim`
+       and `lon_dim`.
+   lon1, lon2: :py:class:`float <float>`.
+       Rectangular box longitude point. The applicable value should be between
+       -180 :math:`^\circ` and 360 :math:`^\circ`. `lon1` and `lon2` are used
+       to define the unrotated box extent, and do not strictly require the size
+       relationship between them.
+   lat1, lat2: :py:class:`float <float>`.
+       Rectangular box latitude point. The applicable value should be between
+       -90 :math:`^\circ` and 90 :math:`^\circ`. `lat1` and `lat2` are used to
+       define the unrotated box extent, and do not strictly require the size
+       relationship between them.
+   angle: :py:class:`float <float>`, default: `0.0`.
+       Counterclockwise rotation angle in degrees.
+   center: :py:class:`str <str>`, default: `"center"`.
+       Rotation pivot of the rectangular box.
+
+       - `"center"`: rotate around the box center.
+       - `"lowerleft"`: rotate around the lower-left corner of the box.
+   use_coslat: :py:class:`bool <bool>`, default: `True`.
+       Whether to apply local geographical metric correction before rotation.
+       If `True`, longitude is scaled by :math:`\cos(lat0)` using the selected
+       pivot latitude so that longitude and latitude have a locally comparable
+       distance scale.
+   lat_dim: :py:class:`str <str>`, default: `"lat"`.
+       Name of the latitude coordinate in `da`.
+   lon_dim: :py:class:`str <str>`, default: `"lon"`.
+       Name of the longitude coordinate in `da`.
+
+   Returns
+   -------
+   mask : :py:class:`xarray.DataArray <xarray:xarray.DataArray>`
+       Boolean mask on the same horizontal grid as `da`, where values are
+       `True` inside the rotated rectangular box and `False` outside.
+
+

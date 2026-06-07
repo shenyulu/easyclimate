@@ -1,0 +1,47 @@
+easyclimate.plot.geolabel
+=========================
+
+.. py:module:: easyclimate.plot.geolabel
+
+.. autoapi-nested-parse::
+
+   Quick processing of geographic axes labels
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.geolabel.add_geolatitude_label
+   easyclimate.plot.geolabel.add_geolongitude_label
+
+
+Module Contents
+---------------
+
+.. py:function:: add_geolatitude_label(ax: matplotlib.axes.Axes = None, **kwargs)
+
+   Add a latitude label to a Cartopy PlateCarree axes.
+
+   Parameters
+   ----------
+   ax : :py:class:`matplotlib.axes.Axes`
+       The axes to which the label will be applied.
+   **kwargs
+       Additional keyword arguments to wrapped :py:meth:`matplotlib.axes.Axes.text <matplotlib:matplotlib.axes.Axes.text>`.
+
+
+.. py:function:: add_geolongitude_label(ax: matplotlib.axes.Axes = None, **kwargs)
+
+   Add a longitude label to a Cartopy PlateCarree axes.
+
+   Parameters
+   ----------
+   ax : :py:class:`matplotlib.axes.Axes`
+       The axes to which the label will be applied.
+   **kwargs
+       Additional keyword arguments to wrapped :py:meth:`matplotlib.axes.Axes.text <matplotlib:matplotlib.axes.Axes.text>`.
+
+

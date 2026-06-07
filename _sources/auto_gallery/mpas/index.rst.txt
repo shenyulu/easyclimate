@@ -1,0 +1,191 @@
+
+
+.. _sphx_glr_auto_gallery_mpas:
+
+MPAS and Voronoi Mesh Visualization
+------------------------------------
+
+Examples for plotting MPAS unstructured meshes and MPAS variables stored on
+cell centers or vertices.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw the edges of an MPAS Voronoi mesh with :pyeasyclimate.plot.mpas.plot_voronoi_grid.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_voronoi_grid_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_voronoi_grid.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS/Voronoi grid</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws MPAS vertex-centered scalar data on the dual polygons around each vertex with :pyeasyclimate.plot.mpas.plot_vertex_voronoi.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_vertex_voronoi_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_vertex_voronoi.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Vertex-centered Voronoi plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws streamlines from MPAS cell-centered vector winds with :pyeasyclimate.plot.mpas.plot_cell_streamplot.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_cell_streamplot_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_cell_streamplot.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Cell-centered streamplots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws MPAS cell-centered vector winds as curved arrows with :pyeasyclimate.plot.mpas.plot_cell_curved_quiver.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_cell_curved_quiver_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_cell_curved_quiver.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Cell-centered curved quiver plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws MPAS cell-centered scalar data on Voronoi polygons with :pyeasyclimate.plot.mpas.plot_cell_voronoi.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_cell_voronoi_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_cell_voronoi.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Cell-centered Voronoi plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates contour plots for MPAS vertex-centered scalar data.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_vertex_contour_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_vertex_contour.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Vertex-centered contour plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws MPAS cell-centered winds as meteorological barbs with :pyeasyclimate.plot.mpas.plot_cell_barbs.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_cell_barbs_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_cell_barbs.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Cell-centered wind barbs</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw MPAS cell-centered vector winds with :pyeasyclimate.plot.mpas.plot_cell_quiver.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_cell_quiver_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_cell_quiver.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Cell-centered quiver plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates filled and line contours for MPAS cell-centered scalar fields.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/mpas/images/thumb/sphx_glr_plot_cell_contour_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_mpas_plot_cell_contour.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MPAS Cell-centered contour plots</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_gallery/mpas/plot_voronoi_grid
+   /auto_gallery/mpas/plot_vertex_voronoi
+   /auto_gallery/mpas/plot_cell_streamplot
+   /auto_gallery/mpas/plot_cell_curved_quiver
+   /auto_gallery/mpas/plot_cell_voronoi
+   /auto_gallery/mpas/plot_vertex_contour
+   /auto_gallery/mpas/plot_cell_barbs
+   /auto_gallery/mpas/plot_cell_quiver
+   /auto_gallery/mpas/plot_cell_contour
+

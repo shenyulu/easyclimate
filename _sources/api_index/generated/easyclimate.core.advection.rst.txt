@@ -1,0 +1,14 @@
+﻿easyclimate.core.advection
+==========================
+
+.. automodule:: easyclimate.core.advection
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_p_advection
+      calc_u_advection
+      calc_v_advection
+   

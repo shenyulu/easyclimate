@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MPAS Cell-centered curved quiver plots - easyclimate v2026.6.0 documentation</title><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="MPAS Cell-centered Voronoi plots" href="plot_cell_voronoi.html" /><link rel="prev" title="MPAS Cell-centered streamplots" href="plot_cell_streamplot.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=44020203" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="MPAS Cell-centered curved quiver plots"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../index.html">
+      <img class="light-logo" src="../../_static/easyclimate_logo_mini.png" alt="easyclimate" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../_static/easyclimate_logo_mini.png" alt="easyclimate" height="28" loading="lazy" />
+      <strong>easyclimate</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-1" aria-controls="nav-children-1">
+            <span>Getting Started</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-1" aria-labelledby="nav-trigger-1"><li><a href="../../overview.html">Overview</a></li><li><a href="../../install.html">Installation</a></li></ul>
+      </li><li class="link"><a href="../index.html">Gallery</a></li><li class="link"><a href="../../api_index/index.html">API Index</a></li>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-4" aria-controls="nav-children-4">
+            <span>Reference</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-4" aria-labelledby="nav-trigger-4"><li><a href="../../changes.html">Release Notes</a></li><li><a href="../../static_docs/cite.html">Cite</a></li><li><a href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li></ul>
+      </li>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-5" aria-controls="nav-children-5">
+            <span>Community</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-5" aria-labelledby="nav-trigger-5"><li><a href="../../contributing.html">Contributing</a></li><li><a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li><li><a href="https://github.com/shenyulu/easyclimate">GitHub</a></li><li><a href="../../sponsor.html">Sponsor</a></li></ul>
+      </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/shenyulu/easyclimate" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Gallery</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic/index.html">Bases for Atmospheric Science</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_multi_linear_reg.html">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_water_flux.html">Water Flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_detrend_spatial.html">Spatial Detrend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_vor.html">Relative Vorticity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_div.html">Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_water_flux_div.html">Water Flux Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_curve_quiver.html">Curved Quiver Plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basic/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../eddy/index.html">Transient Eddy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../filter/index.html">Filter and Smooth</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../icon/index.html">ICON and Triangular Mesh Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_streamplot.html">ICON Cell-centered streamplots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_curved_quiver.html">ICON Cell-centered curved quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_barbs.html">ICON Cell-centered wind barb plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_quiver.html">ICON Cell-centered quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_triangular.html">ICON Cell-centered triangular plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_triangular_grid.html">ICON/Triangular grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_contour.html">ICON Cell-centered contour plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interp/index.html">Interpolation and Regridding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">MPAS and Voronoi Mesh Visualization</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_voronoi_grid.html">MPAS/Voronoi grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_vertex_voronoi.html">MPAS Vertex-centered Voronoi plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_cell_streamplot.html">MPAS Cell-centered streamplots</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MPAS Cell-centered curved quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_cell_voronoi.html">MPAS Cell-centered Voronoi plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_vertex_contour.html">MPAS Vertex-centered contour plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_cell_barbs.html">MPAS Cell-centered wind barbs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_cell_quiver.html">MPAS Cell-centered quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_cell_contour.html">MPAS Cell-centered contour plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ocean/index.html">Ocean</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_oceanic_front.html">Oceanic Front</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../oscillation/index.html">Oscillation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../satellite/index.html">Satellite</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../typhoon/index.html">Typhoon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../wrf/index.html">WRF data post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_index/index.html">List of Functions and Classes (API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.advection.html">easyclimate.core.advection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.rvdv.html">easyclimate.core.rvdv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.integral.html">easyclimate.core.integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.waterflux.html">easyclimate.core.waterflux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.geowind.html">easyclimate.core.geowind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.mask.html">easyclimate.filter.mask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.polar.html">easyclimate.plot.polar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.geolabel.html">easyclimate.plot.geolabel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.voronoi_extract.html">easyclimate.plot.mpas.voronoi_extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.voronoi_grid.html">easyclimate.plot.mpas.voronoi_grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_voronoi.html">easyclimate.plot.mpas.cell_voronoi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_contour.html">easyclimate.plot.mpas.cell_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_quiver.html">easyclimate.plot.mpas.cell_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_streamplot.html">easyclimate.plot.mpas.cell_streamplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_barbs.html">easyclimate.plot.mpas.cell_barbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_curved_quiver.html">easyclimate.plot.mpas.cell_curved_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.vertex_voronoi.html">easyclimate.plot.mpas.vertex_voronoi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.vertex_contour.html">easyclimate.plot.mpas.vertex_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_triangular_grid.html">easyclimate.plot.icon.plot_triangular_grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_triangular.html">easyclimate.plot.icon.plot_cell_triangular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_contourf.html">easyclimate.plot.icon.plot_cell_contourf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_contour.html">easyclimate.plot.icon.plot_cell_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_quiver.html">easyclimate.plot.icon.plot_cell_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_streamplot.html">easyclimate.plot.icon.plot_cell_streamplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_barbs.html">easyclimate.plot.icon.plot_cell_barbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_curved_quiver.html">easyclimate.plot.icon.plot_cell_curved_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to easyclimate</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/shenyulu/easyclimate"
+  data-type="github" data-user="shenyulu" data-repo="easyclimate">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </span>
+  <span class="flex-grow px-2 break-all">
+    
+    
+      <span>easyclimate</span>
+    
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <iconify-icon icon="lucide:star"></iconify-icon>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <iconify-icon icon="lucide:git-fork"></iconify-icon>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/shenyulu/easyclimate/blob/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">easyclimate</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Gallery</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">MPAS and Voronoi Mesh Visualization</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="3" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">MPAS Cell-centered curved quiver plots</strong>
+        <meta itemprop="position" content="4" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <div class="copy-page-wrapper relative pb-4 lg:absolute lg:top-8 lg:right-6 xl:right-12">
+  <div id="copy-page-trigger">
+    <button
+      type="button"
+      class="js-copy px-3 py-1 inline-flex items-center gap-1"
+      data-url="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst.txt"
+    >
+      <i class="i-lucide" data-icon="copy"></i>
+      <span>Copy page</span>
+    </button>
+    <button class="js-menu px-2 py-1" type="button" aria-label="More actions"
+      aria-haspopup="menu" aria-expanded="false" aria-controls="copy-page-content">
+      <i class="i-lucide chevron-down"></i>
+    </button>
+  </div>
+  <div id="copy-page-content" role="menu" aria-orientation="vertical" aria-hidden="true">
+    <div role="presentation">
+      <div class="flex flex-col" role="group">
+        <button class="js-copy" type="button" role="menuitem"
+          data-url="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst.txt">
+          <span class="iconify-icon">
+            <i class="i-lucide" data-icon="copy"></i>
+          </span>
+          <span>Copy page</span>
+        </button>
+        <a role="menuitem" href="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst.txt" target="_blank" rel="nofollow"><iconify-icon icon="bi:code-slash"></iconify-icon>
+            <span>View Source</span></a><a role="menuitem" href="https://chatgpt.com/?hints=search&q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:openai"></iconify-icon>
+          <span>Open in ChatGPT</span>
+        </a><a role="menuitem" href="https://claude.ai/new?q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:claude"></iconify-icon>
+          <span>Open in Claude</span>
+        </a><a role="menuitem" href="https://www.perplexity.ai/search?q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/mpas/plot_cell_curved_quiver.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:perplexity"></iconify-icon>
+          <span>Open in Perplexity</span>
+        </a></div>
+    </div>
+  </div>
+</div><article class="yue" role="main">
+          <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-gallery-mpas-plot-cell-curved-quiver-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="mpas-cell-centered-curved-quiver-plots">
+<span id="sphx-glr-auto-gallery-mpas-plot-cell-curved-quiver-py"></span><h1>MPAS Cell-centered curved quiver plots<a class="headerlink" href="#mpas-cell-centered-curved-quiver-plots" title="Link to this heading">¶</a></h1>
+<p>This example draws MPAS cell-centered vector winds as curved arrows with
+<a class="reference internal" href="../../technical/api/easyclimate/plot/mpas/index.html#easyclimate.plot.mpas.plot_cell_curved_quiver" title="easyclimate.plot.mpas.plot_cell_curved_quiver"><code class="xref py py-func docutils literal notranslate"><span class="pre">easyclimate.plot.mpas.plot_cell_curved_quiver</span></code></a>.</p>
+<p>The helper interpolates MPAS cell vectors to a regular plotting grid within the
+requested longitude-latitude window.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+</span><span data-line="2"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span data-line="3"><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+</span><span data-line="4"><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</span><span data-line="5"><span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">easyclimate.plot.mpas</span><span class="w"> </span><span class="kn">import</span> <a href="../../technical/api/easyclimate/plot/mpas/index.html#easyclimate.plot.mpas.plot_cell_curved_quiver" title="easyclimate.plot.mpas.plot_cell_curved_quiver" class="sphx-glr-backref-module-easyclimate-plot-mpas sphx-glr-backref-type-py-function"><span class="n">plot_cell_curved_quiver</span></a>
+</span></pre></div>
+</div>
+<p>Open MPAS output and select the reconstructed zonal and meridional wind
+components.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.open_tutorial_dataset" title="easyclimate.open_tutorial_dataset" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">open_tutorial_dataset</span></a><span class="p">(</span><span class="s2">&quot;mpas_JWwave_T10_nVertLevels10&quot;</span><span class="p">)</span>
+</span><span data-line="2"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">U</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span><span class="o">.</span><span class="n">uReconstructZonal</span></a>
+</span><span data-line="3"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">V</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span><span class="o">.</span><span class="n">uReconstructMeridional</span></a>
+</span></pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">mpas_JWwave_T10_nVertLevels10.nc ━━━━━━━━ 100.0% • 2.3/2.3  • 48.6     • 0:00:00
+</span><span data-line="2">                                                   MB         MB/s
+</span></pre></div>
+</div>
+<p>Draw curved arrows for a midlatitude North Pacific domain. The <code class="docutils literal notranslate"><span class="pre">nx</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ny</span></code> arguments control the interpolation grid resolution.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span> <span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">)})</span>
+</span><span data-line="2">
+</span><span data-line="3"><a href="../../technical/api/easyclimate/plot/modplot/index.html#easyclimate.plot.modplot.CurvedQuiverplotSet" title="easyclimate.plot.modplot.CurvedQuiverplotSet" class="sphx-glr-backref-module-easyclimate-plot-modplot sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cq</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/plot/mpas/index.html#easyclimate.plot.mpas.plot_cell_curved_quiver" title="easyclimate.plot.mpas.plot_cell_curved_quiver" class="sphx-glr-backref-module-easyclimate-plot-mpas sphx-glr-backref-type-py-function"><span class="n">plot_cell_curved_quiver</span></a><span class="p">(</span>
+</span><span data-line="4">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a><span class="p">,</span>
+</span><span data-line="5">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">U</span></a><span class="p">,</span>
+</span><span data-line="6">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">V</span></a><span class="p">,</span>
+</span><span data-line="7">
+</span><span data-line="8">    <span class="n">lon_min</span><span class="o">=</span><span class="mi">190</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">lon_max</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">lat_min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">lat_max</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+</span><span data-line="12">
+</span><span data-line="13">    <span class="n">nx</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">ny</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">density</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+</span><span data-line="17"><span class="p">)</span>
+</span><span data-line="18">
+</span><span data-line="19"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;JW Wave Wind Field (plot_cell_curved_quiver)&quot;</span><span class="p">)</span>
+</span><span data-line="20"><span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;110m&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;brown&quot;</span><span class="p">)</span>
+</span><span data-line="21"><span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_cell_curved_quiver_001.png" srcset="../../_images/sphx_glr_plot_cell_curved_quiver_001.png" alt="JW Wave Wind Field (plot_cell_curved_quiver)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">&lt;cartopy.mpl.gridliner.Gridliner object at 0x7f1a7473dad0&gt;
+</span></pre></div>
+</div>
+<p>The same field can be drawn on a polar projection. <code class="docutils literal notranslate"><span class="pre">regrid_shape</span></code> controls
+the Cartopy-side regridding used for the projected vectors.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span>
+</span><span data-line="2">    <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+</span><span data-line="3">    <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">NorthPolarStereo</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=-</span><span class="mi">90</span><span class="p">)}</span>
+</span><span data-line="4"><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;brown&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><a href="../../technical/api/easyclimate/plot/modplot/index.html#easyclimate.plot.modplot.CurvedQuiverplotSet" title="easyclimate.plot.modplot.CurvedQuiverplotSet" class="sphx-glr-backref-module-easyclimate-plot-modplot sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cq</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/plot/mpas/index.html#easyclimate.plot.mpas.plot_cell_curved_quiver" title="easyclimate.plot.mpas.plot_cell_curved_quiver" class="sphx-glr-backref-module-easyclimate-plot-mpas sphx-glr-backref-type-py-function"><span class="n">plot_cell_curved_quiver</span></a><span class="p">(</span>
+</span><span data-line="9">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a><span class="p">,</span>
+</span><span data-line="10">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">U</span></a><span class="p">,</span>
+</span><span data-line="11">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">V</span></a><span class="p">,</span>
+</span><span data-line="12">
+</span><span data-line="13">    <span class="n">lon_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">lon_max</span><span class="o">=</span><span class="mi">359</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">lat_min</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">lat_max</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+</span><span data-line="17">
+</span><span data-line="18">    <span class="n">nx</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+</span><span data-line="19">    <span class="n">ny</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+</span><span data-line="20">
+</span><span data-line="21">    <span class="n">density</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+</span><span data-line="22">    <span class="n">regrid_shape</span> <span class="o">=</span> <span class="mi">26</span><span class="p">,</span>
+</span><span data-line="23">    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span data-line="24"><span class="p">)</span>
+</span><span data-line="25">
+</span><span data-line="26"><span class="n">gl</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">meta</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.draw_polar_basemap" title="easyclimate.plot.draw_polar_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">draw_polar_basemap</span></a><span class="p">(</span>
+</span><span data-line="27">    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+</span><span data-line="28">    <span class="n">lon_step</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+</span><span data-line="29">    <span class="n">lat_step</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+</span><span data-line="30">    <span class="n">lat_range</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span>
+</span><span data-line="31">    <span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="32">    <span class="n">gridlines_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">},</span>
+</span><span data-line="33">    <span class="n">lat_label_lon</span><span class="o">=-</span><span class="mi">60</span>
+</span><span data-line="34"><span class="p">)</span>
+</span><span data-line="35">
+</span><span data-line="36"><a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.set_polar_title" title="easyclimate.plot.set_polar_title" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_polar_title</span></a><span class="p">(</span><span class="s2">&quot;JW Wave Wind Field&quot;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">meta</span></a><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_cell_curved_quiver_002.png" srcset="../../_images/sphx_glr_plot_cell_curved_quiver_002.png" alt="plot cell curved quiver" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">Text(0.5, 1.0831890201695809, &#39;JW Wave Wind Field&#39;)
+</span></pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 5.349 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-gallery-mpas-plot-cell-curved-quiver-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/ec0dafaa94323770b7a3ffb7725dac0a/plot_cell_curved_quiver.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_cell_curved_quiver.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/77905d4da22579f75e53eb1257f111eb/plot_cell_curved_quiver.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_cell_curved_quiver.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c7b6b0d453fc10644553df9bc33b8ebb/plot_cell_curved_quiver.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_cell_curved_quiver.zip</span></code></a></p>
+</div>
+</div>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="plot_cell_streamplot.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">MPAS Cell-centered streamplots</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="plot_cell_voronoi.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">MPAS Cell-centered Voronoi plots</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2022-2026, Shenyulu（深雨露） and easyclimate developers</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/shenyulu/easyclimate" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../_static/documentation_options.js?v=11b6f811"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/tabs.js?v=3ee01567"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../_static/shibuya.js?v=cac61aee"></script>
+      <script src="https://code.iconify.design/iconify-icon/3.0.1/iconify-icon.min.js"></script></body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>easyclimate.field.typhoon.axisymmetric - easyclimate v2026.6.0 documentation</title><link rel="index" title="Index" href="../../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/shibuya.css?v=44020203" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../../../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="easyclimate.field.typhoon.axisymmetric"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../../../../../index.html">
+      <img class="light-logo" src="../../../../../../_static/easyclimate_logo_mini.png" alt="easyclimate" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../../../../../_static/easyclimate_logo_mini.png" alt="easyclimate" height="28" loading="lazy" />
+      <strong>easyclimate</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-1" aria-controls="nav-children-1">
+            <span>Getting Started</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-1" aria-labelledby="nav-trigger-1"><li><a href="../../../../../../overview.html">Overview</a></li><li><a href="../../../../../../install.html">Installation</a></li></ul>
+      </li><li class="link"><a href="../../../../../../auto_gallery/index.html">Gallery</a></li><li class="link"><a href="../../../../../../api_index/index.html">API Index</a></li>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-4" aria-controls="nav-children-4">
+            <span>Reference</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-4" aria-labelledby="nav-trigger-4"><li><a href="../../../../../../changes.html">Release Notes</a></li><li><a href="../../../../../../static_docs/cite.html">Cite</a></li><li><a href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li></ul>
+      </li>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-5" aria-controls="nav-children-5">
+            <span>Community</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-5" aria-labelledby="nav-trigger-5"><li><a href="../../../../../../contributing.html">Contributing</a></li><li><a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li><li><a href="https://github.com/shenyulu/easyclimate">GitHub</a></li><li><a href="../../../../../../sponsor.html">Sponsor</a></li></ul>
+      </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/shenyulu/easyclimate" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../install.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Gallery</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../auto_gallery/index.html">Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/basic/index.html">Bases for Atmospheric Science</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_multi_linear_reg.html">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_water_flux.html">Water Flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_detrend_spatial.html">Spatial Detrend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_vor.html">Relative Vorticity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_div.html">Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_water_flux_div.html">Water Flux Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_curve_quiver.html">Curved Quiver Plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/basic/plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/eddy/index.html">Transient Eddy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/filter/index.html">Filter and Smooth</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/filter/plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/icon/index.html">ICON and Triangular Mesh Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_cell_streamplot.html">ICON Cell-centered streamplots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_cell_curved_quiver.html">ICON Cell-centered curved quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_cell_barbs.html">ICON Cell-centered wind barb plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_cell_quiver.html">ICON Cell-centered quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_cell_triangular.html">ICON Cell-centered triangular plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_triangular_grid.html">ICON/Triangular grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/icon/plot_icon_cell_contour.html">ICON Cell-centered contour plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/interp/index.html">Interpolation and Regridding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/mpas/index.html">MPAS and Voronoi Mesh Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_voronoi_grid.html">MPAS/Voronoi grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_vertex_voronoi.html">MPAS Vertex-centered Voronoi plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_cell_streamplot.html">MPAS Cell-centered streamplots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_cell_curved_quiver.html">MPAS Cell-centered curved quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_cell_voronoi.html">MPAS Cell-centered Voronoi plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_vertex_contour.html">MPAS Vertex-centered contour plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_cell_barbs.html">MPAS Cell-centered wind barbs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_cell_quiver.html">MPAS Cell-centered quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/mpas/plot_cell_contour.html">MPAS Cell-centered contour plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/ocean/index.html">Ocean</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/ocean/plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/ocean/plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/ocean/plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/ocean/plot_oceanic_front.html">Oceanic Front</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/oscillation/index.html">Oscillation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/satellite/index.html">Satellite</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/typhoon/index.html">Typhoon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../auto_gallery/wrf/index.html">WRF data post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../auto_gallery/wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api_index/index.html">List of Functions and Classes (API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.advection.html">easyclimate.core.advection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.rvdv.html">easyclimate.core.rvdv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.integral.html">easyclimate.core.integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.waterflux.html">easyclimate.core.waterflux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.geowind.html">easyclimate.core.geowind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.filter.mask.html">easyclimate.filter.mask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.polar.html">easyclimate.plot.polar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.geolabel.html">easyclimate.plot.geolabel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.voronoi_extract.html">easyclimate.plot.mpas.voronoi_extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.voronoi_grid.html">easyclimate.plot.mpas.voronoi_grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.cell_voronoi.html">easyclimate.plot.mpas.cell_voronoi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.cell_contour.html">easyclimate.plot.mpas.cell_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.cell_quiver.html">easyclimate.plot.mpas.cell_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.cell_streamplot.html">easyclimate.plot.mpas.cell_streamplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.cell_barbs.html">easyclimate.plot.mpas.cell_barbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.cell_curved_quiver.html">easyclimate.plot.mpas.cell_curved_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.vertex_voronoi.html">easyclimate.plot.mpas.vertex_voronoi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.mpas.vertex_contour.html">easyclimate.plot.mpas.vertex_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_triangular_grid.html">easyclimate.plot.icon.plot_triangular_grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_triangular.html">easyclimate.plot.icon.plot_cell_triangular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_contourf.html">easyclimate.plot.icon.plot_cell_contourf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_contour.html">easyclimate.plot.icon.plot_cell_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_quiver.html">easyclimate.plot.icon.plot_cell_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_streamplot.html">easyclimate.plot.icon.plot_cell_streamplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_barbs.html">easyclimate.plot.icon.plot_cell_barbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.plot.icon.plot_cell_curved_quiver.html">easyclimate.plot.icon.plot_cell_curved_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../contributing.html">Contributing to easyclimate</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#easyclimate.field.typhoon.axisymmetric.cyclone_axisymmetric_analysis"><code class="docutils literal notranslate"><span class="pre">cyclone_axisymmetric_analysis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/shenyulu/easyclimate"
+  data-type="github" data-user="shenyulu" data-repo="easyclimate">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </span>
+  <span class="flex-grow px-2 break-all">
+    
+    
+      <span>easyclimate</span>
+    
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <iconify-icon icon="lucide:star"></iconify-icon>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <iconify-icon icon="lucide:git-fork"></iconify-icon>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/shenyulu/easyclimate/blob/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../../../../index.html"><span itemprop="name">easyclimate</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">easyclimate.field.typhoon.axisymmetric</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <div class="copy-page-wrapper relative pb-4 lg:absolute lg:top-8 lg:right-6 xl:right-12">
+  <div id="copy-page-trigger">
+    <button
+      type="button"
+      class="js-copy px-3 py-1 inline-flex items-center gap-1"
+      data-url="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst.txt"
+    >
+      <i class="i-lucide" data-icon="copy"></i>
+      <span>Copy page</span>
+    </button>
+    <button class="js-menu px-2 py-1" type="button" aria-label="More actions"
+      aria-haspopup="menu" aria-expanded="false" aria-controls="copy-page-content">
+      <i class="i-lucide chevron-down"></i>
+    </button>
+  </div>
+  <div id="copy-page-content" role="menu" aria-orientation="vertical" aria-hidden="true">
+    <div role="presentation">
+      <div class="flex flex-col" role="group">
+        <button class="js-copy" type="button" role="menuitem"
+          data-url="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst.txt">
+          <span class="iconify-icon">
+            <i class="i-lucide" data-icon="copy"></i>
+          </span>
+          <span>Copy page</span>
+        </button>
+        <a role="menuitem" href="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst.txt" target="_blank" rel="nofollow"><iconify-icon icon="bi:code-slash"></iconify-icon>
+            <span>View Source</span></a><a role="menuitem" href="https://chatgpt.com/?hints=search&q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:openai"></iconify-icon>
+          <span>Open in ChatGPT</span>
+        </a><a role="menuitem" href="https://claude.ai/new?q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:claude"></iconify-icon>
+          <span>Open in Claude</span>
+        </a><a role="menuitem" href="https://www.perplexity.ai/search?q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/technical/api/easyclimate/field/typhoon/axisymmetric/index.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:perplexity"></iconify-icon>
+          <span>Open in Perplexity</span>
+        </a></div>
+    </div>
+  </div>
+</div><article class="yue" role="main">
+          <section id="module-easyclimate.field.typhoon.axisymmetric">
+<span id="easyclimate-field-typhoon-axisymmetric"></span><h1>easyclimate.field.typhoon.axisymmetric<a class="headerlink" href="#module-easyclimate.field.typhoon.axisymmetric" title="Link to this heading">¶</a></h1>
+<p>Axisymmetric Analysis</p>
+<p>The axisymmetric analysis was conducted by spherical orthodrome transformation (Ritchie 1987; Nakamura et al. 1997; Yamazaki 2011).
+In the transformed coordinates, the cyclonic centre is relocated to the North Pole. The coordinate transform is easily
+conducted in three-dimensional Cartesian coordinates.</p>
+<p>Consider a longitude–latitude grid, where the cyclone relocated
+at the North Pole (the NP coordinates hereafter). The transformation
+between the original and NP coordinates is straightforward
+with rotations in Cartesian coordinates. A positional vector in the
+Cartesian coordinates <span class="math notranslate nohighlight">\(\pmb { r } = ( x , y , z ) ^ { \mathrm { T } }\)</span> is obtained from the longitude–
+latitude coordinates by</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[x=\cos\lambda\sin\theta\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[y=\sin\lambda\sin\theta\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[z=\cos\theta\]</div>
+</div>
+<p>Now, <span class="math notranslate nohighlight">\(\pmb { r }\)</span> in the NP coordinates is projected to the original coordinates
+by following two rotations. Assuming that the cyclonic
+centre is <span class="math notranslate nohighlight">\((\lambda_c, \theta_c)\)</span>, where <span class="math notranslate nohighlight">\(\lambda_c\)</span> and <span class="math notranslate nohighlight">\(\theta_c\)</span> are the central longitude and
+colatitude, respectively:</p>
+<p>1. Rotate <span class="math notranslate nohighlight">\(-\theta_c\)</span> around the <span class="math notranslate nohighlight">\(y\)</span> axis (negative because of a clockwise
+rotation in the x–z plane).
+2. Rotate <span class="math notranslate nohighlight">\(\lambda_c\)</span> around the <span class="math notranslate nohighlight">\(z\)</span> axis.</p>
+<p>The two rotations are described by the following rotation matrix:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}A _ { 1 } = \left[ \begin{array} { c c c } { { \cos \theta _ { \mathrm { c } } } } &amp; { { 0 } } &amp; { { \sin \theta _ { \mathrm { c } } } } \\ { { 0 } } &amp; { { 1 } } &amp; { { 0 } } \\ { { - \sin \theta _ { \mathrm { c } } } } &amp; { { 0 } } &amp; { { \cos \theta _ { \mathrm { c } } } } \end{array} \right]\end{split}\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}A _ { 2 } = \left[ \begin{array} { c c c } { \cos \lambda _ { \mathrm { c } } } &amp; { - \sin \lambda _ { \mathrm { c } } } &amp; { 0 } \\ { \sin \lambda _ { \mathrm { c } } } &amp; { \cos \lambda _ { \mathrm { c } } } &amp; { 0 } \\ { 0 } &amp; { 0 } &amp; { 1 } \end{array}\right]\end{split}\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}A = A_2 A_1 = \begin{bmatrix}
+\cos \lambda_c \cos \theta_c &amp; -\sin \lambda_c &amp; \cos \lambda_c \sin \theta_c \\
+\sin \lambda_c \cos \theta_c &amp; \cos \lambda_c &amp; \sin \lambda_c \sin \theta_c \\
+-\sin \theta_c &amp; 0 &amp; \cos \theta_c
+\end{bmatrix}\end{split}\]</div>
+</div>
+<p>The points in the NP coordinates are transformed to the original
+coordinates and are obtained by <span class="math notranslate nohighlight">\(A\pmb{ r }\)</span>. The longitude and latitude
+corresponding to <span class="math notranslate nohighlight">\(A\pmb{ r }\)</span> are obtained by</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}\lambda = { \left\{ \begin{array} { l l } { \text{arctan} \! { \frac { y } { x } } { \bmod { 2 \pi } } , } &amp; { x \! \neq \! 0 } \\ { 0 , } &amp; { x \! = \! 0 } \end{array} \right. }\end{split}\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\theta = a \cos z.\]</div>
+</div>
+<p>The scalar field is interpolated at (<span class="math notranslate nohighlight">\(\lambda, \theta\)</span>). The zonally symmetric and
+asymmetric components in the transformed coordinates represent
+the axially symmetric and asymmetric components, respectively.</p>
+<p>The vectors such as winds need additional procedures. First,
+the horizontal winds expressed in the Cartesian coordinates are</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\dot { x } = - u \sin \lambda - v \cos \lambda \cos \theta\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\dot { y } = u \cos \lambda - v \sin \lambda \cos \theta\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\dot { z } = v \sin \theta\]</div>
+</div>
+<p>and each component of a vector in the Cartesian coordinates
+is interpolated as a scalar. Then, the coordinates are rotated with
+<span class="math notranslate nohighlight">\(A ^ { \mathrm { T } } \dot { x }\)</span>, where <span class="math notranslate nohighlight">\(A^T = A_1 A_2\)</span> , to obtain winds in the NP coordinates.
+The winds in the longitude–latitude coordinates are obtained from
+those in the Cartesian coordinates by</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[u = \dot { y } \cos \lambda - \dot { x } \sin \lambda\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[v = \operatorname{sgn} { ( \dot { z } ) } \sqrt { { ( \dot { x } \cos { \lambda } + \dot { y } \sin { \lambda } ) } ^ { 2 } + \dot { z } ^ { 2 } }\]</div>
+</div>
+<p>The transformed zonal and meridional winds represent tangential
+and radial components, respectively. In this study, the grid
+spacing is uniform in longitude (<span class="math notranslate nohighlight">\(\lambda\)</span>) and in colatitude (<span class="math notranslate nohighlight">\(\theta=\dfrac{\pi}{2}-\phi\)</span>),
+and the meridional extent is <span class="math notranslate nohighlight">\(10^\circ\)</span> from the North Pole.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>Ritchie, H. (1987). Semi-Lagrangian Advection on a Gaussian Grid. Monthly Weather Review, 115(2), 608-619. <a class="reference external" href="https://journals.ametsoc.org/view/journals/mwre/115/2/1520-0493_1987_115_0608_slaoag_2_0_co_2.xml">https://journals.ametsoc.org/view/journals/mwre/115/2/1520-0493_1987_115_0608_slaoag_2_0_co_2.xml</a></p></li>
+<li><p>Nakamura, H., Nakamura, M., &amp; Anderson, J. L. (1997). The Role of High- and Low-Frequency Dynamics in Blocking Formation. Monthly Weather Review, 125(9), 2074-2093. <a class="reference external" href="https://journals.ametsoc.org/view/journals/mwre/125/9/1520-0493_1997_125_2074_trohal_2.0.co_2.xml">https://journals.ametsoc.org/view/journals/mwre/125/9/1520-0493_1997_125_2074_trohal_2.0.co_2.xml</a>.</p></li>
+<li><p>Yamazaki, A. (山崎 哲), 2011: The maintenance mechanism of atmospheric blocking. D.S. thesis, Kyushu University (Available online at <a class="reference external" href="http://hdl.handle.net/2324/21709">http://hdl.handle.net/2324/21709</a>, <a class="reference external" href="https://doi.org/10.15017/21709">https://doi.org/10.15017/21709</a>).</p></li>
+<li><p>Enomoto, T. (榎本 剛) (2019). Influence of the Track Forecast of Typhoon Prapiroon on the Heavy Rainfall in Western Japan in July 2018. SOLA, 15A, 66-71. <a class="reference external" href="https://doi.org/10.2151/sola.15A-012">https://doi.org/10.2151/sola.15A-012</a>.</p></li>
+<li><p>Nakashita, S. (中下 早織), &amp; Enomoto, T. (2021). Factors for an Abrupt Increase in Track Forecast Error of Typhoon Hagibis (2019). SOLA, 17A(Special_Edition), 33-37. <a class="reference external" href="https://doi.org/10.2151/sola.17A-006">https://doi.org/10.2151/sola.17A-006</a>.</p></li>
+</ul>
+</div>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#easyclimate.field.typhoon.axisymmetric.cyclone_axisymmetric_analysis" title="easyclimate.field.typhoon.axisymmetric.cyclone_axisymmetric_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cyclone_axisymmetric_analysis</span></code></a>(, polar_lat, lon_dim, ...)</p></td>
+<td><p>Performs axisymmetric analysis of a cyclone by transforming data into a polar coordinate system centered on the cyclone.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="easyclimate.field.typhoon.axisymmetric.cyclone_axisymmetric_analysis">
+<span class="sig-prename descclassname"><span class="pre">easyclimate.field.typhoon.axisymmetric.</span></span><span class="sig-name descname"><span class="pre">cyclone_axisymmetric_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.4.0)"><span class="pre">xarray.DataArray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cyclone_center_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polar_lon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">numpy.ndarray</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">360,</span> <span class="pre">2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polar_lat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">numpy.ndarray</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">np.arange(80,</span> <span class="pre">90.1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'level'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6371.0087714</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../../core/datanode/index.html#easyclimate.core.datanode.DataNode" title="easyclimate.core.datanode.DataNode"><span class="pre">easyclimate.core.datanode.DataNode</span></a></span></span><a class="headerlink" href="#easyclimate.field.typhoon.axisymmetric.cyclone_axisymmetric_analysis" title="Link to this definition">¶</a></dt>
+<dd><p>Performs axisymmetric analysis of a cyclone by transforming data into a polar coordinate system centered on the cyclone.</p>
+<p>This function converts input data to a polar coordinate system based on the cyclone center, interpolates the data onto a polar grid,
+and decomposes it into symmetric and asymmetric components. The symmetric component is the azimuthal mean, and the asymmetric component
+is the deviation from this mean.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h3>
+<dl>
+<dt>data_input<span class="classifier"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a></span></dt><dd><p>Input data with latitude, longitude, and optionally vertical dimensions, i.e., <code class="docutils literal notranslate"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> or <code class="docutils literal notranslate"><span class="pre">(level,</span> <span class="pre">lat,</span> <span class="pre">lon)</span></code>.</p>
+</dd>
+<dt>cyclone_center_point<span class="classifier">Tuple[float, float]</span></dt><dd><p>Cyclone center as <code class="docutils literal notranslate"><span class="pre">(longitude,</span> <span class="pre">latitude)</span></code> in degrees.</p>
+</dd>
+<dt>polar_lon<span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional</span></dt><dd><p>Array of longitudinal angles in degrees for the polar grid, default is <code class="docutils literal notranslate"><span class="pre">np.arange(0,</span> <span class="pre">360,</span> <span class="pre">2)</span></code>.</p>
+</dd>
+<dt>polar_lat<span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, optional</span></dt><dd><p>Array of latitudinal angles in degrees for the polar grid, default is <code class="docutils literal notranslate"><span class="pre">np.arange(80,</span> <span class="pre">90.1,</span> <span class="pre">1)</span></code>.</p>
+</dd>
+<dt>lon_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the longitude dimension, default is ‘lon’.</p>
+</dd>
+<dt>lat_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the latitude dimension, default is ‘lat’.</p>
+</dd>
+<dt>vertical_dim<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>Name of the vertical dimension, default is ‘level’.</p>
+</dd>
+<dt>R<span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional ( <span class="math notranslate nohighlight">\(\mathrm{km}\)</span> ).</span></dt><dd><p>Earth’s radius, default is 6371.0087714.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt><a class="reference internal" href="../../../index.html#easyclimate.DataNode" title="easyclimate.DataNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">easyclimate.DataNode</span></code></a></dt><dd><p>A DataNode containing three xarray.DataArray objects:</p>
+<ul class="simple">
+<li><p>rotated: Data interpolated onto the polar grid.</p></li>
+<li><p>rotated_symmetric: Azimuthal mean of the rotated data.</p></li>
+<li><p>rotated_asymmetric: Deviation from the azimuthal mean.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html">https://www.dpac.dpri.kyoto-u.ac.jp/enomoto/pymetds/Typhoon.html</a></p></li>
+<li><p>Enomoto, T. (榎本 剛) (2019). Influence of the Track Forecast of Typhoon Prapiroon on the Heavy Rainfall in Western Japan in July 2018. SOLA, 15A, 66-71. <a class="reference external" href="https://doi.org/10.2151/sola.15A-012">https://doi.org/10.2151/sola.15A-012</a></p></li>
+<li><p>Nakashita, S. (中下 早織), &amp; Enomoto, T. (2021). Factors for an Abrupt Increase in Track Forecast Error of Typhoon Hagibis (2019). SOLA, 17A(Special_Edition), 33-37. <a class="reference external" href="https://doi.org/10.2151/sola.17A-006">https://doi.org/10.2151/sola.17A-006</a></p></li>
+</ul>
+</div>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">241</span><span class="p">,</span> <span class="mi">241</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">],</span>
+</span><span data-line="4"><span class="gp">... </span>                    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">125</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">225</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">550</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">775</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">825</span><span class="p">,</span> <span class="mi">850</span><span class="p">,</span> <span class="mi">875</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">925</span><span class="p">,</span> <span class="mi">950</span><span class="p">,</span> <span class="mi">975</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]),</span>
+</span><span data-line="5"><span class="gp">... </span>                            <span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">),</span>
+</span><span data-line="6"><span class="gp">... </span>                            <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">170</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+</span><span data-line="7"><span class="gp">... </span><span class="p">)</span>
+</span><span data-line="8"><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">cyclone_axisymmetric_analysis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="mf">140.20</span><span class="p">,</span> <span class="mf">19.77</span><span class="p">))</span>
+</span><span data-line="9"><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span><span data-line="10"><span class="go">&lt;easyclimate.DataNode &#39;root&#39;&gt;</span>
+</span><span data-line="11"><span class="go">root: /</span>
+</span><span data-line="12"><span class="go">├── rotated: &lt;xarray.DataArray&gt;</span>
+</span><span data-line="13"><span class="go">│   Dimensions:  (level: 37, y: 11, polar_lon: 180)</span>
+</span><span data-line="14"><span class="go">│   Coordinates:</span>
+</span><span data-line="15"><span class="go">│     * lat        (y: 11): float64</span>
+</span><span data-line="16"><span class="go">│     * level      (level: 37): int32</span>
+</span><span data-line="17"><span class="go">│     * lon        (polar_lon: 180): int64</span>
+</span><span data-line="18"><span class="go">│     * polar_lat  (y: 11): float64</span>
+</span><span data-line="19"><span class="go">│     * polar_lon  (polar_lon: 180): int64</span>
+</span><span data-line="20"><span class="go">│     * y          (y: 11): float64</span>
+</span><span data-line="21"><span class="go">├── rotated_asymmetric: &lt;xarray.DataArray&gt;</span>
+</span><span data-line="22"><span class="go">│   Dimensions:  (level: 37, y: 11, polar_lon: 180)</span>
+</span><span data-line="23"><span class="go">│   Coordinates:</span>
+</span><span data-line="24"><span class="go">│     * lat        (y: 11): float64</span>
+</span><span data-line="25"><span class="go">│     * level      (level: 37): int32</span>
+</span><span data-line="26"><span class="go">│     * lon        (polar_lon: 180): int64</span>
+</span><span data-line="27"><span class="go">│     * polar_lat  (y: 11): float64</span>
+</span><span data-line="28"><span class="go">│     * polar_lon  (polar_lon: 180): int64</span>
+</span><span data-line="29"><span class="go">│     * y          (y: 11): float64</span>
+</span><span data-line="30"><span class="go">└── rotated_symmetric: &lt;xarray.DataArray&gt;</span>
+</span><span data-line="31"><span class="go">    Dimensions:  (level: 37, y: 11)</span>
+</span><span data-line="32"><span class="go">    Coordinates:</span>
+</span><span data-line="33"><span class="go">    * lat        (y: 11): float64</span>
+</span><span data-line="34"><span class="go">    * level      (level: 37): int32</span>
+</span><span data-line="35"><span class="go">    * polar_lat  (y: 11): float64</span>
+</span><span data-line="36"><span class="go">    * y          (y: 11): float64</span>
+</span></pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Typhoon Tracking and Axisymmetric Analysis"><img alt="" src="../../../../../../_images/sphx_glr_plot_tc_track_axis_thumb.png" />
+<p><a class="reference internal" href="../../../../../../auto_gallery/typhoon/plot_tc_track_axis.html#sphx-glr-auto-gallery-typhoon-plot-tc-track-axis-py"><span class="std std-ref">Typhoon Tracking and Axisymmetric Analysis</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Typhoon Tracking and Axisymmetric Analysis</div>
+</div></div></section>
+</dd></dl>
+
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2022-2026, Shenyulu（深雨露） and easyclimate developers</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/shenyulu/easyclimate" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../../../../_static/documentation_options.js?v=11b6f811"></script>
+      <script src="../../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../../_static/tabs.js?v=3ee01567"></script>
+      <script src="../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../../../../_static/shibuya.js?v=cac61aee"></script>
+      <script src="https://code.iconify.design/iconify-icon/3.0.1/iconify-icon.min.js"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>

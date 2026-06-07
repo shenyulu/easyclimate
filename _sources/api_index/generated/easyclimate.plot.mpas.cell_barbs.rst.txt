@@ -1,0 +1,12 @@
+﻿easyclimate.plot.mpas.cell\_barbs
+=================================
+
+.. automodule:: easyclimate.plot.mpas.cell_barbs
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_cell_barbs
+   

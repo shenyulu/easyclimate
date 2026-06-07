@@ -1,0 +1,13 @@
+﻿easyclimate.plot.polar
+======================
+
+.. automodule:: easyclimate.plot.polar
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      draw_polar_basemap
+      set_polar_title
+   

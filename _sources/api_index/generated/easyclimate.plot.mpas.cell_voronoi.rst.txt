@@ -1,0 +1,12 @@
+﻿easyclimate.plot.mpas.cell\_voronoi
+===================================
+
+.. automodule:: easyclimate.plot.mpas.cell_voronoi
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_cell_voronoi
+   

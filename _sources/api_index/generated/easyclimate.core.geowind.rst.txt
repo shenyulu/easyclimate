@@ -1,0 +1,13 @@
+﻿easyclimate.core.geowind
+========================
+
+.. automodule:: easyclimate.core.geowind
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_geostrophic_wind
+      calc_geostrophic_wind_vorticity
+   

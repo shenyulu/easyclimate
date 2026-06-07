@@ -1,0 +1,16 @@
+﻿easyclimate.core.waterflux
+==========================
+
+.. automodule:: easyclimate.core.waterflux
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_divergence_watervaporflux
+      calc_divergence_watervaporflux_top2surface_integral
+      calc_horizontal_water_flux
+      calc_vertical_water_flux
+      calc_water_flux_top2surface_integral
+   

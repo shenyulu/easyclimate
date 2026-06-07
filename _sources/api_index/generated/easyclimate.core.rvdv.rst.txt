@@ -1,0 +1,17 @@
+﻿easyclimate.core.rvdv
+=====================
+
+.. automodule:: easyclimate.core.rvdv
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_divergence
+      calc_divergence_ncl
+      calc_divergence_rs
+      calc_vorticity
+      calc_vorticity_ncl
+      calc_vorticity_rs
+   

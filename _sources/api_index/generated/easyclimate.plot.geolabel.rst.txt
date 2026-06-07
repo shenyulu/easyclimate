@@ -1,0 +1,13 @@
+﻿easyclimate.plot.geolabel
+=========================
+
+.. automodule:: easyclimate.plot.geolabel
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_geolatitude_label
+      add_geolongitude_label
+   

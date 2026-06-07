@@ -1,0 +1,3180 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Multiple Variable Linear Regression - easyclimate v2026.6.0 documentation</title><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Water Flux" href="plot_water_flux.html" /><link rel="prev" title="Coriolis Coefficient with Latitude" href="plot_co_coeff.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=44020203" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Multiple Variable Linear Regression"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../index.html">
+      <img class="light-logo" src="../../_static/easyclimate_logo_mini.png" alt="easyclimate" height="28" loading="lazy" />
+      <img class="dark-logo" src="../../_static/easyclimate_logo_mini.png" alt="easyclimate" height="28" loading="lazy" />
+      <strong>easyclimate</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-1" aria-controls="nav-children-1">
+            <span>Getting Started</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-1" aria-labelledby="nav-trigger-1"><li><a href="../../overview.html">Overview</a></li><li><a href="../../install.html">Installation</a></li></ul>
+      </li><li class="link"><a href="../index.html">Gallery</a></li><li class="link"><a href="../../api_index/index.html">API Index</a></li>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-4" aria-controls="nav-children-4">
+            <span>Reference</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-4" aria-labelledby="nav-trigger-4"><li><a href="../../changes.html">Release Notes</a></li><li><a href="../../static_docs/cite.html">Cite</a></li><li><a href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li></ul>
+      </li>
+      <li class="link"><button class="js-menu" type="button" id="nav-trigger-5" aria-controls="nav-children-5">
+            <span>Community</span>
+            <i class="i-lucide chevron-down"></i>
+          </button>
+        <ul id="nav-children-5" aria-labelledby="nav-trigger-5"><li><a href="../../contributing.html">Contributing</a></li><li><a href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li><li><a href="https://github.com/shenyulu/easyclimate">GitHub</a></li><li><a href="../../sponsor.html">Sponsor</a></li></ul>
+      </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/shenyulu/easyclimate" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Gallery</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../plot_monsoon_npwi.html">Onset and Retreat of Monsoon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_corr_reg.html">Regression and Correlation Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_formatting_coordinates.html">Formatting Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_wet_bulk.html">Wet-bulb Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_aerobulk.html">Estimate Turbulent Air-sea Fluxes</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Bases for Atmospheric Science</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot_time_scale_average.html">Time Scale Average</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_co_coeff.html">Coriolis Coefficient with Latitude</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Multiple Variable Linear Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_water_flux.html">Water Flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_detrend_spatial.html">Spatial Detrend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_vor.html">Relative Vorticity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_div.html">Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_taylor_diagram.html">Taylor Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_water_flux_div.html">Water Flux Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_curve_quiver.html">Curved Quiver Plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_geographic_finite_difference.html">Geographic Finite Difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_basic_statistical_analysis.html">Basic Statistical Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../eddy/index.html">Transient Eddy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_egr.html">Maximum Eady Growth Rate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../eddy/plot_waf.html">Wave Activity Horizontal Flux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../filter/index.html">Filter and Smooth</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_wavelet.html">Wavelets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_smooth_daily_cycle.html">Smooth Mean Daily Annual Cycle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_wk_spectra.html">Wheeler-Kiladis Space-Time Spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_barnes_filter.html">Barnes Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_emd.html">Empirical Mode Decomposition (EMD) and Ensemble Empirical Mode Decomposition (EEMD)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_redfit.html">Estimate Red-noise Spectrum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_spatial_pcf.html">2D Spatial Parabolic Cylinder Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_multieof.html">EOF Analysis of Multiple Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_kf_filter.html">KF Filter and Hovmöller Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filter/plot_basic_eof.html">Empirical Orthogonal Function (EOF) and Maximum Covariance Analysis (MCA)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../icon/index.html">ICON and Triangular Mesh Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_streamplot.html">ICON Cell-centered streamplots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_curved_quiver.html">ICON Cell-centered curved quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_barbs.html">ICON Cell-centered wind barb plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_quiver.html">ICON Cell-centered quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_triangular.html">ICON Cell-centered triangular plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_triangular_grid.html">ICON/Triangular grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../icon/plot_icon_cell_contour.html">ICON Cell-centered contour plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../interp/index.html">Interpolation and Regridding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp_mesh2point.html">Interpolate grid data to station data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interp/plot_interp.html">Interpolation and Regriding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mpas/index.html">MPAS and Voronoi Mesh Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_voronoi_grid.html">MPAS/Voronoi grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_vertex_voronoi.html">MPAS Vertex-centered Voronoi plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_cell_streamplot.html">MPAS Cell-centered streamplots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_cell_curved_quiver.html">MPAS Cell-centered curved quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_cell_voronoi.html">MPAS Cell-centered Voronoi plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_vertex_contour.html">MPAS Vertex-centered contour plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_cell_barbs.html">MPAS Cell-centered wind barbs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_cell_quiver.html">MPAS Cell-centered quiver plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mpas/plot_cell_contour.html">MPAS Cell-centered contour plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ocean/index.html">Ocean</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_ocean_stability.html">Ocean Instability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_thermal_layer.html">Thermocline Depth and 20°C Isotherm Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_ocean_mix_layer.html">Ocean Surface Mixed Layers Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ocean/plot_oceanic_front.html">Oceanic Front</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../oscillation/index.html">Oscillation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_mjo_phase.html">MJO Phase Space Trajectory Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_ao_index.html">Arctic Oscillation (AO) Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../oscillation/plot_da_bbo.html">Arctic Dipole Anomaly (DA/AD) and Barents-Beaufort Oscillation (BBO)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../satellite/index.html">Satellite</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../satellite/plot_satellite_data_analysis.html">Satellite Data Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../typhoon/index.html">Typhoon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tcpv.html">Potential Intensity for Typhoon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../typhoon/plot_tc_track_axis.html">Typhoon Tracking and Axisymmetric Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../wrf/index.html">WRF data post-processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wrf/plot_wrf_tutorial.html">Build-in WRF-python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_index/index.html">List of Functions and Classes (API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.datanode.html">easyclimate.core.datanode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.units.html">easyclimate.core.units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eddy.html">easyclimate.core.eddy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.extract.html">easyclimate.core.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.normalized.html">easyclimate.core.normalized</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.read.html">easyclimate.core.read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.tutorial.html">easyclimate.core.tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.utility.html">easyclimate.core.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.variability.html">easyclimate.core.variability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.diff.html">easyclimate.core.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.advection.html">easyclimate.core.advection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.rvdv.html">easyclimate.core.rvdv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.integral.html">easyclimate.core.integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.waterflux.html">easyclimate.core.waterflux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.geowind.html">easyclimate.core.geowind</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stat.html">easyclimate.core.stat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.detrend_spatial.html">easyclimate.core.stats.detrend_spatial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.yearstat.html">easyclimate.core.stats.yearstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.monthstat.html">easyclimate.core.stats.monthstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.stats.seasonstat.html">easyclimate.core.stats.seasonstat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.mk_test.html">easyclimate.core.mk_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.eof.html">easyclimate.core.eof</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.spharm.html">easyclimate.core.spharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.core.windspharm.html">easyclimate.core.windspharm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.coriolis.html">easyclimate.physics.geo.coriolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.geo.linrood_latwgt.html">easyclimate.physics.geo.linrood_latwgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.dry.html">easyclimate.physics.dry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.dewpoint.html">easyclimate.physics.moisture.dewpoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.lapse_rate.html">easyclimate.physics.moisture.lapse_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.mix.html">easyclimate.physics.moisture.mix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.vapor_pressure.html">easyclimate.physics.moisture.vapor_pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.moisture.wet_bulb.html">easyclimate.physics.moisture.wet_bulb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.equivalent_potential_temperature.html">easyclimate.physics.temperature.equivalent_potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.potential_temperature.html">easyclimate.physics.temperature.potential_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.temperature.virtual_temperature.html">easyclimate.physics.temperature.virtual_temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.condensation.lcl.html">easyclimate.physics.condensation.lcl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.convection.stability.html">easyclimate.physics.convection.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.angmom_atm.html">easyclimate.physics.energy.angmom_atm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.enthalpy.html">easyclimate.physics.energy.enthalpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.energy.latent_heat_water.html">easyclimate.physics.energy.latent_heat_water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.physics.transfer.html">easyclimate.physics.transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.butter_filter.html">easyclimate.filter.butter_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.lanczos_filter.html">easyclimate.filter.lanczos_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.kf_filter.html">easyclimate.filter.kf_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.barnes_filter.html">easyclimate.filter.barnes_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.gaussian_filter.html">easyclimate.filter.gaussian_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.smooth.html">easyclimate.filter.smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.wavelet.html">easyclimate.filter.wavelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.redfit.html">easyclimate.filter.redfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spatial_pcf.html">easyclimate.filter.spatial_pcf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.emd.html">easyclimate.filter.emd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.spectrum.html">easyclimate.filter.spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.filter.mask.html">easyclimate.filter.mask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.barnes.html">easyclimate.interp.barnes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2mesh.html">easyclimate.interp.mesh2mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.mesh2point.html">easyclimate.interp.mesh2point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_model2pressure.html">easyclimate.interp.interp1d_vertical_model2pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.interp1d_vertical_pressure2altitude.html">easyclimate.interp.interp1d_vertical_pressure2altitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.interp.vinth2p.html">easyclimate.interp.vinth2p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.axisticker.html">easyclimate.plot.axisticker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.projection.html">easyclimate.plot.projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.significance_plot.html">easyclimate.plot.significance_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.taylor_diagram.html">easyclimate.plot.taylor_diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.quick_draw.html">easyclimate.plot.quick_draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.curved_quiver_plot.html">easyclimate.plot.curved_quiver_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.bar.html">easyclimate.plot.bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.line.html">easyclimate.plot.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.polar.html">easyclimate.plot.polar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.geolabel.html">easyclimate.plot.geolabel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.voronoi_extract.html">easyclimate.plot.mpas.voronoi_extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.voronoi_grid.html">easyclimate.plot.mpas.voronoi_grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_voronoi.html">easyclimate.plot.mpas.cell_voronoi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_contour.html">easyclimate.plot.mpas.cell_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_quiver.html">easyclimate.plot.mpas.cell_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_streamplot.html">easyclimate.plot.mpas.cell_streamplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_barbs.html">easyclimate.plot.mpas.cell_barbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.cell_curved_quiver.html">easyclimate.plot.mpas.cell_curved_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.vertex_voronoi.html">easyclimate.plot.mpas.vertex_voronoi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.mpas.vertex_contour.html">easyclimate.plot.mpas.vertex_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_triangular_grid.html">easyclimate.plot.icon.plot_triangular_grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_triangular.html">easyclimate.plot.icon.plot_cell_triangular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_contourf.html">easyclimate.plot.icon.plot_cell_contourf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_contour.html">easyclimate.plot.icon.plot_cell_contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_quiver.html">easyclimate.plot.icon.plot_cell_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_streamplot.html">easyclimate.plot.icon.plot_cell_streamplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_barbs.html">easyclimate.plot.icon.plot_cell_barbs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.plot.icon.plot_cell_curved_quiver.html">easyclimate.plot.icon.plot_cell_curved_quiver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.wrf.interface.html">easyclimate.wrf.interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_enso.html">easyclimate.field.air_sea_interaction.index_enso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iod.html">easyclimate.field.air_sea_interaction.index_iod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_iobm.html">easyclimate.field.air_sea_interaction.index_iobm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_amm.html">easyclimate.field.air_sea_interaction.index_amm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_atlantic_nino.html">easyclimate.field.air_sea_interaction.index_atlantic_nino</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.air_sea_interaction.index_pdo.html">easyclimate.field.air_sea_interaction.index_pdo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_pna.html">easyclimate.field.teleconnection.index_pna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_nao.html">easyclimate.field.teleconnection.index_nao</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ea.html">easyclimate.field.teleconnection.index_ea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wa.html">easyclimate.field.teleconnection.index_wa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_wp.html">easyclimate.field.teleconnection.index_wp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_eu.html">easyclimate.field.teleconnection.index_eu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_srp.html">easyclimate.field.teleconnection.index_srp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_cgt.html">easyclimate.field.teleconnection.index_cgt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_ao_nam.html">easyclimate.field.teleconnection.index_ao_nam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_da.html">easyclimate.field.teleconnection.index_da</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.teleconnection.index_bbo.html">easyclimate.field.teleconnection.index_bbo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.land.html">easyclimate.field.land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.index_npwi.html">easyclimate.field.monsoon.index_npwi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.monsoon.bsiso.html">easyclimate.field.monsoon.bsiso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.mixlayer.html">easyclimate.field.ocean.mixlayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.oceanic_front.html">easyclimate.field.ocean.oceanic_front</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.stability.html">easyclimate.field.ocean.stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.ocean.thermal.html">easyclimate.field.ocean.thermal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.potential_intensity.html">easyclimate.field.typhoon.potential_intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.track.html">easyclimate.field.typhoon.track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.typhoon.axisymmetric.html">easyclimate.field.typhoon.axisymmetric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.mjo.html">easyclimate.field.equatorial_wave.mjo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.equatorial_wave.wk_spectra.html">easyclimate.field.equatorial_wave.wk_spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.satellite.image.html">easyclimate.field.satellite.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.heat_stress.humanindexmod_2020.html">easyclimate.field.heat_stress.humanindexmod_2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_index/generated/easyclimate.field.boundary_layer.aerobulk.html">easyclimate.field.boundary_layer.aerobulk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">Changelog♻️</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../static_docs/cite.html">Citing Easy Climate📒</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://easyclimate-backend.readthedocs.io/en/latest/src/softlist.html">Open Source Licenses</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to easyclimate</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md">How to Contribute</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/shenyulu/easyclimate">Source Code on GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sponsor.html">Sponsor This Project❤️</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><a class="js-repo-stats repo-stats flex items-center" href="https://github.com/shenyulu/easyclimate"
+  data-type="github" data-user="shenyulu" data-repo="easyclimate">
+  <span class="w-8 flex items-center justify-around shrink-0 text-3xl">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </span>
+  <span class="flex-grow px-2 break-all">
+    
+    
+      <span>easyclimate</span>
+    
+    <span class="flex text-sm repo-stats-count">
+      <span class="flex items-center pr-3">
+        <iconify-icon icon="lucide:star"></iconify-icon>
+        <strong class="js-repo-stars ml-1">0</strong>
+      </span>
+      <span class="flex items-center">
+        <iconify-icon icon="lucide:git-fork"></iconify-icon>
+        <strong class="js-repo-forks ml-1">0</strong>
+      </span>
+    </span>
+  </span>
+</a><div class="edit-this-page">
+  <a href="https://github.com/shenyulu/easyclimate/blob/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst">Edit this page</a>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">easyclimate</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Gallery</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">Bases for Atmospheric Science</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="3" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Multiple Variable Linear Regression</strong>
+        <meta itemprop="position" content="4" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <div class="copy-page-wrapper relative pb-4 lg:absolute lg:top-8 lg:right-6 xl:right-12">
+  <div id="copy-page-trigger">
+    <button
+      type="button"
+      class="js-copy px-3 py-1 inline-flex items-center gap-1"
+      data-url="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst.txt"
+    >
+      <i class="i-lucide" data-icon="copy"></i>
+      <span>Copy page</span>
+    </button>
+    <button class="js-menu px-2 py-1" type="button" aria-label="More actions"
+      aria-haspopup="menu" aria-expanded="false" aria-controls="copy-page-content">
+      <i class="i-lucide chevron-down"></i>
+    </button>
+  </div>
+  <div id="copy-page-content" role="menu" aria-orientation="vertical" aria-hidden="true">
+    <div role="presentation">
+      <div class="flex flex-col" role="group">
+        <button class="js-copy" type="button" role="menuitem"
+          data-url="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst.txt">
+          <span class="iconify-icon">
+            <i class="i-lucide" data-icon="copy"></i>
+          </span>
+          <span>Copy page</span>
+        </button>
+        <a role="menuitem" href="https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst.txt" target="_blank" rel="nofollow"><iconify-icon icon="bi:code-slash"></iconify-icon>
+            <span>View Source</span></a><a role="menuitem" href="https://chatgpt.com/?hints=search&q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:openai"></iconify-icon>
+          <span>Open in ChatGPT</span>
+        </a><a role="menuitem" href="https://claude.ai/new?q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:claude"></iconify-icon>
+          <span>Open in Claude</span>
+        </a><a role="menuitem" href="https://www.perplexity.ai/search?q=Read%20https%3A//raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/auto_gallery/basic/plot_multi_linear_reg.rst.txt%20so%20I%20can%20ask%20questions%20about%20it." target="_blank" rel="nofollow">
+          <iconify-icon icon="bi:perplexity"></iconify-icon>
+          <span>Open in Perplexity</span>
+        </a></div>
+    </div>
+  </div>
+</div><article class="yue" role="main">
+          <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-gallery-basic-plot-multi-linear-reg-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="multiple-variable-linear-regression">
+<span id="sphx-glr-auto-gallery-basic-plot-multi-linear-reg-py"></span><h1>Multiple Variable Linear Regression<a class="headerlink" href="#multiple-variable-linear-regression" title="Link to this heading">¶</a></h1>
+<p>This documentation demonstrates a comprehensive analysis of sea surface temperature (SST) variability
+explained by two climate indices (AO and Niño 3.4) using multiple linear regression. The analysis
+covers data preparation, index calculation, regression modeling, and visualization of results.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[y = a_1 x_1 + a_2 x_2 + b\]</div>
+</div>
+<p>Before proceeding with all the steps, first import some necessary libraries and packages</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+</span><span data-line="2"><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+</span><span data-line="3"><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</span><span data-line="4"><span class="kn">import</span><span class="w"> </span><span class="nn">easyclimate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ecl</span>
+</span></pre></div>
+</div>
+<p>Two time ranges are defined to account for seasonal analysis with different base periods</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">time_range</span></code>: Primary analysis period (1982-2020)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_range_plus1</span></code>: Offset by one year for seasonal calculations</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://docs.python.org/3/library/functions.html#slice" title="builtins.slice" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">time_range</span></a> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;1982-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-12-31&quot;</span><span class="p">)</span>
+</span><span data-line="2"><a href="https://docs.python.org/3/library/functions.html#slice" title="builtins.slice" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">time_range_plus1</span></a> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;1983-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2021-12-31&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>The Arctic Oscillation index is calculated using:</p>
+<ol class="arabic simple">
+<li><p>Sea level pressure (SLP) data from the Northern Hemisphere</p></li>
+<li><p>Seasonal mean calculation for December-January-February (DJF)</p></li>
+<li><p>EOF analysis following Thompson &amp; Wallace (1998) methodology</p></li>
+</ol>
+<p>The resulting index is then subset to our analysis period.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">slp_data</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.open_tutorial_dataset" title="easyclimate.open_tutorial_dataset" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">open_tutorial_dataset</span></a><span class="p">(</span><span class="s2">&quot;slp_monmean_NH&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">slp</span>
+</span><span data-line="2"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">slp_data_DJF_mean</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.calc_seasonal_mean" title="easyclimate.calc_seasonal_mean" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">calc_seasonal_mean</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">slp_data</span></a><span class="p">,</span> <span class="n">extract_season</span> <span class="o">=</span> <span class="s1">&#39;DJF&#39;</span><span class="p">)</span>
+</span><span data-line="3"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_ao</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/teleconnection/index.html#easyclimate.field.teleconnection.calc_index_AO_EOF_Thompson_Wallace_1998" title="easyclimate.field.teleconnection.calc_index_AO_EOF_Thompson_Wallace_1998" class="sphx-glr-backref-module-easyclimate-field-teleconnection sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">teleconnection</span><span class="o">.</span><span class="n">calc_index_AO_EOF_Thompson_Wallace_1998</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">slp_data_DJF_mean</span></a><span class="p">)</span>
+</span><span data-line="4"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_ao</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.sel.html#xarray.DataArray.sel" title="xarray.DataArray.sel" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">index_ao</span><span class="o">.</span><span class="n">sel</span></a><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#slice" title="builtins.slice" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">time_range</span></a><span class="p">)</span>
+</span><span data-line="5"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_ao</span></a>
+</span></pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">slp_monmean_NH.nc ━━━━━━━━━━━━━━━━━━━━ 100.0% • 3.3/3.3 MB • 66.4 MB/s • 0:00:00
+</span><span data-line="2">/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/xeofs/preprocessing/multi_index_converter.py:49: FutureWarning: Deleting a single level of a MultiIndex is deprecated. Previously, this deleted all levels of a MultiIndex. Please also drop the following variables: {&#39;dim1&#39;, &#39;dim2&#39;} to avoid an error in the future.
+</span><span data-line="3">  X_transformed = X_transformed.drop_vars(dim)
+</span></pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;PC&#x27; (time: 39)&gt; Size: 312B
+array([-0.11359502, -0.04278451,  0.1251718 ,  0.1180264 ,  0.01372303,
+        0.01148666, -0.30164561, -0.13134693, -0.07526516, -0.19079561,
+       -0.23400238,  0.02196399, -0.11893917,  0.06695014, -0.05743778,
+        0.0068418 , -0.08987437, -0.14630476,  0.08800577, -0.091502  ,
+        0.00138097,  0.02114858, -0.02929297,  0.07069781, -0.14965371,
+       -0.11538558, -0.00784751,  0.30721541,  0.10058031, -0.06837294,
+        0.09842305, -0.01502733, -0.13184147, -0.06253175, -0.1326965 ,
+        0.01857373, -0.04430921, -0.23259293,  0.15605242])
+Coordinates:
+  * time     (time) datetime64[ns] 312B 1982-12-01 1983-12-01 ... 2020-12-01
+    month    (time) float64 312B 12.0 12.0 12.0 12.0 ... 12.0 12.0 12.0 12.0
+    mode     int64 8B 1
+Attributes: (12/15)
+    model:          EOF analysis
+    software:       xeofs
+    version:        3.0.4
+    date:           2026-06-07 04:41:12
+    n_modes:        2
+    center:         False
+    ...             ...
+    sample_name:    sample
+    feature_name:   feature
+    random_state:   None
+    compute:        True
+    solver:         auto
+    solver_kwargs:  {}</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;PC&#x27;</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 39</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-ec4f7ed2-c40b-48cc-9f16-be2790c95f89' class='xr-array-in' type='checkbox' checked><label for='section-ec4f7ed2-c40b-48cc-9f16-be2790c95f89' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>-0.1136 -0.04278 0.1252 0.118 ... 0.01857 -0.04431 -0.2326 0.1561</span></div><div class='xr-array-data'><pre>array([-0.11359502, -0.04278451,  0.1251718 ,  0.1180264 ,  0.01372303,
+        0.01148666, -0.30164561, -0.13134693, -0.07526516, -0.19079561,
+       -0.23400238,  0.02196399, -0.11893917,  0.06695014, -0.05743778,
+        0.0068418 , -0.08987437, -0.14630476,  0.08800577, -0.091502  ,
+        0.00138097,  0.02114858, -0.02929297,  0.07069781, -0.14965371,
+       -0.11538558, -0.00784751,  0.30721541,  0.10058031, -0.06837294,
+        0.09842305, -0.01502733, -0.13184147, -0.06253175, -0.1326965 ,
+        0.01857373, -0.04430921, -0.23259293,  0.15605242])</pre></div></div></li><li class='xr-section-item'><input id='section-fdba3c7c-a233-46ca-8708-e92a76b05a35' class='xr-section-summary-in' type='checkbox' checked /><label for='section-fdba3c7c-a233-46ca-8708-e92a76b05a35' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1982-12-01 ... 2020-12-01</div><input id='attrs-a254b7b8-b226-4f83-89b8-dc27cd335f88' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a254b7b8-b226-4f83-89b8-dc27cd335f88' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-96d81e3c-4917-42ef-ba4b-f289e772da05' class='xr-var-data-in' type='checkbox'><label for='data-96d81e3c-4917-42ef-ba4b-f289e772da05' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-01 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>actual_range :</span></dt><dd>[1297320. 1975200.]</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1982-12-01T00:00:00.000000000&#x27;, &#x27;1983-12-01T00:00:00.000000000&#x27;,
+       &#x27;1984-12-01T00:00:00.000000000&#x27;, &#x27;1985-12-01T00:00:00.000000000&#x27;,
+       &#x27;1986-12-01T00:00:00.000000000&#x27;, &#x27;1987-12-01T00:00:00.000000000&#x27;,
+       &#x27;1988-12-01T00:00:00.000000000&#x27;, &#x27;1989-12-01T00:00:00.000000000&#x27;,
+       &#x27;1990-12-01T00:00:00.000000000&#x27;, &#x27;1991-12-01T00:00:00.000000000&#x27;,
+       &#x27;1992-12-01T00:00:00.000000000&#x27;, &#x27;1993-12-01T00:00:00.000000000&#x27;,
+       &#x27;1994-12-01T00:00:00.000000000&#x27;, &#x27;1995-12-01T00:00:00.000000000&#x27;,
+       &#x27;1996-12-01T00:00:00.000000000&#x27;, &#x27;1997-12-01T00:00:00.000000000&#x27;,
+       &#x27;1998-12-01T00:00:00.000000000&#x27;, &#x27;1999-12-01T00:00:00.000000000&#x27;,
+       &#x27;2000-12-01T00:00:00.000000000&#x27;, &#x27;2001-12-01T00:00:00.000000000&#x27;,
+       &#x27;2002-12-01T00:00:00.000000000&#x27;, &#x27;2003-12-01T00:00:00.000000000&#x27;,
+       &#x27;2004-12-01T00:00:00.000000000&#x27;, &#x27;2005-12-01T00:00:00.000000000&#x27;,
+       &#x27;2006-12-01T00:00:00.000000000&#x27;, &#x27;2007-12-01T00:00:00.000000000&#x27;,
+       &#x27;2008-12-01T00:00:00.000000000&#x27;, &#x27;2009-12-01T00:00:00.000000000&#x27;,
+       &#x27;2010-12-01T00:00:00.000000000&#x27;, &#x27;2011-12-01T00:00:00.000000000&#x27;,
+       &#x27;2012-12-01T00:00:00.000000000&#x27;, &#x27;2013-12-01T00:00:00.000000000&#x27;,
+       &#x27;2014-12-01T00:00:00.000000000&#x27;, &#x27;2015-12-01T00:00:00.000000000&#x27;,
+       &#x27;2016-12-01T00:00:00.000000000&#x27;, &#x27;2017-12-01T00:00:00.000000000&#x27;,
+       &#x27;2018-12-01T00:00:00.000000000&#x27;, &#x27;2019-12-01T00:00:00.000000000&#x27;,
+       &#x27;2020-12-01T00:00:00.000000000&#x27;], dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>12.0 12.0 12.0 ... 12.0 12.0 12.0</div><input id='attrs-abbcc514-53b2-43a4-add7-9214d19a9d6c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-abbcc514-53b2-43a4-add7-9214d19a9d6c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d1b641ea-a5a1-4763-bf60-469241b25229' class='xr-var-data-in' type='checkbox'><label for='data-d1b641ea-a5a1-4763-bf60-469241b25229' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-01 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>actual_range :</span></dt><dd>[1297320. 1975200.]</dd></dl></div><div class='xr-var-data'><pre>array([12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12.,
+       12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12.,
+       12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>mode</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1</div><input id='attrs-de7b7c4a-84c2-42e2-b7f9-b769fb03be6a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-de7b7c4a-84c2-42e2-b7f9-b769fb03be6a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f42870c8-9320-48ef-965f-a7a09c4e5eb0' class='xr-var-data-in' type='checkbox'><label for='data-f42870c8-9320-48ef-965f-a7a09c4e5eb0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(1)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e30d97dc-f402-4078-959b-ffa9e903f06d' class='xr-section-summary-in' type='checkbox' /><label for='section-e30d97dc-f402-4078-959b-ffa9e903f06d' class='xr-section-summary' title='Expand/collapse section'>Attributes: <span>(15)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>model :</span></dt><dd>EOF analysis</dd><dt><span>software :</span></dt><dd>xeofs</dd><dt><span>version :</span></dt><dd>3.0.4</dd><dt><span>date :</span></dt><dd>2026-06-07 04:41:12</dd><dt><span>n_modes :</span></dt><dd>2</dd><dt><span>center :</span></dt><dd>False</dd><dt><span>standardize :</span></dt><dd>False</dd><dt><span>use_coslat :</span></dt><dd>True</dd><dt><span>check_nans :</span></dt><dd>True</dd><dt><span>sample_name :</span></dt><dd>sample</dd><dt><span>feature_name :</span></dt><dd>feature</dd><dt><span>random_state :</span></dt><dd>None</dd><dt><span>compute :</span></dt><dd>True</dd><dt><span>solver :</span></dt><dd>auto</dd><dt><span>solver_kwargs :</span></dt><dd>{}</dd></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>Plot the AO index</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</span><span data-line="2"><a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.line_plot_with_threshold" title="easyclimate.plot.line_plot_with_threshold" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line_plot_with_threshold</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_ao</span></a><span class="p">)</span>
+</span><span data-line="3"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s2">&quot;AO index&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_multi_linear_reg_001.png" srcset="../../_images/sphx_glr_plot_multi_linear_reg_001.png" alt="AO index" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">Text(0.5, 1.0, &#39;AO index&#39;)
+</span></pre></div>
+</div>
+<p>The Nino3.4 index is derived from:</p>
+<ol class="arabic simple">
+<li><p>Hadley Centre SST dataset</p></li>
+<li><p>Seasonal mean for DJF period</p></li>
+<li><p>Area averaging over the Niño 3.4 region (5°N-5°S, 170°W-120°W)</p></li>
+</ol>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.open_tutorial_dataset" title="easyclimate.open_tutorial_dataset" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">open_tutorial_dataset</span></a><span class="p">(</span><span class="s2">&quot;mini_HadISST_sst&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sst</span>
+</span><span data-line="2"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_DJF_mean</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.calc_seasonal_mean" title="easyclimate.calc_seasonal_mean" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">calc_seasonal_mean</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data</span></a><span class="p">,</span> <span class="n">extract_season</span> <span class="o">=</span> <span class="s1">&#39;DJF&#39;</span><span class="p">)</span>
+</span><span data-line="3"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_nino34</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/field/air_sea_interaction/index.html#easyclimate.field.air_sea_interaction.calc_index_nino34" title="easyclimate.field.air_sea_interaction.calc_index_nino34" class="sphx-glr-backref-module-easyclimate-field-air_sea_interaction sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">air_sea_interaction</span><span class="o">.</span><span class="n">calc_index_nino34</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_DJF_mean</span></a><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#slice" title="builtins.slice" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">time_range</span></a><span class="p">)</span>
+</span><span data-line="4"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_nino34</span></a>
+</span></pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">mini_HadISST_sst.nc ━━━━━━━━━━━━━━━ 100.0% • 10.8/10.8 MB • 141.8 MB/s • 0:00:00
+</span></pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;Nino34_index&#x27; (time: 39)&gt; Size: 156B
+array([        nan, -0.0124734 ,  0.21813878, -0.11274114, -0.3147756 ,
+       -0.07595692,  0.12089519,  0.22235654,  0.13034225,  0.48754653,
+        0.68276316,  0.47220498,  0.07245654,  0.48312995,  0.18349876,
+       -0.35225862, -0.37677544, -0.3445374 , -0.6013953 , -0.2562197 ,
+        0.169018  ,  0.16614044,  0.3284857 , -0.21275155, -0.43688706,
+       -0.24392569, -0.38617924, -0.6783489 , -0.40339458, -0.29292628,
+       -0.4576423 ,  0.3331677 ,  0.44740644,  0.34735596,  0.5513607 ,
+        0.5300274 , -0.15162548, -0.2636519 ,         nan], dtype=float32)
+Coordinates:
+  * time     (time) datetime64[ns] 312B 1982-12-01 1983-12-01 ... 2020-12-01
+    month    (time) int64 312B 12 12 12 12 12 12 12 12 ... 12 12 12 12 12 12 12
+Attributes:
+    standard_name:  sea_surface_temperature
+    long_name:      sst
+    units:          C
+    cell_methods:   time: lat: lon: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;Nino34_index&#x27;</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 39</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-2a2823c9-3366-4900-8a87-152d64a88bc4' class='xr-array-in' type='checkbox' checked><label for='section-2a2823c9-3366-4900-8a87-152d64a88bc4' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>nan -0.01247 0.2181 -0.1127 -0.3148 ... 0.53 -0.1516 -0.2637 nan</span></div><div class='xr-array-data'><pre>array([        nan, -0.0124734 ,  0.21813878, -0.11274114, -0.3147756 ,
+       -0.07595692,  0.12089519,  0.22235654,  0.13034225,  0.48754653,
+        0.68276316,  0.47220498,  0.07245654,  0.48312995,  0.18349876,
+       -0.35225862, -0.37677544, -0.3445374 , -0.6013953 , -0.2562197 ,
+        0.169018  ,  0.16614044,  0.3284857 , -0.21275155, -0.43688706,
+       -0.24392569, -0.38617924, -0.6783489 , -0.40339458, -0.29292628,
+       -0.4576423 ,  0.3331677 ,  0.44740644,  0.34735596,  0.5513607 ,
+        0.5300274 , -0.15162548, -0.2636519 ,         nan], dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-b9674c4e-30ae-4c47-ad07-3c978e7f35ac' class='xr-section-summary-in' type='checkbox' checked /><label for='section-b9674c4e-30ae-4c47-ad07-3c978e7f35ac' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1982-12-01 ... 2020-12-01</div><input id='attrs-448af56a-f178-46c4-8101-357f0a0efb17' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-448af56a-f178-46c4-8101-357f0a0efb17' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2e888d3e-0e54-4d91-b643-5f4d04727b4a' class='xr-var-data-in' type='checkbox'><label for='data-2e888d3e-0e54-4d91-b643-5f4d04727b4a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1982-12-01T00:00:00.000000000&#x27;, &#x27;1983-12-01T00:00:00.000000000&#x27;,
+       &#x27;1984-12-01T00:00:00.000000000&#x27;, &#x27;1985-12-01T00:00:00.000000000&#x27;,
+       &#x27;1986-12-01T00:00:00.000000000&#x27;, &#x27;1987-12-01T00:00:00.000000000&#x27;,
+       &#x27;1988-12-01T00:00:00.000000000&#x27;, &#x27;1989-12-01T00:00:00.000000000&#x27;,
+       &#x27;1990-12-01T00:00:00.000000000&#x27;, &#x27;1991-12-01T00:00:00.000000000&#x27;,
+       &#x27;1992-12-01T00:00:00.000000000&#x27;, &#x27;1993-12-01T00:00:00.000000000&#x27;,
+       &#x27;1994-12-01T00:00:00.000000000&#x27;, &#x27;1995-12-01T00:00:00.000000000&#x27;,
+       &#x27;1996-12-01T00:00:00.000000000&#x27;, &#x27;1997-12-01T00:00:00.000000000&#x27;,
+       &#x27;1998-12-01T00:00:00.000000000&#x27;, &#x27;1999-12-01T00:00:00.000000000&#x27;,
+       &#x27;2000-12-01T00:00:00.000000000&#x27;, &#x27;2001-12-01T00:00:00.000000000&#x27;,
+       &#x27;2002-12-01T00:00:00.000000000&#x27;, &#x27;2003-12-01T00:00:00.000000000&#x27;,
+       &#x27;2004-12-01T00:00:00.000000000&#x27;, &#x27;2005-12-01T00:00:00.000000000&#x27;,
+       &#x27;2006-12-01T00:00:00.000000000&#x27;, &#x27;2007-12-01T00:00:00.000000000&#x27;,
+       &#x27;2008-12-01T00:00:00.000000000&#x27;, &#x27;2009-12-01T00:00:00.000000000&#x27;,
+       &#x27;2010-12-01T00:00:00.000000000&#x27;, &#x27;2011-12-01T00:00:00.000000000&#x27;,
+       &#x27;2012-12-01T00:00:00.000000000&#x27;, &#x27;2013-12-01T00:00:00.000000000&#x27;,
+       &#x27;2014-12-01T00:00:00.000000000&#x27;, &#x27;2015-12-01T00:00:00.000000000&#x27;,
+       &#x27;2016-12-01T00:00:00.000000000&#x27;, &#x27;2017-12-01T00:00:00.000000000&#x27;,
+       &#x27;2018-12-01T00:00:00.000000000&#x27;, &#x27;2019-12-01T00:00:00.000000000&#x27;,
+       &#x27;2020-12-01T00:00:00.000000000&#x27;], dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>12 12 12 12 12 ... 12 12 12 12 12</div><input id='attrs-e241e16b-a37e-471d-853c-929c2c439627' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e241e16b-a37e-471d-853c-929c2c439627' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-44cd7f80-5363-436a-b192-6e1b080fc31e' class='xr-var-data-in' type='checkbox'><label for='data-44cd7f80-5363-436a-b192-6e1b080fc31e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
+       12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
+       12, 12, 12, 12, 12])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-650bc0a2-e0a6-4b26-9d66-a5cfde1bdfa7' class='xr-section-summary-in' type='checkbox' checked /><label for='section-650bc0a2-e0a6-4b26-9d66-a5cfde1bdfa7' class='xr-section-summary' title='Expand/collapse section'>Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>Plot the Niño 3.4 index</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</span><span data-line="2"><a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.line_plot_with_threshold" title="easyclimate.plot.line_plot_with_threshold" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line_plot_with_threshold</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_nino34</span></a><span class="p">)</span>
+</span><span data-line="3"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s2">&quot;Niño 3.4 index&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_multi_linear_reg_002.png" srcset="../../_images/sphx_glr_plot_multi_linear_reg_002.png" alt="Niño 3.4 index" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">Text(0.5, 1.0, &#39;Niño 3.4 index&#39;)
+</span></pre></div>
+</div>
+<p>The dependent variable for our regression is prepared as:</p>
+<ul class="simple">
+<li><p>Seasonal mean SST for September-October-November (SON)</p></li>
+<li><p>Using the offset time range to examine potential lagged relationships</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_SON_mean</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.calc_seasonal_mean" title="easyclimate.calc_seasonal_mean" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">calc_seasonal_mean</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data</span></a><span class="p">,</span> <span class="n">extract_season</span> <span class="o">=</span> <span class="s1">&#39;SON&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#slice" title="builtins.slice" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">time_range_plus1</span></a><span class="p">)</span>
+</span><span data-line="2"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_SON_mean</span></a> <span class="o">=</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.assign_coords.html#xarray.DataArray.assign_coords" title="xarray.DataArray.assign_coords" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">sst_data_SON_mean</span><span class="o">.</span><span class="n">assign_coords</span></a><span class="p">(</span><span class="n">time</span><span class="o">=</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_ao</span><span class="o">.</span><span class="n">time</span></a><span class="p">)</span>
+</span><span data-line="3"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_SON_mean</span></a>
+</span></pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;sst&#x27; (time: 39, lat: 30, lon: 360)&gt; Size: 2MB
+array([[[27.609846, 27.626818, 27.694347, ..., 27.6386  , 27.64776 ,
+         27.637032],
+        [27.979582, 27.987865, 28.057   , ..., 28.01703 , 28.030458,
+         28.020773],
+        [28.206915, 28.224077, 28.293734, ..., 28.30991 , 28.25866 ,
+         28.227865],
+        ...,
+        [27.851225, 27.814247, 27.79556 , ..., 28.031511, 27.987627,
+         27.925632],
+        [27.730938, 27.695229, 27.656563, ..., 27.95027 , 27.84813 ,
+         27.77307 ],
+        [27.72257 , 27.671392, 27.599901, ..., 27.993307, 27.842398,
+         27.749905]],
+
+       [[27.396732, 27.400951, 27.45458 , ..., 27.41075 , 27.441338,
+         27.43552 ],
+        [27.76663 , 27.772455, 27.823105, ..., 27.736406, 27.781384,
+         27.794256],
+        [28.059566, 28.063883, 28.119484, ..., 28.043169, 28.083147,
+         28.092148],
+...
+        [28.654837, 28.630167, 28.60982 , ..., 28.773338, 28.744364,
+         28.702961],
+        [28.67233 , 28.666992, 28.647274, ..., 28.724535, 28.69202 ,
+         28.67267 ],
+        [28.66854 , 28.645025, 28.609365, ..., 28.700104, 28.689146,
+         28.676378]],
+
+       [[28.383835, 28.371572, 28.373255, ..., 28.342772, 28.391098,
+         28.403643],
+        [28.755556, 28.737017, 28.712332, ..., 28.6299  , 28.711895,
+         28.756578],
+        [29.015614, 29.005974, 28.98043 , ..., 28.918898, 28.959194,
+         28.99497 ],
+        ...,
+        [28.526505, 28.477678, 28.350496, ..., 28.564365, 28.53063 ,
+         28.516111],
+        [28.422213, 28.383987, 28.281607, ..., 28.44673 , 28.415787,
+         28.405664],
+        [28.376661, 28.32148 , 28.226974, ..., 28.431257, 28.40944 ,
+         28.388994]]], shape=(39, 30, 360), dtype=float32)
+Coordinates:
+  * time     (time) datetime64[ns] 312B 1982-12-01 1983-12-01 ... 2020-12-01
+    month    (time) float64 312B 12.0 12.0 12.0 12.0 ... 12.0 12.0 12.0 12.0
+  * lat      (lat) float32 120B -14.5 -13.5 -12.5 -11.5 ... 11.5 12.5 13.5 14.5
+  * lon      (lon) float32 1kB -179.5 -178.5 -177.5 -176.5 ... 177.5 178.5 179.5
+    mode     int64 8B 1
+Attributes:
+    standard_name:  sea_surface_temperature
+    long_name:      sst
+    units:          C
+    cell_methods:   time: lat: lon: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;sst&#x27;</div><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 39</li><li><span class='xr-has-index'>lat</span>: 30</li><li><span class='xr-has-index'>lon</span>: 360</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-f41ab197-b631-463f-a5e0-3999d97be38f' class='xr-array-in' type='checkbox' checked><label for='section-f41ab197-b631-463f-a5e0-3999d97be38f' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>27.61 27.63 27.69 27.8 27.92 28.01 ... 28.56 28.48 28.43 28.41 28.39</span></div><div class='xr-array-data'><pre>array([[[27.609846, 27.626818, 27.694347, ..., 27.6386  , 27.64776 ,
+         27.637032],
+        [27.979582, 27.987865, 28.057   , ..., 28.01703 , 28.030458,
+         28.020773],
+        [28.206915, 28.224077, 28.293734, ..., 28.30991 , 28.25866 ,
+         28.227865],
+        ...,
+        [27.851225, 27.814247, 27.79556 , ..., 28.031511, 27.987627,
+         27.925632],
+        [27.730938, 27.695229, 27.656563, ..., 27.95027 , 27.84813 ,
+         27.77307 ],
+        [27.72257 , 27.671392, 27.599901, ..., 27.993307, 27.842398,
+         27.749905]],
+
+       [[27.396732, 27.400951, 27.45458 , ..., 27.41075 , 27.441338,
+         27.43552 ],
+        [27.76663 , 27.772455, 27.823105, ..., 27.736406, 27.781384,
+         27.794256],
+        [28.059566, 28.063883, 28.119484, ..., 28.043169, 28.083147,
+         28.092148],
+...
+        [28.654837, 28.630167, 28.60982 , ..., 28.773338, 28.744364,
+         28.702961],
+        [28.67233 , 28.666992, 28.647274, ..., 28.724535, 28.69202 ,
+         28.67267 ],
+        [28.66854 , 28.645025, 28.609365, ..., 28.700104, 28.689146,
+         28.676378]],
+
+       [[28.383835, 28.371572, 28.373255, ..., 28.342772, 28.391098,
+         28.403643],
+        [28.755556, 28.737017, 28.712332, ..., 28.6299  , 28.711895,
+         28.756578],
+        [29.015614, 29.005974, 28.98043 , ..., 28.918898, 28.959194,
+         28.99497 ],
+        ...,
+        [28.526505, 28.477678, 28.350496, ..., 28.564365, 28.53063 ,
+         28.516111],
+        [28.422213, 28.383987, 28.281607, ..., 28.44673 , 28.415787,
+         28.405664],
+        [28.376661, 28.32148 , 28.226974, ..., 28.431257, 28.40944 ,
+         28.388994]]], shape=(39, 30, 360), dtype=float32)</pre></div></div></li><li class='xr-section-item'><input id='section-097e7a06-afdb-4187-80c4-c815344dd6aa' class='xr-section-summary-in' type='checkbox' checked /><label for='section-097e7a06-afdb-4187-80c4-c815344dd6aa' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>1982-12-01 ... 2020-12-01</div><input id='attrs-d606e1a8-b030-4971-8e4c-79134c5e5037' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d606e1a8-b030-4971-8e4c-79134c5e5037' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-36896964-d022-410e-9b54-c027c1a034c3' class='xr-var-data-in' type='checkbox'><label for='data-36896964-d022-410e-9b54-c027c1a034c3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-01 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>actual_range :</span></dt><dd>[1297320. 1975200.]</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;1982-12-01T00:00:00.000000000&#x27;, &#x27;1983-12-01T00:00:00.000000000&#x27;,
+       &#x27;1984-12-01T00:00:00.000000000&#x27;, &#x27;1985-12-01T00:00:00.000000000&#x27;,
+       &#x27;1986-12-01T00:00:00.000000000&#x27;, &#x27;1987-12-01T00:00:00.000000000&#x27;,
+       &#x27;1988-12-01T00:00:00.000000000&#x27;, &#x27;1989-12-01T00:00:00.000000000&#x27;,
+       &#x27;1990-12-01T00:00:00.000000000&#x27;, &#x27;1991-12-01T00:00:00.000000000&#x27;,
+       &#x27;1992-12-01T00:00:00.000000000&#x27;, &#x27;1993-12-01T00:00:00.000000000&#x27;,
+       &#x27;1994-12-01T00:00:00.000000000&#x27;, &#x27;1995-12-01T00:00:00.000000000&#x27;,
+       &#x27;1996-12-01T00:00:00.000000000&#x27;, &#x27;1997-12-01T00:00:00.000000000&#x27;,
+       &#x27;1998-12-01T00:00:00.000000000&#x27;, &#x27;1999-12-01T00:00:00.000000000&#x27;,
+       &#x27;2000-12-01T00:00:00.000000000&#x27;, &#x27;2001-12-01T00:00:00.000000000&#x27;,
+       &#x27;2002-12-01T00:00:00.000000000&#x27;, &#x27;2003-12-01T00:00:00.000000000&#x27;,
+       &#x27;2004-12-01T00:00:00.000000000&#x27;, &#x27;2005-12-01T00:00:00.000000000&#x27;,
+       &#x27;2006-12-01T00:00:00.000000000&#x27;, &#x27;2007-12-01T00:00:00.000000000&#x27;,
+       &#x27;2008-12-01T00:00:00.000000000&#x27;, &#x27;2009-12-01T00:00:00.000000000&#x27;,
+       &#x27;2010-12-01T00:00:00.000000000&#x27;, &#x27;2011-12-01T00:00:00.000000000&#x27;,
+       &#x27;2012-12-01T00:00:00.000000000&#x27;, &#x27;2013-12-01T00:00:00.000000000&#x27;,
+       &#x27;2014-12-01T00:00:00.000000000&#x27;, &#x27;2015-12-01T00:00:00.000000000&#x27;,
+       &#x27;2016-12-01T00:00:00.000000000&#x27;, &#x27;2017-12-01T00:00:00.000000000&#x27;,
+       &#x27;2018-12-01T00:00:00.000000000&#x27;, &#x27;2019-12-01T00:00:00.000000000&#x27;,
+       &#x27;2020-12-01T00:00:00.000000000&#x27;], dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>12.0 12.0 12.0 ... 12.0 12.0 12.0</div><input id='attrs-9ebb2f29-b91c-49a3-b8a5-d4b9f61b37c4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9ebb2f29-b91c-49a3-b8a5-d4b9f61b37c4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-39d0d6c6-f352-429d-a975-d08f6ee85a56' class='xr-var-data-in' type='checkbox'><label for='data-39d0d6c6-f352-429d-a975-d08f6ee85a56' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>delta_t :</span></dt><dd>0000-01-00 00:00:00</dd><dt><span>prev_avg_period :</span></dt><dd>0000-00-01 00:00:00</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>actual_range :</span></dt><dd>[1297320. 1975200.]</dd></dl></div><div class='xr-var-data'><pre>array([12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12.,
+       12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12.,
+       12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12., 12.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-14.5 -13.5 -12.5 ... 13.5 14.5</div><input id='attrs-9e3200be-ab9c-4248-897b-c44fdecc8e95' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9e3200be-ab9c-4248-897b-c44fdecc8e95' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-87891611-9472-43e5-bf25-916383332e0f' class='xr-var-data-in' type='checkbox'><label for='data-87891611-9472-43e5-bf25-916383332e0f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>standard_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([-14.5, -13.5, -12.5, -11.5, -10.5,  -9.5,  -8.5,  -7.5,  -6.5,  -5.5,
+        -4.5,  -3.5,  -2.5,  -1.5,  -0.5,   0.5,   1.5,   2.5,   3.5,   4.5,
+         5.5,   6.5,   7.5,   8.5,   9.5,  10.5,  11.5,  12.5,  13.5,  14.5],
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-179.5 -178.5 ... 178.5 179.5</div><input id='attrs-06cce536-7016-4270-951c-fdd2ba81a54c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-06cce536-7016-4270-951c-fdd2ba81a54c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8c25cb06-4a7a-4a21-8e37-c082554e7235' class='xr-var-data-in' type='checkbox'><label for='data-8c25cb06-4a7a-4a21-8e37-c082554e7235' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>standard_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-179.5, -178.5, -177.5, ...,  177.5,  178.5,  179.5],
+      shape=(360,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>mode</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1</div><input id='attrs-4cf4668c-26f9-46d0-bce6-b65d9382b31e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-4cf4668c-26f9-46d0-bce6-b65d9382b31e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0c904d6b-7f8a-4658-8adb-9d0efd452e32' class='xr-var-data-in' type='checkbox'><label for='data-0c904d6b-7f8a-4658-8adb-9d0efd452e32' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(1)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7c46cf62-9556-44c3-9b6f-0a3d650b6056' class='xr-section-summary-in' type='checkbox' checked /><label for='section-7c46cf62-9556-44c3-9b6f-0a3d650b6056' class='xr-section-summary' title='Expand/collapse section'>Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>The core analysis applies multiple linear regression to quantify how:</p>
+<ul class="simple">
+<li><p>AO index (first predictor)</p></li>
+<li><p>Niño 3.4 index (second predictor)</p></li>
+</ul>
+<p>jointly explain spatial patterns of SON SST variability.</p>
+<p>The function returns a dataset containing:</p>
+<ul class="simple">
+<li><p>Regression coefficients (slopes) for each predictor</p></li>
+<li><p>Intercept values</p></li>
+<li><p>R-squared values (goodness of fit)</p></li>
+<li><p>Statistical significance (p-values) for each parameter</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">result</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/index.html#easyclimate.calc_multiple_linear_regression_spatial" title="easyclimate.calc_multiple_linear_regression_spatial" class="sphx-glr-backref-module-easyclimate sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">calc_multiple_linear_regression_spatial</span></a><span class="p">(</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sst_data_SON_mean</span></a><span class="p">,</span> <span class="p">[</span><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_ao</span></a><span class="p">,</span> <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="xarray.core.dataarray.DataArray" class="sphx-glr-backref-module-xarray-core-dataarray sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">index_nino34</span></a><span class="p">])</span>
+</span><span data-line="2"><a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="xarray.core.dataset.Dataset" class="sphx-glr-backref-module-xarray-core-dataset sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">result</span></a>
+</span></pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.xr-header {
+  border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type,
+.xr-group-box-contents > label {
+  color: var(--xr-font-color2);
+  display: block;
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item > input + label,
+.xr-var-item > input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details,
+.xr-group-box-contents > label {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 606kB
+Dimensions:      (lat: 30, lon: 360, coef: 2)
+Coordinates:
+  * lat          (lat) float32 120B -14.5 -13.5 -12.5 -11.5 ... 12.5 13.5 14.5
+  * lon          (lon) float32 1kB -179.5 -178.5 -177.5 ... 177.5 178.5 179.5
+  * coef         (coef) int64 16B 0 1
+    mode         int64 8B 1
+Data variables:
+    slopes       (lat, lon, coef) float64 173kB -0.2015 -0.02943 ... 0.4433
+    intercept    (lat, lon) float64 86kB 28.06 28.08 28.1 ... 28.61 28.57 28.53
+    r_squared    (lat, lon) float64 86kB 0.005617 0.00266 ... 0.3082 0.3067
+    slopes_p     (lat, lon, coef) float64 173kB 0.6666 0.845 ... 0.0008305
+    intercept_p  (lat, lon) float64 86kB 7.685e-68 9.51e-68 ... 3.241e-71</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-22e6e99f-d83c-4cf6-9313-c054eb9d8a76' class='xr-section-summary-in' type='checkbox' disabled /><label for='section-22e6e99f-d83c-4cf6-9313-c054eb9d8a76' class='xr-section-summary'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>lat</span>: 30</li><li><span class='xr-has-index'>lon</span>: 360</li><li><span class='xr-has-index'>coef</span>: 2</li></ul></div></li><li class='xr-section-item'><input id='section-9813effa-f828-4a00-8ce8-a0686555fe1e' class='xr-section-summary-in' type='checkbox' checked /><label for='section-9813effa-f828-4a00-8ce8-a0686555fe1e' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-14.5 -13.5 -12.5 ... 13.5 14.5</div><input id='attrs-fe71cf92-32f1-4f69-9e44-fa5dac074e7f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fe71cf92-32f1-4f69-9e44-fa5dac074e7f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-151b1321-5da5-4608-92fa-8bf82de5a8f7' class='xr-var-data-in' type='checkbox'><label for='data-151b1321-5da5-4608-92fa-8bf82de5a8f7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>Latitude</dd><dt><span>standard_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([-14.5, -13.5, -12.5, -11.5, -10.5,  -9.5,  -8.5,  -7.5,  -6.5,  -5.5,
+        -4.5,  -3.5,  -2.5,  -1.5,  -0.5,   0.5,   1.5,   2.5,   3.5,   4.5,
+         5.5,   6.5,   7.5,   8.5,   9.5,  10.5,  11.5,  12.5,  13.5,  14.5],
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-179.5 -178.5 ... 178.5 179.5</div><input id='attrs-435781c4-d0f0-40f7-9beb-04e8eeffb9e8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-435781c4-d0f0-40f7-9beb-04e8eeffb9e8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6f271311-87f6-40fc-b2ad-9cc4400d3107' class='xr-var-data-in' type='checkbox'><label for='data-6f271311-87f6-40fc-b2ad-9cc4400d3107' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>Longitude</dd><dt><span>standard_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-179.5, -178.5, -177.5, ...,  177.5,  178.5,  179.5],
+      shape=(360,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>coef</span></div><div class='xr-var-dims'>(coef)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1</div><input id='attrs-4dcd0364-b04d-46ac-b42e-00e00f235f35' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-4dcd0364-b04d-46ac-b42e-00e00f235f35' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b93d02bc-c45a-44b6-849f-60a9a56097fe' class='xr-var-data-in' type='checkbox'><label for='data-b93d02bc-c45a-44b6-849f-60a9a56097fe' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>mode</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1</div><input id='attrs-b361e4d4-3ca9-46a0-b1c3-9967f7e44c33' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-b361e4d4-3ca9-46a0-b1c3-9967f7e44c33' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b8353674-091a-4a2d-979f-3d1025666044' class='xr-var-data-in' type='checkbox'><label for='data-b8353674-091a-4a2d-979f-3d1025666044' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array(1)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7669eefc-0a09-4e0d-a732-ee5e7748c94f' class='xr-section-summary-in' type='checkbox' checked /><label for='section-7669eefc-0a09-4e0d-a732-ee5e7748c94f' class='xr-section-summary' title='Expand/collapse section'>Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>slopes</span></div><div class='xr-var-dims'>(lat, lon, coef)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-0.2015 -0.02943 ... 0.01063 0.4433</div><input id='attrs-edb7721e-cf10-4ec5-97f5-d66f44cdfab6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-edb7721e-cf10-4ec5-97f5-d66f44cdfab6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-24320ea7-178e-4816-a218-31a92525339e' class='xr-var-data-in' type='checkbox'><label for='data-24320ea7-178e-4816-a218-31a92525339e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div><div class='xr-var-data'><pre>array([[[-0.20149418, -0.02943454],
+        [-0.13981095, -0.01052432],
+        [-0.04375561,  0.00100662],
+        ...,
+        [-0.42722291, -0.1745579 ],
+        [-0.30404557, -0.10409728],
+        [-0.22880606, -0.05572283]],
+
+       [[-0.15258959,  0.0614683 ],
+        [-0.08103314,  0.07428462],
+        [ 0.00204193,  0.07438528],
+        ...,
+        [-0.40799217, -0.09940419],
+        [-0.29775774, -0.01768572],
+        [-0.21262596,  0.03593842]],
+
+       [[-0.09676229,  0.13178248],
+        [-0.03851858,  0.13871599],
+        [ 0.00385692,  0.13071557],
+        ...,
+...
+        ...,
+        [ 0.22313679,  0.58416927],
+        [ 0.17458218,  0.5745883 ],
+        [ 0.15549629,  0.57062533]],
+
+       [[ 0.00503524,  0.49719159],
+        [-0.00239452,  0.51060697],
+        [-0.02106676,  0.53900413],
+        ...,
+        [ 0.10783424,  0.50819375],
+        [ 0.03548688,  0.50242186],
+        [ 0.00121964,  0.49875349]],
+
+       [[-0.01445325,  0.43003814],
+        [-0.03220721,  0.44014753],
+        [-0.04262813,  0.47367659],
+        ...,
+        [ 0.08779767,  0.44546712],
+        [ 0.04471599,  0.44848827],
+        [ 0.01063246,  0.44334453]]], shape=(30, 360, 2))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>intercept</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>28.06 28.08 28.1 ... 28.57 28.53</div><input id='attrs-061d884c-879d-4907-a3dc-4308e352955f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-061d884c-879d-4907-a3dc-4308e352955f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a3b705da-a483-4fe3-a543-2c9bedf6eb66' class='xr-var-data-in' type='checkbox'><label for='data-a3b705da-a483-4fe3-a543-2c9bedf6eb66' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div><div class='xr-var-data'><pre>array([[28.0590727 , 28.08073415, 28.10422795, ..., 27.97102111,
+        28.00463207, 28.03283863],
+       [28.45159169, 28.4715786 , 28.48712249, ..., 28.31809577,
+        28.36849032, 28.41578572],
+       [28.75698348, 28.77721508, 28.79899108, ..., 28.65539868,
+        28.6865165 , 28.72391402],
+       ...,
+       [28.6453671 , 28.629325  , 28.57467614, ..., 28.71601944,
+        28.66738824, 28.64193662],
+       [28.56451362, 28.55231744, 28.51044207, ..., 28.63756556,
+        28.58270766, 28.55640846],
+       [28.51252997, 28.48025669, 28.43863763, ..., 28.607808  ,
+        28.56593336, 28.5319278 ]], shape=(30, 360))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>r_squared</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.005617 0.00266 ... 0.3082 0.3067</div><input id='attrs-2c68275c-3e03-4ccf-92e8-7b9006c9c54b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2c68275c-3e03-4ccf-92e8-7b9006c9c54b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-de8a75f5-1a2f-4543-b49f-804943ff5848' class='xr-var-data-in' type='checkbox'><label for='data-de8a75f5-1a2f-4543-b49f-804943ff5848' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div><div class='xr-var-data'><pre>array([[5.61721866e-03, 2.65954539e-03, 3.06731431e-04, ...,
+        3.89953427e-02, 1.85817957e-02, 8.52812112e-03],
+       [1.48902667e-02, 1.34656831e-02, 9.73631235e-03, ...,
+        2.57201676e-02, 1.32550168e-02, 1.31424142e-02],
+       [4.50781360e-02, 4.18424275e-02, 3.40306481e-02, ...,
+        2.26817943e-02, 2.28375945e-02, 3.94441657e-02],
+       ...,
+       [3.76721067e-01, 3.63381894e-01, 3.42601606e-01, ...,
+        3.63201884e-01, 3.78879131e-01, 3.81464521e-01],
+       [3.66589857e-01, 3.62676308e-01, 3.43056252e-01, ...,
+        3.50599845e-01, 3.48511838e-01, 3.53418627e-01],
+       [3.09455703e-01, 3.11608589e-01, 3.09171276e-01, ...,
+        3.13121364e-01, 3.08226376e-01, 3.06650757e-01]], shape=(30, 360))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>slopes_p</span></div><div class='xr-var-dims'>(lat, lon, coef)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.6666 0.845 ... 0.9775 0.0008305</div><input id='attrs-8a78ae25-a917-4d29-a63f-89c385f152fd' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8a78ae25-a917-4d29-a63f-89c385f152fd' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9153343a-7c16-411b-875d-9f0b9c6161e7' class='xr-var-data-in' type='checkbox'><label for='data-9153343a-7c16-411b-875d-9f0b9c6161e7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div><div class='xr-var-data'><pre>array([[[6.66551314e-01, 8.45002772e-01],
+        [7.66392357e-01, 9.44649500e-01],
+        [9.25727338e-01, 9.94690868e-01],
+        ...,
+        [4.10173274e-01, 2.97943625e-01],
+        [5.30062300e-01, 5.04949244e-01],
+        [6.24970520e-01, 7.11667078e-01]],
+
+       [[7.15726404e-01, 6.49188059e-01],
+        [8.47351705e-01, 5.84777019e-01],
+        [9.96166617e-01, 5.87946589e-01],
+        ...,
+        [3.93588563e-01, 5.18039794e-01],
+        [5.08833086e-01, 9.02799150e-01],
+        [6.21502294e-01, 7.95448273e-01]],
+
+       [[7.98876350e-01, 2.85516059e-01],
+        [9.21263161e-01, 2.73689942e-01],
+        [9.92198770e-01, 3.07669054e-01],
+        ...,
+...
+        ...,
+        [5.99987865e-01, 1.36089412e-04],
+        [6.67824987e-01, 9.56451966e-05],
+        [6.99416620e-01, 9.20656708e-05]],
+
+       [[9.89169538e-01, 1.87684549e-04],
+        [9.95034790e-01, 2.11837471e-04],
+        [9.60522940e-01, 3.65087418e-04],
+        ...,
+        [7.79478287e-01, 2.24985668e-04],
+        [9.27027310e-01, 2.78253658e-04],
+        [9.97460546e-01, 2.66532830e-04]],
+
+       [[9.68528934e-01, 8.27078097e-04],
+        [9.31507983e-01, 8.21765673e-04],
+        [9.16454004e-01, 8.88060433e-04],
+        ...,
+        [8.11340291e-01, 5.93993860e-04],
+        [9.05809518e-01, 7.38180478e-04],
+        [9.77549271e-01, 8.30459019e-04]]], shape=(30, 360, 2))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>intercept_p</span></div><div class='xr-var-dims'>(lat, lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>7.685e-68 9.51e-68 ... 3.241e-71</div><input id='attrs-3130eafb-0d77-4f46-9611-f6dd81bfca53' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3130eafb-0d77-4f46-9611-f6dd81bfca53' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c0bb6b0a-7bde-4544-b12e-8fa9cbae4516' class='xr-var-data-in' type='checkbox'><label for='data-c0bb6b0a-7bde-4544-b12e-8fa9cbae4516' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>long_name :</span></dt><dd>sst</dd><dt><span>units :</span></dt><dd>C</dd><dt><span>cell_methods :</span></dt><dd>time: lat: lon: mean</dd></dl></div><div class='xr-var-data'><pre>array([[7.68457515e-68, 9.50980778e-68, 8.63517454e-68, ...,
+        2.56481320e-66, 2.54709714e-67, 8.08818261e-68],
+       [1.16189723e-69, 1.36158762e-69, 1.86863719e-69, ...,
+        1.05021158e-67, 1.41820584e-68, 2.99766354e-69],
+       [2.90392769e-71, 6.92098191e-71, 1.02268992e-70, ...,
+        2.11244511e-69, 4.31438025e-70, 6.28178721e-71],
+       ...,
+       [3.53837035e-70, 1.52039345e-69, 1.83423697e-68, ...,
+        1.38046438e-69, 3.25483758e-70, 2.39933117e-70],
+       [1.66859256e-71, 5.88605678e-71, 1.90646606e-69, ...,
+        5.37278884e-71, 7.17757644e-71, 5.09316078e-71],
+       [1.16110805e-71, 2.60252732e-71, 4.29689763e-70, ...,
+        1.17261540e-71, 3.12542460e-71, 3.24073001e-71]], shape=(30, 360))</pre></div></li></ul></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>The final visualization shows:</p>
+<ul class="simple">
+<li><p>Top panel: Spatial pattern of AO influence on SON SST: Colors show regression coefficients, and Contours indicate statistically significant areas (p &lt; 0.05)</p></li>
+<li><p>Bottom panel: Spatial pattern of Niño 3.4 influence: Similar interpretation as top panel, and the central longitude is set to 200° for Pacific-centric viewing.</p></li>
+</ul>
+<p>Key interpretation points:</p>
+<ul class="simple">
+<li><p>Positive coefficients indicate SST increases with positive phase of the index</p></li>
+<li><p>Negative coefficients indicate inverse relationships</p></li>
+<li><p>Non-significant areas suggest no robust statistical relationship</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.quick_draw_spatial_basemap" title="easyclimate.plot.quick_draw_spatial_basemap" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">quick_draw_spatial_basemap</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span> <span class="p">,</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">central_longitude</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</span><span data-line="2">
+</span><span data-line="3"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.sel.html#xarray.DataArray.sel" title="xarray.DataArray.sel" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">result</span><span class="o">.</span><span class="n">slopes</span><span class="o">.</span><span class="n">sel</span></a><span class="p">(</span><span class="n">coef</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span><span data-line="4">    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+</span><span data-line="5">    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+</span><span data-line="6">    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;pad&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;aspect&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">},</span>
+</span><span data-line="7"><span class="p">)</span>
+</span><span data-line="8"><a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.draw_significant_area_contourf" title="easyclimate.plot.draw_significant_area_contourf" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">draw_significant_area_contourf</span></a><span class="p">(</span>
+</span><span data-line="9">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.sel.html#xarray.DataArray.sel" title="xarray.DataArray.sel" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">result</span><span class="o">.</span><span class="n">slopes_p</span><span class="o">.</span><span class="n">sel</span></a><span class="p">(</span><span class="n">coef</span> <span class="o">=</span> <span class="mi">0</span><span class="p">),</span>
+</span><span data-line="10">    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+</span><span data-line="11">    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+</span><span data-line="12"><span class="p">)</span>
+</span><span data-line="13"><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$a_1$: (AO index coefficient)&quot;</span><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.sel.html#xarray.DataArray.sel" title="xarray.DataArray.sel" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">result</span><span class="o">.</span><span class="n">slopes</span><span class="o">.</span><span class="n">sel</span></a><span class="p">(</span><span class="n">coef</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+</span><span data-line="16">    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+</span><span data-line="17">    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+</span><span data-line="18">    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;pad&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;aspect&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">},</span>
+</span><span data-line="19"><span class="p">)</span>
+</span><span data-line="20"><a href="../../technical/api/easyclimate/plot/index.html#easyclimate.plot.draw_significant_area_contourf" title="easyclimate.plot.draw_significant_area_contourf" class="sphx-glr-backref-module-easyclimate-plot sphx-glr-backref-type-py-function"><span class="n">ecl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">draw_significant_area_contourf</span></a><span class="p">(</span>
+</span><span data-line="21">    <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.sel.html#xarray.DataArray.sel" title="xarray.DataArray.sel" class="sphx-glr-backref-module-xarray sphx-glr-backref-type-py-method"><span class="n">result</span><span class="o">.</span><span class="n">slopes_p</span><span class="o">.</span><span class="n">sel</span></a><span class="p">(</span><span class="n">coef</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
+</span><span data-line="22">    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+</span><span data-line="23">    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+</span><span data-line="24"><span class="p">)</span>
+</span><span data-line="25"><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$a_2$: (Niño 3.4 index coefficient)&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_multi_linear_reg_003.png" srcset="../../_images/sphx_glr_plot_multi_linear_reg_003.png" alt="$a_1$: (AO index coefficient), $a_2$: (Niño 3.4 index coefficient)" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">Text(0.5, 1.0, &#39;$a_2$: (Niño 3.4 index coefficient)&#39;)
+</span></pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.145 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-gallery-basic-plot-multi-linear-reg-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/d22958d3992dc9cb55dc0c17537e5bfe/plot_multi_linear_reg.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_multi_linear_reg.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/680bd00a6b93ead7b9c4ed6cd364420b/plot_multi_linear_reg.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_multi_linear_reg.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/bea5d0cf5f2244026fced7a2b3ea7774/plot_multi_linear_reg.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_multi_linear_reg.zip</span></code></a></p>
+</div>
+</div>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="plot_co_coeff.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Coriolis Coefficient with Latitude</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="plot_water_flux.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Water Flux</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2022-2026, Shenyulu（深雨露） and easyclimate developers</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/shenyulu/easyclimate" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../_static/documentation_options.js?v=11b6f811"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/tabs.js?v=3ee01567"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../_static/shibuya.js?v=cac61aee"></script>
+      <script src="https://code.iconify.design/iconify-icon/3.0.1/iconify-icon.min.js"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></body>
+</html>

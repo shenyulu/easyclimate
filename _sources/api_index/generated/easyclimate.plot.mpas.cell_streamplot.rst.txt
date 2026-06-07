@@ -1,0 +1,12 @@
+﻿easyclimate.plot.mpas.cell\_streamplot
+======================================
+
+.. automodule:: easyclimate.plot.mpas.cell_streamplot
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_cell_streamplot
+   

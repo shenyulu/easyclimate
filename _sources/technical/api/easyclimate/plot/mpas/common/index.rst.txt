@@ -1,0 +1,255 @@
+easyclimate.plot.mpas.common
+============================
+
+.. py:module:: easyclimate.plot.mpas.common
+
+.. autoapi-nested-parse::
+
+   Shared MPAS plotting helpers.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.mpas.common._rad2deg
+   easyclimate.plot.mpas.common.wrap_lon_180
+   easyclimate.plot.mpas.common.unwrap_edge_lon
+   easyclimate.plot.mpas.common.lon_in_range_cyclic
+   easyclimate.plot.mpas.common.edge_near_lon_window
+   easyclimate.plot.mpas.common._lon_wrap_to_center
+   easyclimate.plot.mpas.common._infer_center_lon
+   easyclimate.plot.mpas.common._infer_extent_from_points
+   easyclimate.plot.mpas.common._is_cartopy_axis
+   easyclimate.plot.mpas.common._normalize_lon_window
+   easyclimate.plot.mpas.common._adjust_global_lon_window_for_regrid
+   easyclimate.plot.mpas.common._infer_center_lon_from_window
+   easyclimate.plot.mpas.common._mask_bad_triangles
+   easyclimate.plot.mpas.common._infer_default_cmap
+   easyclimate.plot.mpas.common._read_vertex_contour_data
+   easyclimate.plot.mpas.common._prepare_vertex_contour_geometry
+   easyclimate.plot.mpas.common._resolve_contour_levels
+   easyclimate.plot.mpas.common._decorate_vertex_contour_axis
+   easyclimate.plot.mpas.common.thin_vectors_by_bins
+   easyclimate.plot.mpas.common._get_cached_vector_bin_groups
+   easyclimate.plot.mpas.common._vector_to_projection_grid
+   easyclimate.plot.mpas.common._get_vertex_dual_geometry
+   easyclimate.plot.mpas.common._get_cell_polygon_geometry
+   easyclimate.plot.mpas.common._get_cached_triangulation
+   easyclimate.plot.mpas.common._get_cached_tri_interp_weights
+   easyclimate.plot.mpas.common._apply_tri_interp_weights
+
+
+Module Contents
+---------------
+
+.. py:function:: _rad2deg(x)
+
+   Convert radians to degrees.
+
+
+.. py:function:: wrap_lon_180(lon)
+
+   Wrap longitudes to the [-180, 180) interval.
+
+
+.. py:function:: unwrap_edge_lon(lon0, lon1)
+
+   Locally unwrap one edge so ``lon1`` follows the short path from ``lon0``.
+
+   For example, an edge from 179 degrees to -179 degrees is represented as
+   179 degrees to 181 degrees, avoiding a long segment across the whole map.
+
+
+.. py:function:: lon_in_range_cyclic(lon, lon_min, lon_max)
+
+   Test whether a longitude falls inside a cyclic longitude window.
+
+   Supports both regular windows, such as 90 to 160 degrees, and dateline
+   crossing windows, such as 90 to -60 degrees.
+
+
+.. py:function:: edge_near_lon_window(lon0, lon1, lon_min, lon_max)
+
+   Test whether an edge is near a cyclic longitude window.
+
+   For short MPAS mesh edges, checking both endpoints is usually sufficient.
+
+
+.. py:function:: _lon_wrap_to_center(lon, center_lon)
+
+   Wrap longitude to [center_lon - 180, center_lon + 180).
+
+   Example
+   -------
+   center_lon = -125:
+       170E -> -190
+       240E -> -120
+       -60  -> -60
+
+
+.. py:function:: _infer_center_lon(lon_min=None, lon_max=None, lon_cell=None, lon_cell_raw=None, valid=None)
+
+   Infer longitude wrapping center.
+
+   Priority
+   --------
+   1. If lon_min/lon_max are provided, use the midpoint of the normalized
+      continuous longitude window.
+   2. Otherwise use circular mean of valid cell longitudes.
+   3. Fallback to 0.
+
+
+.. py:function:: _infer_extent_from_points(lon, lat, margin=0.05)
+
+   Infer extent from valid lon/lat points.
+
+
+.. py:function:: _is_cartopy_axis(ax)
+
+   Weak check for Cartopy GeoAxes.
+
+
+.. py:function:: _normalize_lon_window(lon_min, lon_max)
+
+   Normalize a longitude window into a continuous increasing interval.
+
+   Examples
+   --------
+   90, -60   -> 90, 300
+   -190, -60 -> -190, -60
+   170, -120 -> 170, 240
+
+
+.. py:function:: _adjust_global_lon_window_for_regrid(lon_min, lon_max, *, epsilon=1e-06)
+
+   Slightly shrink a global longitude window for Cartopy vector regridding.
+
+   Cartopy's GeoAxes quiver/barbs ``regrid_shape`` path builds a regular grid
+   in the target projection.  A fully closed 360-degree source extent contains
+   both sides of the same cyclic seam, which can create artificial interpolation
+   across the projection cut.  Keeping the requested center but making the
+   interval open by a tiny epsilon avoids duplicate seam samples while leaving
+   the visible extent unchanged for practical plotting purposes.
+
+
+.. py:function:: _infer_center_lon_from_window(lon_min, lon_max)
+
+   Infer the longitude wrapping center from a longitude window.
+
+
+.. py:function:: _mask_bad_triangles(triang, x, y, max_edge=None)
+
+   Mask triangles with too-long edges.
+   This helps remove artificial long triangles near dateline or domain edges.
+
+
+.. py:function:: _infer_default_cmap(values, cmap=None, sequential='viridis', diverging='RdBu_r')
+
+   Infer a default colormap similar to xarray.plot.
+
+   If the user supplied `cmap`, return it unchanged.  Otherwise use a
+   diverging colormap when finite data contain both negative and positive
+   values, and a sequential colormap for one-sided data.
+
+
+.. py:function:: _read_vertex_contour_data(da)
+
+   Read one-dimensional vertex data and metadata.
+
+
+.. py:function:: _prepare_vertex_contour_geometry(ds, da, *, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, contour_margin=0.05, global_plot=False, center_lon=None, input_radians=True, lon_name_vertex='lonVertex', lat_name_vertex='latVertex')
+
+   Prepare wrapped vertex coordinates and extent metadata for contour plots.
+
+
+.. py:function:: _resolve_contour_levels(zz, levels, *, vmin=None, vmax=None, symmetric=False, percentile=98, extend=None)
+
+   Resolve contour levels, color limits, and extension mode.
+
+
+.. py:function:: _decorate_vertex_contour_axis(ax, *, cartopy_axis, global_plot=False, lon_min_plot=None, lon_max_plot=None, lat_min_plot=None, lat_max_plot=None, xlabel='Longitude', ylabel='Latitude', aspect='auto')
+
+   Apply extent and axis labels for vertex contour plots.
+
+
+.. py:function:: thin_vectors_by_bins(x, y, u, v, *, lon_min, lon_max, lat_min, lat_max, nx_bins=35, ny_bins=20, method='nearest_center', cache_key=None, use_cache=True)
+
+   Thin vectors by lon-lat bins.
+
+   method:
+       nearest_center: choose vector closest to each bin center
+       max_speed: choose strongest vector in each bin
+       mean: average all vectors in each bin
+
+
+.. py:function:: _get_cached_vector_bin_groups(x, y, *, lon_min, lon_max, lat_min, lat_max, nx_bins=35, ny_bins=20, cache_key=None, use_cache=True)
+
+   Build or retrieve coordinate-only bin metadata for vector thinning.
+
+   The cache intentionally stores only coordinate-derived arrays, so repeated
+   plots over the same mesh, extent, wrapping center, and bin layout can reuse
+   bin assignment and distance-to-bin-center work while still accepting new
+   vector values for every call.
+
+
+.. py:function:: _vector_to_projection_grid(src_crs, target_proj, regrid_shape, x, y, u, v, *, target_extent, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, cyclic=True)
+
+   Regrid lon-lat vectors onto a regular grid in target projection coordinates.
+
+   This is a local replacement for Cartopy's vector regridding path used by
+   GeoAxes quiver/barbs.  It builds the regular grid in target-projection data
+   coordinates, transforms those grid points back to source lon-lat, wraps the
+   longitudes consistently with the source data, interpolates in the source
+   lon-lat space, and finally rotates vector components into the target
+   projection frame.
+
+   The important difference from Cartopy's default implementation is that the
+   source-space interpolation is done after cyclic longitude wrapping and, for
+   global windows, optional ±360-degree point duplication.  This avoids the
+   artificial seam interpolation that can appear near 180 degrees in polar
+   full-longitude plots.
+
+
+.. py:function:: _get_vertex_dual_geometry(cells_on_vertex, lon_cell, lat_cell, *, cache_key=None, use_cache=True)
+
+   Build or retrieve cached vertex-dual polygon geometry.
+
+   The cache stores per-vertex cell indices, polygon bounding boxes, and
+   geometry-valid masks.  It intentionally does not store data values or
+   extent-dependent selections.
+
+
+.. py:function:: _get_cell_polygon_geometry(vertices_on_cell, n_edges_on_cell, lon_vertex, lat_vertex, *, cache_key=None, use_cache=True)
+
+   Build or retrieve cached native cell polygon geometry.
+
+   The geometry is independent of plotted values and extents.  It stores safe
+   vertex indices, per-cell polygon bounding boxes, and valid-geometry masks.
+
+
+.. py:function:: _get_cached_triangulation(x, y, *, mask=None, max_edge=None, cache_key=None, use_cache=True, precompute_trifinder=False)
+
+   Build or retrieve a cached Matplotlib Triangulation.
+
+   This is useful when repeated contour plots use the same wrapped grid,
+   extent subset, and triangle quality settings.
+
+
+.. py:function:: _get_cached_tri_interp_weights(triang, x, y, xi, yi, *, cache_key=None, use_cache=True)
+
+   Build or retrieve barycentric interpolation weights for fixed target points.
+
+   The returned mapping depends only on triangulation geometry and target grid,
+   not on the interpolated data values.  Reusing it avoids repeated
+   ``LinearTriInterpolator`` setup, plane-coefficient calculation, and
+   point-location work for repeated streamplot calls on the same grid.
+
+
+.. py:function:: _apply_tri_interp_weights(values, mapping)
+
+   Apply cached barycentric interpolation weights to one data field.
+
+

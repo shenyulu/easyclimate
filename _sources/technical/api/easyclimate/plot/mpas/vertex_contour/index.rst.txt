@@ -1,0 +1,172 @@
+easyclimate.plot.mpas.vertex_contour
+====================================
+
+.. py:module:: easyclimate.plot.mpas.vertex_contour
+
+.. autoapi-nested-parse::
+
+   Contour plots for MPAS vertex data.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.mpas.vertex_contour.plot_vertex_contourf
+   easyclimate.plot.mpas.vertex_contour.plot_vertex_contour
+
+
+Module Contents
+---------------
+
+.. py:function:: plot_vertex_contourf(ds, da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, contour_margin=0.05, global_plot=False, center_lon=None, levels=10, cmap=None, vmin=None, vmax=None, symmetric=False, percentile=98, extend=None, max_triangle_edge=None, use_triangulation_cache=True, input_radians=True, transform=None, add_colorbar=True, cbar_kwargs=None, title=None, xlabel='Longitude', ylabel='Latitude', aspect='auto', lon_name_vertex='lonVertex', lat_name_vertex='latVertex')
+
+   Draw filled contour for MPAS vertex-centered scalar field.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       MPAS dataset containing vertex coordinate variables.
+   da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Vertex-centered scalar values. The data must be one-dimensional on
+       ``nVertices`` after any time or vertical-level selection.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Plot extent in degrees. Cross-dateline longitude windows are supported.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from valid
+       vertices.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   contour_margin : :py:class:`float <float>`, default: 0.05
+       Fractional padding used when selecting source vertices for contouring.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, draw a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid vertices.
+   levels : :py:class:`int <int>` or array-like, default: 10
+       Number of contour levels, or explicit level values.
+   cmap : :py:class:`str <str>` or :py:class:`matplotlib.colors.Colormap <matplotlib.colors.Colormap>`, optional
+       Colormap used for filled contours.
+   vmin, vmax : :py:class:`float <float>`, optional
+       Data limits used by contour levels and color mapping.
+   symmetric : :py:class:`bool <bool>`, default: False
+       If True, infer symmetric limits around zero when ``vmin`` or ``vmax`` is
+       omitted.
+   percentile : :py:class:`float <float>`, default: 98
+       Percentile used for automatic data-limit inference.
+   extend : {"neither", "both", "min", "max"}, optional
+       Colorbar extension mode. If None, infer it from data and levels.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted edge length for triangles. Longer triangles are masked.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache the triangulation for repeated calls on the same mesh and
+       extent.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, MPAS longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   add_colorbar : :py:class:`bool <bool>`, default: True
+       If True, add a colorbar for the filled contour set.
+   cbar_kwargs : :py:class:`dict <dict>`, optional
+       Keyword arguments passed to ``Figure.colorbar``.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use the data long name.
+   xlabel, ylabel : :py:class:`str <str>`
+       Axis labels used for plain Matplotlib axes.
+   aspect : :py:class:`str <str>` or :py:class:`float <float>`, default: "auto"
+       Aspect setting used for plain Matplotlib axes.
+   lon_name_vertex, lat_name_vertex : :py:class:`str <str>`
+       MPAS vertex coordinate variable names.
+
+   Returns
+   -------
+   :py:class:`matplotlib.contour.QuadContourSet <matplotlib.contour.QuadContourSet>`
+       Filled contour set returned by ``Axes.tricontourf``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       vertex_contour
+
+
+.. py:function:: plot_vertex_contour(ds, da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, contour_margin=0.05, global_plot=False, center_lon=None, levels=10, colors=None, linewidths=0.8, linestyles=None, cmap=None, vmin=None, vmax=None, symmetric=False, percentile=98, extend=None, max_triangle_edge=None, use_triangulation_cache=True, input_radians=True, transform=None, title=None, xlabel='Longitude', ylabel='Latitude', aspect='auto', lon_name_vertex='lonVertex', lat_name_vertex='latVertex')
+
+   Draw contour lines for MPAS vertex-centered scalar field.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       MPAS dataset containing vertex coordinate variables.
+   da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Vertex-centered scalar values. The data must be one-dimensional on
+       ``nVertices`` after any time or vertical-level selection.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Plot extent in degrees. Cross-dateline longitude windows are supported.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from valid
+       vertices.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   contour_margin : :py:class:`float <float>`, default: 0.05
+       Fractional padding used when selecting source vertices for contouring.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, draw a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid vertices.
+   levels : :py:class:`int <int>` or array-like, default: 10
+       Number of contour levels, or explicit level values.
+   colors : color or :py:class:`collections.abc.Sequence <collections.abc.Sequence>` of colors, optional
+       Fixed line colors passed to ``Axes.tricontour``. If omitted, use
+       ``cmap``.
+   linewidths, linestyles
+       Contour line style options passed to ``Axes.tricontour``.
+   cmap : :py:class:`str <str>` or :py:class:`matplotlib.colors.Colormap <matplotlib.colors.Colormap>`, optional
+       Colormap used when ``colors`` is not supplied.
+   vmin, vmax : :py:class:`float <float>`, optional
+       Data limits used by contour levels and color mapping.
+   symmetric : :py:class:`bool <bool>`, default: False
+       If True, infer symmetric limits around zero when ``vmin`` or ``vmax`` is
+       omitted.
+   percentile : :py:class:`float <float>`, default: 98
+       Percentile used for automatic data-limit inference.
+   extend : {"neither", "both", "min", "max"}, optional
+       Contour extension mode. If None, infer it from data and levels.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted edge length for triangles. Longer triangles are masked.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache the triangulation for repeated calls on the same mesh and
+       extent.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, MPAS longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use the data long name.
+   xlabel, ylabel : :py:class:`str <str>`
+       Axis labels used for plain Matplotlib axes.
+   aspect : :py:class:`str <str>` or :py:class:`float <float>`, default: "auto"
+       Aspect setting used for plain Matplotlib axes.
+   lon_name_vertex, lat_name_vertex : :py:class:`str <str>`
+       MPAS vertex coordinate variable names.
+
+   Returns
+   -------
+   :py:class:`matplotlib.contour.QuadContourSet <matplotlib.contour.QuadContourSet>`
+       Contour set returned by ``Axes.tricontour``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       vertex_contour
+
+

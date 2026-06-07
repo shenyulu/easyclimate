@@ -1,0 +1,86 @@
+easyclimate.plot.icon.cell_quiver
+=================================
+
+.. py:module:: easyclimate.plot.icon.cell_quiver
+
+.. autoapi-nested-parse::
+
+   Quiver plots for ICON cell winds.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.icon.cell_quiver.plot_cell_quiver
+
+
+Module Contents
+---------------
+
+.. py:function:: plot_cell_quiver(ds, u_da, v_da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', nx_bins=35, ny_bins=20, thin_method='nearest_center', use_thinning_cache=True, add_quiverkey=True, quiverkey_value=None, quiverkey_label=None, quiverkey_x=0.88, quiverkey_y=1.04, transform=None, title=None, **quiver_kwargs)
+
+   Plot cell-centered vector wind on an ICON mesh.
+
+   ICON cell-centered vectors are thinned into regular longitude-latitude bins
+   before they are passed to ``Axes.quiver``. This keeps vector density
+   readable on native ICON triangular meshes.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   u_da, v_da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered zonal/eastward and meridional/northward vector
+       components. Each input must be one-dimensional on ``ncells`` after
+       selecting time or vertical dimensions.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`
+       Plot extent in degrees. These bounds are required so vector thinning is
+       restricted to the requested ICON domain.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   nx_bins, ny_bins : :py:class:`int <int>`, default: 35, 20
+       Number of longitude and latitude bins used to thin vectors.
+   thin_method : {"nearest_center", "max_speed", "mean"}, default: "nearest_center"
+       Rule used to choose or aggregate one vector per bin.
+   use_thinning_cache : :py:class:`bool <bool>`, default: True
+       If True, cache coordinate-only bin metadata for repeated calls on the
+       same ICON mesh and extent.
+   add_quiverkey : :py:class:`bool <bool>`, default: True
+       If True, add a reference quiver key.
+   quiverkey_value : :py:class:`float <float>`, optional
+       Reference vector magnitude for the quiver key. If None, use the 75th
+       percentile of thinned vector speeds.
+   quiverkey_label : :py:class:`str <str>`, optional
+       Label for the quiver key. If None, build a metres-per-second label from
+       ``quiverkey_value``.
+   quiverkey_x, quiverkey_y : :py:class:`float <float>`, default: 0.88, 1.04
+       Quiver-key position in axes coordinates.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use a default wind title.
+   **quiver_kwargs
+       Additional keyword arguments passed to ``Axes.quiver``.
+
+   Returns
+   -------
+   :py:class:`matplotlib.quiver.Quiver <matplotlib.quiver.Quiver>`
+       Quiver object returned by ``Axes.quiver``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_quiver
+
+

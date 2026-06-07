@@ -1,0 +1,198 @@
+easyclimate.plot.curved_quiver_plot
+===================================
+
+.. py:module:: easyclimate.plot.curved_quiver_plot
+
+.. autoapi-nested-parse::
+
+   Functions for curved quiver plots.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.curved_quiver_plot.curved_quiver
+   easyclimate.plot.curved_quiver_plot.add_curved_quiverkey
+
+
+Module Contents
+---------------
+
+.. py:function:: curved_quiver(ds: xarray.Dataset, x: collections.abc.Hashable, y: collections.abc.Hashable, u: collections.abc.Hashable, v: collections.abc.Hashable, ax: matplotlib.axes.Axes | None = None, density=1, linewidth=None, color=None, cmap=None, norm=None, arrowsize=1, arrowstyle='-|>', transform=None, zorder=None, start_points=None, integration_direction='both', grains=15, broken_streamlines=True, regrid_shape: int | tuple[int, int] | None = None, ref_magnitude: float | None = None, ref_length: float | None = None, min_frac_length: float = 0.0, length_norm: Literal['reference', 'max', 'percentile'] = 'reference', mask_density: int | tuple[int, int] = 10, line_start_stride: int = 1, arrow_stride: int = 1, min_distance: float = 0.0, arrow_head_ratio: float = 1.0, arrow_position: float = 1.0) -> easyclimate.plot.modplot.CurvedQuiverplotSet
+
+   Plot streamlines of a vector flow.
+
+   Parameters
+   ----------
+   ds: :py:class:`xarray.Dataset`.
+       Wind dataset.
+   x: Hashable or None, optional.
+       Variable name for x-axis.
+   y: Hashable or None, optional.
+       Variable name for y-axis.
+   u: Hashable or None, optional.
+       Variable name for the u velocity (in `x` direction).
+   v: Hashable or None, optional.
+       Variable name for the v velocity (in `y` direction).
+   ax: :py:class:`matplotlib.axes.Axes`, optional.
+       Axes on which to plot. By default, use the current axes. Mutually exclusive with `size` and `figsize`.
+   density: :py:class:`float <float>` or (:py:class:`float <float>`, :py:class:`float <float>`)
+       Controls the closeness of streamlines. When ``density = 1``, the domain
+       is divided into a 30x30 grid. *density* linearly scales this grid.
+       Each cell in the grid can have, at most, one traversing streamline.
+       For different densities in each direction, use a tuple
+       (density_x, density_y).
+   linewidth: :py:class:`float <float>` or 2D array
+       The width of the streamlines. With a 2D array the line width can be
+       varied across the grid. The array must have the same shape as *u*
+       and *v*.
+   color: color or 2D array
+       The streamline color. If given an array, its values are converted to
+       colors using *cmap* and *norm*.  The array must have the same shape
+       as *u* and *v*.
+   cmap, norm
+       Data normalization and colormapping parameters for *color*; only used
+       if *color* is an array of floats. See `~.Axes.imshow` for a detailed
+       description.
+   arrowsize: :py:class:`float <float>`
+       Scaling factor for the arrow size.
+   arrowstyle: :py:class:`str <str>`
+       Arrow style specification.
+       See `~matplotlib.patches.FancyArrowPatch`.
+   start_points: (N, 2) array
+       Coordinates of starting points for the streamlines in data coordinates
+       (the same coordinates as the *x* and *y* arrays).
+   zorder: :py:class:`float <float>`
+       The zorder of the streamlines and arrows.
+       Artists with lower zorder values are drawn first.
+   integration_direction: {'forward', 'backward', 'both'}, default: 'both'
+       Integrate the streamline in forward, backward or both directions.
+   broken_streamlines: :py:class:`bool <bool>`, default: True
+       If False, forces streamlines to continue until they
+       leave the plot domain.  If True, they may be terminated if they
+       come too close to another streamline.
+   regrid_shape: :py:class:`int <int>` or (:py:class:`int <int>`, :py:class:`int <int>`) or None, default: None
+       Regrid the vector field onto a regular grid in the target map projection,
+       similar to `cartopy`'s quiver and barbs methods. This is only supported
+       when plotting on a `cartopy` GeoAxes and `transform` is provided.
+   ref_magnitude: :py:class:`float <float>` or None, default: None
+       Reference vector magnitude used to convert field magnitude into curved
+       vector length. If None, use the rule defined by `length_norm`.
+   ref_length: :py:class:`float <float>` or None, default: None
+       Reference curved-vector length in the internal axes-normalized scale.
+       If None, keep the previous density/grains-based behavior.
+   min_frac_length: :py:class:`float <float>`, default: 0.0
+       Minimum fraction of `ref_length` retained for weak vectors.
+   length_norm: {"reference", "max", "percentile"}, default: ``"reference"``
+       Fallback normalization rule used when `ref_magnitude` is not explicitly
+       provided.
+   mask_density: :py:class:`int <int>` or tuple, default: 10
+       Density of the occupancy mask used to avoid overly dense curved vectors.
+   line_start_stride: :py:class:`int <int>`, default: 1
+       Seed-point subsampling stride.
+   arrow_stride: :py:class:`int <int>`, default: 1
+       Segment stride for placing multiple arrow heads along a curved trajectory.
+   min_distance: :py:class:`float <float>`, default: 0.0
+       Minimum spacing between generated seed points in data coordinates.
+   arrow_head_ratio: :py:class:`float <float>`, default: 1.0
+       Multiplier applied to arrow-head size independently of line length.
+   arrow_position: :py:class:`float <float>`, default: 0.8
+       Relative position of the first arrow along each trajectory. Larger values
+       move the arrow closer to the front/head of the curved vector.
+
+   Returns
+   -------
+   :py:class:`easyclimate.plot.modplot.CurvedQuiverplotSet <easyclimate.plot.modplot.CurvedQuiverplotSet>`
+       Container object with attributes
+
+       - ``lines``: `.LineCollection` of streamlines
+
+       - ``arrows``: `.PatchCollection` containing `.FancyArrowPatch`
+         objects representing the arrows half-way along streamlines.
+
+           This container will probably change in the future to allow changes
+           to the colormap, alpha, etc. for both lines and arrows, but these
+           changes should be backward compatible.
+
+   .. seealso::
+       - https://github.com/matplotlib/matplotlib/issues/20038
+       - https://github.com/kieranmrhunt/curved-quivers
+       - https://github.com/Deltares/dfm_tools/issues/483
+       - https://github.com/NCAR/geocat-viz/issues/4
+       - https://docs.xarray.dev/en/stable/generated/xarray.Dataset.plot.streamplot.html#xarray.Dataset.plot.streamplot
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       curve_quiver
+
+
+.. py:function:: add_curved_quiverkey(curved_quiver: easyclimate.plot.modplot.CurvedQuiverplotSet, pos: tuple[float, float], U: float, label: str, ax: matplotlib.axes.Axes | None = None, color: str = 'black', angle: float = 0, labelpos: Literal['N', 'S', 'E', 'W'] = 'N', labelsep: float = 0.02, labelcolor: str = None, fontproperties: dict = None, zorder=None, ref_point=None)
+
+   Add a curved-quiver key to a plot.
+
+   The key is drawn in axes coordinates and represents a reference vector
+   magnitude for the object returned by :py:class:`CurvedQuiverplotSet <easyclimate.plot.modplot.CurvedQuiverplotSet>`.
+   Its length is scaled consistently with the internal normalization used by
+   the curved-quiver algorithm. When plotting on projected axes, a local
+   projected length can optionally be estimated using a reference point.
+
+   Parameters
+   ----------
+   curved_quiver: :py:class:`easyclimate.plot.modplot.CurvedQuiverplotSet <easyclimate.plot.modplot.CurvedQuiverplotSet>`
+       The curved-quiver object.
+   ax: :py:class:`matplotlib.axes.Axes`
+       Axes on which to draw the quiver key.
+   pos: tuple[float, float]
+       Position ``(x, y)`` of the quiver key in axes coordinates.
+       For example, ``(0.5, 0.5)`` places the key at the center of the axes.
+       Values outside the ``[0, 1]`` range are allowed so the key can be drawn
+       outside the axes frame.
+   U: :py:class:`float <float>`
+       Vector magnitude represented by the quiver key.
+   label: :py:class:`str <str>`
+       Label displayed alongside the quiver key.
+   color: matplotlib color, default: ``"black"``
+       Color of both the key arrow and the label text unless
+       [`labelcolor`](src/easyclimate/plot/curved_quiver_plot.py:168) is given.
+   angle: :py:class:`float <float>`, default: 0
+       Arrow angle in degrees, measured counterclockwise from the positive
+       x-direction of the axes.
+   labelpos: {'N', 'S', 'E', 'W'}, default: ``'N'``
+       Position of the label relative to the arrow:
+
+       - ``'N'``: above the arrow,
+       - ``'S'``: below the arrow,
+       - ``'E'``: at the arrow-head side,
+       - ``'W'``: at the arrow-tail side.
+   labelsep: :py:class:`float <float>`, default: 0.02
+       Separation between the arrow and the label in axes coordinates.
+   labelcolor: matplotlib color or None, default: None
+       Color of the label text.
+   fontproperties: :py:class:`dict <dict>` or :py:class:`matplotlib.font_manager.FontProperties` or None, default: None
+       Font properties passed to :py:func:`matplotlib.axes.Axes.text` when drawing the label.
+   zorder: :py:class:`float <float>` or None, default: None
+       Drawing order of the quiver key. If None, a default value above the
+       curved quiver is used.
+   ref_point: tuple[float, float] or None, default: None
+       Optional reference point ``(x, y)`` in data coordinates.
+       When provided on projected axes, the key length is converted using the
+       local projection scale near this point, so the displayed key length is
+       more representative of the curved-quiver length at that location.
+       For non-projected axes, this parameter is usually unnecessary.
+
+   .. note::
+
+       For projected axes, the displayed length of a vector can vary with
+       location. Supplying ``ref_point`` makes the quiver key correspond
+       to a local projected length near that position.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       curve_quiver
+
+

@@ -1,0 +1,327 @@
+easyclimate.interp.barnes
+=========================
+
+.. py:module:: easyclimate.interp.barnes
+
+.. autoapi-nested-parse::
+
+   Fast Barnes interpolation
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.interp.barnes.interp_spatial_barnes
+   easyclimate.interp.barnes.interp_spatial_barnes_rs
+   easyclimate.interp.barnes.interp_spatial_barnesS2
+   easyclimate.interp.barnes.interp_spatial_barnesS2_rs
+
+
+Module Contents
+---------------
+
+.. py:function:: interp_spatial_barnes(data: pandas.DataFrame, var_name: str, *, lon_dim: str = 'lon', lat_dim: str = 'lat', grid_res_deg: float = 0.25, auto_domain: bool = True, buffer_deg: float = 1.0, point: tuple[float, float] | None = None, grid_x: float | None = None, grid_y: float | None = None, sigma_deg: float | None = None, influence_radius_deg: float | None = None, influence_k_sigma: float = 4.0, num_iter: int = 2, method: str = 'optimized_convolution', max_dist_sigma: float | None = None, min_weight: float = 1e-06, mask_radius_deg: float | None = None, missing_sentinels: tuple[float, Ellipsis] = (9999.9, 9999.0, -9999.0, -9999.9))
+
+   Computes Barnes interpolation for observation values ``var_name`` sampled at irregular
+   locations in ``data`` (lon/lat in degrees), using Gaussian weights with width
+   parameter ``sigma_deg`` and returning a regular lon/lat grid as an
+   :py:class:`xarray.DataArray<xarray.DataArray>`.
+
+   Barnes interpolation is widely used in meteorology and geosciences to remodel
+   irregular point observations into a smooth gridded field. It can be written as
+
+   .. math::
+       f(\\boldsymbol{x})=\\frac{\\sum_{k=1}^N f_k\\cdot w_k(\\boldsymbol{x})}{\\sum_{k=1}^N w_k(\\boldsymbol{x})}
+
+   with Gaussian weights
+
+   .. math::
+       w_k(\\boldsymbol{x})=\\text{e}^{-\\frac{1}{2\\sigma^2}\\left|x-\\boldsymbol{x}_k\\right|^2}
+
+   Naive computation of Barnes interpolation leads to an algorithmic complexity of :math:`O(N \\times W \\times H)`,
+   where :math:`N` is the number of sample points and :math:`W \\times H` the size of the underlying grid.
+
+   For sufficiently large :math:`n` (in general in the range from 3 to 6) a good approximation of
+   Barnes interpolation with a reduced complexity :math:`O(N + W \\times H)` can be obtained by the convolutional expression
+
+   .. math::
+       f(\\boldsymbol{x})\\approx \\frac{ (\\sum_{k=1}^{N}f_k\\cdot\\delta_{\\boldsymbol{x}_k}) *  ( r_n^{*n[x]}(x)\\cdot r_n^{*n[y]}(y) )   }{ ( \\sum_{k=1}^{N} \\delta_{\\boldsymbol{x}_k}  ) *  (  r_{n}^{*n[x]}(x)\\cdot r_{n}^{*n[y]}(y)  )   }
+
+   where :math:`\\delta` is the Dirac impulse function and :math:`r(.)` an elementary rectangular function of a specific length that depends on :math:`\\sigma` and :math:`n`.
+
+   This wrapper is **degree-based**:
+
+   - ``grid_res_deg`` / ``sigma_deg`` / ``influence_radius_deg`` / ``mask_radius_deg`` are all in degrees.
+   - Internally converts to the fast-barnes "grid units" used by the core implementation:
+
+   .. math::
+       \\sigma_{\\text{grid}} = \\sigma_{\deg} / \\Delta_{\\deg},
+       \\qquad
+       \\text{max_dist_sigma} = R_{\\deg} / \\sigma_{\\deg}.
+
+   - If ``sigma_deg`` is not provided, it is estimated from station density using a simple spacing heuristic.
+   - Optional masking keeps only grid points that have at least one station within ``mask_radius_deg`` using a radius-search KD-tree.
+
+   Parameters
+   ----------
+   data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
+       Input table containing at least ``lon_dim``, ``lat_dim`` and ``var_name`` columns.
+       Any rows with NaN/Inf in these columns are dropped after cleaning.
+
+       There should be a similar structure as follows
+
+       +------------+------------+-----------+
+       |    lon     |    lat     |    qff    |
+       +============+============+===========+
+       |   -3.73    |   56.33    |   995.1   |
+       +------------+------------+-----------+
+       |    2.64    |   47.05    |  1012.5   |
+       +------------+------------+-----------+
+       |    ...     |   ...      |   ...     |
+       +------------+------------+-----------+
+
+       .. note::
+           Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
+
+   var_name : :py:class:`str<str>`
+       Name of the variable column to interpolate. This should match the one in the parameter `data`.
+   lon_dim, lat_dim : :py:class:`str<str>`, optional
+       Column names for longitude/latitude (degrees). Defaults are ``"lon"`` and ``"lat"``.
+   grid_res_deg : :py:class:`float<float>`, optional
+       Output grid spacing in degrees. Must be > 0. Default is 0.25.
+   auto_domain : :py:class:`bool<bool>`, optional
+       If True (default), the interpolation domain is set to the data bounding box
+       expanded by ``buffer_deg`` on each side.
+   buffer_deg : :py:class:`float<float>`, optional
+       Padding (degrees) added around the data bounding box when ``auto_domain=True``.
+   point : tuple(float, float), optional
+       Lower-left corner (lon0, lat0) of the output grid (degrees). Required when
+       ``auto_domain=False``.
+   grid_x, grid_y : :py:class:`float<float>`, optional
+       Domain size in degrees in x (lon) / y (lat). Required when ``auto_domain=False``.
+   sigma_deg : :py:class:`float<float>`, optional
+       Gaussian width in degrees. If None, an automatic estimate based on station density is used.
+   influence_radius_deg : :py:class:`float<float>`, optional
+       Radius of influence in degrees. If None, uses ``influence_k_sigma * sigma_deg``.
+   influence_k_sigma : :py:class:`float<float>`, optional
+       Multiplier used when ``influence_radius_deg`` is None. Default is 4.0.
+   num_iter : :py:class:`int<int>`, optional
+       Number of self-convolutions used by convolution-based methods. Must be >= 1.
+       The number of performed self-convolutions of the underlying rect-kernel.
+       Applies only if method is 'optimized_convolution' or 'convolution'.
+       The default is 2. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.
+   method : :py:class:`str<str>`, optional
+       Passed to :func:`fastbarnes_new.interpolation.barnes`. Common values include
+       ``"optimized_convolution"``, ``"convolution"``, ``"radius"``, ``"naive"``.
+       The possible implementations that can be chosen are 'naive' for the straightforward
+       implementation (algorithm A from paper), 'radius' to consider only sample
+       points within a specific radius of influence, both with an algorithmic
+       complexity of :math:`O(N \\times W \\times H)`.
+       The choice 'convolution' implements algorithm B specified in the paper
+       and 'optimized_convolution' is its optimization by appending tail values
+       to the rectangular kernel. The latter two algorithms reduce the complexity
+       down to :math:`O(N + W \\times H)`.
+   max_dist_sigma : :py:class:`float<float>`, optional
+       Maximum distance (in units of ``sigma``) for which interpolation is computed.
+       If None, uses ``influence_radius_deg / sigma_deg``.
+   min_weight : :py:class:`float<float>`, optional
+       Minimum Gaussian weight threshold used by radius-based methods in the backend.
+   mask_radius_deg : :py:class:`float<float>`, optional
+       If provided (or if None defaults to ``influence_radius_deg``), grid points farther
+       than this radius (degrees) from all stations are set to NaN.
+   missing_sentinels : tuple(float, ...), optional
+       Values treated as missing in ``var_name`` and replaced by NaN before cleaning.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       Interpolated field on a regular lat/lon grid. Dimensions are ``(lat_dim, lon_dim)``.
+       The returned DataArray includes useful metadata in ``attrs`` (grid spacing, sigma,
+       influence radius, domain definition, etc.).
+
+   .. seealso::
+       - https://github.com/MeteoSwiss/fast-barnes-py
+       - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       interp
+
+
+.. py:function:: interp_spatial_barnes_rs(data: pandas.DataFrame, var_name: str, *, lon_dim: str = 'lon', lat_dim: str = 'lat', grid_res_deg: float = 0.25, auto_domain: bool = True, buffer_deg: float = 1.0, point: tuple[float, float] | None = None, grid_x: float | None = None, grid_y: float | None = None, sigma_deg: float | None = None, influence_radius_deg: float | None = None, influence_k_sigma: float = 4.0, num_iter: int = 2, method: str = 'optimized_convolution', max_dist_sigma: float | None = None, min_weight: float = 1e-06, mask_radius_deg: float | None = None, missing_sentinels: tuple[float, Ellipsis] = (9999.9, 9999.0, -9999.0, -9999.9))
+
+   Rust-accelerated Barnes interpolation wrapper (lon/lat in degrees).
+
+   This function is API-compatible with :func:`interp_spatial_barnes` but calls the
+   Rust backend (:func:`easyclimate_rust._easyclimate_rust.barnes`) for the core
+   interpolation step, and (optionally) uses the Rust radius mask
+   (:func:`easyclimate_rust._easyclimate_rust.radius_mask_2d`) to avoid showing
+   extrapolation far from stations.
+
+   Mathematically, the method targets the same Barnes analysis:
+
+   .. math::
+       f(\boldsymbol{x})=\frac{\sum_{k=1}^N f_k\cdot w_k(\boldsymbol{x})}{\sum_{k=1}^N w_k(\boldsymbol{x})}
+
+   with Gaussian weights
+
+   .. math::
+       w_k(\boldsymbol{x})=\text{e}^{-\frac{1}{2\sigma^2}\left|x-\boldsymbol{x}_k\right|^2}
+
+   .. note::
+       - All user-facing spatial parameters are in **degrees** (same conversion rules as :func:`interp_spatial_barnes`).
+       - ``sigma_deg`` auto-estimation uses a station-density spacing heuristic.
+       - If ``mask_radius_deg`` is enabled, masking is performed in Rust on the regular grid.
+
+   Parameters
+   ----------
+   Identical to :func:`interp_spatial_barnes`.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       Interpolated field on a regular lat/lon grid. Dimensions are ``(lat_dim, lon_dim)``.
+       The returned DataArray includes useful metadata in ``attrs`` (grid spacing, sigma,
+       influence radius, domain definition, etc.).
+
+   .. seealso::
+       - :func:`interp_spatial_barnes` (pure Python/NumPy backend)
+       - https://github.com/MeteoSwiss/fast-barnes-py
+       - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       interp
+
+
+.. py:function:: interp_spatial_barnesS2(data: pandas.DataFrame, var_name: str, *, lon_dim: str = 'lon', lat_dim: str = 'lat', grid_res_deg: float = 0.25, auto_domain: bool = True, buffer_deg: float = 1.0, point: tuple[float, float] | None = None, grid_x: float | None = None, grid_y: float | None = None, sigma_deg: float | None = None, influence_radius_deg: float | None = None, influence_k_sigma: float = 4.0, num_iter: int = 4, method: Literal['optimized_convolution_S2', 'naive_S2'] = 'optimized_convolution_S2', max_dist_sigma: float | None = None, resample: bool = True, mask_radius_deg: float | None = None, missing_sentinels: tuple[float, Ellipsis] = (9999.9, 9999.0, -9999.0, -9999.9), lambert_proj=None, lambert_grid=None, auto_proj: bool = True) -> xarray.DataArray
+
+   Computes Barnes interpolation on the unit sphere :math:`S^2` (spherical metric)
+   for observations given in lon/lat degrees, returning a regular lon/lat grid as an
+   :py:class:`xarray.DataArray<xarray.DataArray>`.
+
+   Compared to planar Barnes interpolation, the :math:`S^2` variant uses spherical
+   geometry internally (implemented by :func:`fastbarnes_new.interpolationS2.barnes_S2`).
+   For performance, the optimized method relies on a Lambert projection and a projected
+   grid; this wrapper forwards Lambert options and performs early validation so errors
+   are raised in Python (more readable than deep backend errors).
+
+
+   Parameters
+   ----------
+   data : :py:class:`pandas.DataFrame<pandas.DataFrame>`
+       Input table containing at least ``lon_dim``, ``lat_dim`` and ``var_name`` columns.
+       Any rows with NaN/Inf in these columns are dropped after cleaning.
+
+       There should be a similar structure as follows
+
+       +------------+------------+-----------+
+       |    lon     |    lat     |    qff    |
+       +============+============+===========+
+       |   -3.73    |   56.33    |   995.1   |
+       +------------+------------+-----------+
+       |    2.64    |   47.05    |  1012.5   |
+       +------------+------------+-----------+
+       |    ...     |   ...      |   ...     |
+       +------------+------------+-----------+
+
+       .. note::
+           Data points should contain longitude (`lon`), latitude (`lat`) and data variables (the above data variable name is `qff`).
+
+   var_name : :py:class:`str<str>`
+       Name of the variable column to interpolate. This should match the one in the parameter `data`.
+   lon_dim, lat_dim : :py:class:`str<str>`, optional
+       Column names for longitude/latitude (degrees). Defaults are ``"lon"`` and ``"lat"``.
+   grid_res_deg : :py:class:`float<float>`, optional
+       Output grid spacing in degrees. Must be > 0. Default is 0.25.
+   auto_domain : :py:class:`bool<bool>`, optional
+       If True (default), the interpolation domain is set to the data bounding box
+       expanded by ``buffer_deg`` on each side.
+   buffer_deg : :py:class:`float<float>`, optional
+       Padding (degrees) added around the data bounding box when ``auto_domain=True``.
+   point : tuple(float, float), optional
+       Lower-left corner (lon0, lat0) of the output grid (degrees). Required when
+       ``auto_domain=False``.
+   grid_x, grid_y : :py:class:`float<float>`, optional
+       Domain size in degrees in x (lon) / y (lat). Required when ``auto_domain=False``.
+   sigma_deg : :py:class:`float<float>`, optional
+       Gaussian width in degrees. If None, an automatic estimate based on station density is used.
+   influence_radius_deg : :py:class:`float<float>`, optional
+       Radius of influence in degrees. If None, uses ``influence_k_sigma * sigma_deg``.
+   influence_k_sigma : :py:class:`float<float>`, optional
+       Multiplier used when ``influence_radius_deg`` is None. Default is 4.0.
+   num_iter : :py:class:`int<int>`, optional
+       Number of self-convolutions used by convolution-based methods. Must be >= 1.
+       The number of performed self-convolutions of the underlying rect-kernel.
+       Applies only if method is 'optimized_convolution' or 'convolution'.
+       The default is 2. Applies only to Convol interpolations: one of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50.
+   method : {'optimized_convolution_S2', 'naive_S2'}, default: 'optimized_convolution_S2'.
+       Designates the Barnes interpolation method to be used. The possible
+       implementations that can be chosen are 'naive_S2' for the straightforward
+       implementation (algorithm A from the paper) with an algorithmic complexity
+       of :math:`O(N \times W \times H)`.
+       The choice 'optimized_convolution_S2' implements the optimized algorithm B
+       specified in the paper by appending tail values to the rectangular kernel.
+       The latter algorithm has a reduced complexity of :math:`O(N + W \times H)`.
+       The default is 'optimized_convolution_S2'.
+   max_dist_sigma : :py:class:`float<float>`, optional
+       Maximum distance (in units of ``sigma``) for which interpolation is computed.
+       If None, uses ``influence_radius_deg / sigma_deg``.
+   min_weight : :py:class:`float<float>`, optional
+       Minimum Gaussian weight threshold used by radius-based methods in the backend.
+   mask_radius_deg : :py:class:`float<float>`, optional
+       If provided (or if None defaults to ``influence_radius_deg``), grid points farther
+       than this radius (degrees) from all stations are set to NaN.
+   missing_sentinels : tuple(float, ...), optional
+       Values treated as missing in ``var_name`` and replaced by NaN before cleaning.
+   resample : :py:class:`bool<bool>`, default True
+       Passed through to the S2 backend (controls internal resampling behavior).
+   lambert_proj, lambert_grid, auto_proj
+       Lambert projection configuration forwarded to :func:`barnes_S2`.
+       If ``auto_proj=True`` and no ``lambert_proj`` is provided, the backend will infer
+       a projection; **domains crossing the equator are not supported** by the optimized
+       S2 convolution path (split into hemispheres or pass an explicit projection/grid).
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       Interpolated spherical Barnes field on a regular lat/lon grid, with metadata in ``attrs``.
+
+   .. seealso::
+       - :func:`interp_spatial_barnes` (planar metric)
+       - :func:`interp_spatial_barnesS2_rs` (Rust backend on :math:`S^2`)
+       - https://github.com/MeteoSwiss/fast-barnes-py
+       - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
+
+
+.. py:function:: interp_spatial_barnesS2_rs(data: pandas.DataFrame, var_name: str, *, lon_dim: str = 'lon', lat_dim: str = 'lat', grid_res_deg: float = 0.25, auto_domain: bool = True, buffer_deg: float = 1.0, point: tuple[float, float] | None = None, grid_x: float | None = None, grid_y: float | None = None, sigma_deg: float | None = None, influence_radius_deg: float | None = None, influence_k_sigma: float = 4.0, num_iter: int = 4, method: Literal['optimized_convolution_S2', 'naive_S2'] = 'optimized_convolution_S2', max_dist_sigma: float | None = None, resample: bool = True, mask_radius_deg: float | None = None, missing_sentinels: tuple[float, Ellipsis] = (9999.9, 9999.0, -9999.0, -9999.9), lambert_proj=None, lambert_grid=None, auto_proj: bool = True) -> xarray.DataArray
+
+   Rust-accelerated Barnes interpolation on the unit sphere :math:`S^2` (spherical metric).
+
+   This function mirrors :func:`interp_spatial_barnesS2` but uses the Rust backend
+   (:func:`easyclimate_rust._easyclimate_rust.barnes_s2`) for the S2 interpolation.
+   It keeps the same degree-based, user-friendly API and returns the same
+   :py:class:`xarray.DataArray<xarray.DataArray>` layout.
+
+
+   Parameters
+   ----------
+   Identical to :func:`interp_spatial_barnesS2`.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       Interpolated spherical Barnes field on a regular lat/lon grid, with metadata in ``attrs``.
+
+   .. seealso::
+       - :func:`interp_spatial_barnes` (planar metric)
+       - :func:`interp_spatial_barnesS2_rs` (Rust backend on :math:`S^2`)
+       - https://github.com/MeteoSwiss/fast-barnes-py
+       - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
+
+

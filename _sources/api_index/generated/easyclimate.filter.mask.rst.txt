@@ -1,0 +1,12 @@
+﻿easyclimate.filter.mask
+=======================
+
+.. automodule:: easyclimate.filter.mask
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      mask_custom_rectangular_box
+   

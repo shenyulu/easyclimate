@@ -1,0 +1,12 @@
+﻿easyclimate.plot.mpas.cell\_curved\_quiver
+==========================================
+
+.. automodule:: easyclimate.plot.mpas.cell_curved_quiver
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_cell_curved_quiver
+   

@@ -1,0 +1,241 @@
+easyclimate.core.integral
+=========================
+
+.. py:module:: easyclimate.core.integral
+
+.. autoapi-nested-parse::
+
+   Vertical integration using beta factors.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.core.integral.calc_top2surface_integral
+   easyclimate.core.integral.calc_top2surface_average
+   easyclimate.core.integral.calc_top2surface_integral_rs
+   easyclimate.core.integral.calc_top2surface_average_rs
+   easyclimate.core.integral.calc_delta_pressure
+   easyclimate.core.integral.calc_p_integral
+
+
+Module Contents
+---------------
+
+.. py:function:: calc_top2surface_integral(data_input: xarray.DataArray, surface_pressure_data: xarray.DataArray, vertical_dim: str, surface_pressure_data_units: Literal['hPa', 'Pa', 'mbar'], vertical_dim_units: Literal['hPa', 'Pa', 'mbar'], normalize: bool = False, mass_weighted: bool = False, gravity: float = 9.80665) -> xarray.DataArray
+
+   Calculate the vertical integral in the p-coordinate system from the ground
+   to the zenith along the barometric pressure direction with Fortran vibeta backends.
+
+   Parameters
+   ----------
+   data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
+       The spatio-temporal data to be calculated.
+   surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`
+       Surface level pressure. Must be local surface pressure, not MSLP.
+   vertical_dim: :py:class:`str <str>`
+       Vertical coordinate dimension name.
+   surface_pressure_data_units: {"hPa", "Pa", "mbar"}
+       Unit of `surface_pressure_data`.
+   vertical_dim_units: {"hPa", "Pa", "mbar"}
+       Unit of vertical pressure coordinate.
+   mass_weighted: :py:class:`bool <bool>`, default False
+       If True, convert pressure integral :math:`\int x\,dp` to mass-weighted
+       integral :math:`(1/g)\int x\,dp`.
+
+       .. note::
+
+           For moisture flux quantities such as :math:`q\cdot u` or :math:`q\cdot v`, set
+           `mass_weighted=True` to obtain the commonly used vertically integrated
+           moisture flux with units :math:`\mathrm{kg \, m^{-1} \, s^{-1}}`.
+
+   gravity: :py:class:`float <float>`, default 9.80665
+       Gravitational acceleration used for mass weighting, in :math:`\mathrm{m \, s^{-2}}.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       Vertical pressure integral, or mass-weighted integral depending on the
+       selected options.
+
+
+.. py:function:: calc_top2surface_average(data_input: xarray.DataArray, surface_pressure_data: xarray.DataArray, vertical_dim: str, surface_pressure_data_units: Literal['hPa', 'Pa', 'mbar'], vertical_dim_units: Literal['hPa', 'Pa', 'mbar']) -> xarray.DataArray
+
+   Calculate the pressure-thickness-weighted layer average from the top to surface
+   with Fortran vibeta backends.
+
+   Parameters
+   ----------
+   data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
+       The spatio-temporal data to be calculated.
+   surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`
+       Surface level pressure. Must be local surface pressure, not MSLP.
+   vertical_dim: :py:class:`str <str>`
+       Vertical coordinate dimension name.
+   surface_pressure_data_units: {"hPa", "Pa", "mbar"}
+       Unit of `surface_pressure_data`.
+   vertical_dim_units: {"hPa", "Pa", "mbar"}
+       Unit of vertical pressure coordinate.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       The pressure-thickness-weighted layer average from the top to surface.
+
+
+.. py:function:: calc_top2surface_integral_rs(data_input: xarray.DataArray, surface_pressure_data: xarray.DataArray, vertical_dim: str, surface_pressure_data_units: Literal['hPa', 'Pa', 'mbar'], vertical_dim_units: Literal['hPa', 'Pa', 'mbar'], normalize: bool = False, mass_weighted: bool = False, gravity: float = 9.80665, method: Literal['rust', 'rust-block'] = 'rust-block') -> xarray.DataArray
+
+   Calculate the vertical integral in the p-coordinate system from the ground
+   to the zenith along the barometric pressure direction with Rust vibeta backends.
+
+   Parameters
+   ----------
+   data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
+       The spatio-temporal data to be calculated.
+   surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`
+       Surface level pressure. Must be local surface pressure, not MSLP.
+   vertical_dim: :py:class:`str <str>`
+       Vertical coordinate dimension name.
+   surface_pressure_data_units: {"hPa", "Pa", "mbar"}
+       Unit of `surface_pressure_data`.
+   vertical_dim_units: {"hPa", "Pa", "mbar"}
+       Unit of vertical pressure coordinate.
+   mass_weighted: :py:class:`bool <bool>`, default False
+       If True, convert pressure integral :math:`\int x\,dp` to mass-weighted
+       integral :math:`(1/g)\int x\,dp`.
+
+       .. note::
+
+           For moisture flux quantities such as :math:`q\cdot u` or :math:`q\cdot v`, set
+           `mass_weighted=True` to obtain the commonly used vertically integrated
+           moisture flux with units :math:`\mathrm{kg \, m^{-1} \, s^{-1}}`.
+
+   gravity: :py:class:`float <float>`, default 9.80665
+       Gravitational acceleration used for mass weighting, in :math:`\mathrm{m \, s^{-2}}.
+   method: {"rust", "rust-block"}
+       Rust backend engine.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       Vertical pressure integral, or mass-weighted integral depending on the
+       selected options.
+
+
+.. py:function:: calc_top2surface_average_rs(data_input: xarray.DataArray, surface_pressure_data: xarray.DataArray, vertical_dim: str, surface_pressure_data_units: Literal['hPa', 'Pa', 'mbar'], vertical_dim_units: Literal['hPa', 'Pa', 'mbar'], method: Literal['rust', 'rust-block'] = 'rust-block') -> xarray.DataArray
+
+   Calculate the pressure-thickness-weighted layer average from the top to surface
+   with Rust vibeta backends.
+
+   Parameters
+   ----------
+   data_input: :py:class:`xarray.DataArray<xarray.DataArray>`
+       The spatio-temporal data to be calculated.
+   surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`
+       Surface level pressure. Must be local surface pressure, not MSLP.
+   vertical_dim: :py:class:`str <str>`
+       Vertical coordinate dimension name.
+   surface_pressure_data_units: {"hPa", "Pa", "mbar"}
+       Unit of `surface_pressure_data`.
+   vertical_dim_units: {"hPa", "Pa", "mbar"}
+       Unit of vertical pressure coordinate.
+   method: {"rust", "rust-block"}
+       Rust backend engine.
+
+   Returns
+   -------
+   :py:class:`xarray.DataArray<xarray.DataArray>`
+       The pressure-thickness-weighted layer average from the top to surface.
+
+
+.. py:function:: calc_delta_pressure(data_input: xarray.DataArray, surface_pressure_data: xarray.DataArray, vertical_dim: str, vertical_dim_units: Literal['hPa', 'Pa', 'mbar'], surface_pressure_data_units: Literal['hPa', 'Pa', 'mbar']) -> xarray.DataArray
+
+   Calculates the pressure layer thickness (delta pressure) of a constant
+   pressure level coordinate system.
+
+   Parameters
+   ----------
+   data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The spatio-temporal data to be calculated.
+   surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       Mean surface sea level pressure.
+   vertical_dim: :py:class:`str <str>`.
+       Vertical coordinate dimension name.
+   vertical_dim_units: :py:class:`str <str>`.
+       The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
+   surface_pressure_data_units: :py:class:`str <str>`.
+       The unit corresponding to `surface_pressure_data` value. Optional values are `hPa`, `Pa`, `mbar`.
+
+   Returns
+   -------
+   The pressure layer thickness (delta pressure) of a constant pressure level coordinate system (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`).
+
+   .. seealso::
+       - :py:func:`geocat.comp.meteorology.delta_pressure <geocat-comp:geocat.comp.meteorology.delta_pressure>`
+       - `dpres_plevel - NCL <https://www.ncl.ucar.edu/Document/Functions/Built-in/dpres_plevel.shtml>`__
+
+   Examples
+   --------
+   The results in :py:func:`geocat.comp.meteorology.delta_pressure <geocat-comp:geocat.comp.meteorology.delta_pressure>`:
+
+   >>> from geocat.comp.meteorology import delta_pressure
+   >>> dp = delta_pressure(
+   ...     pressure_lev= np.array([1000.,925.,850.,700.,600.,500., 400.,300.,250.,200.,150.,100., 70.,50.,30.,20.,10.]),
+   ...     surface_pressure = np.array([1013]),
+   ... )
+   >>> print(dp)
+   [[ 50.5  75.  112.5 125.  100.  100.  100.   75.   50.   50.   50.   40.
+      25.   20.   15.   10.    5. ]]
+
+   For comparison, the results in :py:func:`easyclimate.calc_delta_pressure <calc_delta_pressure>`:
+
+   >>> temp_sample = xr.DataArray(
+   ...     np.array([[292.,285.,283.,277.,270.,260., 250.,235.,225.,215.,207.,207., 213.,220.,225.,228.,230.]]),
+   ...     dims = ("lat", "plev"),
+   ...     coords = {"plev": np.array([1000.,925.,850.,700.,600.,500., 400.,300.,250.,200.,150.,100., 70.,50.,30.,20.,10.]),
+   ...             "lat": np.array([0])}
+   ... )
+   >>> dp = ecl.calc_delta_pressure(
+   ...     data_input = temp_sample,
+   ...     surface_pressure_data = xr.DataArray([1013], dims = "lat"),
+   ...     vertical_dim = "plev",
+   ...     surface_pressure_data_units = "Pa",
+   ...     vertical_dim_units = "Pa",
+   ... ).transpose("lat", "plev")
+   >>> print(dp)
+   <xarray.DataArray 'plev' (lat: 1, plev: 17)> Size: 136B
+   array([[ 50.5,  75. , 112.5, 125. , 100. , 100. , 100. ,  75. ,  50. ,
+           50. ,  50. ,  40. ,  25. ,  20. ,  15. ,  10. ,   5. ]])
+   Coordinates:
+   * lat      (lat) int64 8B 0
+   * plev     (plev) float64 136B 1e+03 925.0 850.0 700.0 ... 50.0 30.0 20.0 10.0
+
+
+.. py:function:: calc_p_integral(data_input: xarray.DataArray, vertical_dim: str, vertical_dim_units: Literal['hPa', 'Pa', 'mbar'], normalize: bool = False) -> xarray.DataArray
+
+   Calculate the vertical integral along the barometric pressure direction in the p-coordinate system.
+
+   Parameters
+   ----------
+   data_input: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The spatio-temporal data to be calculated.
+   vertical_dim: :py:class:`str <str>`.
+       Vertical coordinate dimension name.
+   vertical_dim_units: :py:class:`str <str>`.
+       The unit corresponding to the vertical p-coordinate value. Optional values are `hPa`, `Pa`, `mbar`.
+   normalize: :py:class:`bool<bool>`, default: `True`.
+       Whether or not the integral results are averaged over the entire layer.
+
+   Returns
+   -------
+   The vertical integral along the barometric pressure direction in the p-coordinate system (:py:class:`xarray.DataArray<xarray.DataArray>` or :py:class:`xarray.Dataset<xarray.Dataset>`).
+
+   .. attention::
+       This method ignores the effect of topography, so it applies to altitudes **above 900hPa** and is **NOT applicable to the Tibetan Plateau region**.
+       For a fully accurate vertical integration, please use the :py:func:`calc_top2surface_integral <calc_top2surface_integral>` function to calculate,
+       but the speed of the calculation is slightly slowed down.
+
+

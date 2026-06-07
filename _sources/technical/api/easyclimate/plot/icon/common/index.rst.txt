@@ -1,0 +1,128 @@
+easyclimate.plot.icon.common
+============================
+
+.. py:module:: easyclimate.plot.icon.common
+
+.. autoapi-nested-parse::
+
+   Shared ICON plotting helpers.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.icon.common._rad2deg
+   easyclimate.plot.icon.common._lon_wrap_to_center
+   easyclimate.plot.icon.common._normalize_lon_window
+   easyclimate.plot.icon.common._infer_center_lon
+   easyclimate.plot.icon.common._infer_extent_from_points
+   easyclimate.plot.icon.common._is_cartopy_axis
+   easyclimate.plot.icon.common._set_cartopy_extent
+   easyclimate.plot.icon.common._infer_default_cmap
+   easyclimate.plot.icon.common._read_cell_data
+   easyclimate.plot.icon.common._prepare_cell_geometry
+   easyclimate.plot.icon.common._resolve_contour_levels
+   easyclimate.plot.icon.common._mask_bad_triangles
+   easyclimate.plot.icon.common._get_cached_triangulation
+   easyclimate.plot.icon.common._read_cell_vectors
+   easyclimate.plot.icon.common._prepare_vector_points
+   easyclimate.plot.icon.common.thin_vectors_by_bins
+   easyclimate.plot.icon.common._interpolate_vectors_to_grid
+
+
+Module Contents
+---------------
+
+.. py:function:: _rad2deg(x)
+
+   Convert radians to degrees.
+
+
+.. py:function:: _lon_wrap_to_center(lon, center_lon)
+
+   Wrap longitude to [center_lon - 180, center_lon + 180).
+
+
+.. py:function:: _normalize_lon_window(lon_min, lon_max)
+
+   Normalize a longitude window into a continuous increasing interval.
+
+
+.. py:function:: _infer_center_lon(lon_min=None, lon_max=None, lon_cell=None, valid=None)
+
+   Infer longitude wrapping center.
+
+
+.. py:function:: _infer_extent_from_points(lon, lat, margin=0.05)
+
+   Infer extent from valid lon/lat points.
+
+
+.. py:function:: _is_cartopy_axis(ax)
+
+   Weak check for Cartopy GeoAxes.
+
+
+.. py:function:: _set_cartopy_extent(ax, lon_min, lon_max, lat_min, lat_max)
+
+   Set Cartopy extent for continuous longitude windows.
+
+   ``GeoAxes.set_extent`` can expand windows such as 110E to 220E to a global
+   extent on shifted PlateCarree axes.  For PlateCarree projections, convert
+   the geographic longitudes into the target projection's native x coordinate
+   and set the extent in that coordinate system.
+
+
+.. py:function:: _infer_default_cmap(values, cmap=None, sequential='viridis', diverging='RdBu_r')
+
+   Infer a default colormap similar to xarray.plot.
+
+
+.. py:function:: _read_cell_data(da)
+
+   Read one-dimensional ICON cell data and metadata.
+
+
+.. py:function:: _prepare_cell_geometry(ds, da, *, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, global_plot=False, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat')
+
+   Prepare wrapped ICON cell centers and extent metadata.
+
+
+.. py:function:: _resolve_contour_levels(values, levels, *, vmin=None, vmax=None, symmetric=False, percentile=98, extend=None)
+
+   Resolve contour levels, color limits, and extension mode.
+
+
+.. py:function:: _mask_bad_triangles(triang, x, y, max_edge=None)
+
+   Mask triangles with too-long edges.
+
+
+.. py:function:: _get_cached_triangulation(x, y, *, max_edge=None, cache_key=None, use_cache=True, precompute_trifinder=False)
+
+   Build or reuse a triangulation for ICON cell-center contouring.
+
+
+.. py:function:: _read_cell_vectors(u_da, v_da)
+
+   Read one-dimensional ICON cell vector components.
+
+
+.. py:function:: _prepare_vector_points(ds, u_da, v_da, *, lon_min, lon_max, lat_min, lat_max, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', padding_lon=0.0, padding_lat=0.0)
+
+   Read, wrap, and subset ICON cell vectors for an explicit plot window.
+
+
+.. py:function:: thin_vectors_by_bins(x, y, u, v, *, lon_min, lon_max, lat_min, lat_max, nx_bins=35, ny_bins=20, method='nearest_center', cache_key=None, use_cache=True)
+
+   Thin vectors by lon-lat bins.
+
+
+.. py:function:: _interpolate_vectors_to_grid(x, y, u, v, *, lon_min, lon_max, lat_min, lat_max, nx=160, ny=100, max_triangle_edge=None, cache_key=None, use_triangulation_cache=True, min_valid_fraction=0.02)
+
+   Interpolate irregular ICON cell vectors onto a regular lon-lat grid.
+
+

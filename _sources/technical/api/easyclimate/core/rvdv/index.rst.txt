@@ -1,0 +1,263 @@
+easyclimate.core.rvdv
+=====================
+
+.. py:module:: easyclimate.core.rvdv
+
+.. autoapi-nested-parse::
+
+   Divergence and Vorticity
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.core.rvdv.calc_divergence_rs
+   easyclimate.core.rvdv.calc_vorticity_rs
+   easyclimate.core.rvdv.calc_divergence_ncl
+   easyclimate.core.rvdv.calc_vorticity_ncl
+   easyclimate.core.rvdv.calc_divergence
+   easyclimate.core.rvdv.calc_vorticity
+
+
+Module Contents
+---------------
+
+.. py:function:: calc_divergence_rs(u_data: xarray.DataArray, v_data: xarray.DataArray, lon_dim: str = 'lon', lat_dim: str = 'lat', R: float = 6371220.0, cyclic_boundary_setting: Literal['nan', 'cyclic', 'cyclic+diff', 'diff'] = 'nan', method: Literal['rust-batch', 'rust-raw'] = 'rust-batch') -> xarray.DataArray
+
+   Calculate the horizontal divergence term using the Rust backend.
+
+   This function wraps the Rust finite-difference implementation for spherical
+   wind fields and supports both batched and raw execution modes.
+
+   Parameters
+   ----------
+   u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The zonal wind data.
+   v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The meridional wind data.
+   lon_dim: :py:class:`str <str>`, default: `lon`.
+       Longitude coordinate dimension name.
+   lat_dim: :py:class:`str <str>`, default: `lat`.
+       Latitude coordinate dimension name.
+   R: :py:class:`float <float>`, default: `6371220.0`.
+       Radius of the Earth in meters.
+   cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+       A scalar integer equal to the boundary condition option:
+
+       - ``nan``: Boundary points are set to the missing value.
+       - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+       - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+       - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+   method: {"rust-batch", "rust-raw"}, default: "rust-batch".
+       Rust execution mode. ``rust-batch`` uses the batched backend function,
+       while ``rust-raw`` loops over non-core dimensions and calls the raw backend.
+
+   Returns
+   -------
+   The horizontal divergence term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+
+.. py:function:: calc_vorticity_rs(u_data: xarray.DataArray, v_data: xarray.DataArray, lon_dim: str = 'lon', lat_dim: str = 'lat', R: float = 6371220.0, cyclic_boundary_setting: Literal['nan', 'cyclic', 'cyclic+diff', 'diff'] = 'nan', method: Literal['rust-batch', 'rust-raw'] = 'rust-batch') -> xarray.DataArray
+
+   Calculate the horizontal relative vorticity term using the Rust backend.
+
+   This function wraps the Rust finite-difference implementation for spherical
+   wind fields and supports both batched and raw execution modes.
+
+   Parameters
+   ----------
+   u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The zonal wind data.
+   v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The meridional wind data.
+   lon_dim: :py:class:`str <str>`, default: `lon`.
+       Longitude coordinate dimension name.
+   lat_dim: :py:class:`str <str>`, default: `lat`.
+       Latitude coordinate dimension name.
+   R: :py:class:`float <float>`, default: `6371220.0`.
+       Radius of the Earth in meters.
+   cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+       A scalar integer equal to the boundary condition option:
+
+       - ``nan``: Boundary points are set to the missing value.
+       - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+       - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+       - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+   method: {"rust-batch", "rust-raw"}, default: `rust-batch`.
+       Rust execution mode. ``rust-batch`` uses the batched backend function,
+       while ``rust-raw`` loops over non-core dimensions and calls the raw backend.
+
+   Returns
+   -------
+   The horizontal relative vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+
+.. py:function:: calc_divergence_ncl(u_data: xarray.DataArray, v_data: xarray.DataArray, lon_dim: str = 'lon', lat_dim: str = 'lat', cyclic_boundary_setting: Literal['nan', 'cyclic', 'cyclic+diff', 'diff'] = 'nan') -> xarray.DataArray
+
+   Calculate the horizontal divergence term using the NCL-compatible backend.
+
+   This function wraps the NCL-style finite-difference implementation and keeps
+   the input dimension order unchanged in the returned result.
+
+   .. note::
+
+       The R values in the NCL-compatible backend are fixed to 6371220.0 meters, which is the radius of the Earth.
+       The NCL-style implementation assumes a spherical Earth and does not allow for a user-specified radius.
+
+   Parameters
+   ----------
+   u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The zonal wind data.
+   v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The meridional wind data.
+   lon_dim: :py:class:`str <str>`, default: `lon`.
+       Longitude coordinate dimension name.
+   lat_dim: :py:class:`str <str>`, default: `lat`.
+       Latitude coordinate dimension name.
+   cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+       A scalar integer equal to the boundary condition option:
+
+       - ``nan``: Boundary points are set to the missing value.
+       - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+       - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+       - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+
+   Returns
+   -------
+   The horizontal divergence term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+
+.. py:function:: calc_vorticity_ncl(u_data: xarray.DataArray, v_data: xarray.DataArray, lon_dim: str = 'lon', lat_dim: str = 'lat', cyclic_boundary_setting: Literal['nan', 'cyclic', 'cyclic+diff', 'diff'] = 'nan') -> xarray.DataArray
+
+   Calculate the horizontal relative vorticity term using the NCL-compatible backend.
+
+   This function wraps the NCL-style finite-difference implementation and keeps
+   the input dimension order unchanged in the returned result.
+
+   .. note::
+
+       The R values in the NCL-compatible backend are fixed to 6371220.0 meters, which is the radius of the Earth.
+       The NCL-style implementation assumes a spherical Earth and does not allow for a user-specified radius.
+
+   Parameters
+   ----------
+   u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The zonal wind data.
+   v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The meridional wind data.
+   lon_dim: :py:class:`str <str>`, default: `lon`.
+       Longitude coordinate dimension name.
+   lat_dim: :py:class:`str <str>`, default: `lat`.
+       Latitude coordinate dimension name.
+   cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `nan`.
+       A scalar integer equal to the boundary condition option:
+
+       - ``nan``: Boundary points are set to the missing value.
+       - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
+       - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
+       - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
+
+   Returns
+   -------
+   The horizontal relative vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+
+.. py:function:: calc_divergence(u_data: xarray.DataArray, v_data: xarray.DataArray, lon_dim: str = 'lon', lat_dim: str = 'lat', R: float = 6371220.0, spherical_coord: bool = True, cyclic_boundary_setting: Literal['nan', 'cyclic', 'cyclic+diff', 'diff'] = 'diff') -> xarray.DataArray
+
+   Calculate the horizontal divergence term.
+
+   rectangular coordinates
+
+   .. math::
+       \mathrm{D} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}
+
+   Spherical coordinates
+
+   .. math::
+       \mathrm{D} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} - \frac{v}{R} \tan \varphi
+
+   Parameters
+   ----------
+   u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The zonal wind data.
+   v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The meridional wind data.
+   lon_dim: :py:class:`str <str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+   lat_dim: :py:class:`str <str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   R: :py:class:`float <float>`, default: `6.37122e6`.
+       Radius of the Earth.
+   spherical_coord: :py:class:`bool<bool>`, default: `True`.
+       Whether or not to compute the horizontal Laplace term in spherical coordinates.
+   cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `diff`.
+       Boundary behavior matching :py:func:`calc_divergence_rs`. The default
+       keeps finite values at all boundaries, matching the historical raw
+       function behavior most closely.
+
+   Returns
+   -------
+   The horizontal divergence term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   .. seealso::
+
+       - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2dv_cfd.shtml
+       - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       geographic_finite_difference
+
+
+.. py:function:: calc_vorticity(u_data: xarray.DataArray, v_data: xarray.DataArray, lon_dim: str = 'lon', lat_dim: str = 'lat', R: float = 6371220.0, spherical_coord: bool = True, cyclic_boundary_setting: Literal['nan', 'cyclic', 'cyclic+diff', 'diff'] = 'diff') -> xarray.DataArray
+
+   Calculate the horizontal relative vorticity term.
+
+   rectangular coordinates
+
+   .. math::
+       \zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}
+
+   Spherical coordinates
+
+   .. math::
+       \zeta = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} + \frac{u}{R} \tan \varphi
+
+   Parameters
+   ----------
+   u_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The zonal wind data.
+   v_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+       The meridional wind data.
+   lon_dim: :py:class:`str <str>`, default: `lon`.
+       Longitude coordinate dimension name. By default extracting is applied over the `lon` dimension.
+   lat_dim: :py:class:`str <str>`, default: `lat`.
+       Latitude coordinate dimension name. By default extracting is applied over the `lat` dimension.
+   R: :py:class:`float <float>`, default: `6370000`.
+       Radius of the Earth.
+   spherical_coord: :py:class:`bool<bool>`, default: `True`.
+       Whether or not to compute the horizontal Laplace term in spherical coordinates.
+   cyclic_boundary_setting: {"nan", "cyclic", "cyclic+diff", "diff"}, default: `diff`.
+       Boundary behavior matching :py:func:`calc_vorticity_rs`. The default
+       keeps finite values at all boundaries, matching the historical raw
+       function behavior most closely.
+
+   Returns
+   -------
+   The horizontal relative vorticity term. (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+   .. seealso::
+
+       - https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2vr_cfd.shtml
+       - Howard B. Bluestein. (1992). Synoptic-Dynamic Meteorology in Midlatitudes: Principles of Kinematics and Dynamics, Vol. 1. p113-114
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       geographic_finite_difference
+
+

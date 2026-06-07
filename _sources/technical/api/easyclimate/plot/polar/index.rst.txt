@@ -1,0 +1,155 @@
+easyclimate.plot.polar
+======================
+
+.. py:module:: easyclimate.plot.polar
+
+.. autoapi-nested-parse::
+
+   Polar region mapping
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.polar.draw_polar_basemap
+   easyclimate.plot.polar.set_polar_title
+
+
+Module Contents
+---------------
+
+.. py:function:: draw_polar_basemap(*, lat_range: list, add_gridlines: bool = True, lon_step: float = None, lat_step: float = None, ax=None, draw_labels: bool = True, lat_label_lon: float | None = None, lon_label_lat: float | None = None, lon_label_pad_deg: float = -4.0, set_map_boundary_kwargs: dict | None = None, gridlines_kwargs: dict | None = None, lat_label_kwargs: dict | None = None, lon_label_kwargs: dict | None = None)
+
+   Draw a polar stereographic circular basemap with optional gridlines and
+   manually positioned coordinate labels.
+
+   This function is designed for north and south polar stereographic maps.
+   It first clips the map boundary into a circular polar view, then optionally
+   adds longitude and latitude gridlines, and finally places readable manual
+   latitude and longitude labels around the polar boundary.
+
+   Parameters
+   ----------
+   lat_range: list[float] | tuple[float, float]
+       Latitude range used to define the circular polar boundary, such as
+       ``[50, 90]`` for the Northern Hemisphere or ``[-90, -50]`` for the
+       Southern Hemisphere.
+   add_gridlines: :py:class:`bool <bool>`, default: ``True``
+       Whether to draw longitude and latitude gridlines.
+   lon_step: float, optional
+       Interval of longitude gridlines and longitude labels in degrees. This
+       parameter must be specified when `add_gridlines=True` or
+       `draw_labels=True`.
+   lat_step: :py:class:`float <float>`, optional
+       Interval of latitude gridlines and latitude labels in degrees. This
+       parameter must be specified when `add_gridlines=True` or when manual
+       latitude labels are enabled.
+   ax: cartopy.mpl.geoaxes.GeoAxesSubplot, optional
+       Target axes with a polar stereographic projection. (uses current axes if None)
+   draw_labels: :py:class:`bool <bool>`, default: ``True``
+       Whether to manually draw latitude and longitude labels.
+   lat_label_lon: :py:class:`float <float>` | None, optional
+       Longitude at which latitude labels are placed.
+   lon_label_lat: :py:class:`float <float>` | None, optional
+       Latitude at which longitude labels are placed. If not provided, it is
+       inferred from the lower edge of `lat_range` plus `lon_label_pad_deg`.
+   lon_label_pad_deg: :py:class:`float <float>`, default: ``-4.0``
+       Padding, in degrees latitude, used to shift longitude labels relative
+       to the outer latitude boundary.
+   set_map_boundary_kwargs: :py:class:`dict <dict>` | None, optional
+       Additional keyword arguments passed to when constructing the circular boundary.
+
+       - north_pad : :py:class:`int <int>`
+           A constant to be added to the second entry in lat_range. Use this
+           if the northern edge of the plot is cut off. Defaults to 0.
+       - south_pad : :py:class:`int <int>`
+           A constant to be subtracted from the first entry in lat_range. Use
+           this if the southern edge of the plot is cut off. Defaults to 0.
+       - east_pad : :py:class:`int <int>`
+           A constant to be added to the second entry in lon_range. Use this
+           if the eastern edge of the plot is cut off. Defaults to 0.
+       - west_pad : :py:class:`int <int>`
+           A constant to be subtracted from the first entry in lon_range. Use
+           this if the western edge of the plot is cut off. Defaults to 0.
+
+   gridlines_kwargs: :py:class:`dict <dict>` | None, optional
+       Additional keyword arguments passed to
+       :py:func:`cartopy.mpl.geoaxes.GeoAxes.gridlines <cartopy.mpl.geoaxes.GeoAxes.gridlines>`
+       when drawing gridlines.
+   lat_label_kwargs: :py:class:`dict <dict>` | None, optional
+       Additional text style options for latitude labels.
+   lon_label_kwargs: :py:class:`dict <dict>` | None, optional
+       Additional text style options for longitude labels.
+
+   Returns
+   -------
+   gl: :py:class:`cartopy.mpl.gridliner.Gridliner <cartopy.mpl.gridliner.Gridliner>` or None
+       The gridliner object returned by Cartopy. If `add_gridlines=False`,
+       ``None`` is returned.
+   meta: :py:class:`dict <dict>`
+       Metadata dictionary describing the polar label layout. It can be passed
+       directly to :py:func:`set_polar_title <set_polar_title>`
+       to help position titles above the circular map.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       formatting_coordinates
+       da_bbo
+       curve_quiver
+       waf
+
+
+.. py:function:: set_polar_title(title: str, meta: dict, ax=None, *, loc: Literal['left', 'center', 'right'] = 'center', dy: float | None = None, xpad: float = 0.02, auto_dy_factor: float = 1.2, **text_kwargs)
+
+   Add a title above a polar circular map using the layout metadata returned
+   by :py:func:`draw_polar_basemap <draw_polar_basemap>`.
+
+   This function estimates the uppermost position of manually placed longitude
+   labels on a polar map, then places the title slightly above them so that
+   the title does not overlap with the circular boundary labels.
+
+   Parameters
+   ----------
+   title: :py:class:`str <str>`
+       Title text.
+   meta: :py:class:`dict <dict>`
+       Metadata dictionary returned by :py:func:`draw_polar_basemap <draw_polar_basemap>`.
+       It must at least contain `lon_step` and `lon_label_lat`.
+   ax: cartopy.mpl.geoaxes.GeoAxesSubplot
+       Polar stereographic axes on which the title will be drawn.
+   loc: {"left", "center", "right"}, default: ``"center"``
+       Horizontal alignment of the title.
+   dy: :py:class:`float <float>` | None, optional
+       Vertical offset in axes coordinates relative to the topmost longitude
+       label position. If ``None``, the offset is estimated automatically from
+       the font size.
+   xpad: :py:class:`float <float>`, default: ``0.02``
+       Horizontal padding used when `loc` is ``"left"`` or ``"right"``.
+   auto_dy_factor: :py:class:`float <float>`, default: ``1.2``
+       Multiplicative factor used when automatically converting font height
+       into a safe vertical title offset.
+   **text_kwargs
+       Additional keyword arguments passed to
+       :py:func:`matplotlib.axes.Axes.text <matplotlib.axes.Axes.text>`.
+
+   Returns
+   -------
+   :py:class:`matplotlib.text.Text <matplotlib.text.Text>`
+       The created title text artist.
+
+   .. note::
+       If `dy` is ``None``, the function automatically computes a reasonable
+       vertical offset based on the rendered font size, which is usually the most
+       robust option for polar circular maps.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       formatting_coordinates
+       waf
+
+

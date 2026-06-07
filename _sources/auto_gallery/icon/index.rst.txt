@@ -1,0 +1,156 @@
+
+
+.. _sphx_glr_auto_gallery_icon:
+
+ICON and Triangular Mesh Visualization
+--------------------------------------
+
+Examples for plotting ICON triangular meshes and ICON variables stored on
+cell centers. The gallery covers mesh edges, native triangular cell fills,
+cell-centered filled and line contours, and ICON wind-vector displays.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws streamlines from ICON cell-centered vector winds with :pyeasyclimate.plot.icon.plot_cell_streamplot.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_cell_streamplot_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_cell_streamplot.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON Cell-centered streamplots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws ICON cell-centered vector winds as curved arrows with :pyeasyclimate.plot.icon.plot_cell_curved_quiver.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_cell_curved_quiver_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_cell_curved_quiver.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON Cell-centered curved quiver plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws ICON cell-centered wind vectors as meteorological barbs with :pyeasyclimate.plot.icon.plot_cell_barbs.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_cell_barbs_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_cell_barbs.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON Cell-centered wind barb plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws ICON cell-centered wind vectors with :pyeasyclimate.plot.icon.plot_cell_quiver.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_cell_quiver_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_cell_quiver.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON Cell-centered quiver plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example draws ICON cell-centered scalar fields on the native triangular mesh with :pyeasyclimate.plot.icon.plot_cell_triangular.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_cell_triangular_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_cell_triangular.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON Cell-centered triangular plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw the edges of an ICON triangular mesh with :pyeasyclimate.plot.icon.plot_triangular_grid.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_triangular_grid_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_triangular_grid.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON/Triangular grid</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates filled and line contours for ICON cell-centered scalar fields.">
+
+.. only:: html
+
+  .. image:: /auto_gallery/icon/images/thumb/sphx_glr_plot_icon_cell_contour_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery_icon_plot_icon_cell_contour.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">ICON Cell-centered contour plots</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_gallery/icon/plot_icon_cell_streamplot
+   /auto_gallery/icon/plot_icon_cell_curved_quiver
+   /auto_gallery/icon/plot_icon_cell_barbs
+   /auto_gallery/icon/plot_icon_cell_quiver
+   /auto_gallery/icon/plot_icon_cell_triangular
+   /auto_gallery/icon/plot_icon_triangular_grid
+   /auto_gallery/icon/plot_icon_cell_contour
+

@@ -1,0 +1,58 @@
+easyclimate.plot.mpas.voronoi_extract
+=====================================
+
+.. py:module:: easyclimate.plot.mpas.voronoi_extract
+
+.. autoapi-nested-parse::
+
+   Coordinate extraction for MPAS plots.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.mpas.voronoi_extract.extract_cell_latlon
+
+
+Module Contents
+---------------
+
+.. py:function:: extract_cell_latlon(ds, *, da=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, global_plot=False, center_lon=None, input_radians=True, lon_name_cell='lonCell', lat_name_cell='latCell', lon_name_vertex='lonVertex', lat_name_vertex='latVertex')
+
+   Extract and wrap MPAS cell and vertex lon/lat.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       MPAS dataset containing cell and vertex coordinate variables.
+   da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`, optional
+       Cell-centered data. If provided, finite values are used for extent
+       inference and ``center_lon`` inference.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       User-defined plotting window. Supports cross-dateline windows, e.g.
+       ``lon_min=90, lon_max=-60`` means 90E to 300E.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from valid
+       cell centers.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, return a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude wrapping center. If None, inferred automatically.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, MPAS longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell, lon_name_vertex, lat_name_vertex : :py:class:`str <str>`
+       MPAS coordinate variable names.
+
+   Returns
+   -------
+   dict
+       Dictionary with wrapped cell and vertex coordinates, the inferred
+       longitude center, and plotting extent values.
+
+

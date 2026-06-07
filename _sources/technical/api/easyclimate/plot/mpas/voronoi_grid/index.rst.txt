@@ -1,0 +1,57 @@
+easyclimate.plot.mpas.voronoi_grid
+==================================
+
+.. py:module:: easyclimate.plot.mpas.voronoi_grid
+
+.. autoapi-nested-parse::
+
+   Grid-line plots for MPAS Voronoi meshes.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.mpas.voronoi_grid.plot_voronoi_grid
+
+
+Module Contents
+---------------
+
+.. py:function:: plot_voronoi_grid(data, verticesOnEdge='verticesOnEdge', lonVertex='lonVertex', latVertex='latVertex', lon_min=None, lon_max=None, lat_min=None, lat_max=None, ax=None, **linekwags)
+
+   Plot MPAS Voronoi mesh edges.
+
+   Parameters
+   ----------
+   data : :py:class:`xarray.Dataset <xarray.Dataset>`
+       MPAS dataset containing ``verticesOnEdge``, ``lonVertex``, and
+       ``latVertex``. Used as the fallback source when these variables are not
+       provided explicitly.
+   verticesOnEdge : :py:class:`str <str>`, optional
+       Name of the edge-to-vertex connectivity variable using MPAS 1-based
+       vertex indices.
+   lonVertex, latVertex : :py:class:`str <str>`, optional
+       Names of the vertex longitude and latitude variables in radians.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Optional subset window in degrees. Cross-dateline longitude windows are
+       supported.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   **linekwags
+       Additional keyword arguments passed to
+       :py:class:`matplotlib.collections.LineCollection`.
+
+   Returns
+   -------
+   :py:class:`matplotlib.collections.LineCollection <matplotlib.collections.LineCollection>`
+       Line collection containing selected Voronoi mesh edges.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       voronoi_grid
+
+

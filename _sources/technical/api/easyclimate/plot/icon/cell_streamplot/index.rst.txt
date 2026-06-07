@@ -1,0 +1,90 @@
+easyclimate.plot.icon.cell_streamplot
+=====================================
+
+.. py:module:: easyclimate.plot.icon.cell_streamplot
+
+.. autoapi-nested-parse::
+
+   Cell-centered streamline plotting utilities for ICON meshes.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.icon.cell_streamplot.plot_cell_streamplot
+
+
+Module Contents
+---------------
+
+.. py:function:: plot_cell_streamplot(ds, u_da, v_da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', nx=160, ny=100, interpolation_padding=None, interpolation_padding_cells=2.0, min_valid_fraction=0.02, max_triangle_edge=None, use_triangulation_cache=True, transform=None, title=None, **streamplot_kwargs)
+
+   Plot cell-centered vector wind as streamlines on an ICON mesh.
+
+   ICON cell-centered irregular vectors are first interpolated onto a regular
+   lon-lat grid with SciPy linear interpolation, then passed to
+   ``Axes.streamplot`` / Cartopy GeoAxes ``streamplot``.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   u_da, v_da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered zonal/eastward and meridional/northward vector
+       components. Each input must be one-dimensional on ``ncells`` after
+       selecting time or vertical dimensions.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`
+       Plot extent in degrees. These bounds are required to define the regular
+       interpolation grid.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   nx, ny : :py:class:`int <int>`, default: 160, 100
+       Number of longitude and latitude points in the regular interpolation
+       grid.
+   interpolation_padding : :py:class:`float <float>` or (:py:class:`float <float>`, :py:class:`float <float>`) or :data:`None`, optional
+       Extra longitude/latitude degrees used only when selecting source ICON
+       cells for interpolation. Padding keeps the requested output grid inside
+       the interpolation hull, reducing blank margins near plot edges. If None,
+       padding is inferred from ``interpolation_padding_cells`` and the regular
+       grid spacing.
+   interpolation_padding_cells : :py:class:`float <float>`, default: 2.0
+       Number of regular-grid cells used as automatic interpolation padding.
+   min_valid_fraction : :py:class:`float <float>`, default: 0.02
+       Minimum fraction of valid interpolated grid points required before
+       plotting.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted source-cell separation for interpolation support.
+       Longer source triangles are masked when a triangulation-based cache path
+       is used.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache geometry-only interpolation metadata for repeated calls
+       on the same ICON mesh and grid.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use a default streamline title.
+   **streamplot_kwargs
+       Additional keyword arguments passed to ``Axes.streamplot``.
+
+   Returns
+   -------
+   :py:class:`matplotlib.streamplot.StreamplotSet <matplotlib.streamplot.StreamplotSet>`
+       Streamplot set returned by ``Axes.streamplot``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_streamplot
+
+

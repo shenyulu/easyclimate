@@ -1,0 +1,12 @@
+﻿easyclimate.plot.mpas.vertex\_voronoi
+=====================================
+
+.. automodule:: easyclimate.plot.mpas.vertex_voronoi
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_vertex_voronoi
+   

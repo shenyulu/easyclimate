@@ -1,0 +1,24 @@
+﻿easyclimate.core.diff
+=====================
+
+.. automodule:: easyclimate.core.diff
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_dlat_degree_gradient
+      calc_dlat_radian_gradient
+      calc_dlon_degree_gradient
+      calc_dlon_radian_gradient
+      calc_dx_gradient
+      calc_dx_laplacian
+      calc_dxdy_laplacian
+      calc_dxdy_mixed_derivatives
+      calc_dy_gradient
+      calc_dy_laplacian
+      calc_p_gradient
+      calc_shear_stretch_deform
+      calc_time_gradient
+   

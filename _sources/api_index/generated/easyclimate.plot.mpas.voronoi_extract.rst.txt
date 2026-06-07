@@ -1,0 +1,12 @@
+﻿easyclimate.plot.mpas.voronoi\_extract
+======================================
+
+.. automodule:: easyclimate.plot.mpas.voronoi_extract
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      extract_cell_latlon
+   

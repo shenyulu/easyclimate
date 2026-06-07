@@ -1,0 +1,61 @@
+
+:orphan:
+
+.. _sphx_glr_auto_gallery_mpas_sg_execution_times:
+
+
+Computation times
+=================
+**00:54.915** total execution time for 9 files **from auto_gallery/mpas**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_voronoi_grid.py` (``plot_voronoi_grid.py``)
+     - 00:15.667
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_vertex_voronoi.py` (``plot_vertex_voronoi.py``)
+     - 00:10.149
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_cell_voronoi.py` (``plot_cell_voronoi.py``)
+     - 00:07.180
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_cell_curved_quiver.py` (``plot_cell_curved_quiver.py``)
+     - 00:05.349
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_cell_streamplot.py` (``plot_cell_streamplot.py``)
+     - 00:04.835
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_vertex_contour.py` (``plot_vertex_contour.py``)
+     - 00:03.380
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_cell_contour.py` (``plot_cell_contour.py``)
+     - 00:03.237
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_cell_quiver.py` (``plot_cell_quiver.py``)
+     - 00:02.571
+     - 0.0
+   * - :ref:`sphx_glr_auto_gallery_mpas_plot_cell_barbs.py` (``plot_cell_barbs.py``)
+     - 00:02.547
+     - 0.0

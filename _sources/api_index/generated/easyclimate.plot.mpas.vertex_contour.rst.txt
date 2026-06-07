@@ -1,0 +1,13 @@
+﻿easyclimate.plot.mpas.vertex\_contour
+=====================================
+
+.. automodule:: easyclimate.plot.mpas.vertex_contour
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_vertex_contour
+      plot_vertex_contourf
+   

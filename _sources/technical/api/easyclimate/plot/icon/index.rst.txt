@@ -1,0 +1,590 @@
+easyclimate.plot.icon
+=====================
+
+.. py:module:: easyclimate.plot.icon
+
+.. autoapi-nested-parse::
+
+   Convenience imports for ICON native-grid plotting helpers.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /technical/api/easyclimate/plot/icon/cell_barbs/index
+   /technical/api/easyclimate/plot/icon/cell_contour/index
+   /technical/api/easyclimate/plot/icon/cell_curved_quiver/index
+   /technical/api/easyclimate/plot/icon/cell_quiver/index
+   /technical/api/easyclimate/plot/icon/cell_streamplot/index
+   /technical/api/easyclimate/plot/icon/cell_triangular/index
+   /technical/api/easyclimate/plot/icon/common/index
+   /technical/api/easyclimate/plot/icon/triangular_grid/index
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   easyclimate.plot.icon.plot_cell_contour
+   easyclimate.plot.icon.plot_cell_contourf
+   easyclimate.plot.icon.plot_cell_barbs
+   easyclimate.plot.icon.plot_cell_curved_quiver
+   easyclimate.plot.icon.plot_cell_quiver
+   easyclimate.plot.icon.plot_cell_streamplot
+   easyclimate.plot.icon.plot_cell_triangular
+   easyclimate.plot.icon.plot_triangular_grid
+
+
+Package Contents
+----------------
+
+.. py:function:: plot_cell_contour(ds, da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, contour_margin=0.05, global_plot=False, center_lon=None, levels=10, colors=None, linewidths=0.8, linestyles=None, cmap=None, vmin=None, vmax=None, symmetric=False, percentile=98, extend=None, max_triangle_edge=None, input_radians=True, transform=None, title=None, lon_name_cell='clon', lat_name_cell='clat', use_triangulation_cache=True)
+
+   Draw contour lines for ICON cell-centered scalar data.
+
+   Labels are not added automatically. Add them outside this function with
+   ``ax.clabel(cs, inline=True, fontsize=8, fmt="%g")``.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered scalar values. The data must be one-dimensional on
+       ``ncells`` after any time or vertical-level selection.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Plot extent in degrees. Cross-dateline longitude windows are supported.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from valid
+       cell centers.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   contour_margin : :py:class:`float <float>`, default: 0.05
+       Fractional padding used when selecting source cells for contouring.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, draw a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   levels : :py:class:`int <int>` or array-like, default: 10
+       Number of contour levels, or explicit level values.
+   colors : color or :py:class:`collections.abc.Sequence <collections.abc.Sequence>` of colors, optional
+       Fixed line colors passed to ``Axes.tricontour``. If omitted, use
+       ``cmap``.
+   linewidths, linestyles
+       Contour line style options passed to ``Axes.tricontour``.
+   cmap : :py:class:`str <str>` or :py:class:`matplotlib.colors.Colormap <matplotlib.colors.Colormap>`, optional
+       Colormap used when ``colors`` is not supplied.
+   vmin, vmax : :py:class:`float <float>`, optional
+       Data limits used by contour levels and color mapping.
+   symmetric : :py:class:`bool <bool>`, default: False
+       If True, infer symmetric limits around zero when ``vmin`` or ``vmax`` is
+       omitted.
+   percentile : :py:class:`float <float>`, default: 98
+       Percentile used for automatic data-limit inference.
+   extend : {"neither", "both", "min", "max"}, optional
+       Contour extension mode. If None, infer it from data and levels.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted edge length for triangles. Longer triangles are masked.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use the data long name.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache the triangulation for repeated calls on the same mesh and
+       extent.
+
+   Returns
+   -------
+   :py:class:`matplotlib.contour.QuadContourSet <matplotlib.contour.QuadContourSet>`
+       Contour set returned by ``Axes.tricontour``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_contour
+
+
+.. py:function:: plot_cell_contourf(ds, da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, contour_margin=0.05, global_plot=False, center_lon=None, levels=10, cmap=None, vmin=None, vmax=None, symmetric=False, percentile=98, extend=None, max_triangle_edge=None, input_radians=True, transform=None, add_colorbar=True, cbar_kwargs=None, title=None, lon_name_cell='clon', lat_name_cell='clat', use_triangulation_cache=True)
+
+   Draw filled contour for ICON cell-centered scalar data.
+
+   The scalar values are drawn from ICON cell centers using
+   :py:class:`matplotlib.tri.Triangulation`.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered scalar values. The data must be one-dimensional on
+       ``ncells`` after any time or vertical-level selection.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Plot extent in degrees. Cross-dateline longitude windows are supported.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from valid
+       cell centers.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   contour_margin : :py:class:`float <float>`, default: 0.05
+       Fractional padding used when selecting source cells for contouring.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, draw a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   levels : :py:class:`int <int>` or array-like, default: 10
+       Number of contour levels, or explicit level values.
+   cmap : :py:class:`str <str>` or :py:class:`matplotlib.colors.Colormap <matplotlib.colors.Colormap>`, optional
+       Colormap used for filled contours.
+   vmin, vmax : :py:class:`float <float>`, optional
+       Color/data limits used by contour levels and color mapping.
+   symmetric : :py:class:`bool <bool>`, default: False
+       If True, infer symmetric limits around zero when ``vmin`` or ``vmax`` is
+       omitted.
+   percentile : :py:class:`float <float>`, default: 98
+       Percentile used for automatic data-limit inference.
+   extend : {"neither", "both", "min", "max"}, optional
+       Colorbar extension mode. If None, infer it from data and levels.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted edge length for triangles. Longer triangles are masked.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   add_colorbar : :py:class:`bool <bool>`, default: True
+       If True, add a colorbar for the filled contour set.
+   cbar_kwargs : :py:class:`dict <dict>`, optional
+       Keyword arguments passed to ``Figure.colorbar``.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use the data long name.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache the triangulation for repeated calls on the same mesh and
+       extent.
+
+   Returns
+   -------
+   :py:class:`matplotlib.contour.QuadContourSet <matplotlib.contour.QuadContourSet>`
+       Filled contour set returned by ``Axes.tricontourf``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_contour
+
+
+.. py:function:: plot_cell_barbs(ds, u_da, v_da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', nx_bins=35, ny_bins=20, thin_method='nearest_center', use_thinning_cache=True, transform=None, title=None, **barbs_kwargs)
+
+   Plot cell-centered vector wind as wind barbs on an ICON mesh.
+
+   ICON cell-centered vectors are thinned into regular longitude-latitude bins
+   before they are passed to ``Axes.barbs``. This keeps barb density readable
+   on native ICON triangular meshes.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   u_da, v_da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered zonal/eastward and meridional/northward vector
+       components. Each input must be one-dimensional on ``ncells`` after
+       selecting time or vertical dimensions.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`
+       Plot extent in degrees. These bounds are required so vector thinning is
+       restricted to the requested ICON domain.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   nx_bins, ny_bins : :py:class:`int <int>`, default: 35, 20
+       Number of longitude and latitude bins used to thin vectors.
+   thin_method : {"nearest_center", "max_speed", "mean"}, default: "nearest_center"
+       Rule used to choose or aggregate one vector per bin.
+   use_thinning_cache : :py:class:`bool <bool>`, default: True
+       If True, cache coordinate-only bin metadata for repeated calls on the
+       same ICON mesh and extent.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use a default wind-barb title.
+   **barbs_kwargs
+       Additional keyword arguments passed to ``Axes.barbs``.
+
+   Returns
+   -------
+   :py:class:`matplotlib.quiver.Barbs <matplotlib.quiver.Barbs>`
+       Barb container returned by ``Axes.barbs``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_barbs
+
+
+.. py:function:: plot_cell_curved_quiver(ds, u_da, v_da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', nx=160, ny=100, interpolation_padding=None, interpolation_padding_cells=2.0, min_valid_fraction=0.02, max_triangle_edge=None, use_triangulation_cache=True, transform=None, project_to_map=True, density=1, linewidth=None, color=None, cmap=None, norm=None, arrowsize=1, arrowstyle='-|>', zorder=None, start_points=None, integration_direction='both', grains=15, broken_streamlines=True, ref_magnitude: float | None = None, ref_length: float | None = None, min_frac_length: float = 0.0, length_norm: Literal['reference', 'max', 'percentile'] = 'reference', mask_density: int | tuple[int, int] = 10, line_start_stride: int = 1, arrow_stride: int = 1, min_distance: float = 0.0, arrow_head_ratio: float = 1.0, arrow_position: float = 1.0, title=None) -> easyclimate.plot.modplot.CurvedQuiverplotSet
+
+   Plot ICON cell-centered vector wind as curved quiver trajectories.
+
+   ICON cell-centered irregular vectors are first interpolated onto a regular
+   grid, then drawn with the same curved-quiver engine used by
+   :py:func:`easyclimate.plot.curved_quiver_plot.curved_quiver`.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   u_da, v_da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered zonal/eastward and meridional/northward vector
+       components. Each input must be one-dimensional on ``ncells`` after
+       selecting time or vertical dimensions.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`
+       Plot extent in degrees. These bounds are required to define the regular
+       interpolation grid.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   nx, ny : :py:class:`int <int>`, default: 160, 100
+       Number of longitude and latitude points in the regular interpolation
+       grid.
+   interpolation_padding : :py:class:`float <float>` or (:py:class:`float <float>`, :py:class:`float <float>`) or :data:`None`, optional
+       Extra longitude/latitude degrees used only when selecting source ICON
+       cells for interpolation. If None, padding is inferred from
+       ``interpolation_padding_cells`` and the regular grid spacing.
+   interpolation_padding_cells : :py:class:`float <float>`, default: 2.0
+       Number of regular-grid cells used as automatic interpolation padding.
+   min_valid_fraction : :py:class:`float <float>`, default: 0.02
+       Minimum fraction of valid interpolated grid points required before
+       plotting.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted source-cell separation for interpolation support.
+       Longer source triangles are masked when a triangulation-based cache path
+       is used.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache geometry-only interpolation metadata for repeated calls
+       on the same ICON mesh and grid.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   project_to_map : :py:class:`bool <bool>`, default: True
+       For Cartopy GeoAxes, transform the regular lon-lat grid and vector
+       components to the target projection before drawing when the transformed
+       grid remains rectilinear.
+   density, linewidth, color, cmap, norm, arrowsize, arrowstyle
+       Curved-quiver style options passed to ``velovect``.
+   zorder, start_points, integration_direction, grains, broken_streamlines
+       Curved-quiver trajectory options passed to ``velovect``.
+   ref_magnitude, ref_length, min_frac_length, length_norm
+       Options controlling how vector magnitude maps to curved-vector length.
+   mask_density, line_start_stride, arrow_stride, min_distance
+       Options controlling seed-point density and collision masking.
+   arrow_head_ratio, arrow_position
+       Arrow-head size and placement controls.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use a default curved-quiver title.
+
+   Returns
+   -------
+   :py:class:`easyclimate.plot.modplot.CurvedQuiverplotSet <easyclimate.plot.modplot.CurvedQuiverplotSet>`
+       Container with line and arrow artists returned by ``velovect``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_curved_quiver
+
+
+.. py:function:: plot_cell_quiver(ds, u_da, v_da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', nx_bins=35, ny_bins=20, thin_method='nearest_center', use_thinning_cache=True, add_quiverkey=True, quiverkey_value=None, quiverkey_label=None, quiverkey_x=0.88, quiverkey_y=1.04, transform=None, title=None, **quiver_kwargs)
+
+   Plot cell-centered vector wind on an ICON mesh.
+
+   ICON cell-centered vectors are thinned into regular longitude-latitude bins
+   before they are passed to ``Axes.quiver``. This keeps vector density
+   readable on native ICON triangular meshes.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   u_da, v_da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered zonal/eastward and meridional/northward vector
+       components. Each input must be one-dimensional on ``ncells`` after
+       selecting time or vertical dimensions.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`
+       Plot extent in degrees. These bounds are required so vector thinning is
+       restricted to the requested ICON domain.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   nx_bins, ny_bins : :py:class:`int <int>`, default: 35, 20
+       Number of longitude and latitude bins used to thin vectors.
+   thin_method : {"nearest_center", "max_speed", "mean"}, default: "nearest_center"
+       Rule used to choose or aggregate one vector per bin.
+   use_thinning_cache : :py:class:`bool <bool>`, default: True
+       If True, cache coordinate-only bin metadata for repeated calls on the
+       same ICON mesh and extent.
+   add_quiverkey : :py:class:`bool <bool>`, default: True
+       If True, add a reference quiver key.
+   quiverkey_value : :py:class:`float <float>`, optional
+       Reference vector magnitude for the quiver key. If None, use the 75th
+       percentile of thinned vector speeds.
+   quiverkey_label : :py:class:`str <str>`, optional
+       Label for the quiver key. If None, build a metres-per-second label from
+       ``quiverkey_value``.
+   quiverkey_x, quiverkey_y : :py:class:`float <float>`, default: 0.88, 1.04
+       Quiver-key position in axes coordinates.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use a default wind title.
+   **quiver_kwargs
+       Additional keyword arguments passed to ``Axes.quiver``.
+
+   Returns
+   -------
+   :py:class:`matplotlib.quiver.Quiver <matplotlib.quiver.Quiver>`
+       Quiver object returned by ``Axes.quiver``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_quiver
+
+
+.. py:function:: plot_cell_streamplot(ds, u_da, v_da, *, ax=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, center_lon=None, input_radians=True, lon_name_cell='clon', lat_name_cell='clat', nx=160, ny=100, interpolation_padding=None, interpolation_padding_cells=2.0, min_valid_fraction=0.02, max_triangle_edge=None, use_triangulation_cache=True, transform=None, title=None, **streamplot_kwargs)
+
+   Plot cell-centered vector wind as streamlines on an ICON mesh.
+
+   ICON cell-centered irregular vectors are first interpolated onto a regular
+   lon-lat grid with SciPy linear interpolation, then passed to
+   ``Axes.streamplot`` / Cartopy GeoAxes ``streamplot``.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell coordinate variables.
+   u_da, v_da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered zonal/eastward and meridional/northward vector
+       components. Each input must be one-dimensional on ``ncells`` after
+       selecting time or vertical dimensions.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`
+       Plot extent in degrees. These bounds are required to define the regular
+       interpolation grid.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   lon_name_cell, lat_name_cell : :py:class:`str <str>`
+       ICON cell coordinate variable names.
+   nx, ny : :py:class:`int <int>`, default: 160, 100
+       Number of longitude and latitude points in the regular interpolation
+       grid.
+   interpolation_padding : :py:class:`float <float>` or (:py:class:`float <float>`, :py:class:`float <float>`) or :data:`None`, optional
+       Extra longitude/latitude degrees used only when selecting source ICON
+       cells for interpolation. Padding keeps the requested output grid inside
+       the interpolation hull, reducing blank margins near plot edges. If None,
+       padding is inferred from ``interpolation_padding_cells`` and the regular
+       grid spacing.
+   interpolation_padding_cells : :py:class:`float <float>`, default: 2.0
+       Number of regular-grid cells used as automatic interpolation padding.
+   min_valid_fraction : :py:class:`float <float>`, default: 0.02
+       Minimum fraction of valid interpolated grid points required before
+       plotting.
+   max_triangle_edge : :py:class:`float <float>`, optional
+       Maximum accepted source-cell separation for interpolation support.
+       Longer source triangles are masked when a triangulation-based cache path
+       is used.
+   use_triangulation_cache : :py:class:`bool <bool>`, default: True
+       If True, cache geometry-only interpolation metadata for repeated calls
+       on the same ICON mesh and grid.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use a default streamline title.
+   **streamplot_kwargs
+       Additional keyword arguments passed to ``Axes.streamplot``.
+
+   Returns
+   -------
+   :py:class:`matplotlib.streamplot.StreamplotSet <matplotlib.streamplot.StreamplotSet>`
+       Streamplot set returned by ``Axes.streamplot``.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_streamplot
+
+
+.. py:function:: plot_cell_triangular(ds, da, *, ax=None, transform=None, lon_min=None, lon_max=None, lat_min=None, lat_max=None, auto_extent=True, extent_margin=0.05, cell_margin=0.05, global_plot=False, center_lon=None, input_radians=True, skip_large_lon_jump=True, max_polygon_lon_span=180.0, cmap=None, vmin=None, vmax=None, symmetric=False, percentile=98, edgecolor='none', linewidth=0.0, add_colorbar=True, cbar_kwargs=None, title=None, xlabel='Longitude', ylabel='Latitude', aspect='auto', lon_name_cell='clon', lat_name_cell='clat', lon_bnds_name='clon_bnds', lat_bnds_name='clat_bnds')
+
+   Plot ICON cell-centered scalar data on native triangular cells.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing cell centers and triangular cell bounds.
+   da : :py:class:`xarray.DataArray <xarray.DataArray>` or :py:class:`numpy.ndarray <numpy.ndarray>`
+       Cell-centered scalar values on ``ncells``. Select time and vertical
+       dimensions before calling, for example
+       ``ds["temp"].isel(time=0, plev=0)``.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Plot extent in degrees. Cross-dateline longitude windows are supported.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from valid
+       cell centers.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   cell_margin : :py:class:`float <float>`, default: 0.05
+       Fractional padding used when selecting triangles near the visible
+       extent.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, draw a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   skip_large_lon_jump : :py:class:`bool <bool>`, default: True
+       If True, skip triangles with very large wrapped longitude spans.
+   max_polygon_lon_span : :py:class:`float <float>`, default: 180.0
+       Maximum accepted wrapped triangle longitude span in degrees.
+   cmap : :py:class:`str <str>` or :py:class:`matplotlib.colors.Colormap <matplotlib.colors.Colormap>`, optional
+       Colormap used for triangle values.
+   vmin, vmax : :py:class:`float <float>`, optional
+       Color limits. If omitted, infer them from selected values.
+   symmetric : :py:class:`bool <bool>`, default: False
+       If True, infer symmetric color limits around zero.
+   percentile : :py:class:`float <float>`, default: 98
+       Percentile used for automatic color-limit inference.
+   edgecolor, linewidth
+       Polygon edge style passed to :py:class:`matplotlib.collections.PolyCollection`.
+   add_colorbar : :py:class:`bool <bool>`, default: True
+       If True, add a colorbar for the polygon collection.
+   cbar_kwargs : :py:class:`dict <dict>`, optional
+       Keyword arguments passed to ``Figure.colorbar``.
+   title : :py:class:`str <str>`, optional
+       Axes title. If None, use the data long name.
+   xlabel, ylabel : :py:class:`str <str>`
+       Axis labels used for plain Matplotlib axes.
+   aspect : :py:class:`str <str>` or :py:class:`float <float>`, default: "auto"
+       Aspect setting used for plain Matplotlib axes.
+   lon_name_cell, lat_name_cell, lon_bnds_name, lat_bnds_name : :py:class:`str <str>`
+       ICON coordinate and triangular-bound variable names.
+
+   Returns
+   -------
+   :py:class:`matplotlib.collections.PolyCollection <matplotlib.collections.PolyCollection>`
+       Polygon collection added to the axes.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_cell_triangular
+
+
+.. py:function:: plot_triangular_grid(ds, *, lon_min=None, lon_max=None, lat_min=None, lat_max=None, ax=None, transform=None, auto_extent=True, extent_margin=0.05, cell_margin=0.05, global_plot=False, center_lon=None, input_radians=True, skip_large_lon_jump=True, max_polygon_lon_span=180.0, lon_name_cell='clon', lat_name_cell='clat', lon_bnds_name='clon_bnds', lat_bnds_name='clat_bnds', deduplicate_edges=True, project_to_map=None, **linekwargs)
+
+   Plot ICON native triangular mesh edges.
+
+   Parameters
+   ----------
+   ds : :py:class:`xarray.Dataset <xarray.Dataset>`
+       ICON dataset containing triangular cell bounds.
+   lon_min, lon_max, lat_min, lat_max : :py:class:`float <float>`, optional
+       Optional plot extent in degrees. Cross-dateline longitude windows are
+       supported.
+   ax : :py:class:`matplotlib.axes.Axes <matplotlib.axes.Axes>`, optional
+       Axes on which to draw. By default, use the current axes.
+   transform : :py:class:`cartopy.crs.CRS <cartopy.crs.CRS>`, optional
+       Coordinate reference system of the input coordinates for Cartopy axes.
+   auto_extent : :py:class:`bool <bool>`, default: True
+       If True and no explicit extent is supplied, infer the extent from ICON
+       cell centers.
+   extent_margin : :py:class:`float <float>`, default: 0.05
+       Fractional margin added to the automatically inferred extent.
+   cell_margin : :py:class:`float <float>`, default: 0.05
+       Fractional padding used when selecting triangles near the visible
+       extent.
+   global_plot : :py:class:`bool <bool>`, default: False
+       If True, draw a global extent centered on ``center_lon``.
+   center_lon : :py:class:`float <float>`, optional
+       Longitude center used for wrapping. If None, infer it from the extent or
+       valid cell centers.
+   input_radians : :py:class:`bool <bool>`, default: True
+       If True, ICON longitude and latitude variables are interpreted as
+       radians and converted to degrees.
+   skip_large_lon_jump : :py:class:`bool <bool>`, default: True
+       If True, skip triangles with very large wrapped longitude spans.
+   max_polygon_lon_span : :py:class:`float <float>`, default: 180.0
+       Maximum accepted wrapped triangle longitude span in degrees.
+   lon_name_cell, lat_name_cell, lon_bnds_name, lat_bnds_name : :py:class:`str <str>`
+       ICON coordinate and triangular-bound variable names.
+   deduplicate_edges : :py:class:`bool <bool>`, default: True
+       If True, remove duplicate shared cell edges before drawing.
+   project_to_map : :py:class:`bool <bool>` or {"force"}, optional
+       If True or None on Cartopy axes, use the fast endpoint-projection path
+       only for global-scale plots and use Cartopy's exact path transform for
+       regional plots. If False, always let Cartopy transform each path itself.
+       If "force", always project all edge endpoints to the target map
+       projection in one vectorized operation before creating the collection.
+       The forced path avoids Cartopy's per-path Shapely projection overhead,
+       but may differ from Cartopy's exact transform on regional projections.
+   **linekwargs
+       Additional keyword arguments passed to
+       :py:class:`matplotlib.collections.LineCollection`.
+
+   Returns
+   -------
+   :py:class:`matplotlib.collections.LineCollection <matplotlib.collections.LineCollection>`
+       Line collection containing selected ICON triangular mesh edges.
+
+   .. ecl-minigallery::
+       :add-heading: Example(s) related to the function
+
+       icon_triangular_grid
+
+
