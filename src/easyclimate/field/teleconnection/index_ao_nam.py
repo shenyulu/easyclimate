@@ -97,11 +97,11 @@ def calc_index_AO_EOF_Thompson_Wallace_1998(
 
         :py:func:`get_EOF_model <easyclimate.core.eof.get_EOF_model>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ao_index.py
-        ./dynamic_docs/plot_multi_linear_reg.py
+        ao_index
+        multi_linear_reg
     """
     slp_monthly_data = sort_ascending_latlon_coordinates(
         slp_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim
@@ -170,10 +170,10 @@ def calc_index_NAH_zonal_lat_Li_Wang_2003(
     - 李建平，海气耦合涛动与中国气候变化，中国气候与环境演变（上卷）（秦大河主编），北京：气象出版社，2005，324-333.  http://lijianping.cn/dct/attach/Y2xiOmNsYjpwZGY6MTk3
     - http://lijianping.cn/dct/page/65607
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ao_index.py
+        ao_index
     """
     slp_data_nocycle = remove_seasonal_cycle_mean(
         slp_monthly_data, dim=time_dim, time_range=time_range

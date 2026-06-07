@@ -287,10 +287,10 @@ def interp_spatial_barnes(
         - https://github.com/MeteoSwiss/fast-barnes-py
         - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_interp.py
+        interp
     """
     if grid_res_deg <= 0:
         raise ValueError("grid_res_deg must be > 0")
@@ -511,10 +511,10 @@ def interp_spatial_barnes_rs(
         - https://github.com/MeteoSwiss/fast-barnes-py
         - Zürcher, B. K.: Fast approximate Barnes interpolation: illustrated by Python-Numba implementation fast-barnes-py v1.0, Geosci. Model Dev., 16, 1697–1711, https://doi.org/10.5194/gmd-16-1697-2023, 2023.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_interp.py
+        interp
     """
     if grid_res_deg <= 0:
         raise ValueError("grid_res_deg must be > 0")

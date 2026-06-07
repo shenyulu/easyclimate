@@ -58,10 +58,10 @@ def draw_mjo_phase_space_basemap(
 
         https://www.ncl.ucar.edu/Applications/mjoclivar.shtml
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_mjo_phase.py
+        mjo_phase
     """
     if ax is None:
         ax = plt.gca()
@@ -249,10 +249,10 @@ def draw_mjo_phase_space(
 
         https://www.ncl.ucar.edu/Applications/mjoclivar.shtml
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_mjo_phase.py
+        mjo_phase
     """
     if ax is None:
         ax = plt.gca()

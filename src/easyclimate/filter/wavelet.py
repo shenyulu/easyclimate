@@ -144,10 +144,10 @@ def calc_timeseries_wavelet_transform(
     - Torrence, C., & Webster, P. J. (1999). Interdecadal Changes in the ENSO–Monsoon System. Journal of Climate, 12(8), 2679-2690. https://doi.org/10.1175/1520-0442(1999)012<2679:ICITEM>2.0.CO;2
     - Grinsted, A., Moore, J. C., and Jevrejeva, S.: Application of the cross wavelet transform and wavelet coherence to geophysical time series, Nonlin. Processes Geophys., 11, 561–566, https://doi.org/10.5194/npg-11-561-2004, 2004.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wavelet.py
+        wavelet
     """
     # variance
     timeseries_data_numpy = timeseries_data.data
@@ -313,10 +313,10 @@ def draw_global_wavelet_spectrum(
     **global_signif_kwargs, :py:class:`dict <dict>`, optional, default {'ls': '--'}:
         Additional keyword arguments to :py:func:`xarray.DataArray.plot.line<xarray.DataArray.plot.line>` for ploting `global_signif`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wavelet.py
+        wavelet
     """
     if ax == None:
         ax = plt.gca()
@@ -371,10 +371,10 @@ def draw_wavelet_transform(
     **fill_between_kwargs, :py:class:`dict <dict>`, optional, default {'facecolor': 'none', 'edgecolor': '#00000040', 'hatch': 'x'}:
         Additional keyword arguments to :py:func:`matplotlib.pyplot.fill_between<matplotlib.pyplot.fill_between>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wavelet.py
+        wavelet
     """
     if ax == None:
         ax = plt.gca()

@@ -55,10 +55,10 @@ def timeseries_normalize_zscore(
         - **Advantages**: Retains the relative distribution characteristics of the data, widely used in algorithms requiring standardized inputs.
         - **Disadvantages**: Sensitive to outliers, which can skew the mean and standard deviation.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_corr_reg.py
+        corr_reg
     """
     da_ = da.sel({dim: time_range})
     mean = da_.mean(dim=dim)

@@ -198,10 +198,10 @@ def calc_detrend_spatial(
     .. seealso::
         :py:func:`scipy.signal.detrend <scipy:scipy.signal.detrend>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_basic_statistical_analysis.py
+        basic_statistical_analysis
     """
 
     # Because `scipy.signal.detrend` cannot detrend `np.nan`,
@@ -282,10 +282,10 @@ def calc_corr_spatial(
         :py:func:`scipy.stats.pearsonr<scipy:scipy.stats.pearsonr>`:
         The underlying correlation function used for calculations.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_corr_reg.py
+        corr_reg
     """
     # Check whether the time dimensions are consistent
     if len(data_input[time_dim]) != len(x):
@@ -524,10 +524,10 @@ def calc_multiple_linear_regression_spatial(
     remaining samples are insufficient for the requested predictors, the
     corresponding regression results are returned as NaN.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_multi_linear_reg.py
+        multi_linear_reg
     """
 
     def _multiple_linear_regression(y, *x_vars):
@@ -1155,10 +1155,10 @@ def calc_skewness_spatial(
     .. seealso::
         :py:func:`scipy.stats.skew <scipy:scipy.stats.skew>`, :py:func:`scipy.stats.normaltest <scipy:scipy.stats.normaltest>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_basic_statistical_analysis.py
+        basic_statistical_analysis
     """
     # Find the index of `dim` in the xarray DataArray for `time`.
     time_dim_index = find_dims_axis(data_input, dim=dim)
@@ -1239,10 +1239,10 @@ def calc_kurtosis_spatial(
     .. seealso::
         :py:func:`scipy.stats.kurtosis <scipy:scipy.stats.kurtosis>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_basic_statistical_analysis.py
+        basic_statistical_analysis
     """
 
     # Calculate kurtosis

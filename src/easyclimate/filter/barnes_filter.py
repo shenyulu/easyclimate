@@ -73,10 +73,10 @@ def calc_barnes_lowpass(
         - Maddox, R. A. (1980). An Objective Technique for Separating Macroscale and Mesoscale Features in Meteorological Data. Monthly Weather Review, 108(8), 1108-1121. https://journals.ametsoc.org/view/journals/mwre/108/8/1520-0493_1980_108_1108_aotfsm_2_0_co_2.xml
         - https://github.com/LinOuyang/pybarnes
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_barnes_filter.py
+        barnes_filter
     """
     f = BarnesFilter(
         data,
@@ -148,10 +148,10 @@ def calc_barnes_bandpass(
         - Maddox, R. A. (1980). An Objective Technique for Separating Macroscale and Mesoscale Features in Meteorological Data. Monthly Weather Review, 108(8), 1108-1121. https://journals.ametsoc.org/view/journals/mwre/108/8/1520-0493_1980_108_1108_aotfsm_2_0_co_2.xml
         - https://github.com/LinOuyang/pybarnes
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_barnes_filter.py
+        barnes_filter
     """
     f = BarnesFilter(
         data,

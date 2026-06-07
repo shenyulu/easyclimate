@@ -114,10 +114,10 @@ def calc_relative_vorticity_and_horizontal_divergence(
     -------
     Relative vorticity and horizontal divergence (:py:class:`xarray.Dataset<xarray.Dataset>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -171,10 +171,10 @@ def calc_relative_vorticity(
     -------
     Relative vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)

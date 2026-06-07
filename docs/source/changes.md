@@ -1,5 +1,14 @@
 # Changelog♻️
 
+## v2026.6.0
+
+*Released on: 2026/6/7*
+
+- [feat: add geolabel](https://github.com/shenyulu/easyclimate/pull/117/commits/55730764240db2f23a16e5e16b3896fab9788867)
+- [feat: add icon plot](https://github.com/shenyulu/easyclimate/pull/117/commits/27ed22b9577fc3e863b6c434cf29e4162b57207f)
+- [feat: add mpas plot](https://github.com/shenyulu/easyclimate/pull/117/commits/9e56e09fd01b9dd3a7394d5fa920b072e0edc74c)
+
+**Full Changelog**: https://github.com/shenyulu/easyclimate/compare/v2026.5.0...v2026.6.0
 
 ## v2026.5.0
 

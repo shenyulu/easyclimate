@@ -50,11 +50,11 @@ def line_plot_with_threshold(
 
         :py:func:`matplotlib.lines.Line2D <matplotlib.lines.Line2D>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_basic_statistical_analysis.py
-        ./dynamic_docs/plot_corr_reg.py
+        basic_statistical_analysis
+        corr_reg
     """
     # Input validation
     if len(da.dims) != 1:

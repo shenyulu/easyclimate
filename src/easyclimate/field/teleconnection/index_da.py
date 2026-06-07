@@ -71,10 +71,10 @@ def calc_index_DA_EOF2_Wu_2006(
 
         :py:func:`get_EOF_model <easyclimate.core.eof.get_EOF_model>`
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_da_bbo.py
+        da_bbo
     """
     slp_monthly_data = sort_ascending_latlon_coordinates(
         slp_monthly_data, lat_dim=lat_dim, lon_dim=lon_dim

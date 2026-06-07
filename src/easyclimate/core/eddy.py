@@ -87,10 +87,10 @@ def calc_eady_growth_rate(
         - `eady_growth_rate -NCL <https://www.ncl.ucar.edu/Document/Functions/Contributed/eady_growth_rate.shtml>`__
         - `瞬变涡旋诊断量 <https://renqlsysu.github.io/2020/02/16/wave_activity_flux/>`__
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_egr.py
+        egr
     """
     dim_tuple = u_daily_data.dims
     f = get_coriolis_parameter(u_daily_data[lat_dim])

@@ -18,6 +18,8 @@ from dotenv import load_dotenv
 sys.path.insert(
     0, os.path.abspath("../../src")
 )  # Source code dir relative to this file
+sys.path.insert(0, os.path.abspath("."))
+sys.path.insert(0, os.path.abspath("_ext"))
 import easyclimate as ecl
 
 # copyright
@@ -40,6 +42,7 @@ extensions = [
     # Add inline tabbed content to your Sphinx documentation
     "sphinx_inline_tabs",
     "sphinx_gallery.gen_gallery",
+    "easyclimate_gallery",
     # Sphinx AutoAPI Method
     "autoapi.extension",
     # Links to documentation for other projects

@@ -88,7 +88,7 @@ fig, ax = plt.subplots(
     subplot_kw={"projection": ccrs.NorthPolarStereo(central_longitude=140)}
 )
 
-ax.coastlines(edgecolor="black", linewidths=0.5)
+ax.coastlines(color="black", linewidths=0.5)
 gl, meta = ecl.plot.draw_polar_basemap(
     ax = ax,
     lon_step=30,
@@ -161,7 +161,7 @@ fig, ax = plt.subplots(
     subplot_kw={"projection": ccrs.Mercator(central_longitude=140)}
 )
 ax.set_extent([0, 360, 10, 85], crs = ccrs.PlateCarree())
-ax.coastlines(edgecolor="black", linewidths=0.5)
+ax.coastlines(color="black", linewidths=0.5)
 ax.gridlines(draw_labels=["bottom", "left"], alpha=0)
 
 fg1 = draw_shaded2.plot.contourf(
@@ -221,7 +221,7 @@ fig, ax = plt.subplots(
     subplot_kw={"projection": ccrs.Mercator(central_longitude=140)}
 )
 ax.set_extent([0, 360, 10, 85], crs = ccrs.PlateCarree())
-ax.coastlines(edgecolor="black", linewidths=0.5)
+ax.coastlines(color="black", linewidths=0.5)
 ax.gridlines(draw_labels=["bottom", "left"], alpha=0)
 
 fg1 = draw_shaded3.plot.contourf(

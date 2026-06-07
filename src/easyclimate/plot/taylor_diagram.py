@@ -175,10 +175,10 @@ def calc_TaylorDiagrams_values(
     --------------
     - Taylor, K. E. (2001), Summarizing multiple aspects of model performance in a single diagram, J. Geophys. Res., 106(D7), 7183-7192, doi:`10.1029/2000JD900719 <https://doi.org/10.1029/2000JD900719>`__.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_taylor_diagram.py
+        taylor_diagram
     """
     if weighted == True:
         # Spatial weighting
@@ -312,10 +312,10 @@ def calc_TaylorDiagrams_metadata(
         1   f1  0.404621  -0.4293981636461462     1.229311  0.003210
         2   f2  2.056470    0.984086060161888     1.087006  0.600409
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_taylor_diagram.py
+        taylor_diagram
     """
     # Check that the list lengths of `f`, `r` and `models_name` are aligned.
     length_models = len(f)
@@ -441,10 +441,10 @@ def draw_TaylorDiagrams_base(
     -------
     :py:class:`matplotlib.collections.Collection <matplotlib.collections.Collection>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_taylor_diagram.py
+        taylor_diagram
     """
 
     # Get Axes
@@ -957,10 +957,10 @@ def draw_TaylorDiagrams_metadata(
         A dictionary keyed by data point `item`. Each value includes the point artist, label artist,
         point keyword arguments, and label keyword arguments.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_taylor_diagram.py
+        taylor_diagram
     """
     # Get Axes
     if ax == None:

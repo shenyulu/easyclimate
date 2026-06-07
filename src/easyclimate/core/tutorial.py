@@ -91,6 +91,10 @@ file_formats = {
     "era5_daily_z500_prime_202411_N15": 4,
     "era5_ymean_monthly_u500_199101_202012_N15": 4,
     "era5_ymean_monthly_v500_199101_202012_N15": 4,
+    "mpas_JWwave_T10_nVertLevels10": 4,
+    "x1_2562_grid": 4,
+    "icon_native_ml_20080909T000000Z": 4,
+    "icon_native_pl_20080909T000000Z": 4,
 }
 
 

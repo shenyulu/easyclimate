@@ -60,11 +60,11 @@ def draw_Circlemap_PolarStereo(
 
         :py:func:`geocat.viz.util.set_map_boundary <geocat.viz:geocat.viz.util.set_map_boundary>`, :py:class:`cartopy.mpl.gridliner.Gridliner <cartopy:cartopy.mpl.gridliner.Gridliner>`.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_formatting_coordinates.py
-        ./dynamic_docs/plot_da_bbo.py
+        formatting_coordinates
+        da_bbo
     """
     # Get Axes
     if ax == None:

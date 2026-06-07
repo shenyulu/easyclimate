@@ -197,6 +197,40 @@ Plot🖊️
     easyclimate.plot.bar
     easyclimate.plot.line
     easyclimate.plot.polar
+    easyclimate.plot.geolabel
+
+MPAS/Voronoi Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.plot.mpas.voronoi_extract
+    easyclimate.plot.mpas.voronoi_grid
+    easyclimate.plot.mpas.cell_voronoi
+    easyclimate.plot.mpas.cell_contour
+    easyclimate.plot.mpas.cell_quiver
+    easyclimate.plot.mpas.cell_streamplot
+    easyclimate.plot.mpas.cell_barbs
+    easyclimate.plot.mpas.cell_curved_quiver
+    easyclimate.plot.mpas.vertex_voronoi
+    easyclimate.plot.mpas.vertex_contour
+
+ICON/Triangular Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.plot.icon.plot_triangular_grid
+    easyclimate.plot.icon.plot_cell_triangular
+    easyclimate.plot.icon.plot_cell_contourf
+    easyclimate.plot.icon.plot_cell_contour
+    easyclimate.plot.icon.plot_cell_quiver
+    easyclimate.plot.icon.plot_cell_streamplot
+    easyclimate.plot.icon.plot_cell_barbs
+    easyclimate.plot.icon.plot_cell_curved_quiver
+
 
 WRF-python🌌
 ----------------------------------------

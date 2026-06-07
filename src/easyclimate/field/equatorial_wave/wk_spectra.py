@@ -72,10 +72,10 @@ def remove_dominant_signals(
     ...                    dims=['time', 'lat', 'lon'])
     >>> cleaned = remove_dominant_signals(data, spd=1, nDayWin=90, nDaySkip=30)
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wk_spectra.py
+        wk_spectra
     """
     data = data.transpose(time_dim, lat_dim, lon_dim)
     result_array = wk_analysis.remove_dominant_signals(
@@ -108,10 +108,10 @@ def decompose_symasym(da, lat_dim="lat"):
     >>> data = xr.DataArray(np.random.rand(10, 20), dims=['lat', 'lon'])
     >>> decomposed = decompose_symasym(data)
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wk_spectra.py
+        wk_spectra
     """
 
     def sym_asym_1d(array_lat):
@@ -191,10 +191,10 @@ def calc_spectral_coefficients(
     ...                    dims=['time', 'lat', 'lon'])
     >>> spectra = calc_spectral_coefficients(data, spd=1, nDayWin=90, nDaySkip=30)
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wk_spectra.py
+        wk_spectra
     """
     data = data.transpose(time_dim, lat_dim, lon_dim)
 
@@ -319,10 +319,10 @@ def draw_wk_anti_analysis(
     >>> fig, ax = plt.subplots()
     >>> draw_wk_anti_analysis(ax=ax)
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wk_spectra.py
+        wk_spectra
     """
     matsuno_modes = matsuno_plot.matsuno_modes_wk(
         he=he, n=meridional_modes, max_wn=max_wn
@@ -443,10 +443,10 @@ def draw_wk_sym_analysis(
     >>> fig, ax = plt.subplots()
     >>> draw_wk_sym_analysis(ax=ax)
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_wk_spectra.py
+        wk_spectra
     """
     matsuno_modes = matsuno_plot.matsuno_modes_wk(
         he=he, n=meridional_modes, max_wn=max_wn

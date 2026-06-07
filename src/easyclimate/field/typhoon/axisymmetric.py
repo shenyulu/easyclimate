@@ -212,10 +212,10 @@ def cyclone_axisymmetric_analysis(
         * polar_lat  (y: 11): float64
         * y          (y: 11): float64
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_tc_track_axis.py
+        tc_track_axis
     """
     # Cyclone center
     lonmin, latmin = cyclone_center_point

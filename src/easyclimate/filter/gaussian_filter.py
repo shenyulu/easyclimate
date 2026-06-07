@@ -39,10 +39,10 @@ def calc_gaussian_filter(
     :py:class:`xarray.DataArray<xarray.DataArray>`
         Smoothed data with the same dimensions as input.
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_ao_index.py
+        ao_index
     """
     # Calculate sigma if not provided
     if sigma is None:

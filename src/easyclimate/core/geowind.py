@@ -54,10 +54,10 @@ def calc_geostrophic_wind(
         - ug
         - vg
 
-    .. minigallery::
+    .. ecl-minigallery::
         :add-heading: Example(s) related to the function
 
-        ./dynamic_docs/plot_geographic_finite_difference.py
+        geographic_finite_difference
     """
     from ..physics.geo.coriolis import get_coriolis_parameter
     from .diff import calc_dx_gradient, calc_dy_gradient
