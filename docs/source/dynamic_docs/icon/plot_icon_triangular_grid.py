@@ -21,7 +21,7 @@ from easyclimate.plot.icon import plot_triangular_grid
 # %%
 # Open a sample ICON pressure-level file. The file contains the native ICON
 # cell-center coordinates and triangular cell bounds needed by the mesh helper.
-data = xr.open_dataset("icon_native_pl_20080909T000000Z.nc")
+data = ecl.open_tutorial_dataset("icon_native_pl_20080909T000000Z")
 data
 
 # %%

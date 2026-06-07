@@ -20,7 +20,7 @@ from easyclimate.plot.icon import plot_cell_barbs
 # %%
 # Open a sample ICON model-level file and select the horizontal wind
 # components stored on cell centers.
-data = xr.open_dataset("icon_native_ml_20080909T000000Z.nc")
+data = ecl.open_tutorial_dataset("icon_native_ml_20080909T000000Z")
 u = data.u
 v = data.v
 u

@@ -22,7 +22,7 @@ from easyclimate.plot.icon import plot_cell_contourf, plot_cell_contour
 # %%
 # Open a sample ICON pressure-level file. The temperature variable is defined
 # at ICON cell centers, so one time and pressure level are selected below.
-data = xr.open_dataset("icon_native_pl_20080909T000000Z.nc")
+data = ecl.open_tutorial_dataset("icon_native_pl_20080909T000000Z")
 data
 
 # %%
