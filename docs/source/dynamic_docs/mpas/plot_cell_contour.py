@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Cell-centered contour plots
+MPAS Cell-centered contour plots
 ==============================================
 
 This example demonstrates filled and line contours for MPAS cell-centered

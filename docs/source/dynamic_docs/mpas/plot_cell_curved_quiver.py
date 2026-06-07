@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Cell-centered curved quiver plots
+MPAS Cell-centered curved quiver plots
 ==============================================
 
 This example draws MPAS cell-centered vector winds as curved arrows with

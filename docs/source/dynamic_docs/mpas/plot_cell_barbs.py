@@ -1,5 +1,5 @@
 """
-Cell-centered wind barbs
+MPAS Cell-centered wind barbs
 ==============================================
 
 This example draws MPAS cell-centered winds as meteorological barbs with

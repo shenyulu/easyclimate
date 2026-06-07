@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Cell-centered Voronoi plots
+MPAS Cell-centered Voronoi plots
 ==============================================
 
 This example draws MPAS cell-centered scalar data on Voronoi polygons with

@@ -1,5 +1,5 @@
 """
-Cell-centered streamplots
+MPAS Cell-centered streamplots
 ==============================================
 
 This example draws streamlines from MPAS cell-centered vector winds with

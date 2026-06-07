@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Vertex-centered Voronoi plots
+MPAS Vertex-centered Voronoi plots
 ==============================================
 
 This example draws MPAS vertex-centered scalar data on the dual polygons around

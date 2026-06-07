@@ -216,6 +216,22 @@ MPAS/Voronoi Related
     easyclimate.plot.mpas.vertex_voronoi
     easyclimate.plot.mpas.vertex_contour
 
+ICON/Triangular Related
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.plot.icon.plot_triangular_grid
+    easyclimate.plot.icon.plot_cell_triangular
+    easyclimate.plot.icon.plot_cell_contourf
+    easyclimate.plot.icon.plot_cell_contour
+    easyclimate.plot.icon.plot_cell_quiver
+    easyclimate.plot.icon.plot_cell_streamplot
+    easyclimate.plot.icon.plot_cell_barbs
+    easyclimate.plot.icon.plot_cell_curved_quiver
+
+
 WRF-python🌌
 ----------------------------------------
 

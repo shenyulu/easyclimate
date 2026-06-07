@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Vertex-centered contour plots
+MPAS Vertex-centered contour plots
 ==============================================
 
 This example demonstrates contour plots for MPAS vertex-centered scalar data.
