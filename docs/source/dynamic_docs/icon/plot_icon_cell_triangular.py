@@ -21,7 +21,7 @@ from easyclimate.plot.icon import plot_cell_triangular
 # %%
 # Open a sample ICON pressure-level file and inspect the dataset. The
 # temperature field is stored on ICON cell centers.
-data = xr.open_dataset("icon_native_pl_20080909T000000Z.nc")
+data = ecl.open_tutorial_dataset("icon_native_pl_20080909T000000Z")
 data
 
 # %%
