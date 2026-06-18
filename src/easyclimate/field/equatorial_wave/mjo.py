@@ -7,7 +7,6 @@ import xarray as xr
 from matplotlib import pyplot as plt
 import matplotlib.lines as lines
 
-
 __all__ = ["draw_mjo_phase_space_basemap", "draw_mjo_phase_space"]
 
 

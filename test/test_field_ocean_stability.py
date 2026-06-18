@@ -10,7 +10,6 @@ import numpy as np
 from pathlib import Path
 from .const_define import TEST_DATA_PATH
 
-
 temper_data = xr.open_dataset(
     str(Path(TEST_DATA_PATH, "test_input_field_ocean_mixlayer_temper.nc"))
 ).temp
