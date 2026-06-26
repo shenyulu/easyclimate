@@ -968,7 +968,7 @@ def calc_monthly_rossby_wave_source(
     >>> rws_result['RWS'].sel(time='2015-12').plot()
     >>> (rws_result['term1'] + rws_result['term2']).sel(time='2015-12').plot()
     """
-    from .windspharm import (
+    from .spec import (
         calc_relative_vorticity,
         calc_irrotational_component,
         calc_gradient,

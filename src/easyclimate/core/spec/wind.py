@@ -1,5 +1,5 @@
 """
-Easy climate top interface for the windspharm
+Wind-related analysis for spherical harmonics
 
 This is the top layer of packaging for the windspharm package.
 
@@ -10,7 +10,7 @@ This is the top layer of packaging for the windspharm package.
 """
 
 import xarray as xr
-from ..backend import VectorWind, VectorWind_rs
+from ...backend import VectorWind, VectorWind_rs
 from typing import Literal
 
 __all__ = [
@@ -99,7 +99,7 @@ def calc_wind_speed_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate the wind speed (magnitude of vector wind).
+    Calculate the wind speed (magnitude of vector wind) by Rust backend.
 
     Parameters
     ----------
@@ -180,6 +180,9 @@ def calc_relative_vorticity_and_horizontal_divergence(
         :add-heading: Example(s) related to the function
 
         geographic_finite_difference
+        wind_rv_spec
+        wind_div_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -204,7 +207,7 @@ def calc_relative_vorticity_and_horizontal_divergence_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.Dataset:
     """
-    Calculate relative vorticity and horizontal divergence.
+    Calculate relative vorticity and horizontal divergence by Rust backend.
 
     Parameters
     ----------
@@ -238,6 +241,9 @@ def calc_relative_vorticity_and_horizontal_divergence_rs(
         :add-heading: Example(s) related to the function
 
         geographic_finite_difference
+        wind_rv_spec
+        wind_div_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -297,6 +303,8 @@ def calc_relative_vorticity(
         :add-heading: Example(s) related to the function
 
         geographic_finite_difference
+        wind_rv_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -317,7 +325,7 @@ def calc_relative_vorticity_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate relative vorticity.
+    Calculate relative vorticity by Rust backend.
 
     Parameters
     ----------
@@ -351,6 +359,8 @@ def calc_relative_vorticity_rs(
         :add-heading: Example(s) related to the function
 
         geographic_finite_difference
+        wind_rv_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -401,6 +411,12 @@ def calc_divergence(
     Returns
     -------
     Horizontal divergence (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_div_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -421,7 +437,7 @@ def calc_divergence_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate horizontal divergence.
+    Calculate horizontal divergence by Rust backend.
 
     Parameters
     ----------
@@ -450,6 +466,12 @@ def calc_divergence_rs(
     Returns
     -------
     Horizontal divergence (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_div_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -500,6 +522,12 @@ def calc_planetary_vorticity(
     Returns
     -------
     Planetary vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_pv_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -520,7 +548,7 @@ def calc_planetary_vorticity_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate planetary vorticity (Coriolis parameter).
+    Calculate planetary vorticity (Coriolis parameter) by Rust backend.
 
     Parameters
     ----------
@@ -549,6 +577,12 @@ def calc_planetary_vorticity_rs(
     Returns
     -------
     Planetary vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_pv_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -602,6 +636,12 @@ def calc_absolute_vorticity(
     Returns
     -------
     Absolute vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_av_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -623,7 +663,7 @@ def calc_absolute_vorticity_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate absolute vorticity (sum of relative and planetary vorticity).
+    Calculate absolute vorticity (sum of relative and planetary vorticity) by Rust backend.
 
     Parameters
     ----------
@@ -654,6 +694,12 @@ def calc_absolute_vorticity_rs(
     Returns
     -------
     Absolute vorticity (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_av_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -704,6 +750,13 @@ def calc_streamfunction_and_velocity_potential(
     Returns
     -------
     Stream function and velocity potential (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_sf_spec
+        wind_vp_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -728,7 +781,7 @@ def calc_streamfunction_and_velocity_potential_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.Dataset:
     """
-    Calculate stream function and velocity potential.
+    Calculate stream function and velocity potential by Rust backend.
 
     Parameters
     ----------
@@ -757,6 +810,13 @@ def calc_streamfunction_and_velocity_potential_rs(
     Returns
     -------
     Stream function and velocity potential (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_sf_spec
+        wind_vp_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -811,6 +871,12 @@ def calc_streamfunction(
     Returns
     -------
     stream function (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_sf_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -831,7 +897,7 @@ def calc_streamfunction_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate stream function.
+    Calculate stream function by Rust backend.
 
     Parameters
     ----------
@@ -860,6 +926,12 @@ def calc_streamfunction_rs(
     Returns
     -------
     stream function (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_sf_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -910,6 +982,12 @@ def calc_velocity_potential(
     Returns
     -------
     Velocity potential (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_vp_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -930,7 +1008,7 @@ def calc_velocity_potential_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate velocity potential.
+    Calculate velocity potential by Rust backend.
 
     Parameters
     ----------
@@ -959,6 +1037,12 @@ def calc_velocity_potential_rs(
     Returns
     -------
     Velocity potential (:py:class:`xarray.DataArray<xarray.DataArray>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_vp_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1009,6 +1093,13 @@ def calc_helmholtz(
     Returns
     -------
     Irrotational and non-divergent components of the vector wind (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_uvchi_spec
+        wind_uvpsi_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1035,7 +1126,7 @@ def calc_helmholtz_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.Dataset:
     """
-    Calculate irrotational and non-divergent components of the vector wind.
+    Calculate irrotational and non-divergent components of the vector wind by Rust backend.
 
     Parameters
     ----------
@@ -1064,6 +1155,13 @@ def calc_helmholtz_rs(
     Returns
     -------
     Irrotational and non-divergent components of the vector wind (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_uvchi_spec
+        wind_uvpsi_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1120,6 +1218,12 @@ def calc_irrotational_component(
     Returns
     -------
     Irrotational (divergent) component of the vector wind (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_uvchi_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1144,7 +1248,7 @@ def calc_irrotational_component_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.Dataset:
     """
-    Calculate irrotational (divergent) component of the vector wind.
+    Calculate irrotational (divergent) component of the vector wind by Rust backend.
 
     Parameters
     ----------
@@ -1173,6 +1277,12 @@ def calc_irrotational_component_rs(
     Returns
     -------
     Irrotational (divergent) component of the vector wind (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_uvchi_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1227,6 +1337,12 @@ def calc_nondivergent_component(
     Returns
     -------
     Non-divergent (rotational) component of the vector wind (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_uvpsi_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1251,7 +1367,7 @@ def calc_nondivergent_component_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.Dataset:
     """
-    Calculate non-divergent (rotational) component of the vector wind.
+    Calculate non-divergent (rotational) component of the vector wind by Rust backend.
 
     Parameters
     ----------
@@ -1280,6 +1396,12 @@ def calc_nondivergent_component_rs(
     Returns
     -------
     Non-divergent (rotational) component of the vector wind (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_uvpsi_spec
+
     """
     _format_lat_lon_coordinate(u_data, lat_dim, lon_dim)
     _format_lat_lon_coordinate(v_data, lat_dim, lon_dim)
@@ -1375,7 +1497,7 @@ def calc_rossby_wave_source_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.DataArray:
     """
-    Calculate Rossby wave sources (RWS).
+    Calculate Rossby wave sources (RWS) by Rust backend.
 
     .. math::
         RWS=-\\nabla \\cdot \\left({v}_{x}\\zeta \\right)=-\\left(\\zeta \\nabla \\cdot {v}_{x}+{v}_{x}\\cdot \\nabla \\zeta \\right)
@@ -1472,6 +1594,12 @@ def calc_gradient(
     Returns
     -------
     The zonal and meridional components of the vector gradient respectively (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_grd_spec
+
     """
     _format_lat_lon_coordinate(data_input, lat_dim, lon_dim)
 
@@ -1494,7 +1622,7 @@ def calc_gradient_rs(
     transform_backend: Literal["standard", "nogil", "latpar"] = "latpar",
 ) -> xr.Dataset:
     """
-    Computes the vector gradient of a scalar field on the sphere.
+    Computes the vector gradient of a scalar field on the sphere by Rust backend.
 
     Parameters
     ----------
@@ -1521,6 +1649,12 @@ def calc_gradient_rs(
     Returns
     -------
     The zonal and meridional components of the vector gradient respectively (:py:class:`xarray.Dataset<xarray.Dataset>`).
+
+    .. ecl-minigallery::
+        :add-heading: Example(s) related to the function
+
+        wind_grd_spec
+
     """
     _format_lat_lon_coordinate(data_input, lat_dim, lon_dim)
 

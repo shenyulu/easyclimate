@@ -301,26 +301,26 @@ div_data_500_202201.sel(lat=slice(20, 80)).plot.contourf(levels=21)
 # %%
 # Of course, in addition to the built-in finite difference method, the spherical harmonic function mothod can be solved, but you must ensure that it is **Global** and **Regular or Gaussian grid** type data.
 #
-# - :py:func:`easyclimate.windspharm.calc_relative_vorticity <easyclimate.windspharm.calc_relative_vorticity>`: calculate the relative vorticity term with the spherical harmonic function mothod.
-# - :py:func:`easyclimate.windspharm.calc_divergence <easyclimate.windspharm.calc_divergence>`: calculate the horizontal divergence term with the spherical harmonic function mothod.
+# - :py:func:`easyclimate.spec.calc_relative_vorticity <easyclimate.spec.calc_relative_vorticity>`: calculate the relative vorticity term with the spherical harmonic function mothod.
+# - :py:func:`easyclimate.spec.calc_divergence <easyclimate.spec.calc_divergence>`: calculate the horizontal divergence term with the spherical harmonic function mothod.
 
-vor_data_500_202201_windspharm = ecl.windspharm.calc_relative_vorticity(
+vor_data_500_202201_spec= ecl.spec.calc_relative_vorticity(
     u_data=uvdata_500_202201["uwnd"],
     v_data=uvdata_500_202201["vwnd"],
 )
 
-vor_data_500_202201_windspharm.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(
+vor_data_500_202201_spec.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(
     levels=21
 )
 
 # %%
 
-div_data_500_202201_windspharm = ecl.windspharm.calc_divergence(
+div_data_500_202201_spec = ecl.spec.calc_divergence(
     u_data=uvdata_500_202201["uwnd"],
     v_data=uvdata_500_202201["vwnd"],
 )
 
-div_data_500_202201_windspharm.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(
+div_data_500_202201_spec.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(
     levels=21
 )
 

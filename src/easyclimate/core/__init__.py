@@ -16,6 +16,5 @@ from .waterflux import *
 from . import utility
 from . import mk_test
 from . import eof
-from . import windspharm
-from . import spharm
+from . import spec
 from . import normalized

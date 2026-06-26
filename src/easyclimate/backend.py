@@ -682,6 +682,8 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
 
         # spectralkernel_rs
         from spectralkernel_rs.ws_xarray import VectorWind as VectorWind_rs
+        from spectralkernel_rs import tool as spectral_tool_rs
+        from spectralkernel_rs.spharmt_rs import Spharmt_rs
 
         # print(
         #     "Successfully imported basic easyclimate-rust modules", file=sys.stderr

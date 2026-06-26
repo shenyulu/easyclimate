@@ -25,7 +25,7 @@ v_data_sample = xr.open_dataset("test_input_vwnd_202201_mon_mean_500hPa_sampleda
 lon_start, lon_end, lat_start, lat_end = 20, 30, -10, 10
 
 # calc_wind_speed
-result_data = ecl.windspharm.calc_wind_speed(
+result_data = ecl.spec.calc_wind_speed(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -41,7 +41,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_dataset(
 ).result.data
 
 # calc_relative_vorticity_and_horizontal_divergence
-result_data = ecl.windspharm.calc_relative_vorticity_and_horizontal_divergence(
+result_data = ecl.spec.calc_relative_vorticity_and_horizontal_divergence(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -51,19 +51,19 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_netcdf(
 )
 
 # calc_relative_vorticity
-result_data = ecl.windspharm.calc_relative_vorticity(
+result_data = ecl.spec.calc_relative_vorticity(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
 
 # calc_divergence
-result_data = ecl.windspharm.calc_divergence(
+result_data = ecl.spec.calc_divergence(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
 
 # calc_planetary_vorticity
-result_data = ecl.windspharm.calc_planetary_vorticity(
+result_data = ecl.spec.calc_planetary_vorticity(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -72,7 +72,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_dataset(
 ).to_netcdf("../data/test_output_calc_planetary_vorticity.nc", format="NETCDF3_64BIT")
 
 # calc_absolute_vorticity
-result_data = ecl.windspharm.calc_absolute_vorticity(
+result_data = ecl.spec.calc_absolute_vorticity(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -81,7 +81,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_dataset(
 ).to_netcdf("../data/test_output_calc_absolute_vorticity.nc", format="NETCDF3_64BIT")
 
 # calc_streamfunction_and_velocity_potential
-result_data = ecl.windspharm.calc_streamfunction_and_velocity_potential(
+result_data = ecl.spec.calc_streamfunction_and_velocity_potential(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -91,7 +91,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_netcdf(
 )
 
 # calc_helmholtz
-result_data = ecl.windspharm.calc_helmholtz(
+result_data = ecl.spec.calc_helmholtz(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -100,7 +100,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_netcdf(
 )
 
 # calc_irrotational_component
-result_data = ecl.windspharm.calc_irrotational_component(
+result_data = ecl.spec.calc_irrotational_component(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -109,7 +109,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_netcdf(
 )
 
 # calc_nondivergent_component
-result_data = ecl.windspharm.calc_nondivergent_component(
+result_data = ecl.spec.calc_nondivergent_component(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -118,7 +118,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_netcdf(
 )
 
 # calc_rossby_wave_source
-result_data = ecl.windspharm.calc_rossby_wave_source(
+result_data = ecl.spec.calc_rossby_wave_source(
     u_data=u_data_sample,
     v_data=v_data_sample,
 )
@@ -127,7 +127,7 @@ result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_dataset(
 ).to_netcdf("../data/test_output_calc_rossby_wave_source.nc", format="NETCDF3_64BIT")
 
 # calc_gradient
-result_data = ecl.windspharm.calc_gradient(
+result_data = ecl.spec.calc_gradient(
     data_input=u_data_sample,
 )
 result_data.sel(lon=slice(20, 30), lat=slice(10, -10)).to_netcdf(
