@@ -1,0 +1,215 @@
+name: CI
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  run:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.10"
+
+      - name: Verify Python 3.10
+        env:
+          PYTHON_VERSION: "3.10"
+          PYTHONPATH: src
+        run: |
+          rm -rf .venv dist .coverage
+          uv venv .venv --python "$PYTHON_VERSION"
+          uv pip install numba numpy
+          uv pip install -r test_requirements.txt
+
+          uv run --no-sync python - <<'PY'
+          import easyclimate.backend as b
+          names = [
+              "spharm", "VectorWind", "aeronoskin", "aeroskin",
+              "human_index_mod", "_ecl_redfit", "_ecl_redfit_x",
+              "_vinth2p_dp", "_vinth2p_ecmwf", "_vintp2p_ecmwf",
+              "dvibeta_ncl", "ddvfidf_ncl", "dvrfidf_ncl",
+          ]
+          print("backend platform:", b.CURRENT_PLATFORM)
+          for name in names:
+              value = getattr(b, name, None)
+              print(f"{name}: {value is not None} ({type(value).__name__})")
+          PY
+
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync python -m build --wheel --outdir dist --no-isolation
+          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
+
+      - name: Upload Python 3.10 coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.10 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py310-${{ matrix.os }}-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Verify Python 3.11
+        env:
+          PYTHON_VERSION: "3.11"
+          PYTHONPATH: src
+        run: |
+          rm -rf .venv dist .coverage
+          uv venv .venv --python "$PYTHON_VERSION"
+          uv pip install numba numpy
+          uv pip install -r test_requirements.txt
+
+          uv run --no-sync python - <<'PY'
+          import easyclimate.backend as b
+          names = [
+              "spharm", "VectorWind", "aeronoskin", "aeroskin",
+              "human_index_mod", "_ecl_redfit", "_ecl_redfit_x",
+              "_vinth2p_dp", "_vinth2p_ecmwf", "_vintp2p_ecmwf",
+              "dvibeta_ncl", "ddvfidf_ncl", "dvrfidf_ncl",
+          ]
+          print("backend platform:", b.CURRENT_PLATFORM)
+          for name in names:
+              value = getattr(b, name, None)
+              print(f"{name}: {value is not None} ({type(value).__name__})")
+          PY
+
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync python -m build --wheel --outdir dist --no-isolation
+          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
+
+      - name: Upload Python 3.11 coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.11 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py311-${{ matrix.os }}-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Verify Python 3.12
+        env:
+          PYTHON_VERSION: "3.12"
+          PYTHONPATH: src
+        run: |
+          rm -rf .venv dist .coverage
+          uv venv .venv --python "$PYTHON_VERSION"
+          uv pip install numba numpy
+          uv pip install -r test_requirements.txt
+
+          uv run --no-sync python - <<'PY'
+          import easyclimate.backend as b
+          names = [
+              "spharm", "VectorWind", "aeronoskin", "aeroskin",
+              "human_index_mod", "_ecl_redfit", "_ecl_redfit_x",
+              "_vinth2p_dp", "_vinth2p_ecmwf", "_vintp2p_ecmwf",
+              "dvibeta_ncl", "ddvfidf_ncl", "dvrfidf_ncl",
+          ]
+          print("backend platform:", b.CURRENT_PLATFORM)
+          for name in names:
+              value = getattr(b, name, None)
+              print(f"{name}: {value is not None} ({type(value).__name__})")
+          PY
+
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync python -m build --wheel --outdir dist --no-isolation
+          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
+
+      - name: Upload Python 3.12 coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.12 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py312-${{ matrix.os }}-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.13"
+
+      - name: Verify Python 3.13
+        env:
+          PYTHON_VERSION: "3.13"
+          PYTHONPATH: src
+        run: |
+          rm -rf .venv dist .coverage
+          uv venv .venv --python "$PYTHON_VERSION"
+          uv pip install numba numpy
+          uv pip install -r test_requirements.txt
+
+          uv run --no-sync python - <<'PY'
+          import easyclimate.backend as b
+          names = [
+              "spharm", "VectorWind", "aeronoskin", "aeroskin",
+              "human_index_mod", "_ecl_redfit", "_ecl_redfit_x",
+              "_vinth2p_dp", "_vinth2p_ecmwf", "_vintp2p_ecmwf",
+              "dvibeta_ncl", "ddvfidf_ncl", "dvrfidf_ncl",
+          ]
+          print("backend platform:", b.CURRENT_PLATFORM)
+          for name in names:
+              value = getattr(b, name, None)
+              print(f"{name}: {value is not None} ({type(value).__name__})")
+          PY
+
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
+          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync python -m build --wheel --outdir dist --no-isolation
+          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
+
+      - name: Upload Python 3.13 coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.13 wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py313-${{ matrix.os }}-wheel
+          path: dist/*.whl
+          if-no-files-found: error
