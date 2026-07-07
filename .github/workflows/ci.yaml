@@ -26,6 +26,12 @@ jobs:
         with:
           enable-cache: true
 
+      - name: Install macOS Fortran runtime
+        if: runner.os == 'macOS'
+        run: |
+          brew install gcc
+          ls "$(brew --prefix gcc)/lib/gcc/current/libgfortran.5.dylib"
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v5.3.0
         with:
