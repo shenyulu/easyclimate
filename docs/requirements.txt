@@ -1,5 +1,5 @@
 numpy >= 1.24.3
-xarray >= 2025.06.0
+xarray >= 2025.6.1
 geocat.viz
 cartopy >= 0.25
 xeofs >= 3.0.0
