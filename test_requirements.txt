@@ -11,7 +11,7 @@ scipy >=1.8.0
 statsmodels
 geocat-comp
 easyclimate-backend >= 2026.5.3
-easyclimate-rust >= 2026.5.2
+easyclimate-rust >= 2026.5.3
 dask
 pymannkendall
 flox
