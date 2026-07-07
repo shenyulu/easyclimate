@@ -72,7 +72,7 @@ In the example below, sea level pressure is calculated and printed.
 
 .. tip::
 
-  You can download following datasets here: :download:`Download wrfout_d01_2022-05-01_00_00_00.nc4 <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/wrfout_d01_2022-05-01_00_00_00.nc4>`
+  You can download following datasets here: :download:`Download wrfout_d01_2022-05-01_00_00_00.nc4 <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/wrfout_d01_2022-05-01_00_00_00.nc4>`
 """
 from __future__ import print_function
 

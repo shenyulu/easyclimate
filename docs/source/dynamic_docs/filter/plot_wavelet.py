@@ -32,7 +32,7 @@ import easyclimate as ecl
 #
 # .. tip::
 #
-#   You can download following datasets here: :download:`Download test_input_nino3_wavelet.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/test_input_nino3_wavelet.nc>`
+#   You can download following datasets here: :download:`Download test_input_nino3_wavelet.nc <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/test_input_nino3_wavelet.nc>`
 #
 
 data_nino3 = ecl.open_tutorial_dataset("test_input_nino3_wavelet")['nino3']

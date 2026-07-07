@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 #   You can download following datasets here:
 #
 #   - :download:`Download olr-daily_v01r02_19800101_20231231.nc (3.34 GB) <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/olr-daily_v01r02_19800101_20231231.nc>`
-#   - :download:`Download olr_daily_annual_cycle_mean.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_daily_annual_cycle_mean.nc>`
+#   - :download:`Download olr_daily_annual_cycle_mean.nc <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_daily_annual_cycle_mean.nc>`
 #
 #
 # .. code-block:: python

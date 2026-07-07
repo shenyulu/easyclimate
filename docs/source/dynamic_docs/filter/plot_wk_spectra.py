@@ -43,7 +43,7 @@ import easyclimate as ecl
 #
 # .. tip::
 #
-#   You can download following datasets here: :download:`Download olr_smooth_data.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_smooth_data.nc>`
+#   You can download following datasets here: :download:`Download olr_smooth_data.nc <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_smooth_data.nc>`
 #
 
 data = ecl.open_tutorial_dataset("olr_smooth_data")['olr'].sel(lat = slice(-15, 15))

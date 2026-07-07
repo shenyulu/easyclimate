@@ -30,11 +30,11 @@ classifiers = [
 dynamic = ["dependencies", "version"]
 
 [project.urls]
-homepage = "https://github.com/shenyulu/easyclimate"
+homepage = "https://github.com/easyatmos/easyclimate"
 documentation = "https://easyclimate.readthedocs.io/en/latest/"
-source = "https://github.com/shenyulu/easyclimate"
+source = "https://github.com/easyatmos/easyclimate"
 download = "https://pypi.org/project/easyclimate/#files"
-tracker = "https://github.com/shenyulu/easyclimate/issues"
+tracker = "https://github.com/easyatmos/easyclimate/issues"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["release_requirements.txt"]}

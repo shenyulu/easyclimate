@@ -20,7 +20,7 @@ import easyclimate as ecl
 #
 # .. tip::
 #
-#   You can download following datasets here: :download:`Download uwnd_vwnd_hgt_equtorial_2021_2024.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/uwnd_vwnd_hgt_equtorial_2021_2024.nc>`
+#   You can download following datasets here: :download:`Download uwnd_vwnd_hgt_equtorial_2021_2024.nc <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/uwnd_vwnd_hgt_equtorial_2021_2024.nc>`
 
 uvz_data = ecl.open_tutorial_dataset("uwnd_vwnd_hgt_equtorial_2021_2024")
 uvz_data

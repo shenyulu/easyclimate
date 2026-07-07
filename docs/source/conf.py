@@ -94,7 +94,7 @@ html_last_updated_fmt = today_fmt
 html_context = {
     # Source files copy for `Copy page`
     "source_type": "github",
-    "source_user": "shenyulu",
+    "source_user": "easyatmos",
     "source_repo": "easyclimate",
 }
 
@@ -108,8 +108,8 @@ html_theme_options = {
     "open_in_claude": True,
     "open_in_perplexity": True,
 
-    "github_url": "https://github.com/shenyulu/easyclimate",
-    "repository_url": "https://github.com/shenyulu/easyclimate",
+    "github_url": "https://github.com/easyatmos/easyclimate",
+    "repository_url": "https://github.com/easyatmos/easyclimate",
     "use_repository_button": True,
     "repository_branch": "main",
     "use_repository_button": True,
@@ -150,12 +150,12 @@ html_theme_options = {
                 {"title": "Contributing", "url": "contributing"},
                 {
                     "title": "How to Contribute",
-                    "url": "https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md",
+                    "url": "https://github.com/easyatmos/easyclimate/blob/main/CONTRIBUTING.md",
                     "external": True,
                 },
                 {
                     "title": "GitHub",
-                    "url": "https://github.com/shenyulu/easyclimate",
+                    "url": "https://github.com/easyatmos/easyclimate",
                     "external": True,
                 },
                 {"title": "Sponsor", "url": "sponsor"},

@@ -71,7 +71,7 @@ These platforms are fully tested, and pre-built wheels (``.whl``) are available 
 
         .. code:: bash
 
-            python -m pip install --upgrade git+https://github.com/shenyulu/easyclimate@dev
+            python -m pip install --upgrade git+https://github.com/easyatmos/easyclimate@dev
 
         .. note::
 

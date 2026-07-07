@@ -32,7 +32,7 @@ import easyclimate as ecl
 #   You can download following datasets here:
 #
 #   - :download:`Download olr-daily_v01r02_19800101_20231231.nc (3.34 GB) <https://huggingface.co/datasets/shenyulu/easyclimate/resolve/main/tutorial_data/olr-daily_v01r02_19800101_20231231.nc>`
-#   - :download:`Download olr_smooth_data.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_smooth_data.nc>`
+#   - :download:`Download olr_smooth_data.nc <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/olr_smooth_data.nc>`
 #
 #
 # .. code-block:: python
