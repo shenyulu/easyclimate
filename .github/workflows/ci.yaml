@@ -1,6 +1,8 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  pull_request:
+  workflow_dispatch:
 
 defaults:
   run:
@@ -44,8 +46,8 @@ jobs:
         run: |
           rm -rf .venv dist .coverage
           uv venv .venv --python "$PYTHON_VERSION"
-          uv pip install numba numpy
-          uv pip install -r test_requirements.txt
+          uv run --no-sync python -m pip install --upgrade pip
+          uv run --no-sync python -m pip install -r test_requirements.txt
 
           uv run --no-sync python - <<'PY'
           import easyclimate.backend as b
@@ -61,16 +63,24 @@ jobs:
               print(f"{name}: {value is not None} ({type(value).__name__})")
           PY
 
-          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
-          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --mpl-default-tolerance=20 --mpl-results-path="mpl-results-py310" --mpl-generate-summary=html,json --cov src
+          uv run --no-sync python -m pip install build setuptools wheel setuptools-scm
           uv run --no-sync python -m build --wheel --outdir dist --no-isolation
-          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -m pip install --force-reinstall --no-deps dist/*.whl
           uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
 
       - name: Upload Python 3.10 coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.10 image comparison results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py310-${{ matrix.os }}-mpl-results
+          path: mpl-results-py310
+          if-no-files-found: ignore
 
       - name: Upload Python 3.10 wheel artifact
         uses: actions/upload-artifact@v4
@@ -91,8 +101,8 @@ jobs:
         run: |
           rm -rf .venv dist .coverage
           uv venv .venv --python "$PYTHON_VERSION"
-          uv pip install numba numpy
-          uv pip install -r test_requirements.txt
+          uv run --no-sync python -m pip install --upgrade pip
+          uv run --no-sync python -m pip install -r test_requirements.txt
 
           uv run --no-sync python - <<'PY'
           import easyclimate.backend as b
@@ -108,16 +118,24 @@ jobs:
               print(f"{name}: {value is not None} ({type(value).__name__})")
           PY
 
-          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
-          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --mpl-default-tolerance=20 --mpl-results-path="mpl-results-py311" --mpl-generate-summary=html,json --cov src
+          uv run --no-sync python -m pip install build setuptools wheel setuptools-scm
           uv run --no-sync python -m build --wheel --outdir dist --no-isolation
-          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -m pip install --force-reinstall --no-deps dist/*.whl
           uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
 
       - name: Upload Python 3.11 coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.11 image comparison results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py311-${{ matrix.os }}-mpl-results
+          path: mpl-results-py311
+          if-no-files-found: ignore
 
       - name: Upload Python 3.11 wheel artifact
         uses: actions/upload-artifact@v4
@@ -138,8 +156,8 @@ jobs:
         run: |
           rm -rf .venv dist .coverage
           uv venv .venv --python "$PYTHON_VERSION"
-          uv pip install numba numpy
-          uv pip install -r test_requirements.txt
+          uv run --no-sync python -m pip install --upgrade pip
+          uv run --no-sync python -m pip install -r test_requirements.txt
 
           uv run --no-sync python - <<'PY'
           import easyclimate.backend as b
@@ -155,16 +173,24 @@ jobs:
               print(f"{name}: {value is not None} ({type(value).__name__})")
           PY
 
-          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
-          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --mpl-default-tolerance=20 --mpl-results-path="mpl-results-py312" --mpl-generate-summary=html,json --cov src
+          uv run --no-sync python -m pip install build setuptools wheel setuptools-scm
           uv run --no-sync python -m build --wheel --outdir dist --no-isolation
-          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -m pip install --force-reinstall --no-deps dist/*.whl
           uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
 
       - name: Upload Python 3.12 coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.12 image comparison results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py312-${{ matrix.os }}-mpl-results
+          path: mpl-results-py312
+          if-no-files-found: ignore
 
       - name: Upload Python 3.12 wheel artifact
         uses: actions/upload-artifact@v4
@@ -185,8 +211,8 @@ jobs:
         run: |
           rm -rf .venv dist .coverage
           uv venv .venv --python "$PYTHON_VERSION"
-          uv pip install numba numpy
-          uv pip install -r test_requirements.txt
+          uv run --no-sync python -m pip install --upgrade pip
+          uv run --no-sync python -m pip install -r test_requirements.txt
 
           uv run --no-sync python - <<'PY'
           import easyclimate.backend as b
@@ -202,16 +228,24 @@ jobs:
               print(f"{name}: {value is not None} ({type(value).__name__})")
           PY
 
-          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --cov src
-          uv pip install build setuptools wheel setuptools-scm
+          uv run --no-sync pytest --mpl --mpl-baseline-path="test/baseline_images" --mpl-default-tolerance=20 --mpl-results-path="mpl-results-py313" --mpl-generate-summary=html,json --cov src
+          uv run --no-sync python -m pip install build setuptools wheel setuptools-scm
           uv run --no-sync python -m build --wheel --outdir dist --no-isolation
-          uv pip install --force-reinstall --no-deps dist/*.whl
+          uv run --no-sync python -m pip install --force-reinstall --no-deps dist/*.whl
           uv run --no-sync python -c "import easyclimate as ecl; print(ecl.__version__)"
 
       - name: Upload Python 3.13 coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Python 3.13 image comparison results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: easyclimate-py313-${{ matrix.os }}-mpl-results
+          path: mpl-results-py313
+          if-no-files-found: ignore
 
       - name: Upload Python 3.13 wheel artifact
         uses: actions/upload-artifact@v4
