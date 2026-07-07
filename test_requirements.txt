@@ -29,7 +29,7 @@ rich
 
 pytest == 9.0.1
 pytest-cov == 7.0.0
-pytest-mpl == 0.18.0
+pytest-mpl == 0.19.0
 pytest-xdist
 flake8
 pre-commit
