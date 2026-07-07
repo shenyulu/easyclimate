@@ -116,7 +116,14 @@ cs = plot_cell_contour(
     lat_max=65,
     transform=ccrs.PlateCarree(),
 )
-ax.clabel(cs, inline=True, fontsize=8, fmt="%g")
+
+# Matplotlib may emit empty/degenerate contour paths for some levels on
+# triangulated MPAS meshes, and clabel() can fail on those paths.
+has_labelable_segments = any(
+    len(segment) > 1 for level_segments in cs.allsegs for segment in level_segments
+)
+if has_labelable_segments:
+    ax.clabel(cs, inline=True, fontsize=8, fmt="%g")
 
 ax.set_title("Local JW Wave Divergence (plot_cell_contour)")
 ax.coastlines(resolution="50m", linewidth=0.6, color = "r")
