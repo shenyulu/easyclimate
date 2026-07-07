@@ -45,7 +45,7 @@ jobs:
           PYTHONPATH: src
         run: |
           rm -rf .venv dist .coverage
-          uv venv .venv --python "$PYTHON_VERSION"
+          uv venv .venv --python "$PYTHON_VERSION" --seed
           uv run --no-sync python -m pip install --upgrade pip
           uv run --no-sync python -m pip install -r test_requirements.txt
 
@@ -100,7 +100,7 @@ jobs:
           PYTHONPATH: src
         run: |
           rm -rf .venv dist .coverage
-          uv venv .venv --python "$PYTHON_VERSION"
+          uv venv .venv --python "$PYTHON_VERSION" --seed
           uv run --no-sync python -m pip install --upgrade pip
           uv run --no-sync python -m pip install -r test_requirements.txt
 
@@ -155,7 +155,7 @@ jobs:
           PYTHONPATH: src
         run: |
           rm -rf .venv dist .coverage
-          uv venv .venv --python "$PYTHON_VERSION"
+          uv venv .venv --python "$PYTHON_VERSION" --seed
           uv run --no-sync python -m pip install --upgrade pip
           uv run --no-sync python -m pip install -r test_requirements.txt
 
@@ -210,7 +210,7 @@ jobs:
           PYTHONPATH: src
         run: |
           rm -rf .venv dist .coverage
-          uv venv .venv --python "$PYTHON_VERSION"
+          uv venv .venv --python "$PYTHON_VERSION" --seed
           uv run --no-sync python -m pip install --upgrade pip
           uv run --no-sync python -m pip install -r test_requirements.txt
 
