@@ -32,7 +32,7 @@ recommonmark == 0.7.1
 sphinx-markdown-tables == 0.0.17
 jupyter-sphinx == 0.5.3
 sphinx-inline-tabs == 2023.4.21
-sphinx-gallery == 0.19.0
+sphinx-gallery == 0.21.0
 sphinx-autoapi == 3.6.1
 sphinx-copybutton == 0.5.2
 shibuya == 2026.1.9
