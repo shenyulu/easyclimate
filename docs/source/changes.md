@@ -1,5 +1,9 @@
 # Changelog♻️
 
+## v2026.7.0
+
+*Released on: 2026/7/7*
+
 ## v2026.6.0
 
 *Released on: 2026/6/7*
