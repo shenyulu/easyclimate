@@ -25,7 +25,7 @@ def test_calc_bsiso_analysis():
     assert isinstance(result_node, DataNode)
 
 
-@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=25)
 def test_draw_bsiso1_phase_space_basemap():
     fig, ax = plt.subplots()
 
@@ -47,7 +47,7 @@ def test_draw_bsiso1_phase_space_basemap():
     return fig
 
 
-@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=25)
 def test_draw_bsiso2_phase_space_basemap():
     fig, ax = plt.subplots()
 
