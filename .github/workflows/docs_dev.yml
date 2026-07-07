@@ -1,8 +1,8 @@
 name: docs_pages_workflow
 
-# execute this workflow automatically when a we push to master
+# execute this workflow automatically when a we pull_request
 on:
-  push:
+  pull_request:
     branches: [ dev ]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
