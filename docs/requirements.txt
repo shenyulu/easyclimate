@@ -12,6 +12,7 @@ statsmodels
 geocat-comp
 easyclimate-backend >= 2026.5.3
 easyclimate-rust >= 2026.5.2
+spectralkernel-rs >= 1.0.1
 dask
 pymannkendall
 flox
