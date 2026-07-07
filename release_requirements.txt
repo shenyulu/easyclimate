@@ -7,7 +7,7 @@ matplotlib
 pandas >= 2.2.0
 fast-barnes-py
 oceans
-scipy >=1.8.0
+scipy >=1.15.3
 statsmodels
 geocat-comp
 easyclimate-backend >= 2026.5.3
