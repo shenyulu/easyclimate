@@ -64,7 +64,7 @@ mld_data = ecl.open_tutorial_dataset('mlp_soda3_4_2_mn_ocean_reg_2020_EN4').mlp
 #
 # .. seealso::
 #
-#     - https://github.com/pyoceans/oceans
+#     - http://www.teos-10.org/pubs/gsw/html/gsw_contents.html
 #     - https://pyoceans.github.io/python-oceans/ocfis.html#oceans.ocfis.mld
 #
 # Next, we open the dataset containing the results
@@ -92,7 +92,7 @@ diff.plot(
     vmax = 200,
     cbar_kwargs = {'location': 'bottom', 'label': 'units: m'},
 )
-ax.set_title("SODA minus Easyclimate (pyoceans)")
+ax.set_title("SODA minus Easyclimate (GSW)")
 
 # %%
 #  MLD Internal Temperature

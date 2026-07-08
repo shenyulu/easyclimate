@@ -5,8 +5,7 @@ The calculation of ocean mixed layer variables.
 from __future__ import annotations
 import xarray as xr
 import numpy as np
-import gsw_xarray
-from oceans import ocfis
+from . import _gsw_wrap as gsw_wrap
 
 
 __all__ = [
@@ -60,8 +59,7 @@ def calc_mixed_layer_depth(
 
     .. seealso::
 
-        - https://github.com/pyoceans/oceans
-        - https://pyoceans.github.io/python-oceans/ocfis.html#oceans.ocfis.mld
+        - http://www.teos-10.org/pubs/gsw/html/gsw_contents.html
 
     .. ecl-minigallery::
         :add-heading: Example(s) related to the function
@@ -76,15 +74,13 @@ def calc_mixed_layer_depth(
     ds["t"] = seawater_temperature_data  # ITS-90 Temperature (Celsius)
 
     # Height -> seawater pressure
-    ds["p"] = gsw_xarray.p_from_z(z=ds["z"] * (-1), lat=ds["lat"])
+    ds["p"] = gsw_wrap.p_from_z(z=ds["z"] * (-1), lat=ds["lat"])
 
     # Practical salinity -> Absolute salinity
-    ds["SA"] = gsw_xarray.SA_from_SP(
-        SP=ds["SP"], p=ds["p"], lon=ds["lon"], lat=ds["lat"]
-    )
+    ds["SA"] = gsw_wrap.SA_from_SP(SP=ds["SP"], p=ds["p"], lon=ds["lon"], lat=ds["lat"])
 
     # Conservative temperature
-    ds["CT"] = gsw_xarray.CT_from_t(SA=ds["SA"], t=ds["t"], p=ds["p"])
+    ds["CT"] = gsw_wrap.CT_from_t(SA=ds["SA"], t=ds["t"], p=ds["p"])
 
     sea_pressure = ds["p"].broadcast_like(ds["CT"])
     absolute_salinity = ds["SA"]
@@ -96,8 +92,36 @@ def calc_mixed_layer_depth(
             return np.array([np.nan])
 
         try:
-            # Get MLD result
-            mld_value, idx_mld = ocfis.mld(sa, ct, p, criterion=criterion)
+            valid = np.isfinite(sa) & np.isfinite(ct) & np.isfinite(p)
+            if valid.sum() < 2:
+                return np.array([np.nan])
+
+            sa_valid = sa[valid]
+            ct_valid = ct[valid]
+            p_valid = p[valid]
+            p_min = p_valid.min()
+            idx_surface = p_valid.argmin()
+            sigma = gsw_wrap.rho(sa_valid, ct_valid, p_min) - 1000.0
+
+            T0 = ct_valid[idx_surface]
+            S0 = sa_valid[idx_surface]
+            Sig0 = sigma[idx_surface]
+            Tdiff = T0 - 0.5
+
+            if criterion == "temperature":
+                idx_mld = Tdiff < ct_valid
+            elif criterion == "pdvar":
+                pdvar_diff = gsw_wrap.rho(S0, Tdiff, p_min) - 1000.0
+                idx_mld = sigma <= pdvar_diff
+            elif criterion == "density":
+                idx_mld = sigma <= Sig0 + 0.125
+            else:
+                raise NameError(f"Unknown criteria {criterion}")
+
+            if not np.any(idx_mld):
+                return np.array([np.nan])
+
+            mld_value = p_valid[idx_mld].max(axis=0)
 
             # Use np.asarray to automatically handle masked arrays (masked values become nan)
             mld_array = np.asarray(mld_value)

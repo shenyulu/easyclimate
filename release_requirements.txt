@@ -6,11 +6,10 @@ xeofs >= 3.0.0
 matplotlib
 pandas >= 2.2.0
 fast-barnes-py
-oceans
 scipy >=1.8.0
 statsmodels
 geocat-comp
-gsw <= 3.6.21
+gsw
 easyclimate-backend >= 2026.5.3
 easyclimate-rust >= 2026.5.2
 spectralkernel-rs >= 1.0.1
@@ -18,7 +17,6 @@ dask
 pymannkendall
 flox
 xarray_regrid
-gsw_xarray
 pooch
 zarr
 metpy
