@@ -11,6 +11,7 @@ import pooch
 import requests
 import pathlib
 import re
+import warnings
 from typing import TYPE_CHECKING
 from glob import glob
 import xarray as xr
@@ -34,6 +35,8 @@ _default_cache_dir_name = "easylimate_tutorial_data"
 base_url = "https://github.com/shenyulu/easyclimate-tutorial"
 version = "main"
 download_retries = 3
+_known_hash_cache = {}
+_tutorial_config_path = Path(__file__).with_name("tutorial_data.toml")
 
 
 def _construct_cache_dir(path):
@@ -44,61 +47,45 @@ def _construct_cache_dir(path):
     return path
 
 
-external_urls = {}  # type: dict
-external_hashes = {}  # type: dict
-file_formats = {
-    "air_202201_mon_mean": 4,
-    "hgt_202201_mon_mean": 4,
-    "precip_202201_mon_mean": 4,
-    "pressfc_202201_mon_mean": 4,
-    "shum_202201_mon_mean": 4,
-    "uwnd_202201_mon_mean": 4,
-    "vwnd_202201_mon_mean": 4,
-    "omega_202201_mon_mean": 4,
-    "mini_HadISST_ice": 4,
-    "PressQFF_202007271200_872": "csv",
-    "pr_wtr_eatm_2022": 4,
-    "sst_mnmean_oisst": 4,
-    "hgt_day_ltm_1991_2020_0to6day": 4,
-    "uwnd_day_ltm_1991_2020_0to6day": 4,
-    "vwnd_day_ltm_1991_2020_0to6day": 4,
-    "js_t2m_ERA5_2025052000": 4,
-    "sample_data_N20": 4,
-    "reof_analysis_result": 4,
-    "eof_analysis_result": 4,
-    "olr_daily_annual_cycle_mean": 4,
-    "olr_smooth_data": 4,
-    "uwnd_vwnd_hgt_equtorial_2021_2024": 4,
-    "test_input_nino3_wavelet": 4,
-    "mlp_soda3_4_2_mn_ocean_reg_2020_EN4": 4,
-    "sample_D20_result": 4,
-    "sample_mixed_layer_depth": 4,
-    "sample_mld_horizontal_advection": 4,
-    "sample_mld_t": 4,
-    "sample_mld_t_ave": 4,
-    "sample_mld_t_tendency": 4,
-    "sample_mld_vertical_advection": 4,
-    "sample_N2_data": 4,
-    "sample_prho_data": 4,
-    "sample_surface_heat_flux": 4,
-    "sample_thermocline_result": 4,
-    "mjo_data": 4,
-    "slp_monmean_NH": 4,
-    "js_H09_20250617_0500": 4,
-    "tcpi_sample_data": 4,
-    "test_pr_typhoon_201919": 4,
-    "test_slp_typhoon_201919": 4,
-    "test_t_typhoon_201919": 4,
-    "wrfout_d01_2022-05-01_00_00_00": 4,
-    "era5_daily_z500_prime_201411_N15": 4,
-    "era5_daily_z500_prime_202411_N15": 4,
-    "era5_ymean_monthly_u500_199101_202012_N15": 4,
-    "era5_ymean_monthly_v500_199101_202012_N15": 4,
-    "mpas_JWwave_T10_nVertLevels10": 4,
-    "x1_2562_grid": 4,
-    "icon_native_ml_20080909T000000Z": 4,
-    "icon_native_pl_20080909T000000Z": 4,
-}
+def _parse_simple_toml(path: Path) -> dict[str, dict[str, object]]:
+    config: dict[str, dict[str, object]] = {}
+    section: str | None = None
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("[") and line.endswith("]"):
+            section = line[1:-1].strip()
+            config.setdefault(section, {})
+            continue
+        if section is None or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip().strip('"')
+        value = value.strip()
+        if value.startswith('"') and value.endswith('"'):
+            parsed_value: object = value[1:-1]
+        else:
+            parsed_value = int(value)
+        config[section][key] = parsed_value
+    return config
+
+
+def _load_tutorial_config(path: Path) -> dict[str, dict[str, object]]:
+    try:
+        import tomllib
+    except ModuleNotFoundError:
+        return _parse_simple_toml(path)
+
+    with path.open("rb") as stream:
+        return tomllib.load(stream)
+
+
+_tutorial_config = _load_tutorial_config(_tutorial_config_path)
+file_formats = _tutorial_config.get("file_formats", {})
+tutorial_hashes = _tutorial_config.get("tutorial_hashes", {})
+external_urls = _tutorial_config.get("external_urls", {})
+external_hashes = _tutorial_config.get("external_hashes", {})
 
 
 def _check_netcdf_engine_installed(name):
@@ -202,16 +189,45 @@ def _parse_md5_content(content: str) -> str:
     return f"md5:{match.group(0).lower()}"
 
 
-def _get_known_hash(path: pathlib.Path, url: str) -> str | None:
+def _get_known_hash(path: pathlib.Path, url: str, cache_dir) -> str | None:
     if url in external_hashes:
         return external_hashes[url]
+    if path.name in tutorial_hashes:
+        return tutorial_hashes[path.name]
+
+    md5_name = path.with_suffix(".md5").name
+    cache_key = (version, md5_name)
+    if cache_key in _known_hash_cache:
+        return _known_hash_cache[cache_key]
+
+    md5_cache_path = pathlib.Path(cache_dir) / "md5" / md5_name
+    if md5_cache_path.exists():
+        known_hash = _parse_md5_content(md5_cache_path.read_text())
+        _known_hash_cache[cache_key] = known_hash
+        return known_hash
 
     md5_url = f"{base_url}/raw/{version}/{path.with_suffix('.md5').name}"
+    warnings.warn(
+        f"Tutorial dataset checksum for {path.name!r} is not recorded in "
+        f"{_tutorial_config_path.name}; fetching {md5_url!r}. "
+        "Run `python scripts/update_tutorial_config.py` to update the local "
+        "tutorial dataset registry.",
+        UserWarning,
+        stacklevel=2,
+    )
     response = requests.get(md5_url, headers={"User-Agent": "easyclimate"}, timeout=30)
     if response.status_code == 404:
         return None
     response.raise_for_status()
-    return _parse_md5_content(response.text)
+    known_hash = _parse_md5_content(response.text)
+
+    try:
+        md5_cache_path.parent.mkdir(parents=True, exist_ok=True)
+        md5_cache_path.write_text(response.text)
+    except OSError:
+        pass
+    _known_hash_cache[cache_key] = known_hash
+    return known_hash
 
 
 def _remove_cached_download(cache_dir, filename: str):
@@ -338,7 +354,7 @@ def open_tutorial_dataset(
                     ) from e
 
         url = f"{base_url}/raw/{version}/{path.name}"
-        known_hash = _get_known_hash(path, url)
+        known_hash = _get_known_hash(path, url, cache_dir)
 
     # retrieve the file
     filepath = _retrieve_with_retries(
