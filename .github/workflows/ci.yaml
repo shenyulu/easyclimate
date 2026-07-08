@@ -39,6 +39,17 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Stagger tutorial data downloads
+        run: |
+          case "${{ runner.os }}" in
+            Linux) delay=0 ;;
+            macOS) delay=45 ;;
+            Windows) delay=90 ;;
+            *) delay=30 ;;
+          esac
+          echo "Waiting ${delay}s before tests to stagger tutorial data downloads on ${{ runner.os }}"
+          sleep "$delay"
+
       - name: Verify Python 3.10
         env:
           PYTHON_VERSION: "3.10"

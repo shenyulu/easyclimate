@@ -2,7 +2,15 @@
 
 ## v2026.7.0
 
-*Released on: 2026/7/7*
+*Released on: 2026/7/8*
+
+- [feat: add spec](https://github.com/easyatmos/easyclimate/pull/127/commits/80a6a0c5f2732c8168d04399850aeb5628fa1706)
+
+- [update: move easyatmos](https://github.com/easyatmos/easyclimate/pull/127/commits/ba72448b909aa7d082e539723da2dc621fdec6e9)
+
+- [fix: remove gsw_xarray & oceans relay](https://github.com/easyatmos/easyclimate/pull/127/commits/da71b50a9746ecb64c1a07feca65b1550239f444)
+
+**Full Changelog**: https://github.com/easyatmos/easyclimate/compare/v2026.6.0...v2026.7.0
 
 ## v2026.6.0
 

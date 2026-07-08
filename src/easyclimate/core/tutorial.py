@@ -10,6 +10,7 @@ import os
 import pooch
 import requests
 import pathlib
+import re
 from typing import TYPE_CHECKING
 from glob import glob
 import xarray as xr
@@ -32,6 +33,7 @@ __all__ = ["open_tutorial_dataset"]
 _default_cache_dir_name = "easylimate_tutorial_data"
 base_url = "https://github.com/shenyulu/easyclimate-tutorial"
 version = "main"
+download_retries = 3
 
 
 def _construct_cache_dir(path):
@@ -43,6 +45,7 @@ def _construct_cache_dir(path):
 
 
 external_urls = {}  # type: dict
+external_hashes = {}  # type: dict
 file_formats = {
     "air_202201_mon_mean": 4,
     "hgt_202201_mon_mean": 4,
@@ -161,6 +164,7 @@ class RichDownloader:
                     # Create a new requests session
                     with requests.Session() as session:
                         response = session.get(url, stream=True)
+                        response.raise_for_status()
                         total_size = int(response.headers.get("content-length", 0))
 
                         # Update the task with the total size if available
@@ -189,6 +193,60 @@ class RichDownloader:
         # Call the download function
         download_with_progress()
         return output_file
+
+
+def _parse_md5_content(content: str) -> str:
+    match = re.search(r"\b[0-9a-fA-F]{32}\b", content)
+    if match is None:
+        raise ValueError("MD5 file does not contain a valid checksum.")
+    return f"md5:{match.group(0).lower()}"
+
+
+def _get_known_hash(path: pathlib.Path, url: str) -> str | None:
+    if url in external_hashes:
+        return external_hashes[url]
+
+    md5_url = f"{base_url}/raw/{version}/{path.with_suffix('.md5').name}"
+    response = requests.get(md5_url, headers={"User-Agent": "easyclimate"}, timeout=30)
+    if response.status_code == 404:
+        return None
+    response.raise_for_status()
+    return _parse_md5_content(response.text)
+
+
+def _remove_cached_download(cache_dir, filename: str):
+    for cached_file in pathlib.Path(cache_dir).glob(f"*-{filename}"):
+        cached_file.unlink(missing_ok=True)
+
+
+def _retrieve_with_retries(
+    *,
+    url: str,
+    known_hash: str | None,
+    path,
+    progressbar: bool,
+    downloader,
+    filename: str,
+):
+    last_error = None
+    for attempt in range(download_retries):
+        try:
+            return pooch.retrieve(
+                url=url,
+                known_hash=known_hash,
+                path=path,
+                progressbar=progressbar,
+                downloader=downloader,
+            )
+        except (ValueError, requests.RequestException) as exc:
+            last_error = exc
+            _remove_cached_download(path, filename)
+            if attempt == download_retries - 1:
+                break
+    raise RuntimeError(
+        f"Failed to download a valid copy of {filename} after "
+        f"{download_retries} attempts."
+    ) from last_error
 
 
 def open_tutorial_dataset(
@@ -256,8 +314,11 @@ def open_tutorial_dataset(
     downloader = RichDownloader()
 
     cache_dir = _construct_cache_dir(cache_dir)
+    known_hash = None
     if name in external_urls:
         url = external_urls[name]
+        path = pathlib.Path(url)
+        known_hash = external_hashes.get(name) or external_hashes.get(url)
     else:
         path = pathlib.Path(name)
         if not path.suffix:
@@ -277,14 +338,16 @@ def open_tutorial_dataset(
                     ) from e
 
         url = f"{base_url}/raw/{version}/{path.name}"
+        known_hash = _get_known_hash(path, url)
 
     # retrieve the file
-    filepath = pooch.retrieve(
+    filepath = _retrieve_with_retries(
         url=url,
-        known_hash=None,
+        known_hash=known_hash,
         path=cache_dir,
         progressbar=progressbar,
         downloader=downloader,
+        filename=path.name,
     )
 
     if Path(filepath).suffix == ".nc" or Path(filepath).suffix == ".grib":
