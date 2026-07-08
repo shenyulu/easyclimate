@@ -56,7 +56,7 @@ You can directly install it via `pip` by using 🛒
 
         New to Easy Climate? Try!
 
-        .. button-link:: https://mybinder.org/v2/gh/shenyulu/easyclimate/main?labpath=docs%2Fexample
+        .. button-link:: https://mybinder.org/v2/gh/easyatmos/easyclimate/main?labpath=docs%2Fexample
             :click-parent:
             :color: primary
             :outline:
@@ -71,7 +71,7 @@ You can directly install it via `pip` by using 🛒
 
         Ask on our community channels.
 
-        .. button-link:: https://github.com/shenyulu/easyclimate/discussions
+        .. button-link:: https://github.com/easyatmos/easyclimate/discussions
             :click-parent:
             :color: primary
             :outline:
@@ -140,8 +140,8 @@ You can directly install it via `pip` by using 🛒
     :caption: Community
 
     ./contributing.rst
-    How to Contribute <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>
-    Source Code on GitHub <https://github.com/shenyulu/easyclimate>
+    How to Contribute <https://github.com/easyatmos/easyclimate/blob/main/CONTRIBUTING.md>
+    Source Code on GitHub <https://github.com/easyatmos/easyclimate>
     sponsor.rst
 
 

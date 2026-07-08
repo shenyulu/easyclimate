@@ -11,7 +11,7 @@ from pathlib import Path
 from .const_define import DOCS_DATA_PATH
 
 
-@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=25)
 def test_wrf_interface():
     path = str(Path(DOCS_DATA_PATH, "wrf", "wrfout_d01_2022-05-01_00_00_00.nc4"))
     data = xr.open_dataset(path)

@@ -5,7 +5,7 @@ The calculation of ocean instability.
 from __future__ import annotations
 import xarray as xr
 import numpy as np
-import gsw_xarray
+from . import _gsw_wrap as gsw_wrap
 from ...core.utility import find_dims_axis
 
 
@@ -73,15 +73,13 @@ def calc_N2_from_temp_salt(
     ds["t"] = seawater_temperature_data  # ITS-90 Temperature (Celsius)
 
     # Height -> seawater pressure
-    ds["p"] = gsw_xarray.p_from_z(z=ds["z"] * (-1), lat=ds["lat"])
+    ds["p"] = gsw_wrap.p_from_z(z=ds["z"] * (-1), lat=ds["lat"])
 
     # Practical salinity -> Absolute salinity
-    ds["SA"] = gsw_xarray.SA_from_SP(
-        SP=ds["SP"], p=ds["p"], lon=ds["lon"], lat=ds["lat"]
-    )
+    ds["SA"] = gsw_wrap.SA_from_SP(SP=ds["SP"], p=ds["p"], lon=ds["lon"], lat=ds["lat"])
 
     # Conservative temperature
-    ds["CT"] = gsw_xarray.CT_from_t(SA=ds["SA"], t=ds["t"], p=ds["p"])
+    ds["CT"] = gsw_wrap.CT_from_t(SA=ds["SA"], t=ds["t"], p=ds["p"])
 
     if time_dim != None:
         p_tmp = ds["p"].depth.data
@@ -117,7 +115,7 @@ def calc_N2_from_temp_salt(
         )
 
     depth_axis_num = find_dims_axis(ds["SA"], depth_dim)
-    [N2, p_mid] = gsw_xarray.Nsquared(
+    [N2, p_mid] = gsw_wrap.Nsquared(
         SA=ds["SA"], CT=ds["CT"], p=p_needed, lat=lat_needed, axis=depth_axis_num
     )
 
@@ -242,15 +240,13 @@ def calc_potential_density_from_temp_salt(
     ds["t"] = seawater_temperature_data  # ITS-90 Temperature (Celsius)
 
     # Height -> seawater pressure
-    ds["p"] = gsw_xarray.p_from_z(z=ds["z"] * (-1), lat=ds["lat"])
+    ds["p"] = gsw_wrap.p_from_z(z=ds["z"] * (-1), lat=ds["lat"])
 
     # Practical salinity -> Absolute salinity
-    ds["SA"] = gsw_xarray.SA_from_SP(
-        SP=ds["SP"], p=ds["p"], lon=ds["lon"], lat=ds["lat"]
-    )
+    ds["SA"] = gsw_wrap.SA_from_SP(SP=ds["SP"], p=ds["p"], lon=ds["lon"], lat=ds["lat"])
 
     # Conservative temperature
-    ds["CT"] = gsw_xarray.CT_from_t(SA=ds["SA"], t=ds["t"], p=ds["p"])
+    ds["CT"] = gsw_wrap.CT_from_t(SA=ds["SA"], t=ds["t"], p=ds["p"])
 
     if time_dim != None:
         p_tmp = ds["p"].depth.data
@@ -267,7 +263,7 @@ def calc_potential_density_from_temp_salt(
         )
         p_needed = ds["CT"].copy(data=p_tmp_new1, deep=True).where(~np.isnan(ds["t"]))
 
-    prho = gsw_xarray.pot_rho_t_exact(SA=ds["SA"], t=ds["t"], p=p_needed, p_ref=0)
+    prho = gsw_wrap.pot_rho_t_exact(SA=ds["SA"], t=ds["t"], p=p_needed, p_ref=0)
 
     potential_density = xr.Dataset()
     potential_density["prho"] = prho

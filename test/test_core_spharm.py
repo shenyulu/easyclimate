@@ -6,13 +6,19 @@ import pytest
 
 import numpy as np
 import xarray as xr
-from easyclimate.core.spharm import (
+from easyclimate.core.spec import (
     calc_gaussian_latitudes,
+    calc_gaussian_latitudes_rs,
     calc_geodesic_points,
+    calc_geodesic_points_rs,
     calc_spherical_harmonic_coefficients,
+    calc_spherical_harmonic_coefficients_rs,
     calc_legendre_functions,
+    calc_legendre_functions_rs,
     transfer_grid2spectral_transform,
+    transfer_grid2spectral_transform_rs,
     transfer_spectral_transform2grid,
+    transfer_spectral_transform2grid_rs,
 )
 
 
@@ -215,3 +221,62 @@ def test_invalid_inputs():
         transfer_spectral_transform2grid(
             xr.DataArray(np.random.rand(10)), nlon=10, nlat=10, grid_data_type="invalid"
         )
+
+
+@pytest.fixture
+def require_rust_backend():
+    """Skip Rust spectral backend tests when the extension is unavailable."""
+    return pytest.importorskip("easyclimate_rust._easyclimate_rust")
+
+
+def test_rust_spherical_harmonic_helpers_match_standard(require_rust_backend):
+    """Rust helper wrappers should preserve the standard helper contracts."""
+    gaussian = calc_gaussian_latitudes(16)
+    gaussian_rs = calc_gaussian_latitudes_rs(16)
+    xr.testing.assert_allclose(gaussian["lats"], gaussian_rs["lats"])
+    xr.testing.assert_allclose(gaussian["wts"], gaussian_rs["wts"])
+
+    geodesic = calc_geodesic_points(4)
+    geodesic_rs = calc_geodesic_points_rs(4)
+    xr.testing.assert_allclose(geodesic["lats"], geodesic_rs["lats"])
+    np.testing.assert_allclose(
+        np.mod(geodesic["lons"], 360), np.mod(geodesic_rs["lons"], 360), atol=1e-4
+    )
+
+    coeff = calc_spherical_harmonic_coefficients(8)
+    coeff_rs = calc_spherical_harmonic_coefficients_rs(8)
+    xr.testing.assert_equal(coeff["indxm"], coeff_rs["indxm"])
+    xr.testing.assert_equal(coeff["indxn"], coeff_rs["indxn"])
+
+    legendre = calc_legendre_functions(45.0, 8)
+    legendre_rs = calc_legendre_functions_rs(45.0, 8)
+    xr.testing.assert_allclose(legendre, legendre_rs)
+
+
+def test_rust_grid_spectral_transform_matches_standard(
+    require_rust_backend, sample_grid_data
+):
+    """Rust grid/spectral transforms should match shape and stay close to standard results."""
+    spec = transfer_grid2spectral_transform(
+        sample_grid_data, grid_data_type="regular", ntrunc=12
+    )
+    spec_rs = transfer_grid2spectral_transform_rs(
+        sample_grid_data, grid_data_type="regular", ntrunc=12
+    )
+
+    assert spec_rs.dims == spec.dims
+    assert spec_rs.sizes == spec.sizes
+    assert np.all(np.isfinite(spec_rs.real))
+    assert np.allclose(spec_rs.values, spec.values, rtol=1e-5, atol=1e-5)
+
+    grid = transfer_spectral_transform2grid(
+        spec, nlon=128, nlat=64, grid_data_type="regular"
+    )
+    grid_rs = transfer_spectral_transform2grid_rs(
+        spec_rs, nlon=128, nlat=64, grid_data_type="regular"
+    )
+
+    assert grid_rs.dims == grid.dims
+    assert grid_rs.sizes == grid.sizes
+    assert np.all(np.isfinite(grid_rs))
+    assert np.allclose(grid_rs.values, grid.values, rtol=1e-5, atol=1e-5)

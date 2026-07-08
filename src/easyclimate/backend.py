@@ -276,6 +276,7 @@ interp1d_linear_core_rs = None
 interp1d_linear_2d_rs = None
 interp1d_linear_3d_rs = None
 interp1d_linear_4d_rs = None
+VectorWind_rs = None
 
 # --------------------------------------------
 # Easyclimate-backend Import
@@ -678,6 +679,11 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
             dvibeta_batch,
             dvibeta_batch_sum_norm,
         )
+
+        # spectralkernel_rs
+        from spectralkernel_rs.ws_xarray import VectorWind as VectorWind_rs
+        from spectralkernel_rs import tool as spectral_tool_rs
+        from spectralkernel_rs.spharmt_rs import Spharmt_rs
 
         # print(
         #     "Successfully imported basic easyclimate-rust modules", file=sys.stderr

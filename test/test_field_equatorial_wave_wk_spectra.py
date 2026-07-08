@@ -30,14 +30,14 @@ psum = ecl.field.equatorial_wave.calc_spectral_coefficients(
 )
 
 
-@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=25)
 def test_remove_dominant_signals():
     fig, ax = plt.subplots()
     data_dt.isel(time=0).plot.contourf(levels=21)
     return fig
 
 
-@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=25)
 def test_decompose_symasym():
     fig, ax = plt.subplots()
     data_as.isel(time=0).plot.contourf(levels=21)

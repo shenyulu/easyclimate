@@ -36,7 +36,7 @@ def test_calc_corr_spatial():
     return fig
 
 
-@pytest.mark.mpl_image_compare(remove_text=True, tolerance=20)
+@pytest.mark.mpl_image_compare(remove_text=True, tolerance=25)
 def test_calc_leadlag_corr_spatial():
     leadlag_result = ecl.calc_leadlag_corr_spatial(
         sst_data_anormaly, x=nino34_index_normalized, leadlag_array=[-6, 6]

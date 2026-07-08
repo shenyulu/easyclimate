@@ -116,7 +116,8 @@ cs = plot_cell_contour(
     lat_max=65,
     transform=ccrs.PlateCarree(),
 )
-ax.clabel(cs, inline=True, fontsize=8, fmt="%g")
+
+# ax.clabel(cs, inline=True, fontsize=8, fmt="%g")
 
 ax.set_title("Local JW Wave Divergence (plot_cell_contour)")
 ax.coastlines(resolution="50m", linewidth=0.6, color = "r")

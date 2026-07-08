@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 #
 # .. tip::
 #
-#   You can download following datasets here: :download:`Download mjo_data.nc <https://raw.githubusercontent.com/shenyulu/easyclimate/refs/heads/main/docs/source/dynamic_docs/mjo_data.nc>`
+#   You can download following datasets here: :download:`Download mjo_data.nc <https://raw.githubusercontent.com/easyatmos/easyclimate/refs/heads/main/docs/source/dynamic_docs/mjo_data.nc>`
 #
 
 mjo_data = ecl.open_tutorial_dataset("mjo_data").rename({"T": "time"})

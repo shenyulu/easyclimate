@@ -5,10 +5,6 @@
 default_stages:
 - pre-commit
 
-# Set the default language version, and you can also set language_version separately in each repos
-default_language_version:
-  python: python3.12
-
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0

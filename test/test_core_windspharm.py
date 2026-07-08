@@ -25,7 +25,7 @@ lon_start, lon_end, lat_start, lat_end = 20, 30, -10, 10
 
 
 def test_calc_wind_speed():
-    result_data = ecl.windspharm.calc_wind_speed(
+    result_data = ecl.spec.calc_wind_speed(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -87,7 +87,7 @@ def test_calc_wind_speed():
 
 
 def test_calc_relative_vorticity_and_horizontal_divergence():
-    result_data = ecl.windspharm.calc_relative_vorticity_and_horizontal_divergence(
+    result_data = ecl.spec.calc_relative_vorticity_and_horizontal_divergence(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -206,7 +206,7 @@ def test_calc_relative_vorticity_and_horizontal_divergence():
 
 
 def test_calc_relative_vorticity():
-    result_data = ecl.windspharm.calc_relative_vorticity(
+    result_data = ecl.spec.calc_relative_vorticity(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -268,7 +268,7 @@ def test_calc_relative_vorticity():
 
 
 def test_calc_divergence():
-    result_data = ecl.windspharm.calc_divergence(
+    result_data = ecl.spec.calc_divergence(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -330,7 +330,7 @@ def test_calc_divergence():
 
 
 def test_calc_planetary_vorticity():
-    result_data = ecl.windspharm.calc_planetary_vorticity(
+    result_data = ecl.spec.calc_planetary_vorticity(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -390,7 +390,7 @@ def test_calc_planetary_vorticity():
 
 
 def test_calc_absolute_vorticity():
-    result_data = ecl.windspharm.calc_absolute_vorticity(
+    result_data = ecl.spec.calc_absolute_vorticity(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -450,7 +450,7 @@ def test_calc_absolute_vorticity():
 
 
 def test_calc_streamfunction_and_velocity_potential():
-    result_data = ecl.windspharm.calc_streamfunction_and_velocity_potential(
+    result_data = ecl.spec.calc_streamfunction_and_velocity_potential(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -569,7 +569,7 @@ def test_calc_streamfunction_and_velocity_potential():
 
 
 def test_calc_streamfunction():
-    result_data = ecl.windspharm.calc_streamfunction(
+    result_data = ecl.spec.calc_streamfunction(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -631,7 +631,7 @@ def test_calc_streamfunction():
 
 
 def test_calc_velocity_potential():
-    result_data = ecl.windspharm.calc_velocity_potential(
+    result_data = ecl.spec.calc_velocity_potential(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -693,7 +693,7 @@ def test_calc_velocity_potential():
 
 
 def test_calc_helmholtz():
-    result_data = ecl.windspharm.calc_helmholtz(
+    result_data = ecl.spec.calc_helmholtz(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -928,7 +928,7 @@ def test_calc_helmholtz():
 
 
 def test_calc_irrotational_component():
-    result_data = ecl.windspharm.calc_irrotational_component(
+    result_data = ecl.spec.calc_irrotational_component(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -1048,7 +1048,7 @@ def test_calc_irrotational_component():
 
 
 def test_calc_nondivergent_component():
-    result_data = ecl.windspharm.calc_nondivergent_component(
+    result_data = ecl.spec.calc_nondivergent_component(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -1167,7 +1167,7 @@ def test_calc_nondivergent_component():
 
 
 def test_calc_rossby_wave_source():
-    result_data = ecl.windspharm.calc_rossby_wave_source(
+    result_data = ecl.spec.calc_rossby_wave_source(
         u_data=u_data_sample,
         v_data=v_data_sample,
     )
@@ -1228,7 +1228,7 @@ def test_calc_rossby_wave_source():
 
 
 def test_calc_gradient():
-    result_data = ecl.windspharm.calc_gradient(
+    result_data = ecl.spec.calc_gradient(
         data_input=u_data_sample,
     )
     result_data1 = (
@@ -1343,3 +1343,113 @@ def test_calc_gradient():
 
     assert np.isclose(result_data1, refer_data1, atol=0.1, equal_nan=True).all()
     assert np.isclose(result_data2, refer_data2, atol=0.1, equal_nan=True).all()
+
+
+@pytest.fixture
+def require_rust_backend():
+    """Skip Rust windspharm tests when the extension is unavailable."""
+    return pytest.importorskip("easyclimate_rust._easyclimate_rust")
+
+
+def _spec_subset(data):
+    if isinstance(data, xr.Dataset):
+        return data.sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
+    return data.sel(lon=slice(lon_start, lon_end), lat=slice(lat_end, lat_start))
+
+
+def _assert_rs_matches_standard(standard, rust):
+    assert type(rust) is type(standard)
+    if isinstance(standard, xr.Dataset):
+        assert set(rust.data_vars) == set(standard.data_vars)
+        for name in standard.data_vars:
+            _assert_rs_matches_standard(standard[name], rust[name])
+        return
+
+    assert rust.dims == standard.dims
+    assert rust.sizes == standard.sizes
+    expected = np.asarray(_spec_subset(standard).values)
+    actual = np.asarray(_spec_subset(rust).values)
+    assert np.isfinite(actual).all()
+
+    scale = float(np.nanmax(np.abs(expected))) if expected.size else 1.0
+    atol = max(1e-10, scale * 5e-3)
+    np.testing.assert_allclose(actual, expected, rtol=5e-3, atol=atol)
+
+
+@pytest.mark.parametrize(
+    ("standard_name", "rust_name", "kwargs"),
+    [
+        (
+            "calc_wind_speed",
+            "calc_wind_speed_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_relative_vorticity_and_horizontal_divergence",
+            "calc_relative_vorticity_and_horizontal_divergence_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_relative_vorticity",
+            "calc_relative_vorticity_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_divergence",
+            "calc_divergence_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_planetary_vorticity",
+            "calc_planetary_vorticity_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_absolute_vorticity",
+            "calc_absolute_vorticity_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_streamfunction_and_velocity_potential",
+            "calc_streamfunction_and_velocity_potential_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_streamfunction",
+            "calc_streamfunction_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_velocity_potential",
+            "calc_velocity_potential_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_helmholtz",
+            "calc_helmholtz_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_irrotational_component",
+            "calc_irrotational_component_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_nondivergent_component",
+            "calc_nondivergent_component_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        (
+            "calc_rossby_wave_source",
+            "calc_rossby_wave_source_rs",
+            {"u_data": u_data_sample, "v_data": v_data_sample},
+        ),
+        ("calc_gradient", "calc_gradient_rs", {"data_input": u_data_sample}),
+    ],
+)
+def test_windspharm_rust_backend_matches_standard(
+    require_rust_backend, standard_name, rust_name, kwargs
+):
+    standard = getattr(ecl.spec, standard_name)(**kwargs)
+    rust = getattr(ecl.spec, rust_name)(**kwargs)
+    _assert_rs_matches_standard(standard, rust)

@@ -65,14 +65,15 @@ Statistics
     easyclimate.core.mk_test
     easyclimate.core.eof
 
-Spectral Analysis
+Spherical Harmonics Analysis
 ::::::::::::::::::::::::::::::::::::::::
 
 .. autosummary::
     :toctree: generated/
 
-    easyclimate.core.spharm
-    easyclimate.core.windspharm
+    easyclimate.core.spec.tool
+    easyclimate.core.spec.wind
+    easyclimate.core.spec.plot
 
 Physics🗺️
 ----------------------------------------

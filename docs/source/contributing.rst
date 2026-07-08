@@ -25,7 +25,7 @@ tooling, and maintenance practices.
 * code cleanup and refactoring
 
 All contributors are expected to follow the
-`Code of Conduct <https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md>`_.
+`Code of Conduct <https://github.com/easyatmos/easyclimate/blob/main/CODE_OF_CONDUCT.md>`_.
 
 
 Overview
@@ -33,10 +33,10 @@ Overview
 
 The main development resources for this project are:
 
-* `Source repository <https://github.com/shenyulu/easyclimate>`_
-* `Issue tracker <https://github.com/shenyulu/easyclimate/issues>`_
+* `Source repository <https://github.com/easyatmos/easyclimate>`_
+* `Issue tracker <https://github.com/easyatmos/easyclimate/issues>`_
 * `Documentation site <https://easyclimate.readthedocs.io/en/latest/>`_
-* `Contribution guide in Markdown <https://github.com/shenyulu/easyclimate/blob/main/CONTRIBUTING.md>`_
+* `Contribution guide in Markdown <https://github.com/easyatmos/easyclimate/blob/main/CONTRIBUTING.md>`_
 
 If you are new to the project, a good way to start is:
 
@@ -52,7 +52,7 @@ How to ask questions
 If you need clarification before contributing:
 
 1. Check whether the answer already exists in the documentation.
-2. Search existing `GitHub issues <https://github.com/shenyulu/easyclimate/issues>`_.
+2. Search existing `GitHub issues <https://github.com/easyatmos/easyclimate/issues>`_.
 3. If needed, open a new issue and describe your question clearly.
 
 When asking, include relevant details such as:
@@ -98,7 +98,7 @@ Suggesting enhancements
 =======================
 
 Enhancement proposals are also handled through
-`GitHub issues <https://github.com/shenyulu/easyclimate/issues>`_.
+`GitHub issues <https://github.com/easyatmos/easyclimate/issues>`_.
 
 An effective enhancement request should explain:
 
@@ -131,7 +131,7 @@ Example setup:
 
     git clone https://github.com/your-user-name/easyclimate.git
     cd easyclimate
-    git remote add upstream https://github.com/shenyulu/easyclimate.git
+    git remote add upstream https://github.com/easyatmos/easyclimate.git
     git fetch upstream --tags
 
 Create a branch before editing:
@@ -299,7 +299,7 @@ Before submitting a pull request, verify the following:
 Additional references
 =====================
 
-* `Project README <https://github.com/shenyulu/easyclimate/blob/main/README.md>`_
-* `Issue tracker <https://github.com/shenyulu/easyclimate/issues>`_
-* `Code of Conduct <https://github.com/shenyulu/easyclimate/blob/main/CODE_OF_CONDUCT.md>`_
-* `pyproject.toml <https://github.com/shenyulu/easyclimate/blob/main/pyproject.toml>`_
+* `Project README <https://github.com/easyatmos/easyclimate/blob/main/README.md>`_
+* `Issue tracker <https://github.com/easyatmos/easyclimate/issues>`_
+* `Code of Conduct <https://github.com/easyatmos/easyclimate/blob/main/CODE_OF_CONDUCT.md>`_
+* `pyproject.toml <https://github.com/easyatmos/easyclimate/blob/main/pyproject.toml>`_
