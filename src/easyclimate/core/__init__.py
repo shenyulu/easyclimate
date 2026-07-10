@@ -12,6 +12,7 @@ from .rvdv import *
 from .geowind import *
 from .advection import *
 from .waterflux import *
+from .integral import *
 
 from . import utility
 from . import mk_test
