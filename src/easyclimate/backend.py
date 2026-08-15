@@ -110,6 +110,7 @@ barnes_S2_numba = None
 barnesS2_rs = None
 radius_mask_2d_rs = None
 kdtree_fastbarnes = None
+gill_simulate = None
 
 # WRF-related variables with default values
 xarray_enabled = False
@@ -696,6 +697,14 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
             from easyclimate_rust._easyclimate_rust import (
                 dvibeta_batch_noreyon,
                 dvibeta_batch_sum_norm_noreyon,
+            )
+        except ImportError:
+            pass
+
+        # Gill Model
+        try:
+            from easyclimate_rust._easyclimate_rust import (
+                gill_simulate,
             )
         except ImportError:
             pass
