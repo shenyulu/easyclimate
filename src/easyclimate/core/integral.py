@@ -5,6 +5,7 @@ Vertical integration using beta factors.
 from __future__ import annotations
 
 from typing import Literal
+import warnings
 
 import numpy as np
 import xarray as xr
@@ -28,22 +29,83 @@ def _prepare_top2surface_inputs(
     surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
 ) -> tuple[xr.DataArray, xr.DataArray, np.ndarray]:
+
+    # --------------------------------------------------
+    # Convert vertical coordinate to Pa
+    # --------------------------------------------------
+
     vertical_dim_base = transfer_units_coeff(vertical_dim_units, "Pa")
+
     data_input = data_input.assign_coords(
         {vertical_dim: data_input[vertical_dim] * vertical_dim_base}
     )
+
+    # --------------------------------------------------
+    # Convert surface pressure to Pa
+    # --------------------------------------------------
 
     surface_pressure_data = transfer_data_multiple_units(
         surface_pressure_data, surface_pressure_data_units, "Pa"
     )
 
+    # --------------------------------------------------
+    # Force vertical coordinate decreasing order
+    # --------------------------------------------------
+
     level = np.asarray(data_input.coords[vertical_dim].values, dtype=np.float64)
+
     if not np.all(np.diff(level) < 0):
-        raise ValueError(
-            "Vertical levels must be in decreasing order after conversion to Pa."
+
+        warnings.warn(
+            "Vertical levels are not in decreasing order after conversion "
+            "to Pa; sorting `data_input` by the vertical dimension in "
+            "decreasing order.",
+            UserWarning,
+            stacklevel=2,
         )
 
-    return data_input, surface_pressure_data, level
+        data_input = data_input.sortby(vertical_dim, ascending=False)
+
+    # update level after sorting
+    level = np.asarray(data_input.coords[vertical_dim].values, dtype=np.float64)
+
+    if not np.all(np.diff(level) < 0):
+
+        raise ValueError(
+            "Vertical levels must be unique and strictly decreasing "
+            "after conversion to Pa."
+        )
+
+    # --------------------------------------------------
+    # Backend requirement:
+    # vertical dimension must be the last dimension
+    # --------------------------------------------------
+
+    data_input = data_input.transpose(..., vertical_dim)
+
+    # --------------------------------------------------
+    # Check horizontal dimension consistency
+    # --------------------------------------------------
+
+    data_dims = tuple(d for d in data_input.dims if d != vertical_dim)
+
+    sp_dims = tuple(surface_pressure_data.dims)
+
+    if data_dims != sp_dims:
+
+        raise ValueError(
+            "Dimension mismatch for top-to-surface integral:\n"
+            f"data_input non-vertical dims: {data_dims}\n"
+            f"surface pressure dims:       {sp_dims}\n"
+            "Expected surface pressure dimensions to match "
+            "data_input dimensions except the vertical dimension."
+        )
+
+    return (
+        data_input,
+        surface_pressure_data,
+        level,
+    )
 
 
 def _get_vibeta_core(level: np.ndarray):
@@ -150,17 +212,29 @@ def _get_mass_weighted_units(input_units: str) -> str:
 
 def _import_rust_vibeta_functions():
     try:
-        from ..backend import dvibeta_rs, dvibeta_batch, dvibeta_batch_sum_norm
+        from ..backend import (
+            dvibeta_rs,
+            dvibeta_batch,
+            dvibeta_batch_sum_norm,
+            dvibeta_batch_noreyon,
+            dvibeta_batch_sum_norm_noreyon,
+        )
     except ImportError as exc:
         raise ImportError(
             "Rust vibeta backend is unavailable. Please install `easyclimate_rust`."
         ) from exc
 
-    return dvibeta_rs, dvibeta_batch, dvibeta_batch_sum_norm
+    return (
+        dvibeta_rs,
+        dvibeta_batch,
+        dvibeta_batch_sum_norm,
+        dvibeta_batch_noreyon,
+        dvibeta_batch_sum_norm_noreyon,
+    )
 
 
 def _get_rust_profile_block(level: np.ndarray):
-    dvibeta_rs, _, _ = _import_rust_vibeta_functions()
+    dvibeta_rs, _, _, _, _ = _import_rust_vibeta_functions()
 
     level_f64 = np.ascontiguousarray(level, dtype=np.float64)
     ptop = float(level_f64[-1])
@@ -221,9 +295,15 @@ def _calc_top2surface_rust(
     vertical_dim: str,
     surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
-    method: Literal["rust", "rust-block"],
+    method: Literal["rust", "rust-block", "rust-block-noreyon"],
 ) -> tuple[xr.DataArray, xr.DataArray, xr.DataArray]:
-    _, dvibeta_batch, dvibeta_batch_sum_norm = _import_rust_vibeta_functions()
+    (
+        _,
+        dvibeta_batch,
+        dvibeta_batch_sum_norm,
+        dvibeta_batch_noreyon,
+        dvibeta_batch_sum_norm_noreyon,
+    ) = _import_rust_vibeta_functions()
 
     data_input, surface_pressure_data, level = _prepare_top2surface_inputs(
         data_input=data_input,
@@ -261,7 +341,14 @@ def _calc_top2surface_rust(
         )
         return integral, layer_thickness, surface_pressure_data
 
-    if method == "rust-block":
+    if method in {"rust-block", "rust-block-noreyon"}:
+        if method == "rust-block-noreyon" and (
+            dvibeta_batch_noreyon is None or dvibeta_batch_sum_norm_noreyon is None
+        ):
+            raise ImportError(
+                "`rust-block-noreyon` requires an easyclimate_rust build that "
+                "exports the no-Rayon vibeta functions."
+            )
         level_f64 = np.ascontiguousarray(level, dtype=np.float64)
         ptop = np.float64(level_f64[-1])
         xmsg = np.float64(1e30)
@@ -270,15 +357,23 @@ def _calc_top2surface_rust(
         def vibeta_block(x, psfc):
             x = np.ascontiguousarray(x, dtype=np.float64)
             psfc = np.ascontiguousarray(psfc, dtype=np.float64)
-            vint, _ = dvibeta_batch(level_f64, x, psfc, xmsg, linlog, ptop)
+            batch_fn = (
+                dvibeta_batch_noreyon
+                if method == "rust-block-noreyon"
+                else dvibeta_batch
+            )
+            vint, _ = batch_fn(level_f64, x, psfc, xmsg, linlog, ptop)
             return vint
 
         def vibeta_block_sum_norm(x, psfc):
             x = np.ascontiguousarray(x, dtype=np.float64)
             psfc = np.ascontiguousarray(psfc, dtype=np.float64)
-            vsum, vnorm, _ = dvibeta_batch_sum_norm(
-                level_f64, x, psfc, xmsg, linlog, ptop
+            batch_sum_norm_fn = (
+                dvibeta_batch_sum_norm_noreyon
+                if method == "rust-block-noreyon"
+                else dvibeta_batch_sum_norm
             )
+            vsum, vnorm, _ = batch_sum_norm_fn(level_f64, x, psfc, xmsg, linlog, ptop)
             return vsum, vnorm
 
         integral = xr.apply_ufunc(
@@ -307,7 +402,10 @@ def _calc_top2surface_rust(
         )
         return integral, layer_thickness, surface_pressure_data
 
-    raise ValueError("The parameter `method` should be `rust` or `rust-block`.")
+    raise ValueError(
+        "The parameter `method` should be `rust`, `rust-block`, or "
+        "`rust-block-noreyon`."
+    )
 
 
 def _calc_top2surface_vibeta_ncl(
@@ -490,7 +588,7 @@ def calc_top2surface_integral_rs(
     normalize: bool = False,
     mass_weighted: bool = False,
     gravity: float = 9.80665,
-    method: Literal["rust", "rust-block"] = "rust-block",
+    method: Literal["rust", "rust-block", "rust-block-noreyon"] = "rust-block-noreyon",
 ) -> xr.DataArray:
     """
     Calculate the vertical integral in the p-coordinate system from the ground
@@ -520,7 +618,7 @@ def calc_top2surface_integral_rs(
 
     gravity: :py:class:`float <float>`, default 9.80665
         Gravitational acceleration used for mass weighting, in :math:`\\mathrm{m \, s^{-2}}.
-    method: {"rust", "rust-block"}
+    method: {"rust", "rust-block", "rust-block-noreyon"}
         Rust backend engine.
 
     Returns
@@ -579,7 +677,7 @@ def calc_top2surface_average_rs(
     vertical_dim: str,
     surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
     vertical_dim_units: Literal["hPa", "Pa", "mbar"],
-    method: Literal["rust", "rust-block"] = "rust-block",
+    method: Literal["rust", "rust-block", "rust-block-noreyon"] = "rust-block-noreyon",
 ) -> xr.DataArray:
     """
     Calculate the pressure-thickness-weighted layer average from the top to surface
@@ -597,7 +695,7 @@ def calc_top2surface_average_rs(
         Unit of `surface_pressure_data`.
     vertical_dim_units: {"hPa", "Pa", "mbar"}
         Unit of vertical pressure coordinate.
-    method: {"rust", "rust-block"}
+    method: {"rust", "rust-block", "rust-block-noreyon"}
         Rust backend engine.
 
     Returns

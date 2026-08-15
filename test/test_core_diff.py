@@ -27,6 +27,7 @@ from easyclimate.core.waterflux import (
     calc_divergence_watervaporflux_top2surface_integral,
     calc_horizontal_water_flux,
     calc_vertical_water_flux,
+    calc_vertical_waterflux_top2surface_integral,
     calc_water_flux_top2surface_integral,
 )
 import numpy as np
@@ -47,6 +48,9 @@ ecl.calc_geostrophic_wind = calc_geostrophic_wind
 ecl.calc_geostrophic_wind_vorticity = calc_geostrophic_wind_vorticity
 ecl.calc_horizontal_water_flux = calc_horizontal_water_flux
 ecl.calc_vertical_water_flux = calc_vertical_water_flux
+ecl.calc_vertical_waterflux_top2surface_integral = (
+    calc_vertical_waterflux_top2surface_integral
+)
 ecl.calc_water_flux_top2surface_integral = calc_water_flux_top2surface_integral
 ecl.calc_divergence_watervaporflux = calc_divergence_watervaporflux
 ecl.calc_divergence_watervaporflux_top2surface_integral = (
@@ -671,6 +675,29 @@ def test_calc_top2surface_integral1():
     assert np.isclose(result_data, refer_data).all()
 
 
+def test_calc_top2surface_integral_sorts_ascending_vertical_levels():
+    descending_result = ecl.calc_top2surface_integral(
+        data_input=t_data_delta_pressure,
+        surface_pressure_data=msl_data_delta_pressure,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+    )
+
+    with pytest.warns(
+        UserWarning, match="sorting `data_input` by the vertical dimension"
+    ):
+        ascending_result = ecl.calc_top2surface_integral(
+            data_input=t_data_delta_pressure.isel(level=slice(None, None, -1)),
+            surface_pressure_data=msl_data_delta_pressure,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+            surface_pressure_data_units="hPa",
+        )
+
+    xr.testing.assert_identical(ascending_result, descending_result)
+
+
 def test_calc_top2surface_integral2():
     result_data = ecl.calc_top2surface_integral(
         data_input=t_data_delta_pressure,
@@ -797,6 +824,39 @@ def test_calc_top2surface_average_rs1():
     ).data.flatten()
     refer_data = np.array([250.62353611, 259.11086037])
     assert np.isclose(result_data, refer_data).all()
+
+
+def test_calc_top2surface_integral_rs_preserves_horizontal_and_time_dimensions():
+    pytest.importorskip("easyclimate_rust._easyclimate_rust")
+    data_input = xr.DataArray(
+        np.ones((2, 3, 2, 2)),
+        dims=("time", "level", "lat", "lon"),
+        coords={
+            "time": pd.date_range("2023-01-01", periods=2),
+            "level": [1000.0, 850.0, 700.0],
+            "lat": [-10.0, 10.0],
+            "lon": [0.0, 90.0],
+        },
+    )
+    surface_pressure_data = xr.DataArray(
+        np.full((2, 2, 2), 1013.25),
+        dims=("time", "lat", "lon"),
+        coords={
+            "time": data_input.time,
+            "lat": data_input.lat,
+            "lon": data_input.lon,
+        },
+    )
+
+    result = ecl.calc_top2surface_integral_rs(
+        data_input=data_input,
+        surface_pressure_data=surface_pressure_data,
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        surface_pressure_data_units="hPa",
+    )
+
+    assert result.dims == ("time", "lat", "lon")
 
 
 def test_calc_top2surface_integral_rs_mass_weighted1():
@@ -1381,6 +1441,97 @@ def test_calc_vertical_water_flux():
     assert np.isclose(result_data, refer_data).all()
 
 
+def test_calc_vertical_waterflux_top2surface_integral_ncl():
+    level = np.array([1000.0, 850.0, 700.0, 500.0])
+    specific_humidity_data = xr.DataArray(
+        np.array([[0.012, 0.010], [0.010, 0.008], [0.008, 0.006], [0.006, 0.004]]),
+        dims=("level", "lat"),
+        coords={"level": level, "lat": [0.0, 1.0]},
+        name="q",
+    )
+    omega_data = xr.DataArray(
+        np.array([[0.10, 0.12], [0.08, 0.10], [0.06, 0.08], [0.04, 0.06]]),
+        dims=("level", "lat"),
+        coords={"level": level, "lat": [0.0, 1.0]},
+        name="omega",
+    )
+    surface_pressure_data = xr.DataArray(
+        [950.0, 900.0], dims="lat", coords={"lat": [0.0, 1.0]}
+    )
+
+    result = ecl.calc_vertical_waterflux_top2surface_integral(
+        specific_humidity_data=specific_humidity_data,
+        omega_data=omega_data,
+        surface_pressure_data=surface_pressure_data,
+        specific_humidity_data_units="kg/kg",
+        surface_pressure_data_units="hPa",
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        method="ncl",
+    )
+    expected = ecl.calc_top2surface_integral(
+        data_input=ecl.calc_p_advection(
+            omega_data=omega_data,
+            data_input=specific_humidity_data,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+        ),
+        surface_pressure_data=surface_pressure_data,
+        vertical_dim="level",
+        surface_pressure_data_units="hPa",
+        vertical_dim_units="hPa",
+        mass_weighted=True,
+        gravity=9.8,
+    )
+
+    xr.testing.assert_allclose(result, expected)
+    assert result.name == "vertical_waterflux"
+    assert result.attrs == {
+        "long_name": "Vertical integral of vertical water vapour flux",
+        "units": "kg m**-2 s**-1",
+    }
+
+
+@pytest.mark.parametrize("method", ["rust", "rust-block"])
+def test_calc_vertical_waterflux_top2surface_integral_rust(method):
+    pytest.importorskip("easyclimate_rust._easyclimate_rust")
+    level = np.array([1000.0, 850.0, 700.0, 500.0])
+    specific_humidity_data = xr.DataArray(
+        np.array([[12.0], [10.0], [8.0], [6.0]]),
+        dims=("level", "lat"),
+        coords={"level": level, "lat": [0.0]},
+    )
+    omega_data = xr.DataArray(
+        np.array([[0.10], [0.08], [0.06], [0.04]]),
+        dims=("level", "lat"),
+        coords={"level": level, "lat": [0.0]},
+    )
+    surface_pressure_data = xr.DataArray([950.0], dims="lat", coords={"lat": [0.0]})
+
+    result = ecl.calc_vertical_waterflux_top2surface_integral(
+        specific_humidity_data=specific_humidity_data,
+        omega_data=omega_data,
+        surface_pressure_data=surface_pressure_data,
+        specific_humidity_data_units="g/kg",
+        surface_pressure_data_units="hPa",
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        method=method,
+    )
+    reference = ecl.calc_vertical_waterflux_top2surface_integral(
+        specific_humidity_data=specific_humidity_data,
+        omega_data=omega_data,
+        surface_pressure_data=surface_pressure_data,
+        specific_humidity_data_units="g/kg",
+        surface_pressure_data_units="hPa",
+        vertical_dim="level",
+        vertical_dim_units="hPa",
+        method="ncl",
+    )
+
+    xr.testing.assert_allclose(result, reference)
+
+
 def test_calc_water_flux_top2surface_integral1():
     specific_humidity_data_sample = (
         ecl.open_tutorial_dataset("shum_202201_mon_mean")
@@ -1893,7 +2044,8 @@ def test_calc_divergence_watervaporflux_top2surface_integral2():
 
 
 def test_calc_u_advection():
-    result_data = ecl.calc_u_advection(u_data_500hpa, t_data).data.flatten()
+    result = ecl.calc_u_advection(u_data_500hpa, data_input=t_data)
+    result_data = result.data.flatten()
     refer_data = np.array(
         [
             1.64688703e-06,
@@ -1908,10 +2060,17 @@ def test_calc_u_advection():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+    assert result.name == "data_u_advection"
+    assert result.attrs == {
+        "long_name": "Zonal advection of data",
+        "units": "dimensionless per second",
+        "standard_name": "zonal_advection_of_data",
+    }
 
 
 def test_calc_v_advection():
-    result_data = ecl.calc_v_advection(v_data_500hpa, t_data).data.flatten()
+    result = ecl.calc_v_advection(v_data_500hpa, data_input=t_data)
+    result_data = result.data.flatten()
     refer_data = np.array(
         [
             1.33300385e-07,
@@ -1926,32 +2085,44 @@ def test_calc_v_advection():
         ]
     )
     assert np.isclose(result_data, refer_data).all()
+    assert result.name == "data_v_advection"
+    assert result.attrs == {
+        "long_name": "Meridional advection of data",
+        "units": "dimensionless per second",
+        "standard_name": "meridional_advection_of_data",
+    }
 
 
 def test_calc_p_advection():
-    result_data = ecl.calc_p_advection(
+    result = ecl.calc_p_advection(
         omega_data_sample1,
-        t_data_sample1,
+        data_input=t_data_sample1.sel(level=omega_data_sample1.level),
         vertical_dim="level",
         vertical_dim_units="hPa",
     )
-    refer_data = np.array(
-        [
-            -1.96316937e-05,
-            -2.19707321e-05,
-            -1.90053499e-05,
-            -1.10027766e-05,
-            -1.20015419e-05,
-            -2.57278011e-05,
-            -4.35738635e-05,
-            -6.68585797e-05,
-            -8.86902508e-05,
-            -7.95099400e-05,
-            -2.35118198e-05,
-            1.82339871e-05,
-        ]
+    assert result.sizes == omega_data_sample1.sizes
+    assert result.level.equals(omega_data_sample1.level)
+    assert result.name == "data_p_advection"
+    assert result.attrs == {
+        "long_name": "Pressure-coordinate advection of data",
+        "units": "dimensionless per second",
+        "standard_name": "pressure_coordinate_advection_of_data",
+    }
+
+
+def test_calc_p_advection_raises_for_inconsistent_coordinates():
+    mismatched_omega_data = omega_data_sample1.assign_coords(
+        level=omega_data_sample1.level + 1
     )
-    assert np.isclose(result_data, refer_data).all()
+    data_input = t_data_sample1.sel(level=omega_data_sample1.level)
+
+    with pytest.raises(AssertionError, match="coodinnate `level` is not same"):
+        ecl.calc_p_advection(
+            mismatched_omega_data,
+            data_input=data_input,
+            vertical_dim="level",
+            vertical_dim_units="hPa",
+        )
 
 
 class TestCalcShearStretchDeform:

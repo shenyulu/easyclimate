@@ -470,7 +470,7 @@ def calc_MLD_average_horizontal_advection(
     u_advection = (
         calc_u_advection(
             u_data=u_monthly_data,
-            temper_data=seawater_temperature_data,
+            data_input=seawater_temperature_data,
             lon_dim=lon_dim,
             lat_dim=lat_dim,
             min_dx=min_dx,
@@ -489,7 +489,7 @@ def calc_MLD_average_horizontal_advection(
     v_advection = (
         calc_v_advection(
             v_data=v_monthly_data,
-            temper_data=seawater_temperature_data,
+            data_input=seawater_temperature_data,
             lat_dim=lat_dim,
             min_dy=min_dy,
             edge_order=edge_order,

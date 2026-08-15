@@ -340,7 +340,7 @@ div_data_500_202201_spec.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(
 #
 
 u_advection_500_202201 = ecl.calc_u_advection(
-    u_data=uvdata_500_202201["uwnd"], temper_data=temp_data_500_202201
+    u_data=uvdata_500_202201["uwnd"], data_input=temp_data_500_202201
 )
 
 u_advection_500_202201.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(levels=21)
@@ -354,7 +354,7 @@ u_advection_500_202201.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(levels
 #
 
 v_advection_500_202201 = ecl.calc_v_advection(
-    v_data=uvdata_500_202201["vwnd"], temper_data=temp_data_500_202201
+    v_data=uvdata_500_202201["vwnd"], data_input=temp_data_500_202201
 )
 
 v_advection_500_202201.sortby("lat").sel(lat=slice(20, 80)).plot.contourf(levels=21)
