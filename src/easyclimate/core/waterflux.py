@@ -219,7 +219,7 @@ def calc_water_flux_top2surface_integral(
 
     quv_top2surface_integral.attrs = dict()
     quv_top2surface_integral.attrs["long_name"] = (
-        "Vertical integral of water vapour flux (1/g \int q U dp)"
+        "Vertical integral of water vapour flux (1/g \\int q U dp)"
     )
     quv_top2surface_integral.attrs["units"] = "kg m**-1 s**-1"
 
