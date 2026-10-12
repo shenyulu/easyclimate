@@ -8,5 +8,6 @@ from .bar import *
 from .line import *
 from .polar import *
 from .geolabel import *
+from .geoextent import *
 
 from . import mpas

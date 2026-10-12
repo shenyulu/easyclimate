@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.tri as mtri
 import cartopy.crs as ccrs
 
+from .._geo import _set_cartopy_extent
+
 
 _TRIANGULATION_CACHE = {}
 _VECTOR_BIN_CACHE = {}
@@ -133,37 +135,6 @@ def _is_cartopy_axis(ax):
     Weak check for Cartopy GeoAxes.
     """
     return hasattr(ax, "projection")
-
-
-def _wrap_lon_180(lon):
-    """
-    Wrap longitude to the [-180, 180) interval.
-    """
-    return (lon + 180.0) % 360.0 - 180.0
-
-
-def _set_cartopy_extent(ax, lon_min, lon_max, lat_min, lat_max):
-    """
-    Set Cartopy extent for continuous longitude windows.
-
-    ``GeoAxes.set_extent`` can expand windows such as 110E to 220E to a global
-    extent on shifted PlateCarree axes.  For PlateCarree projections, convert
-    the geographic longitudes into the target projection's native x coordinate
-    and set the extent in that coordinate system.
-    """
-    projection = getattr(ax, "projection", None)
-
-    if projection is not None and projection.__class__.__name__ == "PlateCarree":
-        lon_0 = float(getattr(projection, "proj4_params", {}).get("lon_0", 0.0))
-        x_min = _wrap_lon_180(float(lon_min) - lon_0)
-        x_max = _wrap_lon_180(float(lon_max) - lon_0)
-
-        while x_max <= x_min:
-            x_max += 360.0
-
-        ax.set_extent([x_min, x_max, lat_min, lat_max], crs=projection)
-    else:
-        ax.set_extent([lon_min, lon_max, lat_min, lat_max], crs=ccrs.PlateCarree())
 
 
 def _infer_default_cmap(values, cmap=None, sequential="viridis", diverging="RdBu_r"):

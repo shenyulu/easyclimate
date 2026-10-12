@@ -76,11 +76,11 @@ def draw_polar_basemap(
             A constant to be subtracted from the first entry in lat_range. Use
             this if the southern edge of the plot is cut off. Defaults to 0.
         - east_pad : :py:class:`int <int>`
-            A constant to be added to the second entry in lon_range. Use this
-            if the eastern edge of the plot is cut off. Defaults to 0.
+            Accepted for compatibility; a full longitude circle has no
+            eastern edge, so this value does not affect the boundary.
         - west_pad : :py:class:`int <int>`
-            A constant to be subtracted from the first entry in lon_range. Use
-            this if the western edge of the plot is cut off. Defaults to 0.
+            Accepted for compatibility; a full longitude circle has no
+            western edge, so this value does not affect the boundary.
 
     gridlines_kwargs: :py:class:`dict <dict>` | None, optional
         Additional keyword arguments passed to
@@ -143,23 +143,26 @@ def draw_polar_basemap(
     extent_kwargs = dict(set_map_boundary_kwargs)
     north_pad = float(extent_kwargs.pop("north_pad", 0.0))
     south_pad = float(extent_kwargs.pop("south_pad", 0.0))
-    east_pad = float(extent_kwargs.pop("east_pad", 0.0))
-    west_pad = float(extent_kwargs.pop("west_pad", 0.0))
+    extent_kwargs.pop("east_pad", 0.0)
+    extent_kwargs.pop("west_pad", 0.0)
     if extent_kwargs:
         raise TypeError(
             "Unsupported set_map_boundary_kwargs for draw_polar_basemap: "
             f"{', '.join(extent_kwargs.keys())}"
         )
 
-    ax.set_extent(
-        [
-            -180 - west_pad,
-            180 + east_pad,
-            lat_min - south_pad,
-            lat_max + north_pad,
-        ],
-        crs=ccrs.PlateCarree(),
+    # Project the outer latitude circle directly. A geographic rectangle with
+    # coincident -180/180 edges (or padding past a pole) can collapse to a
+    # wedge in Cartopy; it also gives bounds that depend on the central meridian.
+    padded_outer_lat = (
+        max(-90.0, lat_min - south_pad)
+        if is_northern_hemisphere
+        else min(90.0, lat_max + north_pad)
     )
+    x, y = ax.projection.transform_point(0, padded_outer_lat, ccrs.PlateCarree())
+    radius = np.hypot(x, y)
+    ax.set_xlim(-radius, radius)
+    ax.set_ylim(-radius, radius)
 
     gl = None
     if add_gridlines:

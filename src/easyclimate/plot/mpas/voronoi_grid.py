@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 import cartopy.crs as ccrs
 
+from .._geo import _set_cartopy_extent
+
 from .common import (
     _rad2deg,
     _is_cartopy_axis,
@@ -162,7 +164,7 @@ def plot_voronoi_grid(
 
             if extent[0] < extent[1] and extent[2] < extent[3]:
                 try:
-                    ax.set_extent(extent, crs=ccrs.PlateCarree())
+                    _set_cartopy_extent(ax, *extent)
                 except ValueError:
                     pass
         else:

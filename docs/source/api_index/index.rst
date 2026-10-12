@@ -199,6 +199,7 @@ Plot🖊️
     easyclimate.plot.line
     easyclimate.plot.polar
     easyclimate.plot.geolabel
+    easyclimate.plot.geoextent
 
 MPAS/Voronoi Related
 ::::::::::::::::::::::::::::::::::::::::

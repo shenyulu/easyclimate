@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
+from .._geo import _set_cartopy_extent
+
 from .common import (
     _adjust_global_lon_window_for_regrid,
     _infer_center_lon,
@@ -267,10 +269,7 @@ def plot_cell_quiver(
                 epsilon=regrid_global_epsilon,
             )
 
-        ax.set_extent(
-            [extent_lon_min, extent_lon_max, lat_min, lat_max],
-            crs=ccrs.PlateCarree(),
-        )
+        _set_cartopy_extent(ax, extent_lon_min, extent_lon_max, lat_min, lat_max)
 
         if regrid_shape is not None:
             xq, yq, uq, vq = _vector_to_projection_grid(

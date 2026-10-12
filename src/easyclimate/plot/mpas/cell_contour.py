@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
+from .._geo import _set_cartopy_extent
+
 from .voronoi_extract import extract_cell_latlon
 from .common import _get_cached_triangulation, _infer_default_cmap, _is_cartopy_axis
 
@@ -302,9 +304,8 @@ def plot_cell_contourf(
         if global_plot:
             ax.set_global()
         elif lon_min_plot is not None:
-            ax.set_extent(
-                [lon_min_plot, lon_max_plot, lat_min_plot, lat_max_plot],
-                crs=ccrs.PlateCarree(),
+            _set_cartopy_extent(
+                ax, lon_min_plot, lon_max_plot, lat_min_plot, lat_max_plot
             )
 
     else:
@@ -630,9 +631,8 @@ def plot_cell_contour(
         if global_plot:
             ax.set_global()
         elif lon_min_plot is not None:
-            ax.set_extent(
-                [lon_min_plot, lon_max_plot, lat_min_plot, lat_max_plot],
-                crs=ccrs.PlateCarree(),
+            _set_cartopy_extent(
+                ax, lon_min_plot, lon_max_plot, lat_min_plot, lat_max_plot
             )
 
     else:

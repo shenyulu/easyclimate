@@ -160,7 +160,8 @@ fig, ax = plt.subplots(
     figsize = (12, 6),
     subplot_kw={"projection": ccrs.Mercator(central_longitude=140)}
 )
-ax.set_extent([0, 360, 10, 85], crs = ccrs.PlateCarree())
+# Set a full-longitude geographic window across Cartopy versions.
+ecl.plot.set_geoextent([0, 360, 10, 85], ax=ax)
 ax.coastlines(color="black", linewidths=0.5)
 ax.gridlines(draw_labels=["bottom", "left"], alpha=0)
 
@@ -220,7 +221,8 @@ fig, ax = plt.subplots(
     figsize = (12, 6),
     subplot_kw={"projection": ccrs.Mercator(central_longitude=140)}
 )
-ax.set_extent([0, 360, 10, 85], crs = ccrs.PlateCarree())
+# Set a full-longitude geographic window across Cartopy versions.
+ecl.plot.set_geoextent([0, 360, 10, 85], ax=ax)
 ax.coastlines(color="black", linewidths=0.5)
 ax.gridlines(draw_labels=["bottom", "left"], alpha=0)
 

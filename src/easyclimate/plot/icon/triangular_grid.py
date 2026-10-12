@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 import cartopy.crs as ccrs
 
+from .._geo import _central_longitude
+
 from .common import (
     _rad2deg,
     _lon_wrap_to_center,
@@ -199,9 +201,7 @@ def plot_triangular_grid(
 
     if center_lon is None:
         if cartopy_axis and projection is not None:
-            center_lon = float(
-                getattr(projection, "proj4_params", {}).get("lon_0", 0.0)
-            )
+            center_lon = _central_longitude(projection)
         else:
             center_lon = _infer_center_lon(
                 lon_min=lon_min,
@@ -325,9 +325,7 @@ def plot_triangular_grid(
         project_to_map = True
 
     if cartopy_axis and transform is not None and project_to_map:
-        transform_center_lon = float(
-            getattr(transform, "proj4_params", {}).get("lon_0", center_lon)
-        )
+        transform_center_lon = _central_longitude(transform, center_lon)
         segments = segments.copy()
         segments[:, :, 0] = _lon_wrap_to_center(
             segments[:, :, 0],
@@ -352,6 +350,10 @@ def plot_triangular_grid(
         segments = projected.reshape(segments.shape)
         finite_segments = np.all(np.isfinite(segments), axis=(1, 2))
         segments = segments[finite_segments]
+        if isinstance(projection, ccrs.PlateCarree):
+            # The target map can have a different seam from the source CRS.
+            # Split in native map coordinates before drawing straight lines.
+            segments = _split_segments_at_lon_seam(segments, 0.0, 180.0)
         linekwargs.pop("transform", None)
     elif cartopy_axis and transform is not None:
         linekwargs.setdefault("transform", transform)
