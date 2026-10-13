@@ -2,8 +2,22 @@
 
 ## v2026.10.0
 
-*Released on: 2026/10/12*
+*Released on: 2026/10/13*
 
+- [fix: integral import](https://github.com/easyatmos/easyclimate/pull/133/commits/c4db6fcd7fa3cf67450560da6ef5c1a8d5593cb2)
+
+- [fix: adv varname change](https://github.com/easyatmos/easyclimate/pull/133/commits/d238417ba132f913b45a22dc5db8ca7a7350986a)
+
+- [feat: add gill model](https://github.com/easyatmos/easyclimate/pull/133/commits/91c9f1885c953b7fdb4a396239ebc2b340b23eb6)
+
+- [fix: cartopy 0.26.0 error](https://github.com/easyatmos/easyclimate/pull/133/commits/1bfbf63a66bf7ee1430c80039e9aaff0a3d164d7)
+
+- [fix: plot change](https://github.com/easyatmos/easyclimate/pull/133/commits/b669b4dbd9ef029a7443f1635aabdbd601ac8a99)
+
+- docs: improve CONTRIBUTING guide and fix minor issues by @Ncard00123 in https://github.com/easyatmos/easyclimate/pull/134
+
+### New Contributors
+- @Ncard00123 made their first contribution in https://github.com/easyatmos/easyclimate/pull/134
 
 **Full Changelog**: https://github.com/easyatmos/easyclimate/compare/v2026.7.0...v2026.10.0
 
