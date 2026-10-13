@@ -134,25 +134,108 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/easyat
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+To contribute code to easyclimate, follow these steps:
+
+1. **Fork the repository** on GitHub and clone it to your local machine
+2. **Set up a development environment**:
+   ```bash
+   # Create a virtual environment (recommended)
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+   # Install the package in development mode
+   pip install -e .
+
+   # Install test dependencies
+   pip install -r test_requirements.txt
+   ```
+3. **Create a new branch** for your feature or bugfix:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. **Make your changes** following the project's code style (use the provided pre-commit hooks)
+5. **Write tests** for your changes in the `test/` directory
+6. **Run the test suite** to ensure everything passes:
+   ```bash
+   pytest
+   ```
+7. **Commit your changes** with a clear commit message
+8. **Push to your fork** and create a pull request on GitHub
 
 ### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
 
--->
+Documentation is a crucial part of the project. You can help improve it by:
+
+1. **Fixing typos and grammatical errors** in the documentation
+2. **Adding examples** to illustrate how to use specific functions
+3. **Improving docstrings** in the source code (following NumPy docstring style)
+4. **Adding tutorial content** to help new users get started
+5. **Translating documentation** to other languages
+
+The documentation is built using Sphinx and is located in the `docs/` directory. To build the documentation locally:
+
+```bash
+cd docs
+make html
+```
+
+The built documentation will be in `docs/build/html/index.html`.
 
 ## Styleguides
 ### Commit Messages
-<!-- TODO
 
--->
+We follow conventional commit messages to make the project history easier to understand. Format your commit messages as:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types:**
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (formatting, etc.)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools
+
+**Example:**
+```
+feat(core): add new EOF analysis method
+
+Add support for multivariate EOF analysis with temporal scaling.
+This improves the ability to analyze coupled climate patterns.
+
+Closes #123
+```
+
+**The subject line should:**
+- Use present tense ("add" not "added" or "adds")
+- Be lowercase (except for proper nouns)
+- Not end with a period
 
 ## Join The Project Team
-<!-- TODO -->
+
+We welcome new contributors to become part of the core team! Here's how you can get involved:
+
+1. **Start contributing**: The best way to join the team is to consistently contribute high-quality pull requests
+2. **Engage with the community**: Participate in discussions, review pull requests, and help answer questions in issues
+3. **Show expertise**: Demonstrate deep understanding of the codebase and project goals through your contributions
+4. **Express interest**: When you feel ready, reach out to the maintainers to discuss joining the team
+
+Core team members help with:
+- Reviewing and merging pull requests
+- Planning project roadmap
+- Maintaining project infrastructure
+- Mentoring new contributors
+- Making release decisions
+
+Contact the maintainers at <shenyulumail@foxmail.com> if you're interested in joining the team.
 
 <!-- omit in toc -->
 ## Attribution

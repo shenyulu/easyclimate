@@ -45,7 +45,7 @@ If you use [pip](https://pypi.org/project/pip/), you can install `easyclimate` w
 pip install easyclimate
 ```
 
-For more information about installation, please chech the documentation.
+For more information about installation, please check the documentation.
 
 ## 🤖 AI Assistant (Experimental)
 
