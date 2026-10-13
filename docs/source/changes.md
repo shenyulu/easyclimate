@@ -1,5 +1,12 @@
 # Changelog♻️
 
+## v2026.10.0
+
+*Released on: 2026/10/12*
+
+
+**Full Changelog**: https://github.com/easyatmos/easyclimate/compare/v2026.7.0...v2026.10.0
+
 ## v2026.7.0
 
 *Released on: 2026/7/8*

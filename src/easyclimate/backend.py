@@ -97,15 +97,20 @@ dvrfidf_rs = None
 ddvfidf_rs = None
 dvrfidf_batch_rs = None
 ddvfidf_batch_rs = None
+dvrfidf_batch_noreyon_rs = None
+ddvfidf_batch_noreyon_rs = None
 dvibeta_rs = None
 dvibeta_batch = None
 dvibeta_batch_sum_norm = None
+dvibeta_batch_noreyon = None
+dvibeta_batch_sum_norm_noreyon = None
 barnes_numba = None
 barnes_rs = None
 barnes_S2_numba = None
 barnesS2_rs = None
 radius_mask_2d_rs = None
 kdtree_fastbarnes = None
+gill_simulate = None
 
 # WRF-related variables with default values
 xarray_enabled = False
@@ -673,12 +678,36 @@ if CURRENT_PLATFORM in SUPPORTED_BACKEND_PLATFORMS:
             dvrfidf_batch as dvrfidf_batch_rs,
         )
 
+        try:
+            from easyclimate_rust._easyclimate_rust import (
+                ddvfidf_batch_noreyon as ddvfidf_batch_noreyon_rs,
+                dvrfidf_batch_noreyon as dvrfidf_batch_noreyon_rs,
+            )
+        except ImportError:
+            pass
+
         # vibeta
         from easyclimate_rust._easyclimate_rust import (
             dvibeta as dvibeta_rs,
             dvibeta_batch,
             dvibeta_batch_sum_norm,
         )
+
+        try:
+            from easyclimate_rust._easyclimate_rust import (
+                dvibeta_batch_noreyon,
+                dvibeta_batch_sum_norm_noreyon,
+            )
+        except ImportError:
+            pass
+
+        # Gill Model
+        try:
+            from easyclimate_rust._easyclimate_rust import (
+                gill_simulate,
+            )
+        except ImportError:
+            pass
 
         # spectralkernel_rs
         from spectralkernel_rs.ws_xarray import VectorWind as VectorWind_rs

@@ -14,6 +14,7 @@ __all__ = [
     "calc_horizontal_water_flux",
     "calc_vertical_water_flux",
     "calc_water_flux_top2surface_integral",
+    "calc_vertical_waterflux_top2surface_integral",
     "calc_divergence_watervaporflux",
     "calc_divergence_watervaporflux_top2surface_integral",
 ]
@@ -457,3 +458,95 @@ def calc_divergence_watervaporflux_top2surface_integral(
     result = xr.Dataset(data_vars={"qu": quv["qu"], "qv": quv["qv"], "wvdiv": div_quv})
 
     return result
+
+
+def calc_vertical_waterflux_top2surface_integral(
+    specific_humidity_data: xr.DataArray,
+    omega_data: xr.DataArray,
+    surface_pressure_data: xr.DataArray,
+    specific_humidity_data_units: Literal["kg/kg", "g/kg", "g/g"],
+    surface_pressure_data_units: Literal["hPa", "Pa", "mbar"],
+    vertical_dim: str,
+    vertical_dim_units: Literal["hPa", "Pa", "mbar"],
+    method: Literal["ncl", "rust", "rust-block"] = "rust-block",
+    g: float = 9.8,
+) -> xr.DataArray:
+    """
+    Calculate the vertical water vapor flux integrated from the top pressure
+    level to the local surface pressure.
+
+    .. math::
+
+        -\\frac{1}{g} \\int_{p_t}^{p_s} \\omega\\frac{\\partial q}{\\partial p}dp
+
+    Parameters
+    ----------
+    specific_humidity_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Specific humidity data.
+    omega_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Pressure vertical velocity data (:math:`\\frac{\\mathrm{d}p}{\\mathrm{d}t}`).
+    surface_pressure_data: :py:class:`xarray.DataArray<xarray.DataArray>`.
+        Local surface pressure data.
+    specific_humidity_data_units: {"kg/kg", "g/kg", "g/g"}.
+        Unit of ``specific_humidity_data``.
+    surface_pressure_data_units: {"hPa", "Pa", "mbar"}.
+        Unit of ``surface_pressure_data``.
+    vertical_dim: :py:class:`str <str>`.
+        Vertical pressure-coordinate dimension name.
+    vertical_dim_units: {"hPa", "Pa", "mbar"}.
+        Unit of the vertical pressure coordinate.
+    method: {"ncl", "rust", "rust-block"}, default: ``rust-block``.
+        Vertical integration backend.
+    g: :py:class:`float <float>`, default: ``9.8``.
+        Acceleration of gravity.
+
+    Returns
+    -------
+    :py:class:`xarray.DataArray<xarray.DataArray>`
+        Vertically integrated vertical water vapor flux with units
+        :math:`\\mathrm{kg\\,m^{-2}\\,s^{-1}}`.
+    """
+    from .advection import calc_p_advection
+    from .integral import calc_top2surface_integral, calc_top2surface_integral_rs
+
+    specific_humidity_kg_kg = transfer_data_multiple_units(
+        specific_humidity_data, specific_humidity_data_units, "kg/kg"
+    )
+
+    p_advection = calc_p_advection(
+        omega_data=omega_data,
+        data_input=specific_humidity_kg_kg,
+        vertical_dim=vertical_dim,
+        vertical_dim_units=vertical_dim_units,
+    )
+
+    if method == "ncl":
+        vertical_waterflux = calc_top2surface_integral(
+            data_input=p_advection,
+            surface_pressure_data=surface_pressure_data,
+            vertical_dim=vertical_dim,
+            surface_pressure_data_units=surface_pressure_data_units,
+            vertical_dim_units=vertical_dim_units,
+            mass_weighted=True,
+            gravity=g,
+        )
+    elif method in {"rust", "rust-block"}:
+        vertical_waterflux = calc_top2surface_integral_rs(
+            data_input=p_advection,
+            surface_pressure_data=surface_pressure_data,
+            vertical_dim=vertical_dim,
+            surface_pressure_data_units=surface_pressure_data_units,
+            vertical_dim_units=vertical_dim_units,
+            mass_weighted=True,
+            gravity=g,
+            method=method,
+        )
+    else:
+        raise ValueError("method should be `ncl`, `rust`, or `rust-block`.")
+
+    vertical_waterflux.name = "vertical_waterflux"
+    vertical_waterflux.attrs = {
+        "long_name": "Vertical integral of vertical water vapour flux",
+        "units": "kg m**-2 s**-1",
+    }
+    return vertical_waterflux

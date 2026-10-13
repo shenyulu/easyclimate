@@ -199,6 +199,7 @@ Plot🖊️
     easyclimate.plot.line
     easyclimate.plot.polar
     easyclimate.plot.geolabel
+    easyclimate.plot.geoextent
 
 MPAS/Voronoi Related
 ::::::::::::::::::::::::::::::::::::::::
@@ -345,3 +346,11 @@ Boundary Layer
     :toctree: generated/
 
     easyclimate.field.boundary_layer.aerobulk
+
+Simulation
+::::::::::::::::::::::::::::::::::::::::
+
+.. autosummary::
+    :toctree: generated/
+
+    easyclimate.field.simulation.gill

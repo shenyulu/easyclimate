@@ -9,3 +9,4 @@ from . import boundary_layer
 from . import equatorial_wave
 from . import typhoon
 from . import satellite
+from . import simulation

@@ -17,6 +17,8 @@ from ..backend import (
     dvrfidf_rs,
     ddvfidf_batch_rs,
     dvrfidf_batch_rs,
+    ddvfidf_batch_noreyon_rs,
+    dvrfidf_batch_noreyon_rs,
 )
 
 __all__ = [
@@ -71,7 +73,9 @@ def calc_divergence_rs(
     lat_dim: str = "lat",
     R: float = 6.37122e6,
     cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
-    method: Literal["rust-batch", "rust-raw"] = "rust-batch",
+    method: Literal[
+        "rust-batch", "rust-batch-noreyon", "rust-raw"
+    ] = "rust-batch-noreyon",
 ) -> xr.DataArray:
     """
     Calculate the horizontal divergence term using the Rust backend.
@@ -98,8 +102,9 @@ def calc_divergence_rs(
         - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
         - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
         - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
-    method: {"rust-batch", "rust-raw"}, default: "rust-batch".
-        Rust execution mode. ``rust-batch`` uses the batched backend function,
+    method: {"rust-batch", "rust-batch-noreyon", "rust-raw"}, default: "rust-batch-noreyon".
+        Rust execution mode. ``rust-batch`` uses the Rayon batched backend,
+        ``rust-batch-noreyon`` uses the serial batched backend,
         while ``rust-raw`` loops over non-core dimensions and calls the raw backend.
 
     Returns
@@ -132,6 +137,11 @@ def calc_divergence_rs(
     v_trans = v_data.transpose(*transpose_order_u)
 
     def _core_batch(u_vals, v_vals, lon_vals, lat_vals, xmsg, R):
+        if method == "rust-batch-noreyon" and ddvfidf_batch_noreyon_rs is None:
+            raise ImportError(
+                "`rust-batch-noreyon` requires an easyclimate_rust build that "
+                "exports the no-Rayon rvdv functions."
+            )
         orig_lat_vals = lat_vals.copy()
         flip_lat = orig_lat_vals[0] > orig_lat_vals[-1]
         if flip_lat:
@@ -148,7 +158,12 @@ def calc_divergence_rs(
 
         xmsg_rs = float(xmsg) if not np.isnan(xmsg) else np.nan
 
-        dv_out, ier = ddvfidf_batch_rs(
+        batch_fn = (
+            ddvfidf_batch_noreyon_rs
+            if method == "rust-batch-noreyon"
+            else ddvfidf_batch_rs
+        )
+        dv_out, ier = batch_fn(
             u_batch, v_batch, glat_vals, glon_vals, int(iopt), xmsg_rs, float(R)
         )
         if ier != 0:
@@ -203,7 +218,7 @@ def calc_divergence_rs(
 
         return dv_out
 
-    if method == "rust-batch":
+    if method in {"rust-batch", "rust-batch-noreyon"}:
         div = xr.apply_ufunc(
             _core_batch,
             u_trans,
@@ -255,7 +270,8 @@ def calc_divergence_rs(
 
     else:
         raise ValueError(
-            "Invalid method specified, the method should be one of 'rust-batch' or 'rust-raw'."
+            "Invalid method specified, the method should be one of 'rust-batch', "
+            "'rust-batch-noreyon', or 'rust-raw'."
         )
 
     div.name = "divergence"
@@ -271,7 +287,9 @@ def calc_vorticity_rs(
     lat_dim: str = "lat",
     R: float = 6.37122e6,
     cyclic_boundary_setting: Literal["nan", "cyclic", "cyclic+diff", "diff"] = "nan",
-    method: Literal["rust-batch", "rust-raw"] = "rust-batch",
+    method: Literal[
+        "rust-batch", "rust-batch-noreyon", "rust-raw"
+    ] = "rust-batch-noreyon",
 ) -> xr.DataArray:
     """
     Calculate the horizontal relative vorticity term using the Rust backend.
@@ -298,8 +316,9 @@ def calc_vorticity_rs(
         - ``cyclic``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic point.) The upper and lower boundaries will be set to missing.
         - ``cyclic+diff``: Boundary points are estimated using one-sided difference schemes normal to the boundary.
         - ``diff``: The u and v arrays are cyclic in longitude. (The arrays should **NOT** include the cyclic points.) The upper and lower boundaries are estimated using a one-sided difference scheme normal to the boundary.
-    method: {"rust-batch", "rust-raw"}, default: `rust-batch`.
-        Rust execution mode. ``rust-batch`` uses the batched backend function,
+    method: {"rust-batch", "rust-batch-noreyon", "rust-raw"}, default: `rust-batch-noreyon`.
+        Rust execution mode. ``rust-batch`` uses the Rayon batched backend,
+        ``rust-batch-noreyon`` uses the serial batched backend,
         while ``rust-raw`` loops over non-core dimensions and calls the raw backend.
 
     Returns
@@ -327,6 +346,11 @@ def calc_vorticity_rs(
     v_trans = v_data.transpose(*transpose_order_u)
 
     def _core_batch(u_vals, v_vals, lon_vals, lat_vals, xmsg, R):
+        if method == "rust-batch-noreyon" and dvrfidf_batch_noreyon_rs is None:
+            raise ImportError(
+                "`rust-batch-noreyon` requires an easyclimate_rust build that "
+                "exports the no-Rayon rvdv functions."
+            )
         orig_lat_vals = lat_vals.copy()
         flip_lat = orig_lat_vals[0] > orig_lat_vals[-1]
         if flip_lat:
@@ -342,7 +366,12 @@ def calc_vorticity_rs(
 
         xmsg_rs = float(xmsg) if not np.isnan(xmsg) else np.nan
 
-        rv_out, ier = dvrfidf_batch_rs(
+        batch_fn = (
+            dvrfidf_batch_noreyon_rs
+            if method == "rust-batch-noreyon"
+            else dvrfidf_batch_rs
+        )
+        rv_out, ier = batch_fn(
             u_batch, v_batch, glat_vals, glon_vals, int(iopt), xmsg_rs, float(R)
         )
         if ier != 0:
@@ -393,7 +422,7 @@ def calc_vorticity_rs(
 
         return rv_out
 
-    if method == "rust-batch":
+    if method in {"rust-batch", "rust-batch-noreyon"}:
         rv = xr.apply_ufunc(
             _core_batch,
             u_trans,
@@ -445,7 +474,8 @@ def calc_vorticity_rs(
 
     else:
         raise ValueError(
-            "Invalid method specified, the method should be one of 'rust-batch' or 'rust-raw'."
+            "Invalid method specified, the method should be one of 'rust-batch', "
+            "'rust-batch-noreyon', or 'rust-raw'."
         )
 
     rv.name = "relative_vorticity"

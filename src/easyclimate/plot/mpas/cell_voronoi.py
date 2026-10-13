@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import PolyCollection
 import cartopy.crs as ccrs
 
+from .._geo import _set_cartopy_extent
+
 from .common import (
     _rad2deg,
     _lon_wrap_to_center,
@@ -364,9 +366,8 @@ def plot_cell_voronoi(
         if global_plot:
             ax.set_global()
         elif lon_min_plot is not None:
-            ax.set_extent(
-                [lon_min_plot, lon_max_plot, lat_min_plot, lat_max_plot],
-                crs=ccrs.PlateCarree(),
+            _set_cartopy_extent(
+                ax, lon_min_plot, lon_max_plot, lat_min_plot, lat_max_plot
             )
 
     else:
